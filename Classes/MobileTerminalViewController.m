@@ -45,23 +45,33 @@
                                                name:UIKeyboardDidHideNotification object:nil];
 }
 
+// Send the terminal the actual size of our vt100 view.  This should be
+// called any time we change the size of the view.  This should be a no-op if
+// the size has not changed since the last time we called it.
+- (void)refreshPtySize
+{
+  [pty setWidth:[vt100TextView width] withHeight:[vt100TextView height]];
+}
+
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
   if (keyboardShown)
     return;
-  
+  keyboardShown = YES;
+
   NSDictionary* info = [aNotification userInfo];
   
   // Get the size of the keyboard.
   NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
   CGSize keyboardSize = [aValue CGRectValue].size;
   
-  // Resize the scroll view (which is the root view of the window)
-  CGRect viewFrame = [[self view] frame];
+  // Reset the height of the terminal to full screen not shown by the keyboard
+  CGRect viewFrame = [vt100TextView frame];
   viewFrame.size.height -= keyboardSize.height;
-  [self view].frame = viewFrame;
+  vt100TextView.frame = viewFrame;
   
-  keyboardShown = YES;
+  // Let the subprocess know that the screen size has changed
+  [self refreshPtySize];
 }
 
 // TODO(allen): This doesn't do the right thing when rotating in the simulator
@@ -69,44 +79,44 @@
 {
   if (!keyboardShown)
     return;
+  keyboardShown = NO;
   
   NSDictionary* info = [aNotification userInfo];
   
   // Get the size of the keyboard.
   NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
-  CGSize keyboardSize = [aValue CGRectValue].size;
+  CGSize keyboardSize = [aValue CGRectValue].size;  
   
-  // Reset the height of the scroll view to its original value
-  CGRect viewFrame = [[self view] frame];
+  // Resize to the original height of the screen without the keyboard
+  CGRect viewFrame = [vt100TextView frame];
   viewFrame.size.height += keyboardSize.height;
-  [self view].frame = viewFrame;
-  
-  keyboardShown = NO;
+  vt100TextView.frame = viewFrame;
+
+  // Let the subprocess know that the screen size has changed
+  [self refreshPtySize];
 }
 
 - (void)viewDidLoad {
   [super viewDidLoad];
 
-  vt100TextView.font = [UIFont fontWithName:@"Courier" size:10.0f];
-
-  
   // Adding the keyboard to the view has no effect, except that it is will
   // later allow us to make it the first responder so we can show the keyboard
   // on the screen.
   [[self view] addSubview:terminalKeyboard];
-
   [self registerForKeyboardNotifications];
   
   // Show the keyboard
-  // TODO(allen): This should hook in with preferences
+  // TODO(allen):  This should be configurable
   [terminalKeyboard becomeFirstResponder];
-
+  // TODO(allen): This should be configurable
+  [vt100TextView setFont:[UIFont fontWithName:@"Courier" size:10.0f]];
+  
   // Prepare subprocess stuff
   [subProcess start];
   
   // Resize the PTY based on the font size of the text view
   pty = [[PTY alloc] initWithFileHandle:[subProcess fileHandle]];
-  [pty setWidth:[vt100TextView width] withHeight:[vt100TextView height]];
+  [self refreshPtySize];
   
   // Schedule an async read of the subprocess.  Invokes our callback when
   // data becomes available.
@@ -128,6 +138,13 @@
     default:
       return NO;
   }
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{  
+  // We rotated, and almost certainly changed the frame size of the text view.
+  // Also let the terminal subprocess know about the new window size.
+  [self refreshPtySize];
 }
 
 - (void)didReceiveMemoryWarning {
