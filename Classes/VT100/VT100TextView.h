@@ -35,6 +35,7 @@
 // Sets the font to display on the screen.  This will likely change the width
 // and height of the terminal.
 - (void)setFont:(UIFont*)font;
+- (UIFont*)font;
 
 // Returns the height and width of the terminal
 - (int)width;

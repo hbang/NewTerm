@@ -11,8 +11,9 @@
 - (void)receiveKeyboardInput:(NSData*)data;
 @end
 
-// The terminal view.  This is an opaque view that triggers rendering of the
+// The terminal keyboard.  This is an opaque view that triggers rendering of the
 // keyboard on the screen -- the keyboard is not rendered in this view itself.
+// There is typically only ever one instance of TerminalKeyboard.
 @interface TerminalKeyboard : UIView {
 @private
   InputHandler* inputHandler;

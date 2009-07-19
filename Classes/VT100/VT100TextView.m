@@ -74,6 +74,11 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   [self setNeedsLayout];
 }
 
+- (UIFont*)font
+{
+  return font;
+}
+
 - (void)layoutSubviews
 {
   // Determine the screen size based on the font size

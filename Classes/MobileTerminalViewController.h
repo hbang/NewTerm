@@ -2,25 +2,20 @@
 // MobileTerminal
 
 #import <UIKit/UIKit.h>
-#import "TerminalKeyboard.h"
 
-@class VT100TextView;
-@class SubProcess;
-@class PTY;
 @class TerminalKeyboard;
+@class TerminalView;
 
-@interface MobileTerminalViewController : UIViewController <TerminalKeyboardProtocol> {
+@interface MobileTerminalViewController : UIViewController {
 @private
-  VT100TextView *vt100TextView;
-  SubProcess *subProcess;
-  PTY* pty;
+  UIView* contentView;
+  TerminalView *terminalView;
   TerminalKeyboard* terminalKeyboard;
   BOOL keyboardShown;
 }
 
-@property (nonatomic, retain) IBOutlet VT100TextView *vt100TextView;
-
-- (void)receiveKeyboardInput:(NSData*)data;
+@property (nonatomic, retain) IBOutlet UIView *contentView;
+@property (nonatomic, retain) IBOutlet TerminalView *terminalView;
 
 @end
 
