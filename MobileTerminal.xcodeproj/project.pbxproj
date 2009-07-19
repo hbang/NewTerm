@@ -15,10 +15,51 @@
 		2899E5220DE3E06400AC0155 /* MobileTerminalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */; };
 		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */; };
-		2C7C795710096AD300136948 /* VT100.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7C795610096AD300136948 /* VT100.framework */; };
-		2C7C795E10096AE100136948 /* SubProcess.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C7C795D10096AE100136948 /* SubProcess.framework */; };
+		2C11C5801013A54300A2746E /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5661013A4E500A2746E /* VT100Terminal.m */; };
+		2C11C5811013A54300A2746E /* VT100TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5671013A4E500A2746E /* VT100TextView.m */; };
+		2C11C5821013A54300A2746E /* VT100.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5691013A4E500A2746E /* VT100.m */; };
+		2C11C5831013A54300A2746E /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C56A1013A4E500A2746E /* VT100Screen.m */; };
+		2C11C5841013A54300A2746E /* ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C56C1013A4E500A2746E /* ColorMap.m */; };
+		2C11C58D1013A56100A2746E /* SubProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C55C1013A4DC00A2746E /* SubProcess.m */; };
+		2C11C58E1013A56100A2746E /* PTY.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C55E1013A4DC00A2746E /* PTY.m */; };
+		2C11C5BA1013A5C000A2746E /* ColorMapTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C54E1013A4C800A2746E /* ColorMapTest.m */; };
+		2C11C5BB1013A5C000A2746E /* VT100Test.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5511013A4C800A2746E /* VT100Test.m */; };
+		2C11C5C11013A5F400A2746E /* libVT100.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C57B1013A51E00A2746E /* libVT100.a */; };
+		2C11C5C31013A60C00A2746E /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
+		2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C57B1013A51E00A2746E /* libVT100.a */; };
+		2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C58A1013A55500A2746E /* libSubProcess.a */; };
+		2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C6461013AC7400A2746E /* libcurses.dylib */; };
+		2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5621013A4E500A2746E /* VT100Types.h */; };
+		2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5651013A4E500A2746E /* ColorMap.h */; };
+		2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C56D1013A4E500A2746E /* VT100TextView.h */; };
+		2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55D1013A4DC00A2746E /* SubProcess.h */; };
+		2C11C66B1013AE1D00A2746E /* PTY.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55F1013A4DC00A2746E /* PTY.h */; };
 		2C7C79E6100973C700136948 /* TerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C79E5100973C700136948 /* TerminalKeyboard.m */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2C11C57E1013A53000A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteInfo = VT100;
+		};
+		2C11C5A91013A59700A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C5891013A55500A2746E /* SubProcess */;
+			remoteInfo = SubProcess;
+		};
+		2C11C5B81013A5B400A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteInfo = VT100;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -32,8 +73,31 @@
 		28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminalViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileTerminalViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		2C7C795610096AD300136948 /* VT100.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VT100.framework; path = "../VT100/build/Debug-iphonesimulator/VT100.framework"; sourceTree = SOURCE_ROOT; };
-		2C7C795D10096AE100136948 /* SubProcess.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SubProcess.framework; path = "../SubProcess/build/Debug-iphonesimulator/SubProcess.framework"; sourceTree = SOURCE_ROOT; };
+		2C11C54E1013A4C800A2746E /* ColorMapTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorMapTest.m; path = Tests/ColorMapTest.m; sourceTree = "<group>"; };
+		2C11C54F1013A4C800A2746E /* VT100Test.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Test.h; path = Tests/VT100Test.h; sourceTree = "<group>"; };
+		2C11C5501013A4C800A2746E /* ColorMapTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorMapTest.h; path = Tests/ColorMapTest.h; sourceTree = "<group>"; };
+		2C11C5511013A4C800A2746E /* VT100Test.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Test.m; path = Tests/VT100Test.m; sourceTree = "<group>"; };
+		2C11C55C1013A4DC00A2746E /* SubProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SubProcess.m; path = SubProcess/SubProcess.m; sourceTree = "<group>"; };
+		2C11C55D1013A4DC00A2746E /* SubProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SubProcess.h; path = SubProcess/SubProcess.h; sourceTree = "<group>"; };
+		2C11C55E1013A4DC00A2746E /* PTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PTY.m; path = SubProcess/PTY.m; sourceTree = "<group>"; };
+		2C11C55F1013A4DC00A2746E /* PTY.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PTY.h; path = SubProcess/PTY.h; sourceTree = "<group>"; };
+		2C11C5621013A4E500A2746E /* VT100Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Types.h; path = VT100/VT100Types.h; sourceTree = "<group>"; };
+		2C11C5631013A4E500A2746E /* VT100Screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Screen.h; path = VT100/VT100Screen.h; sourceTree = "<group>"; };
+		2C11C5641013A4E500A2746E /* VT100Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Terminal.h; path = VT100/VT100Terminal.h; sourceTree = "<group>"; };
+		2C11C5651013A4E500A2746E /* ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorMap.h; path = VT100/ColorMap.h; sourceTree = "<group>"; };
+		2C11C5661013A4E500A2746E /* VT100Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Terminal.m; path = VT100/VT100Terminal.m; sourceTree = "<group>"; };
+		2C11C5671013A4E500A2746E /* VT100TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100TextView.m; path = VT100/VT100TextView.m; sourceTree = "<group>"; };
+		2C11C5681013A4E500A2746E /* charmaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = charmaps.h; path = VT100/charmaps.h; sourceTree = "<group>"; };
+		2C11C5691013A4E500A2746E /* VT100.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100.m; path = VT100/VT100.m; sourceTree = "<group>"; };
+		2C11C56A1013A4E500A2746E /* VT100Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Screen.m; path = VT100/VT100Screen.m; sourceTree = "<group>"; };
+		2C11C56B1013A4E500A2746E /* VT100.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100.h; path = VT100/VT100.h; sourceTree = "<group>"; };
+		2C11C56C1013A4E500A2746E /* ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorMap.m; path = VT100/ColorMap.m; sourceTree = "<group>"; };
+		2C11C56D1013A4E500A2746E /* VT100TextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100TextView.h; path = VT100/VT100TextView.h; sourceTree = "<group>"; };
+		2C11C57B1013A51E00A2746E /* libVT100.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVT100.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C11C58A1013A55500A2746E /* libSubProcess.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSubProcess.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C11C5B31013A5AF00A2746E /* VT100Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VT100Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VT100Tests-Info.plist"; sourceTree = "<group>"; };
+		2C11C6461013AC7400A2746E /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = usr/lib/libcurses.dylib; sourceTree = SDKROOT; };
 		2C7C79E4100973C700136948 /* TerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalKeyboard.h; sourceTree = "<group>"; };
 		2C7C79E5100973C700136948 /* TerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalKeyboard.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
@@ -45,11 +109,35 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */,
+				2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
-				2C7C795710096AD300136948 /* VT100.framework in Frameworks */,
-				2C7C795E10096AE100136948 /* SubProcess.framework in Frameworks */,
+				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5791013A51E00A2746E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5881013A55500A2746E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5B01013A5AF00A2746E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C5C11013A5F400A2746E /* libVT100.a in Frameworks */,
+				2C11C5C31013A60C00A2746E /* CoreGraphics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -59,6 +147,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C54A1013A4AB00A2746E /* SubProcess */,
+				2C11C5491013A4A600A2746E /* VT100 */,
 				1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */,
@@ -73,6 +163,9 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* MobileTerminal.app */,
+				2C11C57B1013A51E00A2746E /* libVT100.a */,
+				2C11C58A1013A55500A2746E /* libSubProcess.a */,
+				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -80,11 +173,14 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C54C1013A4B700A2746E /* Tests */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
+				2C11C6461013AC7400A2746E /* libcurses.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -111,8 +207,6 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2C7C795D10096AE100136948 /* SubProcess.framework */,
-				2C7C795610096AD300136948 /* VT100.framework */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
@@ -120,7 +214,70 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		2C11C5491013A4A600A2746E /* VT100 */ = {
+			isa = PBXGroup;
+			children = (
+				2C11C5621013A4E500A2746E /* VT100Types.h */,
+				2C11C5631013A4E500A2746E /* VT100Screen.h */,
+				2C11C5641013A4E500A2746E /* VT100Terminal.h */,
+				2C11C5651013A4E500A2746E /* ColorMap.h */,
+				2C11C5661013A4E500A2746E /* VT100Terminal.m */,
+				2C11C5671013A4E500A2746E /* VT100TextView.m */,
+				2C11C5681013A4E500A2746E /* charmaps.h */,
+				2C11C5691013A4E500A2746E /* VT100.m */,
+				2C11C56A1013A4E500A2746E /* VT100Screen.m */,
+				2C11C56B1013A4E500A2746E /* VT100.h */,
+				2C11C56C1013A4E500A2746E /* ColorMap.m */,
+				2C11C56D1013A4E500A2746E /* VT100TextView.h */,
+			);
+			name = VT100;
+			sourceTree = "<group>";
+		};
+		2C11C54A1013A4AB00A2746E /* SubProcess */ = {
+			isa = PBXGroup;
+			children = (
+				2C11C55C1013A4DC00A2746E /* SubProcess.m */,
+				2C11C55D1013A4DC00A2746E /* SubProcess.h */,
+				2C11C55E1013A4DC00A2746E /* PTY.m */,
+				2C11C55F1013A4DC00A2746E /* PTY.h */,
+			);
+			name = SubProcess;
+			sourceTree = "<group>";
+		};
+		2C11C54C1013A4B700A2746E /* Tests */ = {
+			isa = PBXGroup;
+			children = (
+				2C11C54E1013A4C800A2746E /* ColorMapTest.m */,
+				2C11C54F1013A4C800A2746E /* VT100Test.h */,
+				2C11C5501013A4C800A2746E /* ColorMapTest.h */,
+				2C11C5511013A4C800A2746E /* VT100Test.m */,
+			);
+			name = Tests;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		2C11C5771013A51E00A2746E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */,
+				2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */,
+				2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5861013A55500A2746E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */,
+				2C11C66B1013AE1D00A2746E /* PTY.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
 		1D6058900D05DD3D006BFB54 /* MobileTerminal */ = {
@@ -134,11 +291,66 @@
 			buildRules = (
 			);
 			dependencies = (
+				2C11C57F1013A53000A2746E /* PBXTargetDependency */,
+				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
 			productReference = 1D6058910D05DD3D006BFB54 /* MobileTerminal.app */;
 			productType = "com.apple.product-type.application";
+		};
+		2C11C57A1013A51E00A2746E /* VT100 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C11C5A51013A58200A2746E /* Build configuration list for PBXNativeTarget "VT100" */;
+			buildPhases = (
+				2C11C5771013A51E00A2746E /* Headers */,
+				2C11C5781013A51E00A2746E /* Sources */,
+				2C11C5791013A51E00A2746E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VT100;
+			productName = VT100;
+			productReference = 2C11C57B1013A51E00A2746E /* libVT100.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2C11C5891013A55500A2746E /* SubProcess */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C11C5A61013A58200A2746E /* Build configuration list for PBXNativeTarget "SubProcess" */;
+			buildPhases = (
+				2C11C5861013A55500A2746E /* Headers */,
+				2C11C5871013A55500A2746E /* Sources */,
+				2C11C5881013A55500A2746E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SubProcess;
+			productName = SubProcess;
+			productReference = 2C11C58A1013A55500A2746E /* libSubProcess.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		2C11C5B21013A5AF00A2746E /* VT100Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C11C5B71013A5B000A2746E /* Build configuration list for PBXNativeTarget "VT100Tests" */;
+			buildPhases = (
+				2C11C5AE1013A5AF00A2746E /* Resources */,
+				2C11C5AF1013A5AF00A2746E /* Sources */,
+				2C11C5B01013A5AF00A2746E /* Frameworks */,
+				2C11C5B11013A5AF00A2746E /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C11C5B91013A5B400A2746E /* PBXTargetDependency */,
+			);
+			name = VT100Tests;
+			productName = VT100Tests;
+			productReference = 2C11C5B31013A5AF00A2746E /* VT100Tests.octest */;
+			productType = "com.apple.product-type.bundle";
 		};
 /* End PBXNativeTarget section */
 
@@ -153,6 +365,9 @@
 			projectRoot = "";
 			targets = (
 				1D6058900D05DD3D006BFB54 /* MobileTerminal */,
+				2C11C57A1013A51E00A2746E /* VT100 */,
+				2C11C5891013A55500A2746E /* SubProcess */,
+				2C11C5B21013A5AF00A2746E /* VT100Tests */,
 			);
 		};
 /* End PBXProject section */
@@ -167,7 +382,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C5AE1013A5AF00A2746E /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		2C11C5B11013A5AF00A2746E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		1D60588E0D05DD3D006BFB54 /* Sources */ = {
@@ -181,7 +419,55 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C5781013A51E00A2746E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C5801013A54300A2746E /* VT100Terminal.m in Sources */,
+				2C11C5811013A54300A2746E /* VT100TextView.m in Sources */,
+				2C11C5821013A54300A2746E /* VT100.m in Sources */,
+				2C11C5831013A54300A2746E /* VT100Screen.m in Sources */,
+				2C11C5841013A54300A2746E /* ColorMap.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5871013A55500A2746E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C58D1013A56100A2746E /* SubProcess.m in Sources */,
+				2C11C58E1013A56100A2746E /* PTY.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C11C5AF1013A5AF00A2746E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C5BA1013A5C000A2746E /* ColorMapTest.m in Sources */,
+				2C11C5BB1013A5C000A2746E /* VT100Test.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		2C11C57F1013A53000A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C57A1013A51E00A2746E /* VT100 */;
+			targetProxy = 2C11C57E1013A53000A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C5AA1013A59700A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C5891013A55500A2746E /* SubProcess */;
+			targetProxy = 2C11C5A91013A59700A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C5B91013A5B400A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C57A1013A51E00A2746E /* VT100 */;
+			targetProxy = 2C11C5B81013A5B400A2746E /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		1D6058940D05DD3E006BFB54 /* Debug */ = {
@@ -199,6 +485,11 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = MobileTerminal;
 			};
 			name = Debug;
@@ -216,7 +507,126 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = MobileTerminal;
+			};
+			name = Release;
+		};
+		2C11C57C1013A51F00A2746E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				PRODUCT_NAME = VT100;
+			};
+			name = Debug;
+		};
+		2C11C57D1013A51F00A2746E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = VT100;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		2C11C58B1013A55600A2746E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = SubProcess;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
+			};
+			name = Debug;
+		};
+		2C11C58C1013A55600A2746E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = "";
+				PREBINDING = NO;
+				PRODUCT_NAME = SubProcess;
+				USER_HEADER_SEARCH_PATHS = "$(SRCROOT)";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		2C11C5B51013A5B000A2746E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "VT100Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+					"-lcurses",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VT100Tests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2C11C5B61013A5B000A2746E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "VT100Tests-Info.plist";
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
+				);
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+					"-lcurses",
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = VT100Tests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
@@ -228,9 +638,15 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.0;
+				WARNING_CFLAGS = (
+					"-Werror",
+					"-Wall",
+				);
 			};
 			name = Debug;
 		};
@@ -242,8 +658,14 @@
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)";
+				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				SDKROOT = iphoneos3.0;
+				WARNING_CFLAGS = (
+					"-Werror",
+					"-Wall",
+				);
 			};
 			name = Release;
 		};
@@ -255,6 +677,33 @@
 			buildConfigurations = (
 				1D6058940D05DD3E006BFB54 /* Debug */,
 				1D6058950D05DD3E006BFB54 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C11C5A51013A58200A2746E /* Build configuration list for PBXNativeTarget "VT100" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C11C57C1013A51F00A2746E /* Debug */,
+				2C11C57D1013A51F00A2746E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C11C5A61013A58200A2746E /* Build configuration list for PBXNativeTarget "SubProcess" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C11C58B1013A55600A2746E /* Debug */,
+				2C11C58C1013A55600A2746E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C11C5B71013A5B000A2746E /* Build configuration list for PBXNativeTarget "VT100Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C11C5B51013A5B000A2746E /* Debug */,
+				2C11C5B61013A5B000A2746E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

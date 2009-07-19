@@ -3,8 +3,8 @@
 
 #import "MobileTerminalViewController.h"
 
-#import <VT100/VT100TextView.h>
-#import <SubProcess/SubProcess.h>
+#import "VT100/VT100TextView.h"
+#import "SubProcess/SubProcess.h"
 #import "TerminalKeyboard.h"
 
 @implementation MobileTerminalViewController
