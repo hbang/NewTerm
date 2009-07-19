@@ -35,6 +35,7 @@
 		2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55D1013A4DC00A2746E /* SubProcess.h */; };
 		2C11C66B1013AE1D00A2746E /* PTY.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55F1013A4DC00A2746E /* PTY.h */; };
 		2C11C6CB1013C78000A2746E /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C6CA1013C78000A2746E /* TerminalView.m */; };
+		2C11C7801013D8B900A2746E /* TerminalGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C77F1013D8B900A2746E /* TerminalGroupView.m */; };
 		2C7C79E6100973C700136948 /* TerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C79E5100973C700136948 /* TerminalKeyboard.m */; };
 /* End PBXBuildFile section */
 
@@ -101,6 +102,8 @@
 		2C11C6461013AC7400A2746E /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = usr/lib/libcurses.dylib; sourceTree = SDKROOT; };
 		2C11C6C91013C78000A2746E /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
 		2C11C6CA1013C78000A2746E /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
+		2C11C77E1013D8B900A2746E /* TerminalGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalGroupView.h; sourceTree = "<group>"; };
+		2C11C77F1013D8B900A2746E /* TerminalGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalGroupView.m; sourceTree = "<group>"; };
 		2C7C79E4100973C700136948 /* TerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalKeyboard.h; sourceTree = "<group>"; };
 		2C7C79E5100973C700136948 /* TerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalKeyboard.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
@@ -160,6 +163,8 @@
 				2C7C79E5100973C700136948 /* TerminalKeyboard.m */,
 				2C11C6C91013C78000A2746E /* TerminalView.h */,
 				2C11C6CA1013C78000A2746E /* TerminalView.m */,
+				2C11C77E1013D8B900A2746E /* TerminalGroupView.h */,
+				2C11C77F1013D8B900A2746E /* TerminalGroupView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -422,6 +427,7 @@
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
 				2C7C79E6100973C700136948 /* TerminalKeyboard.m in Sources */,
 				2C11C6CB1013C78000A2746E /* TerminalView.m in Sources */,
+				2C11C7801013D8B900A2746E /* TerminalGroupView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

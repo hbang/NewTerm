@@ -5,12 +5,14 @@
 
 #import "VT100/ColorMap.h"
 #import "TerminalKeyboard.h"
+#import "TerminalGroupView.h"
 #import "TerminalView.h"
 
 @implementation MobileTerminalViewController
 
 @synthesize contentView;
-@synthesize terminalView;
+@synthesize terminalGroupView;
+@synthesize terminalSelector;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithCoder:(NSCoder *)decoder
@@ -71,21 +73,34 @@
   contentView.frame = viewFrame;
 }
 
+- (void)terminalSelectionDidChange:(id)sender 
+{
+  TerminalView* terminalView =
+      [terminalGroupView terminalAtIndex:[terminalSelector currentPage]];
+  terminalKeyboard.inputDelegate = terminalView;
+  [terminalGroupView bringTerminalToFront:terminalView];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 
   // Adding the keyboard to the view has no effect, except that it is will
   // later allow us to make it the first responder so we can show the keyboard
   // on the screen.
-  terminalKeyboard.inputDelegate = terminalView;
   [[self view] addSubview:terminalKeyboard];
   [self registerForKeyboardNotifications];
   
   // Show the keyboard
   // TODO(allen):  This should be configurable
   [terminalKeyboard becomeFirstResponder];
-  // TODO(allen): Font and Colors should be configurable.
-  [terminalView setFont:[UIFont fontWithName:@"Courier" size:10.0f]];
+  
+  [terminalSelector setNumberOfPages:[terminalGroupView terminalCount]];
+  [terminalSelector setCurrentPage:0];
+  [terminalSelector addTarget:self
+                       action:@selector(terminalSelectionDidChange:)
+             forControlEvents:UIControlEventTouchUpInside];
+  // Select the first terminal
+  [self terminalSelectionDidChange:self];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
