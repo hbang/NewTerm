@@ -15,11 +15,17 @@
 // Typically, though, only one terminal is displayed at a time.  It implements
 // the terminal keyboard protocol, but only one instance is set as the
 // TerminalKeyboards input delegate at any time.
+//
+// The TerminalView handles restarting a subprocess when it exits.
 @interface TerminalView : UIView <TerminalKeyboardProtocol> {
 @private
   VT100TextView *textView;
   SubProcess *subProcess;
   PTY* pty;
+  
+  // Keeps track of when the subprocess is stopped, so that we know to start
+  // a new one on key press.
+  BOOL stopped;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;

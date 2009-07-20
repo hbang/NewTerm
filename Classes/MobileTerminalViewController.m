@@ -54,7 +54,6 @@
   contentView.frame = viewFrame;
 }
 
-// TODO(allen): This doesn't do the right thing when rotating in the simulator
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
   if (!keyboardShown)
