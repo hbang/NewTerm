@@ -29,14 +29,18 @@
 		2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C57B1013A51E00A2746E /* libVT100.a */; };
 		2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C58A1013A55500A2746E /* libSubProcess.a */; };
 		2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C6461013AC7400A2746E /* libcurses.dylib */; };
-		2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5621013A4E500A2746E /* VT100Types.h */; };
-		2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5651013A4E500A2746E /* ColorMap.h */; };
-		2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C56D1013A4E500A2746E /* VT100TextView.h */; };
-		2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55D1013A4DC00A2746E /* SubProcess.h */; };
-		2C11C66B1013AE1D00A2746E /* PTY.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55F1013A4DC00A2746E /* PTY.h */; };
-		2C11C6CB1013C78000A2746E /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C6CA1013C78000A2746E /* TerminalView.m */; };
-		2C11C7801013D8B900A2746E /* TerminalGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C77F1013D8B900A2746E /* TerminalGroupView.m */; };
-		2C7C79E6100973C700136948 /* TerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C7C79E5100973C700136948 /* TerminalKeyboard.m */; };
+		2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5621013A4E500A2746E /* VT100Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5651013A4E500A2746E /* ColorMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C56D1013A4E500A2746E /* VT100TextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55D1013A4DC00A2746E /* SubProcess.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C11C66B1013AE1D00A2746E /* PTY.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55F1013A4DC00A2746E /* PTY.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		2C11C9391013F89B00A2746E /* TerminalGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C9261013F85A00A2746E /* TerminalGroupView.m */; };
+		2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C9281013F85A00A2746E /* TerminalKeyboard.m */; };
+		2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C92A1013F85A00A2746E /* TerminalView.m */; };
+		2C11C9481013F96400A2746E /* TerminalGroupView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9251013F85A00A2746E /* TerminalGroupView.h */; };
+		2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9271013F85A00A2746E /* TerminalKeyboard.h */; };
+		2C11C94A1013F96400A2746E /* TerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9291013F85A00A2746E /* TerminalView.h */; };
+		2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9321013F87100A2746E /* libTerminal.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,6 +64,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
 			remoteInfo = VT100;
+		};
+		2C11C9351013F87A00A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteInfo = VT100;
+		};
+		2C11C9371013F87F00A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C5891013A55500A2746E /* SubProcess */;
+			remoteInfo = SubProcess;
+		};
+		2C11C9581013F9B200A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C9311013F87100A2746E /* Terminal */;
+			remoteInfo = Terminal;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -100,12 +125,13 @@
 		2C11C5B31013A5AF00A2746E /* VT100Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VT100Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VT100Tests-Info.plist"; sourceTree = "<group>"; };
 		2C11C6461013AC7400A2746E /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = usr/lib/libcurses.dylib; sourceTree = SDKROOT; };
-		2C11C6C91013C78000A2746E /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalView.h; sourceTree = "<group>"; };
-		2C11C6CA1013C78000A2746E /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalView.m; sourceTree = "<group>"; };
-		2C11C77E1013D8B900A2746E /* TerminalGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalGroupView.h; sourceTree = "<group>"; };
-		2C11C77F1013D8B900A2746E /* TerminalGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalGroupView.m; sourceTree = "<group>"; };
-		2C7C79E4100973C700136948 /* TerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TerminalKeyboard.h; sourceTree = "<group>"; };
-		2C7C79E5100973C700136948 /* TerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TerminalKeyboard.m; sourceTree = "<group>"; };
+		2C11C9251013F85A00A2746E /* TerminalGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalGroupView.h; path = Terminal/TerminalGroupView.h; sourceTree = "<group>"; };
+		2C11C9261013F85A00A2746E /* TerminalGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalGroupView.m; path = Terminal/TerminalGroupView.m; sourceTree = "<group>"; };
+		2C11C9271013F85A00A2746E /* TerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyboard.h; path = Terminal/TerminalKeyboard.h; sourceTree = "<group>"; };
+		2C11C9281013F85A00A2746E /* TerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyboard.m; path = Terminal/TerminalKeyboard.m; sourceTree = "<group>"; };
+		2C11C9291013F85A00A2746E /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalView.h; path = Terminal/TerminalView.h; sourceTree = "<group>"; };
+		2C11C92A1013F85A00A2746E /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalView.m; path = Terminal/TerminalView.m; sourceTree = "<group>"; };
+		2C11C9321013F87100A2746E /* libTerminal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTerminal.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -121,6 +147,7 @@
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
+				2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -147,24 +174,26 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C9301013F87100A2746E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C9111013F84000A2746E /* Terminal */,
 				2C11C54A1013A4AB00A2746E /* SubProcess */,
 				2C11C5491013A4A600A2746E /* VT100 */,
 				1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */,
-				2C7C79E4100973C700136948 /* TerminalKeyboard.h */,
-				2C7C79E5100973C700136948 /* TerminalKeyboard.m */,
-				2C11C6C91013C78000A2746E /* TerminalView.h */,
-				2C11C6CA1013C78000A2746E /* TerminalView.m */,
-				2C11C77E1013D8B900A2746E /* TerminalGroupView.h */,
-				2C11C77F1013D8B900A2746E /* TerminalGroupView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -176,6 +205,7 @@
 				2C11C57B1013A51E00A2746E /* libVT100.a */,
 				2C11C58A1013A55500A2746E /* libSubProcess.a */,
 				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
+				2C11C9321013F87100A2746E /* libTerminal.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -265,6 +295,19 @@
 			name = Tests;
 			sourceTree = "<group>";
 		};
+		2C11C9111013F84000A2746E /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				2C11C9251013F85A00A2746E /* TerminalGroupView.h */,
+				2C11C9261013F85A00A2746E /* TerminalGroupView.m */,
+				2C11C9271013F85A00A2746E /* TerminalKeyboard.h */,
+				2C11C9281013F85A00A2746E /* TerminalKeyboard.m */,
+				2C11C9291013F85A00A2746E /* TerminalView.h */,
+				2C11C92A1013F85A00A2746E /* TerminalView.m */,
+			);
+			name = Terminal;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -287,6 +330,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C92E1013F87100A2746E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C9481013F96400A2746E /* TerminalGroupView.h in Headers */,
+				2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */,
+				2C11C94A1013F96400A2746E /* TerminalView.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -303,6 +356,7 @@
 			dependencies = (
 				2C11C57F1013A53000A2746E /* PBXTargetDependency */,
 				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
+				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -362,6 +416,25 @@
 			productReference = 2C11C5B31013A5AF00A2746E /* VT100Tests.octest */;
 			productType = "com.apple.product-type.bundle";
 		};
+		2C11C9311013F87100A2746E /* Terminal */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C11C9431013F8DB00A2746E /* Build configuration list for PBXNativeTarget "Terminal" */;
+			buildPhases = (
+				2C11C92E1013F87100A2746E /* Headers */,
+				2C11C92F1013F87100A2746E /* Sources */,
+				2C11C9301013F87100A2746E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C11C9361013F87A00A2746E /* PBXTargetDependency */,
+				2C11C9381013F87F00A2746E /* PBXTargetDependency */,
+			);
+			name = Terminal;
+			productName = Terminal;
+			productReference = 2C11C9321013F87100A2746E /* libTerminal.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -378,6 +451,7 @@
 				2C11C57A1013A51E00A2746E /* VT100 */,
 				2C11C5891013A55500A2746E /* SubProcess */,
 				2C11C5B21013A5AF00A2746E /* VT100Tests */,
+				2C11C9311013F87100A2746E /* Terminal */,
 			);
 		};
 /* End PBXProject section */
@@ -425,9 +499,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
-				2C7C79E6100973C700136948 /* TerminalKeyboard.m in Sources */,
-				2C11C6CB1013C78000A2746E /* TerminalView.m in Sources */,
-				2C11C7801013D8B900A2746E /* TerminalGroupView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,6 +532,16 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C92F1013F87100A2746E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11C9391013F89B00A2746E /* TerminalGroupView.m in Sources */,
+				2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */,
+				2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -478,6 +559,21 @@
 			isa = PBXTargetDependency;
 			target = 2C11C57A1013A51E00A2746E /* VT100 */;
 			targetProxy = 2C11C5B81013A5B400A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C9361013F87A00A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C57A1013A51E00A2746E /* VT100 */;
+			targetProxy = 2C11C9351013F87A00A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C9381013F87F00A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C5891013A55500A2746E /* SubProcess */;
+			targetProxy = 2C11C9371013F87F00A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C9591013F9B200A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C9311013F87100A2746E /* Terminal */;
+			targetProxy = 2C11C9581013F9B200A2746E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -642,6 +738,31 @@
 			};
 			name = Release;
 		};
+		2C11C9331013F87200A2746E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				PRODUCT_NAME = Terminal;
+			};
+			name = Debug;
+		};
+		2C11C9341013F87200A2746E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = Terminal;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -716,6 +837,15 @@
 			buildConfigurations = (
 				2C11C5B51013A5B000A2746E /* Debug */,
 				2C11C5B61013A5B000A2746E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C11C9431013F8DB00A2746E /* Build configuration list for PBXNativeTarget "Terminal" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C11C9331013F87200A2746E /* Debug */,
+				2C11C9341013F87200A2746E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
