@@ -72,6 +72,9 @@
   contentView.frame = viewFrame;
 }
 
+// Invoked when the page control is clicked to make a new terminal active.  The
+// keyboard events are forwarded to the new active terminal and it is made the
+// front-most terminal view.
 - (void)terminalSelectionDidChange:(id)sender 
 {
   TerminalView* terminalView =
@@ -93,12 +96,13 @@
   // TODO(allen):  This should be configurable
   [terminalKeyboard becomeFirstResponder];
   
+  // Setup the page control that selects the active terminal
   [terminalSelector setNumberOfPages:[terminalGroupView terminalCount]];
   [terminalSelector setCurrentPage:0];
   [terminalSelector addTarget:self
                        action:@selector(terminalSelectionDidChange:)
              forControlEvents:UIControlEventTouchUpInside];
-  // Select the first terminal
+  // Make the first terminal active
   [self terminalSelectionDidChange:self];
 }
 

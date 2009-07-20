@@ -45,8 +45,11 @@ static const int NUM_TERMINALS = 4;
   return [terminals objectAtIndex:index];
 }
 
+static const NSTimeInterval kAnimationDuration = 0.50f;
+
 - (void)bringTerminalToFront:(TerminalView*)terminalView
 {
+  int previousActiveTerminalIndex = activeTerminalIndex;
   for (int i = 0; i < [terminals count]; ++i) {
     TerminalView* view = [terminals objectAtIndex:i];
     if (view == terminalView) {
@@ -54,8 +57,17 @@ static const int NUM_TERMINALS = 4;
       break;
     }
   }
-  // TODO(allen): It would be nice if this was an animated change.
+  UIViewAnimationTransition transition;
+  if (previousActiveTerminalIndex < activeTerminalIndex) {
+    transition = UIViewAnimationTransitionCurlUp;
+  } else {
+    transition = UIViewAnimationTransitionCurlDown;
+  } 
+  [UIView beginAnimations:NULL context:NULL];
+  [UIView setAnimationDuration:kAnimationDuration];
+  [UIView setAnimationTransition:transition forView:self cache:YES];
   [self bringSubviewToFront:terminalView];
+  [UIView commitAnimations];
 }
 
 - (TerminalView*)frontTerminal
