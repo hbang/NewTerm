@@ -44,4 +44,6 @@
 
 - (ScreenPosition)cursorPosition;
 
+- (void)clearScreen;
+
 @end

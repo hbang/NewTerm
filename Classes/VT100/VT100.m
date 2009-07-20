@@ -98,4 +98,9 @@ static const int kDefaultHeight = 25;
   return [screen getLineAtIndex:offset];
 }
 
+- (void)clearScreen
+{
+  [screen clearScreen];
+}
+
 @end

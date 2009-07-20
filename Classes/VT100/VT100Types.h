@@ -38,6 +38,9 @@ typedef struct {
 
 - (screen_char_t*)bufferForRow:(int)row;
 - (void)readInputStream:(const char*)data withLength:(unsigned int)length;
+
+- (void)clearScreen;
+
 @end
 
 // A thin protocol for implementing a delegate interface with a single method

@@ -243,6 +243,11 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   [buffer readInputStream:(const char*)[data bytes] withLength:[data length]];
 }
 
+- (void)clearScreen
+{
+  [buffer clearScreen];\
+}
+
 @end
 
 @implementation VT100TextView (RefreshDelegate)

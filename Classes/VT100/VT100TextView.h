@@ -44,4 +44,6 @@
 // Process an input stream of data
 - (void)readInputStream:(NSData*)data;
 
+- (void)clearScreen;
+
 @end
