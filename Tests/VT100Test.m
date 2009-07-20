@@ -273,8 +273,51 @@ static const int kLargeBufferSize = 8 * 1024;
   STAssertEquals(4, pos.y, @"got %d", pos.y);
 }
 
+- (void) testClearScreen
+{
+  // Set a 1x1 screen.  As soon as a character is inserted on to the screen, we
+  // wrap and scroll down to the next line.
+  ScreenSize size = [vt100 screenSize];
+  size.width = 5;
+  size.height = 5;
+  [vt100 setScreenSize:size];
+  
+  screen_char_t* buffer = [vt100 bufferForRow:0];
+  STAssertTrue(buffer[0].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
+  
+  for (int i = 0; i < 10; i++) {
+    for (int j = 0; j < 5; j++) {
+      char c = 'a' + j;
+      [vt100 readInputStream:&c withLength:1];
+    }
+  }  
+  ScreenPosition pos = [vt100 cursorPosition];
+  STAssertEquals(0, pos.x, @"got %d", pos.x);
+  STAssertEquals(4, pos.y, @"got %d", pos.y);
+  
+  [vt100 clearScreen];
+  
+  size = [vt100 screenSize];  
+  STAssertTrue(size.width == 5, @"got %d", size.width);
+  STAssertTrue(size.height == 5, @"got %d", size.height);
+
+  pos = [vt100 cursorPosition];
+  STAssertEquals(0, pos.x, @"got %d", pos.x);
+  STAssertEquals(0, pos.y, @"got %d", pos.y);  
+  
+  buffer = [vt100 bufferForRow:0];
+  STAssertTrue(buffer[0].ch == '\0', @"got '%c'", buffer[0].ch);
+  buffer = [vt100 bufferForRow:1];
+  STAssertTrue(buffer[0].ch == '\0', @"got '%c'", buffer[0].ch);
+  buffer = [vt100 bufferForRow:1];
+  STAssertTrue(buffer[0].ch == '\0', @"got '%c'", buffer[0].ch);
+  buffer = [vt100 bufferForRow:1];
+  STAssertTrue(buffer[0].ch == '\0', @"got '%c'", buffer[0].ch);
+  buffer = [vt100 bufferForRow:1];
+  STAssertTrue(buffer[0].ch == '\0', @"got '%c'", buffer[0].ch);
+}
+
+
 // TODO(allen): Tests for scroll back buffer
-// TODO(allen): Tests for cursor position
-// 2009-07-08 00:39:30.487 MobileTerminal[22207:203] child process started
 
 @end

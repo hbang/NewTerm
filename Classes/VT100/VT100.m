@@ -100,7 +100,8 @@ static const int kDefaultHeight = 25;
 
 - (void)clearScreen
 {
-  [screen clearScreen];
+  // Clears both the screen and scrollback buffer
+  [screen clearBuffer];
 }
 
 @end

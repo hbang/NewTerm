@@ -1063,34 +1063,20 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)clearScreen
 {
     screen_char_t *aLine, *aDefaultLine;
-    int i, j;
+    int i;
 
 #if DEBUG_METHOD_TRACE
     NSLog(@"%s(%d):-[VT100Screen clearScreen]; CURSOR_Y = %d", __FILE__, __LINE__, CURSOR_Y);
 #endif
-
-    if(CURSOR_Y < 0)
-        return;
-
     [self acquireLock];
-
-    // make the current line the first line and clear everything else
-    for(i=CURSOR_Y-1;i>=0;i--) {
-        aLine = [self getLineAtScreenIndex:i];
-        if (!aLine[WIDTH].ch) break;
-    }
-    for(j=0,i++;i<=CURSOR_Y;i++,j++) {
-        aLine = [self getLineAtScreenIndex:i];
-        memcpy(screen_top+j *REAL_WIDTH, aLine, REAL_WIDTH *sizeof(screen_char_t));
-    }
-
-    CURSOR_Y = j-1;
+    // Clear the screen by overwriting everything with the default (blank) line
     aDefaultLine = [self _getDefaultLineWithWidth: WIDTH];
-    for (i = j; i < HEIGHT; i++) {
+    for (i = 0; i < HEIGHT; ++i) {
         aLine = [self getLineAtScreenIndex:i];
-        memcpy(aLine, aDefaultLine, REAL_WIDTH *sizeof(screen_char_t));
+        memcpy(aLine, aDefaultLine, REAL_WIDTH * sizeof(screen_char_t));
     }
-
+    CURSOR_X = 0;
+    CURSOR_Y = 0;
     // all the screen is dirty
     [self setDirty];
     [self releaseLock];

@@ -30,6 +30,8 @@
 
 - (void)releaseSubProcess
 {
+  [[NSNotificationCenter defaultCenter] removeObserver:self];
+  
   stopped = YES;
   [pty release];
   [subProcess stop];
