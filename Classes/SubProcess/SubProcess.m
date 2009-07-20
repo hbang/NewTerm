@@ -92,9 +92,10 @@ static int start_process(const char *path,
     start_process("/usr/bin/login", login_args, env);
     start_process("/bin/login", login_args, env);
     start_process("/bin/sh", sh_args, env);
-    exit(0);
+    return;
   } else {
     NSLog(@"process forked: %d", pid);
+    child_pid = pid;
     // We're the parent process (still).
     fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd
                                                closeOnDealloc:YES];
@@ -103,9 +104,9 @@ static int start_process(const char *path,
 
 - (void)stop
 {
-  if (child_pid != 0) {
+  if (child_pid == 0) {
     [NSException raise:@"IllegalStateException"
-                format:@"SubProcess was already started"];
+                format:@"SubProcess was never started"];
     return;
   }
   
