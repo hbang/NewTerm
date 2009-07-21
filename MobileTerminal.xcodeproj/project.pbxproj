@@ -41,6 +41,11 @@
 		2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9271013F85A00A2746E /* TerminalKeyboard.h */; };
 		2C11C94A1013F96400A2746E /* TerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9291013F85A00A2746E /* TerminalView.h */; };
 		2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9321013F87100A2746E /* libTerminal.a */; };
+		2C11C9B01013FFB000A2746E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11C9AF1013FFB000A2746E /* icon.png */; };
+		2C11CC8210159F7400A2746E /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC7E10159F7400A2746E /* Settings.h */; };
+		2C11CC8310159F7400A2746E /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC7F10159F7400A2746E /* Settings.m */; };
+		2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8010159F7400A2746E /* TerminalSettings.h */; };
+		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -85,6 +90,27 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2C11C9311013F87100A2746E /* Terminal */;
 			remoteInfo = Terminal;
+		};
+		2C11C9CC1014035F00A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteInfo = VT100;
+		};
+		2C11CB5D10143D3500A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C5B21013A5AF00A2746E /* VT100Tests */;
+			remoteInfo = VT100Tests;
+		};
+		2C11CB6010143D4A00A2746E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C9C81014035800A2746E /* Preferences */;
+			remoteInfo = Preferences;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -132,6 +158,13 @@
 		2C11C9291013F85A00A2746E /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalView.h; path = Terminal/TerminalView.h; sourceTree = "<group>"; };
 		2C11C92A1013F85A00A2746E /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalView.m; path = Terminal/TerminalView.m; sourceTree = "<group>"; };
 		2C11C9321013F87100A2746E /* libTerminal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTerminal.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C11C9AF1013FFB000A2746E /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icon.png; sourceTree = "<group>"; };
+		2C11C9C91014035800A2746E /* libPreferences.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPreferences.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C11C9FF1014060900A2746E /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
+		2C11CC7E10159F7400A2746E /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = Preferences/Settings.h; sourceTree = "<group>"; };
+		2C11CC7F10159F7400A2746E /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = Preferences/Settings.m; sourceTree = "<group>"; };
+		2C11CC8010159F7400A2746E /* TerminalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalSettings.h; path = Preferences/TerminalSettings.h; sourceTree = "<group>"; };
+		2C11CC8110159F7400A2746E /* TerminalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSettings.m; path = Preferences/TerminalSettings.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -181,12 +214,20 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C9C71014035800A2746E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C99B1013FEE800A2746E /* Preferences */,
 				2C11C9111013F84000A2746E /* Terminal */,
 				2C11C54A1013A4AB00A2746E /* SubProcess */,
 				2C11C5491013A4A600A2746E /* VT100 */,
@@ -206,6 +247,7 @@
 				2C11C58A1013A55500A2746E /* libSubProcess.a */,
 				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
 				2C11C9321013F87100A2746E /* libTerminal.a */,
+				2C11C9C91014035800A2746E /* libPreferences.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -219,8 +261,6 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
-				2C11C6461013AC7400A2746E /* libcurses.dylib */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -237,6 +277,9 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C9FF1014060900A2746E /* PreferencesTests-Info.plist */,
+				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
+				2C11C9AF1013FFB000A2746E /* icon.png */,
 				2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */,
@@ -247,6 +290,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C6461013AC7400A2746E /* libcurses.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
@@ -308,6 +352,17 @@
 			name = Terminal;
 			sourceTree = "<group>";
 		};
+		2C11C99B1013FEE800A2746E /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				2C11CC7E10159F7400A2746E /* Settings.h */,
+				2C11CC7F10159F7400A2746E /* Settings.m */,
+				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
+				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -340,6 +395,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C9C51014035800A2746E /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
+				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
@@ -357,6 +421,8 @@
 				2C11C57F1013A53000A2746E /* PBXTargetDependency */,
 				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
 				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
+				2C11CB5E10143D3500A2746E /* PBXTargetDependency */,
+				2C11CB6110143D4A00A2746E /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -435,6 +501,24 @@
 			productReference = 2C11C9321013F87100A2746E /* libTerminal.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		2C11C9C81014035800A2746E /* Preferences */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C11C9CF1014037E00A2746E /* Build configuration list for PBXNativeTarget "Preferences" */;
+			buildPhases = (
+				2C11C9C51014035800A2746E /* Headers */,
+				2C11C9C61014035800A2746E /* Sources */,
+				2C11C9C71014035800A2746E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C11C9CD1014035F00A2746E /* PBXTargetDependency */,
+			);
+			name = Preferences;
+			productName = Preferences;
+			productReference = 2C11C9C91014035800A2746E /* libPreferences.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -452,6 +536,7 @@
 				2C11C5891013A55500A2746E /* SubProcess */,
 				2C11C5B21013A5AF00A2746E /* VT100Tests */,
 				2C11C9311013F87100A2746E /* Terminal */,
+				2C11C9C81014035800A2746E /* Preferences */,
 			);
 		};
 /* End PBXProject section */
@@ -463,6 +548,7 @@
 			files = (
 				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
 				2899E5220DE3E06400AC0155 /* MobileTerminalViewController.xib in Resources */,
+				2C11C9B01013FFB000A2746E /* icon.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -542,6 +628,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C11C9C61014035800A2746E /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
+				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -574,6 +669,21 @@
 			isa = PBXTargetDependency;
 			target = 2C11C9311013F87100A2746E /* Terminal */;
 			targetProxy = 2C11C9581013F9B200A2746E /* PBXContainerItemProxy */;
+		};
+		2C11C9CD1014035F00A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C57A1013A51E00A2746E /* VT100 */;
+			targetProxy = 2C11C9CC1014035F00A2746E /* PBXContainerItemProxy */;
+		};
+		2C11CB5E10143D3500A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C5B21013A5AF00A2746E /* VT100Tests */;
+			targetProxy = 2C11CB5D10143D3500A2746E /* PBXContainerItemProxy */;
+		};
+		2C11CB6110143D4A00A2746E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C9C81014035800A2746E /* Preferences */;
+			targetProxy = 2C11CB6010143D4A00A2746E /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -763,6 +873,31 @@
 			};
 			name = Release;
 		};
+		2C11C9CA1014035900A2746E /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PREBINDING = NO;
+				PRODUCT_NAME = Preferences;
+			};
+			name = Debug;
+		};
+		2C11C9CB1014035900A2746E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PREBINDING = NO;
+				PRODUCT_NAME = Preferences;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -775,6 +910,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
+				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -794,6 +930,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
+				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -846,6 +983,15 @@
 			buildConfigurations = (
 				2C11C9331013F87200A2746E /* Debug */,
 				2C11C9341013F87200A2746E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C11C9CF1014037E00A2746E /* Build configuration list for PBXNativeTarget "Preferences" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C11C9CA1014035900A2746E /* Debug */,
+				2C11C9CB1014035900A2746E /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

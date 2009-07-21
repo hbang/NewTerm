@@ -15,50 +15,78 @@ static const int kNumTerminalColors = 16;
 @synthesize foregroundCursor;
 @synthesize backgroundCursor;
 
+- (void)initColorTable
+{
+  // System 7.5 colors, why not?
+  // black
+  table[0] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+  // dark red
+  table[1] = [[UIColor colorWithRed:0.6f green:0.0f blue:0.0f alpha:1.0f] retain];
+  // dark green
+  table[2] = [[UIColor colorWithRed:0.0f green:0.6f blue:0.0f alpha:1.0f] retain];
+  // dark yellow
+  table[3] = [[UIColor colorWithRed:0.6f green:0.4f blue:0.0f alpha:1.0f] retain];
+  // dark blue
+  table[4] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.6f alpha:1.0f] retain];
+  // dark magenta
+  table[5] = [[UIColor colorWithRed:0.6f green:0.0f blue:0.6f alpha:1.0f] retain];
+  // dark cyan
+  table[6] = [[UIColor colorWithRed:0.0f green:0.6f blue:0.6f alpha:1.0f] retain];
+  // dark white
+  table[7] = [[UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f] retain];
+  // black
+  table[8] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+  // red
+  table[9] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+  // green
+  table[10] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+  // yellow
+  table[11] = [[UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:1.0f] retain];
+  // blue
+  table[12] = [[UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.0f] retain];
+  // magenta
+  table[13] = [[UIColor colorWithRed:1.0f green:0.0f blue:1.0f alpha:1.0f] retain];
+  // light cyan
+  table[14] = [[UIColor colorWithRed:0.0f green:1.0f blue:1.0f alpha:1.0f] retain];
+  // white
+  table[15] = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f] retain];  
+}
+
 - (id)init
 {
+  return [self initWithCoder:nil];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
   self = [super init];
-  if (self != nil) {
-    // System 7.5 colors, why not?
-    // black
-    table[0] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    // dark red
-    table[1] = [[UIColor colorWithRed:0.6f green:0.0f blue:0.0f alpha:1.0f] retain];
-    // dark green
-    table[2] = [[UIColor colorWithRed:0.0f green:0.6f blue:0.0f alpha:1.0f] retain];
-    // dark yellow
-    table[3] = [[UIColor colorWithRed:0.6f green:0.4f blue:0.0f alpha:1.0f] retain];
-    // dark blue
-    table[4] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.6f alpha:1.0f] retain];
-    // dark magenta
-    table[5] = [[UIColor colorWithRed:0.6f green:0.0f blue:0.6f alpha:1.0f] retain];
-    // dark cyan
-    table[6] = [[UIColor colorWithRed:0.0f green:0.6f blue:0.6f alpha:1.0f] retain];
-    // dark white
-    table[7] = [[UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.0f] retain];
-    // black
-    table[8] = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    // red
-    table[9] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    // green
-    table[10] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    // yellow
-    table[11] = [[UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:1.0f] retain];
-    // blue
-    table[12] = [[UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.0f] retain];
-    // magenta
-    table[13] = [[UIColor colorWithRed:1.0f green:0.0f blue:1.0f alpha:1.0f] retain];
-    // light cyan
-    table[14] = [[UIColor colorWithRed:0.0f green:1.0f blue:1.0f alpha:1.0f] retain];
-    // white
-    table[15] = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f] retain];
-
-    background = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    foreground = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.95f] retain];
-    foregroundBold = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f] retain];
-
-    foregroundCursor = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
-    backgroundCursor = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.3f] retain];
+  if (self != nil) {    
+    [self initColorTable];
+    if ([decoder containsValueForKey:@"background"]) {
+      background = [[decoder decodeObjectForKey:@"background"] retain];
+    } else {
+      background = [[UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+    }
+    if ([decoder containsValueForKey:@"foreground"]) {
+      foreground = [[decoder decodeObjectForKey:@"foreground"] retain];
+    } else {
+      foreground = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.95f] retain];
+    }
+    if ([decoder containsValueForKey:@"foregroundBold"]) {
+      foregroundBold = [[decoder decodeObjectForKey:@"foregroundBold"] retain];
+    } else {
+      foregroundBold = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.0f] retain];
+    }
+    if ([decoder containsValueForKey:@"foregroundCursor"]) {
+      foregroundCursor = [[decoder decodeObjectForKey:@"foregroundCursor"] retain];
+    } else {
+      foregroundCursor = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+    }
+    if ([decoder containsValueForKey:@"backgroundCursor"]) {
+      backgroundCursor = [[decoder decodeObjectForKey:@"backgroundCursor"] retain];
+    } else {
+      backgroundCursor = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.3f] retain];
+    }
   }
   return self;
 }
@@ -76,7 +104,14 @@ static const int kNumTerminalColors = 16;
   [super dealloc];
 }
 
-
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+  [encoder encodeObject:background forKey:@"background"];
+  [encoder encodeObject:foreground forKey:@"foreground"];
+  [encoder encodeObject:foregroundBold forKey:@"foregroundBold"];
+  [encoder encodeObject:foregroundCursor forKey:@"foregroundCursor"];
+  [encoder encodeObject:backgroundCursor forKey:@"backgroundCursor"];
+}
 
 - (UIColor*) color:(unsigned int)index;
 {

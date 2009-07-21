@@ -13,5 +13,6 @@
 
 - (void) setUp;
 - (void) tearDown;
+- (void) testNSCoding;
 
 @end
