@@ -3,6 +3,7 @@
 
 #import "Settings.h"
 
+#import "TerminalSettings.h"
 
 @implementation Settings
 

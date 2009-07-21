@@ -46,6 +46,8 @@
 		2C11CC8310159F7400A2746E /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC7F10159F7400A2746E /* Settings.m */; };
 		2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8010159F7400A2746E /* TerminalSettings.h */; };
 		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
+		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; };
+		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -160,11 +162,12 @@
 		2C11C9321013F87100A2746E /* libTerminal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTerminal.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C9AF1013FFB000A2746E /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = icon.png; path = Resources/icon.png; sourceTree = "<group>"; };
 		2C11C9C91014035800A2746E /* libPreferences.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPreferences.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		2C11C9FF1014060900A2746E /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
 		2C11CC7E10159F7400A2746E /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = Preferences/Settings.h; sourceTree = "<group>"; };
 		2C11CC7F10159F7400A2746E /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = Preferences/Settings.m; sourceTree = "<group>"; };
 		2C11CC8010159F7400A2746E /* TerminalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalSettings.h; path = Preferences/TerminalSettings.h; sourceTree = "<group>"; };
 		2C11CC8110159F7400A2746E /* TerminalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSettings.m; path = Preferences/TerminalSettings.m; sourceTree = "<group>"; };
+		2C11CC8D1015A58B00A2746E /* FontDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDataSource.h; path = Preferences/FontDataSource.h; sourceTree = "<group>"; };
+		2C11CC8E1015A58B00A2746E /* FontDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontDataSource.m; path = Preferences/FontDataSource.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -277,7 +280,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				2C11C9FF1014060900A2746E /* PreferencesTests-Info.plist */,
 				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
 				2C11C9AF1013FFB000A2746E /* icon.png */,
 				2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */,
@@ -359,6 +361,8 @@
 				2C11CC7F10159F7400A2746E /* Settings.m */,
 				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
+				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
+				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -401,6 +405,7 @@
 			files = (
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
+				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -634,6 +639,7 @@
 			files = (
 				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
 				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
+				2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
