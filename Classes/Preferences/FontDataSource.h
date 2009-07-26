@@ -15,5 +15,4 @@
              titleForRow:(NSInteger)row
             forComponent:(NSInteger)component;
 
-
 @end

@@ -48,6 +48,12 @@
 		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
 		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; };
 		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
+		2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */; };
+		2C72B32C101ABC2F00F10E63 /* libPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9C91014035800A2746E /* libPreferences.a */; };
+		2C72B358101ABDC100F10E63 /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA0031018211D00A87594 /* PreferencesDataSource.m */; };
+		2C72B359101ABDCB00F10E63 /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEEA0021018211D00A87594 /* PreferencesDataSource.h */; };
+		2C72B3E3101AC4D100F10E63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		2CEEA0041018211D00A87594 /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA0031018211D00A87594 /* PreferencesDataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -55,64 +61,78 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E;
 			remoteInfo = VT100;
 		};
 		2C11C5A91013A59700A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C5891013A55500A2746E /* SubProcess */;
+			remoteGlobalIDString = 2C11C5891013A55500A2746E;
 			remoteInfo = SubProcess;
 		};
 		2C11C5B81013A5B400A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E;
 			remoteInfo = VT100;
 		};
 		2C11C9351013F87A00A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E;
 			remoteInfo = VT100;
 		};
 		2C11C9371013F87F00A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C5891013A55500A2746E /* SubProcess */;
+			remoteGlobalIDString = 2C11C5891013A55500A2746E;
 			remoteInfo = SubProcess;
 		};
 		2C11C9581013F9B200A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C9311013F87100A2746E /* Terminal */;
+			remoteGlobalIDString = 2C11C9311013F87100A2746E;
 			remoteInfo = Terminal;
 		};
 		2C11C9CC1014035F00A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C57A1013A51E00A2746E /* VT100 */;
+			remoteGlobalIDString = 2C11C57A1013A51E00A2746E;
 			remoteInfo = VT100;
 		};
 		2C11CB5D10143D3500A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C5B21013A5AF00A2746E /* VT100Tests */;
+			remoteGlobalIDString = 2C11C5B21013A5AF00A2746E;
 			remoteInfo = VT100Tests;
 		};
 		2C11CB6010143D4A00A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 2C11C9C81014035800A2746E /* Preferences */;
+			remoteGlobalIDString = 2C11C9C81014035800A2746E;
 			remoteInfo = Preferences;
+		};
+		2C72B2C0101ABA9600F10E63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C11C9C81014035800A2746E;
+			remoteInfo = Preferences;
+		};
+		2C72B2C6101ABAFF00F10E63 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 2C72B2BA101ABA9100F10E63;
+			remoteInfo = PreferencesTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -168,6 +188,12 @@
 		2C11CC8110159F7400A2746E /* TerminalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSettings.m; path = Preferences/TerminalSettings.m; sourceTree = "<group>"; };
 		2C11CC8D1015A58B00A2746E /* FontDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDataSource.h; path = Preferences/FontDataSource.h; sourceTree = "<group>"; };
 		2C11CC8E1015A58B00A2746E /* FontDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontDataSource.m; path = Preferences/FontDataSource.m; sourceTree = "<group>"; };
+		2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesDataSourceTest.h; path = Tests/PreferencesDataSourceTest.h; sourceTree = "<group>"; };
+		2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSourceTest.m; path = Tests/PreferencesDataSourceTest.m; sourceTree = "<group>"; };
+		2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
+		2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
+		2CEEA0021018211D00A87594 /* PreferencesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDataSource.h; sourceTree = "<group>"; };
+		2CEEA0031018211D00A87594 /* PreferencesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDataSource.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -224,6 +250,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C72B2B8101ABA9100F10E63 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C72B32C101ABC2F00F10E63 /* libPreferences.a in Frameworks */,
+				2C72B3E3101AC4D100F10E63 /* UIKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -231,8 +266,8 @@
 			isa = PBXGroup;
 			children = (
 				2C11C99B1013FEE800A2746E /* Preferences */,
-				2C11C9111013F84000A2746E /* Terminal */,
 				2C11C54A1013A4AB00A2746E /* SubProcess */,
+				2C11C9111013F84000A2746E /* Terminal */,
 				2C11C5491013A4A600A2746E /* VT100 */,
 				1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */,
 				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
@@ -251,6 +286,7 @@
 				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
 				2C11C9321013F87100A2746E /* libTerminal.a */,
 				2C11C9C91014035800A2746E /* libPreferences.a */,
+				2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -264,6 +300,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */,
 			);
 			name = CustomTemplate;
 			sourceTree = "<group>";
@@ -333,6 +370,8 @@
 		2C11C54C1013A4B700A2746E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */,
+				2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */,
 				2C11C54E1013A4C800A2746E /* ColorMapTest.m */,
 				2C11C54F1013A4C800A2746E /* VT100Test.h */,
 				2C11C5501013A4C800A2746E /* ColorMapTest.h */,
@@ -363,6 +402,8 @@
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
 				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
 				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
+				2CEEA0021018211D00A87594 /* PreferencesDataSource.h */,
+				2CEEA0031018211D00A87594 /* PreferencesDataSource.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -403,6 +444,7 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C72B359101ABDCB00F10E63 /* PreferencesDataSource.h in Headers */,
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
 				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
@@ -428,6 +470,7 @@
 				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
 				2C11CB5E10143D3500A2746E /* PBXTargetDependency */,
 				2C11CB6110143D4A00A2746E /* PBXTargetDependency */,
+				2C72B2C7101ABAFF00F10E63 /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -524,6 +567,25 @@
 			productReference = 2C11C9C91014035800A2746E /* libPreferences.a */;
 			productType = "com.apple.product-type.library.static";
 		};
+		2C72B2BA101ABA9100F10E63 /* PreferencesTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 2C72B2BF101ABA9200F10E63 /* Build configuration list for PBXNativeTarget "PreferencesTests" */;
+			buildPhases = (
+				2C72B2B6101ABA9100F10E63 /* Resources */,
+				2C72B2B7101ABA9100F10E63 /* Sources */,
+				2C72B2B8101ABA9100F10E63 /* Frameworks */,
+				2C72B2B9101ABA9100F10E63 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				2C72B2C1101ABA9600F10E63 /* PBXTargetDependency */,
+			);
+			name = PreferencesTests;
+			productName = PreferencesTests;
+			productReference = 2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */;
+			productType = "com.apple.product-type.bundle";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -542,6 +604,7 @@
 				2C11C5B21013A5AF00A2746E /* VT100Tests */,
 				2C11C9311013F87100A2746E /* Terminal */,
 				2C11C9C81014035800A2746E /* Preferences */,
+				2C72B2BA101ABA9100F10E63 /* PreferencesTests */,
 			);
 		};
 /* End PBXProject section */
@@ -564,10 +627,30 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		2C72B2B6101ABA9100F10E63 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
 		2C11C5B11013A5AF00A2746E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		2C72B2B9101ABA9100F10E63 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -590,6 +673,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
+				2CEEA0041018211D00A87594 /* PreferencesDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -637,9 +721,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C72B358101ABDC100F10E63 /* PreferencesDataSource.m in Sources */,
 				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
 				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
 				2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2C72B2B7101ABA9100F10E63 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -690,6 +783,16 @@
 			isa = PBXTargetDependency;
 			target = 2C11C9C81014035800A2746E /* Preferences */;
 			targetProxy = 2C11CB6010143D4A00A2746E /* PBXContainerItemProxy */;
+		};
+		2C72B2C1101ABA9600F10E63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C11C9C81014035800A2746E /* Preferences */;
+			targetProxy = 2C72B2C0101ABA9600F10E63 /* PBXContainerItemProxy */;
+		};
+		2C72B2C7101ABAFF00F10E63 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 2C72B2BA101ABA9100F10E63 /* PreferencesTests */;
+			targetProxy = 2C72B2C6101ABAFF00F10E63 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -904,6 +1007,56 @@
 			};
 			name = Release;
 		};
+		2C72B2BD101ABA9100F10E63 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				INFOPLIST_FILE = "PreferencesTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = PreferencesTests;
+				WRAPPER_EXTENSION = octest;
+			};
+			name = Debug;
+		};
+		2C72B2BE101ABA9100F10E63 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				FRAMEWORK_SEARCH_PATHS = "$(DEVELOPER_LIBRARY_DIR)/Frameworks";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				INFOPLIST_FILE = "PreferencesTests-Info.plist";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					SenTestingKit,
+					"-framework",
+					UIKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = PreferencesTests;
+				WRAPPER_EXTENSION = octest;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -998,6 +1151,15 @@
 			buildConfigurations = (
 				2C11C9CA1014035900A2746E /* Debug */,
 				2C11C9CB1014035900A2746E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		2C72B2BF101ABA9200F10E63 /* Build configuration list for PBXNativeTarget "PreferencesTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				2C72B2BD101ABA9100F10E63 /* Debug */,
+				2C72B2BE101ABA9100F10E63 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

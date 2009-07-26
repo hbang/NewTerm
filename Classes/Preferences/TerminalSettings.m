@@ -1,10 +1,5 @@
-//
-//  TerminalSettings.m
-//  MobileTerminal
-//
-//  Created by Allen Porter on 7/19/09.
-//  Copyright 2009 thebends. All rights reserved.
-//
+// TerminalSettings.m
+// MobileTerminal
 
 #import "TerminalSettings.h"
 #import "VT100/ColorMap.h"

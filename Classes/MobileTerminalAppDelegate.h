@@ -2,17 +2,22 @@
 // MobileTerminal
 
 #import <UIKit/UIKit.h>
+#import "MobileTerminalViewController.h"
 
-@class MobileTerminalViewController;
-
-@interface MobileTerminalAppDelegate : NSObject <UIApplicationDelegate> {
+@interface MobileTerminalAppDelegate : NSObject <UIApplicationDelegate,
+                                                 MobileTerminalInterfaceDelegate> {
 @private
   UIWindow *window;
-  MobileTerminalViewController *viewController;
+  UINavigationController *navigationController;
+  MobileTerminalViewController *terminalViewController;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet MobileTerminalViewController *viewController;
+@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
+@property (nonatomic, retain) IBOutlet MobileTerminalViewController *terminalViewController;
+
+- (void)preferencesButtonPressed;
+- (void)preferencesDonePressed:(id)sender;
 
 @end
 

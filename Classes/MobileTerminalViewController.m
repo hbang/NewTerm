@@ -4,15 +4,18 @@
 #import "MobileTerminalViewController.h"
 
 #import "VT100/ColorMap.h"
-#import "TerminalKeyboard.h"
-#import "TerminalGroupView.h"
-#import "TerminalView.h"
+#import "Terminal/TerminalKeyboard.h"
+#import "Terminal/TerminalGroupView.h"
+#import "Terminal/TerminalView.h"
+#import "PreferencesViewController.h"
 
 @implementation MobileTerminalViewController
 
 @synthesize contentView;
 @synthesize terminalGroupView;
 @synthesize terminalSelector;
+@synthesize preferencesButton;
+@synthesize interfaceDelegate;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithCoder:(NSCoder *)decoder
@@ -83,18 +86,23 @@
   [terminalGroupView bringTerminalToFront:terminalView];
 }
 
+// Invoked when the preferences button is pressed
+- (void)preferencesButtonPressed:(id)sender 
+{
+  [interfaceDelegate preferencesButtonPressed];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
+  
+  // TODO(allen):  This should be configurable
+  shouldShowKeyboard = YES;
 
   // Adding the keyboard to the view has no effect, except that it is will
   // later allow us to make it the first responder so we can show the keyboard
   // on the screen.
   [[self view] addSubview:terminalKeyboard];
   [self registerForKeyboardNotifications];
-  
-  // Show the keyboard
-  // TODO(allen):  This should be configurable
-  [terminalKeyboard becomeFirstResponder];
   
   // Setup the page control that selects the active terminal
   [terminalSelector setNumberOfPages:[terminalGroupView terminalCount]];
@@ -104,6 +112,18 @@
              forControlEvents:UIControlEventTouchUpInside];
   // Make the first terminal active
   [self terminalSelectionDidChange:self];
+  
+  // Setup the preferences button
+  [preferencesButton addTarget:self
+                        action:@selector(preferencesButtonPressed:)
+              forControlEvents:UIControlEventTouchDown];
+}
+
+- (void)viewDidAppear:(BOOL)animated
+{
+  if (shouldShowKeyboard) {
+    [terminalKeyboard becomeFirstResponder];
+  }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

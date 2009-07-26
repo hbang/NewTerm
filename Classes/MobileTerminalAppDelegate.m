@@ -7,21 +7,47 @@
 @implementation MobileTerminalAppDelegate
 
 @synthesize window;
-@synthesize viewController;
-
+@synthesize navigationController;
+@synthesize terminalViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {    
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  [window addSubview:viewController.view];
+  [window addSubview:terminalViewController.view];
   [window makeKeyAndVisible];
 }
 
+static const NSTimeInterval kAnimationDuration = 1.00f;
+
+- (void)preferencesButtonPressed
+{
+  [UIView beginAnimations:NULL context:NULL];
+  [UIView setAnimationDuration:kAnimationDuration];
+  [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
+                         forView:navigationController.view
+                           cache:YES];
+  [terminalViewController.view removeFromSuperview];
+  [window addSubview:navigationController.view];
+  [UIView commitAnimations];
+}
+
+- (void)preferencesDonePressed:(id)sender;
+{
+  [UIView beginAnimations:NULL context:NULL];
+  [UIView setAnimationDuration:kAnimationDuration];
+  [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight 
+                         forView:terminalViewController.view
+                           cache:YES];
+  
+  [navigationController popViewControllerAnimated:YES];
+  [navigationController.view removeFromSuperview];
+  [window addSubview:terminalViewController.view];
+  [UIView commitAnimations];
+}
 
 - (void)dealloc {
-  [viewController release];
+  [terminalViewController release];
   [window release];
   [super dealloc];
 }
-
 
 @end
