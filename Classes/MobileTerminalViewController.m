@@ -7,7 +7,6 @@
 #import "Terminal/TerminalKeyboard.h"
 #import "Terminal/TerminalGroupView.h"
 #import "Terminal/TerminalView.h"
-#import "PreferencesViewController.h"
 
 @implementation MobileTerminalViewController
 
@@ -75,6 +74,28 @@
   contentView.frame = viewFrame;
 }
 
+- (void)setShowKeyboard:(BOOL)showKeyboard
+{
+  if (showKeyboard) {
+    [terminalKeyboard becomeFirstResponder];
+  } else {
+    [terminalKeyboard resignFirstResponder];
+  }
+}
+
+
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  UITouch* touch = [touches anyObject];
+  NSUInteger numTaps = [touch tapCount];
+  if (numTaps < 2) {
+    [self.nextResponder touchesBegan:touches withEvent:event];
+  } else {
+    // Double-tap: Toggle the keyboard
+    shouldShowKeyboard = !shouldShowKeyboard;
+    [self setShowKeyboard:shouldShowKeyboard];
+  }
+}
+
 // Invoked when the page control is clicked to make a new terminal active.  The
 // keyboard events are forwarded to the new active terminal and it is made the
 // front-most terminal view.
@@ -94,7 +115,7 @@
 
 - (void)viewDidLoad {
   [super viewDidLoad];
-  
+
   // TODO(allen):  This should be configurable
   shouldShowKeyboard = YES;
 
@@ -121,9 +142,7 @@
 
 - (void)viewDidAppear:(BOOL)animated
 {
-  if (shouldShowKeyboard) {
-    [terminalKeyboard becomeFirstResponder];
-  }
+  [self setShowKeyboard:shouldShowKeyboard];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
