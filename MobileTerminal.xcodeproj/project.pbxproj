@@ -1094,6 +1094,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = (
 					"-Werror",
@@ -1114,6 +1115,7 @@
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
+				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.0;
 				WARNING_CFLAGS = (
 					"-Werror",
