@@ -142,7 +142,7 @@
 		1D30AB110D05D00D00671497 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminalAppDelegate.h; sourceTree = "<group>"; };
 		1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileTerminalAppDelegate.m; sourceTree = "<group>"; };
-		1D6058910D05DD3D006BFB54 /* MobileTerminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MobileTerminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D6058910D05DD3D006BFB54 /* Terminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Terminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MobileTerminalViewController.xib; sourceTree = "<group>"; };
@@ -288,7 +288,7 @@
 		19C28FACFE9D520D11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				1D6058910D05DD3D006BFB54 /* MobileTerminal.app */,
+				1D6058910D05DD3D006BFB54 /* Terminal.app */,
 				2C11C57B1013A51E00A2746E /* libVT100.a */,
 				2C11C58A1013A55500A2746E /* libSubProcess.a */,
 				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
@@ -483,7 +483,7 @@
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
-			productReference = 1D6058910D05DD3D006BFB54 /* MobileTerminal.app */;
+			productReference = 1D6058910D05DD3D006BFB54 /* Terminal.app */;
 			productType = "com.apple.product-type.application";
 		};
 		2C11C57A1013A51E00A2746E /* VT100 */ = {
@@ -841,7 +841,7 @@
 					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_NAME = MobileTerminal;
+				PRODUCT_NAME = Terminal;
 			};
 			name = Debug;
 		};
@@ -863,7 +863,7 @@
 					"\"$(SRCROOT)/build/Debug-iphonesimulator\"",
 				);
 				OTHER_LDFLAGS = "-all_load";
-				PRODUCT_NAME = MobileTerminal;
+				PRODUCT_NAME = Terminal;
 			};
 			name = Release;
 		};
