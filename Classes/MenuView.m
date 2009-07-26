@@ -42,8 +42,8 @@
   UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:itemTitle];
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
-    cell.text = itemTitle;
-    cell.font = font;
+    cell.textLabel.text = itemTitle;
+    cell.textLabel.font = font;
   }
   return cell;
 }

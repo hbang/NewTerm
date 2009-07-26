@@ -76,7 +76,7 @@
   UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:itemTitle];
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
-    cell.text = itemTitle;
+    cell.textLabel.text = itemTitle;
   }
   return cell;
 }
