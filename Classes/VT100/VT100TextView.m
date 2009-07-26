@@ -169,9 +169,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 {
   // TODO(allen): We currently draw the entire control instead of just the
   // rect that we were asked to update
-  NSLog(@"(%f, %f) -> (%f, %f)", rect.origin.x, rect.origin.y,
-        rect.size.width, rect.size.height);
-  
   NSAssert(font != NULL, @"No font specified");
   
   CGContextRef context = UIGraphicsGetCurrentContext();

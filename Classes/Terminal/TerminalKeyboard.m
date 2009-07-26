@@ -98,6 +98,13 @@ static const int kControlCharacter = 0x2022;
   return NO;
 }
 
+- (void)keyboardInputChanged:(id)sender
+{
+  // This is a workaround for a bug either in this code or in the official 3.0
+  // SDK.  Without this overridden method, we get in an infinite loop when
+  // this text field becomes the first responder.
+}
+
 @end
 
 
