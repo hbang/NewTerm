@@ -49,6 +49,8 @@
 		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; };
 		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
 		2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */; };
+		2C66C084101C47FB00E4189B /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66C083101C47FB00E4189B /* MenuView.m */; };
+		2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C66C155101C54C800E4189B /* QuartzCore.framework */; };
 		2C72B32C101ABC2F00F10E63 /* libPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9C91014035800A2746E /* libPreferences.a */; };
 		2C72B358101ABDC100F10E63 /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA0031018211D00A87594 /* PreferencesDataSource.m */; };
 		2C72B359101ABDCB00F10E63 /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEEA0021018211D00A87594 /* PreferencesDataSource.h */; };
@@ -190,6 +192,9 @@
 		2C11CC8E1015A58B00A2746E /* FontDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontDataSource.m; path = Preferences/FontDataSource.m; sourceTree = "<group>"; };
 		2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesDataSourceTest.h; path = Tests/PreferencesDataSourceTest.h; sourceTree = "<group>"; };
 		2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSourceTest.m; path = Tests/PreferencesDataSourceTest.m; sourceTree = "<group>"; };
+		2C66C082101C47FB00E4189B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
+		2C66C083101C47FB00E4189B /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
+		2C66C155101C54C800E4189B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
 		2CEEA0021018211D00A87594 /* PreferencesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDataSource.h; sourceTree = "<group>"; };
@@ -210,6 +215,7 @@
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
 				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
 				2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */,
+				2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -273,6 +279,8 @@
 				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */,
 				28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */,
+				2C66C082101C47FB00E4189B /* MenuView.h */,
+				2C66C083101C47FB00E4189B /* MenuView.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -329,6 +337,7 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2C66C155101C54C800E4189B /* QuartzCore.framework */,
 				2C11C6461013AC7400A2746E /* libcurses.dylib */,
 				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 				1D30AB110D05D00D00671497 /* Foundation.framework */,
@@ -674,6 +683,7 @@
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
 				2CEEA0041018211D00A87594 /* PreferencesDataSource.m in Sources */,
+				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,6 +7,7 @@
 #import "Terminal/TerminalKeyboard.h"
 #import "Terminal/TerminalGroupView.h"
 #import "Terminal/TerminalView.h"
+#import "MenuView.h"
 
 @implementation MobileTerminalViewController
 
@@ -16,6 +17,7 @@
 @synthesize preferencesButton;
 @synthesize menuButton;
 @synthesize interfaceDelegate;
+@synthesize menuView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (id)initWithCoder:(NSCoder *)decoder
@@ -117,7 +119,7 @@
 // Invoked when the preferences button is pressed
 - (void)menuButtonPressed:(id)sender 
 {
-  NSLog(@"menu button");
+  [menuView setHidden:![menuView isHidden]];
 }
 
 - (void)viewDidLoad {

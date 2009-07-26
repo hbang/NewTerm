@@ -254,7 +254,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)refresh
 {
-  // TODO(aporter): Call setNeedsDisplayInRect for only the dirty bits
+  // TODO(allen): Call setNeedsDisplayInRect for only the dirty bits
   [self setNeedsDisplay];
 }
 
