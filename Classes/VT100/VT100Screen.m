@@ -462,7 +462,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 
     // An immediate refresh is needed so that the size of TEXTVIEW can be
     // adjusted to fit the new size
-  NSLog(@"width=%d, height=%d", WIDTH, HEIGHT);
     [refreshDelegate refresh];
 }
 

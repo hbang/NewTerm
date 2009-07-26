@@ -1159,8 +1159,6 @@ initWithData:data
 
     [self setTermType:@"vt100"];
 
-    NSLog(@"terminal initialized %@", self);
-
     return self;
 }
 
