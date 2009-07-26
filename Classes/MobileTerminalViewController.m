@@ -14,6 +14,7 @@
 @synthesize terminalGroupView;
 @synthesize terminalSelector;
 @synthesize preferencesButton;
+@synthesize menuButton;
 @synthesize interfaceDelegate;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
@@ -113,6 +114,12 @@
   [interfaceDelegate preferencesButtonPressed];
 }
 
+// Invoked when the preferences button is pressed
+- (void)menuButtonPressed:(id)sender 
+{
+  NSLog(@"menu button");
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 
@@ -124,20 +131,17 @@
   // on the screen.
   [[self view] addSubview:terminalKeyboard];
   [self registerForKeyboardNotifications];
+
+  // The menu button points to the right, but for this context it should point
+  // up, since the menu moves that way.
+  menuButton.transform = CGAffineTransformMakeRotation(-90.0f * M_PI / 180.0f);
+  [menuButton setNeedsLayout];  
   
   // Setup the page control that selects the active terminal
   [terminalSelector setNumberOfPages:[terminalGroupView terminalCount]];
   [terminalSelector setCurrentPage:0];
-  [terminalSelector addTarget:self
-                       action:@selector(terminalSelectionDidChange:)
-             forControlEvents:UIControlEventTouchUpInside];
   // Make the first terminal active
   [self terminalSelectionDidChange:self];
-  
-  // Setup the preferences button
-  [preferencesButton addTarget:self
-                        action:@selector(preferencesButtonPressed:)
-              forControlEvents:UIControlEventTouchDown];
 }
 
 - (void)viewDidAppear:(BOOL)animated

@@ -17,9 +17,7 @@
 {
   NSMutableArray* section = [sections lastObject];
   NSMutableDictionary* sectionInfo = [[NSMutableDictionary alloc] init];
-  NSLog(@"-%@", itemName);
   [sectionInfo setObject:itemName forKey:@"title"];
- // [sectionInfo setObject:controller forKey:@"controller"];
   [section addObject:sectionInfo];
 }
 
@@ -34,6 +32,7 @@
   NSLog(@"init");
   self = [super init];
   if (self != nil) {
+    // TODO(allen): Link up the controller so they actually do something
     sectionNames = [[NSMutableArray alloc] init];
     sections = [[NSMutableArray alloc] init];
     [self addSection:@"Menu & Gestures"];
