@@ -21,7 +21,7 @@
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;  
 {
-  return [font pointSize];
+  return [font pointSize] * 1.5f;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
@@ -52,13 +52,15 @@ static const double kAnimationDuration = 0.25f;
 
 - (void)setHidden:(BOOL)isHidden
 {
-  if (isHidden) {
+  // TODO(allen): Set the max size of the view based on the total number of
+  // menu items.
+  if (!isHidden) {
     // When re-displaying the table, start from the top of the menu in a fresh
     // state.
     [menuTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1)
                               animated:NO];
     [menuTableView deselectRowAtIndexPath:[menuTableView indexPathForSelectedRow] animated:NO];
-  }    
+  }
   
   [UIView beginAnimations:NULL context:NULL];
   CATransition *animation = [CATransition animation];
