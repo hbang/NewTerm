@@ -490,6 +490,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C11C5A51013A58200A2746E /* Build configuration list for PBXNativeTarget "VT100" */;
 			buildPhases = (
+				2CC48932101CE87500DF51C1 /* ShellScript */,
 				2C11C5771013A51E00A2746E /* Headers */,
 				2C11C5781013A51E00A2746E /* Sources */,
 				2C11C5791013A51E00A2746E /* Frameworks */,
@@ -671,6 +672,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		2CC48932101CE87500DF51C1 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#\n# When compiling for the device, copy term.h from the simulator SDK\n#\n\nif [ $PLATFORM_NAME == \"iphoneos\" ]\nthen\n  # Get the path to the iphone simulator SDK for the same version\n  SIMULATOR_SDK_DIR=${SDK_DIR//iPhoneOS/iPhoneSimulator}\n\n  # Copy to a temporary directory where the build will find the needed\n  # header files.  This directory may not already exist, but is passed\n  # as a header search path when compiling the source files.\n  mkdir -p $DERIVED_SOURCES_DIR\n  cp $SIMULATOR_SDK_DIR/usr/include/ncurses_dll.h $DERIVED_SOURCES_DIR/\n  cp $SIMULATOR_SDK_DIR/usr/include/term.h $DERIVED_SOURCES_DIR/\n\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
