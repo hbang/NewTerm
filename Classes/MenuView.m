@@ -3,20 +3,30 @@
 
 #import "MenuView.h"
 #import <QuartzCore/QuartzCore.h>
-
+#import "Preferences/Settings.h"
+#import "Preferences/MenuSettings.h"
 
 @implementation MenuView
 
 @synthesize menuTableView;
 @synthesize font;
+@synthesize menuSettings;
+@synthesize delegate;
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super initWithCoder:decoder];
   if (self != nil) {
     font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+    menuSettings = [[Settings sharedInstance] menuSettings];
   }
   return self;
+}
+
+- (void)dealloc {
+  [font release];
+  [menuSettings release];
+  [super dealloc];
 }
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath;  
@@ -26,19 +36,18 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  // TODO(allen): Get from preferences
-  return 30;
+  return [menuSettings count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
   // This currently only supports one section
   if ([indexPath length] != 2 ||
-      [indexPath indexAtPosition:0] != 0) {
+      [indexPath indexAtPosition:0] != 0 ||
+      [indexPath indexAtPosition:1] > [menuSettings count]) {
     return nil;
   }
-  // TODO(allen): Get the menu items from preferences
-  NSString* itemTitle = [NSString stringWithFormat:@"item %d", [indexPath indexAtPosition:1]];
+  NSString* itemTitle = [menuSettings itemLabelAtIndex:[indexPath indexAtPosition:1]];
   UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:itemTitle];
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
@@ -46,6 +55,12 @@
     cell.textLabel.font = font;
   }
   return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+  NSString* itemCommand = [menuSettings itemCommandAtIndex:[indexPath indexAtPosition:1]];
+  [delegate selectedCommand:itemCommand];
 }
 
 static const double kAnimationDuration = 0.25f;

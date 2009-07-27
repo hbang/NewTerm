@@ -2,10 +2,10 @@
 // MobileTerminal
 
 #import <UIKit/UIKit.h>
+#import "MenuView.h"
 
 @class TerminalGroupView;
 @class TerminalKeyboard;
-@class MenuView;
 
 // Protocol to get notified about when the preferences button is pressed.
 // TOOD(allen): We should find a better way to do this.
@@ -14,7 +14,7 @@
 - (void)preferencesButtonPressed;
 @end
 
-@interface MobileTerminalViewController : UIViewController {
+@interface MobileTerminalViewController : UIViewController <MenuViewDelegate> {
 @private
   UIView* contentView;
   TerminalGroupView* terminalGroupView;
@@ -40,6 +40,7 @@
 - (void)terminalSelectionDidChange:(id)sender;
 - (void)preferencesButtonPressed:(id)sender;
 - (void)menuButtonPressed:(id)sender;
+- (void)selectedCommand:(NSString*)command;
 
 @end
 

@@ -42,17 +42,18 @@
 		2C11C94A1013F96400A2746E /* TerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9291013F85A00A2746E /* TerminalView.h */; };
 		2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9321013F87100A2746E /* libTerminal.a */; };
 		2C11C9B01013FFB000A2746E /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = 2C11C9AF1013FFB000A2746E /* icon.png */; };
-		2C11CC8210159F7400A2746E /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC7E10159F7400A2746E /* Settings.h */; };
+		2C11CC8210159F7400A2746E /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC7E10159F7400A2746E /* Settings.h */; settings = {ATTRIBUTES = (); }; };
 		2C11CC8310159F7400A2746E /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC7F10159F7400A2746E /* Settings.m */; };
-		2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8010159F7400A2746E /* TerminalSettings.h */; };
+		2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8010159F7400A2746E /* TerminalSettings.h */; settings = {ATTRIBUTES = (); }; };
 		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
-		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; };
+		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; settings = {ATTRIBUTES = (); }; };
 		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
-		2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CD101D23E9004CA39E /* MenuSettings.h */; };
+		2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CD101D23E9004CA39E /* MenuSettings.h */; settings = {ATTRIBUTES = (); }; };
 		2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19CE101D23E9004CA39E /* MenuSettings.m */; };
-		2C4E19D3101D23E9004CA39E /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CF101D23E9004CA39E /* PreferencesDataSource.h */; };
+		2C4E19D3101D23E9004CA39E /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CF101D23E9004CA39E /* PreferencesDataSource.h */; settings = {ATTRIBUTES = (); }; };
 		2C4E19D4101D23E9004CA39E /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19D0101D23E9004CA39E /* PreferencesDataSource.m */; };
 		2C4E19D7101D2410004CA39E /* MenuSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */; };
+		2C4E1A91101D3182004CA39E /* libPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9C91014035800A2746E /* libPreferences.a */; };
 		2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */; };
 		2C66C084101C47FB00E4189B /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66C083101C47FB00E4189B /* MenuView.m */; };
 		2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C66C155101C54C800E4189B /* QuartzCore.framework */; };
@@ -198,6 +199,7 @@
 		2C4E19D0101D23E9004CA39E /* PreferencesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSource.m; path = Preferences/PreferencesDataSource.m; sourceTree = "<group>"; };
 		2C4E19D5101D2410004CA39E /* MenuSettingsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettingsTest.h; path = Tests/MenuSettingsTest.h; sourceTree = "<group>"; };
 		2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettingsTest.m; path = Tests/MenuSettingsTest.m; sourceTree = "<group>"; };
+		2C4E1C22101D3F51004CA39E /* DefaultSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultSettings.plist; path = Resources/DefaultSettings.plist; sourceTree = "<group>"; };
 		2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesDataSourceTest.h; path = Tests/PreferencesDataSourceTest.h; sourceTree = "<group>"; };
 		2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSourceTest.m; path = Tests/PreferencesDataSourceTest.m; sourceTree = "<group>"; };
 		2C66C082101C47FB00E4189B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
@@ -214,14 +216,15 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */,
-				2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */,
-				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
-				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
-				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
-				2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */,
+				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
 				2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */,
+				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
+				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
+				2C4E1A91101D3182004CA39E /* libPreferences.a in Frameworks */,
+				2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */,
+				2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */,
+				2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -296,11 +299,11 @@
 			isa = PBXGroup;
 			children = (
 				1D6058910D05DD3D006BFB54 /* Terminal.app */,
-				2C11C57B1013A51E00A2746E /* libVT100.a */,
-				2C11C58A1013A55500A2746E /* libSubProcess.a */,
-				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
-				2C11C9321013F87100A2746E /* libTerminal.a */,
 				2C11C9C91014035800A2746E /* libPreferences.a */,
+				2C11C58A1013A55500A2746E /* libSubProcess.a */,
+				2C11C9321013F87100A2746E /* libTerminal.a */,
+				2C11C57B1013A51E00A2746E /* libVT100.a */,
+				2C11C5B31013A5AF00A2746E /* VT100Tests.octest */,
 				2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */,
 			);
 			name = Products;
@@ -336,6 +339,7 @@
 				2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */,
+				2C4E1C22101D3F51004CA39E /* DefaultSettings.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -464,10 +468,10 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */,
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
 				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
-				2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */,
 				2C4E19D3101D23E9004CA39E /* PreferencesDataSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -575,6 +579,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C11C9CF1014037E00A2746E /* Build configuration list for PBXNativeTarget "Preferences" */;
 			buildPhases = (
+				2C4E1BDA101D3958004CA39E /* ShellScript */,
 				2C11C9C51014035800A2746E /* Headers */,
 				2C11C9C61014035800A2746E /* Sources */,
 				2C11C9C71014035800A2746E /* Frameworks */,
@@ -671,6 +676,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
+		};
+		2C4E1BDA101D3958004CA39E /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DERIVED_SOURCES_DIR\nSVN_VERSION=`svnversion $SRC_ROOT` \necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" > $DERIVED_SOURCES_DIR/svnversion.h";
 		};
 		2C72B2B9101ABA9100F10E63 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1001,6 +1019,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Classes";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
 			};
@@ -1013,6 +1032,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Classes";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
 				ZERO_LINK = NO;

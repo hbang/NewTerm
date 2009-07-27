@@ -19,7 +19,6 @@ static const float kDefaultFontSize = 10.0f;
 
 - (id)initWithCoder:(NSCoder *)decoder
 {
-  NSLog(@"a");
   self = [super init];
   if (self != nil) {
     if ([decoder containsValueForKey:@"args"]) {

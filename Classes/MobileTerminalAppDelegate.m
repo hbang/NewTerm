@@ -4,13 +4,25 @@
 #import "MobileTerminalAppDelegate.h"
 #import "MobileTerminalViewController.h"
 
+#import "Preferences/PreferencesDataSource.h"
+#import "Preferences/Settings.h"
+#import "Preferences/MenuSettings.h"
+
+
 @implementation MobileTerminalAppDelegate
 
 @synthesize window;
 @synthesize navigationController;
 @synthesize terminalViewController;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application {    
+- (void)applicationDidFinishLaunching:(UIApplication *)application { 
+  settings = [Settings readSettings];
+  MenuSettings* menuSettings = [settings menuSettings];
+  [menuSettings addItemWithLabel:@"ls" andCommand:@"ls -l"];
+  [menuSettings addItemWithLabel:@"ping" andCommand:@"ping"];
+  [menuSettings addItemWithLabel:@"^C" andCommand:@"\x03"];
+  [[terminalViewController menuView] setMenuSettings:menuSettings];
+  
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
   [window addSubview:terminalViewController.view];
   [window makeKeyAndVisible];

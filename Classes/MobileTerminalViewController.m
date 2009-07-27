@@ -122,6 +122,16 @@
   [menuView setHidden:![menuView isHidden]];
 }
 
+// Invoked when a menu item is clicked, to run the specified command.
+- (void)selectedCommand:(NSString*)command
+{
+  TerminalView* terminalView = [terminalGroupView frontTerminal];
+  [terminalView receiveKeyboardInput:[command dataUsingEncoding:NSUTF8StringEncoding]];
+  
+  // Make the menu disappear
+  [menuView setHidden:YES];
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
 

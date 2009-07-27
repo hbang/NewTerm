@@ -4,12 +4,15 @@
 #import <UIKit/UIKit.h>
 #import "MobileTerminalViewController.h"
 
+@class Settings;
+
 @interface MobileTerminalAppDelegate : NSObject <UIApplicationDelegate,
                                                  MobileTerminalInterfaceDelegate> {
 @private
   UIWindow *window;
   UINavigationController *navigationController;
   MobileTerminalViewController *terminalViewController;
+  Settings* settings;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
