@@ -7,6 +7,11 @@
 
 @implementation Settings
 
+- (id) init
+{
+  return [self initWithCoder:nil];
+}
+
 - (id)initWithCoder:(NSCoder *)decoder
 {
   self = [super init];
@@ -14,7 +19,7 @@
     for (int i = 0; i < TERMINAL_COUNT; ++i) {
       NSString* key = [NSString stringWithFormat:@"terminal%d", i];    
       if ([decoder containsValueForKey:key]) {
-        terminalSettings[i] = [decoder decodeObjectForKey:key];
+        terminalSettings[i] = [[decoder decodeObjectForKey:key] retain];
       } else {
         terminalSettings[i] = [[TerminalSettings alloc] init];
       }

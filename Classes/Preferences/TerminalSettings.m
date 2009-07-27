@@ -14,7 +14,7 @@ static const float kDefaultFontSize = 10.0f;
 
 - (id) init
 {
-  return [self initWithCoder:NULL];
+  return [self initWithCoder:nil];
 }
 
 - (id)initWithCoder:(NSCoder *)decoder

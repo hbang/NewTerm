@@ -48,14 +48,16 @@
 		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
 		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; };
 		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
+		2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CD101D23E9004CA39E /* MenuSettings.h */; };
+		2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19CE101D23E9004CA39E /* MenuSettings.m */; };
+		2C4E19D3101D23E9004CA39E /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CF101D23E9004CA39E /* PreferencesDataSource.h */; };
+		2C4E19D4101D23E9004CA39E /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19D0101D23E9004CA39E /* PreferencesDataSource.m */; };
+		2C4E19D7101D2410004CA39E /* MenuSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */; };
 		2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */; };
 		2C66C084101C47FB00E4189B /* MenuView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C66C083101C47FB00E4189B /* MenuView.m */; };
 		2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C66C155101C54C800E4189B /* QuartzCore.framework */; };
 		2C72B32C101ABC2F00F10E63 /* libPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9C91014035800A2746E /* libPreferences.a */; };
-		2C72B358101ABDC100F10E63 /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA0031018211D00A87594 /* PreferencesDataSource.m */; };
-		2C72B359101ABDCB00F10E63 /* PreferencesDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2CEEA0021018211D00A87594 /* PreferencesDataSource.h */; };
 		2C72B3E3101AC4D100F10E63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
-		2CEEA0041018211D00A87594 /* PreferencesDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2CEEA0031018211D00A87594 /* PreferencesDataSource.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -190,6 +192,12 @@
 		2C11CC8110159F7400A2746E /* TerminalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSettings.m; path = Preferences/TerminalSettings.m; sourceTree = "<group>"; };
 		2C11CC8D1015A58B00A2746E /* FontDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDataSource.h; path = Preferences/FontDataSource.h; sourceTree = "<group>"; };
 		2C11CC8E1015A58B00A2746E /* FontDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontDataSource.m; path = Preferences/FontDataSource.m; sourceTree = "<group>"; };
+		2C4E19CD101D23E9004CA39E /* MenuSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettings.h; path = Preferences/MenuSettings.h; sourceTree = "<group>"; };
+		2C4E19CE101D23E9004CA39E /* MenuSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettings.m; path = Preferences/MenuSettings.m; sourceTree = "<group>"; };
+		2C4E19CF101D23E9004CA39E /* PreferencesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesDataSource.h; path = Preferences/PreferencesDataSource.h; sourceTree = "<group>"; };
+		2C4E19D0101D23E9004CA39E /* PreferencesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSource.m; path = Preferences/PreferencesDataSource.m; sourceTree = "<group>"; };
+		2C4E19D5101D2410004CA39E /* MenuSettingsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettingsTest.h; path = Tests/MenuSettingsTest.h; sourceTree = "<group>"; };
+		2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettingsTest.m; path = Tests/MenuSettingsTest.m; sourceTree = "<group>"; };
 		2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesDataSourceTest.h; path = Tests/PreferencesDataSourceTest.h; sourceTree = "<group>"; };
 		2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesDataSourceTest.m; path = Tests/PreferencesDataSourceTest.m; sourceTree = "<group>"; };
 		2C66C082101C47FB00E4189B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
@@ -197,8 +205,6 @@
 		2C66C155101C54C800E4189B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		2C72B2BB101ABA9100F10E63 /* PreferencesTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PreferencesTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
-		2CEEA0021018211D00A87594 /* PreferencesDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesDataSource.h; sourceTree = "<group>"; };
-		2CEEA0031018211D00A87594 /* PreferencesDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesDataSource.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -271,6 +277,7 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C54C1013A4B700A2746E /* Tests */,
 				2C11C99B1013FEE800A2746E /* Preferences */,
 				2C11C54A1013A4AB00A2746E /* SubProcess */,
 				2C11C9111013F84000A2746E /* Terminal */,
@@ -302,7 +309,6 @@
 		29B97314FDCFA39411CA2CEA /* CustomTemplate */ = {
 			isa = PBXGroup;
 			children = (
-				2C11C54C1013A4B700A2746E /* Tests */,
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
@@ -349,18 +355,18 @@
 		2C11C5491013A4A600A2746E /* VT100 */ = {
 			isa = PBXGroup;
 			children = (
-				2C11C5621013A4E500A2746E /* VT100Types.h */,
-				2C11C5631013A4E500A2746E /* VT100Screen.h */,
-				2C11C5641013A4E500A2746E /* VT100Terminal.h */,
-				2C11C5651013A4E500A2746E /* ColorMap.h */,
-				2C11C5661013A4E500A2746E /* VT100Terminal.m */,
-				2C11C5671013A4E500A2746E /* VT100TextView.m */,
 				2C11C5681013A4E500A2746E /* charmaps.h */,
-				2C11C5691013A4E500A2746E /* VT100.m */,
-				2C11C56A1013A4E500A2746E /* VT100Screen.m */,
-				2C11C56B1013A4E500A2746E /* VT100.h */,
+				2C11C5651013A4E500A2746E /* ColorMap.h */,
 				2C11C56C1013A4E500A2746E /* ColorMap.m */,
+				2C11C56B1013A4E500A2746E /* VT100.h */,
+				2C11C5691013A4E500A2746E /* VT100.m */,
+				2C11C5631013A4E500A2746E /* VT100Screen.h */,
+				2C11C56A1013A4E500A2746E /* VT100Screen.m */,
+				2C11C5641013A4E500A2746E /* VT100Terminal.h */,
+				2C11C5661013A4E500A2746E /* VT100Terminal.m */,
 				2C11C56D1013A4E500A2746E /* VT100TextView.h */,
+				2C11C5671013A4E500A2746E /* VT100TextView.m */,
+				2C11C5621013A4E500A2746E /* VT100Types.h */,
 			);
 			name = VT100;
 			sourceTree = "<group>";
@@ -368,10 +374,10 @@
 		2C11C54A1013A4AB00A2746E /* SubProcess */ = {
 			isa = PBXGroup;
 			children = (
-				2C11C55C1013A4DC00A2746E /* SubProcess.m */,
 				2C11C55D1013A4DC00A2746E /* SubProcess.h */,
-				2C11C55E1013A4DC00A2746E /* PTY.m */,
+				2C11C55C1013A4DC00A2746E /* SubProcess.m */,
 				2C11C55F1013A4DC00A2746E /* PTY.h */,
+				2C11C55E1013A4DC00A2746E /* PTY.m */,
 			);
 			name = SubProcess;
 			sourceTree = "<group>";
@@ -379,14 +385,17 @@
 		2C11C54C1013A4B700A2746E /* Tests */ = {
 			isa = PBXGroup;
 			children = (
+				2C11C5501013A4C800A2746E /* ColorMapTest.h */,
+				2C11C54E1013A4C800A2746E /* ColorMapTest.m */,
+				2C4E19D5101D2410004CA39E /* MenuSettingsTest.h */,
+				2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */,
 				2C66BF8D101C367200E4189B /* PreferencesDataSourceTest.h */,
 				2C66BF8E101C367200E4189B /* PreferencesDataSourceTest.m */,
-				2C11C54E1013A4C800A2746E /* ColorMapTest.m */,
 				2C11C54F1013A4C800A2746E /* VT100Test.h */,
-				2C11C5501013A4C800A2746E /* ColorMapTest.h */,
 				2C11C5511013A4C800A2746E /* VT100Test.m */,
 			);
 			name = Tests;
+			path = ..;
 			sourceTree = "<group>";
 		};
 		2C11C9111013F84000A2746E /* Terminal */ = {
@@ -405,14 +414,16 @@
 		2C11C99B1013FEE800A2746E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
+				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
+				2C4E19CD101D23E9004CA39E /* MenuSettings.h */,
+				2C4E19CE101D23E9004CA39E /* MenuSettings.m */,
+				2C4E19CF101D23E9004CA39E /* PreferencesDataSource.h */,
+				2C4E19D0101D23E9004CA39E /* PreferencesDataSource.m */,
 				2C11CC7E10159F7400A2746E /* Settings.h */,
 				2C11CC7F10159F7400A2746E /* Settings.m */,
 				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
-				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
-				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
-				2CEEA0021018211D00A87594 /* PreferencesDataSource.h */,
-				2CEEA0031018211D00A87594 /* PreferencesDataSource.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -453,10 +464,11 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C72B359101ABDCB00F10E63 /* PreferencesDataSource.h in Headers */,
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
 				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
+				2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */,
+				2C4E19D3101D23E9004CA39E /* PreferencesDataSource.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -696,7 +708,6 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
-				2CEEA0041018211D00A87594 /* PreferencesDataSource.m in Sources */,
 				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -745,10 +756,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C72B358101ABDC100F10E63 /* PreferencesDataSource.m in Sources */,
 				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
 				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
 				2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */,
+				2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */,
+				2C4E19D4101D23E9004CA39E /* PreferencesDataSource.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -756,6 +768,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2C4E19D7101D2410004CA39E /* MenuSettingsTest.m in Sources */,
 				2C66BF8F101C367200E4189B /* PreferencesDataSourceTest.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
