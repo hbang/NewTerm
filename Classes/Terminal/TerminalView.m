@@ -113,6 +113,11 @@ static const char* kProcessExitedMessage =
   }
 }
 
+- (void)fillDataWithSelection:(NSMutableData*)data;
+{
+  return [textView fillDataWithSelection:data];
+}
+
 - (void)setFont:(UIFont*)font
 {
   [textView setFont:font];
@@ -127,6 +132,5 @@ static const char* kProcessExitedMessage =
 {
   return [textView colorMap];
 }
-
 
 @end

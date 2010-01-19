@@ -59,7 +59,7 @@
 - (void)clearSelection;
 - (void)setSelectionStart:(CGPoint)point;
 - (void)setSelectionEnd:(CGPoint)point;
-- (NSData*)selectionContents;
+- (void)fillDataWithSelection:(NSMutableData*)data;
 
 // Gets the terminal (x, y) from a pixel (x, y)
 - (CGPoint)pointFromPosition:(CGPoint)point;

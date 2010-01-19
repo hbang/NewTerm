@@ -105,6 +105,40 @@ static const int kControlCharacter = 0x2022;
   // this text field becomes the first responder.
 }
 
+- (BOOL)canPerformAction:(SEL)action withSender:(id)sender
+{
+  if (action == @selector(copy:)) {
+    // Only show the copy menu if we actually have any data selected
+    NSMutableData* data = [NSMutableData  dataWithCapacity:0];
+    [[terminalKeyboard inputDelegate] fillDataWithSelection:data];
+    return [data length] > 0;
+  }
+  if (action == @selector(paste:)) {
+    // Only paste if the board contains plain text
+    return [[UIPasteboard generalPasteboard] containsPasteboardTypes:UIPasteboardTypeListString];
+  }
+  return NO;
+}
+
+- (void)copy:(id)sender
+{
+  NSMutableData* data = [NSMutableData  dataWithCapacity:0];
+  [[terminalKeyboard inputDelegate] fillDataWithSelection:data];
+  UIPasteboard* pb = [UIPasteboard generalPasteboard];
+  pb.string = [[NSString alloc] initWithData:data 
+                                    encoding:NSUTF8StringEncoding];
+}
+
+- (void)paste:(id)sender
+{
+  UIPasteboard* pb = [UIPasteboard generalPasteboard];
+  if (![pb containsPasteboardTypes:UIPasteboardTypeListString]) {
+    return;
+  }
+  NSData* data = [pb.string dataUsingEncoding:NSUTF8StringEncoding];
+  [[terminalKeyboard inputDelegate] receiveKeyboardInput:data];
+}
+
 @end
 
 

@@ -9,6 +9,7 @@
 @protocol TerminalKeyboardProtocol
 @required
 - (void)receiveKeyboardInput:(NSData*)data;
+- (void)fillDataWithSelection:(NSMutableData*)data;
 @end
 
 // The terminal keyboard.  This is an opaque view that triggers rendering of the

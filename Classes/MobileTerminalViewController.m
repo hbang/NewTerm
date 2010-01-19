@@ -91,7 +91,7 @@
   UITouch* touch = [touches anyObject];
   NSUInteger numTaps = [touch tapCount];
   if (numTaps < 2) {
-    [self.nextResponder touchesBegan:touches withEvent:event];
+    [super touchesBegan:touches withEvent:event];
   } else {
     // Double-tap: Toggle the keyboard
     shouldShowKeyboard = !shouldShowKeyboard;

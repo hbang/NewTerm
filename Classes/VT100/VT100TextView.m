@@ -300,9 +300,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   hasSelection = YES;
 }
 
-- (NSData*)selectionContents
+- (void)fillDataWithSelection:(NSMutableData*)data
 {
-  NSMutableData* data = [NSMutableData dataWithCapacity:0];   
   int currentY = selectionStart.y;
   int maxX = [self width];
   while (currentY <= selectionEnd.y) {
@@ -314,8 +313,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
       buf[x] = row[x].ch;
     }
     [data appendBytes:buf length:(endX - startX)];
+    ++currentY;
   }
-  return [data autorelease];
 }
 
 - (CGPoint)pointFromPosition:(CGPoint)point
