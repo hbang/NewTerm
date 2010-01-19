@@ -118,6 +118,48 @@ static const char* kProcessExitedMessage =
   return [textView fillDataWithSelection:data];
 }
 
+- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesBegan:touches withEvent:event];
+
+  if ([textView hasSelection]) {
+    [textView clearSelection];
+  } else {
+    UITouch *theTouch = [touches anyObject];
+    CGPoint point = [theTouch locationInView:self];
+    [textView setSelectionStart:point];
+    [textView setSelectionEnd:point];
+  }
+}
+
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
+{
+  [super touchesMoved:touches withEvent:event];
+  if ([textView hasSelection]) {
+    UITouch *theTouch = [touches anyObject];
+    CGPoint point = [theTouch locationInView:self];
+    [textView setSelectionEnd:point];
+  }
+}
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+  [super touchesEnded:touches withEvent:event];
+  
+  CGRect rect = [textView cursorRegion];
+  if ([textView hasSelection]) {
+    UITouch *theTouch = [touches anyObject];
+    [textView setSelectionEnd:[theTouch locationInView:self]];
+    rect = [textView selectionRegion];
+    if (fabs(rect.size.width) < 1 && fabs(rect.size.height) < 1) {
+      rect = [textView cursorRegion];
+    }
+  }
+  
+  // bring up editing menu.
+  UIMenuController *theMenu = [UIMenuController sharedMenuController];
+  [theMenu setTargetRect:rect inView:self];
+  [theMenu setMenuVisible:YES animated:YES];
+}
+
 - (void)setFont:(UIFont*)font
 {
   [textView setFont:font];

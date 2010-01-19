@@ -34,8 +34,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     glyphAdvances = (CGSize*)malloc(sizeof(CGSize) * kMaxRowBufferSize);
     // This will populate glphyAdvances with something reasonable
     [self setFont:[UIFont systemFontOfSize:[UIFont smallSystemFontSize]]];
-    
-    hasSelection = NO;
+    [self clearSelection];
   }
   return self;
 }
@@ -156,6 +155,14 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   return i;
 }
 
+- (ScreenPosition)positionFromPoint:(CGPoint)point
+{
+  ScreenPosition pos;
+  pos.x = point.x / fontSize.width;
+  pos.y = (point.y - (fontSize.height / 2)) / fontSize.height;
+  return pos;
+}
+
 - (void)fillRect:(CGRect)rect
      withContext:(CGContextRef)context
        withColor:(CGColorRef)color
@@ -166,13 +173,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)drawCursorBackground:(CGContextRef)context
 {
-  ScreenPosition cursorPosition = [buffer cursorPosition];
-  CGRect cursorRect;
-  cursorRect.origin.x = cursorPosition.x * fontSize.width + 1;
-  cursorRect.origin.y =
-  (cursorPosition.y + 1) * fontSize.height - cursorHeightFromBaseline;
-  cursorRect.size.width = fontSize.width - 1;
-  cursorRect.size.height = cursorHeight;
+  CGRect cursorRect = [self cursorRegion];
   UIColor* cursorColor = [colorMap backgroundCursor];
   [self fillRect:cursorRect
      withContext:context
@@ -181,24 +182,36 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)drawSelectionBackground:(CGContextRef)context
 {
-  if (!hasSelection) {
+  if (![self hasSelection]) {
     return;
   }
+  ScreenPosition startPos = [self positionFromPoint:selectionStart];
+  ScreenPosition endPos = [self positionFromPoint:selectionEnd];
+  if (startPos.x >= endPos.x &&
+      startPos.y >= endPos.y) {
+    ScreenPosition tmp = startPos;
+    startPos = endPos;
+    endPos = tmp;
+  }
+  
   UIColor* selectionColor = [colorMap backgroundCursor];
-  int currentY = selectionStart.y;
+  int currentY = startPos.y;
   int maxX = [self width];
-  while (currentY <= selectionEnd.y) {
-    int startX = (currentY == selectionStart.y) ? selectionStart.x : 0;
-    int endX = (currentY == selectionEnd.y) ? selectionEnd.x : maxX;
-    CGRect selectionRect;
-    selectionRect.origin.x = startX * fontSize.width + 1;
-    selectionRect.origin.y =
-      (currentY + 1) * fontSize.height - cursorHeightFromBaseline;
-    selectionRect.size.width = (endX - startX) * fontSize.width - 1;
-    selectionRect.size.height = cursorHeight;
-    [self fillRect:selectionRect
-       withContext:context
-         withColor:[selectionColor CGColor]];
+  while (currentY <= endPos.y) {
+    int startX = (currentY == startPos.y) ? startPos.x : 0;
+    int endX = (currentY == endPos.y) ? endPos.x : maxX;
+    int width = endX - startX;
+    if (width > 0) {
+      CGRect selectionRect;
+      selectionRect.origin.x = startX * fontSize.width;
+      selectionRect.origin.y =
+        (currentY + 1) * fontSize.height - cursorHeightFromBaseline;
+      selectionRect.size.width = width * fontSize.width;
+      selectionRect.size.height = cursorHeight;
+      [self fillRect:selectionRect
+         withContext:context
+           withColor:[selectionColor CGColor]];
+    }
     currentY++;
   }
 }
@@ -278,49 +291,93 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)clearSelection
 {
-  hasSelection = NO;
+  selectionStart.x = -1;
+  selectionStart.y = -1;
+  selectionEnd.x = -1;
+  selectionEnd.y = -1;
+  [self setNeedsDisplay];
 }
-
 
 - (void)setSelectionStart:(CGPoint)point
 {
   selectionStart = point;
-  if (!hasSelection) {
-    selectionEnd = selectionStart;
-  }
-  hasSelection = YES;
 }
 
 - (void)setSelectionEnd:(CGPoint)point
 {
   selectionEnd = point;
-  if (!hasSelection) {
-    selectionStart = selectionEnd;
-  }
-  hasSelection = YES;
+  [self setNeedsDisplay];
 }
 
 - (void)fillDataWithSelection:(NSMutableData*)data
 {
-  int currentY = selectionStart.y;
+  NSMutableString* s = [[NSMutableString alloc] initWithString:@""];
+
+  ScreenPosition startPos = [self positionFromPoint:selectionStart];
+  ScreenPosition endPos = [self positionFromPoint:selectionEnd];
+  if (startPos.x >= endPos.x &&
+      startPos.y >= endPos.y) {
+    ScreenPosition tmp = startPos;
+    startPos = endPos;
+    endPos = tmp;
+  }
+  
+  int currentY = startPos.y;
   int maxX = [self width];
-  while (currentY <= selectionEnd.y) {
-    int startX = (currentY == selectionStart.y) ? selectionStart.x : 0;
-    int endX = (currentY == selectionEnd.y) ? selectionEnd.x : maxX;
-    screen_char_t* row = [buffer bufferForRow:currentY];
-    char buf[kMaxRowBufferSize];
-    for (int x = startX; x < endX; ++x) {
-      buf[x] = row[x].ch;
+  while (currentY <= endPos.y) {
+    int startX = (currentY == startPos.y) ? startPos.x : 0;
+    int endX = (currentY == endPos.y) ? endPos.x : maxX;
+    int width = endX - startX;
+    if (width > 0) {
+      screen_char_t* row = [buffer bufferForRow:currentY];
+      screen_char_t* col = &row[startX];
+      unichar buf[kMaxRowBufferSize];
+      for (int i = 0; i < width; ++i) {
+        if (col->ch == '\0') {
+          buf[i] = ' ';
+        } else {
+          buf[i] = col->ch;
+        }
+        ++col;
+      }
+      [s appendString:[NSString stringWithCharacters:buf length:width]];
     }
-    [data appendBytes:buf length:(endX - startX)];
     ++currentY;
   }
+  [data appendData:[s dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
-- (CGPoint)pointFromPosition:(CGPoint)point
+- (BOOL)hasSelection
 {
-  return CGPointMake(point.x / fontSize.width,
-                     point.y / fontSize.height);  
+  return selectionStart.x != -1 && selectionStart.y != -1 &&
+         selectionEnd.x != -1 && selectionEnd.y != -1;
+}
+
+- (CGRect)selectionRegion
+{
+  if (selectionStart.x >= selectionEnd.x &&
+      selectionStart.y >= selectionEnd.y) {
+    return CGRectMake(selectionEnd.x,
+                      selectionEnd.y,
+                      selectionStart.x - selectionEnd.x,
+                      selectionStart.y - selectionEnd.y);
+  }
+  return CGRectMake(selectionStart.x,
+                    selectionStart.y,
+                    selectionEnd.x - selectionStart.x,
+                    selectionEnd.y - selectionStart.y);
+}
+
+- (CGRect)cursorRegion
+{
+  ScreenPosition cursorPosition = [buffer cursorPosition];
+  CGRect cursorRect;
+  cursorRect.origin.x = cursorPosition.x * fontSize.width + 1;
+  cursorRect.origin.y =
+      (cursorPosition.y + 1) * fontSize.height - cursorHeightFromBaseline;
+  cursorRect.size.width = fontSize.width - 1;
+  cursorRect.size.height = cursorHeight;  
+  return cursorRect;
 }
 
 @end

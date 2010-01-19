@@ -27,8 +27,8 @@
   // Buffer of characters to draw on the screen, holds up to one row
   CGGlyph* glyphBuffer;
   CGSize* glyphAdvances;
-  
-  BOOL hasSelection;
+
+  // Points on the screen
   CGPoint selectionStart;
   CGPoint selectionEnd;
 }
@@ -50,18 +50,21 @@
 
 - (void)clearScreen;
 
-// Methods for selecting text displayed by the terminal.  This is completely
-// independent of the cursor position.  Text is displayed as selected by
-// changing the background color to be the same as the cursor color.  Perhaps
-// this should be improved to display the same UI as a text field that is
-// selected for copy and paste.  The CGPoints are in terms of terminal height
-// and width, not pixels.
+// Methods for selecting text displayed by the terminal (independent of cursor
+// position).  Selected text is displayed by changing the background color
+// to look like the cursor.  Perhaps this should be improved to display the
+// same UI as a text field that is selected for copy and paste, with selector
+// bars.  The CGPoints are positions in the view
 - (void)clearSelection;
 - (void)setSelectionStart:(CGPoint)point;
 - (void)setSelectionEnd:(CGPoint)point;
+- (BOOL)hasSelection;
+// An approximation of the selection region
+- (CGRect)selectionRegion;
+// Copies the UTF8 text selected on the screen into the specified data object
 - (void)fillDataWithSelection:(NSMutableData*)data;
 
-// Gets the terminal (x, y) from a pixel (x, y)
-- (CGPoint)pointFromPosition:(CGPoint)point;
+// Rectangle that represents the position where the cursor is drawn
+- (CGRect)cursorRegion;
 
 @end
