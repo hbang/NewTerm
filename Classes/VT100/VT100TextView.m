@@ -133,12 +133,11 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   unichar unicharBuffer[kMaxRowBufferSize];
   int j;
   for (j = 0; j < length; ++j) {
-    // Assume there is nothing left to draw on the screen after the first null.
-    // TODO(allen): Is this a correct assumption?
     if (row[j].ch == '\0') {
-      break;
+      unicharBuffer[j] = ' ';
+    } else {
+      unicharBuffer[j] = row[j].ch;
     }
-    unicharBuffer[j] = row[j].ch;
   }
   CGFontGetGlyphsForUnichars(cgFont, unicharBuffer, glyphBuffer, j);
   return j;
@@ -203,7 +202,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   CGAffineTransform xform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
   CGContextSetTextMatrix(context, xform);
     
-  // Walk through the screen and output all characeters to the display
+  // Walk through the screen and output all characters to the display
   ScreenSize screenSize = [buffer screenSize];  
   for (int i = 0; i < screenSize.height; ++i) {
     screen_char_t* row = [buffer bufferForRow:i];
@@ -242,7 +241,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)clearScreen
 {
-  [buffer clearScreen];\
+  [buffer clearScreen];
 }
 
 @end
