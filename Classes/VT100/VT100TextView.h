@@ -27,6 +27,10 @@
   // Buffer of characters to draw on the screen, holds up to one row
   CGGlyph* glyphBuffer;
   CGSize* glyphAdvances;
+  
+  BOOL hasSelection;
+  CGPoint selectionStart;
+  CGPoint selectionEnd;
 }
 
 @property (nonatomic, retain) IBOutlet id <ScreenBuffer> buffer;
@@ -45,5 +49,15 @@
 - (void)readInputStream:(NSData*)data;
 
 - (void)clearScreen;
+
+// Methods for selecting text displayed by the terminal.  This is completely
+// independent of the cursor position.  Text is displayed as selected by
+// changing the background color to be the same as the cursor color.  Perhaps
+// this should be improved to display the same UI as a text field that is
+// selected for copy and paste.
+- (void)clearSelection;
+- (void)setSelectionStart:(CGPoint)point;
+- (void)setSelectionEnd:(CGPoint)point;
+- (NSData*)getSelectionContents;
 
 @end

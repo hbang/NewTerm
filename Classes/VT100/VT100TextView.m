@@ -34,6 +34,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     glyphAdvances = (CGSize*)malloc(sizeof(CGSize) * kMaxRowBufferSize);
     // This will populate glphyAdvances with something reasonable
     [self setFont:[UIFont systemFontOfSize:[UIFont smallSystemFontSize]]];
+    
+    hasSelection = NO;
   }
   return self;
 }
@@ -162,6 +164,46 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   CGContextFillRect(context, rect);
 }
 
+- (void)drawCursorBackground:(CGContextRef)context
+{
+  ScreenPosition cursorPosition = [buffer cursorPosition];
+  CGRect cursorRect;
+  cursorRect.origin.x = cursorPosition.x * fontSize.width + 1;
+  cursorRect.origin.y =
+  (cursorPosition.y + 1) * fontSize.height - cursorHeightFromBaseline;
+  cursorRect.size.width = fontSize.width - 1;
+  cursorRect.size.height = cursorHeight;
+  UIColor* cursorColor = [colorMap backgroundCursor];
+  [self fillRect:cursorRect
+     withContext:context
+       withColor:[cursorColor CGColor]];
+}
+
+- (void)drawSelectionBackground:(CGContextRef)context
+{
+  if (!hasSelection) {
+    return;
+  }
+  UIColor* selectionColor = [colorMap backgroundCursor];
+  int currentY = selectionStart.y;
+  int maxX = [self width];
+  while (currentY <= selectionEnd.y) {
+    int startX = (currentY == selectionStart.y) ? selectionStart.x : 0;
+    int endX = (currentY == selectionEnd.y) ? selectionEnd.x : maxX;
+    CGRect selectionRect;
+    selectionRect.origin.x = startX * fontSize.width + 1;
+    selectionRect.origin.y =
+      (currentY + 1) * fontSize.height - cursorHeightFromBaseline;
+    selectionRect.size.width = (endX - startX) * fontSize.width - 1;
+    selectionRect.size.height = cursorHeight;
+    [self fillRect:selectionRect
+       withContext:context
+         withColor:[selectionColor CGColor]];
+    currentY++;
+  }
+}
+
+
 // TODO(allen): This is by no means complete! The old PTYTextView does a lot
 // more stuff that needs to be ported -- and it also does it quite efficiently.
 - (void)drawRect:(CGRect)rect
@@ -178,21 +220,12 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   [self fillRect:rect
      withContext:context
        withColor:[defaultBackgroundColor CGColor]];
-
+  
   // TODO(allen): It might be nicer to embed this logic into the VT100Terminal
   // foreground/background so that it is handled by the other logic
-  ScreenPosition cursorPosition = [buffer cursorPosition];
-  CGRect cursorRect;
-  cursorRect.origin.x = cursorPosition.x * fontSize.width + 1;
-  cursorRect.origin.y =
-      (cursorPosition.y + 1) * fontSize.height - cursorHeightFromBaseline;
-  cursorRect.size.width = fontSize.width - 1;
-  cursorRect.size.height = cursorHeight;
-  UIColor* cursorColor = [colorMap backgroundCursor];
-  [self fillRect:cursorRect
-     withContext:context
-       withColor:[cursorColor CGColor]];
-  
+  [self drawCursorBackground:context];
+  [self drawSelectionBackground:context];
+    
   // Prepare font for drawing
   CGContextSetFont(context, cgFont);
   CGContextSetFontSize(context, font.pointSize);
@@ -230,7 +263,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   }
 }
 
-- (void)readInputStream:(NSData*)data;
+- (void)readInputStream:(NSData*)data
 {
   // Simply forward the input stream down the VT100 processor.  When it notices
   // changes to the screen, it should invoke our refresh delegate below.
@@ -242,6 +275,47 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 - (void)clearScreen
 {
   [buffer clearScreen];
+}
+
+- (void)clearSelection
+{
+  hasSelection = NO;
+}
+
+- (void)setSelectionStart:(CGPoint)point
+{
+  selectionStart = point;
+  if (!hasSelection) {
+    selectionEnd = selectionStart;
+  }
+  hasSelection = YES;
+}
+
+- (void)setSelectionEnd:(CGPoint)point
+{
+  selectionEnd = point;
+  if (!hasSelection) {
+    selectionStart = selectionEnd;
+  }
+  hasSelection = YES;
+}
+
+- (NSData*)getSelectionContents
+{
+  NSMutableData* data = [NSMutableData dataWithCapacity:0];   
+  int currentY = selectionStart.y;
+  int maxX = [self width];
+  while (currentY <= selectionEnd.y) {
+    int startX = (currentY == selectionStart.y) ? selectionStart.x : 0;
+    int endX = (currentY == selectionEnd.y) ? selectionEnd.x : maxX;
+    screen_char_t* row = [buffer bufferForRow:currentY];
+    char buf[kMaxRowBufferSize];
+    for (int x = startX; x < endX; ++x) {
+      buf[x] = row[x].ch;
+    }
+    [data appendBytes:buf length:(endX - startX)];
+  }
+  return [data autorelease];
 }
 
 @end
