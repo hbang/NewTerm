@@ -203,7 +203,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   }
 }
 
-
 // TODO(allen): This is by no means complete! The old PTYTextView does a lot
 // more stuff that needs to be ported -- and it also does it quite efficiently.
 - (void)drawRect:(CGRect)rect
@@ -282,6 +281,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   hasSelection = NO;
 }
 
+
 - (void)setSelectionStart:(CGPoint)point
 {
   selectionStart = point;
@@ -300,7 +300,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   hasSelection = YES;
 }
 
-- (NSData*)getSelectionContents
+- (NSData*)selectionContents
 {
   NSMutableData* data = [NSMutableData dataWithCapacity:0];   
   int currentY = selectionStart.y;
@@ -316,6 +316,12 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     [data appendBytes:buf length:(endX - startX)];
   }
   return [data autorelease];
+}
+
+- (CGPoint)pointFromPosition:(CGPoint)point
+{
+  return CGPointMake(point.x / fontSize.width,
+                     point.y / fontSize.height);  
 }
 
 @end

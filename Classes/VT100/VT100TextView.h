@@ -41,7 +41,7 @@
 - (void)setFont:(UIFont*)font;
 - (UIFont*)font;
 
-// Returns the height and width of the terminal
+// Returns the height and width of the terminal in characters
 - (int)width;
 - (int)height;
 
@@ -54,10 +54,14 @@
 // independent of the cursor position.  Text is displayed as selected by
 // changing the background color to be the same as the cursor color.  Perhaps
 // this should be improved to display the same UI as a text field that is
-// selected for copy and paste.
+// selected for copy and paste.  The CGPoints are in terms of terminal height
+// and width, not pixels.
 - (void)clearSelection;
 - (void)setSelectionStart:(CGPoint)point;
 - (void)setSelectionEnd:(CGPoint)point;
-- (NSData*)getSelectionContents;
+- (NSData*)selectionContents;
+
+// Gets the terminal (x, y) from a pixel (x, y)
+- (CGPoint)pointFromPosition:(CGPoint)point;
 
 @end
