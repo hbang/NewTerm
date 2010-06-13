@@ -41,6 +41,11 @@
                                                name:UIKeyboardDidHideNotification object:nil];
 }
 
+// TODO(allen): Fix the deprecation of UIKeyboardBoundsUserInfoKey
+// below -- it requires more of a change because the replacement
+// is not available in 3.1.3
+#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
+
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
   if (keyboardShown)
