@@ -1154,7 +1154,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -1165,11 +1167,7 @@
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				WARNING_CFLAGS = (
-					"-Wdeprecated-declarations",
-					"-Werror",
-					"-Wall",
-				);
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Debug;
 		};
@@ -1179,7 +1177,9 @@
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_TREAT_WARNINGS_AS_ERRORS = YES;
 				GCC_VERSION = 4.2;
+				GCC_WARN_ABOUT_DEPRECATED_FUNCTIONS = NO;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -1188,11 +1188,7 @@
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.2;
-				WARNING_CFLAGS = (
-					"-Wdeprecated-declarations",
-					"-Werror",
-					"-Wall",
-				);
+				WARNING_CFLAGS = "-Wall";
 			};
 			name = Release;
 		};
