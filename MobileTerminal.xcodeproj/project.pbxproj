@@ -497,6 +497,7 @@
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
+				9FDE6CBF11C4941300139215 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -727,6 +728,19 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#\n# When compiling for the device, copy term.h from the simulator SDK\n#\n\nif [ $PLATFORM_NAME == \"iphoneos\" ]\nthen\n  # Get the path to the iphone simulator SDK for the same version\n  SIMULATOR_SDK_DIR=${SDK_DIR//iPhoneOS/iPhoneSimulator}\n\n  # Copy to a temporary directory where the build will find the needed\n  # header files.  This directory may not already exist, but is passed\n  # as a header search path when compiling the source files.\n  mkdir -p $DERIVED_SOURCES_DIR\n  cp $SIMULATOR_SDK_DIR/usr/include/ncurses_dll.h $DERIVED_SOURCES_DIR/\n  cp $SIMULATOR_SDK_DIR/usr/include/term.h $DERIVED_SOURCES_DIR/\n\nfi";
+		};
+		9FDE6CBF11C4941300139215 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "export CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nexport CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ]; then\n/Developer/iphoneentitlements312/gen_entitlements.py \"com.googlecode.mobileterminal.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -1138,8 +1152,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -1148,10 +1163,10 @@
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				WARNING_CFLAGS = (
+					"-Wdeprecated-declarations",
 					"-Werror",
 					"-Wall",
 				);
@@ -1162,8 +1177,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "Don't Code Sign";
 				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_VERSION = 4.2;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
@@ -1171,9 +1187,9 @@
 				OTHER_LDFLAGS = "-all_load";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
-				"PROVISIONING_PROFILE[sdk=iphoneos*]" = "";
 				SDKROOT = iphoneos3.2;
 				WARNING_CFLAGS = (
+					"-Wdeprecated-declarations",
 					"-Werror",
 					"-Wall",
 				);

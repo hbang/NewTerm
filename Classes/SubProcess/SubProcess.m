@@ -77,7 +77,7 @@ static int start_process(const char *path,
   window_size.ws_row = kDefaultHeight;
   pid_t pid = forkpty(&fd, NULL, NULL, &window_size);
   if (pid == -1) {
-    [NSException raise:@"IOException"
+    [NSException raise:@"ForkException"
                 format:@"Failed to fork child process (%d: %s)", errno,
                        strerror(errno)];
     return;

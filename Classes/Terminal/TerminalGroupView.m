@@ -35,6 +35,14 @@ static const int NUM_TERMINALS = 4;
   [super dealloc];
 }
 
+- (void)startSubProcess
+{
+  for (int i = 0; i < [terminals count]; ++i) {
+    TerminalView* view = [terminals objectAtIndex:i];
+    [view startSubProcess];
+  }
+}
+
 - (int)terminalCount
 {
   return [terminals count];

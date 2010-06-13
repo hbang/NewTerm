@@ -33,6 +33,9 @@
 - (UIFont*)font;
 - (ColorMap*)colorMap;
 
+// Must be invoked to start the sub processes
+- (void)startSubProcess;
+
 // TerminalKeyboardProtocol
 - (void)receiveKeyboardInput:(NSData*)data;
 

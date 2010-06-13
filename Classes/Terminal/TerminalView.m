@@ -10,12 +10,12 @@
 
 // Initializes the sub process and pty object.  This sets up a listener that
 // invokes a callback when data from the subprocess is available.
-- (void)initSubProcess
+- (void)startSubProcess
 {
   stopped = NO;
   subProcess = [[SubProcess alloc] init];  
   [subProcess start];
-  
+    
   // The PTY will be sized correctly on the first call to layoutSubViews
   pty = [[PTY alloc] initWithFileHandle:[subProcess fileHandle]];
   
@@ -30,6 +30,9 @@
 
 - (void)releaseSubProcess
 {
+  if (subProcess == nil) {
+    return;
+  }
   [[NSNotificationCenter defaultCenter] removeObserver:self];
   
   stopped = YES;
@@ -76,12 +79,10 @@ static const char* kProcessExitedMessage =
 {
   self = [super initWithCoder:decoder];
   if (self != nil) {
+    subProcess = nil;
     textView = [[VT100TextView alloc] initWithCoder:decoder];
     [textView setFrame:self.frame];
     [self addSubview:textView];
-
-    // Start the background terminal process
-    [self initSubProcess];
   }
   return self;
 }
@@ -106,7 +107,7 @@ static const char* kProcessExitedMessage =
   if (stopped) {
     // The sub process previously exited, restart it at the users request.
     [textView clearScreen];
-    [self initSubProcess];
+    [self startSubProcess];
   } else {
     // Forward the data from the keyboard directly to the subprocess
     [[subProcess fileHandle] writeData:data];

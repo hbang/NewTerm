@@ -44,7 +44,6 @@
 // TODO(allen): Fix the deprecation of UIKeyboardBoundsUserInfoKey
 // below -- it requires more of a change because the replacement
 // is not available in 3.1.3
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
@@ -137,8 +136,34 @@
   [menuView setHidden:YES];
 }
 
+- (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex
+{
+  // User clicked the Exit button below
+  exit(0);
+}
+
 - (void)viewDidLoad {
   [super viewDidLoad];
+
+  @try {
+    [terminalGroupView startSubProcess];
+  } @catch (NSException* e) {
+    NSLog(@"Caught %@: %@", [e name], [e reason]);
+    if ([[e name] isEqualToString:@"ForkException"]) {
+      // This happens if we fail to fork for some reason.
+      // TODO(allen): Provide a helpful hint -- a kernel patch?
+      UIAlertView* view =
+      [[UIAlertView alloc] initWithTitle:[e name]
+                                 message:[e reason]
+                                delegate:self
+                       cancelButtonTitle:@"Exit"
+                       otherButtonTitles:NULL];
+      [view show];
+      return;
+    }
+    [e raise];
+    return;
+  }
 
   // TODO(allen):  This should be configurable
   shouldShowKeyboard = YES;

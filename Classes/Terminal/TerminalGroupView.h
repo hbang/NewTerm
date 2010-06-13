@@ -17,6 +17,8 @@
 
 - (id)initWithCoder:(NSCoder *)decoder;
 
+- (void)startSubProcess;
+
 // Makes the specified terminal active
 - (void)bringTerminalToFront:(TerminalView*)terminalView;
 // Returns the active terminal
