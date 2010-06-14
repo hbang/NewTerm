@@ -77,9 +77,14 @@ static int start_process(const char *path,
   window_size.ws_row = kDefaultHeight;
   pid_t pid = forkpty(&fd, NULL, NULL, &window_size);
   if (pid == -1) {
-    [NSException raise:@"ForkException"
-                format:@"Failed to fork child process (%d: %s)", errno,
-                       strerror(errno)];
+    if (errno == EPERM) {
+      [NSException raise:@"ForkException"
+                  format:@"Not allowed to fork from inside Sandbox"];
+    } else {
+      [NSException raise:@"ForkException"
+                  format:@"Failed to fork child process (%d: %s)", errno,
+                          strerror(errno)];
+    }
     return;
   } else if (pid == 0) {
     // Handle the child subprocess
