@@ -16,13 +16,6 @@
 @synthesize terminalViewController;
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application { 
-  settings = [Settings readSettings];
-  MenuSettings* menuSettings = [settings menuSettings];
-  [menuSettings addItemWithLabel:@"ls" andCommand:@"ls -l"];
-  [menuSettings addItemWithLabel:@"ping" andCommand:@"ping"];
-  [menuSettings addItemWithLabel:@"^C" andCommand:@"\x03"];
-  [[terminalViewController menuView] setMenuSettings:menuSettings];
-  
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
   [window addSubview:terminalViewController.view];
   [window makeKeyAndVisible];
@@ -49,10 +42,9 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
   [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight 
                          forView:terminalViewController.view
                            cache:YES];
-  
   [navigationController popViewControllerAnimated:YES];
   [navigationController.view removeFromSuperview];
-  [window addSubview:terminalViewController.view];
+  [window addSubview:terminalViewController.view];  
   [UIView commitAnimations];
 }
 
