@@ -4,7 +4,6 @@
 #import "MobileTerminalAppDelegate.h"
 #import "MobileTerminalViewController.h"
 
-#import "Preferences/PreferencesDataSource.h"
 #import "Preferences/Settings.h"
 #import "Preferences/MenuSettings.h"
 
