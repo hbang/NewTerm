@@ -1,10 +1,5 @@
-//
-//  PreferencesViewController.m
-//  MobileTerminal
-//
-//  Created by Allen Porter on 6/23/10.
-//  Copyright 2010 thebends. All rights reserved.
-//
+// PreferencesViewController.m
+// MobileTerminal
 
 #import "PreferencesViewController.h"
 
@@ -58,12 +53,13 @@
   NSUInteger index = [indexPath indexAtPosition:1];  
   NSString* itemTitle = [sections objectAtIndex:index];
   
-  UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:itemTitle];
+  static NSString *CellIdentifier = @"Cell";
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
     cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
     cell.textLabel.text = itemTitle;
     if ([controllers objectAtIndex:index] != nil) {
-      cell.accessoryType = UITableViewCellAccessoryDetailDisclosureButton;
+      cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
     }
   }
   return cell;
@@ -71,10 +67,10 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSLog(@"didSelectRowAtIndexPath");
   NSUInteger index = [indexPath indexAtPosition:1];  
   UIViewController* itemController = [controllers objectAtIndex:index];
   [self.navigationController pushViewController:itemController animated:YES];
+  itemController.navigationItem.title = [sections objectAtIndex:index];
 }
 
 @end

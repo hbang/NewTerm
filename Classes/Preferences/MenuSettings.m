@@ -3,11 +3,66 @@
 
 #import "MenuSettings.h"
 
+@implementation MenuItem
+
+static NSString* kLabelKey = @"label";
+static NSString* kCommandKey = @"command";
+
+@synthesize label;
+@synthesize command;
+
+- (id)initWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
+{
+  self = [super init];
+  if (self != nil) {
+    label = aLabel;
+    command = aCommand;
+  }
+  return self;
+}
+
++ (MenuItem*)itemWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
+{
+  return [[MenuItem alloc] initWithLabel:aLabel andCommand:aCommand];
+}
+
+- (id)initWithCoder:(NSCoder *)decoder
+{
+  self = [super init];
+  if (self != nil) {
+    if ([decoder containsValueForKey:kLabelKey] &&
+        [decoder containsValueForKey:kCommandKey]) {
+      label = [[decoder decodeObjectForKey:kLabelKey] retain];
+      command = [[decoder decodeObjectForKey:kCommandKey] retain];
+    }
+    if (label == nil || command == nil) {
+      [label release];
+      [command release];
+      label = @"";
+      command = @"";
+    }
+  }
+  return self;
+}
+
+- (void) dealloc
+{
+  [label release];
+  [command release];
+  [super dealloc];
+}
+
+- (void)encodeWithCoder:(NSCoder *)encoder
+{
+  [encoder encodeObject:label forKey:kLabelKey];
+  [encoder encodeObject:command forKey:kCommandKey];
+}
+
+@end
 
 @implementation MenuSettings
 
-static NSString* kLabelsKey = @"labels";
-static NSString* kCommandsKeys = @"commands";
+static NSString* kMenuItemsKey = @"menuitems";
 
 - (id) init
 {
@@ -18,17 +73,11 @@ static NSString* kCommandsKeys = @"commands";
 {
   self = [super init];
   if (self != nil) {
-    if ([decoder containsValueForKey:kLabelsKey] &&
-        [decoder containsValueForKey:kCommandsKeys]) {
-      labels = [[decoder decodeObjectForKey:kLabelsKey] retain];
-      commands = [[decoder decodeObjectForKey:kCommandsKeys] retain];
+    if ([decoder containsValueForKey:kMenuItemsKey]) {
+      menuItems = [[decoder decodeObjectForKey:kMenuItemsKey] retain];
     }
-    if (labels == nil || commands == nil || [labels count] != [commands count]) {
-      [labels release];
-      [commands release];
-      
-      labels = [[NSMutableArray alloc] init];
-      commands = [[NSMutableArray alloc] init];
+    if (menuItems == nil) {
+      menuItems = [[NSMutableArray alloc] init];
     }
   }
   return self;
@@ -36,37 +85,33 @@ static NSString* kCommandsKeys = @"commands";
 
 - (void) dealloc
 {
-  [labels release];
-  [commands release];
+  [menuItems release];
   [super dealloc];
 }
 
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
-  [encoder encodeObject:labels forKey:kLabelsKey];
-  [encoder encodeObject:commands forKey:kCommandsKeys];
+  [encoder encodeObject:menuItems forKey:kMenuItemsKey];
 }
 
-- (int)count
+- (int)menuItemCount
 {
-  return [labels count];
+  return [menuItems count];
 }
 
-- (NSString*)itemLabelAtIndex:(int)index
+- (MenuItem*)menuItemAtIndex:(int)index
 {
-  return [labels objectAtIndex:index];
+  return [menuItems objectAtIndex:index];
 }
 
-- (NSString*)itemCommandAtIndex:(int)index
+- (void)addMenuItem:(MenuItem*)menuItem
 {
-  return [commands objectAtIndex:index];
+  [menuItems addObject:menuItem];
 }
 
-- (void)addItemWithLabel:(NSString*)label andCommand:(NSString*)command
+- (void)removeMenuItemAtIndex:(int)index
 {
-  [labels addObject:label];
-  [commands addObject:command];
+  [menuItems removeObjectAtIndex:index];
 }
-
 
 @end

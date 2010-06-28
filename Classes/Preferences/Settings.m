@@ -55,12 +55,12 @@ static NSString* kTerminalFormatKey = @"terminal%d";
   
   // TODO(allen): Put defaults values in an XML file.  Maybe using an XML file
   // would have been better than using NSUserDefaults.
-  [menuSettings addItemWithLabel:@"ls" andCommand:@"ls"];  
-  [menuSettings addItemWithLabel:@"ls -l" andCommand:@"ls -l\n"];  
-  [menuSettings addItemWithLabel:@"ssh" andCommand:@"ssh "];  
-  [menuSettings addItemWithLabel:@"locate" andCommand:@"locate"];  
-  [menuSettings addItemWithLabel:@"ping www.google.com" andCommand:@"ping www.google.com\n"];  
-  [menuSettings addItemWithLabel:@"^C" andCommand:@"\x03"];  
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ls" andCommand:@"ls"]];
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ls -l" andCommand:@"ls -l\n"]];  
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ssh" andCommand:@"ssh "]];  
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"locate" andCommand:@"locate"]];  
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ping www.google.com" andCommand:@"ping www.google.com\n"]];  
+  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"^C" andCommand:@"\x03"]];  
   
   return self;
 }

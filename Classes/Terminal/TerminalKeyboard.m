@@ -69,7 +69,6 @@ static const int kControlCharacter = 0x2022;
       controlKeyMode = NO;
       // Convert the character to a control key with the same ascii name (or
       // just use the original character if not in the acsii range)
-      // was in ctrl key mode, got another key
       if (c < 0x60 && c > 0x40) {
         // Uppercase (and a few characters nearby, such as escape)
         c -= 0x40;

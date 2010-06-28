@@ -56,6 +56,12 @@
 		2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C66C155101C54C800E4189B /* QuartzCore.framework */; };
 		2C72B32C101ABC2F00F10E63 /* libPreferences.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9C91014035800A2746E /* libPreferences.a */; };
 		2C72B3E3101AC4D100F10E63 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
+		9F24A70111D7C6EF00E6EFC0 /* MenuSettingsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A6FF11D7C6EF00E6EFC0 /* MenuSettingsViewController.h */; };
+		9F24A70211D7C6EF00E6EFC0 /* MenuSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F24A70011D7C6EF00E6EFC0 /* MenuSettingsViewController.m */; };
+		9F24A7FF11D7EE8100E6EFC0 /* MenuEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A7FD11D7EE8100E6EFC0 /* MenuEditViewController.h */; };
+		9F24A80011D7EE8100E6EFC0 /* MenuEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */; };
+		9F24A83811D7F27300E6EFC0 /* BorderedTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */; };
+		9F24A83911D7F27300E6EFC0 /* BorderedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */; };
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
@@ -205,6 +211,12 @@
 		2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PreferencesTests-Info.plist"; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* MobileTerminal_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminal_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "MobileTerminal-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
+		9F24A6FF11D7C6EF00E6EFC0 /* MenuSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettingsViewController.h; path = Preferences/MenuSettingsViewController.h; sourceTree = "<group>"; };
+		9F24A70011D7C6EF00E6EFC0 /* MenuSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettingsViewController.m; path = Preferences/MenuSettingsViewController.m; sourceTree = "<group>"; };
+		9F24A7FD11D7EE8100E6EFC0 /* MenuEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuEditViewController.h; path = Preferences/MenuEditViewController.h; sourceTree = "<group>"; };
+		9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuEditViewController.m; path = Preferences/MenuEditViewController.m; sourceTree = "<group>"; };
+		9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BorderedTextView.h; path = Preferences/BorderedTextView.h; sourceTree = "<group>"; };
+		9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderedTextView.m; path = Preferences/BorderedTextView.m; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
@@ -418,14 +430,20 @@
 			children = (
 				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
 				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
+				9F24A7FD11D7EE8100E6EFC0 /* MenuEditViewController.h */,
+				9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */,
 				2C4E19CD101D23E9004CA39E /* MenuSettings.h */,
 				2C4E19CE101D23E9004CA39E /* MenuSettings.m */,
+				9F24A6FF11D7C6EF00E6EFC0 /* MenuSettingsViewController.h */,
+				9F24A70011D7C6EF00E6EFC0 /* MenuSettingsViewController.m */,
 				9F74BF6F11D326890013DA87 /* PreferencesViewController.h */,
 				9F74BF7011D326890013DA87 /* PreferencesViewController.m */,
 				2C11CC7E10159F7400A2746E /* Settings.h */,
 				2C11CC7F10159F7400A2746E /* Settings.m */,
 				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
+				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
+				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -479,6 +497,9 @@
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
 				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
 				9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */,
+				9F24A70111D7C6EF00E6EFC0 /* MenuSettingsViewController.h in Headers */,
+				9F24A7FF11D7EE8100E6EFC0 /* MenuEditViewController.h in Headers */,
+				9F24A83811D7F27300E6EFC0 /* BorderedTextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -800,6 +821,9 @@
 				2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */,
 				2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */,
 				9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */,
+				9F24A70211D7C6EF00E6EFC0 /* MenuSettingsViewController.m in Sources */,
+				9F24A80011D7EE8100E6EFC0 /* MenuEditViewController.m in Sources */,
+				9F24A83911D7F27300E6EFC0 /* BorderedTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -1,10 +1,5 @@
-//
-//  PreferencesViewController.h
-//  MobileTerminal
-//
-//  Created by Allen Porter on 6/23/10.
-//  Copyright 2010 thebends. All rights reserved.
-//
+// PreferencesViewController.h
+// MobileTerminal
 
 #import <UIKit/UIKit.h>
 

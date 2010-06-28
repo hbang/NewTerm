@@ -36,7 +36,7 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-  return [menuSettings count];
+  return [menuSettings menuItemCount];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -44,14 +44,15 @@
   // This currently only supports one section
   if ([indexPath length] != 2 ||
       [indexPath indexAtPosition:0] != 0 ||
-      [indexPath indexAtPosition:1] > [menuSettings count]) {
+      [indexPath indexAtPosition:1] > [menuSettings menuItemCount]) {
     return nil;
   }
-  NSString* itemTitle = [menuSettings itemLabelAtIndex:[indexPath indexAtPosition:1]];
-  UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:itemTitle];
+  MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
+  static NSString *CellIdentifier = @"Cell";
+  UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
-    cell.textLabel.text = itemTitle;
+    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
+    cell.textLabel.text = menuItem.label;
     cell.textLabel.font = font;
   }
   return cell;
@@ -59,8 +60,8 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-  NSString* itemCommand = [menuSettings itemCommandAtIndex:[indexPath indexAtPosition:1]];
-  [delegate selectedCommand:itemCommand];
+  MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
+  [delegate selectedCommand:menuItem.command];
 }
 
 static const double kAnimationDuration = 0.25f;
@@ -72,6 +73,7 @@ static const double kAnimationDuration = 0.25f;
   if (!isHidden) {
     // When re-displaying the table, start from the top of the menu in a fresh
     // state.
+    [menuTableView reloadData];
     [menuTableView scrollRectToVisible:CGRectMake(0, 0, 1, 1)
                               animated:NO];
     [menuTableView deselectRowAtIndexPath:[menuTableView indexPathForSelectedRow] animated:NO];

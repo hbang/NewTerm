@@ -4,7 +4,8 @@
 #import "TerminalGroupView.h"
 #import "TerminalView.h"
 
-static const int NUM_TERMINALS = 4;
+// TODO(allen): This should be dynamic, or not supported at all.
+static const int NUM_TERMINALS = 2;
 
 @implementation TerminalGroupView
 

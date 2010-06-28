@@ -120,7 +120,7 @@
   [interfaceDelegate preferencesButtonPressed];
 }
 
-// Invoked when the preferences button is pressed
+// Invoked when the menu button is pressed
 - (void)menuButtonPressed:(id)sender 
 {
   [menuView setHidden:![menuView isHidden]];
