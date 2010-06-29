@@ -36,6 +36,7 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
 
 - (void)preferencesDonePressed:(id)sender;
 {
+  [[Settings sharedInstance] persist];
   [UIView beginAnimations:NULL context:NULL];
   [UIView setAnimationDuration:kAnimationDuration];
   [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight 

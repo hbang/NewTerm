@@ -22,9 +22,8 @@
 
 + (Settings*)sharedInstance;
 
-// Read/write the settings from persistent storage
-+ (Settings*)readSettings;
-+ (void)persistSettings:(Settings*)settings;
+// Write the settings to persistent storage
+- (void)persist;
 
 - (id)initWithDefaultValues;
 - (id)initWithCoder:(NSCoder *)decoder;

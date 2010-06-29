@@ -18,29 +18,32 @@ static NSString* kVersionKey = @"version";
 static NSString* kMenuSettings = @"menuSettings";
 static NSString* kTerminalFormatKey = @"terminal%d";
 
+static Settings* settings = nil;
+
++ (void)initialize
+{
+  Settings* settings = [[Settings alloc] initWithDefaultValues];
+  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:settings];
+  [settings release];
+  
+  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+  NSDictionary *appDefaults =
+      [NSDictionary dictionaryWithObject:data forKey:kSettingsKey];
+  [defaults registerDefaults:appDefaults];
+}
+
 + (Settings*)sharedInstance
 {
-  static Settings* settings = nil;
   if (settings == nil) {
-    settings = [Settings readSettings];
+    NSData* data = [[NSUserDefaults standardUserDefaults] dataForKey:kSettingsKey];  
+    settings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
   }
   return settings;
 }
 
-+ (Settings*)readSettings
+- (void)persist
 {
-  NSData* data =
-      [[NSUserDefaults standardUserDefaults] dataForKey:kSettingsKey];  
-  if (data != nil) {
-    return (Settings*)[NSKeyedUnarchiver unarchiveObjectWithData:data];
-  } else {
-    return [[Settings alloc] initWithDefaultValues];
-  }
-}
-
-+ (void)persistSettings:(Settings*)settings
-{
-  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:settings];
+  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSettingsKey];
 }
 
