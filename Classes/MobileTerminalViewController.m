@@ -20,14 +20,10 @@
 @synthesize menuView;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
-- (id)initWithCoder:(NSCoder *)decoder
+- (void)awakeFromNib
 {
-  self = [super initWithCoder:decoder];
-  if (self != nil) {
-    terminalKeyboard = [[TerminalKeyboard alloc] init];
-    keyboardShown = NO;    
-  }
-  return self;
+  terminalKeyboard = [[TerminalKeyboard alloc] init];
+  keyboardShown = NO;    
 }
 
 - (void)registerForKeyboardNotifications

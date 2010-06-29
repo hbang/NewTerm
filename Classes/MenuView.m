@@ -13,14 +13,10 @@
 @synthesize menuSettings;
 @synthesize delegate;
 
-- (id)initWithCoder:(NSCoder *)decoder
+- (void)awakeFromNib
 {
-  self = [super initWithCoder:decoder];
-  if (self != nil) {
-    font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
-    menuSettings = [[Settings sharedInstance] menuSettings];
-  }
-  return self;
+  font = [UIFont systemFontOfSize:[UIFont systemFontSize]];
+  menuSettings = [[Settings sharedInstance] menuSettings];
 }
 
 - (void)dealloc {
