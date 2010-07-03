@@ -117,13 +117,6 @@
 			remoteGlobalIDString = 2C11C57A1013A51E00A2746E;
 			remoteInfo = VT100;
 		};
-		2C11CB5D10143D3500A2746E /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2C11C5B21013A5AF00A2746E;
-			remoteInfo = VT100Tests;
-		};
 		2C11CB6010143D4A00A2746E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -137,13 +130,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 2C11C9C81014035800A2746E;
 			remoteInfo = Preferences;
-		};
-		2C72B2C6101ABAFF00F10E63 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 2C72B2BA101ABA9100F10E63;
-			remoteInfo = PreferencesTests;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -521,9 +507,7 @@
 				2C11C57F1013A53000A2746E /* PBXTargetDependency */,
 				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
 				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
-				2C11CB5E10143D3500A2746E /* PBXTargetDependency */,
 				2C11CB6110143D4A00A2746E /* PBXTargetDependency */,
-				2C72B2C7101ABAFF00F10E63 /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -873,11 +857,6 @@
 			target = 2C11C57A1013A51E00A2746E /* VT100 */;
 			targetProxy = 2C11C9CC1014035F00A2746E /* PBXContainerItemProxy */;
 		};
-		2C11CB5E10143D3500A2746E /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2C11C5B21013A5AF00A2746E /* VT100Tests */;
-			targetProxy = 2C11CB5D10143D3500A2746E /* PBXContainerItemProxy */;
-		};
 		2C11CB6110143D4A00A2746E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 2C11C9C81014035800A2746E /* Preferences */;
@@ -887,11 +866,6 @@
 			isa = PBXTargetDependency;
 			target = 2C11C9C81014035800A2746E /* Preferences */;
 			targetProxy = 2C72B2C0101ABA9600F10E63 /* PBXContainerItemProxy */;
-		};
-		2C72B2C7101ABAFF00F10E63 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 2C72B2BA101ABA9100F10E63 /* PreferencesTests */;
-			targetProxy = 2C72B2C6101ABAFF00F10E63 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
