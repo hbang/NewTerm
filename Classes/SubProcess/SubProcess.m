@@ -92,7 +92,7 @@ static int start_process(const char *path,
     // /bin/sh if that is available.
     char * login_args[] = { "login", "-fp", (char*)username, (char *)0, };
     char * sh_args[] = { "sh", (char *)0, };
-    char * env[] = { "TERM=vt100", (char *)0 };
+    char * env[] = { "TERM=xterm-color", (char *)0 };
     // NOTE: These should never return if successful
     start_process("/usr/bin/login", login_args, env);
     start_process("/bin/login", login_args, env);
