@@ -65,6 +65,7 @@
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
+		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -206,6 +207,8 @@
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
+		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -288,6 +291,8 @@
 				28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */,
 				2C66C082101C47FB00E4189B /* MenuView.h */,
 				2C66C083101C47FB00E4189B /* MenuView.m */,
+				9FF8508C12177F81000CC2A2 /* GestureResponder.h */,
+				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -414,6 +419,8 @@
 		2C11C99B1013FEE800A2746E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
+				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
 				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
 				9F24A7FD11D7EE8100E6EFC0 /* MenuEditViewController.h */,
@@ -428,8 +435,6 @@
 				2C11CC7F10159F7400A2746E /* Settings.m */,
 				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
-				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
-				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 			);
 			name = Preferences;
 			sourceTree = "<group>";
@@ -753,6 +758,7 @@
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
 				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
+				9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

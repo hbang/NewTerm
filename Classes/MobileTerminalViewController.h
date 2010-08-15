@@ -41,6 +41,7 @@
 - (void)preferencesButtonPressed:(id)sender;
 - (void)menuButtonPressed:(id)sender;
 - (void)selectedCommand:(NSString*)command;
+- (void)toggleKeyboard;
 
 @end
 

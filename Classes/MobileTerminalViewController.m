@@ -86,17 +86,10 @@
   }
 }
 
-
-- (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
-  UITouch* touch = [touches anyObject];
-  NSUInteger numTaps = [touch tapCount];
-  if (numTaps < 2) {
-    [super touchesBegan:touches withEvent:event];
-  } else {
-    // Double-tap: Toggle the keyboard
-    shouldShowKeyboard = !shouldShowKeyboard;
-    [self setShowKeyboard:shouldShowKeyboard];
-  }
+- (void)toggleKeyboard
+{
+  shouldShowKeyboard = !shouldShowKeyboard;
+  [self setShowKeyboard:shouldShowKeyboard];
 }
 
 // Invoked when the page control is clicked to make a new terminal active.  The
