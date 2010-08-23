@@ -9,16 +9,20 @@
 
 @class MenuSettings;
 @class TerminalSettings;
+@class GestureSettings;
 
 // Settings for mobile terminal.  This object implements the NSCoding protocol
 // so that the settings can be read and written to the preferences store.
 @interface Settings : NSObject <NSCoding> {
 @private
   MenuSettings* menuSettings;
+  GestureSettings* gestureSettings;
   TerminalSettings* terminalSettings[TERMINAL_COUNT];
 }
 
 @property(nonatomic, retain) MenuSettings* menuSettings;
+@property(nonatomic, retain) GestureSettings* gestureSettings;
+
 
 + (Settings*)sharedInstance;
 

@@ -86,7 +86,7 @@
   }
 }
 
-- (void)toggleKeyboard
+- (void)toggleKeyboard:(id)sender
 {
   shouldShowKeyboard = !shouldShowKeyboard;
   [self setShowKeyboard:shouldShowKeyboard];

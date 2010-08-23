@@ -2,7 +2,9 @@
 // MobileTerminal
 
 #import "GestureResponder.h"
+#import "GestureSettings.h"
 #import "MobileTerminalViewController.h"
+#import "Settings.h"
 
 @implementation GestureResponder
 
@@ -12,8 +14,8 @@
                    action:(SEL)action
 {
   UISwipeGestureRecognizer *swipe =
-  [[UISwipeGestureRecognizer alloc] initWithTarget:self
-                                            action:action];
+    [[UISwipeGestureRecognizer alloc] initWithTarget:self
+                                              action:action];
   swipe.numberOfTouchesRequired = 1;
   swipe.direction = direction;
   UIView* view = [viewController view];
@@ -24,6 +26,18 @@
 - (void)awakeFromNib
 {
   UIView* view = [viewController view];
+  
+  gestureSettings = [[Settings sharedInstance] gestureSettings];
+  
+  // Initialize some additional Terminal gesture actions
+  SelectorGestureAction* toggleKeyboard =
+      [[SelectorGestureAction alloc] initWithTarget:viewController
+                                             action:@selector(toggleKeyboard:)
+                                              label:@"Hide/Show Keyboard"];  
+  // TODO(allen): Add more gestures
+  [gestureSettings addGestureAction:toggleKeyboard];
+  
+  
   
   UITapGestureRecognizer *singleFingerDTap =
       [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -51,7 +65,7 @@
                    action:@selector(handleDownSwipe:)];
 
   [self addSwipeDirection:(UISwipeGestureRecognizerDirectionLeft |
-        UISwipeGestureRecognizerDirectionUp)
+                           UISwipeGestureRecognizerDirectionUp)
                    action:@selector(handleLeftUpSwipe:)];
   [self addSwipeDirection:(UISwipeGestureRecognizerDirectionRight |
                            UISwipeGestureRecognizerDirectionUp)
@@ -64,46 +78,51 @@
                    action:@selector(handleRightDownSwipe:)];
 }
 
+- (void)handleAction:(NSString*)itemLabel
+{
+  NSLog(@"Gesture Invoked: %@", itemLabel);
+  id<GestureAction> action = [gestureSettings gestureActionForItemName:itemLabel];
+  [action performAction];  
+}
+
 - (IBAction)handleSingleDoubleTap:(UIGestureRecognizer*)sender {
-  NSLog(@"single double tap");
-  // TODO(allen): Make configurable
-  [viewController toggleKeyboard];
+  [self handleAction:kGestureSingleDoubleTap];
 }
 
 - (IBAction)handleDoubleDoubleTap:(UIGestureRecognizer*)sender {
-  NSLog(@"double double tap");
+  [self handleAction:kGestureDoubleDoubleTap];
 }
 
 - (IBAction)handleUpSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single up swipe");
+  [self handleAction:kGestureSwipeUp];
 }
 
 - (IBAction)handleDownSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single down swipe");
+  [self handleAction:kGestureSwipeDown];
 }
 
 - (IBAction)handleRightSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single right swipe");
+  [self handleAction:kGestureSwipeRight];
 }
 
 - (IBAction)handleLeftSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single left swipe");
+  [self handleAction:kGestureSwipeLeft];
 }
 
 - (IBAction)handleLeftUpSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single left up swipe");
+  [self handleAction:kGestureSwipeLeftUp];
 }
 
 - (IBAction)handleRightUpSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single right up swipe");
+  [self handleAction:kGestureSwipeRightUp];
 }
 
 - (IBAction)handleLeftDownSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single left down swipe");
+  [self handleAction:kGestureSwipeLeftDown];
 }
 
 - (IBAction)handleRightDownSwipe:(UIGestureRecognizer*)sender {
-  NSLog(@"single right down swipe");
+  [self handleAction:kGestureSwipeRightDown];
 }
 
 @end

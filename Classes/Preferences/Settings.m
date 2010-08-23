@@ -3,6 +3,7 @@
 
 #import "Settings.h"
 
+#import "GestureSettings.h"
 #import "MenuSettings.h"
 #import "TerminalSettings.h"
 
@@ -12,10 +13,12 @@
 @implementation Settings
 
 @synthesize menuSettings;
+@synthesize gestureSettings;
 
 static NSString* kSettingsKey = @"com.googlecode.mobileterminal.Settings";
 static NSString* kVersionKey = @"version";
 static NSString* kMenuSettings = @"menuSettings";
+static NSString* kGestureSettings = @"gestureSettings";
 static NSString* kTerminalFormatKey = @"terminal%d";
 
 static Settings* settings = nil;
@@ -81,6 +84,11 @@ static Settings* settings = nil;
     } else {
       menuSettings = [[MenuSettings alloc] init];
     }
+    if ([decoder containsValueForKey:kGestureSettings]) {
+      gestureSettings = [[decoder decodeObjectForKey:kGestureSettings] retain];
+    } else {
+      gestureSettings = [[GestureSettings alloc] init];
+    }
     for (int i = 0; i < TERMINAL_COUNT; ++i) {
       NSString* key = [NSString stringWithFormat:kTerminalFormatKey, i];    
       if ([decoder containsValueForKey:key]) {
@@ -95,6 +103,8 @@ static Settings* settings = nil;
 
 - (void) dealloc
 {
+  [menuSettings release];
+  [gestureSettings release];
   for (int i = 0; i < TERMINAL_COUNT; ++i) {
     [terminalSettings[i] release];
   }
@@ -107,6 +117,7 @@ static Settings* settings = nil;
   [encoder encodeInt:SVN_VERSION forKey:kVersionKey];
   
   [encoder encodeObject:menuSettings forKey:kMenuSettings];
+  [encoder encodeObject:gestureSettings forKey:kGestureSettings];
   for (int i = 0; i < TERMINAL_COUNT; ++i) {
     NSString* key = [NSString stringWithFormat:kTerminalFormatKey, i];    
     [encoder encodeObject:terminalSettings[i] forKey:key];

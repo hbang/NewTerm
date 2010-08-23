@@ -62,9 +62,15 @@
 		9F24A80011D7EE8100E6EFC0 /* MenuEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */; };
 		9F24A83811D7F27300E6EFC0 /* BorderedTextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */; };
 		9F24A83911D7F27300E6EFC0 /* BorderedTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */; };
+		9F3B52171222140200682793 /* GestureEditViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F3B52151222140200682793 /* GestureEditViewController.h */; };
+		9F3B52181222140200682793 /* GestureEditViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B52161222140200682793 /* GestureEditViewController.m */; };
+		9F3B5244122217C400682793 /* GestureSettingsViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F3B5242122217C400682793 /* GestureSettingsViewController.h */; };
+		9F3B5245122217C400682793 /* GestureSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F3B5243122217C400682793 /* GestureSettingsViewController.m */; };
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
+		9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD244F3121790AF009A71C6 /* GestureSettings.h */; };
+		9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD244F4121790AF009A71C6 /* GestureSettings.m */; };
 		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
 /* End PBXBuildFile section */
 
@@ -204,9 +210,15 @@
 		9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuEditViewController.m; path = Preferences/MenuEditViewController.m; sourceTree = "<group>"; };
 		9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = BorderedTextView.h; path = Preferences/BorderedTextView.h; sourceTree = "<group>"; };
 		9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BorderedTextView.m; path = Preferences/BorderedTextView.m; sourceTree = "<group>"; };
+		9F3B52151222140200682793 /* GestureEditViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureEditViewController.h; path = Preferences/GestureEditViewController.h; sourceTree = "<group>"; };
+		9F3B52161222140200682793 /* GestureEditViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureEditViewController.m; path = Preferences/GestureEditViewController.m; sourceTree = "<group>"; };
+		9F3B5242122217C400682793 /* GestureSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureSettingsViewController.h; path = Preferences/GestureSettingsViewController.h; sourceTree = "<group>"; };
+		9F3B5243122217C400682793 /* GestureSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettingsViewController.m; path = Preferences/GestureSettingsViewController.m; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
+		9FD244F3121790AF009A71C6 /* GestureSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureSettings.h; path = Preferences/GestureSettings.h; sourceTree = "<group>"; };
+		9FD244F4121790AF009A71C6 /* GestureSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettings.m; path = Preferences/GestureSettings.m; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -423,6 +435,12 @@
 				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
 				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
+				9F3B52151222140200682793 /* GestureEditViewController.h */,
+				9F3B52161222140200682793 /* GestureEditViewController.m */,
+				9FD244F3121790AF009A71C6 /* GestureSettings.h */,
+				9FD244F4121790AF009A71C6 /* GestureSettings.m */,
+				9F3B5242122217C400682793 /* GestureSettingsViewController.h */,
+				9F3B5243122217C400682793 /* GestureSettingsViewController.m */,
 				9F24A7FD11D7EE8100E6EFC0 /* MenuEditViewController.h */,
 				9F24A7FE11D7EE8100E6EFC0 /* MenuEditViewController.m */,
 				2C4E19CD101D23E9004CA39E /* MenuSettings.h */,
@@ -491,6 +509,9 @@
 				9F24A70111D7C6EF00E6EFC0 /* MenuSettingsViewController.h in Headers */,
 				9F24A7FF11D7EE8100E6EFC0 /* MenuEditViewController.h in Headers */,
 				9F24A83811D7F27300E6EFC0 /* BorderedTextView.h in Headers */,
+				9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */,
+				9F3B52171222140200682793 /* GestureEditViewController.h in Headers */,
+				9F3B5244122217C400682793 /* GestureSettingsViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -814,6 +835,9 @@
 				9F24A70211D7C6EF00E6EFC0 /* MenuSettingsViewController.m in Sources */,
 				9F24A80011D7EE8100E6EFC0 /* MenuEditViewController.m in Sources */,
 				9F24A83911D7F27300E6EFC0 /* BorderedTextView.m in Sources */,
+				9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */,
+				9F3B52181222140200682793 /* GestureEditViewController.m in Sources */,
+				9F3B5245122217C400682793 /* GestureSettingsViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
