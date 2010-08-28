@@ -21,6 +21,7 @@
 // There is typically only ever one instance of TerminalKeyboard.
 @interface TerminalKeyboard : UIView {
 @private
+  UITextField* inputTextField;
   InputHandler* inputHandler;
   id<TerminalKeyboardProtocol> inputDelegate;
 }

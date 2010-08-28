@@ -3,9 +3,8 @@
 
 #import "TerminalKeyboard.h"
 
-// The InputHandler
-//
-@interface InputHandler : UITextField <UITextFieldDelegate>
+
+@interface InputHandler : NSObject <UITextFieldDelegate>
 {
 @private
   TerminalKeyboard* terminalKeyboard;
@@ -24,17 +23,6 @@
   self = [super init];
   if (self != nil) {
     terminalKeyboard = keyboard;    
-    [self setKeyboardType:UIKeyboardTypeASCIICapable];
-    [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [self setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [self setEnablesReturnKeyAutomatically:NO];
-
-    // To intercept keyboard events we make this object its own delegate.  A
-    // workaround to the fact that we don't get keyboard events for backspaces
-    // in an empty text field is that we put some text in the box, but always
-    // return NO from our delegate method so it is never changed.
-    [self setText:@" "];
-    [self setDelegate:self];
     
     // Data to send in response to a backspace.  This is created now so it is
     // not re-allocated on ever backspace event.
@@ -55,10 +43,10 @@
 // treated as a control character (ie, press dot then C to get control-C).
 static const int kControlCharacter = 0x2022;
   
+
 - (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
                                                        replacementString:(NSString *)string
 {
-
   NSData* data;
   if ([string length] == 0) {
     // An empty replacement string means the backspace key was pressed
@@ -95,20 +83,6 @@ static const int kControlCharacter = 0x2022;
   // Don't let the text get updated so never have to worry about not getting
   // a backspace event.  
   return NO;
-}
-
-- (void)keyboardInputChanged:(id)sender
-{
-  // This is a workaround for a bug either in this code or in the official 3.0
-  // SDK.  Without this overridden method, we get in an infinite loop when
-  // this text field becomes the first responder.
-}
-
-- (void)keyboardInputChangedSelection:(id)sender
-{
-  // This is a workaround for a bug either in this code or in the official 3.0
-  // SDK.  Without this overridden method, we get in an infinite loop when
-  // this text field becomes the first responder.
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -158,9 +132,22 @@ static const int kControlCharacter = 0x2022;
   if (self != nil) {
     [self setOpaque:YES];
     
+    inputTextField = [[UITextField alloc] init];
+    [inputTextField setKeyboardType:UIKeyboardTypeASCIICapable];
+    [inputTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [inputTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [inputTextField setEnablesReturnKeyAutomatically:NO];
+    
+    // To intercept keyboard events we make this object its own delegate.  A
+    // workaround to the fact that we don't get keyboard events for backspaces
+    // in an empty text field is that we put some text in the box, but always
+    // return NO from our delegate method so it is never changed.
+    [inputTextField setText:@" "];
+    [self addSubview:inputTextField];
+    
     // Handles key presses and forward them back to us
     inputHandler = [[InputHandler alloc] initWithTerminalKeyboard:self];
-    [self addSubview:inputHandler];
+    [inputTextField setDelegate:inputHandler];
   }
   return self;
 }
@@ -172,16 +159,16 @@ static const int kControlCharacter = 0x2022;
 - (BOOL)becomeFirstResponder
 {
   // XXX
-  return [inputHandler becomeFirstResponder];
+  return [inputTextField becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder
 {
-  return [inputHandler resignFirstResponder];
+  return [inputTextField resignFirstResponder];
 }
   
 - (void)dealloc {
-  [inputHandler release];
+  [inputTextField release];
   [super dealloc];
 }
 
