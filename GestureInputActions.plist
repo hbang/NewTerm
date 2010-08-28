@@ -18,7 +18,10 @@
 	<string>&#27;</string>
 
 	<string>Backspace</string>
-	<string>&#10;</string>
+	<string>&#8;</string>
+
+	<string>Tab</string>
+	<string>&#9;</string>
 
 	<string>Home</string>
 	<string>&#27;[1~</string>
@@ -39,7 +42,7 @@
 	<string>&#27;[6~</string>
 
 	<string>^C</string>
-	<string>&#03;</string>
+	<string>&#3;</string>
 
 </array>
 </plist>

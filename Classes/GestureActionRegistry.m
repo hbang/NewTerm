@@ -85,7 +85,6 @@
                                               label:@"Hide/Show Keyboard"];  
   [gestureSettings addGestureAction:toggleKeyboard];
 
-  // TODO(allen): Initialize from a .plist of default commands?
   NSString* path =
       [[NSBundle mainBundle] pathForResource:@"GestureInputActions"
                                       ofType:@"plist"]; 
