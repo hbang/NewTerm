@@ -74,7 +74,7 @@ static const int kControlCharacter = 0x2022;
         // Convert newline to a carraige return
         c = 0x0d;
       }
-    }
+    }    
     // Re-encode as UTF8
     NSString* encoded = [NSString stringWithCharacters:&c length:1];
     data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
@@ -82,6 +82,7 @@ static const int kControlCharacter = 0x2022;
   [[terminalKeyboard inputDelegate] receiveKeyboardInput:data];
   // Don't let the text get updated so never have to worry about not getting
   // a backspace event.  
+  [textField setText:@" "];
   return NO;
 }
 
