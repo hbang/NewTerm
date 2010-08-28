@@ -71,6 +71,7 @@
 		9F6B6D5612297447007BAD59 /* Icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D5212297447007BAD59 /* Icon@2x.png */; };
 		9F6B6D5912297452007BAD59 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D5712297452007BAD59 /* Icon-72.png */; };
 		9F6B6D5A12297452007BAD59 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D5812297452007BAD59 /* Icon-Small-50.png */; };
+		9F6B6D7E12297740007BAD59 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D7D12297740007BAD59 /* Default.png */; };
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
@@ -224,6 +225,7 @@
 		9F6B6D5212297447007BAD59 /* Icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon@2x.png"; path = "Resources/Icon@2x.png"; sourceTree = "<group>"; };
 		9F6B6D5712297452007BAD59 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources-iPad/Icon-72.png"; sourceTree = "<group>"; };
 		9F6B6D5812297452007BAD59 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources-iPad/Icon-Small-50.png"; sourceTree = "<group>"; };
+		9F6B6D7D12297740007BAD59 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
@@ -358,6 +360,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9F6B6D7D12297740007BAD59 /* Default.png */,
 				9F6B6D5712297452007BAD59 /* Icon-72.png */,
 				9F6B6D5812297452007BAD59 /* Icon-Small-50.png */,
 				9F6B6D4F12297447007BAD59 /* Icon-Small.png */,
@@ -703,6 +706,7 @@
 				9F6B6D5612297447007BAD59 /* Icon@2x.png in Resources */,
 				9F6B6D5912297452007BAD59 /* Icon-72.png in Resources */,
 				9F6B6D5A12297452007BAD59 /* Icon-Small-50.png in Resources */,
+				9F6B6D7E12297740007BAD59 /* Default.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
