@@ -6,9 +6,13 @@
 @class InputHandler;
 
 // Protocol implemented by listener of keyboard events
-@protocol TerminalKeyboardProtocol
+@protocol TerminalInputProtocol
 @required
 - (void)receiveKeyboardInput:(NSData*)data;
+@end
+
+@protocol TerminalKeyboardProtocol <TerminalInputProtocol>
+@required
 - (void)fillDataWithSelection:(NSMutableData*)data;
 @end
 

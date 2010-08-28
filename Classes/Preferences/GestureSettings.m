@@ -115,10 +115,8 @@ static NoneGestureAction* noneInstance;
     // run time.
     for (int i = 0; i < [self gestureItemCount]; ++i) {
       GestureItem* item = [self gestureItemAtIndex: i];
-      NSLog(@"xx: %@", [item name]);
       if ([decoder containsValueForKey:[item name]]) {
         item.actionLabel = [decoder decodeObjectForKey:[item name]];
-        NSLog(@"lab: %@", [item actionLabel]);
       } else {
         item.actionLabel = [[NoneGestureAction getInstance] label];
       }

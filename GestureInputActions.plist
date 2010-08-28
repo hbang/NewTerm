@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<array>
+	<string>Left Arrow</string>
+	<string>&#27;[D</string>
+
+	<string>Right Arrow</string>
+	<string>&#27;[C</string>
+
+	<string>Up Arrow</string>
+	<string>&#27;[A</string>
+
+	<string>Down Arrow</string>
+	<string>&#27;[B</string>
+
+	<string>Escape</string>
+	<string>&#27;</string>
+
+	<string>Backspace</string>
+	<string>&#10;</string>
+
+	<string>Home</string>
+	<string>&#27;[1~</string>
+
+	<string>End</string>
+	<string>&#27;[4~</string>
+
+	<string>Insert</string>
+	<string>&#27;[2~</string>
+
+	<string>Delete</string>
+	<string>&#27;[3~</string>
+
+	<string>Page Up</string>
+	<string>&#27;[5~</string>
+
+	<string>Page Down</string>
+	<string>&#27;[6~</string>
+
+	<string>^C</string>
+	<string>&#03;</string>
+
+</array>
+</plist>

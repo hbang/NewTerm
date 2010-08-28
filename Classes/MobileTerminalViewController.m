@@ -8,6 +8,7 @@
 #import "Terminal/TerminalGroupView.h"
 #import "Terminal/TerminalView.h"
 #import "MenuView.h"
+#import "GestureActionRegistry.h"
 
 @implementation MobileTerminalViewController
 
@@ -18,6 +19,7 @@
 @synthesize menuButton;
 @synthesize interfaceDelegate;
 @synthesize menuView;
+@synthesize gestureActionRegistry;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (void)awakeFromNib
@@ -100,6 +102,7 @@
   TerminalView* terminalView =
       [terminalGroupView terminalAtIndex:[terminalSelector currentPage]];
   terminalKeyboard.inputDelegate = terminalView;
+  gestureActionRegistry.terminalInput = terminalView;
   [terminalGroupView bringTerminalToFront:terminalView];
 }
 
@@ -208,6 +211,5 @@
   [terminalKeyboard release];
   [super dealloc];
 }
-
 
 @end

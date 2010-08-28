@@ -6,6 +6,7 @@
 
 @class TerminalGroupView;
 @class TerminalKeyboard;
+@class GestureActionRegistry;
 
 // Protocol to get notified about when the preferences button is pressed.
 // TOOD(allen): We should find a better way to do this.
@@ -27,6 +28,7 @@
   UIButton* menuButton;
   MenuView* menuView;
   id<MobileTerminalInterfaceDelegate> interfaceDelegate;
+  GestureActionRegistry* gestureActionRegistry;
 }
 
 @property (nonatomic, retain) IBOutlet UIView* contentView;
@@ -36,6 +38,7 @@
 @property (nonatomic, retain) IBOutlet UIButton* menuButton;
 @property (nonatomic, retain) IBOutlet id<MobileTerminalInterfaceDelegate> interfaceDelegate;
 @property (nonatomic, retain) IBOutlet MenuView* menuView;
+@property (nonatomic, retain) IBOutlet GestureActionRegistry* gestureActionRegistry;
 
 - (void)terminalSelectionDidChange:(id)sender;
 - (void)preferencesButtonPressed:(id)sender;

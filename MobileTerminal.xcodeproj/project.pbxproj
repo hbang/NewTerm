@@ -72,6 +72,8 @@
 		9F6B6D5912297452007BAD59 /* Icon-72.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D5712297452007BAD59 /* Icon-72.png */; };
 		9F6B6D5A12297452007BAD59 /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D5812297452007BAD59 /* Icon-Small-50.png */; };
 		9F6B6D7E12297740007BAD59 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D7D12297740007BAD59 /* Default.png */; };
+		9F6B6D9912297822007BAD59 /* GestureActionRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */; };
+		9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */; };
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
@@ -201,7 +203,6 @@
 		2C4E19CE101D23E9004CA39E /* MenuSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettings.m; path = Preferences/MenuSettings.m; sourceTree = "<group>"; };
 		2C4E19D5101D2410004CA39E /* MenuSettingsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettingsTest.h; path = Tests/MenuSettingsTest.h; sourceTree = "<group>"; };
 		2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettingsTest.m; path = Tests/MenuSettingsTest.m; sourceTree = "<group>"; };
-		2C4E1C22101D3F51004CA39E /* DefaultSettings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = DefaultSettings.plist; path = Resources/DefaultSettings.plist; sourceTree = "<group>"; };
 		2C66C082101C47FB00E4189B /* MenuView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MenuView.h; sourceTree = "<group>"; };
 		2C66C083101C47FB00E4189B /* MenuView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MenuView.m; sourceTree = "<group>"; };
 		2C66C155101C54C800E4189B /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -226,6 +227,9 @@
 		9F6B6D5712297452007BAD59 /* Icon-72.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-72.png"; path = "Resources-iPad/Icon-72.png"; sourceTree = "<group>"; };
 		9F6B6D5812297452007BAD59 /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources-iPad/Icon-Small-50.png"; sourceTree = "<group>"; };
 		9F6B6D7D12297740007BAD59 /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Default.png; path = Resources/Default.png; sourceTree = "<group>"; };
+		9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureActionRegistry.h; sourceTree = "<group>"; };
+		9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureActionRegistry.m; sourceTree = "<group>"; };
+		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
@@ -317,6 +321,8 @@
 				2C66C083101C47FB00E4189B /* MenuView.m */,
 				9FF8508C12177F81000CC2A2 /* GestureResponder.h */,
 				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
+				9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */,
+				9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -372,7 +378,7 @@
 				2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */,
 				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */,
-				2C4E1C22101D3F51004CA39E /* DefaultSettings.plist */,
+				9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -707,6 +713,7 @@
 				9F6B6D5912297452007BAD59 /* Icon-72.png in Resources */,
 				9F6B6D5A12297452007BAD59 /* Icon-Small-50.png in Resources */,
 				9F6B6D7E12297740007BAD59 /* Default.png in Resources */,
+				9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -804,6 +811,7 @@
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
 				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
 				9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */,
+				9F6B6D9912297822007BAD59 /* GestureActionRegistry.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1209,6 +1217,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.2;
@@ -1231,6 +1240,7 @@
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
 				IPHONEOS_DEPLOYMENT_TARGET = 3.1.3;
 				OTHER_LDFLAGS = "-all_load";
+				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PREBINDING = NO;
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos3.2;

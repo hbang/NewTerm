@@ -2,9 +2,9 @@
 // MobileTerminal
 
 #import "GestureResponder.h"
-#import "GestureSettings.h"
 #import "MobileTerminalViewController.h"
-#import "Settings.h"
+#import "Preferences/GestureSettings.h"
+#import "Preferences/Settings.h"
 
 @implementation GestureResponder
 
@@ -28,17 +28,7 @@
   UIView* view = [viewController view];
   
   gestureSettings = [[Settings sharedInstance] gestureSettings];
-  
-  // Initialize some additional Terminal gesture actions
-  SelectorGestureAction* toggleKeyboard =
-      [[SelectorGestureAction alloc] initWithTarget:viewController
-                                             action:@selector(toggleKeyboard:)
-                                              label:@"Hide/Show Keyboard"];  
-  // TODO(allen): Add more gestures
-  [gestureSettings addGestureAction:toggleKeyboard];
-  
-  
-  
+
   UITapGestureRecognizer *singleFingerDTap =
       [[UITapGestureRecognizer alloc] initWithTarget:self
                                               action:@selector(handleSingleDoubleTap:)];
