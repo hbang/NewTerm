@@ -8,8 +8,15 @@
 	<string>${PRODUCT_NAME}</string>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
-	<key>CFBundleIconFile</key>
-	<string>Resources/icon.png</string>
+	<key>CFBundleIconFiles</key>
+	<array>
+		<string>Resources/Icon</string>
+		<string>Resources/Icon@2x</string>
+		<string>Resources/Icon-Small</string>
+		<string>Resources/Icon-Small@2x</string>
+		<string>Resources-iPad/Icon-72</string>
+		<string>Resources-iPad/Icon-Small-50</string>
+	</array>
 	<key>CFBundleIdentifier</key>
 	<string>com.googlecode.mobileterminal.${PRODUCT_NAME:rfc1034identifier}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
