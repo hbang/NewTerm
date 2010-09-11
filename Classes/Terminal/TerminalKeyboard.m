@@ -86,12 +86,49 @@ static const int kControlCharacter = 0x2022;
   return NO;
 }
 
+@end
+
+
+// This text field is the first responder that intercepts keyboard events and
+// copy and paste events.
+@interface TerminalTextField : UITextField
+{
+@private
+  TerminalKeyboard* keyboard;
+}
+@property (nonatomic, retain) TerminalKeyboard* keyboard;
+
+@end
+
+@implementation TerminalTextField
+
+@synthesize keyboard;
+
+- (id)init:(TerminalKeyboard*)theKeyboard
+{
+  self = [super init];
+  if (self != nil) {
+    keyboard = theKeyboard;
+    [self setKeyboardType:UIKeyboardTypeASCIICapable];
+    [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
+    [self setAutocorrectionType:UITextAutocorrectionTypeNo];
+    [self setEnablesReturnKeyAutomatically:NO]; 
+
+    // To intercept keyboard events we make this object its own delegate.  A
+    // workaround to the fact that we don't get keyboard events for backspaces
+    // in an empty text field is that we put some text in the box, but always
+    // return NO from our delegate method so it is never changed.
+    [self setText:@" "];    
+  }
+  return self;
+}
+
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
 {
   if (action == @selector(copy:)) {
     // Only show the copy menu if we actually have any data selected
     NSMutableData* data = [NSMutableData  dataWithCapacity:0];
-    [[terminalKeyboard inputDelegate] fillDataWithSelection:data];
+    [[keyboard inputDelegate] fillDataWithSelection:data];
     return [data length] > 0;
   }
   if (action == @selector(paste:)) {
@@ -104,7 +141,7 @@ static const int kControlCharacter = 0x2022;
 - (void)copy:(id)sender
 {
   NSMutableData* data = [NSMutableData  dataWithCapacity:0];
-  [[terminalKeyboard inputDelegate] fillDataWithSelection:data];
+  [[keyboard inputDelegate] fillDataWithSelection:data];
   UIPasteboard* pb = [UIPasteboard generalPasteboard];
   pb.string = [[NSString alloc] initWithData:data 
                                     encoding:NSUTF8StringEncoding];
@@ -117,7 +154,7 @@ static const int kControlCharacter = 0x2022;
     return;
   }
   NSData* data = [pb.string dataUsingEncoding:NSUTF8StringEncoding];
-  [[terminalKeyboard inputDelegate] receiveKeyboardInput:data];
+  [[keyboard inputDelegate] receiveKeyboardInput:data];
 }
 
 @end
@@ -133,17 +170,7 @@ static const int kControlCharacter = 0x2022;
   if (self != nil) {
     [self setOpaque:YES];
     
-    inputTextField = [[UITextField alloc] init];
-    [inputTextField setKeyboardType:UIKeyboardTypeASCIICapable];
-    [inputTextField setAutocapitalizationType:UITextAutocapitalizationTypeNone];
-    [inputTextField setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [inputTextField setEnablesReturnKeyAutomatically:NO];
-    
-    // To intercept keyboard events we make this object its own delegate.  A
-    // workaround to the fact that we don't get keyboard events for backspaces
-    // in an empty text field is that we put some text in the box, but always
-    // return NO from our delegate method so it is never changed.
-    [inputTextField setText:@" "];
+    inputTextField = [[TerminalTextField alloc] init:self];
     [self addSubview:inputTextField];
     
     // Handles key presses and forward them back to us
