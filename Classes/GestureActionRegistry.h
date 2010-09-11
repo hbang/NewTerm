@@ -7,6 +7,7 @@
 
 @class MobileTerminalViewController;
 @class GestureSettings;
+@class GestureResponder;
 
 // This class is responsible for issueing gesture actions with the settings
 // library.  The gesture actions are things like "hide and show keyboard" or 

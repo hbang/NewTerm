@@ -18,16 +18,18 @@
                                               action:action];
   swipe.numberOfTouchesRequired = 1;
   swipe.direction = direction;
-  UIView* view = [viewController view];
-  [view addGestureRecognizer:swipe];
-  [swipe release];
+  
+  // Add to the list of swipes, but do not register directly.  See the
+  // methods for enabling/disabling swips
+  [swipeGestureRecognizers addObject:swipe];
 }
 
 - (void)awakeFromNib
 {
   UIView* view = [viewController view];
   
-  gestureSettings = [[Settings sharedInstance] gestureSettings];
+  gestureSettings = [[Settings sharedInstance] gestureSettings];    
+  swipeGestureRecognizers = [[NSMutableArray alloc] init];
 
   UITapGestureRecognizer *singleFingerDTap =
       [[UITapGestureRecognizer alloc] initWithTarget:self
@@ -66,6 +68,20 @@
   [self addSwipeDirection:(UISwipeGestureRecognizerDirectionRight |
                            UISwipeGestureRecognizerDirectionDown)
                    action:@selector(handleRightDownSwipe:)];
+}
+
+- (void)setSwipesEnabled:(BOOL)enabled
+{
+  NSLog(@"Swipes enabled: %d", enabled ? 1 : 0);
+  UIView* view = [viewController view];
+  for (int i = 0; i < [swipeGestureRecognizers count]; ++i) {
+    UIGestureRecognizer* swipe = [swipeGestureRecognizers objectAtIndex:i];
+    if (enabled) {
+      [view addGestureRecognizer:swipe];    
+    } else {
+      [view removeGestureRecognizer:swipe];    
+    }
+  }
 }
 
 - (void)handleAction:(NSString*)itemLabel

@@ -8,6 +8,7 @@
 #import "Terminal/TerminalGroupView.h"
 #import "Terminal/TerminalView.h"
 #import "MenuView.h"
+#import "GestureResponder.h"
 #import "GestureActionRegistry.h"
 
 @implementation MobileTerminalViewController
@@ -19,13 +20,18 @@
 @synthesize menuButton;
 @synthesize interfaceDelegate;
 @synthesize menuView;
+@synthesize gestureResponder;
 @synthesize gestureActionRegistry;
 
 // The designated initializer. Override to perform setup that is required before the view is loaded.
 - (void)awakeFromNib
 {
   terminalKeyboard = [[TerminalKeyboard alloc] init];
-  keyboardShown = NO;    
+  keyboardShown = NO;  
+
+  // Copy and paste is off by default
+  copyPasteEnabled = NO;
+  [gestureResponder setSwipesEnabled:YES];
 }
 
 - (void)registerForKeyboardNotifications
@@ -92,6 +98,16 @@
 {
   shouldShowKeyboard = !shouldShowKeyboard;
   [self setShowKeyboard:shouldShowKeyboard];
+}
+
+- (void)toggleCopyPaste:(id)sender;
+{
+  copyPasteEnabled = !copyPasteEnabled;
+  [gestureResponder setSwipesEnabled:!copyPasteEnabled];
+  for (int i = 0; i < [terminalGroupView terminalCount]; ++i) {
+    TerminalView* terminal = [terminalGroupView terminalAtIndex:i];
+    [terminal setCopyPasteEnabled:copyPasteEnabled];
+  }
 }
 
 // Invoked when the page control is clicked to make a new terminal active.  The

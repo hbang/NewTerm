@@ -84,7 +84,12 @@
                                              action:@selector(toggleKeyboard:)
                                               label:@"Hide/Show Keyboard"];  
   [gestureSettings addGestureAction:toggleKeyboard];
-
+  SelectorGestureAction* toggleCopyPaste =
+    [[SelectorGestureAction alloc] initWithTarget:viewController
+                                           action:@selector(toggleCopyPaste:)
+                                            label:@"Enable/Disable Copy & Paste"];  
+  [gestureSettings addGestureAction:toggleCopyPaste];
+  
   NSString* path =
       [[NSBundle mainBundle] pathForResource:@"GestureInputActions"
                                       ofType:@"plist"]; 

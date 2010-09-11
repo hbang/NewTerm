@@ -13,6 +13,7 @@
 - (void)startSubProcess
 {
   stopped = NO;
+  
   subProcess = [[SubProcess alloc] init];  
   [subProcess start];
     
@@ -80,6 +81,7 @@ static const char* kProcessExitedMessage =
   self = [super initWithCoder:decoder];
   if (self != nil) {
     subProcess = nil;
+    copyAndPasteEnabled = NO;
     textView = [[VT100TextView alloc] initWithCoder:decoder];
     [textView setFrame:self.frame];
     [self addSubview:textView];
@@ -121,7 +123,9 @@ static const char* kProcessExitedMessage =
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesBegan:touches withEvent:event];
-
+  if (!copyAndPasteEnabled) {
+    return;
+  }  
   if ([textView hasSelection]) {
     [textView clearSelection];
   } else {
@@ -135,6 +139,9 @@ static const char* kProcessExitedMessage =
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
   [super touchesMoved:touches withEvent:event];
+  if (!copyAndPasteEnabled) {
+    return;
+  }  
   if ([textView hasSelection]) {
     UITouch *theTouch = [touches anyObject];
     CGPoint point = [theTouch locationInView:self];
@@ -144,7 +151,9 @@ static const char* kProcessExitedMessage =
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
   [super touchesEnded:touches withEvent:event];
-  
+  if (!copyAndPasteEnabled) {
+    return;
+  }
   CGRect rect = [textView cursorRegion];
   if ([textView hasSelection]) {
     UITouch *theTouch = [touches anyObject];
@@ -159,6 +168,15 @@ static const char* kProcessExitedMessage =
   UIMenuController *theMenu = [UIMenuController sharedMenuController];
   [theMenu setTargetRect:rect inView:self];
   [theMenu setMenuVisible:YES animated:YES];
+}
+
+- (void)setCopyPasteEnabled:(BOOL)enabled;
+{
+  copyAndPasteEnabled = enabled;
+  // Reset any previous UI state for copy and paste
+  UIMenuController *theMenu = [UIMenuController sharedMenuController];
+  [theMenu setMenuVisible:NO];
+  [textView clearSelection];
 }
 
 - (void)setFont:(UIFont*)font

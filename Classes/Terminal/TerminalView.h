@@ -26,6 +26,9 @@
   // Keeps track of when the subprocess is stopped, so that we know to start
   // a new one on key press.
   BOOL stopped;
+  
+  // Determines if this view responds to touch events as copy and paste
+  BOOL copyAndPasteEnabled;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
@@ -38,5 +41,8 @@
 
 // TerminalKeyboardProtocol
 - (void)receiveKeyboardInput:(NSData*)data;
+
+// Configures terminal behavior for responding to touch events
+- (void)setCopyPasteEnabled:(BOOL)enabled;
 
 @end
