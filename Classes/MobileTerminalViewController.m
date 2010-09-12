@@ -55,6 +55,7 @@
   if (keyboardShown)
     return;
   keyboardShown = YES;
+  shouldShowKeyboard = YES;
 
   NSDictionary* info = [aNotification userInfo];
   
@@ -73,6 +74,7 @@
   if (!keyboardShown)
     return;
   keyboardShown = NO;
+  shouldShowKeyboard = NO;
   
   NSDictionary* info = [aNotification userInfo];
   
