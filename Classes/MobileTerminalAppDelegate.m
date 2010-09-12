@@ -13,8 +13,10 @@
 @synthesize window;
 @synthesize navigationController;
 @synthesize terminalViewController;
+@synthesize preferencesViewController;
 
-- (void)applicationDidFinishLaunching:(UIApplication *)application { 
+- (void)applicationDidFinishLaunching:(UIApplication *)application
+{
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
   [window addSubview:terminalViewController.view];
   [window makeKeyAndVisible];
@@ -29,6 +31,8 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
   [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
                          forView:navigationController.view
                            cache:YES];
+  navigationController.visibleViewController.view = preferencesViewController.view;
+
   [terminalViewController.view removeFromSuperview];
   [window addSubview:navigationController.view];
   [UIView commitAnimations];

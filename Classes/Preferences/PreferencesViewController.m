@@ -18,7 +18,14 @@
 - (void)awakeFromNib
 {
   [super awakeFromNib];
+  NSLog(@"awakeFromNib");
+}
 
+
+- (void)viewDidLoad
+{
+  [super viewDidLoad];
+  NSLog(@"view did load");
   sections = [[NSMutableArray alloc] init];
   controllers = [[NSMutableArray alloc] init];
   [sections addObject:@"Terminal Settings"];
