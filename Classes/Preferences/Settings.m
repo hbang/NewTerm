@@ -67,7 +67,22 @@ static Settings* settings = nil;
   [menuSettings addMenuItem:[MenuItem itemWithLabel:@"locate" andCommand:@"locate"]];  
   [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ping www.google.com" andCommand:@"ping www.google.com\n"]];  
   [menuSettings addMenuItem:[MenuItem itemWithLabel:@"^C" andCommand:@"\x03"]];  
-  
+
+  // Initialize the defaults from the .plist file.
+  NSString* path =
+    [[NSBundle mainBundle] pathForResource:@"GestureDefaults"
+                                    ofType:@"plist"]; 
+  NSDictionary* defaultLabels =
+    [[NSDictionary alloc] initWithContentsOfFile:path];
+  for (int i = 0; i < [gestureSettings gestureItemCount]; ++i) {
+    GestureItem* item = [gestureSettings gestureItemAtIndex: i];
+    NSString* actionLabel = [[defaultLabels objectForKey:[item name]] retain];
+    if (actionLabel != nil) {
+      item.actionLabel = actionLabel;
+    }
+    [actionLabel release];
+  }
+
   return self;
 }
 

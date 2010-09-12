@@ -112,13 +112,11 @@ static NoneGestureAction* noneInstance;
     [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeRightUp]];
     [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeRightDown]];
     // This may load actions that are no longer valid.  Deal with that at
-    // run time.
+    // run time when the gesture is evaluated.  
     for (int i = 0; i < [self gestureItemCount]; ++i) {
       GestureItem* item = [self gestureItemAtIndex: i];
       if ([decoder containsValueForKey:[item name]]) {
         item.actionLabel = [decoder decodeObjectForKey:[item name]];
-      } else {
-        item.actionLabel = [[NoneGestureAction getInstance] label];
       }
     }
     gestureActions = [[NSMutableArray alloc] init];

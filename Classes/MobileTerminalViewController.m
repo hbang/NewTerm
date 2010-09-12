@@ -31,7 +31,6 @@
 
   // Copy and paste is off by default
   copyPasteEnabled = NO;
-  [gestureResponder setSwipesEnabled:YES];
 }
 
 - (void)registerForKeyboardNotifications

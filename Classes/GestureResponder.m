@@ -68,11 +68,11 @@
   [self addSwipeDirection:(UISwipeGestureRecognizerDirectionRight |
                            UISwipeGestureRecognizerDirectionDown)
                    action:@selector(handleRightDownSwipe:)];
+  [self setSwipesEnabled:YES];
 }
 
 - (void)setSwipesEnabled:(BOOL)enabled
 {
-  NSLog(@"Swipes enabled: %d", enabled ? 1 : 0);
   UIView* view = [viewController view];
   for (int i = 0; i < [swipeGestureRecognizers count]; ++i) {
     UIGestureRecognizer* swipe = [swipeGestureRecognizers objectAtIndex:i];
