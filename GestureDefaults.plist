@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Double Tap</key>
+	<string>Hide/Show Keyboard</string>
+	<key>Two Finger Double Tap</key>
+	<string>Enable/Disable Copy &amp; Paste</string>
+	<key>Swipe Up</key>
+	<string>Up Arrow</string>
+	<key>Swipe Down</key>
+	<string>Down Arrow</string>
+	<key>Swipe Left</key>
+	<string>Left Arrow</string>
+	<key>Swipe Right</key>
+	<string>Right Arrow</string>
+</dict>
+</plist>
