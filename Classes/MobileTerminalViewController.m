@@ -3,10 +3,12 @@
 
 #import "MobileTerminalViewController.h"
 
-#import "VT100/ColorMap.h"
 #import "Terminal/TerminalKeyboard.h"
 #import "Terminal/TerminalGroupView.h"
 #import "Terminal/TerminalView.h"
+#import "Preferences/Settings.h"
+#import "Preferences/TerminalSettings.h"
+#import "VT100/ColorMap.h"
 #import "MenuView.h"
 #import "GestureResponder.h"
 #import "GestureActionRegistry.h"
@@ -196,6 +198,14 @@
 - (void)viewDidAppear:(BOOL)animated
 {
   [self setShowKeyboard:shouldShowKeyboard];
+  
+  // Reset the font in case it changed in the preferenes view
+  TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
+  UIFont* font = [settings font];
+  for (int i = 0; i < [terminalGroupView terminalCount]; ++i) {
+    TerminalView* terminalView = [terminalGroupView terminalAtIndex:i];
+    [terminalView setFont:font];
+  }
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {

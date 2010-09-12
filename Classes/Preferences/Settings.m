@@ -3,6 +3,8 @@
 
 #import "Settings.h"
 
+#import <UIKit/UIKit.h>
+
 #import "GestureSettings.h"
 #import "MenuSettings.h"
 #import "TerminalSettings.h"
@@ -14,12 +16,17 @@
 
 @synthesize menuSettings;
 @synthesize gestureSettings;
+@synthesize terminalSettings;
 
 static NSString* kSettingsKey = @"com.googlecode.mobileterminal.Settings";
 static NSString* kVersionKey = @"version";
 static NSString* kMenuSettings = @"menuSettings";
 static NSString* kGestureSettings = @"gestureSettings";
-static NSString* kTerminalFormatKey = @"terminal%d";
+static NSString* kTerminalSettings = @"terminalSettings";
+
+static NSString* kDefaultFontName = @"Courier";
+static const CGFloat kDefaultIPhoneFont = 10.0f;
+static const CGFloat kDefaultIPadFont = 18.0f;
 
 static Settings* settings = nil;
 
@@ -82,7 +89,22 @@ static Settings* settings = nil;
     }
     [actionLabel release];
   }
-
+  
+  
+  // The iPad and iPhone have different default font sizes since the default
+  // font on the iPad looks too small.
+  float defaultFontSize = kDefaultIPhoneFont;
+  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+    defaultFontSize = kDefaultIPadFont;
+  }
+  UIFont* defaultFont = [UIFont fontWithName:kDefaultFontName
+                                        size:defaultFontSize];
+  if (defaultFont != nil) {
+    // If we can't load the preconfigured default font then the terminal will
+    // fall back to the system font.
+    terminalSettings.font = defaultFont;
+  }
+  
   return self;
 }
 
@@ -104,13 +126,10 @@ static Settings* settings = nil;
     } else {
       gestureSettings = [[GestureSettings alloc] init];
     }
-    for (int i = 0; i < TERMINAL_COUNT; ++i) {
-      NSString* key = [NSString stringWithFormat:kTerminalFormatKey, i];    
-      if ([decoder containsValueForKey:key]) {
-        terminalSettings[i] = [[decoder decodeObjectForKey:key] retain];
-      } else {
-        terminalSettings[i] = [[TerminalSettings alloc] init];
-      }
+    if ([decoder containsValueForKey:kTerminalSettings]) {
+      terminalSettings = [[decoder decodeObjectForKey:kTerminalSettings] retain];
+    } else {
+      terminalSettings = [[TerminalSettings alloc] init];
     }
   }
   return self;
@@ -120,9 +139,7 @@ static Settings* settings = nil;
 {
   [menuSettings release];
   [gestureSettings release];
-  for (int i = 0; i < TERMINAL_COUNT; ++i) {
-    [terminalSettings[i] release];
-  }
+  [terminalSettings release];
   [super dealloc];
 }
 
@@ -133,10 +150,7 @@ static Settings* settings = nil;
   
   [encoder encodeObject:menuSettings forKey:kMenuSettings];
   [encoder encodeObject:gestureSettings forKey:kGestureSettings];
-  for (int i = 0; i < TERMINAL_COUNT; ++i) {
-    NSString* key = [NSString stringWithFormat:kTerminalFormatKey, i];    
-    [encoder encodeObject:terminalSettings[i] forKey:key];
-  }
+  [encoder encodeObject:terminalSettings forKey:kTerminalSettings];
 }
 
 @end

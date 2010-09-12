@@ -16,8 +16,6 @@ static const int NUM_TERMINALS = 2;
     terminals = [[NSMutableArray alloc] init];    
     for (int i = 0; i < NUM_TERMINALS; ++i) {
       TerminalView* view = [[TerminalView alloc] initWithCoder:decoder];
-      // TODO(allen): Font and Colors should be configurable.
-      [view setFont:[UIFont fontWithName:@"Courier" size:10.0f]];
       [terminals addObject:view];
       [self addSubview:view];
     }

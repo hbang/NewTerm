@@ -10,8 +10,6 @@
 @synthesize colorMap;
 @synthesize args;
 
-static const float kDefaultFontSize = 10.0f;
-
 - (id) init
 {
   return [self initWithCoder:nil];
@@ -40,7 +38,7 @@ static const float kDefaultFontSize = 10.0f;
       font = [UIFont fontWithName:fontName size:fontSize];
     }
     if (font == nil) {
-      font = [UIFont systemFontOfSize:kDefaultFontSize];      
+      font = [[UIFont systemFontOfSize:[UIFont systemFontSize]] retain];
     }
   }
   return self;

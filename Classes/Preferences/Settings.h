@@ -17,11 +17,12 @@
 @private
   MenuSettings* menuSettings;
   GestureSettings* gestureSettings;
-  TerminalSettings* terminalSettings[TERMINAL_COUNT];
+  TerminalSettings* terminalSettings;
 }
 
 @property(nonatomic, retain) MenuSettings* menuSettings;
 @property(nonatomic, retain) GestureSettings* gestureSettings;
+@property(nonatomic, retain) TerminalSettings* terminalSettings;
 
 
 + (Settings*)sharedInstance;
