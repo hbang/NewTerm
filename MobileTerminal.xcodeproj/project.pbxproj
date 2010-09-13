@@ -77,6 +77,8 @@
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
 		9F86D380123D386A00FAA3C4 /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */; };
+		9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */; };
+		9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
 		9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD244F3121790AF009A71C6 /* GestureSettings.h */; };
 		9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD244F4121790AF009A71C6 /* GestureSettings.m */; };
@@ -234,6 +236,8 @@
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
 		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
+		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
+		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9FD244F3121790AF009A71C6 /* GestureSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureSettings.h; path = Preferences/GestureSettings.h; sourceTree = "<group>"; };
 		9FD244F4121790AF009A71C6 /* GestureSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettings.m; path = Preferences/GestureSettings.m; sourceTree = "<group>"; };
@@ -445,6 +449,8 @@
 		2C11C9111013F84000A2746E /* Terminal */ = {
 			isa = PBXGroup;
 			children = (
+				9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */,
+				9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */,
 				2C11C9251013F85A00A2746E /* TerminalGroupView.h */,
 				2C11C9261013F85A00A2746E /* TerminalGroupView.m */,
 				2C11C9271013F85A00A2746E /* TerminalKeyboard.h */,
@@ -521,6 +527,7 @@
 				2C11C9481013F96400A2746E /* TerminalGroupView.h in Headers */,
 				2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */,
 				2C11C94A1013F96400A2746E /* TerminalView.h in Headers */,
+				9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -856,6 +863,7 @@
 				2C11C9391013F89B00A2746E /* TerminalGroupView.m in Sources */,
 				2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */,
 				2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */,
+				9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
