@@ -30,6 +30,7 @@
 {
   terminalKeyboard = [[TerminalKeyboard alloc] init];
   keyboardShown = NO;  
+  preferencesPressed = NO;
 
   // Copy and paste is off by default
   copyPasteEnabled = NO;
@@ -72,9 +73,18 @@
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
   if (!keyboardShown)
+    preferencesPressed = NO;
     return;
   keyboardShown = NO;
-  shouldShowKeyboard = NO;
+  // If the keyboard is being hidden because the preferences button was pressed
+  // then remember that the keyboard should continue to be shown when returning
+  // back to the terminal screen.
+  if (preferencesPressed) {
+    preferencesPressed = NO;
+    shouldShowKeyboard = YES;
+  } else {
+    shouldShowKeyboard = NO;
+  }
   
   NSDictionary* info = [aNotification userInfo];
   
@@ -128,6 +138,7 @@
 // Invoked when the preferences button is pressed
 - (void)preferencesButtonPressed:(id)sender 
 {
+  preferencesPressed = YES;
   [interfaceDelegate preferencesButtonPressed];
 }
 

@@ -26,6 +26,7 @@
   // If the keyboard is actually shown right now (not if it should be shown)
   BOOL keyboardShown;
   BOOL copyPasteEnabled;
+  BOOL preferencesPressed;
   UIButton* preferencesButton;
   UIButton* menuButton;
   MenuView* menuView;

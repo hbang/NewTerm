@@ -3,8 +3,6 @@
 
 #import <UIKit/UIKit.h>
 
-@class InputHandler;
-
 // Protocol implemented by listener of keyboard events
 @protocol TerminalInputProtocol
 @required
@@ -22,7 +20,7 @@
 @interface TerminalKeyboard : UIView {
 @private
   UITextField* inputTextField;
-  InputHandler* inputHandler;
+  UIResponder* inputHandler;
   id<TerminalKeyboardProtocol> inputDelegate;
 }
 

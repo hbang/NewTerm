@@ -2,125 +2,115 @@
 // MobileTerminal
 
 #import "TerminalKeyboard.h"
+#import "UITextInputBase.h"
 
-
-@interface InputHandler : NSObject <UITextFieldDelegate>
-{
-@private
-  TerminalKeyboard* terminalKeyboard;
-  NSData* backspaceData;
-  
-  // Should the next character pressed be a control character?
-  BOOL controlKeyMode;
-}
-- (id)initWithTerminalKeyboard:(TerminalKeyboard*)keyboard;
-@end
-
-@implementation InputHandler
-
-- (id)initWithTerminalKeyboard:(TerminalKeyboard*)keyboard
-{
-  self = [super init];
-  if (self != nil) {
-    terminalKeyboard = keyboard;    
-    
-    // Data to send in response to a backspace.  This is created now so it is
-    // not re-allocated on ever backspace event.
-    backspaceData = [[NSData alloc] initWithBytes:"\x08" length:1];
-
-    controlKeyMode = FALSE;
-  }
-  return self;
-}
-
-- (void) dealloc
-{
-  [backspaceData release];
-  [super dealloc];
-}
-
-// This is the key that looks like a dot.  When pressed, the next character is
-// treated as a control character (ie, press dot then C to get control-C).
 static const int kControlCharacter = 0x2022;
-  
-
-- (BOOL)textField:(UITextField *)textField shouldChangeCharactersInRange:(NSRange)range 
-                                                       replacementString:(NSString *)string
-{
-  NSData* data;
-  if ([string length] == 0) {
-    // An empty replacement string means the backspace key was pressed
-    data = backspaceData;
-  } else {
-    unichar c = [string characterAtIndex:0];
-    if (controlKeyMode) {
-      controlKeyMode = NO;
-      // Convert the character to a control key with the same ascii name (or
-      // just use the original character if not in the acsii range)
-      if (c < 0x60 && c > 0x40) {
-        // Uppercase (and a few characters nearby, such as escape)
-        c -= 0x40;
-      } else if (c < 0x7B && c > 0x60) {
-        // Lowercase
-        c -= 0x60;
-      }
-    } else {
-      if (c == kControlCharacter) {
-        // Control character was pressed.  The next character will be interpred
-        // as a control key.
-        controlKeyMode = YES;
-        return NO;
-      } else if (c == 0x0a) {
-        // Convert newline to a carraige return
-        c = 0x0d;
-      }
-    }    
-    // Re-encode as UTF8
-    NSString* encoded = [NSString stringWithCharacters:&c length:1];
-    data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
-  }
-  [[terminalKeyboard inputDelegate] receiveKeyboardInput:data];
-  // Don't let the text get updated so never have to worry about not getting
-  // a backspace event.  
-  [textField setText:@" "];
-  return NO;
-}
-
-@end
-
 
 // This text field is the first responder that intercepts keyboard events and
 // copy and paste events.
-@interface TerminalTextField : UITextField
+@interface TerminalKeyInput : UITextInputBase
 {
 @private
-  TerminalKeyboard* keyboard;
+  TerminalKeyboard* keyboard;  
+  NSData* backspaceData;
+  // Should the next character pressed be a control character?
+  BOOL controlKeyMode;  
+
+  // UIKeyInput
+  UITextAutocapitalizationType autocapitalizationType;
+  UITextAutocorrectionType autocorrectionType;
+  BOOL enablesReturnKeyAutomatically;
+  UIKeyboardAppearance keyboardAppearance;
+  UIKeyboardType keyboardType;
+  UIReturnKeyType returnKeyType;
+  BOOL secureTextEntry;
 }
+
 @property (nonatomic, retain) TerminalKeyboard* keyboard;
 
+// UIKeyInput
+@property (nonatomic) UITextAutocapitalizationType autocapitalizationType;
+@property (nonatomic) UITextAutocorrectionType autocorrectionType;
+@property (nonatomic) BOOL enablesReturnKeyAutomatically;
+@property (nonatomic) UIKeyboardAppearance keyboardAppearance;
+@property (nonatomic) UIKeyboardType keyboardType;
+@property (nonatomic) UIReturnKeyType returnKeyType;
+@property (nonatomic, getter=isSecureTextEntry) BOOL secureTextEntry;
 @end
 
-@implementation TerminalTextField
+@implementation TerminalKeyInput
 
 @synthesize keyboard;
+@synthesize autocapitalizationType;
+@synthesize autocorrectionType;
+@synthesize enablesReturnKeyAutomatically;
+@synthesize keyboardAppearance;
+@synthesize keyboardType;
+@synthesize returnKeyType;
+@synthesize secureTextEntry;
 
 - (id)init:(TerminalKeyboard*)theKeyboard
 {
   self = [super init];
   if (self != nil) {
     keyboard = theKeyboard;
-    [self setKeyboardType:UIKeyboardTypeASCIICapable];
     [self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
     [self setAutocorrectionType:UITextAutocorrectionTypeNo];
-    [self setEnablesReturnKeyAutomatically:NO]; 
+    [self setEnablesReturnKeyAutomatically:NO];
+    [self setKeyboardAppearance:UIKeyboardAppearanceDefault];
+    [self setKeyboardType:UIKeyboardTypeASCIICapable];
+    [self setReturnKeyType:UIReturnKeyDefault];
+    [self setSecureTextEntry:NO];
 
-    // To intercept keyboard events we make this object its own delegate.  A
-    // workaround to the fact that we don't get keyboard events for backspaces
-    // in an empty text field is that we put some text in the box, but always
-    // return NO from our delegate method so it is never changed.
-    [self setText:@" "];    
+    // Data to send in response to a backspace.  This is created now so it is
+    // not re-allocated on ever backspace event.
+    backspaceData = [[NSData alloc] initWithBytes:"\x08" length:1];    
+    controlKeyMode = FALSE;
   }
   return self;
+}
+
+- (void)deleteBackward
+{
+  [[keyboard inputDelegate] receiveKeyboardInput:backspaceData];
+}
+
+- (BOOL)hasText
+{
+  // Make sure that the backspace key always works
+  return YES;
+}
+
+- (void)insertText:(NSString *)input
+{
+  // First character is always space (that we set)
+  unichar c = [input characterAtIndex:0];
+  if (controlKeyMode) {
+    controlKeyMode = NO;
+    // Convert the character to a control key with the same ascii name (or
+    // just use the original character if not in the acsii range)
+    if (c < 0x60 && c > 0x40) {
+      // Uppercase (and a few characters nearby, such as escape)
+      c -= 0x40;
+    } else if (c < 0x7B && c > 0x60) {
+      // Lowercase
+      c -= 0x60;
+    }
+  } else {
+    if (c == kControlCharacter) {
+      // Control character was pressed.  The next character will be interpred
+      // as a control key.
+      controlKeyMode = YES;
+      return;
+    } else if (c == 0x0a) {
+      // Convert newline to a carraige return
+      c = 0x0d;
+    }
+  }    
+  // Re-encode as UTF8
+  NSString* encoded = [NSString stringWithCharacters:&c length:1];
+  NSData* data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
+  [[keyboard inputDelegate] receiveKeyboardInput:data];
 }
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender
@@ -157,6 +147,17 @@ static const int kControlCharacter = 0x2022;
   [[keyboard inputDelegate] receiveKeyboardInput:data];
 }
 
+- (BOOL)becomeFirstResponder
+{
+  [super becomeFirstResponder];
+  return YES;
+}
+
+- (BOOL)canBecomeFirstResponder
+{
+  return YES;
+}
+
 @end
 
 
@@ -168,14 +169,9 @@ static const int kControlCharacter = 0x2022;
 {
   self = [super init];
   if (self != nil) {
-    [self setOpaque:YES];
-    
-    inputTextField = [[TerminalTextField alloc] init:self];
+    [self setOpaque:YES];  
+    inputTextField = [[TerminalKeyInput alloc] init:self];
     [self addSubview:inputTextField];
-    
-    // Handles key presses and forward them back to us
-    inputHandler = [[InputHandler alloc] initWithTerminalKeyboard:self];
-    [inputTextField setDelegate:inputHandler];
   }
   return self;
 }
