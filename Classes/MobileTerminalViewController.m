@@ -72,9 +72,10 @@
 
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
-  if (!keyboardShown)
+  if (!keyboardShown) {
     preferencesPressed = NO;
     return;
+  }
   keyboardShown = NO;
   // If the keyboard is being hidden because the preferences button was pressed
   // then remember that the keyboard should continue to be shown when returning
