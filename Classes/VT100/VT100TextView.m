@@ -156,6 +156,51 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   }
 }
 
+- (CFMutableAttributedStringRef)getAttributedStringForRow:(int)rowIndex
+{
+  ScreenSize screenSize = [buffer screenSize];
+  int width = screenSize.width;
+  // TODO(aporter): Make the screen object return an attributed string?
+  screen_char_t* row = [buffer bufferForRow:rowIndex];
+  for (int j = 0; j < width; ++j) {
+    if (row[j].ch == '\0') {
+      unicharBuffer[j] = ' ';
+    } else {
+      unicharBuffer[j] = row[j].ch;
+    }
+  }
+  CFStringRef string = CFStringCreateWithCharacters(NULL, unicharBuffer, width);      
+  CFMutableAttributedStringRef attrString =
+    CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+  CFAttributedStringReplaceString(attrString, CFRangeMake(0, 0), string);
+  CFRelease(string);
+
+  // Update the string with foreground color attributes.  This loop compares the
+  // the foreground colors of characters and sets the attribute when it runs
+  // into a character of a different color.  It runs one extra time to set the
+  // attribute for the run of characters at the end of the line.
+  int lastColorIndex = -1;
+  int lastColor = -1;
+  for (int j = 0; j <= width; ++j) {
+    bool eol = (j == width);  // reached end of line
+    if (eol || row[j].fg_color != lastColor) {
+      if (lastColorIndex != -1) {
+        int length = j - lastColorIndex;
+        CGColorRef color = [[colorMap color:lastColor] CGColor];
+        CFAttributedStringSetAttribute(attrString,
+                                       CFRangeMake(lastColorIndex, length),
+                                       kCTForegroundColorAttributeName, color);
+      }
+      if (!eol) {
+        lastColorIndex = j;
+        lastColor = row[j].fg_color;
+      }
+    }
+  }
+  return attrString;
+}
+  
+  
 // TODO(allen): This is by no means complete! The old PTYTextView does a lot
 // more stuff that needs to be ported -- and it also does it quite efficiently.
 - (void)drawRect:(CGRect)rect
@@ -186,37 +231,18 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   float glyphHeight = [fontMetrics boundingBox].height;
   float glyphDescent = [fontMetrics descent];
   CTFontRef ctFont = [fontMetrics ctFont];
-  for (int i = 0; i < screenSize.height; ++i) {
-    // TODO(aporter): Return an attributed string for the row?
-    screen_char_t* row = [buffer bufferForRow:i];
-    for (int j = 0; j < screenSize.width; ++j) {
-      if (row[j].ch == '\0') {
-        unicharBuffer[j] = ' ';
-      } else {
-        unicharBuffer[j] = row[j].ch;
-      }
-    }
-    CFStringRef string =
-        CFStringCreateWithCharacters(NULL, unicharBuffer, screenSize.width);      
-    CFMutableAttributedStringRef attrString =
-        CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
-    CFAttributedStringReplaceString(attrString, CFRangeMake(0, 0), string);
-    // TODO(allen): Set the color attributes correctly
-    // Create a color and add it as an attribute to the string.
-    CGColorRef color = [[colorMap color:row[0].fg_color] CGColor];
-    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFStringGetLength(string)),
-                                   kCTForegroundColorAttributeName, color);
-    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFStringGetLength(string)),
+  for (int i = 0; i < screenSize.height; ++i) {    
+    CFMutableAttributedStringRef string = [self getAttributedStringForRow:i];    
+    CFAttributedStringSetAttribute(string, CFRangeMake(0, screenSize.width),
                                    kCTFontAttributeName, ctFont);
     
-    CTLineRef line = CTLineCreateWithAttributedString(attrString);
-
+    CTLineRef line = CTLineCreateWithAttributedString(string);
     // The coordinates specified here are the baseline of the line which starts
     // from the top of the next row, plus some offset for the glyph descent
     CGContextSetTextPosition(context, 0.0, (i + 1) * glyphHeight - glyphDescent);
     CTLineDraw(line, context);
     CFRelease(line);
-    CFRelease(attrString);
+    CFRelease(string);
   }
 }
 
