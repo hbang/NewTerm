@@ -809,7 +809,6 @@ static VT100TCC decode_utf8(unsigned char *datap,
                     len -= reqbyte;
                 } else break;
             } else {
-                //NSLog(@"unknown code in UTF8: %d(%c)",*p,*p);
                 *p=UNKNOWN;
                 p++;
                 len--;
@@ -1083,11 +1082,6 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
     }
 
     if (result.type != VT100_WAIT) {
-        /*data = [NSData dataWithBytes:datap length:*rmlen];
-          result.u.string = [[[NSString alloc]
-initWithData:data
-    encoding:encoding]
-    autorelease]; */
         result.u.string =[[[NSString alloc]
             initWithBytes:datap
                    length:*rmlen
@@ -1307,21 +1301,23 @@ initWithData:data
     [streamLock unlock];
 }
 
-- (void)putStreamData:(const char *)data length:(int)length
+- (void)putStreamData:(NSData*)data
 {
-    [streamLock lock];
-    if (current_stream_length + length > total_stream_length) {
-        int n = (length + current_stream_length) / STANDARD_STREAM_SIZE;
+  unsigned char* buffer = (unsigned char*)[data bytes];
+  int length = [data length];
+  [streamLock lock];
+  if (current_stream_length + length > total_stream_length) {
+      int n = (length + current_stream_length) / STANDARD_STREAM_SIZE;
 
-        total_stream_length += n *STANDARD_STREAM_SIZE;
-        STREAM = reallocf(STREAM, total_stream_length);
-    }
+      total_stream_length += n *STANDARD_STREAM_SIZE;
+      STREAM = reallocf(STREAM, total_stream_length);
+  }
 
-    memcpy(STREAM+current_stream_length, data, length);
-    current_stream_length += length;
-    if(current_stream_length == 0)
-        streamOffset = 0;
-    [streamLock unlock];
+  memcpy(STREAM+current_stream_length, buffer, length);
+  current_stream_length += length;
+  if(current_stream_length == 0)
+      streamOffset = 0;
+  [streamLock unlock];
 }
 
 - (VT100TCC)getNextToken

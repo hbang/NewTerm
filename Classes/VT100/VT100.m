@@ -24,6 +24,7 @@ static const int kDefaultHeight = 25;
     screen = [[VT100Screen alloc] init];
     [screen setTerminal:terminal];
     [terminal setScreen:screen];
+    [terminal setEncoding:NSUTF8StringEncoding];
 
     [screen resizeWidth:kDefaultWidth height:kDefaultHeight];
     [screen setRefreshDelegate:self];
@@ -47,11 +48,11 @@ static const int kDefaultHeight = 25;
   [screen resetDirty];
 }
 
-- (void)readInputStream:(const char*)data withLength:(unsigned int)length
+- (void)readInputStream:(NSData*)data
 {
   // Push the input stream into the terminal, then parse the stream back out as
   // a series of tokens and feed them back to the screen
-  [terminal putStreamData:data length:length];
+  [terminal putStreamData:data];
   VT100TCC token;
   while((token = [terminal getNextToken]),
         token.type != VT100_WAIT && token.type != VT100CC_NULL) {

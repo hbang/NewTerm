@@ -53,23 +53,18 @@ void translate(screen_char_t *s, int len)
 void padString(NSString *s, screen_char_t *buf, int fg, int bg, int *len,
         NSStringEncoding encoding)
 {
-    unichar *sc;
     int l=*len;
     int i,j;
-
-    sc = (unichar *) malloc(l *sizeof(unichar));
-    [s getCharacters: sc];
     for(i=j=0;i<l;i++,j++) {
-        buf[j].ch = sc[i];
+        buf[j].ch = [s characterAtIndex:i];
         buf[j].fg_color = fg;
         buf[j].bg_color = bg;
         if (buf[j].ch == 0xfeff || buf[j].ch == 0x200b ||
-                buf[j].ch == 0x200c || buf[j].ch == 0x200d) { //zero width space
+            buf[j].ch == 0x200c || buf[j].ch == 0x200d) { //zero width space
             j--;
         }
     }
     *len=j;
-    free(sc);
 }
 
 // increments line pointer accounting for buffer wrap-around

@@ -3,6 +3,7 @@
 
 #import "VT100TextView.h"
 #import "ColorMap.h"
+#import "FontMetrics.h"
 #import "VT100.h"
 
 // Buffer space used to draw any particular row.  We assume that drawRect is
@@ -30,10 +31,9 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     buffer = vt100;
     colorMap = [[ColorMap alloc] init];
     // Allocate enough space for any row
-    glyphBuffer = (CGGlyph*)malloc(sizeof(CGGlyph) * kMaxRowBufferSize);
-    glyphAdvances = (CGSize*)malloc(sizeof(CGSize) * kMaxRowBufferSize);
-    // This will populate glphyAdvances with something reasonable
-    [self setFont:[UIFont systemFontOfSize:[UIFont smallSystemFontSize]]];
+    unicharBuffer = (unichar*)malloc(sizeof(unichar) * kMaxRowBufferSize);
+    UIFont* font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+    fontMetrics = [[FontMetrics alloc] initWithFont:font];
     [self clearSelection];
   }
   return self;
@@ -41,62 +41,33 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)dealloc
 {
-  CFRelease(cgFont);
   [colorMap release];
   [buffer release];
-  [font release];
   [super dealloc];
 }
 
-// The current method for determining font size is based on assuming that the
-// font is fixed width.  This should be revisited.
-+ (CGSize)computeFontSize:(UIFont*)font
+- (void)setFont:(UIFont*)font;
 {
-  return [@"A" sizeWithFont:font];
-}
-
-- (void)setFont:(UIFont*)newFont;
-{
-  // Release the old font, if it exists (this is a no-op otherwise)
-  CGFontRelease(cgFont);
-  [font release];
-  
-  // Retain the new font, and cache some of its properties that are too 
-  // expensive to look up every time we draw.
-  font = newFont;
-  [font retain];
-  cgFont = CGFontCreateWithFontName((CFStringRef)font.fontName);
-  NSAssert(font != NULL, @"Error in CGFontCreateWithFontName");  
-  fontSize = [VT100TextView computeFontSize:font];
-  // We always use the same advances for every position in a row
-  for (int i = 0; i < kMaxRowBufferSize; ++i) {
-    glyphAdvances[i] = CGSizeMake(fontSize.width, 0);
-  }
+  [fontMetrics release];
+  fontMetrics = [[FontMetrics alloc] initWithFont:font];
   [self setNeedsLayout];
-}
-
-- (UIFont*)font
-{
-  return font;
 }
 
 - (void)layoutSubviews
 {
+  CGSize glyphSize = [fontMetrics boundingBox];
+  
   // Determine the screen size based on the font size
   CGSize frameSize = [self frame].size;
   ScreenSize size;
-  size.width = (int)(frameSize.width / fontSize.width);
-  size.height = (int)(frameSize.height / fontSize.height);
+  size.width = (int)(frameSize.width / glyphSize.width);
+  size.height = (int)(frameSize.height / glyphSize.height);
   // The font size should not be too small that it overflows the glyph buffers.
   // It is not worth the effort to fail gracefully (increasing the buffer size would
   // be better).
   NSParameterAssert(size.width < kMaxRowBufferSize);
   [buffer setScreenSize:size];
-  
-  // The entire cursor height, from the lowest point to the highest point
-  cursorHeight = [font ascender] + (0 - [font descender]);
-  // The cursor height from the baseline
-  cursorHeightFromBaseline = [font ascender];
+
 
   [super layoutSubviews];
 }
@@ -109,39 +80,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 - (int)height
 {
   return [buffer screenSize].height;
-}
-
-// Draw some glyphs on the screen.  The glyphs pointer is typically a pointer
-// into the glyphBuffer.
-- (void)drawCharacters:(CGGlyph*)glyphs
-            withLength:(int)length
-             withColor:(CGColorRef)color
-               atPoint:(CGPoint)point
-            forContext:(CGContextRef)context
-{
-  CGContextSetFillColorWithColor(context, color);
-  CGContextSetTextPosition(context, point.x, point.y);
-  CGContextShowGlyphsWithAdvances(context, glyphs, glyphAdvances, length);
-}
-
-// Populate the glyphBuffer with screen characters for the specified row.  Do
-// this conversion once for the entire row then draw the glyphs on the
-// screen from the buffer batched by adjacent glyphs of the same color.  Returns
-// the actual number of glyphs populated for the row.
-- (int)fillGlyphBufferForRow:(screen_char_t*)row withSize:(int)length
-{
-  NSParameterAssert(length < kMaxRowBufferSize);
-  unichar unicharBuffer[kMaxRowBufferSize];
-  int j;
-  for (j = 0; j < length; ++j) {
-    if (row[j].ch == '\0') {
-      unicharBuffer[j] = ' ';
-    } else {
-      unicharBuffer[j] = row[j].ch;
-    }
-  }
-  CGFontGetGlyphsForUnichars(cgFont, unicharBuffer, glyphBuffer, j);
-  return j;
 }
 
 - (int)adjacentCharactersWithSameColor:(screen_char_t*)data withSize:(int)length
@@ -157,9 +95,11 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (ScreenPosition)positionFromPoint:(CGPoint)point
 {
+  CGSize glyphSize = [fontMetrics boundingBox];
+
   ScreenPosition pos;
-  pos.x = point.x / fontSize.width;
-  pos.y = (point.y - (fontSize.height / 2)) / fontSize.height;
+  pos.x = point.x / glyphSize.width;
+  pos.y = (point.y - (glyphSize.height / 2)) / glyphSize.height;
   return pos;
 }
 
@@ -202,12 +142,12 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     int endX = (currentY == endPos.y) ? endPos.x : maxX;
     int width = endX - startX;
     if (width > 0) {
+      CGSize glyphSize = [fontMetrics boundingBox];
       CGRect selectionRect;
-      selectionRect.origin.x = startX * fontSize.width;
-      selectionRect.origin.y =
-        (currentY + 1) * fontSize.height - cursorHeightFromBaseline;
-      selectionRect.size.width = width * fontSize.width;
-      selectionRect.size.height = cursorHeight;
+      selectionRect.origin.x = startX * glyphSize.width;
+      selectionRect.origin.y =  currentY * glyphSize.height;
+      selectionRect.size.width = width * glyphSize.width;
+      selectionRect.size.height = glyphSize.height;
       [self fillRect:selectionRect
          withContext:context
            withColor:[selectionColor CGColor]];
@@ -221,9 +161,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 - (void)drawRect:(CGRect)rect
 {
   // TODO(allen): We currently draw the entire control instead of just the
-  // rect that we were asked to update
-  NSAssert(font != NULL, @"No font specified");
-  
+  // rect that we were asked to update  
   CGContextRef context = UIGraphicsGetCurrentContext();
   
   // TODO(allen): Draw background color based on the character position.  For
@@ -235,43 +173,50 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   
   // TODO(allen): It might be nicer to embed this logic into the VT100Terminal
   // foreground/background so that it is handled by the other logic
+
   [self drawCursorBackground:context];
   [self drawSelectionBackground:context];
-    
-  // Prepare font for drawing
-  CGContextSetFont(context, cgFont);
-  CGContextSetFontSize(context, font.pointSize);
-    
+  
   // By default, text is drawn upside down.  Apply a transformation to turn
   // orient the text correctly.
   CGAffineTransform xform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
   CGContextSetTextMatrix(context, xform);
-    
   // Walk through the screen and output all characters to the display
-  ScreenSize screenSize = [buffer screenSize];  
+  ScreenSize screenSize = [buffer screenSize];
+  float glyphHeight = [fontMetrics boundingBox].height;
+  float glyphDescent = [fontMetrics descent];
+  CTFontRef ctFont = [fontMetrics ctFont];
   for (int i = 0; i < screenSize.height; ++i) {
+    // TODO(aporter): Return an attributed string for the row?
     screen_char_t* row = [buffer bufferForRow:i];
-
-    // Convert all on screen characters to their equivalent glyphs at once.
-    int glpyhs = [self fillGlyphBufferForRow:row withSize:screenSize.width];
-    
-    // In order to minimize the number of calls into CoreGraphics routines for
-    // drawing text, walk each character until a different foreground color is
-    // found.
-    int j = 0;
-    while (j < glpyhs) {
-      int adjacent = [self adjacentCharactersWithSameColor:(row + j)
-                                                  withSize:(glpyhs - j)];
-      CGPoint point = CGPointMake(j * fontSize.width,
-                                  (i + 1) * fontSize.height);
-      CGColorRef color = [[colorMap color:row[j].fg_color] CGColor];
-      [self drawCharacters:(glyphBuffer + j)
-                withLength:adjacent
-                 withColor:color
-                   atPoint:point
-                forContext:context];
-      j += adjacent;
+    for (int j = 0; j < screenSize.width; ++j) {
+      if (row[j].ch == '\0') {
+        unicharBuffer[j] = ' ';
+      } else {
+        unicharBuffer[j] = row[j].ch;
+      }
     }
+    CFStringRef string =
+        CFStringCreateWithCharacters(NULL, unicharBuffer, screenSize.width);      
+    CFMutableAttributedStringRef attrString =
+        CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
+    CFAttributedStringReplaceString(attrString, CFRangeMake(0, 0), string);
+    // TODO(allen): Set the color attributes correctly
+    // Create a color and add it as an attribute to the string.
+    CGColorRef color = [[colorMap color:row[0].fg_color] CGColor];
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFStringGetLength(string)),
+                                   kCTForegroundColorAttributeName, color);
+    CFAttributedStringSetAttribute(attrString, CFRangeMake(0, CFStringGetLength(string)),
+                                   kCTFontAttributeName, ctFont);
+    
+    CTLineRef line = CTLineCreateWithAttributedString(attrString);
+
+    // The coordinates specified here are the baseline of the line which starts
+    // from the top of the next row, plus some offset for the glyph descent
+    CGContextSetTextPosition(context, 0.0, (i + 1) * glyphHeight - glyphDescent);
+    CTLineDraw(line, context);
+    CFRelease(line);
+    CFRelease(attrString);
   }
 }
 
@@ -279,9 +224,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 {
   // Simply forward the input stream down the VT100 processor.  When it notices
   // changes to the screen, it should invoke our refresh delegate below.
-  // TODO(allen): The ScreenBuffer interface should just deal with NSData
-  // directly.
-  [buffer readInputStream:(const char*)[data bytes] withLength:[data length]];
+  [buffer readInputStream:data];
 }
 
 - (void)clearScreen
@@ -370,13 +313,13 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (CGRect)cursorRegion
 {
+  CGSize glyphSize = [fontMetrics boundingBox];
   ScreenPosition cursorPosition = [buffer cursorPosition];
   CGRect cursorRect;
-  cursorRect.origin.x = cursorPosition.x * fontSize.width + 1;
-  cursorRect.origin.y =
-      (cursorPosition.y + 1) * fontSize.height - cursorHeightFromBaseline;
-  cursorRect.size.width = fontSize.width - 1;
-  cursorRect.size.height = cursorHeight;  
+  cursorRect.origin.x = cursorPosition.x * glyphSize.width;
+  cursorRect.origin.y = cursorPosition.y * glyphSize.height;
+  cursorRect.size.width = glyphSize.width;
+  cursorRect.size.height = glyphSize.height;  
   return cursorRect;
 }
 

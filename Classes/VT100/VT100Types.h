@@ -37,7 +37,7 @@ typedef struct {
 - (ScreenPosition)cursorPosition;
 
 - (screen_char_t*)bufferForRow:(int)row;
-- (void)readInputStream:(const char*)data withLength:(unsigned int)length;
+- (void)readInputStream:(NSData*)data;
 
 - (void)clearScreen;
 

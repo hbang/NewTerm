@@ -33,7 +33,6 @@
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)setFont:(UIFont*)font;
-- (UIFont*)font;
 - (ColorMap*)colorMap;
 
 // Must be invoked to start the sub processes

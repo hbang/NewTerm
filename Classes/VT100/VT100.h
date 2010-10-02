@@ -34,7 +34,7 @@
 
 // Reads raw character data into the terminal character processor.  This will
 // almost certainly cause updates to the screen buffer.
-- (void)readInputStream:(const char*)data withLength:(unsigned int)length;
+- (void)readInputStream:(NSData*)data;
 
 // ScreenBuffer methods for obtaining information about the characters
 // currently on the screen.

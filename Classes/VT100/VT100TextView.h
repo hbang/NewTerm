@@ -5,7 +5,9 @@
 // can be fed VT100 character stream data in chunks which is then rendered.
 
 #import <UIKit/UIKit.h>
+#import <CoreText/CoreText.h>
 
+@class FontMetrics;
 @class ColorMap;
 @class VT100;
 @protocol ScreenBuffer;
@@ -14,19 +16,12 @@
 @interface VT100TextView : UIView {
 @private
   id <ScreenBuffer> buffer;
-  UIFont* font;
-  CGSize fontSize;  
-  CGFontRef cgFont;
-
-  // Total height of the cursor, including what dips below the baseline
-  CGFloat cursorHeight;
-  CGFloat cursorHeightFromBaseline;
+  FontMetrics* fontMetrics;
   
   ColorMap* colorMap;
   
   // Buffer of characters to draw on the screen, holds up to one row
-  CGGlyph* glyphBuffer;
-  CGSize* glyphAdvances;
+  unichar* unicharBuffer;
 
   // Points on the screen
   CGPoint selectionStart;
@@ -39,7 +34,6 @@
 // Sets the font to display on the screen.  This will likely change the width
 // and height of the terminal.
 - (void)setFont:(UIFont*)font;
-- (UIFont*)font;
 
 // Returns the height and width of the terminal in characters
 - (int)width;

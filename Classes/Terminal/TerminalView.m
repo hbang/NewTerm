@@ -184,11 +184,6 @@ static const char* kProcessExitedMessage =
   [textView setFont:font];
 }
 
-- (UIFont*)font
-{
-  return [textView font];
-}
-
 - (ColorMap*)colorMap
 {
   return [textView colorMap];
