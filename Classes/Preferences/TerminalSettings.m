@@ -10,6 +10,10 @@
 @synthesize colorMap;
 @synthesize args;
 
+static NSString* kDefaultFontName = @"Courier";
+static const CGFloat kDefaultIPhoneFont = 10.0f;
+static const CGFloat kDefaultIPadFont = 18.0f;
+
 - (id) init
 {
   return [self initWithCoder:nil];
@@ -37,7 +41,17 @@
       CGFloat fontSize = [decoder decodeFloatForKey:@"fontSize"];
       font = [UIFont fontWithName:fontName size:fontSize];
     }
+    if (font == nil) { 
+      // The iPad and iPhone have different default font sizes since the default
+      // font on the iPad looks too small.
+      float defaultFontSize = kDefaultIPhoneFont;
+      if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+        defaultFontSize = kDefaultIPadFont;
+      }
+      font = [UIFont fontWithName:kDefaultFontName size:defaultFontSize];
+    }
     if (font == nil) {
+      NSLog(@"Default font unavailable, using system font");
       font = [[UIFont systemFontOfSize:[UIFont systemFontSize]] retain];
     }
   }

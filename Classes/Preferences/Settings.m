@@ -24,10 +24,6 @@ static NSString* kMenuSettings = @"menuSettings";
 static NSString* kGestureSettings = @"gestureSettings";
 static NSString* kTerminalSettings = @"terminalSettings";
 
-static NSString* kDefaultFontName = @"Courier";
-static const CGFloat kDefaultIPhoneFont = 10.0f;
-static const CGFloat kDefaultIPadFont = 18.0f;
-
 static Settings* settings = nil;
 
 + (void)initialize
@@ -88,21 +84,6 @@ static Settings* settings = nil;
       item.actionLabel = actionLabel;
     }
     [actionLabel release];
-  }
-  
-  
-  // The iPad and iPhone have different default font sizes since the default
-  // font on the iPad looks too small.
-  float defaultFontSize = kDefaultIPhoneFont;
-  if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-    defaultFontSize = kDefaultIPadFont;
-  }
-  UIFont* defaultFont = [UIFont fontWithName:kDefaultFontName
-                                        size:defaultFontSize];
-  if (defaultFont != nil) {
-    // If we can't load the preconfigured default font then the terminal will
-    // fall back to the system font.
-    terminalSettings.font = defaultFont;
   }
   
   return self;
