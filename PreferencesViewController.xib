@@ -12,6 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
+			<integer value="24"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -38,13 +39,13 @@
 			</object>
 			<object class="IBUIViewController" id="183434040">
 				<object class="IBUIView" key="IBUIView" id="129552925">
-					<nil key="NSNextResponder"/>
+					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">274</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="IBUILabel" id="284261854">
 							<reference key="NSNextResponder" ref="129552925"/>
-							<int key="NSvFlags">292</int>
+							<int key="NSvFlags">303</int>
 							<string key="NSFrame">{{18, 222}, {283, 21}}</string>
 							<reference key="NSSuperview" ref="129552925"/>
 							<bool key="IBUIOpaque">NO</bool>
@@ -60,10 +61,12 @@
 							<nil key="IBUIHighlightedColor"/>
 							<int key="IBUIBaselineAdjustment">1</int>
 							<float key="IBUIMinimumFontSize">10</float>
+							<int key="IBUITextAlignment">1</int>
+							<int key="IBUILineBreakMode">2</int>
 						</object>
 						<object class="IBUILabel" id="981923688">
 							<reference key="NSNextResponder" ref="129552925"/>
-							<int key="NSvFlags">292</int>
+							<int key="NSvFlags">319</int>
 							<string key="NSFrame">{{101, 193}, {117, 21}}</string>
 							<reference key="NSSuperview" ref="129552925"/>
 							<bool key="IBUIOpaque">NO</bool>
@@ -76,9 +79,12 @@
 							<nil key="IBUIHighlightedColor"/>
 							<int key="IBUIBaselineAdjustment">1</int>
 							<float key="IBUIMinimumFontSize">10</float>
+							<int key="IBUITextAlignment">1</int>
+							<int key="IBUILineBreakMode">2</int>
 						</object>
 					</object>
 					<string key="NSFrameSize">{320, 436}</string>
+					<reference key="NSSuperview"/>
 					<object class="NSColor" key="IBUIBackgroundColor">
 						<int key="NSColorSpace">3</int>
 						<bytes key="NSWhite">MQA</bytes>
@@ -836,7 +842,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAACAgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
-					<string>{{333, 219}, {320, 480}}</string>
+					<string>{{328, 233}, {320, 480}}</string>
 					<string>com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
 					<string>MenuSettingsViewController</string>
 					<string>{{442, 276}, {320, 480}}</string>
