@@ -45,8 +45,6 @@
 		2C11CC8310159F7400A2746E /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC7F10159F7400A2746E /* Settings.m */; };
 		2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8010159F7400A2746E /* TerminalSettings.h */; settings = {ATTRIBUTES = (); }; };
 		2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8110159F7400A2746E /* TerminalSettings.m */; };
-		2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC8D1015A58B00A2746E /* FontDataSource.h */; settings = {ATTRIBUTES = (); }; };
-		2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC8E1015A58B00A2746E /* FontDataSource.m */; };
 		2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C4E19CD101D23E9004CA39E /* MenuSettings.h */; settings = {ATTRIBUTES = (); }; };
 		2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19CE101D23E9004CA39E /* MenuSettings.m */; };
 		2C4E19D7101D2410004CA39E /* MenuSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C4E19D6101D2410004CA39E /* MenuSettingsTest.m */; };
@@ -203,8 +201,6 @@
 		2C11CC7F10159F7400A2746E /* Settings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Settings.m; path = Preferences/Settings.m; sourceTree = "<group>"; };
 		2C11CC8010159F7400A2746E /* TerminalSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalSettings.h; path = Preferences/TerminalSettings.h; sourceTree = "<group>"; };
 		2C11CC8110159F7400A2746E /* TerminalSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalSettings.m; path = Preferences/TerminalSettings.m; sourceTree = "<group>"; };
-		2C11CC8D1015A58B00A2746E /* FontDataSource.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontDataSource.h; path = Preferences/FontDataSource.h; sourceTree = "<group>"; };
-		2C11CC8E1015A58B00A2746E /* FontDataSource.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontDataSource.m; path = Preferences/FontDataSource.m; sourceTree = "<group>"; };
 		2C4E19CD101D23E9004CA39E /* MenuSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettings.h; path = Preferences/MenuSettings.h; sourceTree = "<group>"; };
 		2C4E19CE101D23E9004CA39E /* MenuSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MenuSettings.m; path = Preferences/MenuSettings.m; sourceTree = "<group>"; };
 		2C4E19D5101D2410004CA39E /* MenuSettingsTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MenuSettingsTest.h; path = Tests/MenuSettingsTest.h; sourceTree = "<group>"; };
@@ -476,8 +472,6 @@
 			children = (
 				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
 				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
-				2C11CC8D1015A58B00A2746E /* FontDataSource.h */,
-				2C11CC8E1015A58B00A2746E /* FontDataSource.m */,
 				9F3B52151222140200682793 /* GestureEditViewController.h */,
 				9F3B52161222140200682793 /* GestureEditViewController.m */,
 				9FD244F3121790AF009A71C6 /* GestureSettings.h */,
@@ -549,7 +543,6 @@
 				2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */,
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
-				2C11CC8F1015A58B00A2746E /* FontDataSource.h in Headers */,
 				9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */,
 				9F24A70111D7C6EF00E6EFC0 /* MenuSettingsViewController.h in Headers */,
 				9F24A7FF11D7EE8100E6EFC0 /* MenuEditViewController.h in Headers */,
@@ -885,7 +878,6 @@
 			files = (
 				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
 				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
-				2C11CC901015A58B00A2746E /* FontDataSource.m in Sources */,
 				2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */,
 				9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */,
 				9F24A70211D7C6EF00E6EFC0 /* MenuSettingsViewController.m in Sources */,
