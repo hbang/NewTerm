@@ -7,7 +7,6 @@
 @interface PreferencesViewController : UITableViewController {
 @private
   UINavigationController* navigationController;  
-  UIViewController* terminalSettingsController;
   UIViewController* menuSettingsController;
   UIViewController* gestureSettingsController;
   UIViewController* aboutController;
@@ -17,7 +16,6 @@
 }
 
 @property(nonatomic, retain) IBOutlet UINavigationController* navigationController;
-@property(nonatomic, retain) IBOutlet UIViewController* terminalSettingsController;
 @property(nonatomic, retain) IBOutlet UIViewController* menuSettingsController;
 @property(nonatomic, retain) IBOutlet UIViewController* gestureSettingsController;
 @property(nonatomic, retain) IBOutlet UIViewController* aboutController;

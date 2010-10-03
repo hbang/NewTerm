@@ -7,7 +7,6 @@
 @implementation PreferencesViewController
 
 @synthesize navigationController;
-@synthesize terminalSettingsController;
 @synthesize menuSettingsController;
 @synthesize gestureSettingsController;
 @synthesize aboutController;
@@ -28,11 +27,9 @@
   NSLog(@"view did load");
   sections = [[NSMutableArray alloc] init];
   controllers = [[NSMutableArray alloc] init];
-  [sections addObject:@"Terminal Settings"];
   [sections addObject:@"Shortcut Menu"];
   [sections addObject:@"Gestures"];
   [sections addObject:@"About"];
-  [controllers addObject:terminalSettingsController];
   [controllers addObject:menuSettingsController];
   [controllers addObject:gestureSettingsController];
   [controllers addObject:aboutController];      
