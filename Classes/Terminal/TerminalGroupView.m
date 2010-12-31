@@ -26,10 +26,6 @@ static const int NUM_TERMINALS = 2;
 
 - (void)dealloc
 {
-  for (int i = 0; i < [terminals count]; ++i) {
-    UIView* view = [terminals objectAtIndex:i];
-    [view release];
-  }
   [terminals release];
   [super dealloc];
 }

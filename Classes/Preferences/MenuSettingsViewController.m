@@ -66,7 +66,7 @@
 - (void)addItem:(id)sender
 {
   [self.tableView reloadData];
-  [self startEditing:[MenuItem itemWithLabel:@"" andCommand:@""] asInsert:TRUE];
+  [self startEditing:[MenuItem newItemWithLabel:@"" andCommand:@""] asInsert:TRUE];
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

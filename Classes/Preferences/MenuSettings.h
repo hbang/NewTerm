@@ -11,7 +11,7 @@
   NSString* command;
 }
 
-+ (MenuItem*)itemWithLabel:(NSString*)label andCommand:(NSString*)command;
++ (MenuItem*)newItemWithLabel:(NSString*)label andCommand:(NSString*)command;
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 

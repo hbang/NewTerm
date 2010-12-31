@@ -156,7 +156,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   }
 }
 
-- (CFMutableAttributedStringRef)getAttributedStringForRow:(int)rowIndex
+- (CFMutableAttributedStringRef)newAttributedStringForRow:(int)rowIndex
 {
   ScreenSize screenSize = [buffer screenSize];
   int width = screenSize.width;
@@ -232,7 +232,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   float glyphDescent = [fontMetrics descent];
   CTFontRef ctFont = [fontMetrics ctFont];
   for (int i = 0; i < screenSize.height; ++i) {    
-    CFMutableAttributedStringRef string = [self getAttributedStringForRow:i];    
+    CFMutableAttributedStringRef string = [self newAttributedStringForRow:i];    
     CFAttributedStringSetAttribute(string, CFRangeMake(0, screenSize.width),
                                    kCTFontAttributeName, ctFont);
     
@@ -314,6 +314,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     ++currentY;
   }
   [data appendData:[s dataUsingEncoding:NSUTF8StringEncoding]];
+  [s release];
 }
 
 - (BOOL)hasSelection

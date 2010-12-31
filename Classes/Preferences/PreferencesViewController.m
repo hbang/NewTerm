@@ -14,13 +14,6 @@
 #pragma mark -
 #pragma mark Initialization
 
-- (void)awakeFromNib
-{
-  [super awakeFromNib];
-  NSLog(@"awakeFromNib");
-}
-
-
 - (void)viewDidLoad
 {
   [super viewDidLoad];
@@ -60,7 +53,7 @@
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
-    cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle];
+    cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:itemTitle] autorelease];
     cell.textLabel.text = itemTitle;
     if ([controllers objectAtIndex:index] != nil) {
       cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;

@@ -113,14 +113,14 @@
 
 - (UITextPosition *)closestPositionToPoint:(CGPoint)point
 {
-  TextPosition* pos = [[UITextPosition alloc] init];
+  TextPosition* pos = [[[UITextPosition alloc] init] autorelease];
   pos.position = [NSNumber numberWithInt:point.x];
   return pos;
 }
 
 - (UITextPosition *)closestPositionToPoint:(CGPoint)point withinRange:(UITextRange *)range
 {
-  TextPosition* pos = [[UITextPosition alloc] init];
+  TextPosition* pos = [[[UITextPosition alloc] init] autorelease];
   pos.position = [NSNumber numberWithInt:point.x];
   return pos;
 }

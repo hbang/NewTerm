@@ -13,7 +13,6 @@
   UIWindow *window;
   UINavigationController *navigationController;
   MobileTerminalViewController *terminalViewController;
-  Settings* settings;
   PreferencesViewController *preferencesViewController;
 }
 

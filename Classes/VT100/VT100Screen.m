@@ -292,7 +292,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)resizeWidth:(int)width height:(int)height
 {
-    int i, total_height, new_total_height;
+    int i, new_total_height;
     screen_char_t *bl, *aLine, *c1, *c2, *new_scrollback_top;
 
     if (WIDTH == 0 || HEIGHT == 0 || (width==WIDTH && height==HEIGHT)) {
@@ -300,8 +300,6 @@ static __inline__ screen_char_t *incrementLinePointer(
     }
 
     [self acquireLock];
-
-    total_height = max_scrollback_lines + HEIGHT;
 
     // Try to determine how many empty trailing lines there are on screen
     for(;HEIGHT>CURSOR_Y+1;HEIGHT--) {

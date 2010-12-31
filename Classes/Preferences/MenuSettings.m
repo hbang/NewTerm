@@ -21,7 +21,7 @@ static NSString* kCommandKey = @"command";
   return self;
 }
 
-+ (MenuItem*)itemWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
++ (MenuItem*)newItemWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
 {
   return [[MenuItem alloc] initWithLabel:aLabel andCommand:aCommand];
 }

@@ -84,11 +84,13 @@
                                              action:@selector(toggleKeyboard:)
                                               label:@"Hide/Show Keyboard"];  
   [gestureSettings addGestureAction:toggleKeyboard];
+  [toggleKeyboard release];
   SelectorGestureAction* toggleCopyPaste =
     [[SelectorGestureAction alloc] initWithTarget:viewController
                                            action:@selector(toggleCopyPaste:)
                                             label:@"Enable/Disable Copy & Paste"];  
   [gestureSettings addGestureAction:toggleCopyPaste];
+  [toggleCopyPaste release];
   
   NSString* path =
       [[NSBundle mainBundle] pathForResource:@"GestureInputActions"
@@ -103,13 +105,15 @@
     for (int i = 0; i < [inputs count]; i += 2) {
       NSString* label = [inputs objectAtIndex:i];
       NSString* command = [inputs objectAtIndex:(i + 1)];
-      id<GestureAction> action =
+      KeyboardInputGestureAction* action =
           [[KeyboardInputGestureAction alloc] initWithInput:self
-                                                     string:command
-                                                      label:label];
+                                                      string:command
+                                                       label:label];
       [gestureSettings addGestureAction:action];
+      [action release];
     }
   }
+  [inputs release];
 }
 
 - (void)receiveKeyboardInput:(NSData*)data;

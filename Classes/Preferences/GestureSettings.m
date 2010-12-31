@@ -91,6 +91,19 @@ static NoneGestureAction* noneInstance;
 
 @implementation GestureSettings
 
+
+- (void)addGestureItem:(NSString*)itemName withCoder:(NSCoder *)decoder
+{
+  GestureItem* item = [[GestureItem alloc] initWithName:itemName];
+  if ([decoder containsValueForKey:itemName]) {
+    item.actionLabel = [decoder decodeObjectForKey:[item name]];
+  }
+  [gestureItems addObject:item];
+  [item release];
+}
+
+
+
 - (id) init
 {
   return [self initWithCoder:nil];
@@ -101,26 +114,23 @@ static NoneGestureAction* noneInstance;
   self = [super init];
   if (self != nil) {
     gestureItems = [[NSMutableArray alloc] init];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSingleDoubleTap]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureDoubleDoubleTap]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeUp]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeDown]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeLeft]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeRight]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeLeftUp]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeLeftDown]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeRightUp]];
-    [gestureItems addObject:[[GestureItem alloc] initWithName:kGestureSwipeRightDown]];
-    // This may load actions that are no longer valid.  Deal with that at
-    // run time when the gesture is evaluated.  
-    for (int i = 0; i < [self gestureItemCount]; ++i) {
-      GestureItem* item = [self gestureItemAtIndex: i];
-      if ([decoder containsValueForKey:[item name]]) {
-        item.actionLabel = [decoder decodeObjectForKey:[item name]];
-      }
-    }
+    [self addGestureItem:kGestureSingleDoubleTap withCoder:decoder];
+    [self addGestureItem:kGestureSingleDoubleTap withCoder:decoder];
+    [self addGestureItem:kGestureDoubleDoubleTap withCoder:decoder];
+    [self addGestureItem:kGestureSwipeUp withCoder:decoder];
+    [self addGestureItem:kGestureSwipeDown withCoder:decoder];
+    [self addGestureItem:kGestureSwipeLeft withCoder:decoder];
+    [self addGestureItem:kGestureSwipeRight withCoder:decoder];
+    [self addGestureItem:kGestureSwipeLeftUp withCoder:decoder];
+    [self addGestureItem:kGestureSwipeLeftDown withCoder:decoder];
+    [self addGestureItem:kGestureSwipeRightUp withCoder:decoder];
+    [self addGestureItem:kGestureSwipeRightDown withCoder:decoder];
+    
     gestureActions = [[NSMutableArray alloc] init];
-    [gestureActions addObject:[[NoneGestureAction alloc] init]];
+    
+    GestureItem* noneItem = [[NoneGestureAction alloc] init];
+    [gestureActions addObject:noneItem];
+    [noneItem release];
   }
   return self;
 }

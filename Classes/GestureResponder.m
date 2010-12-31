@@ -22,6 +22,7 @@
   // Add to the list of swipes, but do not register directly.  See the
   // methods for enabling/disabling swips
   [swipeGestureRecognizers addObject:swipe];
+  [swipe release];
 }
 
 - (void)awakeFromNib

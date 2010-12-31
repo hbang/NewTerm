@@ -8,9 +8,6 @@
 @private
   GestureSettings* gestureSettings;
   GestureEditViewController* gestureEditViewController;
-  
-  // State aboute the current item being edited in the GestureEditViewController
-  BOOL editIsInsert;
 }
 
 @property(nonatomic, retain) IBOutlet GestureEditViewController* gestureEditViewController;

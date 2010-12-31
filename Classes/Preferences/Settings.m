@@ -24,6 +24,17 @@ static NSString* kMenuSettings = @"menuSettings";
 static NSString* kGestureSettings = @"gestureSettings";
 static NSString* kTerminalSettings = @"terminalSettings";
 
+static NSString* kDefaultMenuItems[][2] = {
+  { @"ls", @"ls" },
+  { @"ls -l", @"ls -l\n" },
+  { @"ssh", @"ssh " },
+  { @"locate", @"locate" },
+  { @"ping www.google.com", @"ping www.google.com\n" },
+  { @"^C", @"\x03" },
+};
+static int kDefaultMenuItemsCount =
+    sizeof(kDefaultMenuItems) / sizeof(NSString*) / 2;
+
 static Settings* settings = nil;
 
 + (void)initialize
@@ -64,12 +75,13 @@ static Settings* settings = nil;
   
   // TODO(allen): Put defaults values in an XML file.  Maybe using an XML file
   // would have been better than using NSUserDefaults.
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ls" andCommand:@"ls"]];
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ls -l" andCommand:@"ls -l\n"]];  
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ssh" andCommand:@"ssh "]];  
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"locate" andCommand:@"locate"]];  
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"ping www.google.com" andCommand:@"ping www.google.com\n"]];  
-  [menuSettings addMenuItem:[MenuItem itemWithLabel:@"^C" andCommand:@"\x03"]];  
+  for (int i = 0; i < kDefaultMenuItemsCount; ++i) {
+    MenuItem* menuItem = [MenuItem newItemWithLabel:kDefaultMenuItems[i][0]
+                                         andCommand:kDefaultMenuItems[i][1]];
+    [menuSettings addMenuItem:menuItem];
+    [menuItem release];
+  }
+  
 
   // Initialize the defaults from the .plist file.
   NSString* path =
@@ -85,7 +97,7 @@ static Settings* settings = nil;
     }
     [actionLabel release];
   }
-  
+  [defaultLabels release];
   return self;
 }
 

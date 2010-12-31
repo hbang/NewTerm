@@ -20,7 +20,6 @@
 @interface TerminalKeyboard : UIView {
 @private
   UITextField* inputTextField;
-  UIResponder* inputHandler;
   id<TerminalKeyboardProtocol> inputDelegate;
 }
 
