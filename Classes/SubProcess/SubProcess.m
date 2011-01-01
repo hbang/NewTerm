@@ -16,15 +16,34 @@ static const int kDefaultHeight = 25;
 // Default username if we can't tell from the environment
 static const char kDefaultUsername[] = "mobile";
 
+#define STAT_SIZE sizeof(struct stat)
+
+// This is a workaround for the fact that stat is broken in some of the
+// iphone simulator SDKs.  Essentially, calling stat() as is will smash the
+// stack so we allocate some additional space for writing scratch data.  This
+// likely means that some of the values returned in the stat structure are
+// incorrect.
+// See http://openradar.appspot.com/8140890 for a full bug report.
+static int stat_hack(const char* path, struct stat* st) {
+  char buf[STAT_SIZE * 2];
+  int retval = stat(path, (struct stat*)buf);
+  if (retval == 0) {
+    memcpy(buf, st, sizeof(struct stat));
+  }
+  return retval;
+}
+
 static int start_process(const char *path,
                          char *const args[],
                          char *const env[])
 {
   struct stat st;
-  if (stat(path, &st) != 0) {
+  if (stat_hack(path, &st) != 0) {
     fprintf(stderr, "%s: File does not exist\n", path);
     return -1;
   }
+  // Notably, we don't test group or other bits so this still might not always
+  // notice if the binary is not executable by us.
   if ((st.st_mode & S_IXUSR) == 0) {
     fprintf(stderr, "%s: Permission denied\n", path);
     return -1;
@@ -66,6 +85,13 @@ static int start_process(const char *path,
                 format:@"SubProcess was already started"];
     return;
   }
+  struct stat st;
+#ifdef __DARWIN_STRUCT_STAT64
+  fprintf(stderr, "STAT64! %ld\n", sizeof(st));
+#else
+  fprintf(stderr, "No STAT64! %ld\n", sizeof(st));
+#endif
+  
 
   const char* username = getenv("USER");
   if (username == NULL) {
