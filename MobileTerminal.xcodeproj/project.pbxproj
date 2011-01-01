@@ -84,6 +84,8 @@
 		9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD244F3121790AF009A71C6 /* GestureSettings.h */; };
 		9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD244F4121790AF009A71C6 /* GestureSettings.m */; };
 		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
+		9FFD077512CFB33100709B8D /* AboutViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FFD077312CFB33100709B8D /* AboutViewController.h */; };
+		9FFD077612CFB33100709B8D /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD077412CFB33100709B8D /* AboutViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -245,6 +247,8 @@
 		9FD244F4121790AF009A71C6 /* GestureSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettings.m; path = Preferences/GestureSettings.m; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
+		9FFD077312CFB33100709B8D /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Preferences/AboutViewController.h; sourceTree = "<group>"; };
+		9FFD077412CFB33100709B8D /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = Preferences/AboutViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -470,6 +474,8 @@
 		2C11C99B1013FEE800A2746E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				9FFD077312CFB33100709B8D /* AboutViewController.h */,
+				9FFD077412CFB33100709B8D /* AboutViewController.m */,
 				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
 				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 				9F3B52151222140200682793 /* GestureEditViewController.h */,
@@ -550,6 +556,7 @@
 				9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */,
 				9F3B52171222140200682793 /* GestureEditViewController.h in Headers */,
 				9F3B5244122217C400682793 /* GestureSettingsViewController.h in Headers */,
+				9FFD077512CFB33100709B8D /* AboutViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -886,6 +893,7 @@
 				9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */,
 				9F3B52181222140200682793 /* GestureEditViewController.m in Sources */,
 				9F3B5245122217C400682793 /* GestureSettingsViewController.m in Sources */,
+				9FFD077612CFB33100709B8D /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
