@@ -115,7 +115,6 @@ static NoneGestureAction* noneInstance;
   if (self != nil) {
     gestureItems = [[NSMutableArray alloc] init];
     [self addGestureItem:kGestureSingleDoubleTap withCoder:decoder];
-    [self addGestureItem:kGestureSingleDoubleTap withCoder:decoder];
     [self addGestureItem:kGestureDoubleDoubleTap withCoder:decoder];
     [self addGestureItem:kGestureSwipeUp withCoder:decoder];
     [self addGestureItem:kGestureSwipeDown withCoder:decoder];
