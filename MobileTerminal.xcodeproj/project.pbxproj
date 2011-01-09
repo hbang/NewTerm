@@ -830,7 +830,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "SVN_VERSION=`svnversion $SRC_ROOT`\necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" >  svnversion.h";
+			shellScript = "SVN_VERSION=`svnversion $SRC_ROOT | sed 's/.*://'`\necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" >  svnversion.h";
 		};
 		9FDE6CBF11C4941300139215 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
