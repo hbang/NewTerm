@@ -43,14 +43,14 @@
       [indexPath indexAtPosition:1] > [menuSettings menuItemCount]) {
     return nil;
   }
-  MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
   static NSString *CellIdentifier = @"Cell";
   UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
   if (cell == nil) {
     cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
-    cell.textLabel.text = menuItem.label;
-    cell.textLabel.font = font;
   }
+  MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
+  cell.textLabel.text = menuItem.label;
+  cell.textLabel.font = font;
   return cell;
 }
 
