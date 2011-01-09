@@ -58,11 +58,12 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   [fontMetrics release];
   fontMetrics = [[FontMetrics alloc] initWithFont:font];
   tableViewController.fontMetrics = fontMetrics;
-  [self setNeedsLayout];
 }
 
 - (void)layoutSubviews
 {
+  [super layoutSubviews];
+
   CGSize glyphSize = [fontMetrics boundingBox];
   
   // Determine the screen size based on the font size
@@ -77,8 +78,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   [buffer setScreenSize:size];
   
   tableViewController.tableView.frame = self.frame;
-
-  [super layoutSubviews];
 }
 
 - (int)width
@@ -111,44 +110,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   pos.y = (point.y - (glyphSize.height / 2)) / glyphSize.height;
   return pos;
 }
-
-/*
-- (void)drawSelectionBackground:(CGContextRef)context
-{
-  if (![self hasSelection]) {
-    return;
-  }
-  ScreenPosition startPos = [self positionFromPoint:selectionStart];
-  ScreenPosition endPos = [self positionFromPoint:selectionEnd];
-  if (startPos.x >= endPos.x &&
-      startPos.y >= endPos.y) {
-    ScreenPosition tmp = startPos;
-    startPos = endPos;
-    endPos = tmp;
-  }
-  
-  UIColor* selectionColor = [colorMap backgroundCursor];
-  int currentY = startPos.y;
-  int maxX = [self width];
-  while (currentY <= endPos.y) {
-    int startX = (currentY == startPos.y) ? startPos.x : 0;
-    int endX = (currentY == endPos.y) ? endPos.x : maxX;
-    int width = endX - startX;
-    if (width > 0) {
-      CGSize glyphSize = [fontMetrics boundingBox];
-      CGRect selectionRect;
-      selectionRect.origin.x = startX * glyphSize.width;
-      selectionRect.origin.y =  currentY * glyphSize.height;
-      selectionRect.size.width = width * glyphSize.width;
-      selectionRect.size.height = glyphSize.height;
-      [self fillRect:selectionRect
-         withContext:context
-           withColor:[selectionColor CGColor]];
-    }
-    currentY++;
-  }
-}
-*/
 
 - (void)readInputStream:(NSData*)data
 {

@@ -28,8 +28,8 @@
 @property (nonatomic, retain) IBOutlet id <ScreenBuffer> buffer;
 @property (nonatomic, retain) IBOutlet ColorMap* colorMap;
 
-// Sets the font to display on the screen.  This will likely change the width
-// and height of the terminal.
+// Sets the font to display on the screen.
+// The caller should likely also call setNeedsLayout on this object.
 - (void)setFont:(UIFont*)font;
 
 // Returns the height and width of the terminal in characters

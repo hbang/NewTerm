@@ -85,13 +85,6 @@ static int start_process(const char *path,
                 format:@"SubProcess was already started"];
     return;
   }
-  struct stat st;
-#ifdef __DARWIN_STRUCT_STAT64
-  fprintf(stderr, "STAT64! %ld\n", sizeof(st));
-#else
-  fprintf(stderr, "No STAT64! %ld\n", sizeof(st));
-#endif
-  
 
   const char* username = getenv("USER");
   if (username == NULL) {

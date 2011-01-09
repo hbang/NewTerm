@@ -219,6 +219,7 @@
   for (int i = 0; i < [terminalGroupView terminalCount]; ++i) {
     TerminalView* terminalView = [terminalGroupView terminalAtIndex:i];
     [terminalView setFont:font];
+    [terminalView setNeedsLayout];
   }
 }
 

@@ -97,7 +97,10 @@ static const char* kProcessExitedMessage =
 - (void)layoutSubviews
 {
   [super layoutSubviews];
-  
+  // Make sure that the text view is laid out, which re-computes the terminal
+  // size in rows and columns.
+  [textView layoutSubviews];
+
   // Send the terminal the actual size of our vt100 view.  This should be
   // called any time we change the size of the view.  This should be a no-op if
   // the size has not changed since the last time we called it.
