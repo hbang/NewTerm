@@ -2,7 +2,7 @@
 // MobileTerminal
 
 #import "AboutViewController.h"
-#import "svnversion.h"
+#import "Settings.h"
 
 @implementation AboutViewController
 
@@ -11,7 +11,8 @@
 - (void)awakeFromNib
 {
   [super awakeFromNib];
-  versionLabel.text = [NSString stringWithFormat:@"r%d", SVN_VERSION];
+  Settings* settings = [Settings sharedInstance];
+  versionLabel.text = [NSString stringWithFormat:@"r%d", settings.svnVersion];
 }
 
 @end

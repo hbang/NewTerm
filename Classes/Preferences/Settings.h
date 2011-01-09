@@ -15,11 +15,13 @@
 // so that the settings can be read and written to the preferences store.
 @interface Settings : NSObject <NSCoding> {
 @private
+  int svnVersion;
   MenuSettings* menuSettings;
   GestureSettings* gestureSettings;
   TerminalSettings* terminalSettings;
 }
 
+@property(nonatomic) int svnVersion;
 @property(nonatomic, retain) MenuSettings* menuSettings;
 @property(nonatomic, retain) GestureSettings* gestureSettings;
 @property(nonatomic, retain) TerminalSettings* terminalSettings;

@@ -588,6 +588,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MobileTerminal" */;
 			buildPhases = (
+				9F76B0D912D96ABA000D6374 /* Generate svnversion.h */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -683,7 +684,6 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C11C9CF1014037E00A2746E /* Build configuration list for PBXNativeTarget "Preferences" */;
 			buildPhases = (
-				2C4E1BDA101D3958004CA39E /* ShellScript */,
 				2C11C9C51014035800A2746E /* Headers */,
 				2C11C9C61014035800A2746E /* Sources */,
 				2C11C9C71014035800A2746E /* Frameworks */,
@@ -790,19 +790,6 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		2C4E1BDA101D3958004CA39E /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "mkdir -p $DERIVED_SOURCES_DIR\nSVN_VERSION=`svnversion $SRC_ROOT` \necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" > $DERIVED_SOURCES_DIR/svnversion.h";
-		};
 		2C72B2B9101ABA9100F10E63 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -828,6 +815,20 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "#\n# When compiling for the device, copy term.h from the simulator SDK\n#\n\nif [ $PLATFORM_NAME == \"iphoneos\" ]\nthen\n  # Get the path to the iphone simulator SDK for the same version\n  SIMULATOR_SDK_DIR=${SDK_DIR//iPhoneOS/iPhoneSimulator}\n\n  # Copy to a temporary directory where the build will find the needed\n  # header files.  This directory may not already exist, but is passed\n  # as a header search path when compiling the source files.\n  mkdir -p $DERIVED_SOURCES_DIR\n  cp $SIMULATOR_SDK_DIR/usr/include/ncurses_dll.h $DERIVED_SOURCES_DIR/\n  cp $SIMULATOR_SDK_DIR/usr/include/term.h $DERIVED_SOURCES_DIR/\n\nfi";
+		};
+		9F76B0D912D96ABA000D6374 /* Generate svnversion.h */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Generate svnversion.h";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "mkdir -p $DERIVED_SOURCES_DIR\nSVN_VERSION=`svnversion $SRC_ROOT` \necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" > $DERIVED_SOURCES_DIR/svnversion.h";
 		};
 		9FDE6CBF11C4941300139215 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
