@@ -23,6 +23,10 @@
   VT100Screen* screen;
   VT100Terminal* terminal;
   id <ScreenBufferRefreshDelegate> refreshDelegate;
+  
+  // Points on the screen
+  ScreenPosition selectionStart;
+  ScreenPosition selectionEnd;
 }
 
 @property (nonatomic, retain) id <ScreenBufferRefreshDelegate> refreshDelegate;
@@ -40,10 +44,18 @@
 // currently on the screen.
 - (void)setScreenSize:(ScreenSize)size;
 - (ScreenSize)screenSize;
+
+// The row specified here also includes the scrollback buffer.
 - (screen_char_t*)bufferForRow:(int)row;
+- (int)numberOfRows;
 
 - (ScreenPosition)cursorPosition;
 
 - (void)clearScreen;
+
+- (void)clearSelection;
+- (BOOL)hasSelection;
+- (void)setSelectionStart:(ScreenPosition)point;
+- (void)setSelectionEnd:(ScreenPosition)point;
 
 @end

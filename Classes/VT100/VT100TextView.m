@@ -5,11 +5,8 @@
 #import "ColorMap.h"
 #import "FontMetrics.h"
 #import "VT100.h"
-
-// Buffer space used to draw any particular row.  We assume that drawRect is
-// only ever called from the main thread, so we can share a buffer between
-// calls.
-static const int kMaxRowBufferSize = 200;
+#import "VT100StringSupplier.h"
+#import "VT100TableViewController.h"
 
 extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
@@ -30,11 +27,21 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     [vt100 setRefreshDelegate:self];
     buffer = vt100;
     colorMap = [[ColorMap alloc] init];
-    // Allocate enough space for any row
-    unicharBuffer = (unichar*)malloc(sizeof(unichar) * kMaxRowBufferSize);
     UIFont* font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
     fontMetrics = [[FontMetrics alloc] initWithFont:font];
     [self clearSelection];
+    
+    VT100StringSupplier* stringSupplier = [[VT100StringSupplier alloc] init];
+    stringSupplier.colorMap = colorMap;
+    stringSupplier.screenBuffer = buffer;
+    
+    tableViewController = [[VT100TableViewController alloc] initWithColorMap:colorMap];
+    tableViewController.stringSupplier = stringSupplier;
+    tableViewController.fontMetrics = fontMetrics;
+    [tableViewController.tableView setBackgroundColor:[colorMap background]];
+    [self addSubview:tableViewController.tableView];
+    
+    [stringSupplier release];
   }
   return self;
 }
@@ -50,6 +57,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 {
   [fontMetrics release];
   fontMetrics = [[FontMetrics alloc] initWithFont:font];
+  tableViewController.fontMetrics = fontMetrics;
   [self setNeedsLayout];
 }
 
@@ -67,7 +75,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   // be better).
   NSParameterAssert(size.width < kMaxRowBufferSize);
   [buffer setScreenSize:size];
-
+  
+  tableViewController.tableView.frame = self.frame;
 
   [super layoutSubviews];
 }
@@ -103,23 +112,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
   return pos;
 }
 
-- (void)fillRect:(CGRect)rect
-     withContext:(CGContextRef)context
-       withColor:(CGColorRef)color
-{
-  CGContextSetFillColorWithColor(context, color);
-  CGContextFillRect(context, rect);
-}
-
-- (void)drawCursorBackground:(CGContextRef)context
-{
-  CGRect cursorRect = [self cursorRegion];
-  UIColor* cursorColor = [colorMap backgroundCursor];
-  [self fillRect:cursorRect
-     withContext:context
-       withColor:[cursorColor CGColor]];
-}
-
+/*
 - (void)drawSelectionBackground:(CGContextRef)context
 {
   if (![self hasSelection]) {
@@ -155,96 +148,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     currentY++;
   }
 }
-
-- (CFMutableAttributedStringRef)newAttributedStringForRow:(int)rowIndex
-{
-  ScreenSize screenSize = [buffer screenSize];
-  int width = screenSize.width;
-  // TODO(aporter): Make the screen object return an attributed string?
-  screen_char_t* row = [buffer bufferForRow:rowIndex];
-  for (int j = 0; j < width; ++j) {
-    if (row[j].ch == '\0') {
-      unicharBuffer[j] = ' ';
-    } else {
-      unicharBuffer[j] = row[j].ch;
-    }
-  }
-  CFStringRef string = CFStringCreateWithCharacters(NULL, unicharBuffer, width);      
-  CFMutableAttributedStringRef attrString =
-    CFAttributedStringCreateMutable(kCFAllocatorDefault, 0);
-  CFAttributedStringReplaceString(attrString, CFRangeMake(0, 0), string);
-  CFRelease(string);
-
-  // Update the string with foreground color attributes.  This loop compares the
-  // the foreground colors of characters and sets the attribute when it runs
-  // into a character of a different color.  It runs one extra time to set the
-  // attribute for the run of characters at the end of the line.
-  int lastColorIndex = -1;
-  int lastColor = -1;
-  for (int j = 0; j <= width; ++j) {
-    bool eol = (j == width);  // reached end of line
-    if (eol || row[j].fg_color != lastColor) {
-      if (lastColorIndex != -1) {
-        int length = j - lastColorIndex;
-        CGColorRef color = [[colorMap color:lastColor] CGColor];
-        CFAttributedStringSetAttribute(attrString,
-                                       CFRangeMake(lastColorIndex, length),
-                                       kCTForegroundColorAttributeName, color);
-      }
-      if (!eol) {
-        lastColorIndex = j;
-        lastColor = row[j].fg_color;
-      }
-    }
-  }
-  return attrString;
-}
-  
-  
-// TODO(allen): This is by no means complete! The old PTYTextView does a lot
-// more stuff that needs to be ported -- and it also does it quite efficiently.
-- (void)drawRect:(CGRect)rect
-{
-  // TODO(allen): We currently draw the entire control instead of just the
-  // rect that we were asked to update  
-  CGContextRef context = UIGraphicsGetCurrentContext();
-  
-  // TODO(allen): Draw background color based on the character position.  For
-  // now just fill the entire screen with the same background.
-  UIColor* defaultBackgroundColor = [colorMap background];
-  [self fillRect:rect
-     withContext:context
-       withColor:[defaultBackgroundColor CGColor]];
-  
-  // TODO(allen): It might be nicer to embed this logic into the VT100Terminal
-  // foreground/background so that it is handled by the other logic
-
-  [self drawCursorBackground:context];
-  [self drawSelectionBackground:context];
-  
-  // By default, text is drawn upside down.  Apply a transformation to turn
-  // orient the text correctly.
-  CGAffineTransform xform = CGAffineTransformMake(1.0, 0.0, 0.0, -1.0, 0.0, 0.0);
-  CGContextSetTextMatrix(context, xform);
-  // Walk through the screen and output all characters to the display
-  ScreenSize screenSize = [buffer screenSize];
-  float glyphHeight = [fontMetrics boundingBox].height;
-  float glyphDescent = [fontMetrics descent];
-  CTFontRef ctFont = [fontMetrics ctFont];
-  for (int i = 0; i < screenSize.height; ++i) {    
-    CFMutableAttributedStringRef string = [self newAttributedStringForRow:i];    
-    CFAttributedStringSetAttribute(string, CFRangeMake(0, screenSize.width),
-                                   kCTFontAttributeName, ctFont);
-    
-    CTLineRef line = CTLineCreateWithAttributedString(string);
-    // The coordinates specified here are the baseline of the line which starts
-    // from the top of the next row, plus some offset for the glyph descent
-    CGContextSetTextPosition(context, 0.0, (i + 1) * glyphHeight - glyphDescent);
-    CTLineDraw(line, context);
-    CFRelease(line);
-    CFRelease(string);
-  }
-}
+*/
 
 - (void)readInputStream:(NSData*)data
 {
@@ -260,30 +164,27 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)clearSelection
 {
-  selectionStart.x = -1;
-  selectionStart.y = -1;
-  selectionEnd.x = -1;
-  selectionEnd.y = -1;
-  [self setNeedsDisplay];
+  [buffer clearSelection];
+  [self refresh];
 }
 
 - (void)setSelectionStart:(CGPoint)point
 {
-  selectionStart = point;
+  [buffer setSelectionStart:[self positionFromPoint:point]];
 }
 
 - (void)setSelectionEnd:(CGPoint)point
 {
-  selectionEnd = point;
-  [self setNeedsDisplay];
+  [buffer setSelectionEnd:[self positionFromPoint:point]];
+  [self refresh];
 }
 
 - (void)fillDataWithSelection:(NSMutableData*)data
 {
   NSMutableString* s = [[NSMutableString alloc] initWithString:@""];
 
-  ScreenPosition startPos = [self positionFromPoint:selectionStart];
-  ScreenPosition endPos = [self positionFromPoint:selectionEnd];
+  ScreenPosition startPos = [buffer selectionStart];
+  ScreenPosition endPos = [buffer selectionEnd];
   if (startPos.x >= endPos.x &&
       startPos.y >= endPos.y) {
     ScreenPosition tmp = startPos;
@@ -319,35 +220,44 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (BOOL)hasSelection
 {
-  return selectionStart.x != -1 && selectionStart.y != -1 &&
-         selectionEnd.x != -1 && selectionEnd.y != -1;
+  return [buffer hasSelection];
 }
 
-- (CGRect)selectionRegion
+- (CGRect)scaleRect:(CGRect)rect
 {
-  if (selectionStart.x >= selectionEnd.x &&
-      selectionStart.y >= selectionEnd.y) {
-    return CGRectMake(selectionEnd.x,
-                      selectionEnd.y,
-                      selectionStart.x - selectionEnd.x,
-                      selectionStart.y - selectionEnd.y);
-  }
-  return CGRectMake(selectionStart.x,
-                    selectionStart.y,
-                    selectionEnd.x - selectionStart.x,
-                    selectionEnd.y - selectionStart.y);
+  CGSize glyphSize = [fontMetrics boundingBox];
+  rect.origin.x *= glyphSize.width;
+  rect.origin.y *= glyphSize.height;
+  rect.size.width *= glyphSize.width;
+  rect.size.height *= glyphSize.height;
+  return rect;
 }
 
 - (CGRect)cursorRegion
 {
-  CGSize glyphSize = [fontMetrics boundingBox];
   ScreenPosition cursorPosition = [buffer cursorPosition];
-  CGRect cursorRect;
-  cursorRect.origin.x = cursorPosition.x * glyphSize.width;
-  cursorRect.origin.y = cursorPosition.y * glyphSize.height;
-  cursorRect.size.width = glyphSize.width;
-  cursorRect.size.height = glyphSize.height;  
-  return cursorRect;
+  CGRect rect = CGRectMake(cursorPosition.x, cursorPosition.y, 1, 1);
+  return [self scaleRect:rect];
+}
+
+- (CGRect)selectionRegion
+{
+  ScreenPosition selectionStart = [buffer selectionStart];
+  ScreenPosition selectionEnd = [buffer selectionEnd];
+  CGRect rect;
+  if (selectionStart.x >= selectionEnd.x &&
+      selectionStart.y >= selectionEnd.y) {
+    rect = CGRectMake(selectionEnd.x,
+                      selectionEnd.y,
+                      selectionStart.x - selectionEnd.x,
+                      selectionStart.y - selectionEnd.y);
+  } else {
+    rect = CGRectMake(selectionStart.x,
+                      selectionStart.y,
+                      selectionEnd.x - selectionStart.x,
+                      selectionEnd.y - selectionStart.y);
+  }
+  return [self scaleRect:rect];
 }
 
 @end
@@ -356,8 +266,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 - (void)refresh
 {
-  // TODO(allen): Call setNeedsDisplayInRect for only the dirty bits
-  [self setNeedsDisplay];
+  // TODO(allen): Is it possible to only refresh the dirty bits?
+  [tableViewController refresh];
 }
 
 @end

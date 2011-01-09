@@ -10,22 +10,19 @@
 @class FontMetrics;
 @class ColorMap;
 @class VT100;
+@class VT100TableViewController;
 @protocol ScreenBuffer;
 @protocol RefreshDelegate;
 
 @interface VT100TextView : UIView {
 @private
+  // The lines of text are displayed via a table view
+  VT100TableViewController* tableViewController;
+  
   id <ScreenBuffer> buffer;
   FontMetrics* fontMetrics;
   
   ColorMap* colorMap;
-  
-  // Buffer of characters to draw on the screen, holds up to one row
-  unichar* unicharBuffer;
-
-  // Points on the screen
-  CGPoint selectionStart;
-  CGPoint selectionEnd;
 }
 
 @property (nonatomic, retain) IBOutlet id <ScreenBuffer> buffer;

@@ -80,12 +80,12 @@ static const int kNumTerminalColors = 16;
     if ([decoder containsValueForKey:@"foregroundCursor"]) {
       foregroundCursor = [[decoder decodeObjectForKey:@"foregroundCursor"] retain];
     } else {
-      foregroundCursor = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+      foregroundCursor = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.95f] retain];
     }
     if ([decoder containsValueForKey:@"backgroundCursor"]) {
       backgroundCursor = [[decoder decodeObjectForKey:@"backgroundCursor"] retain];
     } else {
-      backgroundCursor = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.3f] retain];
+      backgroundCursor = [[UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:0.4f] retain];
     }
   }
   return self;

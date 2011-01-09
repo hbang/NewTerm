@@ -94,9 +94,7 @@ static const int kDefaultHeight = 25;
 
 - (screen_char_t*)bufferForRow:(int)row
 {
-  int scrollBackLines = [screen numberOfLines] - [screen height];
-  int offset = scrollBackLines + row;
-  return [screen getLineAtIndex:offset];
+  return [screen getLineAtIndex:row];
 }
 
 - (void)clearScreen
@@ -104,5 +102,45 @@ static const int kDefaultHeight = 25;
   // Clears both the screen and scrollback buffer
   [screen clearBuffer];
 }
+
+- (int)numberOfRows
+{
+  return [screen numberOfLines];
+}
+
+- (BOOL)hasSelection
+{
+  return selectionStart.x != -1 && selectionStart.y != -1 &&
+    selectionEnd.x != -1 && selectionEnd.y != -1;
+}
+
+- (void)clearSelection
+{
+  selectionStart.x = -1;
+  selectionStart.y = -1;
+  selectionEnd.x = -1;
+  selectionEnd.y = -1;
+}
+
+- (void)setSelectionStart:(ScreenPosition)point
+{
+  selectionStart = point;
+}
+
+- (ScreenPosition)selectionStart
+{
+  return selectionStart;
+}
+
+- (void)setSelectionEnd:(ScreenPosition)point
+{
+  selectionEnd = point;
+}
+
+- (ScreenPosition)selectionEnd
+{
+  return selectionEnd;
+}
+
 
 @end

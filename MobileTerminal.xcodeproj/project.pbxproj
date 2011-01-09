@@ -77,12 +77,18 @@
 		9F86D380123D386A00FAA3C4 /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */; };
 		9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */; };
 		9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */; };
-		9F89F6611257C32C0015CFDB /* FontMetrics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F89F65F1257C32C0015CFDB /* FontMetrics.h */; };
-		9F89F6621257C32C0015CFDB /* FontMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F89F6601257C32C0015CFDB /* FontMetrics.m */; };
 		9FA68B8E124693D4002B893E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA68B8D124693D4002B893E /* CoreText.framework */; };
 		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
 		9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD244F3121790AF009A71C6 /* GestureSettings.h */; };
 		9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD244F4121790AF009A71C6 /* GestureSettings.m */; };
+		9FE3EF4D12D2647500CF3F00 /* VT100TableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF4B12D2647500CF3F00 /* VT100TableViewController.h */; };
+		9FE3EF4E12D2647500CF3F00 /* VT100TableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3EF4C12D2647500CF3F00 /* VT100TableViewController.m */; };
+		9FE3EF4F12D2648000CF3F00 /* VT100RowView.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF0512D18AED00CF3F00 /* VT100RowView.h */; };
+		9FE3EF5012D2648000CF3F00 /* VT100RowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3EF0612D18AED00CF3F00 /* VT100RowView.m */; };
+		9FE3EF5112D2648500CF3F00 /* FontMetrics.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F89F65F1257C32C0015CFDB /* FontMetrics.h */; };
+		9FE3EF5212D2648500CF3F00 /* FontMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F89F6601257C32C0015CFDB /* FontMetrics.m */; };
+		9FE3EF6612D269CE00CF3F00 /* VT100StringSupplier.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */; };
+		9FE3EF6712D269CE00CF3F00 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */; };
 		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
 		9FFD077512CFB33100709B8D /* AboutViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FFD077312CFB33100709B8D /* AboutViewController.h */; };
 		9FFD077612CFB33100709B8D /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD077412CFB33100709B8D /* AboutViewController.m */; };
@@ -239,12 +245,18 @@
 		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
-		9F89F65F1257C32C0015CFDB /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontMetrics.h; path = Terminal/FontMetrics.h; sourceTree = "<group>"; };
-		9F89F6601257C32C0015CFDB /* FontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontMetrics.m; path = Terminal/FontMetrics.m; sourceTree = "<group>"; };
+		9F89F65F1257C32C0015CFDB /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontMetrics.h; path = VT100/FontMetrics.h; sourceTree = "<group>"; };
+		9F89F6601257C32C0015CFDB /* FontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontMetrics.m; path = VT100/FontMetrics.m; sourceTree = "<group>"; };
 		9FA68B8D124693D4002B893E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9FD244F3121790AF009A71C6 /* GestureSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureSettings.h; path = Preferences/GestureSettings.h; sourceTree = "<group>"; };
 		9FD244F4121790AF009A71C6 /* GestureSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettings.m; path = Preferences/GestureSettings.m; sourceTree = "<group>"; };
+		9FE3EF0512D18AED00CF3F00 /* VT100RowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100RowView.h; path = VT100/VT100RowView.h; sourceTree = "<group>"; };
+		9FE3EF0612D18AED00CF3F00 /* VT100RowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100RowView.m; path = VT100/VT100RowView.m; sourceTree = "<group>"; };
+		9FE3EF4B12D2647500CF3F00 /* VT100TableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100TableViewController.h; path = VT100/VT100TableViewController.h; sourceTree = "<group>"; };
+		9FE3EF4C12D2647500CF3F00 /* VT100TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100TableViewController.m; path = VT100/VT100TableViewController.m; sourceTree = "<group>"; };
+		9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100StringSupplier.h; path = VT100/VT100StringSupplier.h; sourceTree = "<group>"; };
+		9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100StringSupplier.m; path = VT100/VT100StringSupplier.m; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
 		9FFD077312CFB33100709B8D /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Preferences/AboutViewController.h; sourceTree = "<group>"; };
@@ -416,17 +428,23 @@
 				2C11C5681013A4E500A2746E /* charmaps.h */,
 				2C11C5651013A4E500A2746E /* ColorMap.h */,
 				2C11C56C1013A4E500A2746E /* ColorMap.m */,
+				9F89F65F1257C32C0015CFDB /* FontMetrics.h */,
+				9F89F6601257C32C0015CFDB /* FontMetrics.m */,
 				2C11C56B1013A4E500A2746E /* VT100.h */,
 				2C11C5691013A4E500A2746E /* VT100.m */,
 				2C11C5631013A4E500A2746E /* VT100Screen.h */,
 				2C11C56A1013A4E500A2746E /* VT100Screen.m */,
+				9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */,
+				9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */,
+				9FE3EF0512D18AED00CF3F00 /* VT100RowView.h */,
+				9FE3EF0612D18AED00CF3F00 /* VT100RowView.m */,
+				9FE3EF4B12D2647500CF3F00 /* VT100TableViewController.h */,
+				9FE3EF4C12D2647500CF3F00 /* VT100TableViewController.m */,
 				2C11C5641013A4E500A2746E /* VT100Terminal.h */,
 				2C11C5661013A4E500A2746E /* VT100Terminal.m */,
 				2C11C56D1013A4E500A2746E /* VT100TextView.h */,
 				2C11C5671013A4E500A2746E /* VT100TextView.m */,
 				2C11C5621013A4E500A2746E /* VT100Types.h */,
-				9F89F65F1257C32C0015CFDB /* FontMetrics.h */,
-				9F89F6601257C32C0015CFDB /* FontMetrics.m */,
 			);
 			name = VT100;
 			sourceTree = "<group>";
@@ -518,6 +536,10 @@
 				2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */,
 				2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */,
 				2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */,
+				9FE3EF4D12D2647500CF3F00 /* VT100TableViewController.h in Headers */,
+				9FE3EF4F12D2648000CF3F00 /* VT100RowView.h in Headers */,
+				9FE3EF5112D2648500CF3F00 /* FontMetrics.h in Headers */,
+				9FE3EF6612D269CE00CF3F00 /* VT100StringSupplier.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -538,7 +560,6 @@
 				2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */,
 				2C11C94A1013F96400A2746E /* TerminalView.h in Headers */,
 				9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */,
-				9F89F6611257C32C0015CFDB /* FontMetrics.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -846,6 +867,10 @@
 				2C11C5821013A54300A2746E /* VT100.m in Sources */,
 				2C11C5831013A54300A2746E /* VT100Screen.m in Sources */,
 				2C11C5841013A54300A2746E /* ColorMap.m in Sources */,
+				9FE3EF4E12D2647500CF3F00 /* VT100TableViewController.m in Sources */,
+				9FE3EF5012D2648000CF3F00 /* VT100RowView.m in Sources */,
+				9FE3EF5212D2648500CF3F00 /* FontMetrics.m in Sources */,
+				9FE3EF6712D269CE00CF3F00 /* VT100StringSupplier.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -875,7 +900,6 @@
 				2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */,
 				2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */,
 				9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */,
-				9F89F6621257C32C0015CFDB /* FontMetrics.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
