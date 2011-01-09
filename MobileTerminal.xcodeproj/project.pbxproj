@@ -242,6 +242,7 @@
 		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
+		9F76B24912D980C0000D6374 /* svnversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svnversion.h; sourceTree = "<group>"; };
 		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
@@ -348,6 +349,7 @@
 				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
 				9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */,
 				9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */,
+				9F76B24912D980C0000D6374 /* svnversion.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -588,7 +590,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MobileTerminal" */;
 			buildPhases = (
-				9F76B0D912D96ABA000D6374 /* Generate svnversion.h */,
+				9F76B24B12D981ED000D6374 /* Generate svnversion.h */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -816,7 +818,7 @@
 			shellPath = /bin/sh;
 			shellScript = "#\n# When compiling for the device, copy term.h from the simulator SDK\n#\n\nif [ $PLATFORM_NAME == \"iphoneos\" ]\nthen\n  # Get the path to the iphone simulator SDK for the same version\n  SIMULATOR_SDK_DIR=${SDK_DIR//iPhoneOS/iPhoneSimulator}\n\n  # Copy to a temporary directory where the build will find the needed\n  # header files.  This directory may not already exist, but is passed\n  # as a header search path when compiling the source files.\n  mkdir -p $DERIVED_SOURCES_DIR\n  cp $SIMULATOR_SDK_DIR/usr/include/ncurses_dll.h $DERIVED_SOURCES_DIR/\n  cp $SIMULATOR_SDK_DIR/usr/include/term.h $DERIVED_SOURCES_DIR/\n\nfi";
 		};
-		9F76B0D912D96ABA000D6374 /* Generate svnversion.h */ = {
+		9F76B24B12D981ED000D6374 /* Generate svnversion.h */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -828,7 +830,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "mkdir -p $DERIVED_SOURCES_DIR\nSVN_VERSION=`svnversion $SRC_ROOT` \necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" > $DERIVED_SOURCES_DIR/svnversion.h";
+			shellScript = "mkdir -p $DERIVED_SOURCES_DIR\nSVN_VERSION=`svnversion $SRC_ROOT`\necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" >  svnversion.h";
 		};
 		9FDE6CBF11C4941300139215 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
