@@ -28,7 +28,7 @@ static int stat_hack(const char* path, struct stat* st) {
   char buf[STAT_SIZE * 2];
   int retval = stat(path, (struct stat*)buf);
   if (retval == 0) {
-    memcpy(buf, st, sizeof(struct stat));
+    memcpy(st, buf, sizeof(struct stat));
   }
   return retval;
 }
@@ -38,6 +38,7 @@ static int start_process(const char *path,
                          char *const env[])
 {
   struct stat st;
+  bzero(&st, sizeof(struct stat));
   if (stat_hack(path, &st) != 0) {
     fprintf(stderr, "%s: File does not exist\n", path);
     return -1;
