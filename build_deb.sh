@@ -20,8 +20,6 @@ if [ ${DEB_VERSION-_} ]; then
   DEB_VERSION=1
 fi
 SVN_VERSION=`svnversion $SRCROOT | sed 's/^.*://'`
-# This is the .deb package version, put in the control file and deb filename.
-VERSION="$SVN_VERSION-$DEB_VERSION"
 
 # Make sure the iPhone app has already been built
 APPLICATION_DIR=$BUILT_PRODUCTS_DIR/$APP_NAME.app
@@ -34,7 +32,16 @@ fi
 DEB_BUILD_DIR=$DERIVED_FILE_DIR/$PACKAGE_NAME
 DEB_METADATA_DIR=$DEB_BUILD_DIR/DEBIAN
 DEB_APP_DIR=$DEB_BUILD_DIR/Applications
-DEB_DST=$TARGET_BUILD_DIR/$PACKAGE_NAME-$VERSION.deb
+while [ true ]; do
+  # This is the .deb package version, put in the control file and deb filename.
+  VERSION="$SVN_VERSION-$DEB_VERSION"
+  DEB_DST=$TARGET_BUILD_DIR/$PACKAGE_NAME-$VERSION.deb
+  if [ ! -f $DEB_DST ]; then
+    echo "Building $DEB_DST"
+    break
+  fi
+  DEB_VERSION=$((DEB_VERSION + 1))
+done
 
 # Build the .deb metadata
 mkdir -p $DEB_METADATA_DIR
