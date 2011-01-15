@@ -158,6 +158,13 @@
 			remoteGlobalIDString = 2C11C9C81014035800A2746E;
 			remoteInfo = Preferences;
 		};
+		9FE6978312E2524600EDE939 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9FE6978012E2522700EDE939;
+			remoteInfo = svnversion;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -258,6 +265,7 @@
 		9FE3EF4C12D2647500CF3F00 /* VT100TableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100TableViewController.m; path = VT100/VT100TableViewController.m; sourceTree = "<group>"; };
 		9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100StringSupplier.h; path = VT100/VT100StringSupplier.h; sourceTree = "<group>"; };
 		9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100StringSupplier.m; path = VT100/VT100StringSupplier.m; sourceTree = "<group>"; };
+		9FE6971312E240C200EDE939 /* control.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = control.def; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
 		9FFD077312CFB33100709B8D /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Preferences/AboutViewController.h; sourceTree = "<group>"; };
@@ -393,6 +401,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9FE6971312E240C200EDE939 /* control.def */,
 				9F6B6D7D12297740007BAD59 /* Default.png */,
 				9F6B6D5712297452007BAD59 /* Icon-72.png */,
 				9F6B6D5812297452007BAD59 /* Icon-Small-50.png */,
@@ -585,12 +594,41 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		9FE6978012E2522700EDE939 /* svnversion */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 9FE6978F12E2525500EDE939 /* Build configuration list for PBXLegacyTarget "svnversion" */;
+			buildPhases = (
+			);
+			buildToolPath = ./build_svnversion.sh;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = svnversion;
+			passBuildSettingsInEnvironment = 1;
+			productName = svnversion;
+		};
+		9FE697B312E254C000EDE939 /* deb */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "$(ACTION)";
+			buildConfigurationList = 9FE697BF12E254DD00EDE939 /* Build configuration list for PBXLegacyTarget "deb" */;
+			buildPhases = (
+			);
+			buildToolPath = ./build_deb.sh;
+			dependencies = (
+			);
+			name = deb;
+			passBuildSettingsInEnvironment = 1;
+			productName = deb;
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		1D6058900D05DD3D006BFB54 /* MobileTerminal */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D6058960D05DD3E006BFB54 /* Build configuration list for PBXNativeTarget "MobileTerminal" */;
 			buildPhases = (
-				9F76B24B12D981ED000D6374 /* Generate svnversion.h */,
 				1D60588D0D05DD3D006BFB54 /* Resources */,
 				1D60588E0D05DD3D006BFB54 /* Sources */,
 				1D60588F0D05DD3D006BFB54 /* Frameworks */,
@@ -603,6 +641,7 @@
 				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
 				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
 				2C11CB6110143D4A00A2746E /* PBXTargetDependency */,
+				9FE6978412E2524600EDE939 /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -738,6 +777,8 @@
 				2C11C9311013F87100A2746E /* Terminal */,
 				2C11C9C81014035800A2746E /* Preferences */,
 				2C72B2BA101ABA9100F10E63 /* PreferencesTests */,
+				9FE6978012E2522700EDE939 /* svnversion */,
+				9FE697B312E254C000EDE939 /* deb */,
 			);
 		};
 /* End PBXProject section */
@@ -818,20 +859,6 @@
 			shellPath = /bin/sh;
 			shellScript = "#\n# When compiling for the device, copy term.h from the simulator SDK\n#\n\nif [ $PLATFORM_NAME == \"iphoneos\" ]\nthen\n  # Get the path to the iphone simulator SDK for the same version\n  SIMULATOR_SDK_DIR=${SDK_DIR//iPhoneOS/iPhoneSimulator}\n\n  # Copy to a temporary directory where the build will find the needed\n  # header files.  This directory may not already exist, but is passed\n  # as a header search path when compiling the source files.\n  mkdir -p $DERIVED_SOURCES_DIR\n  cp $SIMULATOR_SDK_DIR/usr/include/ncurses_dll.h $DERIVED_SOURCES_DIR/\n  cp $SIMULATOR_SDK_DIR/usr/include/term.h $DERIVED_SOURCES_DIR/\n\nfi";
 		};
-		9F76B24B12D981ED000D6374 /* Generate svnversion.h */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Generate svnversion.h";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "SVN_VERSION=`svnversion $SRC_ROOT | sed 's/.*://'`\necho \"#define SVN_VERSION ((int)strtol(\\\"$SVN_VERSION\\\", NULL, 10))\" >  svnversion.h";
-		};
 		9FDE6CBF11C4941300139215 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -842,8 +869,8 @@
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nexport CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ]; then\n/Developer/iphoneentitlements312/gen_entitlements.py \"com.googlecode.mobileterminal.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
+			shellPath = /bin/bash;
+			shellScript = "set -e\nset -u\n\nexport CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nexport CODESIGN_ALLOCATE=/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin/codesign_allocate\nif [ \"${PLATFORM_NAME}\" == \"iphoneos\" ]; then\n/Developer/iphoneentitlements312/gen_entitlements.py \"com.googlecode.mobileterminal.${PROJECT_NAME}\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\";\ncodesign -f -s \"iPhone Developer\" --entitlements \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/${PROJECT_NAME}.xcent\" \"${BUILT_PRODUCTS_DIR}/${WRAPPER_NAME}/\"\nfi";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -979,6 +1006,11 @@
 			isa = PBXTargetDependency;
 			target = 2C11C9C81014035800A2746E /* Preferences */;
 			targetProxy = 2C72B2C0101ABA9600F10E63 /* PBXContainerItemProxy */;
+		};
+		9FE6978412E2524600EDE939 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9FE6978012E2522700EDE939 /* svnversion */;
+			targetProxy = 9FE6978312E2524600EDE939 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1235,6 +1267,48 @@
 			};
 			name = Release;
 		};
+		9FE6978112E2522700EDE939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = svnversion;
+			};
+			name = Debug;
+		};
+		9FE6978212E2522700EDE939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = svnversion;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		9FE697B412E254C000EDE939 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = deb;
+			};
+			name = Debug;
+		};
+		9FE697B512E254C000EDE939 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = deb;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4F08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1343,6 +1417,24 @@
 			buildConfigurations = (
 				2C72B2BD101ABA9100F10E63 /* Debug */,
 				2C72B2BE101ABA9100F10E63 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9FE6978F12E2525500EDE939 /* Build configuration list for PBXLegacyTarget "svnversion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FE6978112E2522700EDE939 /* Debug */,
+				9FE6978212E2522700EDE939 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9FE697BF12E254DD00EDE939 /* Build configuration list for PBXLegacyTarget "deb" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9FE697B412E254C000EDE939 /* Debug */,
+				9FE697B512E254C000EDE939 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

@@ -1,0 +1,11 @@
+Package: com.googlecode.mobileterminal
+Name: MobileTerminal
+Version: VERSION
+Section: System
+Priority: optional
+Depends: bash ncurses system-cmds 
+Architecture: iphoneos-arm
+Author: MobileTerminal <mobileterminal@googlegroups.com>
+Maintainer: MobileTerminal <mobileterminal@googlegroups.com>
+Description: A Terminal emulator
+Homepage: http://mobileterminal.googlecode.com
