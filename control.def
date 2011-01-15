@@ -3,7 +3,7 @@ Name: MobileTerminal
 Version: VERSION
 Section: System
 Priority: optional
-Depends: bash ncurses system-cmds 
+Depends: bash, ncurses, system-cmds 
 Architecture: iphoneos-arm
 Author: MobileTerminal <mobileterminal@googlegroups.com>
 Maintainer: MobileTerminal <mobileterminal@googlegroups.com>
