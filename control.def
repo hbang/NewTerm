@@ -1,12 +1,16 @@
-Package: com.googlecode.mobileterminal
+Package: mobileterminal
+Priority: standard
 Name: MobileTerminal
 Version: VERSION
 Installed-Size: SIZE
-Section: Terminal Support
-Priority: optional
-Depends: bash, ncurses, system-cmds 
+Section: Terminal_Support
+Pre-Depends: dpkg (>= 1.14.25-8)
+Depends: bash, coreutils, ncurses, system-cmds
 Architecture: iphoneos-arm
 Author: MobileTerminal <mobileterminal@googlegroups.com>
 Maintainer: MobileTerminal <mobileterminal@googlegroups.com>
 Description: A Terminal emulator
+ This is a Terminal emulator for the iPhone. With it you can do all of 
+ your standard system administration tasks from anywhere: ssh into 
+ remote boxes, download files, edit configuration files, whatever. 
 Homepage: http://mobileterminal.googlecode.com
