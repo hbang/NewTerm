@@ -1,7 +1,8 @@
 Package: com.googlecode.mobileterminal
 Name: MobileTerminal
 Version: VERSION
-Section: System
+Installed-Size: SIZE
+Section: Terminal Support
 Priority: optional
 Depends: bash, ncurses, system-cmds 
 Architecture: iphoneos-arm

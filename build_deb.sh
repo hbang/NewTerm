@@ -7,8 +7,10 @@
 set -e
 set -u
 
+PATH=$PATH:/usr/local/bin
+
 if [ ! `which dpkg-deb` ]; then
-  echo "Could not find dpkg-debg command to build package";
+  echo "Could not find dpkg-deb command to build package";
   exit 1
 fi
 
@@ -27,6 +29,7 @@ if [ ! -d $APPLICATION_DIR ]; then
   echo "Application directory does not exist: $APPLICATION_DIR";
   exit 1
 fi
+APPLICATION_SIZE=`du -s -k $APPLICATION_DIR | awk '{ print $1 }'`
 
 # The directory where the .deb file is being packaged
 DEB_BUILD_DIR=$DERIVED_FILE_DIR/$PACKAGE_NAME
@@ -45,7 +48,7 @@ done
 
 # Build the .deb metadata
 mkdir -p $DEB_METADATA_DIR
-grep -v "^#" $SRCROOT/control.def | sed "s/VERSION/$VERSION/" > $DEB_METADATA_DIR/control
+grep -v "^#" $SRCROOT/control.def | sed "s/VERSION/$VERSION/" | sed "s/SIZE/$APPLICATION_SIZE/" > $DEB_METADATA_DIR/control
 
 # Copy the actual application
 mkdir -p $DEB_APP_DIR
