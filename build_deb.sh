@@ -17,6 +17,7 @@ fi
 APP_NAME=Terminal
 PACKAGE_NAME=MobileTerminal
 CONTROL_FILE=control.def
+ARCH=iphoneos-arm
 
 if [ ${DEB_VERSION-_} ]; then
   DEB_VERSION=1
@@ -38,7 +39,7 @@ DEB_APP_DIR=$DEB_BUILD_DIR/Applications
 while [ true ]; do
   # This is the .deb package version, put in the control file and deb filename.
   VERSION="$SVN_VERSION-$DEB_VERSION"
-  DEB_DST=$TARGET_BUILD_DIR/$PACKAGE_NAME-$VERSION.deb
+  DEB_DST=$TARGET_BUILD_DIR/${PACKAGE_NAME}_${VERSION}_${ARCH}.deb
   if [ ! -f $DEB_DST ]; then
     echo "Building $DEB_DST"
     break
@@ -48,7 +49,7 @@ done
 
 # Build the .deb metadata
 mkdir -p $DEB_METADATA_DIR
-grep -v "^#" $SRCROOT/control.def | sed "s/VERSION/$VERSION/" | sed "s/SIZE/$APPLICATION_SIZE/" > $DEB_METADATA_DIR/control
+grep -v "^#" $SRCROOT/control.def | sed "s/VERSION/$VERSION/" | sed "s/SIZE/$APPLICATION_SIZE/" | sed "s/ARCH/$ARCH/" > $DEB_METADATA_DIR/control
 
 # Copy the actual application
 mkdir -p $DEB_APP_DIR
