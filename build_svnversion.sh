@@ -7,7 +7,7 @@
 set -e
 set -u
 
-if [ $1 == "clean" ]; then
+if [ ${1-_} == "clean" ]; then
   rm -f $SRCROOT/svnversion.h
   exit 0
 fi

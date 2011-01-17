@@ -33,18 +33,18 @@ while [ true ]; do
   VERSION="$SVN_VERSION-$DEB_VERSION"
   DEB_DST=$TARGET_BUILD_DIR/${PACKAGE_NAME}_${VERSION}_${ARCH}.deb
   if [ ! -f $DEB_DST ]; then
-    echo "Building $DEB_DST"
     break
   fi
   DEB_VERSION=$((DEB_VERSION + 1))
 done
 
-if [ $1 == "clean" ]; then
+if [ ${1-_} == "clean" ]; then
   rm -fr $TARGET_BUILD_DIR/${PACKAGE_NAME}*
   rm -fr $DEB_BUILD_DIR
   exit 0
 fi
 
+echo "Building $DEB_DST"
 
 # Make sure the iPhone app has already been built
 APPLICATION_DIR=$BUILT_PRODUCTS_DIR/$APP_NAME.app
