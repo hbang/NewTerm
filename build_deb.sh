@@ -24,14 +24,6 @@ if [ ${DEB_VERSION-_} ]; then
 fi
 SVN_VERSION=`svnversion $SRCROOT | sed 's/^.*://'`
 
-# Make sure the iPhone app has already been built
-APPLICATION_DIR=$BUILT_PRODUCTS_DIR/$APP_NAME.app
-if [ ! -d $APPLICATION_DIR ]; then
-  echo "Application directory does not exist: $APPLICATION_DIR";
-  exit 1
-fi
-APPLICATION_SIZE=`du -s -k $APPLICATION_DIR | awk '{ print $1 }'`
-
 # The directory where the .deb file is being packaged
 DEB_BUILD_DIR=$DERIVED_FILE_DIR/$PACKAGE_NAME
 DEB_METADATA_DIR=$DEB_BUILD_DIR/DEBIAN
@@ -46,6 +38,22 @@ while [ true ]; do
   fi
   DEB_VERSION=$((DEB_VERSION + 1))
 done
+
+if [ $1 == "clean" ]; then
+  rm -fr $TARGET_BUILD_DIR/${PACKAGE_NAME}*
+  rm -fr $DEB_BUILD_DIR
+  exit 0
+fi
+
+
+# Make sure the iPhone app has already been built
+APPLICATION_DIR=$BUILT_PRODUCTS_DIR/$APP_NAME.app
+if [ ! -d $APPLICATION_DIR ]; then
+  echo "Application directory does not exist: $APPLICATION_DIR";
+  exit 1
+fi
+APPLICATION_SIZE=`du -s -k $APPLICATION_DIR | awk '{ print $1 }'`
+
 
 # Build the .deb metadata
 mkdir -p $DEB_METADATA_DIR
