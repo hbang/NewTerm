@@ -30,7 +30,6 @@
 {
   terminalKeyboard = [[TerminalKeyboard alloc] init];
   keyboardShown = NO;  
-  preferencesPressed = NO;
 
   // Copy and paste is off by default
   copyPasteEnabled = NO;
@@ -40,11 +39,23 @@
 {
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWasShown:)
-                                               name:UIKeyboardDidShowNotification object:nil];
+                                               name:UIKeyboardDidShowNotification
+                                             object:nil];
   
   [[NSNotificationCenter defaultCenter] addObserver:self
                                            selector:@selector(keyboardWasHidden:)
-                                               name:UIKeyboardDidHideNotification object:nil];
+                                               name:UIKeyboardDidHideNotification
+                                             object:nil];
+}
+
+- (void)unregisterForKeyboardNotifications
+{
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:UIKeyboardDidShowNotification
+                                                object:nil];
+  [[NSNotificationCenter defaultCenter] removeObserver:self
+                                                  name:UIKeyboardDidHideNotification
+                                                object:nil];
 }
 
 // TODO(allen): Fix the deprecation of UIKeyboardBoundsUserInfoKey
@@ -53,10 +64,10 @@
 
 - (void)keyboardWasShown:(NSNotification*)aNotification
 {
-  if (keyboardShown)
+  if (keyboardShown) {
     return;
+  }
   keyboardShown = YES;
-  shouldShowKeyboard = YES;
 
   NSDictionary* info = [aNotification userInfo];
   
@@ -73,20 +84,10 @@
 - (void)keyboardWasHidden:(NSNotification*)aNotification
 {
   if (!keyboardShown) {
-    preferencesPressed = NO;
     return;
   }
   keyboardShown = NO;
-  // If the keyboard is being hidden because the preferences button was pressed
-  // then remember that the keyboard should continue to be shown when returning
-  // back to the terminal screen.
-  if (preferencesPressed) {
-    preferencesPressed = NO;
-    shouldShowKeyboard = YES;
-  } else {
-    shouldShowKeyboard = NO;
-  }
-  
+
   NSDictionary* info = [aNotification userInfo];
   
   // Get the size of the keyboard.
@@ -110,8 +111,8 @@
 
 - (void)toggleKeyboard:(id)sender
 {
-  shouldShowKeyboard = !shouldShowKeyboard;
-  [self setShowKeyboard:shouldShowKeyboard];
+  BOOL isShown = keyboardShown;
+  [self setShowKeyboard:!isShown];
 }
 
 - (void)toggleCopyPaste:(id)sender;
@@ -139,7 +140,7 @@
 // Invoked when the preferences button is pressed
 - (void)preferencesButtonPressed:(id)sender 
 {
-  preferencesPressed = YES;
+  NSLog(@"prefs pressed");
   [interfaceDelegate preferencesButtonPressed];
 }
 
@@ -195,7 +196,6 @@
   // later allow us to make it the first responder so we can show the keyboard
   // on the screen.
   [[self view] addSubview:terminalKeyboard];
-  [self registerForKeyboardNotifications];
 
   // The menu button points to the right, but for this context it should point
   // up, since the menu moves that way.
@@ -209,8 +209,17 @@
   [self terminalSelectionDidChange:self];
 }
 
+- (void)viewDidDisappear:(BOOL)animated
+{
+  // Remember the keyboard state for the next reload and don't listen for
+  // keyboard hide/show events
+  shouldShowKeyboard = keyboardShown;
+  [self unregisterForKeyboardNotifications];
+}
+
 - (void)viewDidAppear:(BOOL)animated
 {
+  [self registerForKeyboardNotifications];
   [self setShowKeyboard:shouldShowKeyboard];
   
   // Reset the font in case it changed in the preferenes view
