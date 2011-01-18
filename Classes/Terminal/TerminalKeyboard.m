@@ -64,7 +64,7 @@ static const int kControlCharacter = 0x2022;
 
     // Data to send in response to a backspace.  This is created now so it is
     // not re-allocated on ever backspace event.
-    backspaceData = [[NSData alloc] initWithBytes:"\x08" length:1];    
+    backspaceData = [[NSData alloc] initWithBytes:"\x7F" length:1];    
     controlKeyMode = FALSE;
   }
   return self;
