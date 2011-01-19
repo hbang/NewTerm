@@ -2,9 +2,9 @@
 <archive type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">768</int>
-		<string key="IBDocument.SystemVersion">10F569</string>
+		<string key="IBDocument.SystemVersion">10H574</string>
 		<string key="IBDocument.InterfaceBuilderVersion">788</string>
-		<string key="IBDocument.AppKitVersion">1038.29</string>
+		<string key="IBDocument.AppKitVersion">1038.35</string>
 		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.IBCocoaTouchPlugin</string>
@@ -62,6 +62,7 @@
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
 			</object>
 			<object class="IBUINavigationController" id="323037410">
+				<string key="IBUITitle">Preferences</string>
 				<object class="IBUISimulatedNavigationBarMetrics" key="IBUISimulatedTopBarMetrics">
 					<bool key="IBUIPrompted">NO</bool>
 				</object>
@@ -118,6 +119,7 @@
 						<bool key="IBUIHorizontal">NO</bool>
 					</object>
 				</object>
+				<bool key="IBUINavigationBarHidden">YES</bool>
 			</object>
 			<object class="IBUICustomObject" id="239841796">
 				<string key="targetRuntimeIdentifier">IBCocoaTouchFramework</string>
@@ -765,7 +767,6 @@
 							<string>gestureSettingsController</string>
 							<string>menuSettingsController</string>
 							<string>navigationController</string>
-							<string>terminalSettingsController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -773,7 +774,6 @@
 							<string>UIViewController</string>
 							<string>UIViewController</string>
 							<string>UINavigationController</string>
-							<string>UIViewController</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -784,7 +784,6 @@
 							<string>gestureSettingsController</string>
 							<string>menuSettingsController</string>
 							<string>navigationController</string>
-							<string>terminalSettingsController</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -803,10 +802,6 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">navigationController</string>
 								<string key="candidateClassName">UINavigationController</string>
-							</object>
-							<object class="IBToOneOutletInfo">
-								<string key="name">terminalSettingsController</string>
-								<string key="candidateClassName">UIViewController</string>
 							</object>
 						</object>
 					</object>
