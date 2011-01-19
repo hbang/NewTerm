@@ -24,7 +24,13 @@
   settings.svnVersion = SVN_VERSION;
   
   [[UIApplication sharedApplication] setStatusBarHidden:YES];
-  [window addSubview:terminalViewController.view];
+  
+  NSMutableArray* viewControllers = [[NSMutableArray alloc] init];
+  [viewControllers addObject:terminalViewController];  
+  [navigationController setViewControllers:viewControllers animated:NO];
+  [viewControllers release];
+    
+  [window addSubview:navigationController.view];
   [window makeKeyAndVisible];
 }
 
@@ -32,36 +38,20 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
 
 - (void)preferencesButtonPressed
 {
-  [UIView beginAnimations:NULL context:NULL];
-  [UIView setAnimationDuration:kAnimationDuration];
-  [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromLeft
-                         forView:navigationController.view
-                           cache:YES];
-  navigationController.visibleViewController.view = preferencesViewController.view;
-
-  [terminalViewController.view removeFromSuperview];
-  [window addSubview:navigationController.view];
-  [UIView commitAnimations];
+  [navigationController setNavigationBarHidden:NO];
+  [navigationController pushViewController:preferencesViewController animated:YES];
 }
 
 - (void)preferencesDonePressed:(id)sender;
 {
   [[Settings sharedInstance] persist];
-  [UIView beginAnimations:NULL context:NULL];
-  [UIView setAnimationDuration:kAnimationDuration];
-  [UIView setAnimationTransition:UIViewAnimationTransitionFlipFromRight 
-                         forView:terminalViewController.view
-                           cache:YES];
   [navigationController popViewControllerAnimated:YES];
-  [navigationController.view removeFromSuperview];
-  [window addSubview:terminalViewController.view];  
-  [UIView commitAnimations];
 }
 
-- (void)dealloc {
-  [terminalViewController release];
-  [window release];
-  [super dealloc];
+- (void)rootViewDidAppear
+{
+  // This must be invoked after the animation to show the root view completes
+  [navigationController setNavigationBarHidden:YES];  
 }
 
 @end

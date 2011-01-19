@@ -14,6 +14,7 @@
 @protocol MobileTerminalInterfaceDelegate
 @required
 - (void)preferencesButtonPressed;
+- (void)rootViewDidAppear;
 @end
 
 @interface MobileTerminalViewController : UIViewController <MenuViewDelegate> {

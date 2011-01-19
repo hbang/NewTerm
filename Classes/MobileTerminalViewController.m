@@ -140,7 +140,11 @@
 // Invoked when the preferences button is pressed
 - (void)preferencesButtonPressed:(id)sender 
 {
-  NSLog(@"prefs pressed");
+  // Remember the keyboard state for the next reload and don't listen for
+  // keyboard hide/show events
+  shouldShowKeyboard = keyboardShown;
+  [self unregisterForKeyboardNotifications];
+
   [interfaceDelegate preferencesButtonPressed];
 }
 
@@ -209,16 +213,9 @@
   [self terminalSelectionDidChange:self];
 }
 
-- (void)viewDidDisappear:(BOOL)animated
-{
-  // Remember the keyboard state for the next reload and don't listen for
-  // keyboard hide/show events
-  shouldShowKeyboard = keyboardShown;
-  [self unregisterForKeyboardNotifications];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
+  [interfaceDelegate rootViewDidAppear];
   [self registerForKeyboardNotifications];
   [self setShowKeyboard:shouldShowKeyboard];
   

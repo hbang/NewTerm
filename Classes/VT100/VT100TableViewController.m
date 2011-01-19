@@ -64,8 +64,6 @@
                                    reuseIdentifier:kCellIdentifier] autorelease];
     VT100RowView* rowView =
         [[VT100RowView alloc] initWithFrame:[self cellFrame]];
-    // For now we assume that the font metrics never change
-    rowView.fontMetrics = fontMetrics;
     rowView.stringSupplier = stringSupplier;
     [cell.contentView addSubview:rowView];
     [rowView release];
@@ -94,7 +92,7 @@
   NSAssert([subviews count] == 1, @"Invalid contentView size");
   VT100RowView* rowView = [subviews objectAtIndex:0];
   rowView.rowIndex = tableRow;
-  
+  rowView.fontMetrics = fontMetrics;  
   // resize the row in case the table has changed size
   cell.frame = [self cellFrame];
   rowView.frame = [self cellFrame];  

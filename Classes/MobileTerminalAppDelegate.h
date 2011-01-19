@@ -23,6 +23,7 @@
 
 - (void)preferencesButtonPressed;
 - (void)preferencesDonePressed:(id)sender;
+- (void)rootViewDidAppear;
 
 @end
 

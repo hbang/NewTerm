@@ -3,6 +3,7 @@
 
 #import "TerminalGroupView.h"
 #import "TerminalView.h"
+#import "Preferences/Settings.h"
 
 // TODO(allen): This should be dynamic, or not supported at all.
 static const int NUM_TERMINALS = 2;
@@ -13,9 +14,13 @@ static const int NUM_TERMINALS = 2;
 {
   self = [super initWithCoder:decoder];
   if (self != nil) {
-    terminals = [[NSMutableArray alloc] init];    
+    terminals = [[NSMutableArray alloc] init];
+    
+    TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
+    UIFont* font = [settings font];
     for (int i = 0; i < NUM_TERMINALS; ++i) {
       TerminalView* view = [[TerminalView alloc] initWithCoder:decoder];
+      [view setFont:font];
       [terminals addObject:view];
       [self addSubview:view];
     }
