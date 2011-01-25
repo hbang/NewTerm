@@ -8,6 +8,9 @@
 #import "VT100StringSupplier.h"
 #import "VT100TableViewController.h"
 
+// Percentage of this view that does not allow scrolling.  See hitTest.
+static const double kSwipeWidth = 0.85;
+
 extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 
 @interface VT100TextView (RefreshDelegate) <ScreenBufferRefreshDelegate>
@@ -38,7 +41,6 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
     tableViewController = [[VT100TableViewController alloc] initWithColorMap:colorMap];
     tableViewController.stringSupplier = stringSupplier;
     tableViewController.fontMetrics = fontMetrics;
-    [tableViewController.tableView setBackgroundColor:[colorMap background]];
     [self addSubview:tableViewController.tableView];
     
     [stringSupplier release];
@@ -219,6 +221,16 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
                       selectionEnd.y - selectionStart.y);
   }
   return [self scaleRect:rect];
+}
+
+- (UIView *)hitTest:(CGPoint)point withEvent:(UIEvent *)event
+{
+  // Allow scrolling on the right side of the view near the scrollbar.
+  // Otherwise, bubble up hit events to the gesture recognizer.
+  if (point.x > [self frame].size.width * kSwipeWidth) {
+    return [super hitTest:point withEvent:event];
+  }
+  return NULL;
 }
 
 @end
