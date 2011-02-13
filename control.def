@@ -5,7 +5,7 @@ Version: VERSION
 Installed-Size: SIZE
 Section: Terminal_Support
 Pre-Depends: dpkg (>= 1.14.25-8)
-Depends: bash, ncurses, system-cmds
+Depends: bash, coreutils, ncurses, system-cmds
 Architecture: ARCH
 Author: MobileTerminal <mobileterminal@googlegroups.com>
 Maintainer: MobileTerminal <mobileterminal@googlegroups.com>
