@@ -162,7 +162,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 1D6058900D05DD3D006BFB54 /* MobileTerminal */;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
 			remoteInfo = MobileTerminal;
 		};
 		9FE6978312E2524600EDE939 /* PBXContainerItemProxy */ = {
@@ -256,7 +256,7 @@
 		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
-		9F76B24912D980C0000D6374 /* svnversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = svnversion.h; sourceTree = "<group>"; };
+		9F76B24912D980C0000D6374 /* svnversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svnversion.h; path = ../svnversion.h; sourceTree = "<group>"; };
 		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };

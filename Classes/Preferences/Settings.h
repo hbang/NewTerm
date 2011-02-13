@@ -32,7 +32,6 @@
 // Write the settings to persistent storage
 - (void)persist;
 
-- (id)initWithDefaultValues;
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 

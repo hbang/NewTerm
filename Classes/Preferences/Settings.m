@@ -35,29 +35,30 @@ static int kDefaultMenuItemsCount =
 
 static Settings* settings = nil;
 
-+ (void)initialize
-{
-  Settings* settings = [[Settings alloc] initWithDefaultValues];
-  NSData* data = [NSKeyedArchiver archivedDataWithRootObject:settings];
-  [settings release];
-  
-  NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-  NSDictionary *appDefaults =
-      [NSDictionary dictionaryWithObject:data forKey:kSettingsKey];
-  [defaults registerDefaults:appDefaults];
-}
-
 + (Settings*)sharedInstance
 {
   if (settings == nil) {
-    NSData* data = [[NSUserDefaults standardUserDefaults] dataForKey:kSettingsKey];  
-    settings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+    NSData* data = [defaults dataForKey:kSettingsKey];  
+    if (data) {
+      NSLog(@"Reading previous settings from NSUserDefaults");
+      // Unwrap previous settings
+      settings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
+      if (settings == nil) {
+        NSLog(@"Unable to unarchive existing settings.  This shouldn't happen.");
+      }
+    }
+    if (settings == nil) {
+      NSLog(@"Using default settings");
+      settings = [[Settings alloc] init];
+    }
   }
   return settings;
 }
 
 - (void)persist
 {
+  NSLog(@"Writing settings to NSUserDefaults");
   NSData* data = [NSKeyedArchiver archivedDataWithRootObject:self];
   [[NSUserDefaults standardUserDefaults] setObject:data forKey:kSettingsKey];
 }
@@ -67,10 +68,8 @@ static Settings* settings = nil;
   return [self initWithCoder:nil];
 }
 
-- (id)initWithDefaultValues
+- (void)initDefaultMenuSettings
 {
-  self = [self init];
-  
   // TODO(allen): Put defaults values in an XML file.  Maybe using an XML file
   // would have been better than using NSUserDefaults.
   for (int i = 0; i < kDefaultMenuItemsCount; ++i) {
@@ -79,8 +78,10 @@ static Settings* settings = nil;
     [menuSettings addMenuItem:menuItem];
     [menuItem release];
   }
-  
+}
 
+- (void)initDefaultGestureSettings
+{
   // Initialize the defaults from the .plist file.
   NSString* path =
     [[NSBundle mainBundle] pathForResource:@"GestureDefaults"
@@ -96,7 +97,6 @@ static Settings* settings = nil;
     [actionLabel release];
   }
   [defaultLabels release];
-  return self;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder
@@ -105,17 +105,19 @@ static Settings* settings = nil;
   if (self != nil) {
     if ([decoder containsValueForKey:kVersionKey]) {
       int version = [decoder decodeIntForKey:kVersionKey];
-      NSLog(@"Settings previously written by: %d", version);
+      NSLog(@"Settings previously written by v%d", version);
     }
     if ([decoder containsValueForKey:kMenuSettings]) {
       menuSettings = [[decoder decodeObjectForKey:kMenuSettings] retain];
     } else {
       menuSettings = [[MenuSettings alloc] init];
+      [self initDefaultMenuSettings];
     }
     if ([decoder containsValueForKey:kGestureSettings]) {
       gestureSettings = [[decoder decodeObjectForKey:kGestureSettings] retain];
     } else {
       gestureSettings = [[GestureSettings alloc] init];
+      [self initDefaultGestureSettings];
     }
     if ([decoder containsValueForKey:kTerminalSettings]) {
       terminalSettings = [[decoder decodeObjectForKey:kTerminalSettings] retain];

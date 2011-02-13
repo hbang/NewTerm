@@ -14,6 +14,7 @@
   UINavigationController *navigationController;
   MobileTerminalViewController *terminalViewController;
   PreferencesViewController *preferencesViewController;
+  BOOL inPreferences;
 }
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
@@ -22,7 +23,6 @@
 @property (nonatomic, retain) IBOutlet PreferencesViewController *preferencesViewController;
 
 - (void)preferencesButtonPressed;
-- (void)preferencesDonePressed:(id)sender;
 - (void)rootViewDidAppear;
 
 @end

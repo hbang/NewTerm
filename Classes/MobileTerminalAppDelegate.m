@@ -32,24 +32,25 @@
     
   [window addSubview:navigationController.view];
   [window makeKeyAndVisible];
+  inPreferences = FALSE;
 }
 
 static const NSTimeInterval kAnimationDuration = 1.00f;
 
 - (void)preferencesButtonPressed
 {
+  inPreferences = TRUE;
   [navigationController setNavigationBarHidden:NO];
   [navigationController pushViewController:preferencesViewController animated:YES];
 }
 
-- (void)preferencesDonePressed:(id)sender;
-{
-  [[Settings sharedInstance] persist];
-  [navigationController popViewControllerAnimated:YES];
-}
-
 - (void)rootViewDidAppear
 {
+  if (inPreferences) {
+    [[Settings sharedInstance] persist];
+  }
+  inPreferences = TRUE;
+
   // This must be invoked after the animation to show the root view completes
   [navigationController setNavigationBarHidden:YES];  
 }
