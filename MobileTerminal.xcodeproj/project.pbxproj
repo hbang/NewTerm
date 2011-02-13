@@ -158,6 +158,13 @@
 			remoteGlobalIDString = 2C11C9C81014035800A2746E;
 			remoteInfo = Preferences;
 		};
+		9FB2C1A7130881B900DAABA0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D6058900D05DD3D006BFB54 /* MobileTerminal */;
+			remoteInfo = MobileTerminal;
+		};
 		9FE6978312E2524600EDE939 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
@@ -617,6 +624,7 @@
 			);
 			buildToolPath = ./build_deb.sh;
 			dependencies = (
+				9FB2C1A8130881B900DAABA0 /* PBXTargetDependency */,
 			);
 			name = deb;
 			passBuildSettingsInEnvironment = 1;
@@ -1006,6 +1014,11 @@
 			isa = PBXTargetDependency;
 			target = 2C11C9C81014035800A2746E /* Preferences */;
 			targetProxy = 2C72B2C0101ABA9600F10E63 /* PBXContainerItemProxy */;
+		};
+		9FB2C1A8130881B900DAABA0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D6058900D05DD3D006BFB54 /* MobileTerminal */;
+			targetProxy = 9FB2C1A7130881B900DAABA0 /* PBXContainerItemProxy */;
 		};
 		9FE6978412E2524600EDE939 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
