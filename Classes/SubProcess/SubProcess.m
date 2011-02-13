@@ -117,7 +117,7 @@ static int start_process(const char *path,
     return;
   }
   
-  kill(child_pid, SIGHUP);
+  kill(child_pid, SIGKILL);
   int stat;
   waitpid(child_pid, &stat, WUNTRACED);
 
