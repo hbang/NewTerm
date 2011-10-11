@@ -39,7 +39,7 @@ static const int kNumTerminalColors = 16;
   // red
   table[9] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
   // green
-  table[10] = [[UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.0f] retain];
+  table[10] = [[UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:1.0f] retain];
   // yellow
   table[11] = [[UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:1.0f] retain];
   // blue
