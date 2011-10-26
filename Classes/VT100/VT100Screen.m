@@ -505,7 +505,7 @@ static __inline__ screen_char_t *incrementLinePointer(
     if(buffer_lines != NULL)
         return;
 
-    if (lineCount < 0 || lineCount > MAX_SCROLLBACK_LINES) {
+    if (lineCount > MAX_SCROLLBACK_LINES) {
         dynamic_scrollback_size = YES;
         max_scrollback_lines = DEFAULT_SCROLLBACK;
     } else {

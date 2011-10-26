@@ -127,9 +127,9 @@ static NoneGestureAction* noneInstance;
     
     gestureActions = [[NSMutableArray alloc] init];
     
-    GestureItem* noneItem = [[NoneGestureAction alloc] init];
-    [gestureActions addObject:noneItem];
-    [noneItem release];
+    NoneGestureAction* noneAction = [[NoneGestureAction alloc] init];
+    [gestureActions addObject:noneAction];
+    [noneAction release];
   }
   return self;
 }
