@@ -10,77 +10,74 @@ static const int NUM_TERMINALS = 2;
 
 @implementation TerminalGroupView
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
-  self = [super initWithCoder:decoder];
-  if (self != nil) {
-    terminals = [[NSMutableArray alloc] init];
-    
-    TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
-    UIFont* font = [settings font];
-    for (int i = 0; i < NUM_TERMINALS; ++i) {
+- (id)initWithCoder:(NSCoder *)decoder {
+	self = [super initWithCoder:decoder];
+	if (self != nil) {
+		terminals = [[NSMutableArray alloc] init];
+		
+		TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
+		UIFont* font = [settings font];
+		for (int i = 0; i < NUM_TERMINALS; ++i) {
 		TerminalView* view = [[[TerminalView alloc] initWithCoder:decoder] autorelease];
-      [view setFont:font];
-      [terminals addObject:view];
-      [self addSubview:view];
-    }
-    [self bringTerminalToFront:0];
-  }
-  return self;
+			[view setFont:font];
+			[terminals addObject:view];
+			[self addSubview:view];
+		}
+		[self bringTerminalToFront:0];
+	}
+	return self;
 }
 
 - (void)dealloc
 {
-  [terminals release];
-  [super dealloc];
+	[terminals release];
+	[super dealloc];
 }
 
 - (void)startSubProcess
 {
-  for (int i = 0; i < [terminals count]; ++i) {
-    TerminalView* view = [terminals objectAtIndex:i];
-    [view startSubProcess];
-  }
+	for (int i = 0; i < [terminals count]; ++i) {
+		TerminalView* view = [terminals objectAtIndex:i];
+		[view startSubProcess];
+	}
 }
 
 - (int)terminalCount
 {
-  return [terminals count];
+	return [terminals count];
 }
 
-- (TerminalView*)terminalAtIndex:(int)index
-{
-  return [terminals objectAtIndex:index];
+- (TerminalView*)terminalAtIndex:(int)index {
+	return [terminals objectAtIndex:index];
 }
 
 static const NSTimeInterval kAnimationDuration = 0.50f;
 
 - (void)bringTerminalToFront:(TerminalView*)terminalView
 {
-  int previousActiveTerminalIndex = activeTerminalIndex;
-  for (int i = 0; i < [terminals count]; ++i) {
-    TerminalView* view = [terminals objectAtIndex:i];
-    if (view == terminalView) {
-      activeTerminalIndex = i;
-      break;
-    }
-  }
-  UIViewAnimationTransition transition;
-  if (previousActiveTerminalIndex < activeTerminalIndex) {
-    transition = UIViewAnimationTransitionCurlUp;
-  } else {
-    transition = UIViewAnimationTransitionCurlDown;
-  } 
-  [UIView beginAnimations:NULL context:NULL];
-  [UIView setAnimationDuration:kAnimationDuration];
-  [UIView setAnimationTransition:transition forView:self cache:YES];
-  [self bringSubviewToFront:terminalView];
-  [UIView commitAnimations];
+	int previousActiveTerminalIndex = activeTerminalIndex;
+	for (int i = 0; i < [terminals count]; ++i) {
+		TerminalView* view = [terminals objectAtIndex:i];
+		if (view == terminalView) {
+			activeTerminalIndex = i;
+			break;
+		}
+	}
+	UIViewAnimationTransition transition;
+	if (previousActiveTerminalIndex < activeTerminalIndex) {
+		transition = UIViewAnimationTransitionCurlUp;
+	} else {
+		transition = UIViewAnimationTransitionCurlDown;
+	} 
+	[UIView beginAnimations:NULL context:NULL];
+	[UIView setAnimationDuration:kAnimationDuration];
+	[UIView setAnimationTransition:transition forView:self cache:YES];
+	[self bringSubviewToFront:terminalView];
+	[UIView commitAnimations];
 }
 
-- (TerminalView*)frontTerminal
-{
-  return [self terminalAtIndex:activeTerminalIndex];
+- (TerminalView*)frontTerminal {
+	return [self terminalAtIndex:activeTerminalIndex];
 }
 
 @end

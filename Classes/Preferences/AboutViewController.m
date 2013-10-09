@@ -8,10 +8,9 @@
 
 @synthesize versionLabel;
 
-- (void)awakeFromNib
-{
-  [super awakeFromNib];
-  versionLabel.text = [NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]];
+- (void)awakeFromNib {
+	[super awakeFromNib];
+	versionLabel.text = [NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]];
 }
 
 @end
