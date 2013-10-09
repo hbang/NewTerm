@@ -16,16 +16,16 @@
 // delegate is not invoked.
 @interface MenuEditViewController : UIViewController {
 @private
-  UITextField* labelTextField;
-  UITextView* commandTextView;
-  MenuItem* editingMenuItem;
+  UITextField *labelTextField;
+  UITextView *commandTextView;
+  MenuItem *editingMenuItem;
   id<MenuEditDelegate> menuEditDelegate;
 }
 
-@property(nonatomic, retain) IBOutlet UITextField* labelTextField;
-@property(nonatomic, retain) IBOutlet UITextView* commandTextView;
+@property(nonatomic, retain) IBOutlet UITextField *labelTextField;
+@property(nonatomic, retain) IBOutlet UITextView *commandTextView;
 
-@property(nonatomic, retain) IBOutlet MenuItem* editingMenuItem;
+@property(nonatomic, retain) IBOutlet MenuItem *editingMenuItem;
 @property(nonatomic, retain) IBOutlet id<MenuEditDelegate> menuEditDelegate;
 
 @end

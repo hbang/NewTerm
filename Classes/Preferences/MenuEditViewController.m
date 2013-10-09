@@ -26,8 +26,7 @@
 	[doneButtonItem release];
 }
 
-- (void)viewWillAppear:(BOOL)animated
-{
+- (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 	labelTextField.text = editingMenuItem.label;
 	// TODO(allen): This currently does not handle control character conversion

@@ -860,8 +860,7 @@ static VT100TCC decode_euccn(unsigned char *datap,
 
 static VT100TCC decode_big5(unsigned char *datap,
 				size_t datalen,
-				size_t *rmlen)
-{
+				size_t *rmlen) {
 		VT100TCC result;
 		unsigned char *p = datap;
 		size_t len = datalen;
@@ -894,8 +893,7 @@ static VT100TCC decode_big5(unsigned char *datap,
 
 static VT100TCC decode_euc_jp(unsigned char *datap,
 				size_t datalen,
-				size_t *rmlen)
-{
+				size_t *rmlen) {
 		VT100TCC result;
 		unsigned char *p = datap;
 		size_t len = datalen;
@@ -1040,8 +1038,7 @@ static VT100TCC decode_ascii_string(unsigned char *datap, size_t datalen,
 }
 
 static VT100TCC decode_string(unsigned char *datap, size_t datalen,
-				size_t *rmlen, NSStringEncoding encoding)
-{
+				size_t *rmlen, NSStringEncoding encoding) {
 		VT100TCC result;
 
 		*rmlen = 0;
@@ -1166,8 +1163,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return termType;
 }
 
-- (void)setTermType:(NSString *)ttype
-{
+- (void)setTermType:(NSString *)ttype {
 		if (termType) [termType release];
 		termType = [[NSString stringWithString:ttype] retain];
 
@@ -1252,8 +1248,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		TRACE = flag;
 }
 
-- (BOOL)strictAnsiMode
-{
+- (BOOL)strictAnsiMode {
 		return (strictAnsiMode);
 }
 
@@ -1270,8 +1265,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		allowColumnMode = flag;
 }
 
-- (NSStringEncoding)encoding
-{
+- (NSStringEncoding)encoding {
 		return ENCODING;
 }
 
@@ -1286,8 +1280,8 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		[streamLock unlock];
 }
 
-- (void)putStreamData:(NSData*)data {
-	unsigned char* buffer = (unsigned char*)[data bytes];
+- (void)putStreamData:(NSData *)data {
+	unsigned char *buffer = (unsigned char*)[data bytes];
 	int length = [data length];
 	[streamLock lock];
 	if (current_stream_length + length > total_stream_length) {
@@ -1304,8 +1298,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 	[streamLock unlock];
 }
 
-- (VT100TCC)getNextToken
-{
+- (VT100TCC)getNextToken {
 		unsigned char *datap;
 		size_t datalen;
 		VT100TCC result;
@@ -1516,8 +1509,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return [NSData dataWithBytes:str length:len];
 }
 
-- (NSData *)keyPFn:(int)n
-{
+- (NSData *)keyPFn:(int)n {
 		NSData *theData;
 
 		switch (n) {
@@ -1616,8 +1608,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return LINE_MODE;
 }
 
-- (BOOL)cursorMode
-{
+- (BOOL)cursorMode {
 		return CURSOR_MODE;
 }
 
@@ -1634,8 +1625,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return SCREEN_MODE;
 }
 
-- (BOOL)originMode
-{
+- (BOOL)originMode {
 		return ORIGIN_MODE;
 }
 
@@ -1652,8 +1642,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return INTERLACE_MODE;
 }
 
-- (BOOL)keypadMode
-{
+- (BOOL)keypadMode {
 		return KEYPAD_MODE;
 }
 
@@ -1670,8 +1659,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return CHARSET;
 }
 
-- (mouseMode)mouseMode
-{
+- (mouseMode)mouseMode {
 		return MOUSE_MODE;
 }
 
@@ -1686,8 +1674,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		return (reversed?FG_COLORCODE:BG_COLORCODE);
 }
 
-- (NSData *)reportActivePositionWithX:(int)x Y:(int)y
-{
+- (NSData *)reportActivePositionWithX:(int)x Y:(int)y {
 		char buf[64];
 
 		snprintf(buf, sizeof(buf), REPORT_POSITION, y, x);

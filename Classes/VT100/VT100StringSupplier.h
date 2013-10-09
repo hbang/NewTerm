@@ -11,11 +11,11 @@ extern CFStringRef const kBackgroundColorAttributeName;
 @interface VT100StringSupplier : NSObject<AttributedStringSupplier> {
 @private
   id<ScreenBuffer> screenBuffer;
-  ColorMap* colorMap;
+  ColorMap *colorMap;
 }
 
 @property (nonatomic, retain) id <ScreenBuffer> screenBuffer;
-@property (nonatomic, retain) ColorMap* colorMap;
+@property (nonatomic, retain) ColorMap *colorMap;
 
 - (int)rowCount;
 - (CFStringRef)newString:(int)rowIndex;

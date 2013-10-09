@@ -10,9 +10,9 @@
 @interface TextPosition : UITextPosition
 {
 @private
-  NSNumber* position;
+  NSNumber *position;
 }
-@property (nonatomic, retain) NSNumber* position;
+@property (nonatomic, retain) NSNumber *position;
 @end
 
 @interface UITextInputBase : UIView <UITextInput> {

@@ -46,8 +46,7 @@
 
 
 - (void)drawBackground:(CGContextRef)context
-						 forString:(CFAttributedStringRef)attributedString
-{
+						 forString:(CFAttributedStringRef)attributedString {
 	// Paints the background in as few steps as possible by finding common runs
 	// of text with the same attributes.
 	CFRange remaining =
@@ -66,8 +65,7 @@
 	}
 }
 
-- (void)drawRect:(CGRect)rect
-{
+- (void)drawRect:(CGRect)rect {
 	NSAssert(fontMetrics != nil, @"fontMetrics not initialized");
 	NSAssert(stringSupplier != nil, @"stringSupplier not initialized");
 	CGContextRef context = UIGraphicsGetCurrentContext();

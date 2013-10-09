@@ -5,13 +5,13 @@
 
 @implementation MenuItem
 
-static NSString* kLabelKey = @"label";
-static NSString* kCommandKey = @"command";
+static NSString *kLabelKey = @"label";
+static NSString *kCommandKey = @"command";
 
 @synthesize label;
 @synthesize command;
 
-- (id)initWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
+- (id)initWithLabel:(NSString *)aLabel andCommand:(NSString *)aCommand;
 {
 	self = [super init];
 	if (self != nil) {
@@ -21,7 +21,7 @@ static NSString* kCommandKey = @"command";
 	return self;
 }
 
-+ (MenuItem*)newItemWithLabel:(NSString*)aLabel andCommand:(NSString*)aCommand;
++ (MenuItem *)newItemWithLabel:(NSString *)aLabel andCommand:(NSString *)aCommand;
 {
 	return [[MenuItem alloc] initWithLabel:aLabel andCommand:aCommand];
 }
@@ -44,8 +44,7 @@ static NSString* kCommandKey = @"command";
 	return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
 	[label release];
 	[command release];
 	[super dealloc];
@@ -60,14 +59,13 @@ static NSString* kCommandKey = @"command";
 
 @implementation MenuSettings
 
-static NSString* kMenuItemsKey = @"menuitems";
+static NSString *kMenuItemsKey = @"menuitems";
 
 - (id) init {
 	return [self initWithCoder:nil];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
+- (id)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self != nil) {
 		if ([decoder containsValueForKey:kMenuItemsKey]) {
@@ -80,14 +78,12 @@ static NSString* kMenuItemsKey = @"menuitems";
 	return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
 	[menuItems release];
 	[super dealloc];
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder
-{
+- (void)encodeWithCoder:(NSCoder *)encoder {
 	[encoder encodeObject:menuItems forKey:kMenuItemsKey];
 }
 
@@ -95,17 +91,16 @@ static NSString* kMenuItemsKey = @"menuitems";
 	return [menuItems count];
 }
 
-- (MenuItem*)menuItemAtIndex:(int)index
+- (MenuItem *)menuItemAtIndex:(int)index
 {
 	return [menuItems objectAtIndex:index];
 }
 
-- (void)addMenuItem:(MenuItem*)menuItem {
+- (void)addMenuItem:(MenuItem *)menuItem {
 	[menuItems addObject:menuItem];
 }
 
-- (void)removeMenuItemAtIndex:(int)index
-{
+- (void)removeMenuItemAtIndex:(int)index {
 	[menuItems removeObjectAtIndex:index];
 }
 

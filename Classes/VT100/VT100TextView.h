@@ -17,27 +17,27 @@
 @interface VT100TextView : UIView {
 @private
   // The lines of text are displayed via a table view
-  VT100TableViewController* tableViewController;
+  VT100TableViewController *tableViewController;
   
   id <ScreenBuffer> buffer;
-  FontMetrics* fontMetrics;
+  FontMetrics *fontMetrics;
   
-  ColorMap* colorMap;
+  ColorMap *colorMap;
 }
 
 @property (nonatomic, retain) IBOutlet id <ScreenBuffer> buffer;
-@property (nonatomic, retain) IBOutlet ColorMap* colorMap;
+@property (nonatomic, retain) IBOutlet ColorMap *colorMap;
 
 // Sets the font to display on the screen.
 // The caller should likely also call setNeedsLayout on this object.
-- (void)setFont:(UIFont*)font;
+- (void)setFont:(UIFont *)font;
 
 // Returns the height and width of the terminal in characters
 - (int)width;
 - (int)height;
 
 // Process an input stream of data
-- (void)readInputStream:(NSData*)data;
+- (void)readInputStream:(NSData *)data;
 
 - (void)clearScreen;
 
@@ -53,7 +53,7 @@
 // An approximation of the selection region
 - (CGRect)selectionRegion;
 // Copies the UTF8 text selected on the screen into the specified data object
-- (void)fillDataWithSelection:(NSMutableData*)data;
+- (void)fillDataWithSelection:(NSMutableData *)data;
 
 // Rectangle that represents the position where the cursor is drawn
 - (CGRect)cursorRegion;

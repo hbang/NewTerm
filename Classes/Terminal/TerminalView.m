@@ -28,8 +28,7 @@
 	[[subProcess fileHandle] readInBackgroundAndNotify];	 
 }
 
-- (void)releaseSubProcess
-{
+- (void)releaseSubProcess {
 	if (subProcess == nil) {
 		return;
 	}
@@ -41,12 +40,12 @@
 	[subProcess release];
 }
 
-static const char* kProcessExitedMessage =
+static const char *kProcessExitedMessage =
 		"[Process completed]\r\n"
 		"Press any key to restart.\r\n";
 
 - (void)dataAvailable:(NSNotification *)aNotification {
-	NSData* data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
+	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
 	if ([data length] == 0) {
 		// I would expect from the documentation that an EOF would be present as
 		// an entry in the userinfo dictionary as @"NSFileHandleError", but that is
@@ -61,7 +60,7 @@ static const char* kProcessExitedMessage =
 		// don't restart automatically in case of (b), which would put us in an
 		// infinite loop.	 Print a message on the screen with instructions on how
 		// to restart the process.
-		NSData* message = [NSData dataWithBytes:kProcessExitedMessage
+		NSData *message = [NSData dataWithBytes:kProcessExitedMessage
 																		 length:strlen(kProcessExitedMessage)];
 		[textView readInputStream:message];
 		[self releaseSubProcess];
@@ -104,8 +103,7 @@ static const char* kProcessExitedMessage =
 	[pty setWidth:[textView width] withHeight:[textView height]];
 }
 
-- (void)receiveKeyboardInput:(NSData*)data
-{
+- (void)receiveKeyboardInput:(NSData *)data {
 	if (stopped) {
 		// The sub process previously exited, restart it at the users request.
 		[textView clearScreen];
@@ -116,8 +114,7 @@ static const char* kProcessExitedMessage =
 	}
 }
 
-- (void)fillDataWithSelection:(NSMutableData*)data;
-{
+- (void)fillDataWithSelection:(NSMutableData *)data; {
 	return [textView fillDataWithSelection:data];
 }
 
@@ -136,8 +133,7 @@ static const char* kProcessExitedMessage =
 	}
 }
 
-- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
-{
+- (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesMoved:touches withEvent:event];
 	if (!copyAndPasteEnabled) {
 		return;
@@ -170,8 +166,7 @@ static const char* kProcessExitedMessage =
 	[theMenu setMenuVisible:YES animated:YES];
 }
 
-- (void)setCopyPasteEnabled:(BOOL)enabled;
-{
+- (void)setCopyPasteEnabled:(BOOL)enabled; {
 	copyAndPasteEnabled = enabled;
 	// Reset any previous UI state for copy and paste
 	UIMenuController *theMenu = [UIMenuController sharedMenuController];
@@ -179,11 +174,11 @@ static const char* kProcessExitedMessage =
 	[textView clearSelection];
 }
 
-- (void)setFont:(UIFont*)font {
+- (void)setFont:(UIFont *)font {
 	[textView setFont:font];
 }
 
-- (ColorMap*)colorMap
+- (ColorMap *)colorMap
 {
 	return [textView colorMap];
 }

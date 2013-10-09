@@ -10,7 +10,7 @@
 @synthesize colorMap;
 @synthesize args;
 
-static NSString* kDefaultFontName = @"Courier";
+static NSString *kDefaultFontName = @"Courier";
 static const CGFloat kDefaultIPhoneFont = 10.0f;
 static const CGFloat kDefaultIPadFont = 18.0f;
 
@@ -18,8 +18,7 @@ static const CGFloat kDefaultIPadFont = 18.0f;
 	return [self initWithCoder:nil];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
+- (id)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self != nil) {
 		if ([decoder containsValueForKey:@"args"]) {
@@ -36,7 +35,7 @@ static const CGFloat kDefaultIPadFont = 18.0f;
 		font = nil;
 		if ([decoder containsValueForKey:@"fontName"] &&
 				[decoder containsValueForKey:@"fontSize"]) {
-			NSString* fontName = [decoder decodeObjectForKey:@"fontName"];
+			NSString *fontName = [decoder decodeObjectForKey:@"fontName"];
 			CGFloat fontSize = [decoder decodeFloatForKey:@"fontSize"];
 			font = [UIFont fontWithName:fontName size:fontSize];
 		}
@@ -61,7 +60,7 @@ static const CGFloat kDefaultIPadFont = 18.0f;
 	[encoder encodeObject:args forKey:@"args"];
 	[encoder encodeObject:colorMap forKey:@"colorMap"];
 	// UIFont does not implement NSCoding, so encode its arguments instead
-	NSString* fontName = [font fontName];
+	NSString *fontName = [font fontName];
 	CGFloat fontSize = [font pointSize];
 	[encoder encodeObject:fontName forKey:@"fontName"];
 	[encoder encodeFloat:fontSize forKey:@"fontSize"];

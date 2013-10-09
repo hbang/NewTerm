@@ -19,8 +19,8 @@ static int start_process(const char *path,
 												 char *const args[],
 												 char *const env[])
 {
-	NSString* pathString = [NSString stringWithCString:path];
-	NSFileManager* fileManager = [NSFileManager defaultManager];
+	NSString *pathString = [NSString stringWithCString:path];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:pathString]) {
 		fprintf(stderr, "%s: File does not exist\n", path);
 		return -1;
@@ -60,15 +60,14 @@ static int start_process(const char *path,
 	[super dealloc];
 }
 
-- (void)start
-{
+- (void)start {
 	if (child_pid != 0) {
 		[NSException raise:@"IllegalStateException"
 								format:@"SubProcess was already started"];
 		return;
 	}
 
-	const char* username = getenv("USER");
+	const char *username = getenv("USER");
 	if (username == NULL) {
 		username = kDefaultUsername;
 	}
@@ -108,8 +107,7 @@ static int start_process(const char *path,
 	}
 }
 
-- (void)stop
-{
+- (void)stop {
 	if (child_pid == 0) {
 		[NSException raise:@"IllegalStateException"
 								format:@"SubProcess was never started"];
@@ -125,7 +123,7 @@ static int start_process(const char *path,
 	[fileHandle release];
 }
 
-- (NSFileHandle*)fileHandle {
+- (NSFileHandle *)fileHandle {
 	return fileHandle;
 }
 

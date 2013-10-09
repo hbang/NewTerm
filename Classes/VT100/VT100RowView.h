@@ -11,12 +11,12 @@
 @interface VT100RowView : UIView {
 @private
   //int rowIndex;
-  FontMetrics* fontMetrics;
+  FontMetrics *fontMetrics;
   id<AttributedStringSupplier> stringSupplier;
 }
 
 @property (nonatomic) int rowIndex;
 @property (nonatomic, retain) id<AttributedStringSupplier> stringSupplier;
-@property (nonatomic, retain) FontMetrics* fontMetrics;
+@property (nonatomic, retain) FontMetrics *fontMetrics;
 
 @end

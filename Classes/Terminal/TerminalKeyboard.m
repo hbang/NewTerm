@@ -10,8 +10,8 @@ static const int kControlCharacter = 0x2022;
 // copy and paste events.
 @interface TerminalKeyInput : UITextInputBase {
 @private
-	TerminalKeyboard* keyboard;	 
-	NSData* backspaceData;
+	TerminalKeyboard *keyboard;	 
+	NSData *backspaceData;
 	// Should the next character pressed be a control character?
 	BOOL controlKeyMode;	
 
@@ -25,7 +25,7 @@ static const int kControlCharacter = 0x2022;
 	BOOL secureTextEntry;
 }
 
-@property (nonatomic, retain) TerminalKeyboard* keyboard;
+@property (nonatomic, retain) TerminalKeyboard *keyboard;
 
 // UIKeyInput
 @property (nonatomic) UITextAutocapitalizationType autocapitalizationType;
@@ -48,8 +48,7 @@ static const int kControlCharacter = 0x2022;
 @synthesize returnKeyType;
 @synthesize secureTextEntry;
 
-- (id)init:(TerminalKeyboard*)theKeyboard
-{
+- (id)init:(TerminalKeyboard *)theKeyboard {
 	self = [super init];
 	if (self != nil) {
 		keyboard = theKeyboard;
@@ -106,8 +105,8 @@ static const int kControlCharacter = 0x2022;
 		}
 	}		 
 	// Re-encode as UTF8
-	NSString* encoded = [NSString stringWithCharacters:&c length:1];
-	NSData* data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
+	NSString *encoded = [NSString stringWithCharacters:&c length:1];
+	NSData *data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
 	[[keyboard inputDelegate] receiveKeyboardInput:data];
 }
 
@@ -115,7 +114,7 @@ static const int kControlCharacter = 0x2022;
 {
 	if (action == @selector(copy:)) {
 		// Only show the copy menu if we actually have any data selected
-		NSMutableData* data = [NSMutableData	dataWithCapacity:0];
+		NSMutableData *data = [NSMutableData	dataWithCapacity:0];
 		[[keyboard inputDelegate] fillDataWithSelection:data];
 		return [data length] > 0;
 	}
@@ -127,31 +126,28 @@ static const int kControlCharacter = 0x2022;
 }
 
 - (void)copy:(id)sender {
-	NSMutableData* data = [NSMutableData	dataWithCapacity:0];
+	NSMutableData *data = [NSMutableData	dataWithCapacity:0];
 	[[keyboard inputDelegate] fillDataWithSelection:data];
-	UIPasteboard* pb = [UIPasteboard generalPasteboard];
+	UIPasteboard *pb = [UIPasteboard generalPasteboard];
 	pb.string = [[[NSString alloc] initWithData:data
 																		encoding:NSUTF8StringEncoding] autorelease];
 }
 
-- (void)paste:(id)sender
-{
-	UIPasteboard* pb = [UIPasteboard generalPasteboard];
+- (void)paste:(id)sender {
+	UIPasteboard *pb = [UIPasteboard generalPasteboard];
 	if (![pb containsPasteboardTypes:UIPasteboardTypeListString]) {
 		return;
 	}
-	NSData* data = [pb.string dataUsingEncoding:NSUTF8StringEncoding];
+	NSData *data = [pb.string dataUsingEncoding:NSUTF8StringEncoding];
 	[[keyboard inputDelegate] receiveKeyboardInput:data];
 }
 
-- (BOOL)becomeFirstResponder
-{
+- (BOOL)becomeFirstResponder {
 	[super becomeFirstResponder];
 	return YES;
 }
 
-- (BOOL)canBecomeFirstResponder
-{
+- (BOOL)canBecomeFirstResponder {
 	return YES;
 }
 
@@ -162,8 +158,7 @@ static const int kControlCharacter = 0x2022;
 
 @synthesize inputDelegate;
 
-- (id)init
-{
+- (id)init {
 	self = [super init];
 	if (self != nil) {
 		[self setOpaque:YES];	 

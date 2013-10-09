@@ -56,8 +56,7 @@ static const int kNumTerminalColors = 16;
 	return [self initWithCoder:nil];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder
-{
+- (id)initWithCoder:(NSCoder *)decoder {
 	self = [super init];
 	if (self != nil) {		
 		[self initColorTable];
@@ -90,8 +89,7 @@ static const int kNumTerminalColors = 16;
 	return self;
 }
 
-- (void) dealloc
-{
+- (void) dealloc {
 	for (int i = 0; i < COLOR_MAP_MAX_COLORS; ++i) {
 		[table[i] release];
 	}
@@ -111,7 +109,7 @@ static const int kNumTerminalColors = 16;
 	[encoder encodeObject:backgroundCursor forKey:@"backgroundCursor"];
 }
 
-- (UIColor*) color:(unsigned int)index;
+- (UIColor *) color:(unsigned int)index;
 {
 	// TODO(allen): The logic here is pretty ad hoc and could use some
 	// some helpful comments describing whats its doing.	It seems to work?	 

@@ -9,7 +9,7 @@
 
 @interface FontMetrics : NSObject {
 @private
-  UIFont* font;
+  UIFont *font;
   CTFontRef ctFont;
   float ascent;
   float descent;
@@ -17,8 +17,8 @@
   CGSize boundingBox;
 }
 
-- (id)initWithFont:(UIFont*)font;
-- (UIFont*)font;
+- (id)initWithFont:(UIFont *)font;
+- (UIFont *)font;
 - (CTFontRef)ctFont;
 
 // The dimensions of a single glyph on the screen

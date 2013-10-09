@@ -16,12 +16,11 @@
 	[colorMap release];
 }
 
-- (void) testBlack
-{
-	UIColor* color = [colorMap color:0];
+- (void) testBlack {
+	UIColor *color = [colorMap color:0];
 	STAssertTrue(4 == CGColorGetNumberOfComponents([color CGColor]),
 								 @"Color match failed");
-	const CGFloat* components =	 CGColorGetComponents([color CGColor]);
+	const CGFloat *components =	 CGColorGetComponents([color CGColor]);
 	STAssertEqualsWithAccuracy(0.0f, components[0], 0.0001,
 														 @"colors are not equal, 0.0 != %f", components[0]);
 	STAssertEqualsWithAccuracy(0.0f, components[1], 0.0001,
@@ -32,12 +31,11 @@
 														 @"colors are not equal, 0.0 != %f", components[3]);
 }
 
-- (void) testWhite
-{
-	UIColor* color = [colorMap color:0xff];
+- (void) testWhite {
+	UIColor *color = [colorMap color:0xff];
 	STAssertTrue(4 == CGColorGetNumberOfComponents([color CGColor]),
 							 @"Color match failed");
-	const CGFloat* components =	 CGColorGetComponents([color CGColor]);
+	const CGFloat *components =	 CGColorGetComponents([color CGColor]);
 	STAssertEqualsWithAccuracy(1.0f, components[0], 0.0001,
 														 @"colors are not equal, 0.0 != %f", components[0]);
 	STAssertEqualsWithAccuracy(1.0f, components[1], 0.0001,
@@ -48,11 +46,10 @@
 														 @"colors are not equal, 0.0 != %f", components[3]);
 }
 
-- (void) assertColorsEquals:(UIColor*)expectedColor got:(UIColor*)gotColor
-{
+- (void) assertColorsEquals:(UIColor *)expectedColor got:(UIColor *)gotColor {
 
-	const CGFloat* expectedComponents =	 CGColorGetComponents([expectedColor CGColor]);
-	const CGFloat* gotComponents =	CGColorGetComponents([gotColor CGColor]);
+	const CGFloat *expectedComponents =	 CGColorGetComponents([expectedColor CGColor]);
+	const CGFloat *gotComponents =	CGColorGetComponents([gotColor CGColor]);
 	STAssertEqualsWithAccuracy(expectedComponents[0], gotComponents[0], 0.0001,
 														 @"colors are not equal (%@, %@)",
 														 expectedColor, gotColor);
@@ -77,8 +74,8 @@
 	
 	// Serialize the color map, then unserialize it and test that all of the
 	// original properties were adjusted.
-	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:colorMap]; 
-	ColorMap* newColorMap = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:colorMap]; 
+	ColorMap *newColorMap = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
 
 	[self assertColorsEquals:[UIColor redColor] got:[newColorMap foreground]];
 	[self assertColorsEquals:[UIColor yellowColor] got:[newColorMap background]];

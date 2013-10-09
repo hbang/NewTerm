@@ -34,8 +34,7 @@
 	copyPasteEnabled = NO;
 }
 
-- (void)registerForKeyboardNotifications
-{
+- (void)registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self
 																					 selector:@selector(keyboardWasShown:)
 																							 name:UIKeyboardDidShowNotification
@@ -60,16 +59,16 @@
 // below -- it requires more of a change because the replacement
 // is not available in 3.1.3
 
-- (void)keyboardWasShown:(NSNotification*)aNotification {
+- (void)keyboardWasShown:(NSNotification *)aNotification {
 	if (keyboardShown) {
 		return;
 	}
 	keyboardShown = YES;
 
-	NSDictionary* info = [aNotification userInfo];
+	NSDictionary *info = [aNotification userInfo];
 	
 	// Get the size of the keyboard.
-	NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
+	NSValue *aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
 	CGSize keyboardSize = [aValue CGRectValue].size;
 	
 	// Reset the height of the terminal to full screen not shown by the keyboard
@@ -78,17 +77,16 @@
 	contentView.frame = viewFrame;
 }
 
-- (void)keyboardWasHidden:(NSNotification*)aNotification
-{
+- (void)keyboardWasHidden:(NSNotification *)aNotification {
 	if (!keyboardShown) {
 		return;
 	}
 	keyboardShown = NO;
 
-	NSDictionary* info = [aNotification userInfo];
+	NSDictionary *info = [aNotification userInfo];
 	
 	// Get the size of the keyboard.
-	NSValue* aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
+	NSValue *aValue = [info objectForKey:UIKeyboardBoundsUserInfoKey];
 	CGSize keyboardSize = [aValue CGRectValue].size;	
 	
 	// Resize to the original height of the screen without the keyboard
@@ -116,7 +114,7 @@
 	copyPasteEnabled = !copyPasteEnabled;
 	[gestureResponder setSwipesEnabled:!copyPasteEnabled];
 	for (int i = 0; i < [terminalGroupView terminalCount]; ++i) {
-		TerminalView* terminal = [terminalGroupView terminalAtIndex:i];
+		TerminalView *terminal = [terminalGroupView terminalAtIndex:i];
 		[terminal setCopyPasteEnabled:copyPasteEnabled];
 	}
 }
@@ -125,7 +123,7 @@
 // keyboard events are forwarded to the new active terminal and it is made the
 // front-most terminal view.
 - (void)terminalSelectionDidChange:(id)sender	 {
-	TerminalView* terminalView =
+	TerminalView *terminalView =
 			[terminalGroupView terminalAtIndex:[terminalSelector currentPage]];
 	terminalKeyboard.inputDelegate = terminalView;
 	gestureActionRegistry.terminalInput = terminalView;
@@ -149,9 +147,9 @@
 }
 
 // Invoked when a menu item is clicked, to run the specified command.
-- (void)selectedCommand:(NSString*)command
+- (void)selectedCommand:(NSString *)command
 {
-	TerminalView* terminalView = [terminalGroupView frontTerminal];
+	TerminalView *terminalView = [terminalGroupView frontTerminal];
 	[terminalView receiveKeyboardInput:[command dataUsingEncoding:NSUTF8StringEncoding]];
 	
 	// Make the menu disappear
@@ -168,12 +166,12 @@
 
 	@try {
 		[terminalGroupView startSubProcess];
-	} @catch (NSException* e) {
+	} @catch (NSException *e) {
 		NSLog(@"Caught %@: %@", [e name], [e reason]);
 		if ([[e name] isEqualToString:@"ForkException"]) {
 			// This happens if we fail to fork for some reason.
 			// TODO(allen): Provide a helpful hint -- a kernel patch?
-			UIAlertView* view =
+			UIAlertView *view =
 			[[UIAlertView alloc] initWithTitle:[e name]
 																 message:[e reason]
 																delegate:self
@@ -206,17 +204,16 @@
 	[self terminalSelectionDidChange:self];
 }
 
-- (void)viewDidAppear:(BOOL)animated
-{
+- (void)viewDidAppear:(BOOL)animated {
 	[interfaceDelegate rootViewDidAppear];
 	[self registerForKeyboardNotifications];
 	[self setShowKeyboard:shouldShowKeyboard];
 	
 	// Reset the font in case it changed in the preferenes view
-	TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
-	UIFont* font = [settings font];
+	TerminalSettings *settings = [[Settings sharedInstance] terminalSettings];
+	UIFont *font = [settings font];
 	for (int i = 0; i < [terminalGroupView terminalCount]; ++i) {
-		TerminalView* terminalView = [terminalGroupView terminalAtIndex:i];
+		TerminalView *terminalView = [terminalGroupView terminalAtIndex:i];
 		[terminalView setFont:font];
 		[terminalView setNeedsLayout];
 	}

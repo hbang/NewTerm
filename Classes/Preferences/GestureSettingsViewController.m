@@ -14,8 +14,7 @@
 	gestureSettings = [[Settings sharedInstance] gestureSettings];
 }
 
-- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
-{
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
 	return 1;
 }
 
@@ -31,7 +30,7 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 	}
 	int index = [indexPath indexAtPosition:1];
-	GestureItem* gestureItem = [gestureSettings gestureItemAtIndex:index];
+	GestureItem *gestureItem = [gestureSettings gestureItemAtIndex:index];
 	cell.textLabel.text = gestureItem.name;
 	// This must re-validate the action in case the action label isn't valid.
 	id<GestureAction> action = [gestureSettings gestureActionForLabel:gestureItem.actionLabel];
@@ -44,20 +43,17 @@
 	return NO;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	int index = [indexPath indexAtPosition:1];	
 	[self startEditing:[gestureSettings gestureItemAtIndex:index]];
 }
 
-- (void)startEditing:(GestureItem*)gestureItem
-{
+- (void)startEditing:(GestureItem *)gestureItem {
 	gestureEditViewController.editingGestureItem = gestureItem;
 	[self.navigationController pushViewController:gestureEditViewController animated:YES];
 }
 
-- (void)finishEditing:(id)sender
-{
+- (void)finishEditing:(id)sender {
 	[self.tableView reloadData];
 }
 

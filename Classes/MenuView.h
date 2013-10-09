@@ -9,7 +9,7 @@
 // that the user wishes to invoke the specified command.
 @protocol MenuViewDelegate
 @required
-- (void)selectedCommand:(NSString*)command;
+- (void)selectedCommand:(NSString *)command;
 @end
 
 // Displays a menu of shortcuts on the screen.  This MenuView implements the
@@ -17,9 +17,9 @@
 // is laid out as a scrollable table view, sized based on the font.
 @interface MenuView : UIView <UITableViewDataSource> {
 @private
-  UITableView* menuTableView;
-  UIFont* font;
-  MenuSettings* menuSettings;
+  UITableView *menuTableView;
+  UIFont *font;
+  MenuSettings *menuSettings;
   id<MenuViewDelegate> delegate;
 }
 

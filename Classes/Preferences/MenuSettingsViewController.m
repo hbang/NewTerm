@@ -28,8 +28,7 @@
 	return 1;
 }
 
-- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
 	return [menuSettings menuItemCount];
 }
 
@@ -40,7 +39,7 @@
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:CellIdentifier] autorelease];
 	}
 	int index = [indexPath indexAtPosition:1];
-	MenuItem* menuItem = [menuSettings menuItemAtIndex:index];
+	MenuItem *menuItem = [menuSettings menuItemAtIndex:index];
 	cell.textLabel.text = menuItem.label;
 	cell.detailTextLabel.text = menuItem.command;
 	cell.accessoryType = UITableViewCellAccessoryDisclosureIndicator;
@@ -60,20 +59,17 @@
 	}
 }
 
-- (void)addItem:(id)sender
-{
+- (void)addItem:(id)sender {
 	[self.tableView reloadData];
 	[self startEditing:[[MenuItem newItemWithLabel:@"" andCommand:@""] autorelease] asInsert:TRUE];
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	int index = [indexPath indexAtPosition:1];	
 	[self startEditing:[menuSettings menuItemAtIndex:index] asInsert:FALSE];
 }
 
-- (void)startEditing:(MenuItem*)menuItem asInsert:(BOOL)isInsert
-{
+- (void)startEditing:(MenuItem *)menuItem asInsert:(BOOL)isInsert {
 	editIsInsert = isInsert;
 	menuEditViewController.editingMenuItem = menuItem;
 	[self.navigationController pushViewController:menuEditViewController animated:YES];

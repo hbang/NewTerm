@@ -11,16 +11,16 @@
 // deleting old items, and editing existing items.
 @interface MenuSettingsViewController : UITableViewController <MenuEditDelegate> {
 @private
-  MenuSettings* menuSettings;
-  MenuEditViewController* menuEditViewController;
+  MenuSettings *menuSettings;
+  MenuEditViewController *menuEditViewController;
   
   // State aboute the current item being edited in the MenuEditViewController
   BOOL editIsInsert;
 }
 
-@property(nonatomic, retain) IBOutlet MenuEditViewController* menuEditViewController;
+@property(nonatomic, retain) IBOutlet MenuEditViewController *menuEditViewController;
 
-- (void)startEditing:(MenuItem*)menuItem asInsert:(BOOL)isInsert;
+- (void)startEditing:(MenuItem *)menuItem asInsert:(BOOL)isInsert;
 - (void)finishEditing:(id)sender;
 
 @end

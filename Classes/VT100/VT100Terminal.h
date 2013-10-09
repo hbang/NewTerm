@@ -266,8 +266,7 @@ typedef enum {
     MOUSE_REPORTING_ALL_MOTION,
 } mouseMode;
 
-@interface VT100Terminal : NSObject
-{
+@interface VT100Terminal : NSObject {
     NSString *termType;
     NSStringEncoding ENCODING;
     VT100Screen *SCREEN;
@@ -333,7 +332,7 @@ typedef enum {
 - (void)setEncoding:(NSStringEncoding)encoding;
 
 - (void)cleanStream;
-- (void)putStreamData:(NSData*)data;
+- (void)putStreamData:(NSData *)data;
 - (VT100TCC)getNextToken;
 
 - (void)reset;

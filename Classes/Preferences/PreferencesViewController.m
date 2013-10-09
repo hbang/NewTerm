@@ -26,8 +26,7 @@
 	[controllers addObject:aboutController];			
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 	[super dealloc];
 	[sections dealloc];
 	[controllers dealloc];
@@ -44,7 +43,7 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSUInteger index = [indexPath indexAtPosition:1];	 
-	NSString* itemTitle = [sections objectAtIndex:index];
+	NSString *itemTitle = [sections objectAtIndex:index];
 	
 	static NSString *CellIdentifier = @"Cell";
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
@@ -58,10 +57,9 @@
 	return cell;
 }
 
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
 	NSUInteger index = [indexPath indexAtPosition:1];	 
-	UIViewController* itemController = [controllers objectAtIndex:index];
+	UIViewController *itemController = [controllers objectAtIndex:index];
 	[self.navigationController pushViewController:itemController animated:YES];
 	itemController.navigationItem.title = [sections objectAtIndex:index];
 }

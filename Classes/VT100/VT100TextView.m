@@ -29,11 +29,11 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 		[vt100 setRefreshDelegate:self];
 		buffer = vt100;
 		colorMap = [[ColorMap alloc] init];
-		UIFont* font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
+		UIFont *font = [UIFont systemFontOfSize:[UIFont smallSystemFontSize]];
 		fontMetrics = [[FontMetrics alloc] initWithFont:font];
 		[self clearSelection];
 		
-		VT100StringSupplier* stringSupplier = [[VT100StringSupplier alloc] init];
+		VT100StringSupplier *stringSupplier = [[VT100StringSupplier alloc] init];
 		stringSupplier.colorMap = colorMap;
 		stringSupplier.screenBuffer = buffer;
 		
@@ -53,7 +53,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 	[super dealloc];
 }
 
-- (void)setFont:(UIFont*)font;
+- (void)setFont:(UIFont *)font;
 {
 	[fontMetrics release];
 	fontMetrics = [[FontMetrics alloc] initWithFont:font];
@@ -98,8 +98,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 	return i;
 }
 
-- (ScreenPosition)positionFromPoint:(CGPoint)point
-{
+- (ScreenPosition)positionFromPoint:(CGPoint)point {
 	CGSize glyphSize = [fontMetrics boundingBox];
 
 	ScreenPosition pos;
@@ -108,8 +107,7 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 	return pos;
 }
 
-- (void)readInputStream:(NSData*)data
-{
+- (void)readInputStream:(NSData *)data {
 	// Simply forward the input stream down the VT100 processor.	When it notices
 	// changes to the screen, it should invoke our refresh delegate below.
 	[buffer readInputStream:data];
@@ -135,8 +133,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 	[self refresh];
 }
 
-- (void)fillDataWithSelection:(NSMutableData*)data {
-	NSMutableString* s = [[NSMutableString alloc] initWithString:@""];
+- (void)fillDataWithSelection:(NSMutableData *)data {
+	NSMutableString *s = [[NSMutableString alloc] initWithString:@""];
 
 	ScreenPosition startPos = [buffer selectionStart];
 	ScreenPosition endPos = [buffer selectionEnd];
@@ -154,8 +152,8 @@ extern void CGFontGetGlyphsForUnichars(CGFontRef, unichar[], CGGlyph[], size_t);
 		int endX = (currentY == endPos.y) ? endPos.x : maxX;
 		int width = endX - startX;
 		if (width > 0) {
-			screen_char_t* row = [buffer bufferForRow:currentY];
-			screen_char_t* col = &row[startX];
+			screen_char_t *row = [buffer bufferForRow:currentY];
+			screen_char_t *col = &row[startX];
 			unichar buf[kMaxRowBufferSize];
 			for (int i = 0; i < width; ++i) {
 				if (col->ch == '\0') {

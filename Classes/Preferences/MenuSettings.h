@@ -7,16 +7,16 @@
 // A single item in the menu
 @interface MenuItem : NSObject <NSCoding> {
 @private
-  NSString* label;
-  NSString* command;
+  NSString *label;
+  NSString *command;
 }
 
-+ (MenuItem*)newItemWithLabel:(NSString*)label andCommand:(NSString*)command;
++ (MenuItem *)newItemWithLabel:(NSString *)label andCommand:(NSString *)command;
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;
 
-@property(nonatomic, retain) NSString* label;
-@property(nonatomic, retain) NSString* command;
+@property(nonatomic, retain) NSString *label;
+@property(nonatomic, retain) NSString *command;
 
 @end
 
@@ -26,7 +26,7 @@
 // read and written to the preferences store.
 @interface MenuSettings : NSObject <NSCoding> {
 @private
-  NSMutableArray* menuItems;
+  NSMutableArray *menuItems;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
@@ -36,10 +36,10 @@
 - (int)menuItemCount;
 
 // The label and command
-- (MenuItem*)menuItemAtIndex:(int)index;
+- (MenuItem *)menuItemAtIndex:(int)index;
 
 // Add a new item to the label
-- (void)addMenuItem:(MenuItem*)menuItem;
+- (void)addMenuItem:(MenuItem *)menuItem;
 
 // Remove the specified item
 - (void)removeMenuItemAtIndex:(int)index;

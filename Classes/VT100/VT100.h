@@ -20,8 +20,8 @@
 // implementing the ScreenBuffer protocol.
 @interface VT100 : NSObject <ScreenBuffer, ScreenBufferRefreshDelegate> {
 @private
-  VT100Screen* screen;
-  VT100Terminal* terminal;
+  VT100Screen *screen;
+  VT100Terminal *terminal;
   id <ScreenBufferRefreshDelegate> refreshDelegate;
   
   // Points on the screen
@@ -38,7 +38,7 @@
 
 // Reads raw character data into the terminal character processor.  This will
 // almost certainly cause updates to the screen buffer.
-- (void)readInputStream:(NSData*)data;
+- (void)readInputStream:(NSData *)data;
 
 // ScreenBuffer methods for obtaining information about the characters
 // currently on the screen.

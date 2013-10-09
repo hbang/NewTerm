@@ -27,7 +27,7 @@
 
 - (void)awakeFromNib
 {
-	UIView* view = [viewController view];
+	UIView *view = [viewController view];
 	
 	gestureSettings = [[Settings sharedInstance] gestureSettings];		
 	swipeGestureRecognizers = [[NSMutableArray alloc] init];
@@ -73,9 +73,9 @@
 }
 
 - (void)setSwipesEnabled:(BOOL)enabled {
-	UIView* view = [viewController view];
+	UIView *view = [viewController view];
 	for (int i = 0; i < [swipeGestureRecognizers count]; ++i) {
-		UIGestureRecognizer* swipe = [swipeGestureRecognizers objectAtIndex:i];
+		UIGestureRecognizer *swipe = [swipeGestureRecognizers objectAtIndex:i];
 		if (enabled) {
 			[view addGestureRecognizer:swipe];		
 		} else {
@@ -84,50 +84,49 @@
 	}
 }
 
-- (void)handleAction:(NSString*)itemLabel
-{
+- (void)handleAction:(NSString *)itemLabel {
 	NSLog(@"Gesture Invoked: %@", itemLabel);
 	id<GestureAction> action = [gestureSettings gestureActionForItemName:itemLabel];
 	[action performAction];	 
 }
 
-- (IBAction)handleSingleDoubleTap:(UIGestureRecognizer*)sender {
+- (IBAction)handleSingleDoubleTap:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSingleDoubleTap];
 }
 
-- (IBAction)handleDoubleDoubleTap:(UIGestureRecognizer*)sender {
+- (IBAction)handleDoubleDoubleTap:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureDoubleDoubleTap];
 }
 
-- (IBAction)handleUpSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleUpSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeUp];
 }
 
-- (IBAction)handleDownSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleDownSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeDown];
 }
 
-- (IBAction)handleRightSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleRightSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeRight];
 }
 
-- (IBAction)handleLeftSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleLeftSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeLeft];
 }
 
-- (IBAction)handleLeftUpSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleLeftUpSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeLeftUp];
 }
 
-- (IBAction)handleRightUpSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleRightUpSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeRightUp];
 }
 
-- (IBAction)handleLeftDownSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleLeftDownSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeLeftDown];
 }
 
-- (IBAction)handleRightDownSwipe:(UIGestureRecognizer*)sender {
+- (IBAction)handleRightDownSwipe:(UIGestureRecognizer *)sender {
 	[self handleAction:kGestureSwipeRightDown];
 }
 

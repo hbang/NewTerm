@@ -45,7 +45,7 @@ static const int kDefaultHeight = 25;
 	[screen resetDirty];
 }
 
-- (void)readInputStream:(NSData*)data {
+- (void)readInputStream:(NSData *)data {
 	// Push the input stream into the terminal, then parse the stream back out as
 	// a series of tokens and feed them back to the screen
 	[terminal putStreamData:data];
@@ -90,14 +90,12 @@ static const int kDefaultHeight = 25;
 	return [screen getLineAtIndex:row];
 }
 
-- (void)clearScreen
-{
+- (void)clearScreen {
 	// Clears both the screen and scrollback buffer
 	[screen clearBuffer];
 }
 
-- (int)numberOfRows
-{
+- (int)numberOfRows {
 	return [screen numberOfLines];
 }
 
@@ -126,8 +124,7 @@ static const int kDefaultHeight = 25;
 	selectionEnd = point;
 }
 
-- (ScreenPosition)selectionEnd
-{
+- (ScreenPosition)selectionEnd {
 	return selectionEnd;
 }
 

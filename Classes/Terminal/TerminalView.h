@@ -21,7 +21,7 @@
 @private
   VT100TextView *textView;
   SubProcess *subProcess;
-  PTY* pty;
+  PTY *pty;
   
   // Keeps track of when the subprocess is stopped, so that we know to start
   // a new one on key press.
@@ -32,14 +32,14 @@
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
-- (void)setFont:(UIFont*)font;
-- (ColorMap*)colorMap;
+- (void)setFont:(UIFont *)font;
+- (ColorMap *)colorMap;
 
 // Must be invoked to start the sub processes
 - (void)startSubProcess;
 
 // TerminalKeyboardProtocol
-- (void)receiveKeyboardInput:(NSData*)data;
+- (void)receiveKeyboardInput:(NSData *)data;
 
 // Configures terminal behavior for responding to touch events
 - (void)setCopyPasteEnabled:(BOOL)enabled;

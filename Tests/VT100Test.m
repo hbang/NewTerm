@@ -28,7 +28,7 @@
 	size.height = 1;
 	[vt100 setScreenSize:size];
 
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	STAssertTrue(buffer[0].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
 
 	for (int i = 0; i < 10; i++) {
@@ -52,7 +52,7 @@
 	size.height = 2;
 	[vt100 setScreenSize:size];
 	
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	STAssertTrue(buffer[0].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
 	
 	for (int i = 0; i < 10; i++) {
@@ -80,7 +80,7 @@
 	size.height = 1;
 	[vt100 setScreenSize:size];
 	
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	STAssertTrue(buffer[0].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
 	STAssertTrue(buffer[1].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
 	
@@ -110,12 +110,11 @@
 
 // Tests a basic case where a few leters are inserted into the terminals 
 // input stream and read back
-- (void) testBasicInput
-{
-	const char* text = "abc";
+- (void) testBasicInput {
+	const char *text = "abc";
 	[vt100 readInputStream:text withLength:strlen(text)];
 
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	STAssertTrue(buffer[0].ch == 'a', @"got '%c'", buffer[0].ch);
 	STAssertTrue(buffer[1].ch == 'b', @"got '%c'", buffer[0].ch);
 	STAssertTrue(buffer[2].ch == 'c', @"got '%c'", buffer[0].ch);
@@ -166,7 +165,7 @@ static const int kLargeBufferSize = 8 * 1024;
 	[vt100 readInputStream:data withLength:strlen(data)];
 		
 	// Verify the each row looks correct
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	for (int j = 0; j < 79; j++) {
 		STAssertTrue('a' == buffer[j].ch, @"got '%c'", buffer[j].ch);
 	}
@@ -270,8 +269,7 @@ static const int kLargeBufferSize = 8 * 1024;
 	STAssertEquals(4, pos.y, @"got %d", pos.y);
 }
 
-- (void) testClearScreen
-{
+- (void) testClearScreen {
 	// Set a 1x1 screen.	As soon as a character is inserted on to the screen, we
 	// wrap and scroll down to the next line.
 	ScreenSize size = [vt100 screenSize];
@@ -279,7 +277,7 @@ static const int kLargeBufferSize = 8 * 1024;
 	size.height = 5;
 	[vt100 setScreenSize:size];
 	
-	screen_char_t* buffer = [vt100 bufferForRow:0];
+	screen_char_t *buffer = [vt100 bufferForRow:0];
 	STAssertTrue(buffer[0].ch == '\0', @"expected NULL, got '%c'", buffer[0].ch);
 	
 	for (int i = 0; i < 10; i++) {

@@ -10,14 +10,14 @@
 
 @interface VT100TableViewController : UITableViewController {
 @private
-  ColorMap* colorMap;
-  FontMetrics* fontMetrics;
+  ColorMap *colorMap;
+  FontMetrics *fontMetrics;
   id<AttributedStringSupplier> stringSupplier;
 }
 
-- (id)initWithColorMap:(ColorMap*)colorMap;
+- (id)initWithColorMap:(ColorMap *)colorMap;
 
-@property (nonatomic, retain) FontMetrics* fontMetrics;
+@property (nonatomic, retain) FontMetrics *fontMetrics;
 @property (nonatomic, retain) id<AttributedStringSupplier> stringSupplier;
 
 - (void)refresh;

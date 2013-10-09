@@ -28,8 +28,7 @@
 	
 }
 
-- (void)deleteBackward
-{
+- (void)deleteBackward {
 	
 }
 
@@ -52,8 +51,7 @@
 }
 
 /* Methods for creating ranges and positions. */
-- (UITextRange *)textRangeFromPosition:(UITextPosition *)fromPosition toPosition:(UITextPosition *)toPosition
-{
+- (UITextRange *)textRangeFromPosition:(UITextPosition *)fromPosition toPosition:(UITextPosition *)toPosition {
 	return nil;
 }
 
@@ -67,13 +65,12 @@
 }
 
 - (NSComparisonResult)comparePosition:(UITextPosition *)position toPosition:(UITextPosition *)other {
-	TextPosition* p = (TextPosition*) position;
-	TextPosition* o = (TextPosition*) other;
+	TextPosition *p = (TextPosition *) position;
+	TextPosition *o = (TextPosition *) other;
 	return [[p position] compare: [o position]];
 }
 
-- (NSInteger)offsetFromPosition:(UITextPosition *)from toPosition:(UITextPosition *)toPosition
-{
+- (NSInteger)offsetFromPosition:(UITextPosition *)from toPosition:(UITextPosition *)toPosition {
 	return 0;
 }
 
@@ -90,12 +87,10 @@
 	return UITextWritingDirectionNatural;
 }
 
-- (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection forRange:(UITextRange *)range
-{
+- (void)setBaseWritingDirection:(UITextWritingDirection)writingDirection forRange:(UITextRange *)range {
 }
 
-- (CGRect)firstRectForRange:(UITextRange *)range
-{
+- (CGRect)firstRectForRange:(UITextRange *)range {
 	return CGRectMake(0.0f, 0.0f, 0.0f, 0.0f);
 }
 
@@ -105,19 +100,18 @@
 
 - (UITextPosition *)closestPositionToPoint:(CGPoint)point
 {
-	TextPosition* pos = [[[TextPosition alloc] init] autorelease];
+	TextPosition *pos = [[[TextPosition alloc] init] autorelease];
 	pos.position = [NSNumber numberWithInt:point.x];
 	return pos;
 }
 
 - (UITextPosition *)closestPositionToPoint:(CGPoint)point withinRange:(UITextRange *)range {
-	TextPosition* pos = [[[TextPosition alloc] init] autorelease];
+	TextPosition *pos = [[[TextPosition alloc] init] autorelease];
 	pos.position = [NSNumber numberWithInt:point.x];
 	return pos;
 }
 
-- (UITextRange *)characterRangeAtPoint:(CGPoint)point
-{
+- (UITextRange *)characterRangeAtPoint:(CGPoint)point {
 	return nil;
 }
 
@@ -130,8 +124,7 @@
 	return nil;
 }
 
-- (NSInteger)characterOffsetOfPosition:(UITextPosition *)position withinRange:(UITextRange *)range
-{
+- (NSInteger)characterOffsetOfPosition:(UITextPosition *)position withinRange:(UITextRange *)range {
 	return 0;
 }
 

@@ -5,7 +5,7 @@
 
 @implementation FontMetrics
 
-- (id)initWithFont:(UIFont*)uiFont;
+- (id)initWithFont:(UIFont *)uiFont;
 {
 	self = [super init];
 	if (self != nil) {
@@ -38,12 +38,11 @@
 	[super dealloc];
 }
 
-- (UIFont*)font {
+- (UIFont *)font {
 	return font;
 }
 
-- (CTFontRef)ctFont
-{
+- (CTFontRef)ctFont {
 	return ctFont;
 }
 

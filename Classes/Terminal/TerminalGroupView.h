@@ -12,7 +12,7 @@
 @interface TerminalGroupView : UIView {
 @private
   int activeTerminalIndex;
-  NSMutableArray* terminals;
+  NSMutableArray *terminals;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;
@@ -20,11 +20,11 @@
 - (void)startSubProcess;
 
 // Makes the specified terminal active
-- (void)bringTerminalToFront:(TerminalView*)terminalView;
+- (void)bringTerminalToFront:(TerminalView *)terminalView;
 // Returns the active terminal
-- (TerminalView*)frontTerminal;
+- (TerminalView *)frontTerminal;
 
 - (int)terminalCount;
-- (TerminalView*)terminalAtIndex:(int)index;
+- (TerminalView *)terminalAtIndex:(int)index;
 
 @end

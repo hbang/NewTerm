@@ -45,7 +45,7 @@ typedef struct {
 - (screen_char_t*)bufferForRow:(int)row;
 - (int)numberOfRows;
 
-- (void)readInputStream:(NSData*)data;
+- (void)readInputStream:(NSData *)data;
 
 - (void)clearScreen;
 

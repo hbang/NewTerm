@@ -18,8 +18,7 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 	return [screenBuffer numberOfRows];
 }
 
-- (int)columnCount
-{
+- (int)columnCount {
 	return [screenBuffer screenSize].width;
 }
 
@@ -29,7 +28,7 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 	
 	// TODO(aporter): Make the screen object itself return an attributed string?
 	int width = [self columnCount];
-	screen_char_t* row = [screenBuffer bufferForRow:rowIndex];
+	screen_char_t *row = [screenBuffer bufferForRow:rowIndex];
 	for (int j = 0; j < width; ++j) {
 		if (row[j].ch == '\0') {
 			unicharBuffer[j] = ' ';
@@ -59,15 +58,15 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 	// into a character of a different color.	 It runs one extra time to set the
 	// attribute for the run of characters at the end of the line.
 	int lastColorIndex = -1;
-	UIColor* lastColor = nil;
-	screen_char_t* row = [screenBuffer bufferForRow:rowIndex];
+	UIColor *lastColor = nil;
+	screen_char_t *row = [screenBuffer bufferForRow:rowIndex];
 	int width = [self columnCount];
 	
 	// TODO(aporter): This looks a lot more complicated than it needs to be.	Try
 	// this again with fewer lines of code.
 	for (int j = 0; j <= width; ++j) {
 		bool eol = (j == width);	// reached end of line
-		UIColor* color = nil;
+		UIColor *color = nil;
 		if (!eol) {
 			color = [colorMap color:row[j].bg_color];
 			if (cursorPosition.x == j && cursorPosition.y == rowIndex) {
@@ -93,7 +92,7 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 	lastColor = nil;
 	for (int j = 0; j <= width; ++j) {
 		bool eol = (j == width);	// reached end of line
-		UIColor* color = nil;
+		UIColor *color = nil;
 		if (!eol) {
 			color = [colorMap color:row[j].fg_color];
 			if (cursorPosition.x == j && cursorPosition.y == rowIndex) {

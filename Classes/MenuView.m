@@ -34,8 +34,7 @@
 	return [menuSettings menuItemCount];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
-{
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	// This currently only supports one section
 	if ([indexPath length] != 2 ||
 			[indexPath indexAtPosition:0] != 0 ||
@@ -47,14 +46,14 @@
 	if (cell == nil) {
 		cell = [[[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier] autorelease];
 	}
-	MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
+	MenuItem *menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
 	cell.textLabel.text = menuItem.label;
 	cell.textLabel.font = font;
 	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-	MenuItem* menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
+	MenuItem *menuItem = [menuSettings menuItemAtIndex:[indexPath indexAtPosition:1]];
 	[delegate selectedCommand:menuItem.command];
 }
 

@@ -9,9 +9,9 @@
 // Handles recognition of all gestures and invokes the appropriate action
 @interface GestureResponder : NSObject {
 @private
-  MobileTerminalViewController* viewController;
-  GestureSettings* gestureSettings;
-  NSMutableArray* swipeGestureRecognizers;
+  MobileTerminalViewController *viewController;
+  GestureSettings *gestureSettings;
+  NSMutableArray *swipeGestureRecognizers;
 }
 
 @property (nonatomic, retain) IBOutlet MobileTerminalViewController *viewController;

@@ -6,12 +6,12 @@
 // Protocol implemented by listener of keyboard events
 @protocol TerminalInputProtocol
 @required
-- (void)receiveKeyboardInput:(NSData*)data;
+- (void)receiveKeyboardInput:(NSData *)data;
 @end
 
 @protocol TerminalKeyboardProtocol <TerminalInputProtocol>
 @required
-- (void)fillDataWithSelection:(NSMutableData*)data;
+- (void)fillDataWithSelection:(NSMutableData *)data;
 @end
 
 // The terminal keyboard.  This is an opaque view that triggers rendering of the

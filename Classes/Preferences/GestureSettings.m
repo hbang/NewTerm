@@ -4,28 +4,28 @@
 #import "GestureSettings.h"
 #import "Settings.h"
 
-NSString* kGestureSingleDoubleTap = @"Double Tap";
-NSString* kGestureDoubleDoubleTap = @"Two Finger Double Tap";
-NSString* kGestureSwipeUp = @"Swipe Up";
-NSString* kGestureSwipeDown = @"Swipe Down";
-NSString* kGestureSwipeLeft = @"Swipe Left";
-NSString* kGestureSwipeRight = @"Swipe Right";
-NSString* kGestureSwipeLeftUp = @"Swipe Up and Left";
-NSString* kGestureSwipeLeftDown = @"Swipe Down and Left";
-NSString* kGestureSwipeRightUp = @"Swipe Up and Right";
-NSString* kGestureSwipeRightDown = @"Swipe Down and Right";
+NSString *kGestureSingleDoubleTap = @"Double Tap";
+NSString *kGestureDoubleDoubleTap = @"Two Finger Double Tap";
+NSString *kGestureSwipeUp = @"Swipe Up";
+NSString *kGestureSwipeDown = @"Swipe Down";
+NSString *kGestureSwipeLeft = @"Swipe Left";
+NSString *kGestureSwipeRight = @"Swipe Right";
+NSString *kGestureSwipeLeftUp = @"Swipe Up and Left";
+NSString *kGestureSwipeLeftDown = @"Swipe Down and Left";
+NSString *kGestureSwipeRightUp = @"Swipe Up and Right";
+NSString *kGestureSwipeRightDown = @"Swipe Down and Right";
 
 @interface NoneGestureAction : NSObject<GestureAction> {
 }
-- (NSString*)label;
+- (NSString *)label;
 - (void)performAction;
 @end
 
 @implementation NoneGestureAction
 
-static NoneGestureAction* noneInstance;
+static NoneGestureAction *noneInstance;
 
-+ (NoneGestureAction*)getInstance
++ (NoneGestureAction *)getInstance
 {
 	if (noneInstance == nil) {
 		noneInstance = [[NoneGestureAction alloc] init];
@@ -33,7 +33,7 @@ static NoneGestureAction* noneInstance;
 	return noneInstance;
 }
 
-- (NSString*)label
+- (NSString *)label
 {
 	return @"<Unassigned>";
 }
@@ -47,7 +47,7 @@ static NoneGestureAction* noneInstance;
 
 @implementation SelectorGestureAction
 
-- (id)initWithTarget:(id)aTarget action:(SEL)anAction label:(NSString*)aLabel; {
+- (id)initWithTarget:(id)aTarget action:(SEL)anAction label:(NSString *)aLabel; {
 	self = [super init];
 	if (self != nil) {
 		label = aLabel;
@@ -57,7 +57,7 @@ static NoneGestureAction* noneInstance;
 	return self;
 }
 
-- (NSString*)label
+- (NSString *)label
 {
 	return label;
 }
@@ -73,7 +73,7 @@ static NoneGestureAction* noneInstance;
 @synthesize name;
 @synthesize actionLabel;
 
-- (id)initWithName:(NSString*)aName {
+- (id)initWithName:(NSString *)aName {
 	self = [super init];
 	if (self != nil) {
 		name = aName;
@@ -88,8 +88,8 @@ static NoneGestureAction* noneInstance;
 @implementation GestureSettings
 
 
-- (void)addGestureItem:(NSString*)itemName withCoder:(NSCoder *)decoder {
-	GestureItem* item = [[GestureItem alloc] initWithName:itemName];
+- (void)addGestureItem:(NSString *)itemName withCoder:(NSCoder *)decoder {
+	GestureItem *item = [[GestureItem alloc] initWithName:itemName];
 	if ([decoder containsValueForKey:itemName]) {
 		item.actionLabel = [decoder decodeObjectForKey:[item name]];
 	}
@@ -121,7 +121,7 @@ static NoneGestureAction* noneInstance;
 		
 		gestureActions = [[NSMutableArray alloc] init];
 		
-		NoneGestureAction* noneAction = [[NoneGestureAction alloc] init];
+		NoneGestureAction *noneAction = [[NoneGestureAction alloc] init];
 		[gestureActions addObject:noneAction];
 		[noneAction release];
 	}
@@ -135,7 +135,7 @@ static NoneGestureAction* noneInstance;
 
 - (void)encodeWithCoder:(NSCoder *)encoder {
 	for (int i = 0; i < [self gestureItemCount]; ++i) {
-		GestureItem* item = [self gestureItemAtIndex: i];
+		GestureItem *item = [self gestureItemAtIndex: i];
 		[encoder encodeObject:[item actionLabel] forKey:[item name]];
 	}
 }
@@ -144,16 +144,15 @@ static NoneGestureAction* noneInstance;
 	return [gestureItems count];
 }
 
-- (GestureItem*)gestureItemAtIndex:(int)index
-{
+- (GestureItem *)gestureItemAtIndex:(int)index {
 	return [gestureItems objectAtIndex:index];
 }
 
-- (GestureItem*)gestureItemForName:(NSString*)name; {
+- (GestureItem *)gestureItemForName:(NSString *)name; {
 	// Simply do a linear walk of these items.	Given there are only a limited
 	// number of gestures this shouldn't be too inefficient.
 	for (int i = 0; i < [self gestureItemCount]; ++i) {
-		GestureItem* item = [self gestureItemAtIndex: i];
+		GestureItem *item = [self gestureItemAtIndex: i];
 		if ([[item name] isEqualToString:name]) {
 			return item;
 		}
@@ -170,12 +169,11 @@ static NoneGestureAction* noneInstance;
 	return [gestureActions objectAtIndex:index];
 }
 
-- (void)addGestureAction:(id<GestureAction>)action
-{
+- (void)addGestureAction:(id<GestureAction>)action {
 	[gestureActions addObject:action];
 }
 
-- (id<GestureAction>)gestureActionForLabel:(NSString*)label {
+- (id<GestureAction>)gestureActionForLabel:(NSString *)label {
 	// Simply do a linear walk of these items.	Given there are only a limited
 	// number of gestures this shouldn't be too inefficient.
 	for (int i = 0; i < [self gestureActionCount]; ++i) {
@@ -187,9 +185,9 @@ static NoneGestureAction* noneInstance;
 	return [NoneGestureAction getInstance];
 }
 
-- (id<GestureAction>)gestureActionForItemName:(NSString*)name
+- (id<GestureAction>)gestureActionForItemName:(NSString *)name
 {
-	GestureItem* item = [self gestureItemForName:name];
+	GestureItem *item = [self gestureItemForName:name];
 	return [self gestureActionForLabel:[item actionLabel]];
 }
 

@@ -10,14 +10,12 @@
 	menuSettings = [[MenuSettings alloc] init];
 }
 
-- (void) tearDown
-{
+- (void) tearDown {
 	[menuSettings release];
 }
 
 
-- (void) testMenuSettings
-{
+- (void) testMenuSettings {
 	STAssertEquals(0, [menuSettings menuItemCount],
 								@"got %d", [menuSettings menuItemCount]);
 	[menuSettings addMenuItem:[MenuItem itemWithLabel:@"item1" andCommand:@"command1"]];
@@ -41,8 +39,8 @@
 							 @"got %@", [[menuSettings menuItemAtIndex:1] command]);
 	
 	// Encode and decode the settings
-	NSData* data = [NSKeyedArchiver archivedDataWithRootObject:menuSettings]; 
-	MenuSettings* newMenuSettings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
+	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:menuSettings]; 
+	MenuSettings *newMenuSettings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
 	STAssertTrue([@"item1" isEqualToString:[[newMenuSettings menuItemAtIndex:0] label]],
 							 @"got %@", [[newMenuSettings menuItemAtIndex:0] label]);
 	STAssertTrue([@"command1" isEqualToString:[[newMenuSettings menuItemAtIndex:0] command]],

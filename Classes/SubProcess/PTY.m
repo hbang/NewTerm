@@ -12,8 +12,7 @@
 	return [self initWithFileHandle:nil];
 }
 
-- (id) initWithFileHandle:(NSFileHandle*)fileHandle
-{
+- (id) initWithFileHandle:(NSFileHandle *)fileHandle {
 	self = [super init];
 	if (self != nil) {
 		self->handle = fileHandle;
@@ -30,8 +29,7 @@
 	return self;
 }
 
-- (void)setWidth:(int)terminalWidth withHeight:(int)terminalHeight;
-{
+- (void)setWidth:(int)terminalWidth withHeight:(int)terminalHeight; {
 	if (width == terminalWidth && height == terminalHeight) {
 		// Nothing changed
 		return;

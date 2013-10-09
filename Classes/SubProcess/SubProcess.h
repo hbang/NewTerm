@@ -9,7 +9,7 @@
 @private
   pid_t child_pid;
   int fd;
-  NSFileHandle* fileHandle;
+  NSFileHandle *fileHandle;
 }
 
 - (id)init;
@@ -23,6 +23,6 @@
 
 // Communication channel with the terminal subprocess.  Only valid after the
 // sub process is started.
-- (NSFileHandle*)fileHandle;
+- (NSFileHandle *)fileHandle;
 
 @end

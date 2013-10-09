@@ -17,7 +17,7 @@
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
 	[[UIApplication sharedApplication] setStatusBarHidden:YES];
 	
-	NSMutableArray* viewControllers = [[NSMutableArray alloc] init];
+	NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
 	[viewControllers addObject:terminalViewController];	 
 	[navigationController setViewControllers:viewControllers animated:NO];
 	[viewControllers release];

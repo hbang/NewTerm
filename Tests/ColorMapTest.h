@@ -8,7 +8,7 @@
 
 @interface ColorMapTest : SenTestCase {
 @private
-  ColorMap* colorMap;
+  ColorMap *colorMap;
 }
 
 - (void) setUp;

@@ -15,14 +15,14 @@
 @interface GestureActionRegistry : NSObject<TerminalInputProtocol> {
 @private
   id<TerminalInputProtocol> terminalInput;
-  MobileTerminalViewController* viewController;
-  GestureSettings* gestureSettings;
+  MobileTerminalViewController *viewController;
+  GestureSettings *gestureSettings;
 }
 
 @property (nonatomic, retain) id<TerminalInputProtocol> terminalInput;
 @property (nonatomic, retain) IBOutlet MobileTerminalViewController *viewController;
 
 // Invoked by a gesture action to forward input on to the keyboard
-- (void)receiveKeyboardInput:(NSData*)data;
+- (void)receiveKeyboardInput:(NSData *)data;
 
 @end

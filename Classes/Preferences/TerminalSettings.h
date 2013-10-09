@@ -10,14 +10,14 @@
 // protocol so that it can be serialized.
 @interface TerminalSettings : NSObject <NSCoding> {
 @private
-  UIFont* font;
-  ColorMap* colorMap;
-  NSString* args;
+  UIFont *font;
+  ColorMap *colorMap;
+  NSString *args;
 }
 
-@property(nonatomic, retain) UIFont* font;
-@property(nonatomic, retain) ColorMap* colorMap;
-@property(nonatomic, retain) NSString* args;
+@property(nonatomic, retain) UIFont *font;
+@property(nonatomic, retain) ColorMap *colorMap;
+@property(nonatomic, retain) NSString *args;
 
 - (id)initWithCoder:(NSCoder *)decoder;
 - (void)encodeWithCoder:(NSCoder *)encoder;

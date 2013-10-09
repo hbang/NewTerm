@@ -108,8 +108,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 @synthesize refreshDelegate;
 
-- (id)init
-{
+- (id)init {
 #if DEBUG_ALLOC
 		NSLog(@"%s: 0x%x", __PRETTY_FUNCTION__, self);
 #endif
@@ -156,8 +155,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		return self;
 }
 
-- (void)dealloc
-{
+- (void)dealloc {
 #if DEBUG_ALLOC
 		NSLog(@"%s: 0x%x", __PRETTY_FUNCTION__, self);
 #endif
@@ -188,8 +186,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 #endif
 }
 
-- (void)initScreenWithWidth:(int)width Height:(int)height
-{
+- (void)initScreenWithWidth:(int)width Height:(int)height {
 		int total_height;
 		screen_char_t *aDefaultLine;
 
@@ -484,14 +481,12 @@ static __inline__ screen_char_t *incrementLinePointer(
 		return HEIGHT;
 }
 
-- (unsigned int)scrollbackLines
-{
+- (unsigned int)scrollbackLines {
 		return max_scrollback_lines;
 }
 
 // sets scrollback lines.
-- (void)setScrollback:(unsigned int)lineCount;
-{
+- (void)setScrollback:(unsigned int)lineCount; {
 		// if we already have a buffer, don't allow this
 		if(buffer_lines != NULL)
 				return;
@@ -522,8 +517,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		return (blinkingCursor);
 }
 
-- (void)setBlinkingCursor:(BOOL)flag
-{
+- (void)setBlinkingCursor:(BOOL)flag {
 		blinkingCursor = flag;
 }
 
@@ -844,8 +838,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		return (printToAnsi);
 }
 
-- (void)setPrintToAnsi:(BOOL)aFlag
-{
+- (void)setPrintToAnsi:(BOOL)aFlag {
 		printToAnsi = aFlag;
 }
 
@@ -938,8 +931,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 #endif
 }
 
-- (void)setNewLine
-{
+- (void)setNewLine {
 		screen_char_t *aLine;
 		BOOL wrap = NO;
 		int total_height;
@@ -1034,8 +1026,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 				CURSOR_X =	WIDTH - 1;
 }
 
-- (void)clearScreen
-{
+- (void)clearScreen {
 		screen_char_t *aLine, *aDefaultLine;
 		int i;
 
@@ -1056,8 +1047,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		[self releaseLock];
 }
 
-- (void)eraseInDisplay:(VT100TCC)token
-{
+- (void)eraseInDisplay:(VT100TCC)token {
 		int x1, y1, x2, y2;
 		int i, total_height;
 		screen_char_t *aScreenChar;
@@ -1112,8 +1102,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		memset(dirty+y1 *WIDTH+x1,1,((y2-y1)*WIDTH+(x2-x1))*sizeof(char));
 }
 
-- (void)eraseInLine:(VT100TCC)token
-{
+- (void)eraseInLine:(VT100TCC)token {
 		screen_char_t *aLine;
 		int i;
 		int idx, x1 ,x2;
@@ -1256,8 +1245,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		dirty[CURSOR_Y *WIDTH+CURSOR_X] = 1;
 }
 
-- (void)cursorToX:(int)x Y:(int)y
-{
+- (void)cursorToX:(int)x Y:(int)y {
 #if DEBUG_METHOD_TRACE
 		NSLog(@"%s(%d):-[VT100Screen cursorToX:%d Y:%d]",
 						__FILE__, __LINE__, x, y);
@@ -1288,8 +1276,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 }
 
-- (void)saveCursorPosition
-{
+- (void)saveCursorPosition {
 		int i;
 #if DEBUG_METHOD_TRACE
 		NSLog(@"%s(%d):-[VT100Screen saveCursorPosition]",
@@ -1312,8 +1299,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 }
 
-- (void)restoreCursorPosition
-{
+- (void)restoreCursorPosition {
 		int i;
 #if DEBUG_METHOD_TRACE
 		NSLog(@"%s(%d):-[VT100Screen restoreCursorPosition]",
@@ -1328,8 +1314,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		NSParameterAssert(CURSOR_Y >= 0 && CURSOR_Y < HEIGHT);
 }
 
-- (void)setTopBottom:(VT100TCC)token
-{
+- (void)setTopBottom:(VT100TCC)token {
 		int top, bottom;
 
 #if DEBUG_METHOD_TRACE
@@ -1496,8 +1481,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		memset(dirty+CURSOR_Y *WIDTH,1,(SCROLL_BOTTOM-CURSOR_Y+1)*WIDTH);
 }
 
-- (void)deleteLines:(int)n
-{
+- (void)deleteLines:(int)n {
 		int i, num_lines_moved;
 		screen_char_t *sourceLine, *targetLine, *aDefaultLine;
 
@@ -1564,8 +1548,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		}
 }
 
-- (void)showCursor:(BOOL)show
-{
+- (void)showCursor:(BOOL)show {
 		/*
 		// TODO: Support this
 		if (show)
@@ -1606,14 +1589,12 @@ static __inline__ screen_char_t *incrementLinePointer(
 		memset(dirty,0,WIDTH *HEIGHT *sizeof(char));
 }
 
-- (void)setDirty
-{
+- (void)setDirty {
 		memset(dirty, 1, WIDTH *HEIGHT *sizeof(char));
 		[refreshDelegate refresh];
 }
 
-- (int)newWidth
-{
+- (int)newWidth {
 		return newWidth;
 }
 
@@ -1632,8 +1613,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		soundBell = YES;
 }
 
-- (int)scrollUpLines
-{
+- (int)scrollUpLines {
 		return scrollUpLines;
 }
 
@@ -1660,8 +1640,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 // returns a line set to default character and attributes
 // released when session is closed
-- (screen_char_t *)_getDefaultLineWithWidth:(int)width
-{
+- (screen_char_t *)_getDefaultLineWithWidth:(int)width {
 		int i;
 
 		// check if we have to generate a new line

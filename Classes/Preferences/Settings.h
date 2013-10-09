@@ -15,17 +15,17 @@
 // so that the settings can be read and written to the preferences store.
 @interface Settings : NSObject <NSCoding> {
 @private
-  MenuSettings* menuSettings;
-  GestureSettings* gestureSettings;
-  TerminalSettings* terminalSettings;
+  MenuSettings *menuSettings;
+  GestureSettings *gestureSettings;
+  TerminalSettings *terminalSettings;
 }
 
-@property(nonatomic, retain) MenuSettings* menuSettings;
-@property(nonatomic, retain) GestureSettings* gestureSettings;
-@property(nonatomic, retain) TerminalSettings* terminalSettings;
+@property(nonatomic, retain) MenuSettings *menuSettings;
+@property(nonatomic, retain) GestureSettings *gestureSettings;
+@property(nonatomic, retain) TerminalSettings *terminalSettings;
 
 
-+ (Settings*)sharedInstance;
++ (Settings *)sharedInstance;
 
 // Write the settings to persistent storage
 - (void)persist;
