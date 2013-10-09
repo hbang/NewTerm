@@ -166,13 +166,6 @@
 			remoteGlobalIDString = 1D6058900D05DD3D006BFB54;
 			remoteInfo = MobileTerminal;
 		};
-		9FE6978312E2524600EDE939 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 9FE6978012E2522700EDE939;
-			remoteInfo = svnversion;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -257,7 +250,6 @@
 		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
-		9F76B24912D980C0000D6374 /* svnversion.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = svnversion.h; path = ../svnversion.h; sourceTree = "<group>"; };
 		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
@@ -366,7 +358,6 @@
 				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
 				9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */,
 				9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */,
-				9F76B24912D980C0000D6374 /* svnversion.h */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -605,20 +596,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXLegacyTarget section */
-		9FE6978012E2522700EDE939 /* svnversion */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "$(ACTION)";
-			buildConfigurationList = 9FE6978F12E2525500EDE939 /* Build configuration list for PBXLegacyTarget "svnversion" */;
-			buildPhases = (
-			);
-			buildToolPath = ./build_svnversion.sh;
-			buildWorkingDirectory = "";
-			dependencies = (
-			);
-			name = svnversion;
-			passBuildSettingsInEnvironment = 1;
-			productName = svnversion;
-		};
 		9FE697B312E254C000EDE939 /* deb */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "$(ACTION)";
@@ -651,7 +628,6 @@
 				2C11C5AA1013A59700A2746E /* PBXTargetDependency */,
 				2C11C9591013F9B200A2746E /* PBXTargetDependency */,
 				2C11CB6110143D4A00A2746E /* PBXTargetDependency */,
-				9FE6978412E2524600EDE939 /* PBXTargetDependency */,
 			);
 			name = MobileTerminal;
 			productName = MobileTerminal;
@@ -794,7 +770,6 @@
 				2C11C9311013F87100A2746E /* Terminal */,
 				2C11C9C81014035800A2746E /* Preferences */,
 				2C72B2BA101ABA9100F10E63 /* PreferencesTests */,
-				9FE6978012E2522700EDE939 /* svnversion */,
 				9FE697B312E254C000EDE939 /* deb */,
 			);
 		};
@@ -1016,11 +991,6 @@
 			isa = PBXTargetDependency;
 			target = 1D6058900D05DD3D006BFB54 /* MobileTerminal */;
 			targetProxy = 9FB2C1A7130881B900DAABA0 /* PBXContainerItemProxy */;
-		};
-		9FE6978412E2524600EDE939 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 9FE6978012E2522700EDE939 /* svnversion */;
-			targetProxy = 9FE6978312E2524600EDE939 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1279,27 +1249,6 @@
 			};
 			name = Release;
 		};
-		9FE6978112E2522700EDE939 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = svnversion;
-			};
-			name = Debug;
-		};
-		9FE6978212E2522700EDE939 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				PRODUCT_NAME = svnversion;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		9FE697B412E254C000EDE939 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1426,15 +1375,6 @@
 			buildConfigurations = (
 				2C72B2BD101ABA9100F10E63 /* Debug */,
 				2C72B2BE101ABA9100F10E63 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		9FE6978F12E2525500EDE939 /* Build configuration list for PBXLegacyTarget "svnversion" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				9FE6978112E2522700EDE939 /* Debug */,
-				9FE6978212E2522700EDE939 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

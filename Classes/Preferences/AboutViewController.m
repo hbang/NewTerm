@@ -11,8 +11,7 @@
 - (void)awakeFromNib
 {
   [super awakeFromNib];
-  Settings* settings = [Settings sharedInstance];
-  versionLabel.text = [NSString stringWithFormat:@"r%d", settings.svnVersion];
+  versionLabel.text = [NSString stringWithFormat:@"Version %@", [[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"]];
 }
 
 @end

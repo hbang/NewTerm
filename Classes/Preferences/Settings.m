@@ -11,7 +11,6 @@
 
 @implementation Settings
 
-@synthesize svnVersion;
 @synthesize menuSettings;
 @synthesize gestureSettings;
 @synthesize terminalSettings;
@@ -139,7 +138,7 @@ static Settings* settings = nil;
 - (void)encodeWithCoder:(NSCoder *)encoder
 {
   // include svn revision for future backwards compatibility
-  [encoder encodeInt:svnVersion forKey:kVersionKey];
+  [encoder encodeObject:[[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"] forKey:kVersionKey];
   
   [encoder encodeObject:menuSettings forKey:kMenuSettings];
   [encoder encodeObject:gestureSettings forKey:kGestureSettings];
