@@ -19,7 +19,7 @@ static const int NUM_TERMINALS = 2;
     TerminalSettings* settings = [[Settings sharedInstance] terminalSettings];
     UIFont* font = [settings font];
     for (int i = 0; i < NUM_TERMINALS; ++i) {
-      TerminalView* view = [[TerminalView alloc] initWithCoder:decoder];
+		TerminalView* view = [[[TerminalView alloc] initWithCoder:decoder] autorelease];
       [view setFont:font];
       [terminals addObject:view];
       [self addSubview:view];

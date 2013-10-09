@@ -893,6 +893,7 @@ static __inline__ screen_char_t *incrementLinePointer(
         buffer = (screen_char_t *) malloc([string length] * sizeof(screen_char_t));
         if (!buffer) {
             NSLog(@"%s: Out of memory", __PRETTY_FUNCTION__);
+			free(sc);
             return;
         }
 
@@ -922,8 +923,10 @@ static __inline__ screen_char_t *incrementLinePointer(
                 [TERMINAL backgroundColorCode], &len, [TERMINAL encoding]);
     }
 
-    if (len < 1)
+    if (len < 1) {
+		free(buffer);
         return;
+	}
 
     // TODO(allen): Implement insert mode
     for (int idx = 0; idx < len; idx++) {

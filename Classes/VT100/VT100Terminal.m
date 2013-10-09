@@ -1103,8 +1103,10 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 - (id)init
 {
     int i;
+	
+	self = [super init];
 
-    if ([super init] == nil)
+    if (self == nil)
         return nil;
 
     ENCODING = NSASCIIStringEncoding;

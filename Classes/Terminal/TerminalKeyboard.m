@@ -133,8 +133,8 @@ static const int kControlCharacter = 0x2022;
   NSMutableData* data = [NSMutableData  dataWithCapacity:0];
   [[keyboard inputDelegate] fillDataWithSelection:data];
   UIPasteboard* pb = [UIPasteboard generalPasteboard];
-  pb.string = [[NSString alloc] initWithData:data 
-                                    encoding:NSUTF8StringEncoding];
+  pb.string = [[[NSString alloc] initWithData:data
+                                    encoding:NSUTF8StringEncoding] autorelease];
 }
 
 - (void)paste:(id)sender
