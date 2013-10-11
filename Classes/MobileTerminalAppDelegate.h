@@ -7,20 +7,12 @@
 
 @class Settings;
 
-@interface MobileTerminalAppDelegate : NSObject <UIApplicationDelegate,
-                                                 MobileTerminalInterfaceDelegate> {
-@private
-  UIWindow *window;
-  UINavigationController *navigationController;
-  MobileTerminalViewController *terminalViewController;
-  PreferencesViewController *preferencesViewController;
-  BOOL inPreferences;
-}
+@interface MobileTerminalAppDelegate : UIResponder <UIApplicationDelegate, MobileTerminalInterfaceDelegate>
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) IBOutlet UINavigationController *navigationController;
-@property (nonatomic, retain) IBOutlet MobileTerminalViewController *terminalViewController;
-@property (nonatomic, retain) IBOutlet PreferencesViewController *preferencesViewController;
+@property (nonatomic, retain) UIWindow *window;
+@property (nonatomic, retain) UINavigationController *navigationController;
+@property (nonatomic, retain) MobileTerminalViewController *terminalViewController;
+@property (nonatomic, retain) PreferencesViewController *preferencesViewController;
 
 - (void)preferencesButtonPressed;
 - (void)rootViewDidAppear;

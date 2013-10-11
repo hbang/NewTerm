@@ -19,9 +19,7 @@
 		// Initialize with the current window size
 		struct winsize window_size;
 		if (ioctl([handle fileDescriptor], TIOCGWINSZ, &window_size) == -1) {
-			[NSException raise:@"IOException"
-									format:@"Unable to read the terminal size: (%d: %s)", errno,
-												 strerror(errno)];
+			[NSException raise:@"IOException" format:@"Unable to read the terminal size: (%d: %s)", errno, strerror(errno)];
 		}
 		width = window_size.ws_col;
 		height = window_size.ws_row;
@@ -42,9 +40,7 @@
 	window_size.ws_col = width;
 	window_size.ws_row = height;
 	if (ioctl([handle fileDescriptor], TIOCSWINSZ, &window_size) == -1) {
-		[NSException raise:@"IOException"
-								format:@"Unable to write the terminal size (%d: %s)", errno,
-											 strerror(errno)];
+		[NSException raise:@"IOException" format:@"Unable to write the terminal size (%d: %s)", errno, strerror(errno)];
 	}
 }
 

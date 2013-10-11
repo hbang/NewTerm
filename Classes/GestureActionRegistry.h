@@ -10,13 +10,13 @@
 @class GestureResponder;
 
 // This class is responsible for issueing gesture actions with the settings
-// library.  The gesture actions are things like "hide and show keyboard" or 
+// library.	 The gesture actions are things like "hide and show keyboard" or 
 // "left arrow key" that are performed in response to a gesture such as a swipe.
 @interface GestureActionRegistry : NSObject<TerminalInputProtocol> {
 @private
-  id<TerminalInputProtocol> terminalInput;
-  MobileTerminalViewController *viewController;
-  GestureSettings *gestureSettings;
+	id<TerminalInputProtocol> terminalInput;
+	MobileTerminalViewController *viewController;
+	GestureSettings *gestureSettings;
 }
 
 @property (nonatomic, retain) id<TerminalInputProtocol> terminalInput;

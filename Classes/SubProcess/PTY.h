@@ -6,9 +6,9 @@
 // Controls settings on PTY, currently just width and height.
 @interface PTY : NSObject {
 @private;
-  NSFileHandle *handle;
-  int width;
-  int height;
+	NSFileHandle *handle;
+	int width;
+	int height;
 }
 
 - (id)initWithFileHandle:(NSFileHandle *)fileHandle;

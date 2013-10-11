@@ -10,8 +10,8 @@ extern CFStringRef const kBackgroundColorAttributeName;
 
 @interface VT100StringSupplier : NSObject<AttributedStringSupplier> {
 @private
-  id<ScreenBuffer> screenBuffer;
-  ColorMap *colorMap;
+	id<ScreenBuffer> screenBuffer;
+	ColorMap *colorMap;
 }
 
 @property (nonatomic, retain) id <ScreenBuffer> screenBuffer;

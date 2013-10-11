@@ -11,14 +11,14 @@
 
 @interface GestureEditViewController : UIViewController<UIPickerViewDelegate, UIPickerViewDataSource> {
 @private
-  GestureSettings *settings;
-  
-  UILabel *gestureLabel;
-  UIPickerView *actionPicker;
-  GestureItem *editingGestureItem;
-  id<GestureEditDelegate> gestureEditDelegate;
-  
-  int selectedRow;
+	GestureSettings *settings;
+	
+	UILabel *gestureLabel;
+	UIPickerView *actionPicker;
+	GestureItem *editingGestureItem;
+	id<GestureEditDelegate> gestureEditDelegate;
+	
+	int selectedRow;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel *gestureLabel;

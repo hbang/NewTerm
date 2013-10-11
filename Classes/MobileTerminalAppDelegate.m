@@ -7,43 +7,40 @@
 #import "Preferences/Settings.h"
 #import "Preferences/MenuSettings.h"
 
+@interface MobileTerminalAppDelegate () {
+	BOOL _inPreferences;
+}
+
+@end
+
 @implementation MobileTerminalAppDelegate
 
-@synthesize window;
-@synthesize navigationController;
-@synthesize terminalViewController;
-@synthesize preferencesViewController;
-
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
-	[[UIApplication sharedApplication] setStatusBarHidden:YES];
-	
-	NSMutableArray *viewControllers = [[NSMutableArray alloc] init];
-	[viewControllers addObject:terminalViewController];	 
-	[navigationController setViewControllers:viewControllers animated:NO];
-	[viewControllers release];
-		
-	[window addSubview:navigationController.view];
-	[window makeKeyAndVisible];
-	inPreferences = FALSE;
+	_inPreferences = NO;
+	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	_terminalViewController = [[MobileTerminalViewController alloc] init];
+	_navigationController = [[UINavigationController alloc] initWithRootViewController:_terminalViewController];
+	_window.rootViewController = _navigationController;
+	[_window makeKeyAndVisible];
 }
 
 static const NSTimeInterval kAnimationDuration = 1.00f;
 
 - (void)preferencesButtonPressed {
-	inPreferences = TRUE;
-	[navigationController setNavigationBarHidden:NO];
-	[navigationController pushViewController:preferencesViewController animated:YES];
+	_inPreferences = YES;
+	[_navigationController setNavigationBarHidden:NO];
+	[_navigationController pushViewController:_preferencesViewController animated:YES];
 }
 
 - (void)rootViewDidAppear
 {
-	if (inPreferences) {
+	if (_inPreferences) {
 		[[Settings sharedInstance] persist];
 	}
-	inPreferences = TRUE;
+	_inPreferences = YES;
 
 	// This must be invoked after the animation to show the root view completes
-	[navigationController setNavigationBarHidden:YES];	
+	[_navigationController setNavigationBarHidden:YES];
 }
 
 @end

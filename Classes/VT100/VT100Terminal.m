@@ -1171,7 +1171,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		allowKeypadMode = range.location != NSNotFound;
 
 		int i;
-		int r=0;
+		int r=-1;
 
 		static int issetup = 0;
 		if (!issetup) {

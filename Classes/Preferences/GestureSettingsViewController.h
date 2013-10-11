@@ -6,8 +6,8 @@
 
 @interface GestureSettingsViewController : UITableViewController<GestureEditDelegate> {
 @private
-  GestureSettings *gestureSettings;
-  GestureEditViewController *gestureEditViewController;
+	GestureSettings *gestureSettings;
+	GestureEditViewController *gestureEditViewController;
 }
 
 @property(nonatomic, retain) IBOutlet GestureEditViewController *gestureEditViewController;

@@ -8,12 +8,12 @@
 
 @interface ColorMap : NSObject <NSCoding> {
 @private
-  UIColor *table[COLOR_MAP_MAX_COLORS];
-  UIColor *background;
-  UIColor *foreground;
-  UIColor *foregroundBold;
-  UIColor *foregroundCursor;
-  UIColor *backgroundCursor;
+	UIColor *table[COLOR_MAP_MAX_COLORS];
+	UIColor *background;
+	UIColor *foreground;
+	UIColor *foregroundBold;
+	UIColor *foregroundCursor;
+	UIColor *backgroundCursor;
 }
 
 @property (nonatomic, retain) UIColor *background;

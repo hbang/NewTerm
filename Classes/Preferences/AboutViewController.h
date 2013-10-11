@@ -6,7 +6,7 @@
 
 @interface AboutViewController : UIViewController {
 @private
-  UILabel *versionLabel;
+	UILabel *versionLabel;
 }
 
 @property(nonatomic, retain) IBOutlet UILabel *versionLabel;

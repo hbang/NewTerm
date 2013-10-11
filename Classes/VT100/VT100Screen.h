@@ -1,26 +1,26 @@
 // -*- mode:objc -*-
 /*
- **  VT100Screen.h
+ **	 VT100Screen.h
  **
- **  Copyright (c) 2002, 2003, 2007
+ **	 Copyright (c) 2002, 2003, 2007
  **
- **  Author: Fabian, Ujwal S. Setlur
- **          Initial code by Kiichi Kusama
- **          Ported to MobileTerminal (from iTerm) by Allen Porter
+ **	 Author: Fabian, Ujwal S. Setlur
+ **					 Initial code by Kiichi Kusama
+ **					 Ported to MobileTerminal (from iTerm) by Allen Porter
  **
- **  This program is free software; you can redistribute it and/or modify
- **  it under the terms of the GNU General Public License as published by
- **  the Free Software Foundation; either version 2 of the License, or
- **  (at your option) any later version.
+ **	 This program is free software; you can redistribute it and/or modify
+ **	 it under the terms of the GNU General Public License as published by
+ **	 the Free Software Foundation; either version 2 of the License, or
+ **	 (at your option) any later version.
  **
- **  This program is distributed in the hope that it will be useful,
- **  but WITHOUT ANY WARRANTY; without even the implied warranty of
- **  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
- **  GNU General Public License for more details.
+ **	 This program is distributed in the hope that it will be useful,
+ **	 but WITHOUT ANY WARRANTY; without even the implied warranty of
+ **	 MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+ **	 GNU General Public License for more details.
  **
- **  You should have received a copy of the GNU General Public License
- **  along with this program; if not, write to the Free Software
- **  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ **	 You should have received a copy of the GNU General Public License
+ **	 along with this program; if not, write to the Free Software
+ **	 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
 #import "VT100Terminal.h"
@@ -33,69 +33,69 @@
 
 @interface VT100Screen : NSObject
 {
-    int WIDTH; // width of screen
-    int HEIGHT; // height of screen
-    int CURSOR_X;
-    int CURSOR_Y;
-    int SAVE_CURSOR_X;
-    int SAVE_CURSOR_Y;
-    int SCROLL_TOP;
-    int SCROLL_BOTTOM;
-    BOOL tabStop[TABWINDOW];
+		int WIDTH; // width of screen
+		int HEIGHT; // height of screen
+		int CURSOR_X;
+		int CURSOR_Y;
+		int SAVE_CURSOR_X;
+		int SAVE_CURSOR_Y;
+		int SCROLL_TOP;
+		int SCROLL_BOTTOM;
+		BOOL tabStop[TABWINDOW];
 
-    VT100Terminal *TERMINAL;
-    int charset[4], saveCharset[4];
-    BOOL blinkShow;
-    BOOL PLAYBELL;
-    BOOL SHOWBELL;
+		VT100Terminal *TERMINAL;
+		int charset[4], saveCharset[4];
+		BOOL blinkShow;
+		BOOL PLAYBELL;
+		BOOL SHOWBELL;
 
-    BOOL blinkingCursor;
+		BOOL blinkingCursor;
 
-    // single buffer that holds both scrollback and screen contents
-    screen_char_t *buffer_lines;
-    // buffer holding flags for each char on whether it needs to be redrawn
-    char *dirty;
-    // a single default line
-    screen_char_t *default_line;
-    // temporary buffer to store main buffer in SAVE_BUFFER/RESET_BUFFER mode
-    screen_char_t *temp_buffer;
+		// single buffer that holds both scrollback and screen contents
+		screen_char_t *buffer_lines;
+		// buffer holding flags for each char on whether it needs to be redrawn
+		char *dirty;
+		// a single default line
+		screen_char_t *default_line;
+		// temporary buffer to store main buffer in SAVE_BUFFER/RESET_BUFFER mode
+		screen_char_t *temp_buffer;
 
-    // pointer to last line in buffer
-    screen_char_t *last_buffer_line;
-    // pointer to first screen line
-    screen_char_t *screen_top;
-    //pointer to first scrollback line
-    screen_char_t *scrollback_top;
+		// pointer to last line in buffer
+		screen_char_t *last_buffer_line;
+		// pointer to first screen line
+		screen_char_t *screen_top;
+		//pointer to first scrollback line
+		screen_char_t *scrollback_top;
 
-    // default line stuff
-    char default_bg_code;
-    char default_fg_code;
-    int default_line_width;
+		// default line stuff
+		char default_bg_code;
+		char default_fg_code;
+		int default_line_width;
 
-    //scroll back stuff
-    BOOL dynamic_scrollback_size;
-    // max size of scrollback buffer
-    unsigned int max_scrollback_lines;
-    // current number of lines in scrollback buffer
-    unsigned int current_scrollback_lines;
-
-
-    // print to ansi...
-    BOOL printToAnsi; // YES=ON, NO=OFF, default=NO;
-    NSMutableString *printToAnsiString;
-
-    NSLock *screenLock;
+		//scroll back stuff
+		BOOL dynamic_scrollback_size;
+		// max size of scrollback buffer
+		unsigned int max_scrollback_lines;
+		// current number of lines in scrollback buffer
+		unsigned int current_scrollback_lines;
 
 
-    // UI related
-    int newWidth, newHeight;
-    NSString *newWinTitle;
-    NSString *newIconTitle;
-    BOOL soundBell;
-    int scrollUpLines;
-    BOOL printPending;
-  
-    id <ScreenBufferRefreshDelegate> refreshDelegate;
+		// print to ansi...
+		BOOL printToAnsi; // YES=ON, NO=OFF, default=NO;
+		NSMutableString *printToAnsiString;
+
+		NSLock *screenLock;
+
+
+		// UI related
+		int newWidth, newHeight;
+		NSString *newWinTitle;
+		NSString *newIconTitle;
+		BOOL soundBell;
+		int scrollUpLines;
+		BOOL printPending;
+	
+		id <ScreenBufferRefreshDelegate> refreshDelegate;
 }
 
 @property (nonatomic, retain) id <ScreenBufferRefreshDelegate> refreshDelegate;

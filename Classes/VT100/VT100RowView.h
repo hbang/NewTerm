@@ -10,9 +10,9 @@
 
 @interface VT100RowView : UIView {
 @private
-  //int rowIndex;
-  FontMetrics *fontMetrics;
-  id<AttributedStringSupplier> stringSupplier;
+	//int rowIndex;
+	FontMetrics *fontMetrics;
+	id<AttributedStringSupplier> stringSupplier;
 }
 
 @property (nonatomic) int rowIndex;

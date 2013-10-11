@@ -12,14 +12,14 @@
 
 // Before invoking the controller, the caller should assign an editingMenuItem
 // and a menuEditDelegate that will be invoked if editing is completed
-// and the user wanted to save their actions.  If the user clicks cancel the
+// and the user wanted to save their actions.	 If the user clicks cancel the
 // delegate is not invoked.
 @interface MenuEditViewController : UIViewController {
 @private
-  UITextField *labelTextField;
-  UITextView *commandTextView;
-  MenuItem *editingMenuItem;
-  id<MenuEditDelegate> menuEditDelegate;
+	UITextField *labelTextField;
+	UITextView *commandTextView;
+	MenuItem *editingMenuItem;
+	id<MenuEditDelegate> menuEditDelegate;
 }
 
 @property(nonatomic, retain) IBOutlet UITextField *labelTextField;

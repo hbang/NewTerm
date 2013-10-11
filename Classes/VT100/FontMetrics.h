@@ -9,12 +9,12 @@
 
 @interface FontMetrics : NSObject {
 @private
-  UIFont *font;
-  CTFontRef ctFont;
-  float ascent;
-  float descent;
-  float leading;
-  CGSize boundingBox;
+	UIFont *font;
+	CTFontRef ctFont;
+	float ascent;
+	float descent;
+	float leading;
+	CGSize boundingBox;
 }
 
 - (id)initWithFont:(UIFont *)font;

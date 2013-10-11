@@ -14,7 +14,7 @@ extern NSString *kGestureSwipeLeftDown;
 extern NSString *kGestureSwipeRightUp;
 extern NSString *kGestureSwipeRightDown;
 
-// A GestureAction is performed in response to a gesture.  Implementations may
+// A GestureAction is performed in response to a gesture.	 Implementations may
 // do something like hide and show the keyboard, or issue a specific command.
 @protocol GestureAction
 - (NSString *)label;
@@ -24,9 +24,9 @@ extern NSString *kGestureSwipeRightDown;
 // An implementation of GestureActioin that invokes a selector.
 @interface SelectorGestureAction : NSObject<GestureAction> {
 @private
-  NSString *label;
-  id target;
-  SEL action;
+	NSString *label;
+	id target;
+	SEL action;
 }
 - (id)initWithTarget:(id)target action:(SEL)action label:(NSString *)label;
 - (NSString *)label;
@@ -34,11 +34,11 @@ extern NSString *kGestureSwipeRightDown;
 @end
 
 // There are a fixed number of GestureItems, one for each gesture that is
-// supported.  The item may or may not have a corresponding action.
+// supported.	 The item may or may not have a corresponding action.
 @interface GestureItem : NSObject {
 @private
-  NSString *name;
-  NSString *actionLabel;
+	NSString *name;
+	NSString *actionLabel;
 }
 
 @property(nonatomic, retain) NSString *name;
@@ -47,12 +47,12 @@ extern NSString *kGestureSwipeRightDown;
 
 @end
 
-// Holds the collection of GestureItems.  GestureItems cannot be added or
+// Holds the collection of GestureItems.	GestureItems cannot be added or
 // removed since there are a fixed number of gestures.
 @interface GestureSettings : NSObject<NSCoding> {
 @private
-  NSMutableArray *gestureItems;
-  NSMutableArray *gestureActions;
+	NSMutableArray *gestureItems;
+	NSMutableArray *gestureActions;
 }
 
 - (id)initWithCoder:(NSCoder *)decoder;

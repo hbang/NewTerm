@@ -12,19 +12,19 @@ static const int kMaxRowBufferSize = 200;
 
 // TODO(allen): Include the dirty bit in this struct
 typedef struct screen_char_t {
-    unichar ch;  // the actual character
-    unsigned int bg_color;  // background color
-    unsigned int fg_color;  // foreground color
+		unichar ch;	 // the actual character
+		unsigned int bg_color;	// background color
+		unsigned int fg_color;	// foreground color
 } screen_char_t;
 
 typedef struct {
-  int width;
-  int height;
+	int width;
+	int height;
 } ScreenSize;
 
 typedef struct {
-  int x;
-  int y;
+	int x;
+	int y;
 } ScreenPosition;
 
 // The protocol for reading and writing data to the terminal screen
@@ -34,7 +34,7 @@ typedef struct {
 // Return the current size of the screen
 - (ScreenSize)screenSize;
 
-// Resize the screen to the specified size.  This is a no-op of the new size
+// Resize the screen to the specified size.	 This is a no-op of the new size
 // is the same as the existing size.
 - (void)setScreenSize:(ScreenSize)size;
 
@@ -66,9 +66,9 @@ typedef struct {
 - (void)refresh;
 @end
 
-// Supplies an attributed string for a row of text.  In practice this is just
+// Supplies an attributed string for a row of text.	 In practice this is just
 // a string of screen_char_t converted to an attributed string (text color,
-// etc).  The row index includes space in the scrollback buffer.
+// etc).	The row index includes space in the scrollback buffer.
 @protocol AttributedStringSupplier
 - (int)rowCount;
 - (CFStringRef)newString:(int)rowIndex;

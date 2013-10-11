@@ -1,43 +1,55 @@
-// TerminalView.m
+// TerminalController.m
 // MobileTerminal
 
-#import "TerminalView.h"
+#import "TerminalController.h"
 
-#import "VT100/VT100TextView.h"
+#import "VT100/ColorMap.h"
+#import "VT100/VT100TableViewController.h"
 #import "SubProcess/SubProcess.h"
 
-@implementation TerminalView
+@interface TerminalController () {
+	SubProcess *_subProcess;
+	PTY *_pty;
+	
+	// Keeps track of when the subprocess is stopped, so that we know to start
+	// a new one on key press.
+	BOOL _stopped;
+	
+	// Determines if this view responds to touch events as copy and paste
+	BOOL _copyAndPasteEnabled;
+}
+
+@end
+
+@implementation TerminalController
 
 // Initializes the sub process and pty object.	This sets up a listener that
 // invokes a callback when data from the subprocess is available.
 - (void)startSubProcess {
-	stopped = NO;
+	_stopped = NO;
 	
-	subProcess = [[SubProcess alloc] init];	 
-	[subProcess start];
+	_subProcess = [[SubProcess alloc] init];
+	[_subProcess start];
 		
 	// The PTY will be sized correctly on the first call to layoutSubViews
-	pty = [[PTY alloc] initWithFileHandle:[subProcess fileHandle]];
+	_pty = [[PTY alloc] initWithFileHandle:[_subProcess fileHandle]];
 	
 	// Schedule an async read of the subprocess.	Invokes our callback when
 	// data becomes available.
-	[[NSNotificationCenter defaultCenter] addObserver:self
-																					 selector:@selector(dataAvailable:)
-																							 name:NSFileHandleReadCompletionNotification
-																						 object:[subProcess fileHandle]];
-	[[subProcess fileHandle] readInBackgroundAndNotify];	 
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NSFileHandleReadCompletionNotification object:[_subProcess fileHandle]];
+	[[_subProcess fileHandle] readInBackgroundAndNotify];
 }
 
 - (void)releaseSubProcess {
-	if (subProcess == nil) {
+	if (_subProcess == nil) {
 		return;
 	}
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	
-	stopped = YES;
-	[pty release];
-	[subProcess stop];
-	[subProcess release];
+	_stopped = YES;
+	[_pty release];
+	[_subProcess stop];
+	[_subProcess release];
 }
 
 static const char *kProcessExitedMessage =
@@ -60,28 +72,26 @@ static const char *kProcessExitedMessage =
 		// don't restart automatically in case of (b), which would put us in an
 		// infinite loop.	 Print a message on the screen with instructions on how
 		// to restart the process.
-		NSData *message = [NSData dataWithBytes:kProcessExitedMessage
-																		 length:strlen(kProcessExitedMessage)];
-		[textView readInputStream:message];
+		NSData *message = [NSData dataWithBytes:kProcessExitedMessage length:strlen(kProcessExitedMessage)];
+		[_tableViewController readInputStream:message];
 		[self releaseSubProcess];
 		return;
 	}
 	
 	// Forward the subprocess data into the terminal character handler
-	[textView readInputStream:data];
+	[_tableViewController readInputStream:data];
 	
 	// Queue another read
-	[[subProcess fileHandle] readInBackgroundAndNotify];
+	[[_subProcess fileHandle] readInBackgroundAndNotify];
 }
 
-- (id)initWithCoder:(NSCoder *)decoder {
-	self = [super initWithCoder:decoder];
+- (id)init {
+	self = [super init];
 	if (self != nil) {
-		subProcess = nil;
-		copyAndPasteEnabled = NO;
-		textView = [[VT100TextView alloc] initWithCoder:decoder];
-		[textView setFrame:self.frame];
-		[self addSubview:textView];
+		_subProcess = nil;
+		_copyAndPasteEnabled = NO;
+		_tableViewController = [[VT100TableViewController alloc] init];
+		_tableViewController.terminalController = self;
 	}
 	return self;
 }
@@ -92,44 +102,45 @@ static const char *kProcessExitedMessage =
 }
 
 - (void)layoutSubviews {
-	[super layoutSubviews];
 	// Make sure that the text view is laid out, which re-computes the terminal
 	// size in rows and columns.
-	[textView layoutSubviews];
+	[_tableViewController viewWillLayoutSubviews];
 
 	// Send the terminal the actual size of our vt100 view.	 This should be
 	// called any time we change the size of the view.	This should be a no-op if
 	// the size has not changed since the last time we called it.
-	[pty setWidth:[textView width] withHeight:[textView height]];
+	[_pty setWidth:[_tableViewController width] withHeight:[_tableViewController height]];
 }
 
 - (void)receiveKeyboardInput:(NSData *)data {
-	if (stopped) {
+	if (_stopped) {
 		// The sub process previously exited, restart it at the users request.
-		[textView clearScreen];
+		[_tableViewController clearScreen];
 		[self startSubProcess];
 	} else {
 		// Forward the data from the keyboard directly to the subprocess
-		[[subProcess fileHandle] writeData:data];
+		[[_subProcess fileHandle] writeData:data];
 	}
 }
 
 - (void)fillDataWithSelection:(NSMutableData *)data; {
-	return [textView fillDataWithSelection:data];
+	return [_tableViewController fillDataWithSelection:data];
 }
 
+// TODO: reimplement with gesture recognizer
+/*
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event {
 	[super touchesBegan:touches withEvent:event];
 	if (!copyAndPasteEnabled) {
 		return;
 	}	 
-	if ([textView hasSelection]) {
-		[textView clearSelection];
+	if ([tableViewController hasSelection]) {
+		[tableViewController clearSelection];
 	} else {
 		UITouch *theTouch = [touches anyObject];
 		CGPoint point = [theTouch locationInView:self];
-		[textView setSelectionStart:point];
-		[textView setSelectionEnd:point];
+		[tableViewController setSelectionStart:point];
+		[tableViewController setSelectionEnd:point];
 	}
 }
 
@@ -138,10 +149,10 @@ static const char *kProcessExitedMessage =
 	if (!copyAndPasteEnabled) {
 		return;
 	}	 
-	if ([textView hasSelection]) {
+	if ([tableViewController hasSelection]) {
 		UITouch *theTouch = [touches anyObject];
 		CGPoint point = [theTouch locationInView:self];
-		[textView setSelectionEnd:point];
+		[tableViewController setSelectionEnd:point];
 	}
 }
 
@@ -150,13 +161,13 @@ static const char *kProcessExitedMessage =
 	if (!copyAndPasteEnabled) {
 		return;
 	}
-	CGRect rect = [textView cursorRegion];
-	if ([textView hasSelection]) {
+	CGRect rect = [tableViewController cursorRegion];
+	if ([tableViewController hasSelection]) {
 		UITouch *theTouch = [touches anyObject];
-		[textView setSelectionEnd:[theTouch locationInView:self]];
-		rect = [textView selectionRegion];
+		[tableViewController setSelectionEnd:[theTouch locationInView:self]];
+		rect = [tableViewController selectionRegion];
 		if (fabs(rect.size.width) < 1 && fabs(rect.size.height) < 1) {
-			rect = [textView cursorRegion];
+			rect = [tableViewController cursorRegion];
 		}
 	}
 	
@@ -165,22 +176,22 @@ static const char *kProcessExitedMessage =
 	[theMenu setTargetRect:rect inView:self];
 	[theMenu setMenuVisible:YES animated:YES];
 }
+*/
 
 - (void)setCopyPasteEnabled:(BOOL)enabled; {
-	copyAndPasteEnabled = enabled;
+	_copyAndPasteEnabled = enabled;
 	// Reset any previous UI state for copy and paste
 	UIMenuController *theMenu = [UIMenuController sharedMenuController];
 	[theMenu setMenuVisible:NO];
-	[textView clearSelection];
+	[_tableViewController clearSelection];
 }
 
 - (void)setFont:(UIFont *)font {
-	[textView setFont:font];
+	[_tableViewController setFont:font];
 }
 
-- (ColorMap *)colorMap
-{
-	return [textView colorMap];
+- (ColorMap *)colorMap {
+	return [_tableViewController colorMap];
 }
 
 @end

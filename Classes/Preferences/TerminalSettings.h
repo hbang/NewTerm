@@ -6,13 +6,13 @@
 @class ColorMap;
 @class UIFont;
 
-// Settings that apply to a terminal.  This object implements the NSCoding
+// Settings that apply to a terminal.	 This object implements the NSCoding
 // protocol so that it can be serialized.
 @interface TerminalSettings : NSObject <NSCoding> {
 @private
-  UIFont *font;
-  ColorMap *colorMap;
-  NSString *args;
+	UIFont *font;
+	ColorMap *colorMap;
+	NSString *args;
 }
 
 @property(nonatomic, retain) UIFont *font;

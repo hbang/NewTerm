@@ -6,13 +6,13 @@
 
 @interface PreferencesViewController : UITableViewController {
 @private
-  UINavigationController *navigationController;  
-  UIViewController *menuSettingsController;
-  UIViewController *gestureSettingsController;
-  UIViewController *aboutController;
-  
-  NSMutableArray *sections;
-  NSMutableArray *controllers;
+	UINavigationController *navigationController;	 
+	UIViewController *menuSettingsController;
+	UIViewController *gestureSettingsController;
+	UIViewController *aboutController;
+	
+	NSMutableArray *sections;
+	NSMutableArray *controllers;
 }
 
 @property(nonatomic, retain) IBOutlet UINavigationController *navigationController;

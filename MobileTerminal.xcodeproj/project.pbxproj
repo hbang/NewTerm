@@ -12,11 +12,8 @@
 		1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D30AB110D05D00D00671497 /* Foundation.framework */; };
 		1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1DF5F4DF0D08C38300B7A737 /* UIKit.framework */; };
 		288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 288765A40DF7441C002DB57D /* CoreGraphics.framework */; };
-		2899E5220DE3E06400AC0155 /* MobileTerminalViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */; };
-		28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 28AD733E0D9D9553002E5188 /* MainWindow.xib */; };
 		28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */; };
 		2C11C5801013A54300A2746E /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5661013A4E500A2746E /* VT100Terminal.m */; };
-		2C11C5811013A54300A2746E /* VT100TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5671013A4E500A2746E /* VT100TextView.m */; };
 		2C11C5821013A54300A2746E /* VT100.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C5691013A4E500A2746E /* VT100.m */; };
 		2C11C5831013A54300A2746E /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C56A1013A4E500A2746E /* VT100Screen.m */; };
 		2C11C5841013A54300A2746E /* ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C56C1013A4E500A2746E /* ColorMap.m */; };
@@ -31,15 +28,12 @@
 		2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C6461013AC7400A2746E /* libcurses.dylib */; };
 		2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5621013A4E500A2746E /* VT100Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C5651013A4E500A2746E /* ColorMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C56D1013A4E500A2746E /* VT100TextView.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2C11C66A1013AE1D00A2746E /* SubProcess.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55D1013A4DC00A2746E /* SubProcess.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		2C11C66B1013AE1D00A2746E /* PTY.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C55F1013A4DC00A2746E /* PTY.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		2C11C9391013F89B00A2746E /* TerminalGroupView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C9261013F85A00A2746E /* TerminalGroupView.m */; };
 		2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C9281013F85A00A2746E /* TerminalKeyboard.m */; };
-		2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C92A1013F85A00A2746E /* TerminalView.m */; };
-		2C11C9481013F96400A2746E /* TerminalGroupView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9251013F85A00A2746E /* TerminalGroupView.h */; };
+		2C11C93B1013F89B00A2746E /* TerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11C92A1013F85A00A2746E /* TerminalController.m */; };
 		2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9271013F85A00A2746E /* TerminalKeyboard.h */; };
-		2C11C94A1013F96400A2746E /* TerminalView.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9291013F85A00A2746E /* TerminalView.h */; };
+		2C11C94A1013F96400A2746E /* TerminalController.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11C9291013F85A00A2746E /* TerminalController.h */; };
 		2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2C11C9321013F87100A2746E /* libTerminal.a */; };
 		2C11CC8210159F7400A2746E /* Settings.h in Headers */ = {isa = PBXBuildFile; fileRef = 2C11CC7E10159F7400A2746E /* Settings.h */; settings = {ATTRIBUTES = (); }; };
 		2C11CC8310159F7400A2746E /* Settings.m in Sources */ = {isa = PBXBuildFile; fileRef = 2C11CC7F10159F7400A2746E /* Settings.m */; };
@@ -74,11 +68,9 @@
 		9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */; };
 		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
 		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
-		9F86D380123D386A00FAA3C4 /* PreferencesViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */; };
 		9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */; };
 		9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */; };
 		9FA68B8E124693D4002B893E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA68B8D124693D4002B893E /* CoreText.framework */; };
-		9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */ = {isa = PBXBuildFile; fileRef = 9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */; };
 		9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FD244F3121790AF009A71C6 /* GestureSettings.h */; };
 		9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FD244F4121790AF009A71C6 /* GestureSettings.m */; };
 		9FE3EF4D12D2647500CF3F00 /* VT100TableViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF4B12D2647500CF3F00 /* VT100TableViewController.h */; };
@@ -175,8 +167,6 @@
 		1D6058910D05DD3D006BFB54 /* Terminal.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Terminal.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		1DF5F4DF0D08C38300B7A737 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		288765A40DF7441C002DB57D /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
-		2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MobileTerminalViewController.xib; sourceTree = "<group>"; };
-		28AD733E0D9D9553002E5188 /* MainWindow.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MainWindow.xib; sourceTree = "<group>"; };
 		28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MobileTerminalViewController.h; sourceTree = "<group>"; };
 		28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MobileTerminalViewController.m; sourceTree = "<group>"; };
 		29B97316FDCFA39411CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -193,24 +183,20 @@
 		2C11C5641013A4E500A2746E /* VT100Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Terminal.h; path = VT100/VT100Terminal.h; sourceTree = "<group>"; };
 		2C11C5651013A4E500A2746E /* ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorMap.h; path = VT100/ColorMap.h; sourceTree = "<group>"; };
 		2C11C5661013A4E500A2746E /* VT100Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Terminal.m; path = VT100/VT100Terminal.m; sourceTree = "<group>"; };
-		2C11C5671013A4E500A2746E /* VT100TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100TextView.m; path = VT100/VT100TextView.m; sourceTree = "<group>"; };
 		2C11C5681013A4E500A2746E /* charmaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = charmaps.h; path = VT100/charmaps.h; sourceTree = "<group>"; };
 		2C11C5691013A4E500A2746E /* VT100.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100.m; path = VT100/VT100.m; sourceTree = "<group>"; };
 		2C11C56A1013A4E500A2746E /* VT100Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Screen.m; path = VT100/VT100Screen.m; sourceTree = "<group>"; };
 		2C11C56B1013A4E500A2746E /* VT100.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100.h; path = VT100/VT100.h; sourceTree = "<group>"; };
 		2C11C56C1013A4E500A2746E /* ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorMap.m; path = VT100/ColorMap.m; sourceTree = "<group>"; };
-		2C11C56D1013A4E500A2746E /* VT100TextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100TextView.h; path = VT100/VT100TextView.h; sourceTree = "<group>"; };
 		2C11C57B1013A51E00A2746E /* libVT100.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libVT100.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C58A1013A55500A2746E /* libSubProcess.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libSubProcess.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C5B31013A5AF00A2746E /* VT100Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = VT100Tests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "VT100Tests-Info.plist"; sourceTree = "<group>"; };
 		2C11C6461013AC7400A2746E /* libcurses.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libcurses.dylib; path = usr/lib/libcurses.dylib; sourceTree = SDKROOT; };
-		2C11C9251013F85A00A2746E /* TerminalGroupView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalGroupView.h; path = Terminal/TerminalGroupView.h; sourceTree = "<group>"; };
-		2C11C9261013F85A00A2746E /* TerminalGroupView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalGroupView.m; path = Terminal/TerminalGroupView.m; sourceTree = "<group>"; };
 		2C11C9271013F85A00A2746E /* TerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyboard.h; path = Terminal/TerminalKeyboard.h; sourceTree = "<group>"; };
 		2C11C9281013F85A00A2746E /* TerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyboard.m; path = Terminal/TerminalKeyboard.m; sourceTree = "<group>"; };
-		2C11C9291013F85A00A2746E /* TerminalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalView.h; path = Terminal/TerminalView.h; sourceTree = "<group>"; };
-		2C11C92A1013F85A00A2746E /* TerminalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalView.m; path = Terminal/TerminalView.m; sourceTree = "<group>"; };
+		2C11C9291013F85A00A2746E /* TerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalController.h; path = Terminal/TerminalController.h; sourceTree = "<group>"; };
+		2C11C92A1013F85A00A2746E /* TerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalController.m; path = Terminal/TerminalController.m; sourceTree = "<group>"; };
 		2C11C9321013F87100A2746E /* libTerminal.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libTerminal.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11C9C91014035800A2746E /* libPreferences.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPreferences.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		2C11CC7E10159F7400A2746E /* Settings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Settings.h; path = Preferences/Settings.h; sourceTree = "<group>"; };
@@ -250,13 +236,11 @@
 		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
 		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
 		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
-		9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = PreferencesViewController.xib; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
 		9F89F65F1257C32C0015CFDB /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontMetrics.h; path = VT100/FontMetrics.h; sourceTree = "<group>"; };
 		9F89F6601257C32C0015CFDB /* FontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontMetrics.m; path = VT100/FontMetrics.m; sourceTree = "<group>"; };
 		9FA68B8D124693D4002B893E /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = "MainWindow-iPad.xib"; path = "Resources-iPad/MainWindow-iPad.xib"; sourceTree = "<group>"; };
 		9FD244F3121790AF009A71C6 /* GestureSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = GestureSettings.h; path = Preferences/GestureSettings.h; sourceTree = "<group>"; };
 		9FD244F4121790AF009A71C6 /* GestureSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GestureSettings.m; path = Preferences/GestureSettings.m; sourceTree = "<group>"; };
 		9FE3EF0512D18AED00CF3F00 /* VT100RowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100RowView.h; path = VT100/VT100RowView.h; sourceTree = "<group>"; };
@@ -343,21 +327,13 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				CF9A7315180573DD00516796 /* Backend */,
 				2C11C54C1013A4B700A2746E /* Tests */,
 				2C11C99B1013FEE800A2746E /* Preferences */,
-				2C11C54A1013A4AB00A2746E /* SubProcess */,
-				2C11C9111013F84000A2746E /* Terminal */,
-				2C11C5491013A4A600A2746E /* VT100 */,
-				1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */,
-				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
-				28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */,
-				28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */,
-				2C66C082101C47FB00E4189B /* MenuView.h */,
-				2C66C083101C47FB00E4189B /* MenuView.m */,
-				9FF8508C12177F81000CC2A2 /* GestureResponder.h */,
-				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
-				9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */,
-				9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */,
+				CF9A731B1805740D00516796 /* Delegates */,
+				CF9A731C180577AC00516796 /* View Controllers */,
+				CF9A731D180577B600516796 /* Interface Subclasses */,
+				CF9A731E180577C200516796 /* Gestures */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -382,7 +358,6 @@
 				080E96DDFE201D6D7F000001 /* Classes */,
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
-				9FB73ED711C476B9005E3764 /* Resources-iPad */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
@@ -412,11 +387,8 @@
 				9F6B6D5212297447007BAD59 /* Icon@2x.png */,
 				2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */,
 				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
-				2899E5210DE3E06400AC0155 /* MobileTerminalViewController.xib */,
-				28AD733E0D9D9553002E5188 /* MainWindow.xib */,
 				8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */,
 				9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */,
-				9F86D37F123D386A00FAA3C4 /* PreferencesViewController.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -454,8 +426,6 @@
 				9FE3EF4C12D2647500CF3F00 /* VT100TableViewController.m */,
 				2C11C5641013A4E500A2746E /* VT100Terminal.h */,
 				2C11C5661013A4E500A2746E /* VT100Terminal.m */,
-				2C11C56D1013A4E500A2746E /* VT100TextView.h */,
-				2C11C5671013A4E500A2746E /* VT100TextView.m */,
 				2C11C5621013A4E500A2746E /* VT100Types.h */,
 			);
 			name = VT100;
@@ -491,12 +461,10 @@
 			children = (
 				9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */,
 				9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */,
-				2C11C9251013F85A00A2746E /* TerminalGroupView.h */,
-				2C11C9261013F85A00A2746E /* TerminalGroupView.m */,
 				2C11C9271013F85A00A2746E /* TerminalKeyboard.h */,
 				2C11C9281013F85A00A2746E /* TerminalKeyboard.m */,
-				2C11C9291013F85A00A2746E /* TerminalView.h */,
-				2C11C92A1013F85A00A2746E /* TerminalView.m */,
+				2C11C9291013F85A00A2746E /* TerminalController.h */,
+				2C11C92A1013F85A00A2746E /* TerminalController.m */,
 			);
 			name = Terminal;
 			sourceTree = "<group>";
@@ -530,12 +498,92 @@
 			name = Preferences;
 			sourceTree = "<group>";
 		};
-		9FB73ED711C476B9005E3764 /* Resources-iPad */ = {
+		CF9A7315180573DD00516796 /* Backend */ = {
 			isa = PBXGroup;
 			children = (
-				9FB73ED811C476BA005E3764 /* MainWindow-iPad.xib */,
+				2C11C54A1013A4AB00A2746E /* SubProcess */,
+				2C11C9111013F84000A2746E /* Terminal */,
+				2C11C5491013A4A600A2746E /* VT100 */,
 			);
-			name = "Resources-iPad";
+			name = Backend;
+			sourceTree = "<group>";
+		};
+		CF9A7316180573EC00516796 /* MobileTerminalAppDelegate */ = {
+			isa = PBXGroup;
+			children = (
+				1D3623240D0F684500981E51 /* MobileTerminalAppDelegate.h */,
+				1D3623250D0F684500981E51 /* MobileTerminalAppDelegate.m */,
+			);
+			name = MobileTerminalAppDelegate;
+			sourceTree = "<group>";
+		};
+		CF9A7317180573F300516796 /* MobileTerminalViewController */ = {
+			isa = PBXGroup;
+			children = (
+				28D7ACF60DDB3853001CB0EB /* MobileTerminalViewController.h */,
+				28D7ACF70DDB3853001CB0EB /* MobileTerminalViewController.m */,
+			);
+			name = MobileTerminalViewController;
+			sourceTree = "<group>";
+		};
+		CF9A7318180573FD00516796 /* MenuView */ = {
+			isa = PBXGroup;
+			children = (
+				2C66C082101C47FB00E4189B /* MenuView.h */,
+				2C66C083101C47FB00E4189B /* MenuView.m */,
+			);
+			name = MenuView;
+			sourceTree = "<group>";
+		};
+		CF9A73191805740100516796 /* GestureResponder */ = {
+			isa = PBXGroup;
+			children = (
+				9FF8508C12177F81000CC2A2 /* GestureResponder.h */,
+				9FF8508D12177F81000CC2A2 /* GestureResponder.m */,
+			);
+			name = GestureResponder;
+			sourceTree = "<group>";
+		};
+		CF9A731A1805740600516796 /* GestureActionRegistry */ = {
+			isa = PBXGroup;
+			children = (
+				9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */,
+				9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */,
+			);
+			name = GestureActionRegistry;
+			sourceTree = "<group>";
+		};
+		CF9A731B1805740D00516796 /* Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A7316180573EC00516796 /* MobileTerminalAppDelegate */,
+			);
+			name = Delegates;
+			sourceTree = "<group>";
+		};
+		CF9A731C180577AC00516796 /* View Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A7317180573F300516796 /* MobileTerminalViewController */,
+			);
+			name = "View Controllers";
+			sourceTree = "<group>";
+		};
+		CF9A731D180577B600516796 /* Interface Subclasses */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A7318180573FD00516796 /* MenuView */,
+			);
+			name = "Interface Subclasses";
+			sourceTree = "<group>";
+		};
+		CF9A731E180577C200516796 /* Gestures */ = {
+			isa = PBXGroup;
+			children = (
+				CF9A73191805740100516796 /* GestureResponder */,
+				CF9A731A1805740600516796 /* GestureActionRegistry */,
+			);
+			name = Gestures;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -547,7 +595,6 @@
 			files = (
 				2C11C6671013AE0F00A2746E /* VT100Types.h in Headers */,
 				2C11C6681013AE0F00A2746E /* ColorMap.h in Headers */,
-				2C11C6691013AE0F00A2746E /* VT100TextView.h in Headers */,
 				9FE3EF4D12D2647500CF3F00 /* VT100TableViewController.h in Headers */,
 				9FE3EF4F12D2648000CF3F00 /* VT100RowView.h in Headers */,
 				9FE3EF5112D2648500CF3F00 /* FontMetrics.h in Headers */,
@@ -568,9 +615,8 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C11C9481013F96400A2746E /* TerminalGroupView.h in Headers */,
 				2C11C9491013F96400A2746E /* TerminalKeyboard.h in Headers */,
-				2C11C94A1013F96400A2746E /* TerminalView.h in Headers */,
+				2C11C94A1013F96400A2746E /* TerminalController.h in Headers */,
 				9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -780,9 +826,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				28AD733F0D9D9553002E5188 /* MainWindow.xib in Resources */,
-				2899E5220DE3E06400AC0155 /* MobileTerminalViewController.xib in Resources */,
-				9FB73ED911C476BA005E3764 /* MainWindow-iPad.xib in Resources */,
 				9F6B6D5312297447007BAD59 /* Icon-Small.png in Resources */,
 				9F6B6D5412297447007BAD59 /* Icon-Small@2x.png in Resources */,
 				9F6B6D5512297447007BAD59 /* Icon.png in Resources */,
@@ -792,7 +835,6 @@
 				CF9A73141805409E00516796 /* Default-568h@2x.png in Resources */,
 				9F6B6D7E12297740007BAD59 /* Default.png in Resources */,
 				9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */,
-				9F86D380123D386A00FAA3C4 /* PreferencesViewController.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -873,7 +915,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				2C11C5801013A54300A2746E /* VT100Terminal.m in Sources */,
-				2C11C5811013A54300A2746E /* VT100TextView.m in Sources */,
 				2C11C5821013A54300A2746E /* VT100.m in Sources */,
 				2C11C5831013A54300A2746E /* VT100Screen.m in Sources */,
 				2C11C5841013A54300A2746E /* ColorMap.m in Sources */,
@@ -906,9 +947,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				2C11C9391013F89B00A2746E /* TerminalGroupView.m in Sources */,
 				2C11C93A1013F89B00A2746E /* TerminalKeyboard.m in Sources */,
-				2C11C93B1013F89B00A2746E /* TerminalView.m in Sources */,
+				2C11C93B1013F89B00A2746E /* TerminalController.m in Sources */,
 				9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1006,7 +1046,7 @@
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos;
@@ -1023,7 +1063,7 @@
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				GCC_VERSION = "";
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-all_load";
 				PRODUCT_NAME = Terminal;
 				SDKROOT = iphoneos;
@@ -1280,7 +1320,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_LDFLAGS = "-all_load";
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
@@ -1303,7 +1343,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = "$(SRCROOT)";
-				IPHONEOS_DEPLOYMENT_TARGET = 4.3;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-all_load";
 				PLIST_FILE_OUTPUT_FORMAT = "same-as-input";
 				PREBINDING = NO;

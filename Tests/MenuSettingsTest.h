@@ -8,7 +8,7 @@
 
 @interface MenuSettingsTest : SenTestCase {
 @private
-  MenuSettings *menuSettings;
+	MenuSettings *menuSettings;
 }
 
 - (void) testMenuSettings;
