@@ -684,7 +684,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2C11C5A51013A58200A2746E /* Build configuration list for PBXNativeTarget "VT100" */;
 			buildPhases = (
-				2CC48932101CE87500DF51C1 /* ShellScript */,
+				2CC48932101CE87500DF51C1 /* Run Script */,
 				2C11C5771013A51E00A2746E /* Headers */,
 				2C11C5781013A51E00A2746E /* Sources */,
 				2C11C5791013A51E00A2746E /* Frameworks */,
@@ -881,13 +881,14 @@
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
 		};
-		2CC48932101CE87500DF51C1 /* ShellScript */ = {
+		2CC48932101CE87500DF51C1 /* Run Script */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
+			name = "Run Script";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -38,9 +38,7 @@
 	[self clearSelection];
 }
 
-- (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
-	
+- (void)updateScreenSize {
 	CGSize glyphSize = [_fontMetrics boundingBox];
 	
 	// Determine the screen size based on the font size
@@ -55,6 +53,20 @@
 	// be better).
 	NSParameterAssert(size.width < kMaxRowBufferSize);
 	[_buffer setScreenSize:size];
+}
+
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+	[self updateScreenSize];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return [UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	// We rotated, and almost certainly changed the frame size of the text view.
+	[self updateScreenSize];
 }
 
 - (void)dealloc {
@@ -84,7 +96,7 @@
 	UITableView *tableView = [self tableView];
 	[tableView reloadData];
 	[tableView setNeedsDisplay];
-	[self scrollToBottomAnimated:YES];
+	[self scrollToBottomAnimated:NO];
 }
 	
 - (void)setFont:(UIFont *)font {

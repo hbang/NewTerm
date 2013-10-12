@@ -10,5 +10,6 @@
 #define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
 #endif
 
+#define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
 #define IS_IOS_7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
 #endif

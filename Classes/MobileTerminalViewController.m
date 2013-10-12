@@ -241,22 +241,8 @@ static NSUInteger NumberOfTerminals = 4;
 	}*/
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
-	// This supports everything except for upside down, since upside down is most
-	// likely accidental.
-	switch (interfaceOrientation) {
-		case UIInterfaceOrientationPortrait:
-		case UIInterfaceOrientationLandscapeLeft:
-		case UIInterfaceOrientationLandscapeRight:
-		return YES;
-		default:
-		return NO;
-	}
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	// We rotated, and almost certainly changed the frame size of the text view.
-	[[self view] layoutSubviews];
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return IS_IPAD ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
 - (void)didReceiveMemoryWarning {
