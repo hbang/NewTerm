@@ -65,7 +65,7 @@
 	return CGRectMake(0, 0, self.tableView.frame.size.width, _fontMetrics.boundingBox.height);
 }
 	
-- (void)scrollToBottom:(BOOL)animated {
+- (void)scrollToBottomAnimated:(BOOL)animated {
 	NSUInteger indexes[2];
 	indexes[0] = 0;
 	indexes[1] = [self tableView:[self tableView] numberOfRowsInSection:0] - 1;
@@ -79,7 +79,7 @@
 	[tableView setNeedsDisplay];
 	// Scrolling to the bottom with animations looks much nicer, but will not
 	// work if the table cells have not finished loading yet.
-	[self scrollToBottom:NO]; // TODO: determine whether the animations can be used
+	[self scrollToBottomAnimated:NO]; // TODO: determine whether the animations can be used
 }
 	
 - (void)setFont:(UIFont *)font {

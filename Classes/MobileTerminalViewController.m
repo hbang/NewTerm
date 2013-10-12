@@ -35,6 +35,8 @@ static NSUInteger NumberOfTerminals = 4;
 - (void)loadView {
 	[super loadView];
 	
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
 	_copyPasteEnabled = NO; // Copy and paste is off by default
@@ -45,8 +47,8 @@ static NSUInteger NumberOfTerminals = 4;
 		[self addTerminal];
 	}
 	
-	_currentTerminal = [_terminals objectAtIndex:0];
-	_currentTerminal.tableViewController.view.hidden = NO;
+	[self activateTerminalAtIndex:0];
+	[self registerForKeyboardNotifications];
 }
 
 #pragma mark - Terminal management
@@ -59,6 +61,8 @@ static NSUInteger NumberOfTerminals = 4;
 	controller.tableViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	controller.tableViewController.view.hidden = YES;
 	controller.tableViewController.font = settings.font;
+	
+	[self addChildViewController:controller.tableViewController];
 	[controller.tableViewController willMoveToParentViewController:self];
 	[self.view addSubview:controller.tableViewController.view];
 	
@@ -70,13 +74,23 @@ static NSUInteger NumberOfTerminals = 4;
 }
 
 - (void)removeTerminalAtIndex:(NSUInteger)index {
-	VT100TableViewController *terminal = [_terminals objectAtIndex:index];
-	[_terminals removeObject:terminal];
+	// TODO: complete this
+	TerminalController *controller = index == -1 ? _currentTerminal : [_terminals objectAtIndex:index];
+	NSLog(@"%@", controller);
+	[_terminals removeObjectAtIndex:index];
+}
+
+- (void)activateTerminalAtIndex:(NSUInteger)index {
+	TerminalController *controller = [_terminals objectAtIndex:index];
+	_currentTerminal = controller;
+	
+	controller.tableViewController.view.hidden = NO;
+	_terminalKeyboard.inputDelegate = controller;
+	_gestureActionRegistry.terminalInput = controller;
 }
 
 #pragma mark - Keyboard management
 
-/*
 - (void)registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardDidShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardDidHideNotification object:nil];
@@ -89,18 +103,8 @@ static NSUInteger NumberOfTerminals = 4;
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
 	_keyboardShown = !_keyboardShown;
-	NSDictionary *info = notification.userInfo;
-	 
-	[UIView animateWithDuration:((NSNumber *)[info objectForKey:UIKeyboardAnimationDurationUserInfoKey]).doubleValue delay:0 options:((NSNumber *)[info objectForKey:UIKeyboardAnimationCurveUserInfoKey]).intValue animations:^{
-		CGFloat keyboardHeight = ((NSValue *)[info objectForKey:UIKeyboardBoundsUserInfoKey]).CGRectValue.size.height;
-	
-		// Resize to the original height of the screen without the keyboard
-		CGRect viewFrame = self.view.frame;
-		viewFrame.size.height = viewFrame.size.height + (_keyboardShown ? -keyboardHeight : keyboardHeight);
-		self.view.frame = viewFrame;
-	} completion:NULL];
+	[_currentTerminal.tableViewController scrollToBottomAnimated:YES];
 }
-*/
 
 - (void)setShowKeyboard:(BOOL)showKeyboard {
 	if (showKeyboard) {
@@ -111,8 +115,7 @@ static NSUInteger NumberOfTerminals = 4;
 }
 
 - (void)toggleKeyboard:(id)sender {
-	BOOL isShown = _keyboardShown;
-	[self setShowKeyboard:!isShown];
+	[self setShowKeyboard:!_keyboardShown];
 }
 
 - (void)toggleCopyPaste:(id)sender {
@@ -166,7 +169,9 @@ static NSUInteger NumberOfTerminals = 4;
 	[super viewDidLoad];
 	
 	@try {
-		//[_terminalGroupView startSubProcess];
+		for (TerminalController *controller in _terminals) {
+			[controller startSubProcess];
+		}
 	} @catch (NSException *e) {
 		NSLog(@"Caught %@: %@", [e name], [e reason]);
 		if ([[e name] isEqualToString:@"ForkException"]) {
