@@ -104,6 +104,16 @@ static NSUInteger NumberOfTerminals = 4;
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
 	_keyboardShown = !_keyboardShown;
 	[_currentTerminal.tableViewController scrollToBottomAnimated:YES];
+	
+	if (IS_IOS_7) {
+		UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
+		insets.top = self.topLayoutGuide.length;
+		_currentTerminal.tableViewController.tableView.contentInset = insets;
+		
+		UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
+		scrollInsets.top = self.topLayoutGuide.length;
+		_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
+	}
 }
 
 - (void)setShowKeyboard:(BOOL)showKeyboard {

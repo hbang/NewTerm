@@ -66,11 +66,12 @@
 }
 	
 - (void)scrollToBottomAnimated:(BOOL)animated {
-	NSUInteger indexes[2];
-	indexes[0] = 0;
-	indexes[1] = [self tableView:[self tableView] numberOfRowsInSection:0] - 1;
-	NSIndexPath *indexPath = [NSIndexPath indexPathWithIndexes:indexes length:2];
-	[self.tableView scrollToRowAtIndexPath:indexPath atScrollPosition:UITableViewScrollPositionBottom animated:animated];
+	[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
+		CGPoint offset = self.tableView.contentOffset;
+		offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * [self.tableView numberOfRowsInSection:0]);
+		self.tableView.contentOffset = offset;
+		NSLog(@"offset=%f rows=%i",offset.y,[self.tableView numberOfRowsInSection:0]);
+	}];
 }
 	
 - (void)refresh {
