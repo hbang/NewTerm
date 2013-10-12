@@ -12,8 +12,9 @@
 #import "MenuView.h"
 #import "GestureResponder.h"
 #import "GestureActionRegistry.h"
-
-static NSUInteger NumberOfTerminals = 4;
+#import "Terminal/TerminalKeyboard.h"
+#import "Terminal/TerminalKeyInput.h"
+#import "Preferences/PreferencesViewController.h"
 
 @interface MobileTerminalViewController () {
 	BOOL _hasAppeared;
@@ -27,6 +28,8 @@ static NSUInteger NumberOfTerminals = 4;
 	// If the keyboard is actually shown right now (not if it should be shown)
 	BOOL _keyboardShown;
 	BOOL _copyPasteEnabled;
+	
+	UIToolbar *_toolbar;
 }
 
 @end
@@ -42,10 +45,18 @@ static NSUInteger NumberOfTerminals = 4;
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
 	_copyPasteEnabled = NO; // Copy and paste is off by default
-	
+	_toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 22.f)];
 	_terminals = [[NSMutableArray alloc] init];
 	
-	for (NSUInteger i = 0; i < NumberOfTerminals; i++) {
+	_toolbar.barStyle = UIBarStyleBlack;
+	_toolbar.translucent = YES;
+	_toolbar.items = @[
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showSettings:)] autorelease],
+	];
+	((TerminalKeyInput *)_terminalKeyboard.inputTextField).inputAccessoryView = _toolbar;
+	
+	for (NSUInteger i = 0; i < TERMINAL_COUNT; i++) {
 		[self addTerminal];
 	}
 	
@@ -55,6 +66,18 @@ static NSUInteger NumberOfTerminals = 4;
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	return UIStatusBarStyleLightContent;
+}
+
+- (void)showSettings:(UIBarButtonItem *)sender {
+	PreferencesViewController *prefsViewController = [[[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
+	UINavigationController *prefsNavigationController = [[[UINavigationController alloc] initWithRootViewController:prefsViewController] autorelease];
+	
+	if (IS_IPAD) {
+		UIPopoverController *prefsPopoverController = [[[UIPopoverController alloc] initWithContentViewController:prefsNavigationController] autorelease];
+		[prefsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionRight | UIPopoverArrowDirectionDown animated:YES];
+	} else {
+		[self.navigationController presentViewController:prefsNavigationController animated:YES completion:nil];
+	}
 }
 
 #pragma mark - Terminal management
@@ -123,10 +146,12 @@ static NSUInteger NumberOfTerminals = 4;
 	if (IS_IOS_7) {
 		UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
 		insets.top = self.topLayoutGuide.length;
+		insets.bottom += _toolbar.frame.size.height;
 		_currentTerminal.tableViewController.tableView.contentInset = insets;
 		
 		UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
 		scrollInsets.top = self.topLayoutGuide.length;
+		scrollInsets.bottom += _toolbar.frame.size.height;
 		_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
 	}
 }
@@ -231,8 +256,6 @@ static NSUInteger NumberOfTerminals = 4;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
-	[_interfaceDelegate rootViewDidAppear];
-	//[self registerForKeyboardNotifications];
 	[self setShowKeyboard:_shouldShowKeyboard];
 	
 	// Reset the font in case it changed in the preferenes view

@@ -11,7 +11,7 @@
 @synthesize args;
 
 static NSString *kDefaultFontName = @"Courier";
-static const CGFloat kDefaultIPhoneFont = 10.0f;
+static const CGFloat kDefaultIPhoneFont = 12.0f;
 static const CGFloat kDefaultIPadFont = 18.0f;
 
 - (id) init {

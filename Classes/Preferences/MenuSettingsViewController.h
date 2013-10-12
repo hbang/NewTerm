@@ -18,7 +18,7 @@
 	BOOL editIsInsert;
 }
 
-@property(nonatomic, retain) IBOutlet MenuEditViewController *menuEditViewController;
+@property(nonatomic, retain) MenuEditViewController *menuEditViewController;
 
 - (void)startEditing:(MenuItem *)menuItem asInsert:(BOOL)isInsert;
 - (void)finishEditing:(id)sender;

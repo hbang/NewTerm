@@ -78,8 +78,6 @@
 		9FE3EF6612D269CE00CF3F00 /* VT100StringSupplier.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */; };
 		9FE3EF6712D269CE00CF3F00 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */; };
 		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
-		9FFD077512CFB33100709B8D /* AboutViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FFD077312CFB33100709B8D /* AboutViewController.h */; };
-		9FFD077612CFB33100709B8D /* AboutViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FFD077412CFB33100709B8D /* AboutViewController.m */; };
 		CF9E47501809C163006ED69E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E474D1809C163006ED69E /* Default-568h@2x.png */; };
 		CF9E47521809C163006ED69E /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E474F1809C163006ED69E /* Icon-Small-50.png */; };
 		CF9E47561809C220006ED69E /* icon-ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47531809C220006ED69E /* icon-ios7@2x.png */; };
@@ -90,6 +88,7 @@
 		CF9E475E1809C23B006ED69E /* icon~ipad.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E475B1809C23B006ED69E /* icon~ipad.png */; };
 		CF9E47611809C478006ED69E /* icon-ios7-40.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E475F1809C478006ED69E /* icon-ios7-40.png */; };
 		CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */; };
+		CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9E47641809D59C006ED69E /* TerminalKeyInput.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -253,8 +252,6 @@
 		9FE6971312E240C200EDE939 /* control.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = control.def; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
-		9FFD077312CFB33100709B8D /* AboutViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutViewController.h; path = Preferences/AboutViewController.h; sourceTree = "<group>"; };
-		9FFD077412CFB33100709B8D /* AboutViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutViewController.m; path = Preferences/AboutViewController.m; sourceTree = "<group>"; };
 		CF9E474D1809C163006ED69E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		CF9E474F1809C163006ED69E /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources/Icon-Small-50.png"; sourceTree = "<group>"; };
 		CF9E47531809C220006ED69E /* icon-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7@2x.png"; path = "Resources/icon-ios7@2x.png"; sourceTree = "<group>"; };
@@ -265,6 +262,8 @@
 		CF9E475B1809C23B006ED69E /* icon~ipad.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon~ipad.png"; path = "Resources/icon~ipad.png"; sourceTree = "<group>"; };
 		CF9E475F1809C478006ED69E /* icon-ios7-40.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7-40.png"; path = "Resources/icon-ios7-40.png"; sourceTree = "<group>"; };
 		CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7-40@2x.png"; path = "Resources/icon-ios7-40@2x.png"; sourceTree = "<group>"; };
+		CF9E47631809D59C006ED69E /* TerminalKeyInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyInput.h; path = Terminal/TerminalKeyInput.h; sourceTree = "<group>"; };
+		CF9E47641809D59C006ED69E /* TerminalKeyInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyInput.m; path = Terminal/TerminalKeyInput.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -478,6 +477,8 @@
 				9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */,
 				2C11C9271013F85A00A2746E /* TerminalKeyboard.h */,
 				2C11C9281013F85A00A2746E /* TerminalKeyboard.m */,
+				CF9E47631809D59C006ED69E /* TerminalKeyInput.h */,
+				CF9E47641809D59C006ED69E /* TerminalKeyInput.m */,
 				2C11C9291013F85A00A2746E /* TerminalController.h */,
 				2C11C92A1013F85A00A2746E /* TerminalController.m */,
 			);
@@ -487,8 +488,6 @@
 		2C11C99B1013FEE800A2746E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
-				9FFD077312CFB33100709B8D /* AboutViewController.h */,
-				9FFD077412CFB33100709B8D /* AboutViewController.m */,
 				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
 				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 				9F3B52151222140200682793 /* GestureEditViewController.h */,
@@ -650,7 +649,6 @@
 				9FD244F5121790AF009A71C6 /* GestureSettings.h in Headers */,
 				9F3B52171222140200682793 /* GestureEditViewController.h in Headers */,
 				9F3B5244122217C400682793 /* GestureSettingsViewController.h in Headers */,
-				9FFD077512CFB33100709B8D /* AboutViewController.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -925,6 +923,7 @@
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
+				CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */,
 				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
 				9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */,
 				9F6B6D9912297822007BAD59 /* GestureActionRegistry.m in Sources */,
@@ -988,7 +987,6 @@
 				9FD244F6121790AF009A71C6 /* GestureSettings.m in Sources */,
 				9F3B52181222140200682793 /* GestureEditViewController.m in Sources */,
 				9F3B5245122217C400682793 /* GestureSettingsViewController.m in Sources */,
-				9FFD077612CFB33100709B8D /* AboutViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

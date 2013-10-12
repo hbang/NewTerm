@@ -24,17 +24,4 @@
 	[_window makeKeyAndVisible];
 }
 
-- (void)preferencesButtonPressed {
-	_inPreferences = YES;
-	[_navigationController pushViewController:_preferencesViewController animated:YES];
-}
-
-- (void)rootViewDidAppear
-{
-	if (_inPreferences) {
-		[[Settings sharedInstance] persist];
-	}
-	_inPreferences = YES;
-}
-
 @end
