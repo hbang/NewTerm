@@ -37,7 +37,7 @@ static NSUInteger NumberOfTerminals = 4;
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	self.navigationController.navigationBarHidden = YES;
 	
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
@@ -53,13 +53,17 @@ static NSUInteger NumberOfTerminals = 4;
 	[self registerForKeyboardNotifications];
 }
 
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
 #pragma mark - Terminal management
 
 - (void)addTerminal {
 	TerminalSettings *settings = [[Settings sharedInstance] terminalSettings];
 	
 	TerminalController *controller = [[[TerminalController alloc] init] autorelease];
-	controller.tableViewController.view.frame = self.view.frame;
+	controller.tableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	controller.tableViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	controller.tableViewController.view.hidden = YES;
 	controller.tableViewController.font = settings.font;

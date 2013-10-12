@@ -28,7 +28,6 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
 
 - (void)preferencesButtonPressed {
 	_inPreferences = YES;
-	[_navigationController setNavigationBarHidden:NO];
 	[_navigationController pushViewController:_preferencesViewController animated:YES];
 }
 
@@ -38,9 +37,6 @@ static const NSTimeInterval kAnimationDuration = 1.00f;
 		[[Settings sharedInstance] persist];
 	}
 	_inPreferences = YES;
-
-	// This must be invoked after the animation to show the root view completes
-	[_navigationController setNavigationBarHidden:YES];
 }
 
 @end
