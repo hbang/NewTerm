@@ -84,8 +84,6 @@
 	UITableView *tableView = [self tableView];
 	[tableView reloadData];
 	[tableView setNeedsDisplay];
-	// Scrolling to the bottom with animations looks much nicer, but will not
-	// work if the table cells have not finished loading yet.
 	[self scrollToBottomAnimated:YES];
 }
 	
