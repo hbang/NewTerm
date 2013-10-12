@@ -69,7 +69,7 @@
 	
 - (void)scrollToBottomAnimated:(BOOL)animated {
 	CGPoint offset = self.tableView.contentOffset;
-	offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * _buffer.scrollbackLines);
+	offset.y = _buffer.scrollbackLines == 0 ? 0 : self.tableView.contentInset.top + self.tableView.contentInset.bottom + self.tableView.contentSize.height - self.tableView.frame.size.height;
 	
 	if (animated) {
 		[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
