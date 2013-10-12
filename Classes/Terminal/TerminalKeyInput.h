@@ -18,6 +18,9 @@ static const int kControlCharacter = 0x2022;
 
 @property (nonatomic, retain) TerminalKeyboard *keyboard;
 
+// Should the next character pressed be a control character?
+@property (nonatomic) BOOL controlKeyMode;
+
 // UIKeyInput
 @property (nonatomic) UITextAutocapitalizationType autocapitalizationType;
 @property (nonatomic) UITextAutocorrectionType autocorrectionType;

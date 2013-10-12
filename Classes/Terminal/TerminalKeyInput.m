@@ -11,8 +11,6 @@
 
 @interface TerminalKeyInput () {
 	NSData *_backspaceData;
-	// Should the next character pressed be a control character?
-	BOOL _controlKeyMode;
 	
 	UITextAutocapitalizationType _autocapitalizationType;
 	UITextAutocorrectionType _autocorrectionType;
@@ -95,7 +93,7 @@
 {
 	if (action == @selector(copy:)) {
 		// Only show the copy menu if we actually have any data selected
-		NSMutableData *data = [NSMutableData	dataWithCapacity:0];
+		NSMutableData *data = [NSMutableData dataWithCapacity:0];
 		[[_keyboard inputDelegate] fillDataWithSelection:data];
 		return [data length] > 0;
 	}

@@ -29,7 +29,8 @@
 	BOOL _keyboardShown;
 	BOOL _copyPasteEnabled;
 	
-	UIToolbar *_toolbar;
+	UIToolbar *_inputToolbar;
+	UIPageControl *_pageControl;
 }
 
 @end
@@ -45,16 +46,38 @@
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
 	_copyPasteEnabled = NO; // Copy and paste is off by default
-	_toolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, 22.f)];
+	_inputToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, IS_IPAD ? 44.f : 32.f)];
 	_terminals = [[NSMutableArray alloc] init];
+	_pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, 0, 32.f)];
 	
-	_toolbar.barStyle = UIBarStyleBlack;
-	_toolbar.translucent = YES;
-	_toolbar.items = @[
+	_pageControl.hidesForSinglePage = YES;
+	
+	NSMutableArray *inputToolbarItems = [@[
+		[[[UIBarButtonItem alloc] initWithTitle:@"Ctrl" style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
+		[[[UIBarButtonItem alloc] initWithTitle:@"Tab" style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
-		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(showSettings:)] autorelease],
+		[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTapped)] autorelease]
+	] mutableCopy];
+	
+	if (!IS_IPAD) {
+		[inputToolbarItems addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:_terminalKeyboard action:@selector(resignFirstResponder)] autorelease]];
+	}
+	
+	_inputToolbar.barStyle = UIBarStyleBlack;
+	_inputToolbar.translucent = YES;
+	_inputToolbar.items = inputToolbarItems;
+	((TerminalKeyInput *)_terminalKeyboard.inputTextField).inputAccessoryView = _inputToolbar;
+	
+	self.navigationController.toolbarHidden = NO;
+	self.navigationController.toolbar.barStyle = UIBarStyleBlack;
+	self.navigationController.toolbar.translucent = YES;
+	self.toolbarItems = @[
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(settingsTapped:)] autorelease],
+		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
+		[[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStyleDone target:_terminalKeyboard action:@selector(becomeFirstResponder)] autorelease]
 	];
-	((TerminalKeyInput *)_terminalKeyboard.inputTextField).inputAccessoryView = _toolbar;
 	
 	for (NSUInteger i = 0; i < TERMINAL_COUNT; i++) {
 		[self addTerminal];
@@ -68,7 +91,21 @@
 	return UIStatusBarStyleLightContent;
 }
 
-- (void)showSettings:(UIBarButtonItem *)sender {
+- (void)ctrlTapped:(UIBarButtonItem *)sender {
+	sender.style = sender.style == UIBarButtonItemStyleBordered ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
+	((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode = !((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode;
+}
+
+- (void)tabTapped:(UIBarButtonItem *)sender {
+	sender.style = sender.style == UIBarButtonItemStyleBordered ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
+	// TODO: implement
+}
+
+- (void)addTapped {
+	// TODO: implement
+}
+
+- (void)settingsTapped:(UIBarButtonItem *)sender {
 	PreferencesViewController *prefsViewController = [[[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
 	UINavigationController *prefsNavigationController = [[[UINavigationController alloc] initWithRootViewController:prefsViewController] autorelease];
 	
@@ -83,6 +120,8 @@
 #pragma mark - Terminal management
 
 - (void)addTerminal {
+	_pageControl.numberOfPages++;
+	
 	TerminalSettings *settings = [[Settings sharedInstance] terminalSettings];
 	
 	TerminalController *controller = [[[TerminalController alloc] init] autorelease];
@@ -107,6 +146,8 @@
 }
 
 - (void)removeTerminalAtIndex:(NSUInteger)index {
+	_pageControl.numberOfPages--;
+	
 	// TODO: complete this
 	TerminalController *controller = index == -1 ? _currentTerminal : [_terminals objectAtIndex:index];
 	NSLog(@"%@", controller);
@@ -126,12 +167,12 @@
 
 - (void)registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardDidShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardDidHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)unregisterForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
@@ -143,17 +184,22 @@
 		_currentTerminal.tableViewController.tableView.showsVerticalScrollIndicator = YES;
 	}
 	
+	self.navigationController.toolbarHidden = _keyboardShown;
+	
+	UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
+	UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
+	
 	if (IS_IOS_7) {
-		UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
 		insets.top = self.topLayoutGuide.length;
-		insets.bottom += _toolbar.frame.size.height;
-		_currentTerminal.tableViewController.tableView.contentInset = insets;
-		
-		UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
 		scrollInsets.top = self.topLayoutGuide.length;
-		scrollInsets.bottom += _toolbar.frame.size.height;
-		_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
 	}
+	
+	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
+	
+	insets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
+	scrollInsets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
+	_currentTerminal.tableViewController.tableView.contentInset = insets;
+	_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
 }
 
 - (void)setShowKeyboard:(BOOL)showKeyboard {
