@@ -16,6 +16,8 @@
 static NSUInteger NumberOfTerminals = 4;
 
 @interface MobileTerminalViewController () {
+	BOOL _hasAppeared;
+	
 	NSMutableArray *_terminals;
 	NSInteger _currentTerminalIndex;
 	TerminalController *_currentTerminal;
@@ -62,6 +64,10 @@ static NSUInteger NumberOfTerminals = 4;
 	controller.tableViewController.view.hidden = YES;
 	controller.tableViewController.font = settings.font;
 	
+	if (!_keyboardShown && !_hasAppeared) {
+		controller.tableViewController.tableView.showsVerticalScrollIndicator = NO;
+	}
+	
 	[self addChildViewController:controller.tableViewController];
 	[controller.tableViewController willMoveToParentViewController:self];
 	[self.view addSubview:controller.tableViewController.view];
@@ -104,6 +110,11 @@ static NSUInteger NumberOfTerminals = 4;
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
 	_keyboardShown = !_keyboardShown;
 	[_currentTerminal.tableViewController scrollToBottomAnimated:YES];
+	
+	if (!_hasAppeared) {
+		_hasAppeared = YES;
+		_currentTerminal.tableViewController.tableView.showsVerticalScrollIndicator = YES;
+	}
 	
 	if (IS_IOS_7) {
 		UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;

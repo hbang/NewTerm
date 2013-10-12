@@ -45,9 +45,11 @@
 	
 	// Determine the screen size based on the font size
 	CGSize frameSize = self.tableView.frame.size;
+	CGFloat height = frameSize.height - self.tableView.contentInset.top - self.tableView.contentInset.bottom;
+	
 	ScreenSize size;
 	size.width = (int)(frameSize.width / glyphSize.width);
-	size.height = (int)(frameSize.height / glyphSize.height);
+	size.height = (int)(height / glyphSize.height);
 	// The font size should not be too small that it overflows the glyph buffers.
 	// It is not worth the effort to fail gracefully (increasing the buffer size would
 	// be better).
@@ -66,16 +68,16 @@
 }
 	
 - (void)scrollToBottomAnimated:(BOOL)animated {
-	[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
-		CGPoint offset = self.tableView.contentOffset;
-		offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * _buffer.scrollbackLines);
-		
-		if (_buffer.scrollbackLines != 0) {
-			offset.y += self.tableView.contentInset.bottom;
-		}
-		
+	CGPoint offset = self.tableView.contentOffset;
+	offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * _buffer.scrollbackLines);
+	
+	if (animated) {
+		[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
+			self.tableView.contentOffset = offset;
+		}];
+	} else {
 		self.tableView.contentOffset = offset;
-	}];
+	}
 }
 	
 - (void)refresh {
@@ -84,7 +86,7 @@
 	[tableView setNeedsDisplay];
 	// Scrolling to the bottom with animations looks much nicer, but will not
 	// work if the table cells have not finished loading yet.
-	[self scrollToBottomAnimated:NO]; // TODO: determine whether the animations can be used
+	[self scrollToBottomAnimated:YES];
 }
 	
 - (void)setFont:(UIFont *)font {
