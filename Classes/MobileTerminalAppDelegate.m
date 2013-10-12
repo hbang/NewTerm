@@ -24,8 +24,6 @@
 	[_window makeKeyAndVisible];
 }
 
-static const NSTimeInterval kAnimationDuration = 1.00f;
-
 - (void)preferencesButtonPressed {
 	_inPreferences = YES;
 	[_navigationController pushViewController:_preferencesViewController animated:YES];

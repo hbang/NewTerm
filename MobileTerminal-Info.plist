@@ -10,6 +10,22 @@
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleIconFiles</key>
 	<array>
+		<string>icon-ios7-40</string>
+		<string>icon-ios7</string>
+		<string>icon</string>
+		<string>Icon</string>
+		<string>Icon@2x</string>
+		<string>Icon-Small</string>
+		<string>Icon-Small@2x</string>
+		<string>Icon-72</string>
+		<string>Icon-Small-50</string>
+	</array>
+	<key>CFBundleIconFiles~ipad</key>
+	<array>
+		<string>icon-ios7-40</string>
+		<string>icon-ios7~ipad</string>
+		<string>icon-ios7</string>
+		<string>icon</string>
 		<string>Icon</string>
 		<string>Icon@2x</string>
 		<string>Icon-Small</string>
