@@ -48,6 +48,7 @@
 // The row specified here also includes the scrollback buffer.
 - (screen_char_t*)bufferForRow:(int)row;
 - (int)numberOfRows;
+- (unsigned)scrollbackLines;
 
 - (ScreenPosition)cursorPosition;
 

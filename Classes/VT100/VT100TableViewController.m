@@ -68,9 +68,13 @@
 - (void)scrollToBottomAnimated:(BOOL)animated {
 	[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
 		CGPoint offset = self.tableView.contentOffset;
-		offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * [self.tableView numberOfRowsInSection:0]);
+		offset.y = self.tableView.contentInset.top + (self.tableView.rowHeight * _buffer.scrollbackLines);
+		
+		if (_buffer.scrollbackLines != 0) {
+			offset.y += self.tableView.contentInset.bottom;
+		}
+		
 		self.tableView.contentOffset = offset;
-		NSLog(@"offset=%f rows=%i",offset.y,[self.tableView numberOfRowsInSection:0]);
 	}];
 }
 	

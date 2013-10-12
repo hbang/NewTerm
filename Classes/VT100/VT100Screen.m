@@ -1573,11 +1573,15 @@ static __inline__ screen_char_t *incrementLinePointer(
 }
 
 - (int)numberOfLines {
+	return ([self numberOfScrollbackLines] + HEIGHT);
+}
+
+- (unsigned)numberOfScrollbackLines {
 	int num_lines_in_scrollback =
 		(current_scrollback_lines > max_scrollback_lines)
 			? max_scrollback_lines
 			: current_scrollback_lines;
-	return (num_lines_in_scrollback + HEIGHT);
+	return num_lines_in_scrollback;
 }
 
 - (char *)dirty

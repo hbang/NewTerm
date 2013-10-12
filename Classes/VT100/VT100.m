@@ -99,6 +99,10 @@ static const int kDefaultHeight = 25;
 	return [screen numberOfLines];
 }
 
+- (unsigned)scrollbackLines {
+	return [screen numberOfScrollbackLines];
+}
+
 - (BOOL)hasSelection {
 	return selectionStart.x != -1 && selectionStart.y != -1 &&
 		selectionEnd.x != -1 && selectionEnd.y != -1;

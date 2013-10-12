@@ -171,6 +171,7 @@
 - (void)setDirty;
 
 - (int)numberOfLines;
+- (unsigned)numberOfScrollbackLines;
 
 // print to ansi...
 - (BOOL)printToAnsi;
