@@ -55,7 +55,7 @@ static const int kControlCharacter = 0x2022;
 		[self setAutocapitalizationType:UITextAutocapitalizationTypeNone];
 		[self setAutocorrectionType:UITextAutocorrectionTypeNo];
 		[self setEnablesReturnKeyAutomatically:NO];
-		[self setKeyboardAppearance:UIKeyboardAppearanceDefault];
+		[self setKeyboardAppearance:UIKeyboardAppearanceAlert];
 		[self setKeyboardType:UIKeyboardTypeASCIICapable];
 		[self setReturnKeyType:UIReturnKeyDefault];
 		[self setSecureTextEntry:NO];
