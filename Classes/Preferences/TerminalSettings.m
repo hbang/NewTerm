@@ -10,7 +10,7 @@
 @synthesize colorMap;
 @synthesize args;
 
-static NSString *kDefaultFontName = @"Courier";
+static NSString *kDefaultFontName = @"SourceCodePro-Regular";
 static const CGFloat kDefaultIPhoneFont = 12.0f;
 static const CGFloat kDefaultIPadFont = 18.0f;
 
