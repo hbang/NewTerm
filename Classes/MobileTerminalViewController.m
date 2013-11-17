@@ -179,12 +179,7 @@
 	
 	UIEdgeInsets insets = viewController.tableView.contentInset;
 	
-	if ([self respondsToSelector:@selector(topLayoutGuide)]) {
-		insets.top = self.topLayoutGuide.length;
-	} else {
-		insets.top = IS_IPAD ? self.navigationController.navigationBar.frame.size.height : 0;
-	}
-	
+	insets.top = IS_IPAD && !IS_IOS_7 ? self.navigationController.navigationBar.frame.size.height : 0;
 	insets.bottom = self.navigationController.toolbar.frame.size.height;
 	
 	viewController.tableView.contentInset = insets;

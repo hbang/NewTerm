@@ -1150,6 +1150,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/headers";
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-all_load";
@@ -1171,6 +1172,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/headers";
 				INFOPLIST_FILE = "MobileTerminal-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 5.0;
 				OTHER_LDFLAGS = "-all_load";
@@ -1332,6 +1334,7 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/headers";
 				PREBINDING = NO;
 				PRODUCT_NAME = Preferences;
 			};
@@ -1344,6 +1347,7 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/headers";
 				PREBINDING = NO;
 				PRODUCT_NAME = Preferences;
 				ZERO_LINK = NO;
