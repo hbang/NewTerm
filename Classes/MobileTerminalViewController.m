@@ -230,15 +230,14 @@
 	UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
 	UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
 	
-	if (IS_IOS_7) {
-		insets.top = self.topLayoutGuide.length;
-		scrollInsets.top = self.topLayoutGuide.length;
-	}
+	insets.top = IS_IOS_7 ? self.topLayoutGuide.length : [UIApplication sharedApplication].statusBarFrame.size.height;
+	scrollInsets.top = insets.top;
 	
 	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
 	
-	insets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
-	scrollInsets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
+	CGFloat extra = _keyboardShown ? toolbarHeight : toolbarHeight + -_inputToolbar.frame.size.height;
+	insets.bottom = insets.bottom + extra;
+	scrollInsets.bottom = scrollInsets.bottom + extra;
 	_currentTerminal.tableViewController.tableView.contentInset = insets;
 	_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
 }
