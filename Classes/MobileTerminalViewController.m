@@ -43,7 +43,11 @@
 - (void)loadView {
 	[super loadView];
 	
-	self.navigationController.navigationBarHidden = YES;
+	self.title = @"MobileTerminal";
+	
+	self.navigationController.navigationBarHidden = !IS_IPAD;
+	self.navigationController.navigationBar.barStyle = UIBarStyleBlack;
+	self.navigationController.navigationBar.translucent = YES;
 	
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
@@ -167,9 +171,24 @@
 	_pageControl.numberOfPages++;
 	
 	TerminalController *controller = [[[TerminalController alloc] init] autorelease];
-	controller.tableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
-	controller.tableViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	controller.tableViewController.view.hidden = YES;
+	UITableViewController *viewController = controller.tableViewController;
+	
+	viewController.tableView.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
+	viewController.tableView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	viewController.tableView.hidden = YES;
+	
+	UIEdgeInsets insets = viewController.tableView.contentInset;
+	
+	if ([self respondsToSelector:@selector(topLayoutGuide)]) {
+		insets.top = self.topLayoutGuide.length;
+	} else {
+		insets.top = IS_IPAD ? self.navigationController.navigationBar.frame.size.height : 0;
+	}
+	
+	insets.bottom = self.navigationController.toolbar.frame.size.height;
+	
+	viewController.tableView.contentInset = insets;
+	viewController.tableView.scrollIndicatorInsets = insets;
 	
 	if (!_keyboardShown && !_hasAppeared) {
 		controller.tableViewController.tableView.showsVerticalScrollIndicator = NO;
@@ -207,39 +226,35 @@
 #pragma mark - Keyboard management
 
 - (void)registerForKeyboardNotifications {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)unregisterForKeyboardNotifications {
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
+	VT100TableViewController *viewController = _currentTerminal.tableViewController;
+	
 	_keyboardShown = !_keyboardShown;
-	[_currentTerminal.tableViewController scrollToBottomAnimated:YES];
 	
 	if (!_hasAppeared) {
 		_hasAppeared = YES;
-		_currentTerminal.tableViewController.tableView.showsVerticalScrollIndicator = YES;
+		viewController.tableView.showsVerticalScrollIndicator = YES;
 	}
 	
 	self.navigationController.toolbarHidden = _keyboardShown;
 	
-	UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
-	UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
-	
-	insets.top = IS_IOS_7 ? self.topLayoutGuide.length : [UIApplication sharedApplication].statusBarFrame.size.height;
-	scrollInsets.top = insets.top;
-	
+	UIEdgeInsets insets = viewController.tableView.contentInset;
 	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
+	insets.bottom += _keyboardShown ? -toolbarHeight : toolbarHeight;
 	
-	CGFloat extra = _keyboardShown ? toolbarHeight : toolbarHeight + -_inputToolbar.frame.size.height;
-	insets.bottom = insets.bottom + extra;
-	scrollInsets.bottom = scrollInsets.bottom + extra;
-	_currentTerminal.tableViewController.tableView.contentInset = insets;
-	_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
+	[UIView animateWithDuration:((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue animations:^{
+		viewController.tableView.contentInset = insets;
+		viewController.tableView.scrollIndicatorInsets = insets;
+	}];
 }
 
 - (void)setShowKeyboard:(BOOL)showKeyboard {
@@ -251,12 +266,13 @@
 }
 
 - (void)toggleKeyboard:(id)sender {
-	[self setShowKeyboard:!_keyboardShown];
+	self.showKeyboard = !_keyboardShown;
 }
 
 - (void)toggleCopyPaste:(id)sender {
 	_copyPasteEnabled = !_copyPasteEnabled;
-	[_gestureResponder setSwipesEnabled:!_copyPasteEnabled];
+	_gestureResponder.swipesEnabled = !_copyPasteEnabled;
+	
 	for (TerminalController *terminal in _terminals) {
 		terminal.copyPasteEnabled = _copyPasteEnabled;
 	}

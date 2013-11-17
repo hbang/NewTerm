@@ -32,7 +32,7 @@
 - (void)readInputStream:(NSData *)data;
 
 - (void)clearScreen;
-- (void)scrollToBottomAnimated:(BOOL)animated;
+- (void)scrollToBottomWithInsets:(UIEdgeInsets)inset;
 
 // Methods for selecting text displayed by the terminal (independent of cursor
 // position).	 Selected text is displayed by changing the background color

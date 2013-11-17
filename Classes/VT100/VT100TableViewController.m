@@ -56,13 +56,13 @@
 	CGFloat height = frameSize.height - self.tableView.contentInset.top - self.tableView.contentInset.bottom;
 	
 	ScreenSize size;
-	size.width = (int)(frameSize.width / glyphSize.width);
-	size.height = (int)(height / glyphSize.height);
+	size.width = (int)floorf(frameSize.width / glyphSize.width);
+	size.height = (int)floorf(height / glyphSize.height);
 	// The font size should not be too small that it overflows the glyph buffers.
 	// It is not worth the effort to fail gracefully (increasing the buffer size would
 	// be better).
 	NSParameterAssert(size.width < kMaxRowBufferSize);
-	[_buffer setScreenSize:size];
+	_buffer.screenSize = size;
 }
 
 - (void)viewWillLayoutSubviews {
@@ -89,24 +89,17 @@
 	return CGRectMake(0, 0, self.tableView.frame.size.width, _fontMetrics.boundingBox.height);
 }
 	
-- (void)scrollToBottomAnimated:(BOOL)animated {
+- (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
 	CGPoint offset = self.tableView.contentOffset;
-	offset.y = _buffer.scrollbackLines == 0 ? 0 : self.tableView.contentInset.top + self.tableView.contentInset.bottom + self.tableView.contentSize.height - self.tableView.frame.size.height;
+	offset.y = _buffer.scrollbackLines == 0 ? -inset.top : inset.bottom + self.tableView.contentSize.height - self.tableView.frame.size.height;
 	
-	if (animated) {
-		[UIView animateWithDuration:animated ? 0.2f : 0 animations:^{
-			self.tableView.contentOffset = offset;
-		}];
-	} else {
-		self.tableView.contentOffset = offset;
-	}
+	self.tableView.contentOffset = offset;
 }
 	
 - (void)refresh {
-	UITableView *tableView = [self tableView];
-	[tableView reloadData];
-	[tableView setNeedsDisplay];
-	[self scrollToBottomAnimated:NO];
+	[self.tableView reloadData];
+	[self.tableView setNeedsDisplay];
+	[self scrollToBottomWithInsets:self.tableView.contentInset];
 }
 
 - (UIFont *)font {
