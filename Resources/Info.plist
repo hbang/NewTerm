@@ -44,6 +44,15 @@
 	<string>1.0</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>UIAppFonts</key>
+	<array>
+		<string>SourceCodePro-Regular.ttf</string>
+		<string>SourceCodePro-Bold.ttf</string>
+		<string>DejaVuSansMono.ttf</string>
+		<string>DejaVuSansMono-Bold.ttf</string>
+		<string>MesloLGM-Regular.ttf</string>
+		<string>MesloLGM-Bold.ttf</string>
+	</array>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>
