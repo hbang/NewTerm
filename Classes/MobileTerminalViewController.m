@@ -3,18 +3,18 @@
 
 #import "MobileTerminalViewController.h"
 
-#import "Terminal/TerminalController.h"
-#import "Terminal/TerminalKeyboard.h"
-#import "VT100/VT100TableViewController.h"
-#import "Preferences/Settings.h"
-#import "Preferences/TerminalSettings.h"
-#import "VT100/ColorMap.h"
 #import "MenuView.h"
 #import "GestureResponder.h"
 #import "GestureActionRegistry.h"
+#import "Terminal/TerminalController.h"
+#import "Terminal/TerminalKeyboard.h"
 #import "Terminal/TerminalKeyboard.h"
 #import "Terminal/TerminalKeyInput.h"
-#import "Preferences/PreferencesViewController.h"
+#import "VT100/VT100TableViewController.h"
+#import "VT100/ColorMap.h"
+#import "Preferences/Settings.h"
+#import "Preferences/TerminalSettings.h"
+#import "Preferences/PreferencesRootController.h"
 
 @interface MobileTerminalViewController () {
 	BOOL _hasAppeared;
@@ -31,6 +31,8 @@
 	
 	UIToolbar *_inputToolbar;
 	UIPageControl *_pageControl;
+	
+	UIPopoverController *_prefsPopoverController;
 }
 
 @end
@@ -56,7 +58,7 @@
 		[[[UIBarButtonItem alloc] initWithTitle:@"Ctrl" style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithTitle:@"Tab" style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
-		[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
+		//[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTapped)] autorelease]
 	] mutableCopy];
@@ -91,6 +93,44 @@
 	return UIStatusBarStyleLightContent;
 }
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+	
+	@try {
+		for (TerminalController *controller in _terminals) {
+			[controller startSubProcess];
+		}
+	} @catch (NSException *e) {
+		NSLog(@"Caught %@: %@", [e name], [e reason]);
+		if ([[e name] isEqualToString:@"ForkException"]) {
+			// This happens if we fail to fork for some reason.
+			// TODO(allen): Provide a helpful hint -- a kernel patch?
+			UIAlertView *view = [[UIAlertView alloc] initWithTitle:e.name message:e.reason delegate:self cancelButtonTitle:@"Exit" otherButtonTitles:NULL];
+			[view show];
+			return;
+		}
+		[e raise];
+		return;
+	}
+	
+	// TODO(allen):	 This should be configurable
+	_shouldShowKeyboard = YES;
+	
+	// Adding the keyboard to the view has no effect, except that it is will
+	// later allow us to make it the first responder so we can show the keyboard
+	// on the screen.
+	[self.view addSubview:_terminalKeyboard];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+	self.showKeyboard = _shouldShowKeyboard;
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
+	return IS_IPAD ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
 - (void)ctrlTapped:(UIBarButtonItem *)sender {
 	sender.style = sender.style == UIBarButtonItemStyleBordered ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
 	((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode = !((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode;
@@ -106,14 +146,18 @@
 }
 
 - (void)settingsTapped:(UIBarButtonItem *)sender {
-	PreferencesViewController *prefsViewController = [[[PreferencesViewController alloc] initWithStyle:UITableViewStyleGrouped] autorelease];
-	UINavigationController *prefsNavigationController = [[[UINavigationController alloc] initWithRootViewController:prefsViewController] autorelease];
+	PreferencesRootController *prefsRootController = [[[PreferencesRootController alloc] initWithTitle:@"Settings" identifier:[NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]] autorelease];
 	
 	if (IS_IPAD) {
-		UIPopoverController *prefsPopoverController = [[[UIPopoverController alloc] initWithContentViewController:prefsNavigationController] autorelease];
-		[prefsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionRight | UIPopoverArrowDirectionDown animated:YES];
+		if (_prefsPopoverController) {
+			[_prefsPopoverController dismissPopoverAnimated:YES];
+		} else {
+			_prefsPopoverController = [[UIPopoverController alloc] initWithContentViewController:prefsRootController];
+			_prefsPopoverController.delegate = self;
+			[_prefsPopoverController presentPopoverFromBarButtonItem:sender permittedArrowDirections:UIPopoverArrowDirectionRight | UIPopoverArrowDirectionDown animated:YES];
+		}
 	} else {
-		[self.navigationController presentViewController:prefsNavigationController animated:YES completion:nil];
+		[self.navigationController presentViewController:prefsRootController animated:YES completion:nil];
 	}
 }
 
@@ -122,13 +166,10 @@
 - (void)addTerminal {
 	_pageControl.numberOfPages++;
 	
-	TerminalSettings *settings = [[Settings sharedInstance] terminalSettings];
-	
 	TerminalController *controller = [[[TerminalController alloc] init] autorelease];
 	controller.tableViewController.view.frame = CGRectMake(0, 0, self.view.frame.size.width, self.view.frame.size.height);
 	controller.tableViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	controller.tableViewController.view.hidden = YES;
-	controller.tableViewController.font = settings.font;
 	
 	if (!_keyboardShown && !_hasAppeared) {
 		controller.tableViewController.tableView.showsVerticalScrollIndicator = NO;
@@ -150,7 +191,7 @@
 	
 	// TODO: complete this
 	TerminalController *controller = index == -1 ? _currentTerminal : [_terminals objectAtIndex:index];
-	NSLog(@"%@", controller);
+	NSLog(@"%@",controller);
 	[_terminals removeObjectAtIndex:index];
 }
 
@@ -189,15 +230,14 @@
 	UIEdgeInsets insets = _currentTerminal.tableViewController.tableView.contentInset;
 	UIEdgeInsets scrollInsets = _currentTerminal.tableViewController.tableView.scrollIndicatorInsets;
 	
-	if (IS_IOS_7) {
-		insets.top = self.topLayoutGuide.length;
-		scrollInsets.top = self.topLayoutGuide.length;
-	}
+	insets.top = IS_IOS_7 ? self.topLayoutGuide.length : [UIApplication sharedApplication].statusBarFrame.size.height;
+	scrollInsets.top = insets.top;
 	
 	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
 	
-	insets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
-	scrollInsets.bottom = insets.bottom + (_keyboardShown ? -toolbarHeight + _inputToolbar.frame.size.height : toolbarHeight + -_inputToolbar.frame.size.height);
+	CGFloat extra = _keyboardShown ? toolbarHeight : toolbarHeight + -_inputToolbar.frame.size.height;
+	insets.bottom = insets.bottom + extra;
+	scrollInsets.bottom = scrollInsets.bottom + extra;
 	_currentTerminal.tableViewController.tableView.contentInset = insets;
 	_currentTerminal.tableViewController.tableView.scrollIndicatorInsets = scrollInsets;
 }
@@ -222,29 +262,15 @@
 	}
 }
 
+/*
 // Invoked when the page control is clicked to make a new terminal active.	The
 // keyboard events are forwarded to the new active terminal and it is made the
 // front-most terminal view.
-/*- (void)terminalSelectionDidChange:(id)sender {
+- (void)terminalSelectionDidChange:(id)sender {
 	TerminalView *terminalView = _currentTerminal;
 	_terminalKeyboard.inputDelegate = terminalView;
 	_gestureActionRegistry.terminalInput = terminalView;
 	[_terminalGroupView bringTerminalToFront:terminalView];
-}
-
-// Invoked when the preferences button is pressed
-- (void)preferencesButtonPressed:(id)sender {
-	// Remember the keyboard state for the next reload and don't listen for
-	// keyboard hide/show events
-	_shouldShowKeyboard = _keyboardShown;
-	[self unregisterForKeyboardNotifications];
-	
-	[_interfaceDelegate preferencesButtonPressed];
-}
-
-// Invoked when the menu button is pressed
-- (void)menuButtonPressed:(id)sender {
-	[_menuView setHidden:![_menuView isHidden]];
 }
 
 // Invoked when a menu item is clicked, to run the specified command.
@@ -254,74 +280,24 @@
 	
 	// Make the menu disappear
 	[_menuView setHidden:YES];
-}*/
+}
+*/
+
+#pragma mark - UIAlertViewDelegate
 
 - (void)alertView:(UIAlertView *)alertView clickedButtonAtIndex:(NSInteger)buttonIndex {
 	// User clicked the Exit button below
 	exit(0);
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-	
-	@try {
-		for (TerminalController *controller in _terminals) {
-			[controller startSubProcess];
-		}
-	} @catch (NSException *e) {
-		NSLog(@"Caught %@: %@", [e name], [e reason]);
-		if ([[e name] isEqualToString:@"ForkException"]) {
-			// This happens if we fail to fork for some reason.
-			// TODO(allen): Provide a helpful hint -- a kernel patch?
-			UIAlertView *view = [[UIAlertView alloc] initWithTitle:[e name] message:[e reason] delegate:self cancelButtonTitle:@"Exit" otherButtonTitles:NULL];
-			[view show];
-			return;
-		}
-		[e raise];
-		return;
-	}
-	
-	// TODO(allen):	 This should be configurable
-	_shouldShowKeyboard = YES;
-	
-	// Adding the keyboard to the view has no effect, except that it is will
-	// later allow us to make it the first responder so we can show the keyboard
-	// on the screen.
-	[[self view] addSubview:_terminalKeyboard];
-	
-	// The menu button points to the right, but for this context it should point
-	// up, since the menu moves that way.
-	/*_menuButton.transform = CGAffineTransformMakeRotation(-90.0f * M_PI / 180.0f);
-	[_menuButton setNeedsLayout];*/
-	
-	// Setup the page control that selects the active terminal
-	/*[_terminalSelector setNumberOfPages:[_terminalGroupView terminalCount]];
-	[_terminalSelector setCurrentPage:0];
-	// Make the first terminal active
-	[self terminalSelectionDidChange:self];*/
+#pragma mark - UIPopoverControllerDelegate
+
+- (void)popoverControllerDidDismissPopover:(UIPopoverController *)popoverController {
+	[_prefsPopoverController release];
+	_prefsPopoverController = nil;
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-	[self setShowKeyboard:_shouldShowKeyboard];
-	
-	// Reset the font in case it changed in the preferenes view
-	/*TerminalSettings *settings = [[Settings sharedInstance] terminalSettings];
-	UIFont *font = [settings font];
-	for (int i = 0; i < [_terminalGroupView terminalCount]; ++i) {
-		TerminalView *terminalView = [_terminalGroupView terminalAtIndex:i];
-		[terminalView setFont:font];
-		[terminalView setNeedsLayout];
-	}*/
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
-	return IS_IPAD ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
-}
-
-- (void)didReceiveMemoryWarning {
-	// TODO(allen): Should clear scrollback buffers to save memory?
-	[super didReceiveMemoryWarning];
-}
+#pragma mark - Memory management
 
 - (void)dealloc {
 	[_terminalKeyboard release];

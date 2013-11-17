@@ -9,7 +9,7 @@
 @class GestureResponder;
 @class GestureActionRegistry;
 
-@interface MobileTerminalViewController : UIViewController // <MenuViewDelegate>
+@interface MobileTerminalViewController : UIViewController <UIPopoverControllerDelegate> // <MenuViewDelegate>
 
 @property (nonatomic, retain) UIButton *preferencesButton;
 @property (nonatomic, retain) GestureResponder *gestureResponder;

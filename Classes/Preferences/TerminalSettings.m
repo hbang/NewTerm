@@ -4,66 +4,55 @@
 #import "TerminalSettings.h"
 #import "VT100/ColorMap.h"
 
+#define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+
 @implementation TerminalSettings
 
-@synthesize font;
-@synthesize colorMap;
-@synthesize args;
+static NSString *const kDefaultFontName = @"SourceCodePro-Regular";
+static CGFloat const kDefaultIPhoneFont = 12.f;
+static CGFloat const kDefaultIPadFont = 16.f;
 
-static NSString *kDefaultFontName = @"Courier";
-static const CGFloat kDefaultIPhoneFont = 12.0f;
-static const CGFloat kDefaultIPadFont = 18.0f;
-
-- (id) init {
-	return [self initWithCoder:nil];
-}
-
-- (id)initWithCoder:(NSCoder *)decoder {
+- (instancetype)init {
 	self = [super init];
-	if (self != nil) {
-		if ([decoder containsValueForKey:@"args"]) {
-			args = [[decoder decodeObjectForKey:@"args"] retain];
-		} else {
-			args = @"";
-		}
-		if ([decoder containsValueForKey:@"colorMap"]) {
-			colorMap = [[decoder decodeObjectForKey:@"colorMap"] retain];
-		} else {
-			colorMap = [[ColorMap alloc] init];;
-		}
-		// UIFont does not implement NSCoding, so decode its arguments instead
-		font = nil;
-		if ([decoder containsValueForKey:@"fontName"] &&
-				[decoder containsValueForKey:@"fontSize"]) {
-			NSString *fontName = [decoder decodeObjectForKey:@"fontName"];
-			CGFloat fontSize = [decoder decodeFloatForKey:@"fontSize"];
-			font = [UIFont fontWithName:fontName size:fontSize];
-		}
-		if (font == nil) { 
-			// The iPad and iPhone have different default font sizes since the default
-			// font on the iPad looks too small.
-			float defaultFontSize = kDefaultIPhoneFont;
-			if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
-				defaultFontSize = kDefaultIPadFont;
-			}
-			font = [UIFont fontWithName:kDefaultFontName size:defaultFontSize];
-		}
-		if (font == nil) {
-			NSLog(@"Default font unavailable, using system font");
-			font = [[UIFont systemFontOfSize:[UIFont systemFontSize]] retain];
-		}
+	
+	if (self) {
+		[self reload];
 	}
+	
 	return self;
 }
 
-- (void)encodeWithCoder:(NSCoder *)encoder {
-	[encoder encodeObject:args forKey:@"args"];
-	[encoder encodeObject:colorMap forKey:@"colorMap"];
-	// UIFont does not implement NSCoding, so encode its arguments instead
-	NSString *fontName = [font fontName];
-	CGFloat fontSize = [font pointSize];
-	[encoder encodeObject:fontName forKey:@"fontName"];
-	[encoder encodeFloat:fontSize forKey:@"fontSize"];
+- (void)reload {
+	[_arguments release];
+	[_font release];
+	[_colorMap release];
+	
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	
+	_arguments = [defaults objectForKey:@"arguments"] ?: @"";
+	
+	NSString *fontName = [defaults objectForKey:@"fontName"];
+	CGFloat fontSize = [defaults floatForKey:IS_IPAD ? @"fontSizePad" : @"fontSizePhone"];
+	
+	if (fontSize < 8.f) {
+		fontSize = IS_IPAD ? kDefaultIPadFont : kDefaultIPhoneFont;
+	}
+	
+	_font = [[UIFont fontWithName:fontName size:fontSize] retain];
+	
+	if (!_font) {
+		_font = [[UIFont fontWithName:kDefaultFontName size:fontSize] retain];
+		
+		if (!_font) {
+			_font = [[UIFont systemFontOfSize:fontSize] retain];
+		}
+	}
+	
+	NSDictionary *themes = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@"plist"]];
+	
+	_colorMap = [defaults objectForKey:@"theme"] ? [[ColorMap alloc] initWithDictionary:themes[[defaults objectForKey:@"colorMap"]]] : [[ColorMap alloc] init];
+	
+	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:TerminalSettingsDidChange object:nil]];
 }
 
 @end

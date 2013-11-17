@@ -68,7 +68,7 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 		bool eol = (j == width);	// reached end of line
 		UIColor *color = nil;
 		if (!eol) {
-			color = [colorMap color:row[j].bg_color];
+			color = [colorMap colorAtIndex:row[j].bg_color];
 			if (cursorPosition.x == j && cursorPosition.y == rowIndex) {
 				color = [colorMap backgroundCursor];
 			}
@@ -94,7 +94,7 @@ CFStringRef const kBackgroundColorAttributeName = CFSTR("-background-color-");
 		bool eol = (j == width);	// reached end of line
 		UIColor *color = nil;
 		if (!eol) {
-			color = [colorMap color:row[j].fg_color];
+			color = [colorMap colorAtIndex:row[j].fg_color];
 			if (cursorPosition.x == j && cursorPosition.y == rowIndex) {
 				color = [colorMap foregroundCursor];
 			}

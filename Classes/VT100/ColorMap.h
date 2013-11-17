@@ -6,15 +6,7 @@
 
 #define COLOR_MAP_MAX_COLORS 16
 
-@interface ColorMap : NSObject <NSCoding> {
-@private
-	UIColor *table[COLOR_MAP_MAX_COLORS];
-	UIColor *background;
-	UIColor *foreground;
-	UIColor *foregroundBold;
-	UIColor *foregroundCursor;
-	UIColor *backgroundCursor;
-}
+@interface ColorMap : NSObject
 
 @property (nonatomic, retain) UIColor *background;
 @property (nonatomic, retain) UIColor *foreground;
@@ -22,11 +14,10 @@
 @property (nonatomic, retain) UIColor *foregroundCursor;
 @property (nonatomic, retain) UIColor *backgroundCursor;
 
-- (id)init;
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
+- (instancetype)init;
+- (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 // Terminal color index
-- (UIColor *) color:(unsigned int)index;
+- (UIColor *)colorAtIndex:(unsigned)index;
 
 @end

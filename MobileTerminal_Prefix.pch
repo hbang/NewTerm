@@ -12,4 +12,20 @@
 
 #define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
 #define IS_IOS_7 (kCFCoreFoundationVersionNumber >= kCFCoreFoundationVersionNumber_iOS_7_0)
+
+#ifndef __IPHONE_7_0
+@protocol UILayoutSupport
+
+- (CGFloat)length;
+
+@end
+
+@interface UIViewController (UIKitiOS7Additions)
+
+- (id<UILayoutSupport>)topLayoutGuide;
+
+@end
+
+#define UIStatusBarStyleLightContent 1
+#endif
 #endif

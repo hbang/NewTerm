@@ -1,0 +1,10 @@
+Package: ws.hbang.mobileterminal
+Name: MobileTerminal
+Pre-Depends: firmware (>= 5.0), dpkg (>= 1.14.25-8)
+Depends: bash, coreutils, ncurses, system-cmds
+Version: 0.0.1
+Architecture: iphoneos-arm
+Description: The standard terminal emulator with added awesome
+Maintainer: HASHBANG Productions <support@hbang.ws>
+Author: HASHBANG Productions <support@hbang.ws>
+Section: Terminal Support

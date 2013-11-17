@@ -19,9 +19,8 @@
 @interface TerminalController : NSObject <TerminalKeyboardProtocol>
 
 @property (nonatomic, retain) VT100TableViewController *tableViewController;
-
-- (void)setFont:(UIFont *)font;
-- (ColorMap *)colorMap;
+@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, retain, readonly) ColorMap *colorMap;
 
 // Must be invoked to start the sub processes
 - (void)startSubProcess;

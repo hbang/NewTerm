@@ -2,25 +2,11 @@
 // MobileTerminal
 
 #import "Settings.h"
-
-#import <UIKit/UIKit.h>
-
 #import "GestureSettings.h"
 #import "MenuSettings.h"
 #import "TerminalSettings.h"
 
-@implementation Settings
-
-@synthesize menuSettings;
-@synthesize gestureSettings;
-@synthesize terminalSettings;
-
-static NSString *kSettingsKey = @"com.googlecode.mobileterminal.Settings";
-static NSString *kVersionKey = @"version";
-static NSString *kMenuSettings = @"menuSettings";
-static NSString *kGestureSettings = @"gestureSettings";
-static NSString *kTerminalSettings = @"terminalSettings";
-
+/*
 static NSString *kDefaultMenuItems[][2] = {
 	{ @"ls", @"ls" },
 	{ @"ls -l", @"ls -l\n" },
@@ -29,114 +15,75 @@ static NSString *kDefaultMenuItems[][2] = {
 	{ @"ping www.google.com", @"ping www.google.com\n" },
 	{ @"^C", @"\x03" },
 };
-static int kDefaultMenuItemsCount =
-		sizeof(kDefaultMenuItems) / sizeof(NSString *) / 2;
+static int kDefaultMenuItemsCount = sizeof(kDefaultMenuItems) / sizeof(NSString *) / 2;
+*/
 
-static Settings *settings = nil;
+void PreferencesDidChange() {
+	[[Settings sharedInstance] reload];
+}
 
-+ (Settings *)sharedInstance {
-	if (settings == nil) {
-		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		NSData *data = [defaults dataForKey:kSettingsKey];	
-		if (data) {
-			NSLog(@"Reading previous settings from NSUserDefaults");
-			// Unwrap previous settings
-			settings = [[NSKeyedUnarchiver unarchiveObjectWithData:data] retain];
-			if (settings == nil) {
-				NSLog(@"Unable to unarchive existing settings.	This shouldn't happen.");
-			}
-		}
-		if (settings == nil) {
-			NSLog(@"Using default settings");
-			settings = [[Settings alloc] init];
-		}
+@implementation Settings
+
++ (instancetype)sharedInstance {
+	static Settings *sharedInstance = nil;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[self.class alloc] init];
+	});
+	
+	return sharedInstance;
+}
+
+- (instancetype)init {
+	self = [super init];
+	
+	if (self) {
+		_menuSettings = [[MenuSettings alloc] init];
+		_gestureSettings = [[GestureSettings alloc] init];
+		_terminalSettings = [[TerminalSettings alloc] init];
+		
+		CFNotificationCenterAddObserver(CFNotificationCenterGetDarwinNotifyCenter(), NULL, (CFNotificationCallback)PreferencesDidChange, CFSTR("ws.hbang.Terminal/ReloadPrefs"), NULL, 0);
 	}
-	return settings;
+	
+	return self;
 }
 
-- (void)persist {
-	NSLog(@"Writing settings to NSUserDefaults");
-	NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self];
-	[[NSUserDefaults standardUserDefaults] setObject:data forKey:kSettingsKey];
+- (void)reload {
+	[_terminalSettings reload];
 }
 
-- (id) init {
-	return [self initWithCoder:nil];
-}
-
-- (void)initDefaultMenuSettings
-{
+/*
+- (void)initDefaultMenuSettings {
 	// TODO(allen): Put defaults values in an XML file.	 Maybe using an XML file
 	// would have been better than using NSUserDefaults.
 	for (int i = 0; i < kDefaultMenuItemsCount; ++i) {
-		MenuItem *menuItem = [MenuItem newItemWithLabel:kDefaultMenuItems[i][0]
-																				 andCommand:kDefaultMenuItems[i][1]];
-		[menuSettings addMenuItem:menuItem];
+		MenuItem *menuItem = [MenuItem newItemWithLabel:kDefaultMenuItems[i][0] andCommand:kDefaultMenuItems[i][1]];
+		[_menuSettings addMenuItem:menuItem];
 		[menuItem release];
 	}
 }
 
-- (void)initDefaultGestureSettings
-{
+- (void)initDefaultGestureSettings {
 	// Initialize the defaults from the .plist file.
-	NSString *path =
-		[[NSBundle mainBundle] pathForResource:@"GestureDefaults"
-																		ofType:@"plist"]; 
-	NSDictionary *defaultLabels =
-		[[NSDictionary alloc] initWithContentsOfFile:path];
-	for (int i = 0; i < [gestureSettings gestureItemCount]; ++i) {
-		GestureItem *item = [gestureSettings gestureItemAtIndex: i];
-		NSString *actionLabel = [[defaultLabels objectForKey:[item name]] retain];
-		if (actionLabel != nil) {
+	NSDictionary *defaultLabels = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"GestureDefaults" ofType:@"plist"]];
+	for (int i = 0; i < _gestureSettings.gestureItemCount; ++i) {
+		GestureItem *item = [_gestureSettings gestureItemAtIndex:i];
+		NSString *actionLabel = [[defaultLabels objectForKey:item.name] retain];
+		
+		if (actionLabel) {
 			item.actionLabel = actionLabel;
 		}
+		
 		[actionLabel release];
 	}
-	[defaultLabels release];
 }
+*/
 
-- (id)initWithCoder:(NSCoder *)decoder {
-	self = [super init];
-	if (self != nil) {
-		if ([decoder containsValueForKey:kVersionKey]) {
-		NSString *version = [decoder decodeObjectForKey:kVersionKey];
-			NSLog(@"Settings previously written by v%@", version);
-		}
-		if ([decoder containsValueForKey:kMenuSettings]) {
-			menuSettings = [[decoder decodeObjectForKey:kMenuSettings] retain];
-		} else {
-			menuSettings = [[MenuSettings alloc] init];
-			[self initDefaultMenuSettings];
-		}
-		if ([decoder containsValueForKey:kGestureSettings]) {
-			gestureSettings = [[decoder decodeObjectForKey:kGestureSettings] retain];
-		} else {
-			gestureSettings = [[GestureSettings alloc] init];
-			[self initDefaultGestureSettings];
-		}
-		if ([decoder containsValueForKey:kTerminalSettings]) {
-			terminalSettings = [[decoder decodeObjectForKey:kTerminalSettings] retain];
-		} else {
-			terminalSettings = [[TerminalSettings alloc] init];
-		}
-	}
-	return self;
-}
-
-- (void) dealloc {
-	[menuSettings release];
-	[gestureSettings release];
-	[terminalSettings release];
+- (void)dealloc {
+	[_menuSettings release];
+	[_gestureSettings release];
+	[_terminalSettings release];
 	[super dealloc];
-}
-
-- (void)encodeWithCoder:(NSCoder *)encoder {
-	// include svn revision for future backwards compatibility
-	[encoder encodeObject:[[NSBundle mainBundle].infoDictionary objectForKey:@"CFBundleShortVersionString"] forKey:kVersionKey];
-	
-	[encoder encodeObject:menuSettings forKey:kMenuSettings];
-	[encoder encodeObject:gestureSettings forKey:kGestureSettings];
-	[encoder encodeObject:terminalSettings forKey:kTerminalSettings];
 }
 
 @end
