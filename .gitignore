@@ -21,3 +21,14 @@ profile
 *.moved-aside
 DerivedData
 .idea/
+
+# theos
+.theos
+theos
+obj
+_
+debs/
+
+# CocoaPods
+Pods
+Podfile.lock
