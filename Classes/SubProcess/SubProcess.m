@@ -19,7 +19,7 @@ static int start_process(const char *path,
 												 char *const args[],
 												 char *const env[])
 {
-	NSString *pathString = [NSString stringWithCString:path];
+	NSString *pathString = [NSString stringWithUTF8String:path];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:pathString]) {
 		fprintf(stderr, "%s: File does not exist\n", path);

@@ -1,6 +1,4 @@
 TARGET = :clang:7.0:5.0
-GO_EASY_ON_ME = 1
-# ^ i'm so sorry
 
 include theos/makefiles/common.mk
 
