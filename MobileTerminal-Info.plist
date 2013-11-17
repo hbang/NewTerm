@@ -65,6 +65,10 @@
 	<array>
 		<string>SourceCodePro-Regular.ttf</string>
 		<string>SourceCodePro-Bold.ttf</string>
+		<string>DejaVuSansMono.ttf</string>
+		<string>DejaVuSansMono-Bold.ttf</string>
+		<string>MesloLGM-Regular.ttf</string>
+		<string>MesloLGM-Bold.ttf</string>
 	</array>
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>

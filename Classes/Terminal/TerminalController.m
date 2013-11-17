@@ -23,6 +23,35 @@
 
 @implementation TerminalController
 
+- (instancetype)init {
+	self = [super init];
+	if (self != nil) {
+		_subProcess = nil;
+		_copyAndPasteEnabled = NO;
+		_tableViewController = [[VT100TableViewController alloc] init];
+		_tableViewController.terminalController = self;
+	}
+	return self;
+}
+
+- (void)dealloc {
+	[self releaseSubProcess];
+	[super dealloc];
+}
+
+- (void)layoutSubviews {
+	// Make sure that the text view is laid out, which re-computes the terminal
+	// size in rows and columns.
+	[_tableViewController viewWillLayoutSubviews];
+
+	// Send the terminal the actual size of our vt100 view.	 This should be
+	// called any time we change the size of the view.	This should be a no-op if
+	// the size has not changed since the last time we called it.
+	[_pty setWidth:[_tableViewController width] withHeight:[_tableViewController height]];
+}
+
+#pragma mark - Subprocesses
+
 // Initializes the sub process and pty object.	This sets up a listener that
 // invokes a callback when data from the subprocess is available.
 - (void)startSubProcess {
@@ -30,13 +59,13 @@
 	
 	_subProcess = [[SubProcess alloc] init];
 	[_subProcess start];
-		
+	
 	// The PTY will be sized correctly on the first call to layoutSubViews
-	_pty = [[PTY alloc] initWithFileHandle:[_subProcess fileHandle]];
+	_pty = [[PTY alloc] initWithFileHandle:_subProcess.fileHandle];
 	
 	// Schedule an async read of the subprocess.	Invokes our callback when
 	// data becomes available.
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NSFileHandleReadCompletionNotification object:[_subProcess fileHandle]];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NSFileHandleReadCompletionNotification object:_subProcess.fileHandle];
 	[[_subProcess fileHandle] readInBackgroundAndNotify];
 }
 
@@ -53,8 +82,8 @@
 }
 
 static const char *kProcessExitedMessage =
-		"[Process completed]\r\n"
-		"Press any key to restart.\r\n";
+"[Process completed]\r\n"
+"Press any key to restart.\r\n";
 
 - (void)dataAvailable:(NSNotification *)aNotification {
 	NSData *data = [[aNotification userInfo] objectForKey:NSFileHandleNotificationDataItem];
@@ -85,32 +114,7 @@ static const char *kProcessExitedMessage =
 	[[_subProcess fileHandle] readInBackgroundAndNotify];
 }
 
-- (id)init {
-	self = [super init];
-	if (self != nil) {
-		_subProcess = nil;
-		_copyAndPasteEnabled = NO;
-		_tableViewController = [[VT100TableViewController alloc] init];
-		_tableViewController.terminalController = self;
-	}
-	return self;
-}
-
-- (void)dealloc {
-	[self releaseSubProcess];
-	[super dealloc];
-}
-
-- (void)layoutSubviews {
-	// Make sure that the text view is laid out, which re-computes the terminal
-	// size in rows and columns.
-	[_tableViewController viewWillLayoutSubviews];
-
-	// Send the terminal the actual size of our vt100 view.	 This should be
-	// called any time we change the size of the view.	This should be a no-op if
-	// the size has not changed since the last time we called it.
-	[_pty setWidth:[_tableViewController width] withHeight:[_tableViewController height]];
-}
+#pragma mark - Keyboard
 
 - (void)receiveKeyboardInput:(NSData *)data {
 	if (_stopped) {
@@ -126,6 +130,8 @@ static const char *kProcessExitedMessage =
 - (void)fillDataWithSelection:(NSMutableData *)data; {
 	return [_tableViewController fillDataWithSelection:data];
 }
+
+#pragma mark - Gestures
 
 // TODO: reimplement with gesture recognizer
 /*
@@ -178,20 +184,33 @@ static const char *kProcessExitedMessage =
 }
 */
 
+#pragma mark - Setters
+
+- (BOOL)copyAndPasteEnabled {
+	return _copyAndPasteEnabled;
+}
+
 - (void)setCopyPasteEnabled:(BOOL)enabled; {
 	_copyAndPasteEnabled = enabled;
 	// Reset any previous UI state for copy and paste
-	UIMenuController *theMenu = [UIMenuController sharedMenuController];
-	[theMenu setMenuVisible:NO];
+	[UIMenuController sharedMenuController].menuVisible = NO;
 	[_tableViewController clearSelection];
 }
 
+- (UIFont *)font {
+	return _tableViewController.font;
+}
+
 - (void)setFont:(UIFont *)font {
-	[_tableViewController setFont:font];
+	_tableViewController.font = font;
 }
 
 - (ColorMap *)colorMap {
-	return [_tableViewController colorMap];
+	return _tableViewController.colorMap;
+}
+
+- (void)setColorMap:(ColorMap *)colorMap {
+	_tableViewController.colorMap = colorMap;
 }
 
 @end

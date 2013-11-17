@@ -7,22 +7,17 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIFont.h>
 
-@interface FontMetrics : NSObject {
-@private
-	UIFont *font;
-	CTFontRef ctFont;
-	float ascent;
-	float descent;
-	float leading;
-	CGSize boundingBox;
-}
+@interface FontMetrics : NSObject
 
-- (id)initWithFont:(UIFont *)font;
-- (UIFont *)font;
-- (CTFontRef)ctFont;
+- (instancetype)initWithFont:(UIFont *)font;
+
+@property (nonatomic, retain, readonly) UIFont *font;
+@property (readonly) CTFontRef ctFont;
 
 // The dimensions of a single glyph on the screen
-- (CGSize)boundingBox;
-- (float)descent;
+@property (readonly) CGSize boundingBox;
+@property (readonly) float descent;
+@property (readonly) float ascent;
+@property (readonly) float leading;
 
 @end

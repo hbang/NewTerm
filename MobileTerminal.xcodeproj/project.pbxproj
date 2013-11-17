@@ -62,8 +62,8 @@
 		9F6B6D7E12297740007BAD59 /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6D7D12297740007BAD59 /* Default.png */; };
 		9F6B6D9912297822007BAD59 /* GestureActionRegistry.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */; };
 		9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */; };
-		9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesViewController.h */; };
-		9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesViewController.m */; };
+		9F74BF7111D326890013DA87 /* PreferencesListController.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F74BF6F11D326890013DA87 /* PreferencesListController.h */; };
+		9F74BF7211D326890013DA87 /* PreferencesListController.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F74BF7011D326890013DA87 /* PreferencesListController.m */; };
 		9F86D6CF123DDE0C00FAA3C4 /* UITextInputBase.h in Headers */ = {isa = PBXBuildFile; fileRef = 9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */; };
 		9F86D6D0123DDE0C00FAA3C4 /* UITextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = 9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */; };
 		9FA68B8E124693D4002B893E /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9FA68B8D124693D4002B893E /* CoreText.framework */; };
@@ -78,6 +78,15 @@
 		9FE3EF6612D269CE00CF3F00 /* VT100StringSupplier.h in Headers */ = {isa = PBXBuildFile; fileRef = 9FE3EF6412D269CE00CF3F00 /* VT100StringSupplier.h */; };
 		9FE3EF6712D269CE00CF3F00 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FE3EF6512D269CE00CF3F00 /* VT100StringSupplier.m */; };
 		9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */ = {isa = PBXBuildFile; fileRef = 9FF8508D12177F81000CC2A2 /* GestureResponder.m */; };
+		CF174994182F4A19002D3506 /* SourceCodePro-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174991182F45DB002D3506 /* SourceCodePro-Bold.ttf */; };
+		CF174995182F4A1B002D3506 /* SourceCodePro-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174992182F45DB002D3506 /* SourceCodePro-Regular.ttf */; };
+		CF17499A182F4CC7002D3506 /* DejaVuSansMono-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174996182F4CB9002D3506 /* DejaVuSansMono-Bold.ttf */; };
+		CF17499B182F4CCA002D3506 /* DejaVuSansMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174997182F4CB9002D3506 /* DejaVuSansMono.ttf */; };
+		CF17499C182F4CCC002D3506 /* MesloLGM-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174998182F4CB9002D3506 /* MesloLGM-Bold.ttf */; };
+		CF17499D182F4CCE002D3506 /* MesloLGM-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CF174999182F4CB9002D3506 /* MesloLGM-Regular.ttf */; };
+		CF17499F182F5211002D3506 /* Preferences.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CF17499E182F5211002D3506 /* Preferences.framework */; };
+		CF1749A5182F5518002D3506 /* PreferencesRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF1749A4182F5518002D3506 /* PreferencesRootController.m */; };
+		CF1749AC182F5F86002D3506 /* MobileTerminal.plist in Resources */ = {isa = PBXBuildFile; fileRef = CF1749A6182F5EED002D3506 /* MobileTerminal.plist */; };
 		CF9E47501809C163006ED69E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E474D1809C163006ED69E /* Default-568h@2x.png */; };
 		CF9E47521809C163006ED69E /* Icon-Small-50.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E474F1809C163006ED69E /* Icon-Small-50.png */; };
 		CF9E47561809C220006ED69E /* icon-ios7@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47531809C220006ED69E /* icon-ios7@2x.png */; };
@@ -89,6 +98,7 @@
 		CF9E47611809C478006ED69E /* icon-ios7-40.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E475F1809C478006ED69E /* icon-ios7-40.png */; };
 		CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */; };
 		CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9E47641809D59C006ED69E /* TerminalKeyInput.m */; };
+		CFC28CBF18311D620009C686 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC28CBE18311D620009C686 /* Themes.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -234,8 +244,8 @@
 		9F6B6D9712297822007BAD59 /* GestureActionRegistry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureActionRegistry.h; sourceTree = "<group>"; };
 		9F6B6D9812297822007BAD59 /* GestureActionRegistry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureActionRegistry.m; sourceTree = "<group>"; };
 		9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = GestureInputActions.plist; sourceTree = "<group>"; };
-		9F74BF6F11D326890013DA87 /* PreferencesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesViewController.h; path = Preferences/PreferencesViewController.h; sourceTree = "<group>"; };
-		9F74BF7011D326890013DA87 /* PreferencesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesViewController.m; path = Preferences/PreferencesViewController.m; sourceTree = "<group>"; };
+		9F74BF6F11D326890013DA87 /* PreferencesListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesListController.h; path = Preferences/PreferencesListController.h; sourceTree = "<group>"; };
+		9F74BF7011D326890013DA87 /* PreferencesListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesListController.m; path = Preferences/PreferencesListController.m; sourceTree = "<group>"; };
 		9F86D6CD123DDE0C00FAA3C4 /* UITextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UITextInputBase.h; path = Terminal/UITextInputBase.h; sourceTree = "<group>"; };
 		9F86D6CE123DDE0C00FAA3C4 /* UITextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UITextInputBase.m; path = Terminal/UITextInputBase.m; sourceTree = "<group>"; };
 		9F89F65F1257C32C0015CFDB /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontMetrics.h; path = VT100/FontMetrics.h; sourceTree = "<group>"; };
@@ -252,6 +262,16 @@
 		9FE6971312E240C200EDE939 /* control.def */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = control.def; sourceTree = "<group>"; };
 		9FF8508C12177F81000CC2A2 /* GestureResponder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GestureResponder.h; sourceTree = "<group>"; };
 		9FF8508D12177F81000CC2A2 /* GestureResponder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GestureResponder.m; sourceTree = "<group>"; };
+		CF174991182F45DB002D3506 /* SourceCodePro-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Bold.ttf"; path = "Resources/SourceCodePro-Bold.ttf"; sourceTree = "<group>"; };
+		CF174992182F45DB002D3506 /* SourceCodePro-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "SourceCodePro-Regular.ttf"; path = "Resources/SourceCodePro-Regular.ttf"; sourceTree = "<group>"; };
+		CF174996182F4CB9002D3506 /* DejaVuSansMono-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "DejaVuSansMono-Bold.ttf"; path = "Resources/DejaVuSansMono-Bold.ttf"; sourceTree = "<group>"; };
+		CF174997182F4CB9002D3506 /* DejaVuSansMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = DejaVuSansMono.ttf; path = Resources/DejaVuSansMono.ttf; sourceTree = "<group>"; };
+		CF174998182F4CB9002D3506 /* MesloLGM-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MesloLGM-Bold.ttf"; path = "Resources/MesloLGM-Bold.ttf"; sourceTree = "<group>"; };
+		CF174999182F4CB9002D3506 /* MesloLGM-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = "MesloLGM-Regular.ttf"; path = "Resources/MesloLGM-Regular.ttf"; sourceTree = "<group>"; };
+		CF17499E182F5211002D3506 /* Preferences.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Preferences.framework; path = System/Library/PrivateFrameworks/Preferences.framework; sourceTree = SDKROOT; };
+		CF1749A3182F5518002D3506 /* PreferencesRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PreferencesRootController.h; path = Preferences/PreferencesRootController.h; sourceTree = "<group>"; };
+		CF1749A4182F5518002D3506 /* PreferencesRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PreferencesRootController.m; path = Preferences/PreferencesRootController.m; sourceTree = "<group>"; };
+		CF1749A6182F5EED002D3506 /* MobileTerminal.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = MobileTerminal.plist; path = Resources/MobileTerminal.plist; sourceTree = "<group>"; };
 		CF9E474D1809C163006ED69E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Default-568h@2x.png"; path = "Resources/Default-568h@2x.png"; sourceTree = "<group>"; };
 		CF9E474F1809C163006ED69E /* Icon-Small-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "Icon-Small-50.png"; path = "Resources/Icon-Small-50.png"; sourceTree = "<group>"; };
 		CF9E47531809C220006ED69E /* icon-ios7@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7@2x.png"; path = "Resources/icon-ios7@2x.png"; sourceTree = "<group>"; };
@@ -264,6 +284,7 @@
 		CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7-40@2x.png"; path = "Resources/icon-ios7-40@2x.png"; sourceTree = "<group>"; };
 		CF9E47631809D59C006ED69E /* TerminalKeyInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyInput.h; path = Terminal/TerminalKeyInput.h; sourceTree = "<group>"; };
 		CF9E47641809D59C006ED69E /* TerminalKeyInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyInput.m; path = Terminal/TerminalKeyInput.m; sourceTree = "<group>"; };
+		CFC28CBE18311D620009C686 /* Themes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Themes.plist; path = Resources/Themes.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -272,7 +293,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				288765A50DF7441C002DB57D /* CoreGraphics.framework in Frameworks */,
+				9FA68B8E124693D4002B893E /* CoreText.framework in Frameworks */,
 				1D60589F0D05DD5A006BFB54 /* Foundation.framework in Frameworks */,
+				CF17499F182F5211002D3506 /* Preferences.framework in Frameworks */,
 				2C66C156101C54C800E4189B /* QuartzCore.framework in Frameworks */,
 				1DF5F4E00D08C38300B7A737 /* UIKit.framework in Frameworks */,
 				2C11C6471013AC7400A2746E /* libcurses.dylib in Frameworks */,
@@ -280,7 +303,6 @@
 				2C11C5FA1013A97700A2746E /* libSubProcess.a in Frameworks */,
 				2C11C95A1013F9B600A2746E /* libTerminal.a in Frameworks */,
 				2C11C5F91013A97700A2746E /* libVT100.a in Frameworks */,
-				9FA68B8E124693D4002B893E /* CoreText.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,23 +408,14 @@
 			isa = PBXGroup;
 			children = (
 				9FE6971312E240C200EDE939 /* control.def */,
-				9F6B6D7D12297740007BAD59 /* Default.png */,
-				CF9E474D1809C163006ED69E /* Default-568h@2x.png */,
-				CF9E474F1809C163006ED69E /* Icon-Small-50.png */,
-				9F6B6D4F12297447007BAD59 /* Icon-Small.png */,
-				9F6B6D5012297447007BAD59 /* Icon-Small@2x.png */,
-				CF9E47591809C23B006ED69E /* icon.png */,
-				CF9E475A1809C23B006ED69E /* icon@2x.png */,
-				CF9E475B1809C23B006ED69E /* icon~ipad.png */,
-				CF9E47531809C220006ED69E /* icon-ios7@2x.png */,
-				CF9E47541809C220006ED69E /* icon-ios7~ipad.png */,
-				CF9E47551809C220006ED69E /* icon-ios7~ipad@2x.png */,
-				CF9E475F1809C478006ED69E /* icon-ios7-40.png */,
-				CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */,
+				CFC28CC018311D6D0009C686 /* Preferences */,
+				CF17498F182F45C2002D3506 /* Default */,
+				CF174990182F45C9002D3506 /* Icon */,
+				CF174993182F45E0002D3506 /* Fonts */,
+				CF1749A7182F5EF0002D3506 /* Specifiers */,
 				2C72B2BC101ABA9100F10E63 /* PreferencesTests-Info.plist */,
 				2C11C5B41013A5AF00A2746E /* VT100Tests-Info.plist */,
 				8D1107310486CEB800E47090 /* MobileTerminal-Info.plist */,
-				9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -410,12 +423,13 @@
 		29B97323FDCFA39411CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				2C66C155101C54C800E4189B /* QuartzCore.framework */,
 				2C11C6461013AC7400A2746E /* libcurses.dylib */,
-				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
-				1D30AB110D05D00D00671497 /* Foundation.framework */,
 				288765A40DF7441C002DB57D /* CoreGraphics.framework */,
 				9FA68B8D124693D4002B893E /* CoreText.framework */,
+				1D30AB110D05D00D00671497 /* Foundation.framework */,
+				CF17499E182F5211002D3506 /* Preferences.framework */,
+				2C66C155101C54C800E4189B /* QuartzCore.framework */,
+				1DF5F4DF0D08C38300B7A737 /* UIKit.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -502,14 +516,64 @@
 				2C4E19CE101D23E9004CA39E /* MenuSettings.m */,
 				9F24A6FF11D7C6EF00E6EFC0 /* MenuSettingsViewController.h */,
 				9F24A70011D7C6EF00E6EFC0 /* MenuSettingsViewController.m */,
-				9F74BF6F11D326890013DA87 /* PreferencesViewController.h */,
-				9F74BF7011D326890013DA87 /* PreferencesViewController.m */,
+				CF1749A3182F5518002D3506 /* PreferencesRootController.h */,
+				CF1749A4182F5518002D3506 /* PreferencesRootController.m */,
+				9F74BF6F11D326890013DA87 /* PreferencesListController.h */,
+				9F74BF7011D326890013DA87 /* PreferencesListController.m */,
 				2C11CC7E10159F7400A2746E /* Settings.h */,
 				2C11CC7F10159F7400A2746E /* Settings.m */,
 				2C11CC8010159F7400A2746E /* TerminalSettings.h */,
 				2C11CC8110159F7400A2746E /* TerminalSettings.m */,
 			);
 			name = Preferences;
+			sourceTree = "<group>";
+		};
+		CF17498F182F45C2002D3506 /* Default */ = {
+			isa = PBXGroup;
+			children = (
+				9F6B6D7D12297740007BAD59 /* Default.png */,
+				CF9E474D1809C163006ED69E /* Default-568h@2x.png */,
+			);
+			name = Default;
+			sourceTree = "<group>";
+		};
+		CF174990182F45C9002D3506 /* Icon */ = {
+			isa = PBXGroup;
+			children = (
+				CF9E474F1809C163006ED69E /* Icon-Small-50.png */,
+				9F6B6D4F12297447007BAD59 /* Icon-Small.png */,
+				9F6B6D5012297447007BAD59 /* Icon-Small@2x.png */,
+				CF9E47591809C23B006ED69E /* icon.png */,
+				CF9E475A1809C23B006ED69E /* icon@2x.png */,
+				CF9E475B1809C23B006ED69E /* icon~ipad.png */,
+				CF9E47531809C220006ED69E /* icon-ios7@2x.png */,
+				CF9E47541809C220006ED69E /* icon-ios7~ipad.png */,
+				CF9E47551809C220006ED69E /* icon-ios7~ipad@2x.png */,
+				CF9E475F1809C478006ED69E /* icon-ios7-40.png */,
+				CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */,
+			);
+			name = Icon;
+			sourceTree = "<group>";
+		};
+		CF174993182F45E0002D3506 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CF174991182F45DB002D3506 /* SourceCodePro-Bold.ttf */,
+				CF174992182F45DB002D3506 /* SourceCodePro-Regular.ttf */,
+				CF174996182F4CB9002D3506 /* DejaVuSansMono-Bold.ttf */,
+				CF174997182F4CB9002D3506 /* DejaVuSansMono.ttf */,
+				CF174998182F4CB9002D3506 /* MesloLGM-Bold.ttf */,
+				CF174999182F4CB9002D3506 /* MesloLGM-Regular.ttf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		CF1749A7182F5EF0002D3506 /* Specifiers */ = {
+			isa = PBXGroup;
+			children = (
+				CF1749A6182F5EED002D3506 /* MobileTerminal.plist */,
+			);
+			name = Specifiers;
 			sourceTree = "<group>";
 		};
 		CF9A7315180573DD00516796 /* Backend */ = {
@@ -600,6 +664,15 @@
 			name = Gestures;
 			sourceTree = "<group>";
 		};
+		CFC28CC018311D6D0009C686 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				9F6B6E311229A55B007BAD59 /* GestureInputActions.plist */,
+				CFC28CBE18311D620009C686 /* Themes.plist */,
+			);
+			name = Preferences;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -642,7 +715,7 @@
 				2C4E19D1101D23E9004CA39E /* MenuSettings.h in Headers */,
 				2C11CC8210159F7400A2746E /* Settings.h in Headers */,
 				2C11CC8410159F7400A2746E /* TerminalSettings.h in Headers */,
-				9F74BF7111D326890013DA87 /* PreferencesViewController.h in Headers */,
+				9F74BF7111D326890013DA87 /* PreferencesListController.h in Headers */,
 				9F24A70111D7C6EF00E6EFC0 /* MenuSettingsViewController.h in Headers */,
 				9F24A7FF11D7EE8100E6EFC0 /* MenuEditViewController.h in Headers */,
 				9F24A83811D7F27300E6EFC0 /* BorderedTextView.h in Headers */,
@@ -849,10 +922,18 @@
 				CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */,
 				CF9E47581809C220006ED69E /* icon-ios7~ipad@2x.png in Resources */,
 				CF9E475C1809C23B006ED69E /* icon.png in Resources */,
+				CF9E475D1809C23B006ED69E /* icon@2x.png in Resources */,
 				9F6B6D7E12297740007BAD59 /* Default.png in Resources */,
 				CF9E47501809C163006ED69E /* Default-568h@2x.png in Resources */,
 				9F6B6E481229A71E007BAD59 /* GestureInputActions.plist in Resources */,
-				CF9E475D1809C23B006ED69E /* icon@2x.png in Resources */,
+				CF174994182F4A19002D3506 /* SourceCodePro-Bold.ttf in Resources */,
+				CF174995182F4A1B002D3506 /* SourceCodePro-Regular.ttf in Resources */,
+				CFC28CBF18311D620009C686 /* Themes.plist in Resources */,
+				CF17499A182F4CC7002D3506 /* DejaVuSansMono-Bold.ttf in Resources */,
+				CF17499B182F4CCA002D3506 /* DejaVuSansMono.ttf in Resources */,
+				CF17499C182F4CCC002D3506 /* MesloLGM-Bold.ttf in Resources */,
+				CF17499D182F4CCE002D3506 /* MesloLGM-Regular.ttf in Resources */,
+				CF1749AC182F5F86002D3506 /* MobileTerminal.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -920,6 +1001,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				CF1749A5182F5518002D3506 /* PreferencesRootController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
@@ -980,7 +1062,7 @@
 				2C11CC8310159F7400A2746E /* Settings.m in Sources */,
 				2C11CC8510159F7400A2746E /* TerminalSettings.m in Sources */,
 				2C4E19D2101D23E9004CA39E /* MenuSettings.m in Sources */,
-				9F74BF7211D326890013DA87 /* PreferencesViewController.m in Sources */,
+				9F74BF7211D326890013DA87 /* PreferencesListController.m in Sources */,
 				9F24A70211D7C6EF00E6EFC0 /* MenuSettingsViewController.m in Sources */,
 				9F24A80011D7EE8100E6EFC0 /* MenuEditViewController.m in Sources */,
 				9F24A83911D7F27300E6EFC0 /* BorderedTextView.m in Sources */,
@@ -1059,6 +1141,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -1078,6 +1164,10 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				COPY_PHASE_STRIP = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SDKROOT)$(SYSTEM_LIBRARY_DIR)/PrivateFrameworks",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MobileTerminal_Prefix.pch;
 				GCC_VERSION = "";
@@ -1098,6 +1188,7 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Classes";
 				PREBINDING = NO;
 				PRODUCT_NAME = VT100;
 			};
@@ -1111,6 +1202,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_VERSION = "";
+				HEADER_SEARCH_PATHS = "$(SRCROOT)/Classes";
 				PREBINDING = NO;
 				PRODUCT_NAME = VT100;
 				ZERO_LINK = NO;

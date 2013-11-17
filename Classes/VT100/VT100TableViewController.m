@@ -9,7 +9,8 @@
 #import "VT100RowView.h"
 #import "VT100Types.h"
 #import "VT100StringSupplier.h"
-#import "TerminalController.h"
+#import "Preferences/Settings.h"
+#import "Preferences/TerminalSettings.h"
 
 @interface VT100TableViewController	() <ScreenBufferRefreshDelegate>
 
@@ -22,8 +23,9 @@
 	
 	_buffer = [[VT100 alloc] init];
 	_buffer.refreshDelegate = self;
-	_colorMap = [[ColorMap alloc] init];
-	_fontMetrics = [[FontMetrics alloc] initWithFont:[UIFont systemFontOfSize:14.f]];
+	
+	[self loadSettings];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(loadSettings) name:TerminalSettingsDidChange object:nil];
 	
 	_stringSupplier = [[VT100StringSupplier alloc] init];
 	((VT100StringSupplier *)_stringSupplier).colorMap = _colorMap;
@@ -36,6 +38,14 @@
 	self.tableView.rowHeight = [_fontMetrics boundingBox].height;
 	
 	[self clearSelection];
+}
+
+#pragma mark - Settings
+
+- (void)loadSettings {
+	TerminalSettings *settings = [Settings sharedInstance].terminalSettings;
+	self.font = settings.font;
+	self.colorMap = settings.colorMap;
 }
 
 - (void)updateScreenSize {
@@ -97,6 +107,10 @@
 	[tableView reloadData];
 	[tableView setNeedsDisplay];
 	[self scrollToBottomAnimated:NO];
+}
+
+- (UIFont *)font {
+	return _fontMetrics.font;
 }
 	
 - (void)setFont:(UIFont *)font {

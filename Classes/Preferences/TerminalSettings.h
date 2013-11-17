@@ -3,23 +3,17 @@
 
 #import <Foundation/Foundation.h>
 
-@class ColorMap;
-@class UIFont;
+static NSString *const TerminalSettingsDidChange = @"TerminalSettingsDidChange";
 
-// Settings that apply to a terminal.	 This object implements the NSCoding
-// protocol so that it can be serialized.
-@interface TerminalSettings : NSObject <NSCoding> {
-@private
-	UIFont *font;
-	ColorMap *colorMap;
-	NSString *args;
-}
+@class ColorMap, UIFont;
 
-@property(nonatomic, retain) UIFont *font;
-@property(nonatomic, retain) ColorMap *colorMap;
-@property(nonatomic, retain) NSString *args;
+// Settings that apply to a terminal.
+@interface TerminalSettings : NSObject
 
-- (id)initWithCoder:(NSCoder *)decoder;
-- (void)encodeWithCoder:(NSCoder *)encoder;
+- (void)reload;
+
+@property (nonatomic, retain) UIFont *font;
+@property (nonatomic, retain) ColorMap *colorMap;
+@property (nonatomic, retain) NSString *arguments;
 
 @end
