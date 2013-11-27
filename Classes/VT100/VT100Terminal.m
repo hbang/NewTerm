@@ -1139,7 +1139,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 
 		numLock = YES;
 
-		[self setTermType:@"vt100"];
+		[self setTermType:@"xterm-256color"];
 
 		return self;
 }
