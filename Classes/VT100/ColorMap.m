@@ -24,6 +24,7 @@ static const int kNumTerminalColors = 16;
 		_foregroundBold   = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
 		_foregroundCursor = [[UIColor alloc] initWithWhite:0.95f alpha:1.f];
 		_backgroundCursor = [[UIColor alloc] initWithWhite:0.4f alpha:1.f];
+		_isDark = YES;
 		
 		// System 7.5 colors, why not?
 		_table[0]  = [[UIColor alloc] initWithRed:0.0f green:0.0f blue:0.0f alpha:1.f]; // black
@@ -72,6 +73,10 @@ static const int kNumTerminalColors = 16;
 			
 			[_backgroundCursor release];
 			_backgroundCursor = [[self _colorFromArray:dictionary[@"Cursor"]] retain];
+		}
+		
+		if (dictionary[@"Dark"]) {
+			_isDark = ((NSNumber *)dictionary[@"Dark"]).boolValue;
 		}
 	}
 	

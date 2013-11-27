@@ -22,6 +22,8 @@
 			<integer>127</integer>
 			<integer>127</integer>
 		</array>
+		<key>Dark</key>
+		<false/>
 		<key>Font</key>
 		<string>Meslo</string>
 		<key>Text</key>
@@ -51,6 +53,8 @@
 			<integer>40</integer>
 			<integer>0</integer>
 		</array>
+		<key>Dark</key>
+		<false/>
 		<key>Font</key>
 		<string>Courier</string>
 		<key>Text</key>
@@ -80,6 +84,8 @@
 			<integer>254</integer>
 			<integer>39</integer>
 		</array>
+		<key>Dark</key>
+		<true/>
 		<key>Font</key>
 		<string>Meslo</string>
 		<key>Text</key>
@@ -109,6 +115,8 @@
 			<integer>217</integer>
 			<integer>0</integer>
 		</array>
+		<key>Dark</key>
+		<true/>
 		<key>Font</key>
 		<string>Source Code Pro</string>
 		<key>Text</key>
@@ -138,6 +146,8 @@
 			<integer>127</integer>
 			<integer>127</integer>
 		</array>
+		<key>Dark</key>
+		<false/>
 		<key>Font</key>
 		<string>Meslo</string>
 		<key>Text</key>
@@ -167,6 +177,8 @@
 			<integer>35</integer>
 			<integer>34</integer>
 		</array>
+		<key>Dark</key>
+		<false/>
 		<key>Font</key>
 		<string>Courier</string>
 		<key>Text</key>
@@ -196,6 +208,8 @@
 			<integer>127</integer>
 			<integer>127</integer>
 		</array>
+		<key>Dark</key>
+		<true/>
 		<key>Font</key>
 		<string>Courier</string>
 		<key>Text</key>
@@ -225,6 +239,8 @@
 			<integer>77</integer>
 			<integer>77</integer>
 		</array>
+		<key>Dark</key>
+		<true/>
 		<key>Font</key>
 		<string>Source Code Pro</string>
 		<key>Text</key>
@@ -254,6 +270,8 @@
 			<integer>255</integer>
 			<integer>255</integer>
 		</array>
+		<key>Dark</key>
+		<true/>
 		<key>Font</key>
 		<string>Meslo</string>
 		<key>Text</key>
@@ -283,6 +301,8 @@
 			<integer>217</integer>
 			<integer>217</integer>
 		</array>
+		<key>Dark</key>
+		<false/>
 		<key>Font</key>
 		<string>Meslo</string>
 		<key>Text</key>

@@ -31,11 +31,8 @@
 	((VT100StringSupplier *)_stringSupplier).colorMap = _colorMap;
 	((VT100StringSupplier *)_stringSupplier).screenBuffer = _buffer;
 	
-	self.tableView.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-	self.tableView.backgroundColor = _colorMap.background;
 	self.tableView.allowsSelection = NO;
 	self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
-	self.tableView.rowHeight = [_fontMetrics boundingBox].height;
 	
 	[self clearSelection];
 }
@@ -46,6 +43,10 @@
 	TerminalSettings *settings = [Settings sharedInstance].terminalSettings;
 	self.font = settings.font;
 	self.colorMap = settings.colorMap;
+	
+	self.tableView.indicatorStyle = _colorMap.isDark ? UIScrollViewIndicatorStyleWhite : UIScrollViewIndicatorStyleDefault;
+	self.tableView.backgroundColor = _colorMap.background;
+	[self.tableView reloadData];
 }
 
 - (void)updateScreenSize {

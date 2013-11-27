@@ -50,7 +50,7 @@ static CGFloat const kDefaultIPadFont = 16.f;
 	
 	NSDictionary *themes = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Themes" ofType:@"plist"]];
 	
-	_colorMap = [defaults objectForKey:@"theme"] ? [[ColorMap alloc] initWithDictionary:themes[[defaults objectForKey:@"colorMap"]]] : [[ColorMap alloc] init];
+	_colorMap = [defaults objectForKey:@"theme"] ? [[ColorMap alloc] initWithDictionary:themes[[defaults objectForKey:@"theme"]]] : [[ColorMap alloc] init];
 	
 	[[NSNotificationCenter defaultCenter] postNotification:[NSNotification notificationWithName:TerminalSettingsDidChange object:nil]];
 }
