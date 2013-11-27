@@ -8,7 +8,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Font</string>
+			<string>Interface</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -118,6 +118,48 @@
 				<real>14</real>
 				<real>15</real>
 				<real>16</real>
+			</array>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<real>12</real>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>theme</string>
+			<key>label</key>
+			<string>Color Scheme</string>
+			<key>validTitles</key>
+			<array>
+				<string>Basic</string>
+				<string>Grass</string>
+				<string>Homebrew</string>
+				<string>kirb</string>
+				<string>Man Page</string>
+				<string>Novel</string>
+				<string>Ocean</string>
+				<string>Pro</string>
+				<string>Red Sands</string>
+				<string>Silver Aerogel</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<string>Basic</string>
+				<string>Grass</string>
+				<string>Homebrew</string>
+				<string>kirb</string>
+				<string>Man Page</string>
+				<string>Novel</string>
+				<string>Ocean</string>
+				<string>Pro</string>
+				<string>Red Sands</string>
+				<string>Silver Aerogel</string>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>
