@@ -72,11 +72,19 @@
 			// Lowercase
 			c -= 0x60;
 		}
+		
+		if (_controlKeyChanged) {
+			_controlKeyChanged();
+		}
 	} else {
 		if (c == kControlCharacter) {
 			// Control character was pressed.	 The next character will be interpred
 			// as a control key.
 			_controlKeyMode = YES;
+			
+			if (_controlKeyChanged) {
+				_controlKeyChanged();
+			}
 			return;
 		} else if (c == 0x0a) {
 			// Convert newline to a carraige return
@@ -108,8 +116,7 @@
 	NSMutableData *data = [NSMutableData	dataWithCapacity:0];
 	[[_keyboard inputDelegate] fillDataWithSelection:data];
 	UIPasteboard *pb = [UIPasteboard generalPasteboard];
-	pb.string = [[[NSString alloc] initWithData:data
-									   encoding:NSUTF8StringEncoding] autorelease];
+	pb.string = [[[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding] autorelease];
 }
 
 - (void)paste:(id)sender {

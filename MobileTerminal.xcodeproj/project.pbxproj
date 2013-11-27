@@ -98,6 +98,7 @@
 		CF9E47611809C478006ED69E /* icon-ios7-40.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E475F1809C478006ED69E /* icon-ios7-40.png */; };
 		CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */; };
 		CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9E47641809D59C006ED69E /* TerminalKeyInput.m */; };
+		CFB9DFAC1845EDED00C5C387 /* TerminalButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB9DFAB1845EDED00C5C387 /* TerminalButton.m */; };
 		CFC28CBF18311D620009C686 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC28CBE18311D620009C686 /* Themes.plist */; };
 /* End PBXBuildFile section */
 
@@ -284,6 +285,8 @@
 		CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7-40@2x.png"; path = "Resources/icon-ios7-40@2x.png"; sourceTree = "<group>"; };
 		CF9E47631809D59C006ED69E /* TerminalKeyInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyInput.h; path = Terminal/TerminalKeyInput.h; sourceTree = "<group>"; };
 		CF9E47641809D59C006ED69E /* TerminalKeyInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyInput.m; path = Terminal/TerminalKeyInput.m; sourceTree = "<group>"; };
+		CFB9DFAA1845EDED00C5C387 /* TerminalButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalButton.h; path = Terminal/TerminalButton.h; sourceTree = "<group>"; };
+		CFB9DFAB1845EDED00C5C387 /* TerminalButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalButton.m; path = Terminal/TerminalButton.m; sourceTree = "<group>"; };
 		CFC28CBE18311D620009C686 /* Themes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Themes.plist; path = Resources/Themes.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -651,6 +654,7 @@
 			isa = PBXGroup;
 			children = (
 				CF9A7318180573FD00516796 /* MenuView */,
+				CFB9DFAD1845EDF100C5C387 /* TerminalButton */,
 			);
 			name = "Interface Subclasses";
 			sourceTree = "<group>";
@@ -662,6 +666,15 @@
 				CF9A731A1805740600516796 /* GestureActionRegistry */,
 			);
 			name = Gestures;
+			sourceTree = "<group>";
+		};
+		CFB9DFAD1845EDF100C5C387 /* TerminalButton */ = {
+			isa = PBXGroup;
+			children = (
+				CFB9DFAA1845EDED00C5C387 /* TerminalButton.h */,
+				CFB9DFAB1845EDED00C5C387 /* TerminalButton.m */,
+			);
+			name = TerminalButton;
 			sourceTree = "<group>";
 		};
 		CFC28CC018311D6D0009C686 /* Preferences */ = {
@@ -1003,6 +1016,7 @@
 			files = (
 				CF1749A5182F5518002D3506 /* PreferencesRootController.m in Sources */,
 				1D60589B0D05DD56006BFB54 /* main.m in Sources */,
+				CFB9DFAC1845EDED00C5C387 /* TerminalButton.m in Sources */,
 				1D3623260D0F684500981E51 /* MobileTerminalAppDelegate.m in Sources */,
 				28D7ACF80DDB3853001CB0EB /* MobileTerminalViewController.m in Sources */,
 				CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */,

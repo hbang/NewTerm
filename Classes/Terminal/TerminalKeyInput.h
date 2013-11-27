@@ -20,6 +20,7 @@ static const int kControlCharacter = 0x2022;
 
 // Should the next character pressed be a control character?
 @property (nonatomic) BOOL controlKeyMode;
+@property (copy) void(^controlKeyChanged)();
 
 // UIKeyInput
 @property (nonatomic) UITextAutocapitalizationType autocapitalizationType;

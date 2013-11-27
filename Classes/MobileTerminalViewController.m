@@ -3,6 +3,7 @@
 
 #import "MobileTerminalViewController.h"
 
+#import "TerminalButton.h"
 #import "MenuView.h"
 #import "GestureResponder.h"
 #import "GestureActionRegistry.h"
@@ -52,28 +53,44 @@
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
 	_copyPasteEnabled = NO; // Copy and paste is off by default
-	_inputToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, IS_IPAD ? 44.f : 32.f)];
+	_inputToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, IS_IPAD ? 54.f : 32.f)];
 	_terminals = [[NSMutableArray alloc] init];
 	_pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, 0, 32.f)];
 	
 	_pageControl.hidesForSinglePage = YES;
 	
-	NSMutableArray *inputToolbarItems = [[@[
-		[[[UIBarButtonItem alloc] initWithTitle:@"Ctrl" style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
-		[[[UIBarButtonItem alloc] initWithTitle:@"Tab" style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
+	/*NSMutableArray *inputToolbarItems = [[@[
+		[[[UIBarButtonItem alloc] initWithTitle:@"  Ctrl  " style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
+		[[[UIBarButtonItem alloc] initWithTitle:@"  Tab  " style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
 		//[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTapped)] autorelease]
-	] mutableCopy] autorelease];
+	] mutableCopy] autorelease];*/
 	
-	if (!IS_IPAD) {
-		[inputToolbarItems addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:_terminalKeyboard action:@selector(resignFirstResponder)] autorelease]];
-	}
+	CGRect buttonFrame = CGRectMake(7.f, 8.f, 79.f, IS_IPAD ? 38.f : 16.f);
+	
+	TerminalButton *ctrlButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+	[ctrlButton setTitle:@"Ctrl" forState:UIControlStateNormal];
+	[ctrlButton addTarget:self action:@selector(ctrlTapped:) forControlEvents:UIControlEventTouchUpInside];
+	[_inputToolbar addSubview:ctrlButton];
+	
+	buttonFrame.origin.x += buttonFrame.size.width + 14.f;
+	
+	TerminalButton *tabButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+	[tabButton setTitle:@"Tab" forState:UIControlStateNormal];
+	[tabButton addTarget:self action:@selector(tabTapped:) forControlEvents:UIControlEventTouchUpInside];
+	[_inputToolbar addSubview:tabButton];
+	
+	buttonFrame.origin.x += buttonFrame.size.width + 14.f;
+	
+	TerminalButton *escButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+	[escButton setTitle:@"Esc" forState:UIControlStateNormal];
+	[escButton addTarget:self action:@selector(tabTapped:) forControlEvents:UIControlEventTouchUpInside];
+	[_inputToolbar addSubview:escButton];
 	
 	_inputToolbar.barStyle = UIBarStyleBlack;
 	_inputToolbar.translucent = YES;
-	_inputToolbar.items = inputToolbarItems;
 	((TerminalKeyInput *)_terminalKeyboard.inputTextField).inputAccessoryView = _inputToolbar;
 	
 	self.navigationController.toolbarHidden = NO;
@@ -135,14 +152,14 @@
 	return IS_IPAD ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
 }
 
-- (void)ctrlTapped:(UIBarButtonItem *)sender {
-	sender.style = sender.style == UIBarButtonItemStyleBordered ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
-	((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode = !((TerminalKeyInput *)_terminalKeyboard.inputTextField).controlKeyMode;
+- (void)ctrlTapped:(UIButton *)sender {
+	TerminalKeyInput *keyInput = (TerminalKeyInput *)_terminalKeyboard.inputTextField;
+	keyInput.controlKeyMode = !keyInput.controlKeyMode;
+	sender.selected = keyInput.controlKeyMode;
 }
 
-- (void)tabTapped:(UIBarButtonItem *)sender {
-	sender.style = sender.style == UIBarButtonItemStyleBordered ? UIBarButtonItemStyleDone : UIBarButtonItemStyleBordered;
-	// TODO: implement
+- (void)tabTapped:(UIButton *)sender {
+	[_currentTerminal receiveKeyboardInput:[NSData dataWithBytes:"\t" length:1]];
 }
 
 - (void)addTapped {
