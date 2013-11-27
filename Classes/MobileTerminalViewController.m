@@ -58,14 +58,14 @@
 	
 	_pageControl.hidesForSinglePage = YES;
 	
-	NSMutableArray *inputToolbarItems = [@[
+	NSMutableArray *inputToolbarItems = [[@[
 		[[[UIBarButtonItem alloc] initWithTitle:@"Ctrl" style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithTitle:@"Tab" style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
 		//[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTapped)] autorelease]
-	] mutableCopy];
+	] mutableCopy] autorelease];
 	
 	if (!IS_IPAD) {
 		[inputToolbarItems addObject:[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:_terminalKeyboard action:@selector(resignFirstResponder)] autorelease]];
@@ -82,7 +82,7 @@
 	self.toolbarItems = @[
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAction target:self action:@selector(settingsTapped:)] autorelease],
 		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
-		[[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStyleDone target:_terminalKeyboard action:@selector(becomeFirstResponder)] autorelease]
+		[[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStylePlain target:_terminalKeyboard action:@selector(becomeFirstResponder)] autorelease]
 	];
 	
 	for (NSUInteger i = 0; i < TERMINAL_COUNT; i++) {
