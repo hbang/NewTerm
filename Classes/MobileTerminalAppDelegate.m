@@ -33,6 +33,13 @@
 	[_window makeKeyAndVisible];
 	
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+	
+	if (IS_IOS_7) {
+		UIToolbar *statusBarToolbar = [[[UIToolbar alloc] initWithFrame:[UIApplication sharedApplication].statusBarFrame] autorelease];
+		statusBarToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+		statusBarToolbar.translucent = YES;
+		[_window addSubview:statusBarToolbar];
+	}
 }
 
 - (void)dealloc {
