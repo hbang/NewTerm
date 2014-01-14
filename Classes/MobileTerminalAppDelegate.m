@@ -14,11 +14,11 @@
 	[UIToolbar appearance].barStyle = UIBarStyleBlack;
 	[UITableView appearance].backgroundColor = [UIColor blackColor];
 	[UITableView appearance].separatorColor = [UIColor colorWithWhite:0 alpha:1];
-	[UITableViewCell appearance].backgroundColor = [UIColor colorWithWhite:0.2078431373f alpha:1];
+	[UITableViewCell appearance].backgroundColor = [UIColor colorWithWhite:0.1176470588f alpha:1];
 	[UITableViewCell appearance].textColor = [UIColor whiteColor];
 	
 	UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
-	selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.3529411765f alpha:1];
+	selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2078431373f alpha:1];
 	[UITableViewCell appearance].selectedBackgroundView = selectedBackgroundView;
 	
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
