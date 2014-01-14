@@ -98,6 +98,8 @@
 		CF9E47611809C478006ED69E /* icon-ios7-40.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E475F1809C478006ED69E /* icon-ios7-40.png */; };
 		CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */; };
 		CF9E47651809D59C006ED69E /* TerminalKeyInput.m in Sources */ = {isa = PBXBuildFile; fileRef = CF9E47641809D59C006ED69E /* TerminalKeyInput.m */; };
+		CFB50FAC1885E561000F283F /* About.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFB50FAB1885E561000F283F /* About.plist */; };
+		CFB50FAF1885E62E000F283F /* AboutListController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB50FAE1885E62E000F283F /* AboutListController.m */; };
 		CFB9DFAC1845EDED00C5C387 /* TerminalButton.m in Sources */ = {isa = PBXBuildFile; fileRef = CFB9DFAB1845EDED00C5C387 /* TerminalButton.m */; };
 		CFC28CBF18311D620009C686 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFC28CBE18311D620009C686 /* Themes.plist */; };
 /* End PBXBuildFile section */
@@ -285,6 +287,9 @@
 		CF9E47601809C478006ED69E /* icon-ios7-40@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "icon-ios7-40@2x.png"; path = "Resources/icon-ios7-40@2x.png"; sourceTree = "<group>"; };
 		CF9E47631809D59C006ED69E /* TerminalKeyInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalKeyInput.h; path = Terminal/TerminalKeyInput.h; sourceTree = "<group>"; };
 		CF9E47641809D59C006ED69E /* TerminalKeyInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalKeyInput.m; path = Terminal/TerminalKeyInput.m; sourceTree = "<group>"; };
+		CFB50FAB1885E561000F283F /* About.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = About.plist; path = Resources/About.plist; sourceTree = "<group>"; };
+		CFB50FAD1885E62E000F283F /* AboutListController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AboutListController.h; path = Preferences/AboutListController.h; sourceTree = "<group>"; };
+		CFB50FAE1885E62E000F283F /* AboutListController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AboutListController.m; path = Preferences/AboutListController.m; sourceTree = "<group>"; };
 		CFB9DFAA1845EDED00C5C387 /* TerminalButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TerminalButton.h; path = Terminal/TerminalButton.h; sourceTree = "<group>"; };
 		CFB9DFAB1845EDED00C5C387 /* TerminalButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TerminalButton.m; path = Terminal/TerminalButton.m; sourceTree = "<group>"; };
 		CFC28CBE18311D620009C686 /* Themes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Themes.plist; path = Resources/Themes.plist; sourceTree = "<group>"; };
@@ -505,6 +510,8 @@
 		2C11C99B1013FEE800A2746E /* Preferences */ = {
 			isa = PBXGroup;
 			children = (
+				CFB50FAD1885E62E000F283F /* AboutListController.h */,
+				CFB50FAE1885E62E000F283F /* AboutListController.m */,
 				9F24A83611D7F27300E6EFC0 /* BorderedTextView.h */,
 				9F24A83711D7F27300E6EFC0 /* BorderedTextView.m */,
 				9F3B52151222140200682793 /* GestureEditViewController.h */,
@@ -574,6 +581,7 @@
 		CF1749A7182F5EF0002D3506 /* Specifiers */ = {
 			isa = PBXGroup;
 			children = (
+				CFB50FAB1885E561000F283F /* About.plist */,
 				CF1749A6182F5EED002D3506 /* MobileTerminal.plist */,
 			);
 			name = Specifiers;
@@ -931,6 +939,7 @@
 				CF9E47561809C220006ED69E /* icon-ios7@2x.png in Resources */,
 				9F6B6D5412297447007BAD59 /* Icon-Small@2x.png in Resources */,
 				CF9E47521809C163006ED69E /* Icon-Small-50.png in Resources */,
+				CFB50FAC1885E561000F283F /* About.plist in Resources */,
 				CF9E47571809C220006ED69E /* icon-ios7~ipad.png in Resources */,
 				CF9E47621809C478006ED69E /* icon-ios7-40@2x.png in Resources */,
 				CF9E47581809C220006ED69E /* icon-ios7~ipad@2x.png in Resources */,
@@ -1023,6 +1032,7 @@
 				2C66C084101C47FB00E4189B /* MenuView.m in Sources */,
 				9FF8508E12177F81000CC2A2 /* GestureResponder.m in Sources */,
 				9F6B6D9912297822007BAD59 /* GestureActionRegistry.m in Sources */,
+				CFB50FAF1885E62E000F283F /* AboutListController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

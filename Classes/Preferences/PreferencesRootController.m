@@ -17,6 +17,8 @@
 
 @implementation PreferencesRootController
 
+#pragma mark - UIViewController
+
 - (void)loadView {
 	[super loadView];
 	
@@ -26,6 +28,12 @@
 		[self pushViewController:self.rootListController animated:NO];
 	}
 }
+
+- (UIStatusBarStyle)preferredStatusBarStyle {
+	return UIStatusBarStyleLightContent;
+}
+
+#pragma mark - PSRootController
 
 - (PSListController *)rootListController {
 	if (!_rootListController) {
@@ -38,10 +46,6 @@
 	}
 	
 	return _rootListController;
-}
-
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleDefault;
 }
 
 @end

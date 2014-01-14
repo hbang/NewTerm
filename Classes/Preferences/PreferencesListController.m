@@ -15,13 +15,7 @@
 
 @implementation PreferencesListController
 
-- (NSArray *)specifiers {
-	if (!_specifiers) {
-		_specifiers = [[self loadSpecifiersFromPlistName:@"MobileTerminal" target:self] retain];
-	}
-	
-	return _specifiers;
-}
+#pragma mark - UIViewController
 
 - (void)loadView {
 	[super loadView];
@@ -31,8 +25,20 @@
 	}
 }
 
+#pragma mark - PSListController
+
+- (NSArray *)specifiers {
+	if (!_specifiers) {
+		_specifiers = [[self loadSpecifiersFromPlistName:@"MobileTerminal" target:self] retain];
+	}
+	
+	return _specifiers;
+}
+
+#pragma mark - Callbacks
+
 - (void)doneTapped {
-	[self.navigationController dismissViewControllerAnimated:YES completion:NULL];
+	[self.navigationController dismissViewControllerAnimated:YES completion:nil];
 }
 
 @end

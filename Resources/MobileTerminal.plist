@@ -126,7 +126,7 @@
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>default</key>
-			<real>12</real>
+			<string>kirb</string>
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
 			<key>detail</key>
