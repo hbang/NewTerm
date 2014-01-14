@@ -29,8 +29,8 @@
 		if (YES/* || IS_IOS_7*/) {
 			[self setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
 			[self setTitleColor:[UIColor blackColor] forState:UIControlStateSelected];
-			[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.3529411765f alpha:1]] forState:UIControlStateNormal];
-			[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.2078431373f alpha:1]] forState:UIControlStateHighlighted];
+			[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.2078431373f alpha:1]] forState:UIControlStateNormal];
+			[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.3529411765f alpha:1]] forState:UIControlStateHighlighted];
 			[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.6784313725f alpha:1]] forState:UIControlStateSelected];
 			self.layer.cornerRadius = 6.f;
 			self.clipsToBounds = YES;
