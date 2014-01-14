@@ -15,7 +15,10 @@
 	[UITableView appearance].backgroundColor = [UIColor blackColor];
 	[UITableView appearance].separatorColor = [UIColor colorWithWhite:0 alpha:1];
 	[UITableViewCell appearance].backgroundColor = [UIColor colorWithWhite:0.1176470588f alpha:1];
-	[UITableViewCell appearance].textColor = [UIColor whiteColor];
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	[UITableViewCell appearance].textColor = [UIColor whiteColor]; // please make this easier apple.
+#pragma clang diagnostic pop
 	
 	UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
 	selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.2078431373f alpha:1];
