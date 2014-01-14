@@ -95,7 +95,6 @@
 		[_inputToolbar addSubview:doneButton];
 	}
 	
-	_inputToolbar.barStyle = UIBarStyleBlack;
 	_inputToolbar.translucent = YES;
 	((TerminalKeyInput *)_terminalKeyboard.inputTextField).inputAccessoryView = _inputToolbar;
 	

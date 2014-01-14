@@ -10,13 +10,37 @@
 @implementation MobileTerminalAppDelegate
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+	[UINavigationBar appearance].barStyle = UIBarStyleBlack;
+	[UIToolbar appearance].barStyle = UIBarStyleBlack;
+	[UITableView appearance].backgroundColor = [UIColor blackColor];
+	[UITableView appearance].separatorColor = [UIColor colorWithWhite:0 alpha:1];
+	[UITableViewCell appearance].backgroundColor = [UIColor colorWithWhite:0.2078431373f alpha:1];
+	[UITableViewCell appearance].textColor = [UIColor whiteColor];
+	
+	UIView *selectedBackgroundView = [[[UIView alloc] init] autorelease];
+	selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:0.3529411765f alpha:1];
+	[UITableViewCell appearance].selectedBackgroundView = selectedBackgroundView;
+	
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
+	
+	if ([_window respondsToSelector:@selector(setTintColor:)]) {
+		_window.tintColor = [UIColor colorWithWhite:0.7f alpha:1];
+	}
+	
 	_terminalViewController = [[MobileTerminalViewController alloc] init];
 	_navigationController = [[UINavigationController alloc] initWithRootViewController:_terminalViewController];
 	_window.rootViewController = _navigationController;
 	[_window makeKeyAndVisible];
 	
 	[UIApplication sharedApplication].statusBarStyle = UIStatusBarStyleBlackTranslucent;
+}
+
+- (void)dealloc {
+	[_window release];
+	[_terminalViewController release];
+	[_navigationController release];
+	
+	[super dealloc];
 }
 
 @end
