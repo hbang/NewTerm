@@ -1,5 +1,5 @@
-Package: ws.hbang.mobileterminal
-Name: MobileTerminal
+Package: ws.hbang.newterm
+Name: NewTerm
 Pre-Depends: firmware (>= 5.0), dpkg (>= 1.14.25-8)
 Depends: bash, coreutils, ncurses, system-cmds
 Version: 0.0.1
