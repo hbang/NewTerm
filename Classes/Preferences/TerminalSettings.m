@@ -4,13 +4,20 @@
 #import "TerminalSettings.h"
 #import "VT100/ColorMap.h"
 
-#define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+#ifndef kCFCoreFoundationVersionNumber_iOS_7_0
+#define kCFCoreFoundationVersionNumber_iOS_7_0 847.20
+#endif
 
-@implementation TerminalSettings
+#define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
+#define IS_MODERN (kCFCoreFoundationVersionNumber > kCFCoreFoundationVersionNumber_iOS_7_0)
 
 static NSString *const kDefaultFontName = @"SourceCodePro-Regular";
+static NSString *const kFallbackFontName = @"CourierNewPSMT";
+static NSString *const kFallbackFontNameModern = @"Menlo-Regular";
 static CGFloat const kDefaultIPhoneFont = 12.f;
 static CGFloat const kDefaultIPadFont = 16.f;
+
+@implementation TerminalSettings
 
 - (instancetype)init {
 	self = [super init];
@@ -31,17 +38,21 @@ static CGFloat const kDefaultIPadFont = 16.f;
 	
 	_arguments = [defaults objectForKey:@"arguments"] ?: @"";
 	
-	NSString *fontName = [defaults objectForKey:@"fontName"];
-	CGFloat fontSize = [defaults floatForKey:IS_IPAD ? @"fontSizePad" : @"fontSizePhone"];
+	NSString *fontName = [defaults objectForKey:@"fontName"] ?: kDefaultFontName;
 	
-	if (fontSize < 8.f) {
+	NSString *sizeKey = IS_IPAD ? @"fontSizePad" : @"fontSizePhone";
+	CGFloat fontSize = 0;
+	
+	if ([defaults objectForKey:sizeKey]) {
+		fontSize = ((NSNumber *)[defaults objectForKey:sizeKey]).floatValue;
+	} else {
 		fontSize = IS_IPAD ? kDefaultIPadFont : kDefaultIPhoneFont;
 	}
 	
 	_font = [[UIFont fontWithName:fontName size:fontSize] retain];
 	
 	if (!_font) {
-		_font = [[UIFont fontWithName:kDefaultFontName size:fontSize] retain];
+		_font = [[UIFont fontWithName:IS_MODERN ? kFallbackFontNameModern : kFallbackFontName size:fontSize] retain];
 		
 		if (!_font) {
 			_font = [[UIFont systemFontOfSize:fontSize] retain];
