@@ -53,41 +53,45 @@
 	_terminalKeyboard = [[TerminalKeyboard alloc] init];
 	_keyboardShown = NO;
 	_copyPasteEnabled = NO; // Copy and paste is off by default
-	_inputToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, IS_IPAD ? 54.f : 32.f)];
+	_inputToolbar = [[UIToolbar alloc] initWithFrame:CGRectMake(0, 0, 0, IS_IPAD ? 54.f : 38.f)];
 	_terminals = [[NSMutableArray alloc] init];
 	_pageControl = [[UIPageControl alloc] initWithFrame:CGRectMake(0, 0, 0, 32.f)];
 	
 	_pageControl.hidesForSinglePage = YES;
 	
-	/*NSMutableArray *inputToolbarItems = [[@[
-		[[[UIBarButtonItem alloc] initWithTitle:@"  Ctrl  " style:UIBarButtonItemStyleBordered target:self action:@selector(ctrlTapped:)] autorelease],
-		[[[UIBarButtonItem alloc] initWithTitle:@"  Tab  " style:UIBarButtonItemStyleBordered target:self action:@selector(tabTapped:)] autorelease],
-		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
-		//[[[UIBarButtonItem alloc] initWithCustomView:_pageControl] autorelease],
-		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:Nil action:nil] autorelease],
-		[[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTapped)] autorelease]
-	] mutableCopy] autorelease];*/
-	
-	CGRect buttonFrame = CGRectMake(7.f, 8.f, 79.f, IS_IPAD ? 38.f : 16.f);
+	CGFloat horizSpacing = IS_IPAD ? 7.f : 4.f;
+	CGRect buttonFrame = IS_IPAD ? CGRectMake(horizSpacing, 8.f, 79.f, 38.f) : CGRectMake(horizSpacing, 4.f, 46.f, 30.f);
+	CGFloat extra = IS_IPAD ? 14.f : 6.f;
 	
 	TerminalButton *ctrlButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
 	[ctrlButton setTitle:@"Ctrl" forState:UIControlStateNormal];
 	[ctrlButton addTarget:self action:@selector(ctrlTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[_inputToolbar addSubview:ctrlButton];
 	
-	buttonFrame.origin.x += buttonFrame.size.width + 14.f;
+	buttonFrame.origin.x += buttonFrame.size.width + extra;
 	
 	TerminalButton *tabButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
 	[tabButton setTitle:@"Tab" forState:UIControlStateNormal];
 	[tabButton addTarget:self action:@selector(tabTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[_inputToolbar addSubview:tabButton];
 	
-	buttonFrame.origin.x += buttonFrame.size.width + 14.f;
+	buttonFrame.origin.x += buttonFrame.size.width + extra;
 	
 	TerminalButton *escButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
 	[escButton setTitle:@"Esc" forState:UIControlStateNormal];
-	[escButton addTarget:self action:@selector(tabTapped:) forControlEvents:UIControlEventTouchUpInside];
+	// [escButton addTarget:self action:@selector(escTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[_inputToolbar addSubview:escButton];
+	
+	if (!IS_IPAD) {
+		buttonFrame.size.width += 12.f;
+		buttonFrame.origin.x = _inputToolbar.frame.size.width - horizSpacing - buttonFrame.size.width;
+		
+		TerminalButton *doneButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+		doneButton.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin;
+		[doneButton setTitle:@"Done" forState:UIControlStateNormal];
+		[doneButton addTarget:_terminalKeyboard action:@selector(resignFirstResponder) forControlEvents:UIControlEventTouchUpInside];
+		[_inputToolbar addSubview:doneButton];
+	}
 	
 	_inputToolbar.barStyle = UIBarStyleBlack;
 	_inputToolbar.translucent = YES;
