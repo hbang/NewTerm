@@ -1,1 +1,1 @@
-/usr/include/term.h
+/opt/local/include/term.h

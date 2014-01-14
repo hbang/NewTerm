@@ -87,7 +87,7 @@
 
 // Computes the size of a single row
 - (CGRect)cellFrame {
-	return CGRectMake(0, 0, self.tableView.frame.size.width, _fontMetrics.boundingBox.height);
+	return CGRectMake(0, 0, self.tableView.frame.size.width, ceilf(_fontMetrics.boundingBox.height));
 }
 	
 - (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
@@ -111,7 +111,7 @@
 	[_fontMetrics release];
 	_fontMetrics = [[FontMetrics alloc] initWithFont:font];
 	
-	self.tableView.rowHeight = _fontMetrics.boundingBox.height;
+	self.tableView.rowHeight = ceilf(_fontMetrics.boundingBox.height);
 	[self refresh];
 }
 	
@@ -292,7 +292,7 @@
 	rowView.fontMetrics = _fontMetrics;
 	// resize the row in case the table has changed size
 	cell.frame = [self cellFrame];
-	rowView.frame = [self cellFrame];	 
+	rowView.frame = [self cellFrame];
 	[cell setNeedsDisplay];
 	[rowView setNeedsDisplay];
 	return cell;	

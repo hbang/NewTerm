@@ -95,7 +95,7 @@
 		NSLog(@"GestureInputActions contains invalid number of entries: %d",
 					[inputs count]);
 	} else {
-		NSLog(@"Loaded %d input gestures from file", [inputs count]);
+		NSLog(@"Loaded %u input gestures from file", [inputs count]);
 		for (int i = 0; i < [inputs count]; i += 2) {
 			NSString *label = [inputs objectAtIndex:i];
 			NSString *command = [inputs objectAtIndex:(i + 1)];

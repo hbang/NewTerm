@@ -1,1 +1,1 @@
-/usr/include/ncurses_dll.h
+/opt/local/include/ncurses_dll.h

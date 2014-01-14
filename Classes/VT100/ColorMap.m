@@ -4,9 +4,6 @@
 #import "ColorMap.h"
 #import "VT100Terminal.h"
 
-// 16 terminal color slots available
-static const int kNumTerminalColors = 16;
-
 @interface ColorMap () {
 	UIColor *_table[COLOR_MAP_MAX_COLORS];
 }

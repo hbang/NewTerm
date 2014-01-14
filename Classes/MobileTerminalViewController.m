@@ -221,8 +221,7 @@
 	_pageControl.numberOfPages--;
 	
 	// TODO: complete this
-	TerminalController *controller = index == -1 ? _currentTerminal : [_terminals objectAtIndex:index];
-	NSLog(@"%@",controller);
+	// TerminalController *controller = index == -1 ? _currentTerminal : [_terminals objectAtIndex:index];
 	[_terminals removeObjectAtIndex:index];
 }
 

@@ -4,6 +4,7 @@
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+// 16 terminal color slots available
 #define COLOR_MAP_MAX_COLORS 16
 
 @interface ColorMap : NSObject

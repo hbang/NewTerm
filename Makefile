@@ -8,7 +8,7 @@ APPLICATION_NAME = MobileTerminal
 MobileTerminal_FILES = main.m $(wildcard Classes/*.m) $(wildcard Classes/*/*.m)
 MobileTerminal_FRAMEWORKS = UIKit CoreGraphics QuartzCore CoreText
 MobileTerminal_PRIVATE_FRAMEWORKS = Preferences
-MobileTerminal_CFLAGS = -Iheaders -IClasses -include MobileTerminal_Prefix.pch
+MobileTerminal_CFLAGS = -Iheaders -IClasses -IClasses/VT100 -IClasses/Terminal -IClasses/Preferences -IClasses/SubProcess -include MobileTerminal_Prefix.pch
 MobileTerminal_LIBRARIES = curses
 
 include $(THEOS_MAKE_PATH)/application.mk

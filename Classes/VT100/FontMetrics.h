@@ -16,8 +16,8 @@
 
 // The dimensions of a single glyph on the screen
 @property (readonly) CGSize boundingBox;
-@property (readonly) float descent;
-@property (readonly) float ascent;
-@property (readonly) float leading;
+@property (readonly) CGFloat descent;
+@property (readonly) CGFloat ascent;
+@property (readonly) CGFloat leading;
 
 @end
