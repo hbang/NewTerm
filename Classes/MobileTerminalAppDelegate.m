@@ -10,6 +10,7 @@
 @implementation MobileTerminalAppDelegate
 
 - (void)applicationDidFinishLaunching:(UIApplication *)application {
+    [[UIApplication sharedApplication] setStatusBarHidden:YES withAnimation:UIStatusBarAnimationFade];
 	[UINavigationBar appearance].barStyle = UIBarStyleBlack;
 	[UIToolbar appearance].barStyle = UIBarStyleBlack;
 	[UITableView appearance].backgroundColor = [UIColor blackColor];
