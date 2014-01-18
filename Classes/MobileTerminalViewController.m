@@ -77,12 +77,14 @@
 	
 	buttonFrame.origin.x += buttonFrame.size.width + extra;
 	
-	/*
-	TerminalButton *escButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+    /* //Todo
+    TerminalButton *escButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
 	[escButton setTitle:@"Esc" forState:UIControlStateNormal];
 	[escButton addTarget:self action:@selector(escTapped:) forControlEvents:UIControlEventTouchUpInside];
 	[_inputToolbar addSubview:escButton];
-	*/
+	
+	buttonFrame.origin.x += buttonFrame.size.width + extra;
+     */
 	
 	if (!IS_IPAD) {
 		buttonFrame.size.width += 12.f;
