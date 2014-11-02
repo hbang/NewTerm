@@ -62,7 +62,14 @@
 	CGFloat horizSpacing = IS_IPAD ? 7.f : 4.f;
 	CGRect buttonFrame = IS_IPAD ? CGRectMake(horizSpacing, 8.f, 79.f, 38.f) : CGRectMake(horizSpacing, 4.f, 46.f, 30.f);
 	CGFloat extra = IS_IPAD ? 14.f : 6.f;
-	
+
+    TerminalButton *escButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
+    [escButton setTitle:@"Esc" forState:UIControlStateNormal];
+    [escButton addTarget:self action:@selector(escTapped:) forControlEvents:UIControlEventTouchUpInside];
+    [_inputToolbar addSubview:escButton];
+
+    buttonFrame.origin.x += buttonFrame.size.width + extra;
+
 	TerminalButton *ctrlButton = [[TerminalButton alloc] initWithFrame:buttonFrame];
 	[ctrlButton setTitle:@"Ctrl" forState:UIControlStateNormal];
 	[ctrlButton addTarget:self action:@selector(ctrlTapped:) forControlEvents:UIControlEventTouchUpInside];
@@ -155,6 +162,10 @@
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation {
 	return IS_IPAD ? YES : toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown;
+}
+
+- (void)escTapped:(UIButton *)sender {
+    [_currentTerminal receiveKeyboardInput:[NSData dataWithBytes:"\e" length:1]];
 }
 
 - (void)ctrlTapped:(UIButton *)sender {
