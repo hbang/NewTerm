@@ -5,35 +5,45 @@
 	<key>CFBundleDevelopmentRegion</key>
 	<string>English</string>
 	<key>CFBundleDisplayName</key>
-	<string>Terminal</string>
+	<string>NewTerm</string>
 	<key>CFBundleExecutable</key>
-	<string>MobileTerminal</string>
-	<key>CFBundleIconFiles</key>
-	<array>
-		<string>icon</string>
-		<string>icon@2x</string>
-		<string>Icon-Small</string>
-		<string>Icon-Small@2x</string>
-		<string>icon-ios7-40</string>
-		<string>icon-ios7</string>
-	</array>
-	<key>CFBundleIconFiles~ipad</key>
-	<array>
-		<string>icon~ipad</string>
-		<string>icon@2x</string>
-		<string>Icon-Small</string>
-		<string>Icon-Small@2x</string>
-		<string>Icon-72</string>
-		<string>Icon-Small-50</string>
-		<string>icon-ios7~ipad</string>
-		<string>icon-ios7-40</string>
-	</array>
+	<string>NewTerm</string>
+	<key>CFBundleIcons</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AppIcon29x29</string>
+				<string>icon-ios7-40</string>
+				<string>icon-ios7</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<true/>
+		</dict>
+	</dict>
+	<key>CFBundleIcons~ipad</key>
+	<dict>
+		<key>CFBundlePrimaryIcon</key>
+		<dict>
+			<key>CFBundleIconFiles</key>
+			<array>
+				<string>AppIcon29x29</string>
+				<string>icon-ios7-40</string>
+				<string>icon-ios7</string>
+				<string>AppIcon50x50</string>
+				<string>icon-ios7~ipad</string>
+			</array>
+			<key>UIPrerenderedIcon</key>
+			<true/>
+		</dict>
+	</dict>
 	<key>CFBundleIdentifier</key>
 	<string>ws.hbang.Terminal</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>MobileTerminal</string>
+	<string>NewTerm</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -58,12 +68,85 @@
 		<integer>1</integer>
 		<integer>2</integer>
 	</array>
-	<key>UIPrerenderedIcon</key>
-	<true/>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>UIStatusBarStyle</key>
-	<string>UIStatusBarStyleBlackTranslucent</string>
+	<key>UIRequiredDeviceCapabilities</key>
+	<array>
+		<string>armv7</string>
+	</array>
+	<key>UILaunchImageFile</key>
+	<string>LaunchImage</string>
+	<key>UILaunchImages</key>
+	<array>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{320, 480}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-700-568h</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{320, 568}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-Portrait</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{768, 1024}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>7.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-Landscape</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Landscape</string>
+			<key>UILaunchImageSize</key>
+			<string>{768, 1024}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>8.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-800-667h</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{375, 667}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>8.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-800-Portrait-736h</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Portrait</string>
+			<key>UILaunchImageSize</key>
+			<string>{414, 736}</string>
+		</dict>
+		<dict>
+			<key>UILaunchImageMinimumOSVersion</key>
+			<string>8.0</string>
+			<key>UILaunchImageName</key>
+			<string>LaunchImage-800-Landscape-736h</string>
+			<key>UILaunchImageOrientation</key>
+			<string>Landscape</string>
+			<key>UILaunchImageSize</key>
+			<string>{414, 736}</string>
+		</dict>
+	</array>
 	<key>UISupportedInterfaceOrientations</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
@@ -73,9 +156,9 @@
 	<key>UISupportedInterfaceOrientations~ipad</key>
 	<array>
 		<string>UIInterfaceOrientationPortrait</string>
+		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
-		<string>UIInterfaceOrientationPortraitUpsideDown</string>
 	</array>
 </dict>
 </plist>
