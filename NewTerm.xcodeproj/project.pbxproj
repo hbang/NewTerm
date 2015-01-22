@@ -23,6 +23,7 @@
 		CF3704281A6FF47D0026B667 /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37041E1A6FF47D0026B667 /* VT100Screen.m */; };
 		CF3704291A6FF47D0026B667 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704201A6FF47D0026B667 /* VT100StringSupplier.m */; };
 		CF37042A1A6FF47D0026B667 /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704221A6FF47D0026B667 /* VT100Terminal.m */; };
+		CF37042E1A7081A70026B667 /* HBNTTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37042D1A7081A70026B667 /* HBNTTerminalController.m */; };
 		CF558DD0197CFAD4005DE399 /* HBNTSegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */; };
 		CF558DD4197CFFEC005DE399 /* HBNTTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DD3197CFFEC005DE399 /* HBNTTextField.m */; };
 		CFC25056197BF983007DD739 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC25055197BF983007DD739 /* Foundation.framework */; };
@@ -87,6 +88,8 @@
 		CF3704211A6FF47D0026B667 /* VT100Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Terminal.h; path = VT100/VT100Terminal.h; sourceTree = SOURCE_ROOT; };
 		CF3704221A6FF47D0026B667 /* VT100Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Terminal.m; path = VT100/VT100Terminal.m; sourceTree = SOURCE_ROOT; };
 		CF3704231A6FF47D0026B667 /* VT100Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Types.h; path = VT100/VT100Types.h; sourceTree = SOURCE_ROOT; };
+		CF37042C1A7081A70026B667 /* HBNTTerminalController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTerminalController.h; sourceTree = "<group>"; };
+		CF37042D1A7081A70026B667 /* HBNTTerminalController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTerminalController.m; sourceTree = "<group>"; };
 		CF558DCE197CFAD4005DE399 /* HBNTSegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTSegmentTableViewCell.h; sourceTree = "<group>"; };
 		CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTSegmentTableViewCell.m; sourceTree = "<group>"; };
 		CF558DD2197CFFEC005DE399 /* HBNTTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextField.h; sourceTree = "<group>"; };
@@ -167,6 +170,7 @@
 			children = (
 				CFC25085197BFA1C007DD739 /* Delegates */,
 				CF2B6AF2197CCD8600CD2972 /* Server */,
+				CF37042F1A7081B00026B667 /* Terminal Controller */,
 			);
 			name = Model;
 			sourceTree = "<group>";
@@ -261,6 +265,15 @@
 				CF3704231A6FF47D0026B667 /* VT100Types.h */,
 			);
 			name = VT100;
+			sourceTree = "<group>";
+		};
+		CF37042F1A7081B00026B667 /* Terminal Controller */ = {
+			isa = PBXGroup;
+			children = (
+				CF37042C1A7081A70026B667 /* HBNTTerminalController.h */,
+				CF37042D1A7081A70026B667 /* HBNTTerminalController.m */,
+			);
+			name = "Terminal Controller";
 			sourceTree = "<group>";
 		};
 		CF558DD1197CFADA005DE399 /* Segment Cell */ = {
@@ -541,6 +554,7 @@
 				CF3704241A6FF47D0026B667 /* ColorMap.m in Sources */,
 				CF09FE481A3A982900EF7EB3 /* HBNTServerTableViewCell.m in Sources */,
 				CF3704281A6FF47D0026B667 /* VT100Screen.m in Sources */,
+				CF37042E1A7081A70026B667 /* HBNTTerminalController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
