@@ -8,12 +8,12 @@
 
 #import "HBNTTerminalController.h"
 #import "HBNTTerminalSessionViewController.h"
-#import "SubProcess.h"
-#import "PTY.h"
+#import "HBNTSubProcess.h"
+#import "HBNTPTY.h"
 
 @implementation HBNTTerminalController {
-	SubProcess *_subProcess;
-	PTY *_pty;
+	HBNTSubProcess *_subProcess;
+	HBNTPTY *_pty;
 	
 	BOOL _processEnded;
 }
@@ -34,11 +34,11 @@
 - (void)startSubProcess {
 	_processEnded = NO;
 	
-	_subProcess = [[SubProcess alloc] init];
+	_subProcess = [[HBNTSubProcess alloc] init];
 	[_subProcess start];
 	
 	// The PTY will be sized correctly on the first call to layoutSubViews
-	_pty = [[PTY alloc] initWithFileHandle:_subProcess.fileHandle];
+	_pty = [[HBNTPTY alloc] initWithFileHandle:_subProcess.fileHandle];
 	
 	// Schedule an async read of the subprocess. Invokes our callback when
 	// data becomes available.

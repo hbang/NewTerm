@@ -2,18 +2,10 @@
 // MobileTerminal
 
 #import <Foundation/Foundation.h>
-#import "PTY.h"
+#import "HBNTPTY.h"
 
 // Forks a terminal subprocess.
-@interface SubProcess : NSObject {
-@private
-	pid_t child_pid;
-	int fd;
-	NSFileHandle *fileHandle;
-}
-
-- (id)init;
-- (void)dealloc;
+@interface HBNTSubProcess : NSObject
 
 // Forks a terminal subprocess and initializes the fileHandle for communication.
 - (void)start;
@@ -23,6 +15,6 @@
 
 // Communication channel with the terminal subprocess.	Only valid after the
 // sub process is started.
-- (NSFileHandle *)fileHandle;
+@property (strong, nonatomic, readonly) NSFileHandle *fileHandle;
 
 @end

@@ -1,7 +1,7 @@
 // SubProcess.m
 // MobileTerminal
 
-#import "SubProcess.h"
+#import "HBNTSubProcess.h"
 
 #include <util.h>
 #include <sys/ttycom.h>
@@ -15,8 +15,7 @@ static const int kDefaultHeight = 25;
 // Default username if we can't tell from the environment
 static const char kDefaultUsername[] = "mobile";
 
-static int start_process(const char *path, char *const args[], char *const env[])
-{
+static int start_process(const char *path, char *const args[], char *const env[]) {
 	NSString *pathString = [NSString stringWithUTF8String:path];
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:pathString]) {
@@ -37,27 +36,19 @@ static int start_process(const char *path, char *const args[], char *const env[]
 	return 0;
 }
 
-@implementation SubProcess
-
-- (id) init
-{
-	self = [super init];
-	if (self != nil) {
-		child_pid = 0;
-		fd = 0;
-		fileHandle = nil;
-	}
-	return self;
+@implementation HBNTSubProcess {
+	pid_t _childPID;
+	int _fileDescriptor;
 }
 
-- (void) dealloc {
-	if (child_pid != 0) {
+- (void)dealloc {
+	if (_childPID != 0) {
 		[NSException raise:@"IllegalStateException" format:@"SubProcess was deallocated while running"];
 	}
 }
 
 - (void)start {
-	if (child_pid != 0) {
+	if (_childPID != 0) {
 		[NSException raise:@"IllegalStateException" format:@"SubProcess was already started"];
 		return;
 	}
@@ -70,7 +61,7 @@ static int start_process(const char *path, char *const args[], char *const env[]
 	struct winsize window_size;
 	window_size.ws_col = kDefaultWidth;
 	window_size.ws_row = kDefaultHeight;
-	pid_t pid = forkpty(&fd, NULL, NULL, &window_size);
+	pid_t pid = forkpty(&_fileDescriptor, NULL, NULL, &window_size);
 	if (pid == -1) {
 		if (errno == EPERM) {
 			[NSException raise:@"ForkException" format:@"Not allowed to fork from inside Sandbox"];
@@ -92,29 +83,25 @@ static int start_process(const char *path, char *const args[], char *const env[]
 		return;
 	} else {
 		NSLog(@"process forked: %d", pid);
-		child_pid = pid;
+		_childPID = pid;
+		
 		// We're the parent process (still).
-		fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:fd closeOnDealloc:YES];
+		_fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:_fileDescriptor closeOnDealloc:YES];
 	}
 }
 
 - (void)stop {
-	if (child_pid == 0) {
-		[NSException raise:@"IllegalStateException"
-								format:@"SubProcess was never started"];
+	if (_childPID == 0) {
+		[NSException raise:@"IllegalStateException" format:@"SubProcess was never started"];
 		return;
 	}
 	
-	kill(child_pid, SIGKILL);
+	kill(_childPID, SIGKILL);
 	int stat;
-	waitpid(child_pid, &stat, WUNTRACED);
+	waitpid(_childPID, &stat, WUNTRACED);
 
-	fd = 0;
-	child_pid = 0;
-}
-
-- (NSFileHandle *)fileHandle {
-	return fileHandle;
+	_fileDescriptor = 0;
+	_childPID = 0;
 }
 
 @end

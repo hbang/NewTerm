@@ -12,6 +12,8 @@
 
 @interface HBNTTerminalController : NSObject
 
+- (void)startSubProcess;
+
 @property (strong, nonatomic) HBNTTerminalSessionViewController *viewController;
 @property (strong, nonatomic) UIFont *font;
 @property (strong, nonatomic) ColorMap *colorMap;
