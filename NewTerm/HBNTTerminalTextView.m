@@ -68,6 +68,10 @@
 	[_terminalInputDelegate receiveKeyboardInput:BackspaceData];
 }
 
+- (CGRect)caretRectForPosition:(UITextPosition *)position {
+	return CGRectZero;
+}
+
 #pragma mark - UIResponder
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
