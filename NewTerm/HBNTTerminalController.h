@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "HBNTTerminalKeyboard.h"
 
-@class HBNTTerminalSessionViewController, ColorMap;
+@class HBNTTerminalSessionViewController, VT100ColorMap;
 
 @interface HBNTTerminalController : NSObject <HBNTTerminalKeyboardProtocol>
 
@@ -17,6 +17,6 @@
 
 @property (strong, nonatomic) HBNTTerminalSessionViewController *viewController;
 @property (strong, nonatomic) UIFont *font;
-@property (strong, nonatomic) ColorMap *colorMap;
+@property (strong, nonatomic) VT100ColorMap *colorMap;
 
 @end

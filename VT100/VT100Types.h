@@ -71,8 +71,8 @@ typedef struct {
 // etc).	The row index includes space in the scrollback buffer.
 @protocol AttributedStringSupplier
 - (int)rowCount;
-- (CFStringRef)newString:(int)rowIndex;
-- (CFAttributedStringRef)newAttributedString:(int)rowIndex;
+- (NSString *)stringForLine:(int)rowIndex;
+- (NSAttributedString *)attributedStringForLine:(int)rowIndex;
 @end
 
 

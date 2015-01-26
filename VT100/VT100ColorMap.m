@@ -1,16 +1,16 @@
 // ColorMap.m
 // MobileTerminal
 
-#import "ColorMap.h"
+#import "VT100ColorMap.h"
 #import "VT100Terminal.h"
 
-@interface ColorMap () {
+@interface VT100ColorMap () {
 	UIColor *_table[COLOR_MAP_MAX_COLORS];
 }
 
 @end
 
-@implementation ColorMap
+@implementation VT100ColorMap
 
 - (instancetype)init {
 	self = [super init];

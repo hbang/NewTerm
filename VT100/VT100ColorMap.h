@@ -7,7 +7,7 @@
 // 16 terminal color slots available
 #define COLOR_MAP_MAX_COLORS 16
 
-@interface ColorMap : NSObject
+@interface VT100ColorMap : NSObject
 
 @property (nonatomic, retain, readonly) UIColor *background;
 @property (nonatomic, retain, readonly) UIColor *foreground;

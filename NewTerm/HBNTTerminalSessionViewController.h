@@ -9,7 +9,7 @@
 #import <UIKit/UIKit.h>
 #import "VT100Types.h"
 
-@class HBNTServer, ColorMap;
+@class HBNTServer, VT100ColorMap;
 
 @interface HBNTTerminalSessionViewController : UIViewController <ScreenBufferRefreshDelegate>
 
@@ -22,7 +22,7 @@
 @property (strong, nonatomic, readonly) HBNTServer *server;
 
 @property (strong, nonatomic) UIFont *font;
-@property (strong, nonatomic) ColorMap *colorMap;
+@property (strong, nonatomic) VT100ColorMap *colorMap;
 
 @property (readonly) int screenWidth;
 @property (readonly) int screenHeight;

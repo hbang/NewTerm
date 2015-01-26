@@ -4,21 +4,16 @@
 #import <Foundation/Foundation.h>
 #import "VT100Types.h"
 
-extern CFStringRef const kBackgroundColorAttributeName;
+@class VT100ColorMap;
 
-@class ColorMap;
-
-@interface VT100StringSupplier : NSObject<AttributedStringSupplier> {
-@private
-	id<ScreenBuffer> screenBuffer;
-	ColorMap *colorMap;
-}
+@interface VT100StringSupplier : NSObject <AttributedStringSupplier>
 
 @property (nonatomic, retain) id <ScreenBuffer> screenBuffer;
-@property (nonatomic, retain) ColorMap *colorMap;
+@property (nonatomic, retain) VT100ColorMap *colorMap;
 
 - (int)rowCount;
-- (CFStringRef)newString:(int)rowIndex;
-- (CFAttributedStringRef)newAttributedString:(int)rowIndex;
+
+- (NSString *)stringForLine:(int)rowIndex;
+- (NSAttributedString *)attributedStringForLine:(int)rowIndex;
 
 @end

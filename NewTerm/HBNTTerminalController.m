@@ -101,11 +101,11 @@
 	_viewController.font = font;
 }
 
-- (ColorMap	*)colorMap {
+- (VT100ColorMap *)colorMap {
 	return _viewController.colorMap;
 }
 
-- (void)setColorMap:(ColorMap *)colorMap {
+- (void)setColorMap:(VT100ColorMap *)colorMap {
 	_viewController.colorMap = colorMap;
 }
 

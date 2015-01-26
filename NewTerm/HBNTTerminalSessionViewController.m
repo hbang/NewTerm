@@ -12,7 +12,7 @@
 #import "HBNTServer.h"
 #import "VT100.h"
 #import "VT100StringSupplier.h"
-#import "ColorMap.h"
+#import "VT100ColorMap.h"
 #import "FontMetrics.h"
 
 // TODO: a lot of this probably shouldn't be here...
@@ -23,7 +23,7 @@
 	
 	VT100 *_buffer;
 	VT100StringSupplier *_stringSupplier;
-	ColorMap *_colorMap;
+	VT100ColorMap *_colorMap;
 	FontMetrics *_fontMetrics;
 	HBNTTerminalController *_terminalController;
 	HBNTTerminalKeyboard *_terminalKeyboard;
@@ -42,7 +42,7 @@
 		_buffer.refreshDelegate = self;
 		
 		_stringSupplier = [[VT100StringSupplier alloc] init];
-		_stringSupplier.colorMap = [[ColorMap alloc] init];
+		_stringSupplier.colorMap = [[VT100ColorMap alloc] init];
 		_stringSupplier.screenBuffer = _buffer;
 		
 		_terminalController = [[HBNTTerminalController alloc] init];
@@ -68,6 +68,7 @@
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_textView.showsVerticalScrollIndicator = NO;
 	_textView.editable = NO;
+	_textView.backgroundColor = _stringSupplier.colorMap.background;
 	[self.view addSubview:_textView];
 	
 	@try {
@@ -129,11 +130,15 @@
 }
 
 - (void)refresh {
+	// TODO: we shouldn't load all lines' attributed strings, just ones that changed
+	
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
 	
 	for (int i = 0; i < _buffer.scrollbackLines + _buffer.numberOfRows; i++) {
-		[attributedString appendAttributedString:(__bridge NSAttributedString *)[_stringSupplier newAttributedString:i]];
+		[attributedString appendAttributedString:[_stringSupplier attributedStringForLine:i]];
 	}
+	
+	[attributedString addAttribute:NSFontAttributeName value:_fontMetrics.font range:NSMakeRange(0, attributedString.string.length)];
 	
 	_textView.attributedText = attributedString;
 	

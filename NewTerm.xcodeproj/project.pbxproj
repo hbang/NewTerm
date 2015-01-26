@@ -15,10 +15,9 @@
 		CF2B6AFA197CDE4300CD2972 /* HBNTTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6AF9197CDE4300CD2972 /* HBNTTextFieldTableViewCell.m */; };
 		CF2B6B00197CEB0300CD2972 /* HBNTTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6AFF197CEB0300CD2972 /* HBNTTableViewCell.m */; };
 		CF2B6B03197CED7700CD2972 /* HBNTHostTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6B02197CED7700CD2972 /* HBNTHostTableViewCell.m */; };
-		CF3704241A6FF47D0026B667 /* ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704161A6FF47D0026B667 /* ColorMap.m */; };
+		CF3704241A6FF47D0026B667 /* VT100ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704161A6FF47D0026B667 /* VT100ColorMap.m */; };
 		CF3704251A6FF47D0026B667 /* FontMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704181A6FF47D0026B667 /* FontMetrics.m */; };
 		CF3704261A6FF47D0026B667 /* VT100.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37041A1A6FF47D0026B667 /* VT100.m */; };
-		CF3704271A6FF47D0026B667 /* VT100RowView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37041C1A6FF47D0026B667 /* VT100RowView.m */; };
 		CF3704281A6FF47D0026B667 /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37041E1A6FF47D0026B667 /* VT100Screen.m */; };
 		CF3704291A6FF47D0026B667 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704201A6FF47D0026B667 /* VT100StringSupplier.m */; };
 		CF37042A1A6FF47D0026B667 /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704221A6FF47D0026B667 /* VT100Terminal.m */; };
@@ -77,14 +76,12 @@
 		CF2B6B01197CED7700CD2972 /* HBNTHostTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTHostTableViewCell.h; sourceTree = "<group>"; };
 		CF2B6B02197CED7700CD2972 /* HBNTHostTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTHostTableViewCell.m; sourceTree = "<group>"; };
 		CF3704141A6FF47D0026B667 /* charmaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = charmaps.h; path = VT100/charmaps.h; sourceTree = SOURCE_ROOT; };
-		CF3704151A6FF47D0026B667 /* ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ColorMap.h; path = VT100/ColorMap.h; sourceTree = SOURCE_ROOT; };
-		CF3704161A6FF47D0026B667 /* ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ColorMap.m; path = VT100/ColorMap.m; sourceTree = SOURCE_ROOT; };
+		CF3704151A6FF47D0026B667 /* VT100ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100ColorMap.h; path = VT100/VT100ColorMap.h; sourceTree = SOURCE_ROOT; };
+		CF3704161A6FF47D0026B667 /* VT100ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100ColorMap.m; path = VT100/VT100ColorMap.m; sourceTree = SOURCE_ROOT; };
 		CF3704171A6FF47D0026B667 /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FontMetrics.h; path = VT100/FontMetrics.h; sourceTree = SOURCE_ROOT; };
 		CF3704181A6FF47D0026B667 /* FontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FontMetrics.m; path = VT100/FontMetrics.m; sourceTree = SOURCE_ROOT; };
 		CF3704191A6FF47D0026B667 /* VT100.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100.h; path = VT100/VT100.h; sourceTree = SOURCE_ROOT; };
 		CF37041A1A6FF47D0026B667 /* VT100.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100.m; path = VT100/VT100.m; sourceTree = SOURCE_ROOT; };
-		CF37041B1A6FF47D0026B667 /* VT100RowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100RowView.h; path = VT100/VT100RowView.h; sourceTree = SOURCE_ROOT; };
-		CF37041C1A6FF47D0026B667 /* VT100RowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100RowView.m; path = VT100/VT100RowView.m; sourceTree = SOURCE_ROOT; };
 		CF37041D1A6FF47D0026B667 /* VT100Screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100Screen.h; path = VT100/VT100Screen.h; sourceTree = SOURCE_ROOT; };
 		CF37041E1A6FF47D0026B667 /* VT100Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VT100Screen.m; path = VT100/VT100Screen.m; sourceTree = SOURCE_ROOT; };
 		CF37041F1A6FF47D0026B667 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VT100StringSupplier.h; path = VT100/VT100StringSupplier.h; sourceTree = SOURCE_ROOT; };
@@ -283,14 +280,12 @@
 			isa = PBXGroup;
 			children = (
 				CF3704141A6FF47D0026B667 /* charmaps.h */,
-				CF3704151A6FF47D0026B667 /* ColorMap.h */,
-				CF3704161A6FF47D0026B667 /* ColorMap.m */,
+				CF3704151A6FF47D0026B667 /* VT100ColorMap.h */,
+				CF3704161A6FF47D0026B667 /* VT100ColorMap.m */,
 				CF3704171A6FF47D0026B667 /* FontMetrics.h */,
 				CF3704181A6FF47D0026B667 /* FontMetrics.m */,
 				CF3704191A6FF47D0026B667 /* VT100.h */,
 				CF37041A1A6FF47D0026B667 /* VT100.m */,
-				CF37041B1A6FF47D0026B667 /* VT100RowView.h */,
-				CF37041C1A6FF47D0026B667 /* VT100RowView.m */,
 				CF37041D1A6FF47D0026B667 /* VT100Screen.h */,
 				CF37041E1A6FF47D0026B667 /* VT100Screen.m */,
 				CF37041F1A6FF47D0026B667 /* VT100StringSupplier.h */,
@@ -634,13 +629,12 @@
 				CFC25062197BF983007DD739 /* main.m in Sources */,
 				CF2B6B00197CEB0300CD2972 /* HBNTTableViewCell.m in Sources */,
 				CF37043C1A7165C30026B667 /* HBNTTerminalKeyInput.m in Sources */,
-				CF3704271A6FF47D0026B667 /* VT100RowView.m in Sources */,
 				CF2B6AF6197CD5E400CD2972 /* HBNTConfigureServerViewController.m in Sources */,
 				CF3704401A7166660026B667 /* HBNTTextInputBase.m in Sources */,
 				CF3704381A7161C60026B667 /* HBNTTerminalKeyboard.m in Sources */,
 				CF2B6B03197CED7700CD2972 /* HBNTHostTableViewCell.m in Sources */,
 				CF112B771A760FDF0061CC24 /* HBNTRootViewController.m in Sources */,
-				CF3704241A6FF47D0026B667 /* ColorMap.m in Sources */,
+				CF3704241A6FF47D0026B667 /* VT100ColorMap.m in Sources */,
 				CF09FE481A3A982900EF7EB3 /* HBNTServerTableViewCell.m in Sources */,
 				CF3704281A6FF47D0026B667 /* VT100Screen.m in Sources */,
 				CF3704351A715AD70026B667 /* HBNTSubProcess.m in Sources */,
