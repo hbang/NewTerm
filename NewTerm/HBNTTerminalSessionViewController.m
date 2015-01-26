@@ -82,7 +82,13 @@
 	self.showKeyboard = YES;
 }
 
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+	[self updateScreenSize];
+}
+
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
+	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[self updateScreenSize];
 }
 
