@@ -140,6 +140,7 @@
 	
 	for (int i = 0; i < _buffer.scrollbackLines + _buffer.numberOfRows; i++) {
 		[attributedString appendAttributedString:[_stringSupplier attributedStringForLine:i]];
+		[attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
 	}
 	
 	[attributedString addAttribute:NSFontAttributeName value:_fontMetrics.font range:NSMakeRange(0, attributedString.string.length)];
