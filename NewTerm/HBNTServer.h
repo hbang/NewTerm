@@ -15,6 +15,8 @@ typedef NS_ENUM(NSUInteger, HBNTServerAuthenticationType) {
 
 @interface HBNTServer : NSObject
 
++ (instancetype)localServer;
+
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *host; // nil = local
 @property unsigned short port;

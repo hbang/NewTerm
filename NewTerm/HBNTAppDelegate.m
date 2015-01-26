@@ -7,7 +7,7 @@
 //
 
 #import "HBNTAppDelegate.h"
-#import "HBNTServersViewController.h"
+#import "HBNTRootViewController.h"
 
 @implementation HBNTAppDelegate
 
@@ -30,7 +30,7 @@
 	[UIScrollView appearance].keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
 	
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	_window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[HBNTServersViewController alloc] init]];
+	_window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[HBNTRootViewController alloc] init]];
 	_window.tintColor = tintColor;
 	[_window makeKeyAndVisible];
 	

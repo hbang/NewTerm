@@ -10,6 +10,19 @@
 
 @implementation HBNTServer
 
++ (instancetype)localServer {
+	static HBNTServer *localServer;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		localServer = [[HBNTServer alloc] init];
+		localServer.name = [UIDevice currentDevice].name;
+		localServer.username = @"mobile";
+		localServer.localTerminal = YES;
+	});
+	
+	return localServer;
+}
+
 - (instancetype)init {
 	self = [super init];
 	

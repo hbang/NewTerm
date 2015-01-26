@@ -30,10 +30,7 @@
 	self.navigationItem.leftBarButtonItem = _settingsBarButtonItem;
 	self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	HBNTServer *localTerminal = [[HBNTServer alloc] init];
-	localTerminal.name = [UIDevice currentDevice].name;
-	localTerminal.username = @"mobile";
-	localTerminal.localTerminal = YES;
+	HBNTServer *localTerminal = [HBNTServer localServer];
 	
 	HBNTServer *yivo = [[HBNTServer alloc] init];
 	yivo.name = @"yivo";

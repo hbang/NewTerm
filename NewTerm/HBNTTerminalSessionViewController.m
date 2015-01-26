@@ -66,8 +66,8 @@
 	
 	_textView = [[UITextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_textView.backgroundColor = [UIColor blackColor];
 	_textView.showsVerticalScrollIndicator = NO;
+	_textView.editable = NO;
 	[self.view addSubview:_textView];
 	
 	@try {
@@ -129,7 +129,14 @@
 }
 
 - (void)refresh {
-	_textView.attributedText = (__bridge NSAttributedString *)[_stringSupplier newAttributedString:0];
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
+	
+	for (int i = 0; i < _buffer.scrollbackLines + _buffer.numberOfRows; i++) {
+		[attributedString appendAttributedString:(__bridge NSAttributedString *)[_stringSupplier newAttributedString:i]];
+	}
+	
+	_textView.attributedText = attributedString;
+	
 	[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
 }
 
