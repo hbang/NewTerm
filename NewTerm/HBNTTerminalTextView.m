@@ -58,7 +58,7 @@
 	[_terminalInputDelegate receiveKeyboardInput:data];
 }
 
-- (void)deleteBackward {
+- (void)_deleteBackwardAndNotify:(BOOL)notify {
 	static NSData *BackspaceData;
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
