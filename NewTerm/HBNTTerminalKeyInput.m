@@ -30,37 +30,40 @@
 }
 
 - (void)insertText:(NSString *)input {
-	// First character is always space (that we set)
-	unichar character = [input characterAtIndex:0];
+	NSMutableData *data = [NSMutableData data];
 	
-	if (_currentModifierKey != HBNTTerminalModifierKeyNone) {
-		// TODO: currently only supporting ctrl
+	for (NSUInteger i = 0; i < input.length; i++) {
+		unichar character = [input characterAtIndex:i];
 		
-		// Convert the character to a control key with the same ascii name (or
-		// just use the original character if not in the acsii range)
-		if (character < 0x60 && character > 0x40) {
-			// Uppercase (and a few characters nearby, such as escape)
-			character -= 0x40;
-		} else if (character < 0x7B && character > 0x60) {
-			// Lowercase
-			character -= 0x60;
+		if (_currentModifierKey != HBNTTerminalModifierKeyNone) {
+			// TODO: currently only supporting ctrl
+			
+			// Convert the character to a control key with the same ascii name (or
+			// just use the original character if not in the acsii range)
+			if (character < 0x60 && character > 0x40) {
+				// Uppercase (and a few characters nearby, such as escape)
+				character -= 0x40;
+			} else if (character < 0x7B && character > 0x60) {
+				// Lowercase
+				character -= 0x60;
+			}
+			
+			if (_delegate) {
+				[_delegate terminalModifierKeyReleased:_currentModifierKey];
+			}
+			
+			_currentModifierKey = HBNTTerminalModifierKeyNone;
+		} else {
+			if (character == 0x0a) {
+				// Convert newline to a carraige return
+				character = 0x0d;
+			}
 		}
 		
-		if (_delegate) {
-			[_delegate terminalModifierKeyReleased:_currentModifierKey];
-		}
-		
-		_currentModifierKey = HBNTTerminalModifierKeyNone;
-	} else {
-		if (character == 0x0a) {
-			// Convert newline to a carraige return
-			character = 0x0d;
-		}
+		// Re-encode as UTF8
+		[data appendBytes:&character length:1];
 	}
 	
-	// Re-encode as UTF8
-	NSString *encoded = [NSString stringWithCharacters:&character length:1];
-	NSData *data = [encoded dataUsingEncoding:NSUTF8StringEncoding];
 	[_keyboard.inputDelegate receiveKeyboardInput:data];
 }
 
