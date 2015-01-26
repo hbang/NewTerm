@@ -46,8 +46,10 @@
 		_stringSupplier.screenBuffer = _buffer;
 		
 		_terminalController = [[HBNTTerminalController alloc] init];
+		_terminalController.viewController = self;
 		
 		_terminalKeyboard = [[HBNTTerminalKeyboard alloc] init];
+		_terminalKeyboard.inputDelegate = _terminalController;
 		
 		self.font = [UIFont fontWithName:@"SourceCodePro-Regular" size:13.f];
 	}
@@ -139,7 +141,7 @@
 }
 
 - (void)readInputStream:(NSData *)data {
-	// Simply forward the input stream down the VT100 processor.	When it notices
+	// Simply forward the input stream down the VT100 processor. When it notices
 	// changes to the screen, it should invoke our refresh delegate below.
 	[_buffer readInputStream:data];
 }

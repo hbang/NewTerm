@@ -7,10 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "HBNTTerminalKeyboard.h"
 
 @class HBNTTerminalSessionViewController, ColorMap;
 
-@interface HBNTTerminalController : NSObject
+@interface HBNTTerminalController : NSObject <HBNTTerminalKeyboardProtocol>
 
 - (void)startSubProcess;
 
