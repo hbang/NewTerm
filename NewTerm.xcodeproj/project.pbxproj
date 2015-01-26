@@ -25,7 +25,6 @@
 		CF37042E1A7081A70026B667 /* HBNTTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37042D1A7081A70026B667 /* HBNTTerminalController.m */; };
 		CF3704341A715AD70026B667 /* HBNTPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704311A715AD70026B667 /* HBNTPTY.m */; };
 		CF3704351A715AD70026B667 /* HBNTSubProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704331A715AD70026B667 /* HBNTSubProcess.m */; };
-		CF3704441A7166AE0026B667 /* HBNTTextPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704431A7166AE0026B667 /* HBNTTextPosition.m */; };
 		CF558DD0197CFAD4005DE399 /* HBNTSegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */; };
 		CF558DD4197CFFEC005DE399 /* HBNTTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DD3197CFFEC005DE399 /* HBNTTextField.m */; };
 		CFC25056197BF983007DD739 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CFC25055197BF983007DD739 /* Foundation.framework */; };
@@ -95,8 +94,6 @@
 		CF3704311A715AD70026B667 /* HBNTPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTPTY.m; sourceTree = "<group>"; };
 		CF3704321A715AD70026B667 /* HBNTSubProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTSubProcess.h; sourceTree = "<group>"; };
 		CF3704331A715AD70026B667 /* HBNTSubProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTSubProcess.m; sourceTree = "<group>"; };
-		CF3704421A7166AE0026B667 /* HBNTTextPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextPosition.h; sourceTree = "<group>"; };
-		CF3704431A7166AE0026B667 /* HBNTTextPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTextPosition.m; sourceTree = "<group>"; };
 		CF558DCE197CFAD4005DE399 /* HBNTSegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTSegmentTableViewCell.h; sourceTree = "<group>"; };
 		CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTSegmentTableViewCell.m; sourceTree = "<group>"; };
 		CF558DD2197CFFEC005DE399 /* HBNTTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextField.h; sourceTree = "<group>"; };
@@ -186,7 +183,6 @@
 			children = (
 				CF112B791A761A480061CC24 /* HBNTTerminalTextView.h */,
 				CF112B7A1A761A480061CC24 /* HBNTTerminalTextView.m */,
-				CF3704451A7166B00026B667 /* Text Position */,
 			);
 			name = "Terminal Text View";
 			sourceTree = "<group>";
@@ -316,15 +312,6 @@
 				CF37042D1A7081A70026B667 /* HBNTTerminalController.m */,
 			);
 			name = "Terminal Controller";
-			sourceTree = "<group>";
-		};
-		CF3704451A7166B00026B667 /* Text Position */ = {
-			isa = PBXGroup;
-			children = (
-				CF3704421A7166AE0026B667 /* HBNTTextPosition.h */,
-				CF3704431A7166AE0026B667 /* HBNTTextPosition.m */,
-			);
-			name = "Text Position";
 			sourceTree = "<group>";
 		};
 		CF558DD1197CFADA005DE399 /* Segment Cell */ = {
@@ -586,7 +573,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF3704341A715AD70026B667 /* HBNTPTY.m in Sources */,
-				CF3704441A7166AE0026B667 /* HBNTTextPosition.m in Sources */,
 				CF37042A1A6FF47D0026B667 /* VT100Terminal.m in Sources */,
 				CFC25066197BF983007DD739 /* HBNTAppDelegate.m in Sources */,
 				CF09FE4C1A3A9C8600EF7EB3 /* HBNTTerminalSessionViewController.m in Sources */,
