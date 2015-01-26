@@ -75,24 +75,12 @@
 #pragma mark - UIResponder
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
-	if (action == @selector(copy:)) {
-		// Only show the copy menu if we actually have any data selected
-		NSMutableData *data = [NSMutableData dataWithCapacity:0];
-		[_terminalInputDelegate fillDataWithSelection:data];
-		return data.length > 0;
-	} else if (action == @selector(paste:)) {
+	if (action == @selector(paste:)) {
 		// Only paste if the board contains plain text
 		return [[UIPasteboard generalPasteboard] containsPasteboardTypes:UIPasteboardTypeListString];
 	}
 	
 	return NO;
-}
-
-- (void)copy:(id)sender {
-	NSMutableData *data = [NSMutableData dataWithCapacity:0];
-	[_terminalInputDelegate fillDataWithSelection:data];
-	
-	[UIPasteboard generalPasteboard].string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
 
 - (void)paste:(id)sender {
