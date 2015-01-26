@@ -10,6 +10,7 @@
 		CF09FE481A3A982900EF7EB3 /* HBNTServerTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF09FE471A3A982900EF7EB3 /* HBNTServerTableViewCell.m */; };
 		CF09FE4C1A3A9C8600EF7EB3 /* HBNTTerminalSessionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF09FE4B1A3A9C8600EF7EB3 /* HBNTTerminalSessionViewController.m */; };
 		CF112B771A760FDF0061CC24 /* HBNTRootViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF112B761A760FDF0061CC24 /* HBNTRootViewController.m */; };
+		CF112B7B1A761A480061CC24 /* HBNTTerminalTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = CF112B7A1A761A480061CC24 /* HBNTTerminalTextView.m */; };
 		CF2B6AF1197CCD7F00CD2972 /* HBNTServer.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6AF0197CCD7F00CD2972 /* HBNTServer.m */; };
 		CF2B6AF6197CD5E400CD2972 /* HBNTConfigureServerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6AF5197CD5E400CD2972 /* HBNTConfigureServerViewController.m */; };
 		CF2B6AFA197CDE4300CD2972 /* HBNTTextFieldTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF2B6AF9197CDE4300CD2972 /* HBNTTextFieldTableViewCell.m */; };
@@ -24,9 +25,6 @@
 		CF37042E1A7081A70026B667 /* HBNTTerminalController.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37042D1A7081A70026B667 /* HBNTTerminalController.m */; };
 		CF3704341A715AD70026B667 /* HBNTPTY.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704311A715AD70026B667 /* HBNTPTY.m */; };
 		CF3704351A715AD70026B667 /* HBNTSubProcess.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704331A715AD70026B667 /* HBNTSubProcess.m */; };
-		CF3704381A7161C60026B667 /* HBNTTerminalKeyboard.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704371A7161C60026B667 /* HBNTTerminalKeyboard.m */; };
-		CF37043C1A7165C30026B667 /* HBNTTerminalKeyInput.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37043B1A7165C30026B667 /* HBNTTerminalKeyInput.m */; };
-		CF3704401A7166660026B667 /* HBNTTextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CF37043F1A7166660026B667 /* HBNTTextInputBase.m */; };
 		CF3704441A7166AE0026B667 /* HBNTTextPosition.m in Sources */ = {isa = PBXBuildFile; fileRef = CF3704431A7166AE0026B667 /* HBNTTextPosition.m */; };
 		CF558DD0197CFAD4005DE399 /* HBNTSegmentTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */; };
 		CF558DD4197CFFEC005DE399 /* HBNTTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = CF558DD3197CFFEC005DE399 /* HBNTTextField.m */; };
@@ -65,6 +63,8 @@
 		CF09FE4B1A3A9C8600EF7EB3 /* HBNTTerminalSessionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTerminalSessionViewController.m; sourceTree = "<group>"; };
 		CF112B751A760FDF0061CC24 /* HBNTRootViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTRootViewController.h; sourceTree = "<group>"; };
 		CF112B761A760FDF0061CC24 /* HBNTRootViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTRootViewController.m; sourceTree = "<group>"; };
+		CF112B791A761A480061CC24 /* HBNTTerminalTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTerminalTextView.h; sourceTree = "<group>"; };
+		CF112B7A1A761A480061CC24 /* HBNTTerminalTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTerminalTextView.m; sourceTree = "<group>"; };
 		CF2B6AEF197CCD7F00CD2972 /* HBNTServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTServer.h; sourceTree = "<group>"; };
 		CF2B6AF0197CCD7F00CD2972 /* HBNTServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTServer.m; sourceTree = "<group>"; };
 		CF2B6AF4197CD5E400CD2972 /* HBNTConfigureServerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTConfigureServerViewController.h; sourceTree = "<group>"; };
@@ -95,15 +95,8 @@
 		CF3704311A715AD70026B667 /* HBNTPTY.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTPTY.m; sourceTree = "<group>"; };
 		CF3704321A715AD70026B667 /* HBNTSubProcess.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTSubProcess.h; sourceTree = "<group>"; };
 		CF3704331A715AD70026B667 /* HBNTSubProcess.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTSubProcess.m; sourceTree = "<group>"; };
-		CF3704361A7161C60026B667 /* HBNTTerminalKeyboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTerminalKeyboard.h; sourceTree = "<group>"; };
-		CF3704371A7161C60026B667 /* HBNTTerminalKeyboard.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTerminalKeyboard.m; sourceTree = "<group>"; };
-		CF37043A1A7165C30026B667 /* HBNTTerminalKeyInput.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTerminalKeyInput.h; sourceTree = "<group>"; };
-		CF37043B1A7165C30026B667 /* HBNTTerminalKeyInput.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTerminalKeyInput.m; sourceTree = "<group>"; };
-		CF37043E1A7166660026B667 /* HBNTTextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextInputBase.h; sourceTree = "<group>"; };
-		CF37043F1A7166660026B667 /* HBNTTextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTextInputBase.m; sourceTree = "<group>"; };
 		CF3704421A7166AE0026B667 /* HBNTTextPosition.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextPosition.h; sourceTree = "<group>"; };
 		CF3704431A7166AE0026B667 /* HBNTTextPosition.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTTextPosition.m; sourceTree = "<group>"; };
-		CF3704461A718CD60026B667 /* HBNTTerminalKeyInputDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTerminalKeyInputDelegate.h; sourceTree = "<group>"; };
 		CF558DCE197CFAD4005DE399 /* HBNTSegmentTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTSegmentTableViewCell.h; sourceTree = "<group>"; };
 		CF558DCF197CFAD4005DE399 /* HBNTSegmentTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HBNTSegmentTableViewCell.m; sourceTree = "<group>"; };
 		CF558DD2197CFFEC005DE399 /* HBNTTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HBNTTextField.h; sourceTree = "<group>"; };
@@ -188,6 +181,24 @@
 			name = Root;
 			sourceTree = "<group>";
 		};
+		CF112B7C1A761A4D0061CC24 /* Terminal Text View */ = {
+			isa = PBXGroup;
+			children = (
+				CF112B791A761A480061CC24 /* HBNTTerminalTextView.h */,
+				CF112B7A1A761A480061CC24 /* HBNTTerminalTextView.m */,
+				CF3704451A7166B00026B667 /* Text Position */,
+			);
+			name = "Terminal Text View";
+			sourceTree = "<group>";
+		};
+		CF112B7D1A761A610061CC24 /* Text View */ = {
+			isa = PBXGroup;
+			children = (
+				CF112B7C1A761A4D0061CC24 /* Terminal Text View */,
+			);
+			name = "Text View";
+			sourceTree = "<group>";
+		};
 		CF2B6AF2197CCD8600CD2972 /* Server */ = {
 			isa = PBXGroup;
 			children = (
@@ -243,6 +254,7 @@
 			children = (
 				CF2B6AFC197CE0A400CD2972 /* Table View Cell */,
 				CF558DD5197CFFEF005DE399 /* Text Field */,
+				CF112B7D1A761A610061CC24 /* Text View */,
 			);
 			name = Interface;
 			sourceTree = "<group>";
@@ -306,37 +318,6 @@
 			name = "Terminal Controller";
 			sourceTree = "<group>";
 		};
-		CF3704391A7161C90026B667 /* Terminal Keyboard */ = {
-			isa = PBXGroup;
-			children = (
-				CF3704361A7161C60026B667 /* HBNTTerminalKeyboard.h */,
-				CF3704371A7161C60026B667 /* HBNTTerminalKeyboard.m */,
-				CF37043D1A7165C50026B667 /* Key Input */,
-				CF3704451A7166B00026B667 /* Text Position */,
-			);
-			name = "Terminal Keyboard";
-			sourceTree = "<group>";
-		};
-		CF37043D1A7165C50026B667 /* Key Input */ = {
-			isa = PBXGroup;
-			children = (
-				CF3704411A71666A0026B667 /* Base */,
-				CF37043A1A7165C30026B667 /* HBNTTerminalKeyInput.h */,
-				CF37043B1A7165C30026B667 /* HBNTTerminalKeyInput.m */,
-				CF3704491A718CD80026B667 /* Delegate */,
-			);
-			name = "Key Input";
-			sourceTree = "<group>";
-		};
-		CF3704411A71666A0026B667 /* Base */ = {
-			isa = PBXGroup;
-			children = (
-				CF37043E1A7166660026B667 /* HBNTTextInputBase.h */,
-				CF37043F1A7166660026B667 /* HBNTTextInputBase.m */,
-			);
-			name = Base;
-			sourceTree = "<group>";
-		};
 		CF3704451A7166B00026B667 /* Text Position */ = {
 			isa = PBXGroup;
 			children = (
@@ -344,14 +325,6 @@
 				CF3704431A7166AE0026B667 /* HBNTTextPosition.m */,
 			);
 			name = "Text Position";
-			sourceTree = "<group>";
-		};
-		CF3704491A718CD80026B667 /* Delegate */ = {
-			isa = PBXGroup;
-			children = (
-				CF3704461A718CD60026B667 /* HBNTTerminalKeyInputDelegate.h */,
-			);
-			name = Delegate;
 			sourceTree = "<group>";
 		};
 		CF558DD1197CFADA005DE399 /* Segment Cell */ = {
@@ -409,7 +382,6 @@
 			children = (
 				CF3703F71A6FEBC70026B667 /* Terminal */,
 				CF2B6AFD197CE0B800CD2972 /* Interface */,
-				CF3704391A7161C90026B667 /* Terminal Keyboard */,
 				CFC2508A197BFA5D007DD739 /* View Controllers */,
 				CF2B6AF3197CCD9200CD2972 /* Model */,
 				CFC2505C197BF983007DD739 /* Supporting Files */,
@@ -628,10 +600,8 @@
 				CF558DD0197CFAD4005DE399 /* HBNTSegmentTableViewCell.m in Sources */,
 				CFC25062197BF983007DD739 /* main.m in Sources */,
 				CF2B6B00197CEB0300CD2972 /* HBNTTableViewCell.m in Sources */,
-				CF37043C1A7165C30026B667 /* HBNTTerminalKeyInput.m in Sources */,
 				CF2B6AF6197CD5E400CD2972 /* HBNTConfigureServerViewController.m in Sources */,
-				CF3704401A7166660026B667 /* HBNTTextInputBase.m in Sources */,
-				CF3704381A7161C60026B667 /* HBNTTerminalKeyboard.m in Sources */,
+				CF112B7B1A761A480061CC24 /* HBNTTerminalTextView.m in Sources */,
 				CF2B6B03197CED7700CD2972 /* HBNTHostTableViewCell.m in Sources */,
 				CF112B771A760FDF0061CC24 /* HBNTRootViewController.m in Sources */,
 				CF3704241A6FF47D0026B667 /* VT100ColorMap.m in Sources */,

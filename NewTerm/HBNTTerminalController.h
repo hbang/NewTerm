@@ -7,7 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "HBNTTerminalKeyboard.h"
+#import "HBNTTerminalTextView.h"
 
 @class HBNTTerminalSessionViewController, VT100ColorMap;
 

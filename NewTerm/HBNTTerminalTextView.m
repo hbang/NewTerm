@@ -1,29 +1,22 @@
 //
-//  HBNTKeyInput.m
+//  HBNTTerminalTextView.m
 //  NewTerm
 //
-//  Created by Adam D on 23/01/2015.
+//  Created by Adam D on 26/01/2015.
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
-#import "HBNTTerminalKeyInput.h"
-#import "HBNTTerminalKeyInputDelegate.h"
-#import "HBNTTerminalKeyboard.h"
+#import "HBNTTerminalTextView.h"
 
-@implementation HBNTTerminalKeyInput {
+@implementation HBNTTerminalTextView {
 	HBNTTerminalModifierKey _currentModifierKey;
 }
 
-- (instancetype)initWithKeyboard:(HBNTTerminalKeyboard *)keyboard delegate:(id<HBNTTerminalKeyInputDelegate>)delegate {
-	self = [super init];
-	
-	if (self) {
-		_keyboard = keyboard;
-		_delegate = delegate;
-	}
-	
-	return self;
+- (void)pressModifierKey:(HBNTTerminalModifierKey)key {
+	// TODO
 }
+
+#pragma mark - UITextInput
 
 - (BOOL)hasText {
 	return YES;
@@ -48,9 +41,7 @@
 				character -= 0x60;
 			}
 			
-			if (_delegate) {
-				[_delegate terminalModifierKeyReleased:_currentModifierKey];
-			}
+			[_terminalInputDelegate modifierKeyPressed:_currentModifierKey];
 			
 			_currentModifierKey = HBNTTerminalModifierKeyNone;
 		} else {
@@ -64,14 +55,26 @@
 		[data appendBytes:&character length:1];
 	}
 	
-	[_keyboard.inputDelegate receiveKeyboardInput:data];
+	[_terminalInputDelegate receiveKeyboardInput:data];
 }
+
+- (void)deleteBackward {
+	static NSData *BackspaceData;
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		BackspaceData = [[NSData alloc] initWithBytes:"\x7F" length:1];
+	});
+	
+	[_terminalInputDelegate receiveKeyboardInput:BackspaceData];
+}
+
+#pragma mark - UIResponder
 
 - (BOOL)canPerformAction:(SEL)action withSender:(id)sender {
 	if (action == @selector(copy:)) {
 		// Only show the copy menu if we actually have any data selected
 		NSMutableData *data = [NSMutableData dataWithCapacity:0];
-		[_keyboard.inputDelegate fillDataWithSelection:data];
+		[_terminalInputDelegate fillDataWithSelection:data];
 		return data.length > 0;
 	} else if (action == @selector(paste:)) {
 		// Only paste if the board contains plain text
@@ -83,7 +86,7 @@
 
 - (void)copy:(id)sender {
 	NSMutableData *data = [NSMutableData dataWithCapacity:0];
-	[_keyboard.inputDelegate fillDataWithSelection:data];
+	[_terminalInputDelegate fillDataWithSelection:data];
 	
 	[UIPasteboard generalPasteboard].string = [[NSString alloc] initWithData:data encoding:NSUTF8StringEncoding];
 }
@@ -95,8 +98,7 @@
 		return;
 	}
 	
-	NSData *data = [pasteboard.string dataUsingEncoding:NSUTF8StringEncoding];
-	[_keyboard.inputDelegate receiveKeyboardInput:data];
+	[_terminalInputDelegate receiveKeyboardInput:[pasteboard.string dataUsingEncoding:NSUTF8StringEncoding]];
 }
 
 - (BOOL)becomeFirstResponder {
@@ -106,10 +108,6 @@
 
 - (BOOL)canBecomeFirstResponder {
 	return YES;
-}
-
-- (void)pressModifierKey:(HBNTTerminalModifierKey)key {
-	// TODO
 }
 
 @end

@@ -8,7 +8,7 @@
 
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTerminalController.h"
-#import "HBNTTerminalKeyboard.h"
+#import "HBNTTerminalTextView.h"
 #import "HBNTServer.h"
 #import "VT100.h"
 #import "VT100StringSupplier.h"
@@ -18,7 +18,7 @@
 // TODO: a lot of this probably shouldn't be here...
 
 @implementation HBNTTerminalSessionViewController {
-	UITextView *_textView;
+	HBNTTerminalTextView *_textView;
 	NSMutableAttributedString *_attributedString;
 	
 	VT100 *_buffer;
@@ -26,7 +26,6 @@
 	VT100ColorMap *_colorMap;
 	FontMetrics *_fontMetrics;
 	HBNTTerminalController *_terminalController;
-	HBNTTerminalKeyboard *_terminalKeyboard;
 	
 	BOOL _hasAppeared;
 	BOOL _keyboardVisible;
@@ -48,9 +47,6 @@
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
 		
-		_terminalKeyboard = [[HBNTTerminalKeyboard alloc] init];
-		_terminalKeyboard.inputDelegate = _terminalController;
-		
 		self.font = [UIFont fontWithName:@"SourceCodePro-Regular" size:13.f];
 	}
 	
@@ -62,13 +58,15 @@
 	
 	self.title = _server.name;
 	
-	[self.view addSubview:_terminalKeyboard];
-	
-	_textView = [[UITextView alloc] initWithFrame:self.view.bounds];
+	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_textView.showsVerticalScrollIndicator = NO;
-	_textView.editable = NO;
 	_textView.backgroundColor = _stringSupplier.colorMap.background;
+	_textView.dataDetectorTypes = UIDataDetectorTypeLink;
+	_textView.linkTextAttributes = @{
+		NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
+		};
+	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
 	
 	@try {
@@ -242,9 +240,9 @@
 
 - (void)setShowKeyboard:(BOOL)showKeyboard {
 	if (showKeyboard) {
-		[_terminalKeyboard becomeFirstResponder];
+		[_textView becomeFirstResponder];
 	} else {
-		[_terminalKeyboard resignFirstResponder];
+		[_textView resignFirstResponder];
 	}
 }
 
