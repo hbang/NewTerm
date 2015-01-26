@@ -24,8 +24,8 @@
  */
 
 // Debug option
-#define DEBUG_ALLOC 0
-#define DEBUG_METHOD_TRACE 0
+#define DEBUG_ALLOC DEBUG
+#define DEBUG_METHOD_TRACE DEBUG
 
 #import "VT100Screen.h"
 
@@ -110,7 +110,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (id)init {
 #if DEBUG_ALLOC
-		NSLog(@"%s: 0x%x", __PRETTY_FUNCTION__, self);
+		NSLog(@"%s: %p", __PRETTY_FUNCTION__, self);
 #endif
 		if ((self = [super init]) == nil)
 				return nil;
@@ -157,7 +157,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)dealloc {
 #if DEBUG_ALLOC
-		NSLog(@"%s: 0x%x", __PRETTY_FUNCTION__, self);
+		NSLog(@"%s: %p", __PRETTY_FUNCTION__, self);
 #endif
 
 		// free our character buffer
@@ -182,7 +182,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 		[super dealloc];
 #if DEBUG_ALLOC
-		NSLog(@"%s: 0x%x, done", __PRETTY_FUNCTION__, self);
+		NSLog(@"%s: %p, done", __PRETTY_FUNCTION__, self);
 #endif
 }
 
@@ -524,7 +524,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)putToken:(VT100TCC)token {
 
 #if DEBUG_METHOD_TRACE
-		NSLog(@"%s(%d):-[VT100Screen putToken:%d (%d)]",__FILE__, __LINE__, token,
+		NSLog(@"%s(%d):-[VT100Screen putToken: (%d)]",__FILE__, __LINE__,
 						token.type);
 #endif
 		int i,j,k;
