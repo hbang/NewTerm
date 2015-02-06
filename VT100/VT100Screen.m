@@ -282,6 +282,11 @@ static __inline__ screen_char_t *incrementLinePointer(
 }
 
 - (void)resizeWidth:(int)width height:(int)height {
+#if DEBUG_METHOD_TRACE
+	NSLog(@"%s(%d):-[VT100Screen resizeWidth:%d height:%d]",
+		  __FILE__, __LINE__, width, height);
+#endif
+	
 		int i, new_total_height;
 		screen_char_t *bl, *aLine, *c1, *c2, *new_scrollback_top;
 
