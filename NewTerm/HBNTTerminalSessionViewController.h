@@ -17,7 +17,6 @@
 
 - (void)readInputStream:(NSData *)data;
 - (void)clearScreen;
-- (void)fillDataWithSelection:(NSMutableData *)data;
 
 @property (strong, nonatomic, readonly) HBNTServer *server;
 @property (strong, nonatomic, readonly) UITextView *textView;

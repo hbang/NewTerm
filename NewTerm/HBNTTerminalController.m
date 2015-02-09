@@ -87,10 +87,6 @@
 	}
 }
 
-- (void)fillDataWithSelection:(NSMutableData *)data {
-	return [_viewController fillDataWithSelection:data];
-}
-
 - (void)modifierKeyPressed:(HBNTTerminalModifierKey)modifierKey {
 	// TODO
 }

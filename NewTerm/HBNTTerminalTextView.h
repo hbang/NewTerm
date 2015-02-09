@@ -28,7 +28,6 @@ typedef void(^HBNTTerminalKeyUpCompletion)();
 @protocol HBNTTerminalKeyboardProtocol <HBNTTerminalInputProtocol>
 
 @required
-- (void)fillDataWithSelection:(NSMutableData *)data;
 - (void)modifierKeyPressed:(HBNTTerminalModifierKey)modifierKey;
 
 @end
