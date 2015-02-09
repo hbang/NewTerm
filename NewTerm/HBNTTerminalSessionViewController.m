@@ -48,6 +48,13 @@
 		_terminalController.viewController = self;
 		
 		self.font = [UIFont fontWithName:@"SourceCodePro-Regular" size:13.f];
+		
+		@try {
+			[_terminalController startSubProcess];
+		} @catch (NSException *exception) {
+			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:L18N(@"Couldn’t start a terminal subprocess.") message:exception.reason delegate:nil cancelButtonTitle:L18N(@"OK") otherButtonTitles:nil];
+			[alertView show];
+		}
 	}
 	
 	return self;
@@ -70,13 +77,6 @@
 	_textView.textContainer.lineFragmentPadding = 0;
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
-	
-	@try {
-		[_terminalController startSubProcess];
-	} @catch (NSException *exception) {
-		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:L18N(@"Couldn’t start a terminal subprocess.") message:exception.reason delegate:nil cancelButtonTitle:L18N(@"OK") otherButtonTitles:nil];
-		[alertView show];
-	}
 }
 
 - (void)viewWillAppear:(BOOL)animated {
