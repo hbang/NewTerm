@@ -65,7 +65,9 @@
 	_textView.dataDetectorTypes = UIDataDetectorTypeLink;
 	_textView.linkTextAttributes = @{
 		NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
-		};
+	};
+	_textView.textContainerInset = UIEdgeInsetsZero;
+	_textView.textContainer.lineFragmentPadding = 0;
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
 	
@@ -79,6 +81,8 @@
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
+	
+	[self updateScreenSize];
 	self.showKeyboard = YES;
 }
 
@@ -119,11 +123,11 @@
 	CGSize glyphSize = _fontMetrics.boundingBox;
 	
 	// Determine the screen size based on the font size
-	CGSize frameSize = _textView.frame.size;
-	CGFloat height = frameSize.height - _textView.contentInset.top - _textView.contentInset.bottom;
+	CGFloat width = _textView.frame.size.width - _textView.textContainerInset.left - _textView.textContainerInset.right;
+	CGFloat height = _textView.frame.size.height - _textView.textContainerInset.top - _textView.textContainerInset.bottom - _textView.contentInset.top - _textView.contentInset.bottom;
 	
 	ScreenSize size;
-	size.width = floorf(frameSize.width / glyphSize.width);
+	size.width = floorf(width / glyphSize.width) - 2;
 	size.height = floorf(height / glyphSize.height);
 	
 	// The font size should not be too small that it overflows the glyph buffers.

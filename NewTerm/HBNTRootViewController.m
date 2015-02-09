@@ -33,4 +33,14 @@
 	[_terminals addObject:terminalViewController];
 }
 
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+	
+	UIEdgeInsets inset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
+	
+	for (HBNTTerminalSessionViewController *terminalViewController in _terminals) {
+		terminalViewController.textView.contentInset = inset;
+	}
+}
+
 @end

@@ -20,6 +20,7 @@
 - (void)fillDataWithSelection:(NSMutableData *)data;
 
 @property (strong, nonatomic, readonly) HBNTServer *server;
+@property (strong, nonatomic, readonly) UITextView *textView;
 
 @property (strong, nonatomic) UIFont *font;
 @property (strong, nonatomic) VT100ColorMap *colorMap;
