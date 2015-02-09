@@ -171,52 +171,6 @@
 	[_buffer clearScreen];
 }
 
-#pragma mark - Selection
-
-- (void)fillDataWithSelection:(NSMutableData *)data {
-	NSMutableString *string = [[NSMutableString alloc] init];
-	
-	ScreenPosition startPos = _buffer.selectionStart;
-	ScreenPosition endPos = _buffer.selectionEnd;
-	
-	if (startPos.x >= endPos.x && startPos.y >= endPos.y) {
-		ScreenPosition tmp = startPos;
-		startPos = endPos;
-		endPos = tmp;
-	}
-	
-	int currentY = startPos.y;
-	int maxX = self.screenWidth;
-	
-	while (currentY <= endPos.y) {
-		int startX = (currentY == startPos.y) ? startPos.x : 0;
-		int endX = (currentY == endPos.y) ? endPos.x : maxX;
-		int width = endX - startX;
-		
-		if (width > 0) {
-			screen_char_t *row = [_buffer bufferForRow:currentY];
-			screen_char_t *col = &row[startX];
-			unichar buffer[kMaxRowBufferSize];
-			
-			for (int i = 0; i < width; ++i) {
-				if (col->ch == '\0') {
-					buffer[i] = ' ';
-				} else {
-					buffer[i] = col->ch;
-				}
-				
-				col++;
-			}
-			
-			[string appendString:[NSString stringWithCharacters:buffer length:width]];
-		}
-		
-		currentY++;
-	}
-	
-	[data appendData:[string dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
 #pragma mark - Keyboard management
 
 - (void)registerForKeyboardNotifications {
