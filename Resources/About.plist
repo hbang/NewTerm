@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>items</key>
+	<array>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>condensed</key>
+			<true/>
+			<key>headerCellClass</key>
+			<string>HBPackageNameHeaderCell</string>
+			<key>icon</key>
+			<string>Icon-Small.png</string>
+			<key>packageIdentifier</key>
+			<string>ws.hbang.newterm</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+		</dict>
+		<dict>
+			<key>big</key>
+			<true/>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>height</key>
+			<integer>64</integer>
+			<key>label</key>
+			<string>HASHBANG Productions</string>
+			<key>user</key>
+			<string>hbangws</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>DEVELOPER</string>
+			<key>footerText</key>
+			<string>CREDITS_SUBTITLE</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBTwitterCell</string>
+			<key>label</key>
+			<string>Adam Demasi</string>
+			<key>user</key>
+			<string>hbkirb</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>EMAIL_SUPPORT_HEADER</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>hb_sendSupportEmail</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>EMAIL_SUPPORT</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>DONATE_FOOTER</string>
+		</dict>
+		<dict>
+			<key>action</key>
+			<string>hb_openDonate</string>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBTintedTableCell</string>
+			<key>label</key>
+			<string>DONATE</string>
+		</dict>
+	</array>
+	<key>title</key>
+	<string>About</string>
+</dict>
+</plist>
