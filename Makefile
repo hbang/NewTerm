@@ -1,6 +1,6 @@
 TARGET = iphone:clang:latest:7.0
 
-include theos/makefiles/common.mk
+include $(THEOS)/makefiles/common.mk
 
 GLOBAL_CFLAGS = -include NewTerm/NewTerm-Prefix.pch -Iheaders -IVT100
 
