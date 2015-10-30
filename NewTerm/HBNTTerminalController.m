@@ -14,15 +14,11 @@
 @implementation HBNTTerminalController {
 	HBNTSubProcess *_subProcess;
 	HBNTPTY *_pty;
-	
+
 	BOOL _processEnded;
 }
 
-- (void)layoutSubviews {
-	// Make sure that the text view is laid out, which re-computes the terminal
-	// size in rows and columns.
-	[_viewController viewWillLayoutSubviews];
-	
+- (void)updateScreenSize {
 	// Send the terminal the actual size of our vt100 view. This should be
 	// called any time we change the size of the view. This should be a no-op if
 	// the size has not changed since the last time we called it.
@@ -33,13 +29,13 @@
 
 - (void)startSubProcess {
 	_processEnded = NO;
-	
+
 	_subProcess = [[HBNTSubProcess alloc] init];
 	[_subProcess start];
-	
+
 	// The PTY will be sized correctly on the first call to layoutSubViews
 	_pty = [[HBNTPTY alloc] initWithFileHandle:_subProcess.fileHandle];
-	
+
 	// Schedule an async read of the subprocess. Invokes our callback when
 	// data becomes available.
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dataAvailable:) name:NSFileHandleReadCompletionNotification object:_subProcess.fileHandle];
@@ -48,14 +44,14 @@
 
 - (void)dataAvailable:(NSNotification *)notification {
 	NSData *data = notification.userInfo[NSFileHandleNotificationDataItem];
-	
+
 	if (data.length == 0) {
 		// I would expect from the documentation that an EOF would be present as
 		// an entry in the userinfo dictionary as @"NSFileHandleError", but that is
 		// never present. Instead, it seems to just appear as an empty data
 		// message. This usually happens when someone just types "exit". Simply
 		// restart the subprocess when this happens.
-		
+
 		// On EOF, either (a) the user typed "exit" or (b) the terminal never
 		// started in first place due to a misconfiguration of the BSD subsystem
 		// (can't find /bin/login, etc). To allow the user to proceed in case (a),
@@ -63,15 +59,15 @@
 		// don't restart automatically in case of (b), which would put us in an
 		// infinite loop. Print a message on the screen with instructions on how
 		// to restart the process.
-		
+
 		[_viewController readInputStream:[L18N(@"[Process completed]\r\nPress any key to restart.\r\n") dataUsingEncoding:NSUTF8StringEncoding]];
 		_processEnded = YES;
 		return;
 	}
-	
+
 	// Forward the subprocess data into the terminal character handler
 	[_viewController readInputStream:data];
-	
+
 	// Queue another read
 	[_subProcess.fileHandle readInBackgroundAndNotify];
 }

@@ -14,6 +14,7 @@
 @interface HBNTTerminalController : NSObject <HBNTTerminalKeyboardProtocol>
 
 - (void)startSubProcess;
+- (void)updateScreenSize;
 
 @property (strong, nonatomic) HBNTTerminalSessionViewController *viewController;
 @property (strong, nonatomic) UIFont *font;
