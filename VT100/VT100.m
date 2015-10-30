@@ -55,12 +55,12 @@ static const int kDefaultHeight = 25;
 		// process token
 		if (token.type != VT100_SKIP) {
 			if (token.type == VT100_NOTSUPPORT) {
-				NSLog(@"%s(%d):not support token", __FILE__ , __LINE__);
+				HBLogDebug(@"%s(%d):not support token", __FILE__ , __LINE__);
 			} else {
 				[screen putToken:token];
 			}
 		} else {
-			NSLog(@"%s(%d):skip token", __FILE__ , __LINE__);
+			HBLogDebug(@"%s(%d):skip token", __FILE__ , __LINE__);
 		}
 	}
 	// Cause the text display to determine if it should re-draw anything

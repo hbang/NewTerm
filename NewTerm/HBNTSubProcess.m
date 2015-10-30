@@ -57,7 +57,7 @@ static int start_process(const char *path, char *const args[], char *const env[]
 	if (username == NULL) {
 		username = kDefaultUsername;
 	}
-	
+
 	struct winsize window_size;
 	window_size.ws_col = kDefaultWidth;
 	window_size.ws_row = kDefaultHeight;
@@ -82,9 +82,9 @@ static int start_process(const char *path, char *const args[], char *const env[]
 		start_process("/bin/sh", sh_args, env);
 		return;
 	} else {
-		NSLog(@"process forked: %d", pid);
+		HBLogDebug(@"process forked: %d", pid);
 		_childPID = pid;
-		
+
 		// We're the parent process (still).
 		_fileHandle = [[NSFileHandle alloc] initWithFileDescriptor:_fileDescriptor closeOnDealloc:YES];
 	}
@@ -95,7 +95,7 @@ static int start_process(const char *path, char *const args[], char *const env[]
 		[NSException raise:@"IllegalStateException" format:@"SubProcess was never started"];
 		return;
 	}
-	
+
 	kill(_childPID, SIGKILL);
 	int stat;
 	waitpid(_childPID, &stat, WUNTRACED);

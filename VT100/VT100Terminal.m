@@ -161,7 +161,7 @@ static BOOL isCSI(unsigned char *code, size_t len)
 static BOOL isString(unsigned char *code, NSStringEncoding encoding) {
 		BOOL result = NO;
 
-		// NSLog(@"%@",[NSString localizedNameOfStringEncoding:encoding]);
+		// HBLogDebug(@"%@",[NSString localizedNameOfStringEncoding:encoding]);
 		if (encoding== NSUTF8StringEncoding) {
 				if (*code >= 0x80)
 						result = YES;
@@ -273,13 +273,13 @@ static size_t getCSIParam(unsigned char *datap,
 								case 'z':
 								case '|':
 								case 'w':
-										//NSLog(@"Unsupported locator sequence");
+										//HBLogDebug(@"Unsupported locator sequence");
 										param->cmd=0xff;
 										datap++;
 										datalen--;
 										break;
 								default:
-										//NSLog(@"Unrecognized locator sequence");
+										//HBLogDebug(@"Unrecognized locator sequence");
 										datap++;
 										datalen--;
 										param->cmd=0xff;
@@ -291,13 +291,13 @@ static size_t getCSIParam(unsigned char *datap,
 						datalen--;
 						switch (*datap) {
 								case 'w':
-										//NSLog(@"Unsupported locator sequence");
+										//HBLogDebug(@"Unsupported locator sequence");
 										param->cmd=0xff;
 										datap++;
 										datalen--;
 										break;
 								default:
-										//NSLog(@"Unrecognized locator sequence");
+										//HBLogDebug(@"Unrecognized locator sequence");
 										datap++;
 										datalen--;
 										param->cmd=0xff;
@@ -322,7 +322,7 @@ static size_t getCSIParam(unsigned char *datap,
 								case VT100CC_SUB: break;
 								case VT100CC_DEL: [SCREEN deleteCharacters:1];break;
 								default:
-													//NSLog(@"Unrecognized escape sequence: %c (0x%x)", *datap, *datap);
+													//HBLogDebug(@"Unrecognized escape sequence: %c (0x%x)", *datap, *datap);
 																	param->cmd=0xff;
 																	unrecognized=YES;
 																	break;
@@ -416,7 +416,7 @@ static VT100TCC decode_csi(unsigned char *datap,
 												result.type = VT100CSI_DECTST;
 										else {
 #if LOG_UNKNOWN
-												NSLog(@"1: Unknown token %c", param.cmd);
+												HBLogDebug(@"1: Unknown token %c", param.cmd);
 #endif
 												result.type = VT100_NOTSUPPORT;
 										}
@@ -451,7 +451,7 @@ static VT100TCC decode_csi(unsigned char *datap,
 										result.type = VT100CSI_SGR;
 										for (i = 0; i < param.count; ++i) {
 												SET_PARAM_DEFAULT(param, i, 0);
-												// NSLog(@"m[%d]=%d",i,param.p[i]);
+												// HBLogDebug(@"m[%d]=%d",i,param.p[i]);
 										}
 										break;
 
@@ -552,7 +552,7 @@ static VT100TCC decode_csi(unsigned char *datap,
 										break;
 								default:
 #if LOG_UNKNOWN
-										NSLog(@"2: Unknown token (%c); %s", param.cmd, datap);
+										HBLogDebug(@"2: Unknown token (%c); %s", param.cmd, datap);
 #endif
 										result.type = VT100_NOTSUPPORT;
 										break;
@@ -569,7 +569,7 @@ static VT100TCC decode_csi(unsigned char *datap,
 										break;
 								default:
 #if LOG_UNKNOWN
-										NSLog(@"3: Unknown token %c", param.cmd);
+										HBLogDebug(@"3: Unknown token %c", param.cmd);
 #endif
 										result.type = VT100_NOTSUPPORT;
 										break;
@@ -613,7 +613,7 @@ static VT100TCC decode_other(unsigned char *datap,
 										case '8': result.type=VT100CSI_DECALN; break;
 										default:
 #if LOG_UNKNOWN
-															NSLog(@"4: Unknown token ESC # %c", c2);
+															HBLogDebug(@"4: Unknown token ESC # %c", c2);
 #endif
 															result.type = VT100_NOTSUPPORT;
 								}
@@ -715,7 +715,7 @@ static VT100TCC decode_other(unsigned char *datap,
 
 				default:
 #if LOG_UNKNOWN
-						NSLog(@"5: Unknown token %c(%x)", c1, c1);
+						HBLogDebug(@"5: Unknown token %c(%x)", c1, c1);
 #endif
 						result.type = VT100_NOTSUPPORT;
 						*rmlen = 2;
@@ -1045,25 +1045,25 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		result.type = VT100_UNKNOWNCHAR;
 		result.u.code = datap[0];
 
-		// NSLog(@"data: %@",[NSData dataWithBytes:datap length:datalen]);
+		// HBLogDebug(@"data: %@",[NSData dataWithBytes:datap length:datalen]);
 		if (encoding == NSUTF8StringEncoding) {
 				result = decode_utf8(datap, datalen, rmlen);
 		} else if (isGBEncoding(encoding)) {
-				// NSLog(@"Chinese-GB!");
+				// HBLogDebug(@"Chinese-GB!");
 				result = decode_euccn(datap, datalen, rmlen);
 		} else if (isBig5Encoding(encoding)) {
 				result = decode_big5(datap, datalen, rmlen);
 		} else if (isJPEncoding(encoding)) {
-				// NSLog(@"decoding euc-jp");
+				// HBLogDebug(@"decoding euc-jp");
 				result = decode_euc_jp(datap, datalen, rmlen);
 		} else if (isSJISEncoding(encoding)) {
-				// NSLog(@"decoding j-jis");
+				// HBLogDebug(@"decoding j-jis");
 				result = decode_sjis(datap, datalen, rmlen);
 		} else if (isKREncoding(encoding)) {
-				// NSLog(@"decoding korean");
+				// HBLogDebug(@"decoding korean");
 				result = decode_euckr(datap, datalen, rmlen);
 		} else {
-				// NSLog(@"%s(%d):decode_string()-support character encoding(%@d)",
+				// HBLogDebug(@"%s(%d):decode_string()-support character encoding(%@d)",
 		// __FILE__, __LINE__, [NSString localizedNameOfStringEncoding:encoding]);
 				result = decode_other_enc(datap, datalen, rmlen);
 		}
@@ -1181,7 +1181,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		}
 
 		if (r != 1) {
-				NSLog(@"Terminal type %s is not defined (%d)", [termType UTF8String], r);
+				HBLogDebug(@"Terminal type %s is not defined (%d)", [termType UTF8String], r);
 				for(i = 0; i < TERMINFO_KEYS; i ++) {
 						if (key_strings[i]) free(key_strings[i]);
 						key_strings[i]=NULL;
@@ -1356,7 +1356,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 				if (rmlen > 0) {
 						NSParameterAssert(current_stream_length >= streamOffset + rmlen);
 						if (TRACE && result.type == VT100_UNKNOWNCHAR) {
-								//NSLog(@"INPUT-BUFFER %@, read %d byte, type %d",
+								//HBLogDebug(@"INPUT-BUFFER %@, read %d byte, type %d",
 								// STREAM, rmlen, result.type);
 						}
 						// mark our current position in the stream
