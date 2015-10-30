@@ -14,7 +14,7 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon29x29</string>
+				<string>Icon-Small</string>
 				<string>icon-ios7-40</string>
 				<string>icon-ios7</string>
 			</array>
@@ -28,10 +28,10 @@
 		<dict>
 			<key>CFBundleIconFiles</key>
 			<array>
-				<string>AppIcon29x29</string>
+				<string>Icon-Small</string>
 				<string>icon-ios7-40</string>
 				<string>icon-ios7</string>
-				<string>AppIcon50x50</string>
+				<string>Icon-Small-50</string>
 				<string>icon-ios7~ipad</string>
 			</array>
 			<key>UIPrerenderedIcon</key>
