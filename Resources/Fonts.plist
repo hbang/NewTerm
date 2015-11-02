@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Courier</key>
+	<dict>
+		<key>Regular</key>
+		<string>Courier</string>
+		<key>Bold</key>
+		<string>Courier-Bold</string>
+		<key>BoldItalic</key>
+		<string>Courier-BoldOblique</string>
+		<key>Italic</key>
+		<string>Courier-Oblique</string>
+	</dict>
+	<key>Courier New</key>
+	<dict>
+		<key>Regular</key>
+		<string>CourierNewPSMT</string>
+		<key>Bold</key>
+		<string>CourierNew-BoldMT</string>
+		<key>BoldItalic</key>
+		<string>CourierNew-BoldItalicMT</string>
+		<key>Italic</key>
+		<string>CourierNew-ItalicMT</string>
+	</dict>
+	<key>DejaVu Sans Mono</key>
+	<dict>
+		<key>Regular</key>
+		<string>DejaVuSansMono-Regular</string>
+		<key>Bold</key>
+		<string>DejaVuSansMono-Bold</string>
+		<key>BoldItalic</key>
+		<string>DejaVuSansMono-BoldOblique</string>
+		<key>Italic</key>
+		<string>DejaVuSansMono-Oblique</string>
+	</dict>
+	<key>Hack</key>
+	<dict>
+		<key>Bold</key>
+		<string>Hack-Bold</string>
+		<key>BoldItalic</key>
+		<string>Hack-BoldItalic</string>
+		<key>Italic</key>
+		<string>Hack-Italic</string>
+		<key>Regular</key>
+		<string>Hack-Regular</string>
+	</dict>
+	<key>Menlo</key>
+	<dict>
+		<key>Bold</key>
+		<string>Menlo-Bold</string>
+		<key>BoldItalic</key>
+		<string>Menlo-BoldItalic</string>
+		<key>Italic</key>
+		<string>Menlo-Italic</string>
+		<key>Regular</key>
+		<string>Menlo-Regular</string>
+	</dict>
+	<key>Source Code Pro</key>
+	<dict>
+		<key>Bold</key>
+		<string>SourceCodePro-Bold</string>
+		<key>BoldItalic</key>
+		<string>SourceCodePro-BoldIt</string>
+		<key>Italic</key>
+		<string>SourceCodePro-It</string>
+		<key>Regular</key>
+		<string>SourceCodePro-Regular</string>
+	</dict>
+</dict>
+</plist>

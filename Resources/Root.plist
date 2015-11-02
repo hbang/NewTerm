@@ -29,14 +29,16 @@
 			<array>
 				<string>Courier</string>
 				<string>DejaVu Sans Mono</string>
-				<string>Meslo</string>
+				<string>Hack</string>
+				<string>Menlo</string>
 				<string>Source Code Pro</string>
 			</array>
 			<key>validValues</key>
 			<array>
 				<string>Courier</string>
 				<string>DejaVuSansMono</string>
-				<string>MesloLGM-Regular</string>
+				<string>Hack-Regular</string>
+				<string>Menlo-Regular</string>
 				<string>SourceCodePro-Regular</string>
 			</array>
 			<key>PostNotification</key>
