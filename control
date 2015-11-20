@@ -1,11 +1,11 @@
 Package: ws.hbang.newterm
 Name: NewTerm
 Pre-Depends: firmware (>= 7.0)
-Depends: bash, coreutils, ncurses, system-cmds
+Depends: bash, coreutils, ncurses, system-cmds, ws.hbang.common (>= 1.4)
 Version: 1.0
 Architecture: iphoneos-arm
 Description: A powerful terminal emulator for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
-Support: https://www.hbang.ws/faq
+Support: https://www.hbang.ws/faq/
 Section: Terminal Support

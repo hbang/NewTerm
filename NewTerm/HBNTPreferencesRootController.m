@@ -19,7 +19,7 @@
 - (void)loadView {
 	[super loadView];
 
-	self.contentSizeForViewInPopover = CGSizeMake(320.f, 480.f);
+	self.preferredContentSize = CGSizeMake(320.f, 480.f);
 
 	if (self.viewControllers.count == 0) {
 		[self pushViewController:self.rootListController animated:NO];
@@ -35,11 +35,11 @@
 - (PSListController *)rootListController {
 	if (!_rootListController) {
 		_rootListController = [[HBNTPreferencesRootListController alloc] initForContentSize:self.view.frame.size];
-		PSSpecifier *specifier = [[PSSpecifier alloc] init] ;
+		PSSpecifier *specifier = [[PSSpecifier alloc] init];
 		specifier.target = _rootListController;
-		_rootListController.rootController = self;
+		_rootListController.rootController = (PSViewController *)self;
 		_rootListController.specifier = specifier;
-		_rootListController.parentController = self;
+		_rootListController.parentController = (PSViewController *)self;
 	}
 
 	return _rootListController;

@@ -17,7 +17,8 @@ NewTerm_FRAMEWORKS = UIKit CoreGraphics
 NewTerm_PRIVATE_FRAMEWORKS = Preferences
 NewTerm_CFLAGS = $(GLOBAL_CFLAGS) -fobjc-arc
 NewTerm_LDFLAGS = -L$(THEOS_OBJ_DIR)
-NewTerm_LIBRARIES = vt100 cephei cepheiprefs
+NewTerm_LIBRARIES = vt100
+NewTerm_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
 
 include $(THEOS_MAKE_PATH)/library.mk
 include $(THEOS_MAKE_PATH)/application.mk
