@@ -9,6 +9,7 @@
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTerminalController.h"
 #import "HBNTTerminalTextView.h"
+#import "HBNTPreferences.h"
 #import "HBNTServer.h"
 #import "VT100.h"
 #import "VT100StringSupplier.h"
@@ -47,7 +48,7 @@
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
 
-		self.font = [UIFont fontWithName:@"SourceCodePro-Regular" size:13.f];
+		[self preferencesUpdated];
 
 		@try {
 			[_terminalController startSubProcess];
@@ -96,14 +97,10 @@
 	[self updateScreenSize];
 }
 
-#pragma mark - Font
+#pragma mark - Preferences
 
-- (UIFont *)font {
-	return _fontMetrics.font;
-}
-
-- (void)setFont:(UIFont *)font {
-	_fontMetrics = [[FontMetrics alloc] initWithFont:font];
+- (void)preferencesUpdated {
+	_fontMetrics = [HBNTPreferences sharedInstance].fontMetrics;
 	[self refresh];
 }
 
