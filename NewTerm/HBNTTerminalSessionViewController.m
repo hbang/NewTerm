@@ -76,15 +76,31 @@
 	};
 	_textView.textContainerInset = UIEdgeInsetsZero;
 	_textView.textContainer.lineFragmentPadding = 0;
+	_textView.contentInset = UIEdgeInsetsMake(self.parentViewController.topLayoutGuide.length, 0, 0, 0);
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
+
+	self.toolbarItems = @[
+		[[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self.parentViewController action:@selector(showSettings:)]
+	];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
 	[super viewWillAppear:animated];
 
-	[self updateScreenSize];
+	[self registerForKeyboardNotifications];
 	self.showKeyboard = YES;
+
+	[self updateScreenSize];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+	[super viewWillDisappear:animated];
+
+	[self unregisterForKeyboardNotifications];
+	self.showKeyboard = NO;
+
+	[self updateScreenSize];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -175,11 +191,15 @@
 - (void)registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScreenSize) name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScreenSize) name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)unregisterForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
+	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
@@ -192,9 +212,11 @@
 
 	self.navigationController.toolbarHidden = _keyboardVisible;
 
+	CGRect keyboardFrame = ((NSValue *)notification.userInfo[UIKeyboardFrameEndUserInfoKey]).CGRectValue;
+
 	UIEdgeInsets insets = _textView.contentInset;
 	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
-	insets.bottom += _keyboardVisible ? -toolbarHeight : toolbarHeight;
+	insets.bottom = _keyboardVisible ? keyboardFrame.size.height : toolbarHeight;
 
 	[UIView animateWithDuration:((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue animations:^{
 		_textView.contentInset = insets;

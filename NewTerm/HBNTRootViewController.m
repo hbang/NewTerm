@@ -22,8 +22,10 @@
 
 	[self addTerminalForServer:[HBNTServer localServer]];
 
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTerminal:)];
 }
+
+#pragma mark - Tab management
 
 - (void)addTerminalForServer:(HBNTServer *)server {
 	HBNTTerminalSessionViewController *terminalViewController = [[HBNTTerminalSessionViewController alloc] initWithServer:server];
@@ -36,20 +38,15 @@
 	[_terminals addObject:terminalViewController];
 }
 
-- (void)viewWillLayoutSubviews {
-	[super viewWillLayoutSubviews];
-
-	UIEdgeInsets inset = UIEdgeInsetsMake(self.topLayoutGuide.length, 0, self.bottomLayoutGuide.length, 0);
-
-	for (HBNTTerminalSessionViewController *terminalViewController in _terminals) {
-		terminalViewController.textView.contentInset = inset;
-	}
-}
-
 #pragma mark - Callbacks
+
+- (void)addTerminal:(UIBarButtonItem *)sender {
+	[self addTerminalForServer:[HBNTServer localServer]];
+}
 
 - (void)showSettings:(UIBarButtonItem *)sender {
 	HBNTPreferencesRootController *rootController = [[HBNTPreferencesRootController alloc] initWithTitle:L18N(@"Settings") identifier:[NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]];
+	rootController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self.navigationController presentViewController:rootController animated:YES completion:nil];
 }
 

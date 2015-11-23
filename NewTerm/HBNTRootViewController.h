@@ -10,4 +10,6 @@
 
 @interface HBNTRootViewController : UIViewController
 
+- (void)showSettings:(id)sender;
+
 @end
