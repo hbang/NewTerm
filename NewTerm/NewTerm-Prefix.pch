@@ -6,15 +6,9 @@
 
 #import <Availability.h>
 
-#ifndef __IPHONE_3_0
-#warning "This project uses features only available in iOS SDK 3.0 and later."
-#endif
-
 #ifdef __OBJC__
-#import <UIKit/UIKit.h>
 #import <Foundation/Foundation.h>
+#import <UIKit/UIKit.h>
 
 #define IS_IPAD ([UIDevice currentDevice].userInterfaceIdiom == UIUserInterfaceIdiomPad)
-#define L18N(string) [[NSBundle mainBundle] localizedStringForKey:string value:string table:nil]
-#define GET_DIR(directory) ((NSString *)NSSearchPathForDirectoriesInDomains(directory, NSUserDomainMask, YES)[0])
 #endif

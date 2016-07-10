@@ -8,7 +8,6 @@
 
 #import "HBNTRootViewController.h"
 #import "HBNTPreferencesRootController.h"
-#import "HBNTServer.h"
 #import "HBNTTerminalSessionViewController.h"
 
 @implementation HBNTRootViewController {
@@ -20,15 +19,15 @@
 
 	_terminals = [NSMutableArray array];
 
-	[self addTerminalForServer:[HBNTServer localServer]];
+	[self addTerminal];
 
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTerminal:)];
+	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTerminal)];
 }
 
 #pragma mark - Tab management
 
-- (void)addTerminalForServer:(HBNTServer *)server {
-	HBNTTerminalSessionViewController *terminalViewController = [[HBNTTerminalSessionViewController alloc] initWithServer:server];
+- (void)addTerminal {
+	HBNTTerminalSessionViewController *terminalViewController = [[HBNTTerminalSessionViewController alloc] init];
 
 	[self addChildViewController:terminalViewController];
 	[terminalViewController willMoveToParentViewController:self];
@@ -40,12 +39,8 @@
 
 #pragma mark - Callbacks
 
-- (void)addTerminal:(UIBarButtonItem *)sender {
-	[self addTerminalForServer:[HBNTServer localServer]];
-}
-
 - (void)showSettings:(UIBarButtonItem *)sender {
-	HBNTPreferencesRootController *rootController = [[HBNTPreferencesRootController alloc] initWithTitle:L18N(@"Settings") identifier:[NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]];
+	HBNTPreferencesRootController *rootController = [[HBNTPreferencesRootController alloc] initWithTitle:NSLocalizedString(@"SETTINGS", @"Title of Settings page.") identifier:[NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]];
 	rootController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self.navigationController presentViewController:rootController animated:YES completion:nil];
 }

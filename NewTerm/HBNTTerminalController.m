@@ -60,7 +60,9 @@
 		// infinite loop. Print a message on the screen with instructions on how
 		// to restart the process.
 
-		[_viewController readInputStream:[L18N(@"[Process completed]\r\nPress any key to restart.\r\n") dataUsingEncoding:NSUTF8StringEncoding]];
+		NSString *message = [NSString stringWithFormat:@"[%@]\n%@\n", NSLocalizedString(@"PROCESS_COMPLETED_TITLE", @"Title displayed when the terminal’s process has ended."), NSLocalizedString(@"PROCESS_COMPLETED_MESSAGE", @"Message indicating the user can press any key to restart the terminal.")];
+		
+		[_viewController readInputStream:[message dataUsingEncoding:NSUTF8StringEncoding]];
 		_processEnded = YES;
 		return;
 	}

@@ -10,7 +10,6 @@
 #import "HBNTTerminalController.h"
 #import "HBNTTerminalTextView.h"
 #import "HBNTPreferences.h"
-#import "HBNTServer.h"
 #import "VT100.h"
 #import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
@@ -30,14 +29,13 @@
 
 	BOOL _hasAppeared;
 	BOOL _keyboardVisible;
+	BOOL _launchFailed;
 }
 
-- (instancetype)initWithServer:(HBNTServer *)server {
-	self = [self init];
+- (instancetype)init {
+	self = [super init];
 
 	if (self) {
-		_server = server;
-
 		_buffer = [[VT100 alloc] init];
 		_buffer.refreshDelegate = self;
 
@@ -53,8 +51,7 @@
 		@try {
 			[_terminalController startSubProcess];
 		} @catch (NSException *exception) {
-			UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:L18N(@"Couldn’t start a terminal subprocess.") message:exception.reason delegate:nil cancelButtonTitle:L18N(@"OK") otherButtonTitles:nil];
-			[alertView show];
+			_launchFailed = YES;
 		}
 	}
 
@@ -64,7 +61,7 @@
 - (void)loadView {
 	[super loadView];
 
-	self.title = _server.name;
+	self.title = NSLocalizedString(@"TERMINAL", @"Generic title displayed before the terminal sets a proper title.");;
 
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -81,6 +78,7 @@
 	[self.view addSubview:_textView];
 
 	self.toolbarItems = @[
+		// TODO: this needs an icon
 		[[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self.parentViewController action:@selector(showSettings:)]
 	];
 }
@@ -111,6 +109,18 @@
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
 	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[self updateScreenSize];
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+	[super viewDidAppear:animated];
+
+	if (_launchFailed) {
+		NSString *ok = NSLocalizedStringFromTableInBundle(@"OK", @"Localizable", [NSBundle bundleForClass:UIView.class], nil);
+
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"TERMINAL_LAUNCH_FAILED", @"Alert title displayed when a terminal could not be launched.") message:exception.reason preferredStyle:UIAlertControllerStyleAlert];
+		[alertController addAction:[UIAlertAction actionWithTitle:ok style:UIAlertActionStyleCancel handler:nil]];
+		[self.navigationController presentViewController:alertController animated:YES completion:nil];
+	}
 }
 
 #pragma mark - Preferences

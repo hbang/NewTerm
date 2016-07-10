@@ -9,16 +9,13 @@
 #import <UIKit/UIKit.h>
 #import "VT100Types.h"
 
-@class HBNTServer, VT100ColorMap;
+@class VT100ColorMap;
 
 @interface HBNTTerminalSessionViewController : UIViewController <ScreenBufferRefreshDelegate>
-
-- (instancetype)initWithServer:(HBNTServer *)server;
 
 - (void)readInputStream:(NSData *)data;
 - (void)clearScreen;
 
-@property (strong, nonatomic, readonly) HBNTServer *server;
 @property (strong, nonatomic, readonly) UITextView *textView;
 
 @property (strong, nonatomic) UIFont *font;
