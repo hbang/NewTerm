@@ -7,12 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
-
 #import "HBNTAppDelegate.h"
 
-int main(int argc, char * argv[])
-{
+int main(int argc, char * argv[]) {
 	@autoreleasepool {
-	    return UIApplicationMain(argc, argv, nil, NSStringFromClass([HBNTAppDelegate class]));
+		return UIApplicationMain(argc, argv, nil, NSStringFromClass(HBNTAppDelegate.class));
 	}
 }
