@@ -24,17 +24,6 @@
 		<key>Italic</key>
 		<string>CourierNew-ItalicMT</string>
 	</dict>
-	<key>DejaVu Sans Mono</key>
-	<dict>
-		<key>Regular</key>
-		<string>DejaVuSansMono-Regular</string>
-		<key>Bold</key>
-		<string>DejaVuSansMono-Bold</string>
-		<key>BoldItalic</key>
-		<string>DejaVuSansMono-BoldOblique</string>
-		<key>Italic</key>
-		<string>DejaVuSansMono-Oblique</string>
-	</dict>
 	<key>Hack</key>
 	<dict>
 		<key>Bold</key>
