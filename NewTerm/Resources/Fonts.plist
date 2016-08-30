@@ -24,6 +24,17 @@
 		<key>Italic</key>
 		<string>CourierNew-ItalicMT</string>
 	</dict>
+	<key>Fira Code</key>
+	<dict>
+		<key>Bold</key>
+		<string>FiraCode-Bold</string>
+		<key>BoldItalic</key>
+		<string>FiraCode-Bold</string>
+		<key>Italic</key>
+		<string>FiraCode-Retina</string>
+		<key>Regular</key>
+		<string>FireCode-Retina</string>
+	</dict>
 	<key>Hack</key>
 	<dict>
 		<key>Bold</key>
