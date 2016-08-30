@@ -15,7 +15,7 @@
 @property (nonatomic, retain, readonly) UIColor *foregroundCursor;
 @property (nonatomic, retain, readonly) UIColor *backgroundCursor;
 
-@property (readonly) BOOL isDark;
+@property (nonatomic, readonly) BOOL isDark;
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

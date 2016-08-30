@@ -21,7 +21,7 @@
 @property (strong, nonatomic) UIFont *font;
 @property (strong, nonatomic) VT100ColorMap *colorMap;
 
-@property (readonly) int screenWidth;
-@property (readonly) int screenHeight;
+@property (nonatomic, readonly) int screenWidth;
+@property (nonatomic, readonly) int screenHeight;
 
 @end
