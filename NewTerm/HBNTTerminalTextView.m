@@ -24,13 +24,13 @@
 
 - (void)insertText:(NSString *)input {
 	NSMutableData *data = [NSMutableData data];
-	
+
 	for (NSUInteger i = 0; i < input.length; i++) {
 		unichar character = [input characterAtIndex:i];
-		
+
 		if (_currentModifierKey != HBNTTerminalModifierKeyNone) {
 			// TODO: currently only supporting ctrl
-			
+
 			// Convert the character to a control key with the same ascii name (or
 			// just use the original character if not in the acsii range)
 			if (character < 0x60 && character > 0x40) {
@@ -40,9 +40,9 @@
 				// Lowercase
 				character -= 0x60;
 			}
-			
+
 			[_terminalInputDelegate modifierKeyPressed:_currentModifierKey];
-			
+
 			_currentModifierKey = HBNTTerminalModifierKeyNone;
 		} else {
 			if (character == 0x0a) {
@@ -50,11 +50,11 @@
 				character = 0x0d;
 			}
 		}
-		
+
 		// Re-encode as UTF8
 		[data appendBytes:&character length:1];
 	}
-	
+
 	[_terminalInputDelegate receiveKeyboardInput:data];
 }
 
@@ -64,11 +64,12 @@
 	dispatch_once(&onceToken, ^{
 		BackspaceData = [[NSData alloc] initWithBytes:"\x7F" length:1];
 	});
-	
+
 	[_terminalInputDelegate receiveKeyboardInput:BackspaceData];
 }
 
 - (CGRect)caretRectForPosition:(UITextPosition *)position {
+	// TODO: should we take advantage of this?
 	return CGRectZero;
 }
 
@@ -79,27 +80,18 @@
 		// Only paste if the board contains plain text
 		return [[UIPasteboard generalPasteboard] containsPasteboardTypes:UIPasteboardTypeListString];
 	}
-	
+
 	return NO;
 }
 
 - (void)paste:(id)sender {
 	UIPasteboard *pasteboard = [UIPasteboard generalPasteboard];
-	
+
 	if (![pasteboard containsPasteboardTypes:UIPasteboardTypeListString]) {
 		return;
 	}
-	
+
 	[_terminalInputDelegate receiveKeyboardInput:[pasteboard.string dataUsingEncoding:NSUTF8StringEncoding]];
-}
-
-- (BOOL)becomeFirstResponder {
-	[super becomeFirstResponder];
-	return YES;
-}
-
-- (BOOL)canBecomeFirstResponder {
-	return YES;
 }
 
 @end
