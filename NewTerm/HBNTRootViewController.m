@@ -22,6 +22,13 @@
 	[self addTerminal];
 
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTerminal)];
+
+	self.toolbarItems = @[
+		// TODO: this needs an icon
+		[[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)]
+	];
+
+	self.navigationController.toolbarHidden = NO;
 }
 
 #pragma mark - Tab management

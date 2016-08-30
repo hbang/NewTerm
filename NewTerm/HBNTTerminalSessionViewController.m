@@ -77,11 +77,6 @@
 	_textView.contentInset = UIEdgeInsetsMake(self.parentViewController.topLayoutGuide.length, 0, 0, 0);
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
-
-	self.toolbarItems = @[
-		// TODO: this needs an icon
-		[[UIBarButtonItem alloc] initWithTitle:@"Settings" style:UIBarButtonItemStylePlain target:self.parentViewController action:@selector(showSettings:)]
-	];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
