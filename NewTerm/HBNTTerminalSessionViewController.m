@@ -29,7 +29,8 @@
 
 	BOOL _hasAppeared;
 	BOOL _keyboardVisible;
-	BOOL _launchFailed;
+
+	NSException *_failureException;
 }
 
 - (instancetype)init {
@@ -51,7 +52,7 @@
 		@try {
 			[_terminalController startSubProcess];
 		} @catch (NSException *exception) {
-			_launchFailed = YES;
+			_failureException = exception;
 		}
 	}
 
@@ -114,10 +115,10 @@
 - (void)viewDidAppear:(BOOL)animated {
 	[super viewDidAppear:animated];
 
-	if (_launchFailed) {
+	if (_failureException) {
 		NSString *ok = NSLocalizedStringFromTableInBundle(@"OK", @"Localizable", [NSBundle bundleForClass:UIView.class], nil);
 
-		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"TERMINAL_LAUNCH_FAILED", @"Alert title displayed when a terminal could not be launched.") message:exception.reason preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"TERMINAL_LAUNCH_FAILED", @"Alert title displayed when a terminal could not be launched.") message:_failureException.reason preferredStyle:UIAlertControllerStyleAlert];
 		[alertController addAction:[UIAlertAction actionWithTitle:ok style:UIAlertActionStyleCancel handler:nil]];
 		[self.navigationController presentViewController:alertController animated:YES completion:nil];
 	}
