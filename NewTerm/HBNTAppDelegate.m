@@ -14,13 +14,14 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	UIColor *textColor = [UIColor whiteColor];
 	UIColor *tintColor = [UIColor colorWithRed:76.f / 255.f green:161.f / 255.f blue:1 alpha:1];
-	UIColor *barTintColor = [UIColor colorWithWhite:26.f / 255.f alpha:1];
+	UIColor *backgroundColor = [UIColor colorWithWhite:26.f / 255.f alpha:1];
 	UIColor *lightTintColor = [UIColor colorWithWhite:60.f / 255.f alpha:1];
 
-	[UINavigationBar appearance].barTintColor = barTintColor;
-	[UIToolbar appearance].barTintColor = barTintColor;
-	[UITableView appearance].backgroundColor = barTintColor;
-	[UITableViewCell appearance].backgroundColor = barTintColor;
+	[UINavigationBar appearance].barStyle = UIBarStyleBlack;
+	[UIToolbar appearance].barStyle = UIBarStyleBlack;
+
+	[UITableView appearance].backgroundColor = backgroundColor;
+	[UITableViewCell appearance].backgroundColor = backgroundColor;
 
 	[UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName: textColor };
 	[UITextField appearance].textColor = textColor;
