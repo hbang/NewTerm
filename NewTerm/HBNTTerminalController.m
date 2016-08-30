@@ -61,17 +61,18 @@
 		// to restart the process.
 
 		NSString *message = [NSString stringWithFormat:@"[%@]\n%@\n", NSLocalizedString(@"PROCESS_COMPLETED_TITLE", @"Title displayed when the terminal’s process has ended."), NSLocalizedString(@"PROCESS_COMPLETED_MESSAGE", @"Message indicating the user can press any key to restart the terminal.")];
-		
+
 		[_viewController readInputStream:[message dataUsingEncoding:NSUTF8StringEncoding]];
 		_processEnded = YES;
-		return;
+
+		[_subProcess stop];
+	} else {
+		// Forward the subprocess data into the terminal character handler
+		[_viewController readInputStream:data];
+
+		// Queue another read
+		[_subProcess.fileHandle readInBackgroundAndNotify];
 	}
-
-	// Forward the subprocess data into the terminal character handler
-	[_viewController readInputStream:data];
-
-	// Queue another read
-	[_subProcess.fileHandle readInBackgroundAndNotify];
 }
 
 - (void)receiveKeyboardInput:(NSData *)data {
