@@ -146,7 +146,7 @@
 	CGFloat height = _textView.frame.size.height - _textView.textContainerInset.top - _textView.textContainerInset.bottom - _textView.contentInset.top - _textView.contentInset.bottom;
 
 	ScreenSize size;
-	size.width = floorf(width / glyphSize.width) - 2;
+	size.width = floorf(width / glyphSize.width);
 	size.height = floorf(height / glyphSize.height);
 
 	// The font size should not be too small that it overflows the glyph buffers.
@@ -159,20 +159,17 @@
 }
 
 - (void)refresh {
-	// TODO: we shouldn't load all lines' attributed strings, just ones that changed
+	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+		// TODO: we shouldn't load all lines' attributed strings, just ones that changed
+		NSMutableAttributedString *attributedString = _stringSupplier.attributedString;
+		[attributedString addAttribute:NSFontAttributeName value:_fontMetrics.font range:NSMakeRange(0, attributedString.string.length)];
 
-	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
+		dispatch_async(dispatch_get_main_queue(), ^{
+			_textView.attributedText = attributedString;
 
-	for (int i = 0; i < _buffer.scrollbackLines + _buffer.numberOfRows; i++) {
-		[attributedString appendAttributedString:[_stringSupplier attributedStringForLine:i]];
-		[attributedString appendAttributedString:[[NSAttributedString alloc] initWithString:@"\n"]];
-	}
-
-	[attributedString addAttribute:NSFontAttributeName value:_fontMetrics.font range:NSMakeRange(0, attributedString.string.length)];
-
-	_textView.attributedText = attributedString;
-
-	[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
+			[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
+		});
+	});
 }
 
 - (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
