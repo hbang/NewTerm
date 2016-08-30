@@ -603,7 +603,7 @@ static VT100TCC decode_other(unsigned char *datap,
 
 		c1 = (datalen >= 2 ? datap[1]: -1);
 		c2 = (datalen >= 3 ? datap[2]: -1);
-	
+
 		switch (c1) {
 				case '#':
 						if (c2 < 0) {
@@ -1064,7 +1064,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 				result = decode_euckr(datap, datalen, rmlen);
 		} else {
 				// HBLogDebug(@"%s(%d):decode_string()-support character encoding(%@d)",
-		// __FILE__, __LINE__, [NSString localizedNameOfStringEncoding:encoding]);
+		// [NSString localizedNameOfStringEncoding:encoding]);
 				result = decode_other_enc(datap, datalen, rmlen);
 		}
 
@@ -1090,7 +1090,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 
 - (id)init {
 		int i;
-	
+
 	self = [super init];
 
 		if (self == nil)

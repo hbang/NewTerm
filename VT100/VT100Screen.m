@@ -191,7 +191,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *aDefaultLine;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen initScreenWithWidth:%d Height:%d]", __FILE__, __LINE__, width, height );
+		HBLogDebug(@"-[VT100Screen initScreenWithWidth:%d Height:%d]", width, height );
 #endif
 
 		WIDTH = width;
@@ -267,8 +267,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)setWidth:(int)width height:(int)height
 {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setWidth:%d height:%d]",
-						__FILE__, __LINE__, width, height);
+		HBLogDebug(@"-[VT100Screen setWidth:%d height:%d]",
+						width, height);
 #endif
 
 		if (width >= MIN_WIDTH && height >= MIN_HEIGHT) {
@@ -283,10 +283,10 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)resizeWidth:(int)width height:(int)height {
 #if DEBUG_METHOD_TRACE
-	HBLogDebug(@"%s(%d):-[VT100Screen resizeWidth:%d height:%d]",
-		  __FILE__, __LINE__, width, height);
+	HBLogDebug(@"-[VT100Screen resizeWidth:%d height:%d]",
+		  width, height);
 #endif
-	
+
 		int i, new_total_height;
 		screen_char_t *bl, *aLine, *c1, *c2, *new_scrollback_top;
 
@@ -507,8 +507,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)setTerminal:(VT100Terminal *)terminal {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setTerminal:%@]",
-						__FILE__, __LINE__, terminal);
+		HBLogDebug(@"-[VT100Screen setTerminal:%@]",
+						terminal);
 #endif
 		TERMINAL = terminal;
 }
@@ -529,7 +529,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)putToken:(VT100TCC)token {
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen putToken: (%d)]",__FILE__, __LINE__,
+		HBLogDebug(@"-[VT100Screen putToken: (%d)]",
 						token.type);
 #endif
 		int i,j,k;
@@ -739,8 +739,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 
 	 default:
-												HBLogDebug(@"%s(%d): Unexpected token.type = %d",
-																__FILE__, __LINE__, token.type);
+												HBLogDebug(@" Unexpected token.type = %d",
+																token.type);
 												break;
 		}
 		if (oldCursorX != CURSOR_X || oldCursorY != CURSOR_Y) {
@@ -751,7 +751,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)clearBuffer {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen clearBuffer]", __FILE__, __LINE__ );
+		HBLogDebug(@"-[VT100Screen clearBuffer]" );
 #endif
 
 		[self clearScreen];
@@ -763,7 +763,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *aLine, *aDefaultLine;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen clearScrollbackBuffer]", __FILE__, __LINE__ );
+		HBLogDebug(@"-[VT100Screen clearScrollbackBuffer]" );
 #endif
 
 		[self acquireLock];
@@ -856,8 +856,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *buffer;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setString:%@ at %d]",
-						__FILE__, __LINE__, string, CURSOR_X);
+		HBLogDebug(@"-[VT100Screen setString:%@ at %d]",
+						string, CURSOR_X);
 #endif
 
 		int len;
@@ -916,19 +916,19 @@ static __inline__ screen_char_t *incrementLinePointer(
 				screen_char_t *aLine = [self getLineAtScreenIndex: CURSOR_Y];
 				aLine[CURSOR_X] = buffer[idx];
 				dirty[CURSOR_Y * WIDTH + CURSOR_X] = 1;
-			
+
 				// Dirty the new cursor position
 				CURSOR_X++;
 				dirty[CURSOR_Y * WIDTH + CURSOR_X] = 1;
-			
+
 				// Wrap
 				if (CURSOR_X >= WIDTH) {
 						CURSOR_X = 0;
 						[self getLineAtScreenIndex: CURSOR_Y][WIDTH].ch = 1;
-						[self setNewLine]; 
+						[self setNewLine];
 				}
 		}
-	
+
 		free(buffer);
 
 #if DEBUG_METHOD_TRACE
@@ -942,7 +942,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int total_height;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setNewLine](%d,%d)-[%d,%d]", __FILE__, __LINE__, CURSOR_X, CURSOR_Y, SCROLL_TOP, SCROLL_BOTTOM);
+		HBLogDebug(@"-[VT100Screen setNewLine](%d,%d)-[%d,%d]", CURSOR_X, CURSOR_Y, SCROLL_TOP, SCROLL_BOTTOM);
 #endif
 
 		if (CURSOR_Y < SCROLL_BOTTOM || (CURSOR_Y < (HEIGHT - 1) && CURSOR_Y > SCROLL_BOTTOM)) {
@@ -985,7 +985,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int i;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen deleteCharacter]: %d", __FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen deleteCharacter]: %d", n);
 #endif
 
 		if (CURSOR_X >= 0 && CURSOR_X < WIDTH &&
@@ -1013,7 +1013,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)backSpace
 {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen backSpace]", __FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen backSpace]");
 #endif
 		if (CURSOR_X > 0)
 				CURSOR_X--;
@@ -1022,7 +1022,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)setTab {
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setTab]", __FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen setTab]");
 #endif
 
 		CURSOR_X++; // ensure we go to the next tab in case we are already on one
@@ -1036,7 +1036,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int i;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen clearScreen]; CURSOR_Y = %d", __FILE__, __LINE__, CURSOR_Y);
+		HBLogDebug(@"-[VT100Screen clearScreen]; CURSOR_Y = %d", CURSOR_Y);
 #endif
 		[self acquireLock];
 		// Clear the screen by overwriting everything with the default (blank) line
@@ -1059,8 +1059,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		//BOOL wrap;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen eraseInDisplay:(param=%d); X = %d; Y = %d]",
-						__FILE__, __LINE__, token.u.csi.p[0], CURSOR_X, CURSOR_Y);
+		HBLogDebug(@"-[VT100Screen eraseInDisplay:(param=%d); X = %d; Y = %d]",
+						token.u.csi.p[0], CURSOR_X, CURSOR_Y);
 #endif
 		switch (token.u.csi.p[0]) {
 				case 1:
@@ -1114,8 +1114,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int fgCode, bgCode;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen eraseInLine:(param=%d); X = %d; Y = %d]",
-						__FILE__, __LINE__, token.u.csi.p[0], CURSOR_X, CURSOR_Y);
+		HBLogDebug(@"-[VT100Screen eraseInLine:(param=%d); X = %d; Y = %d]",
+						token.u.csi.p[0], CURSOR_X, CURSOR_Y);
 #endif
 
 
@@ -1165,8 +1165,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)selectGraphicRendition:(VT100TCC)token {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen selectGraphicRendition:...]",
-						__FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen selectGraphicRendition:...]");
 #endif
 }
 
@@ -1174,8 +1173,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int x = CURSOR_X - (n>0?n:1);
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorLeft:%d]",
-						__FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen cursorLeft:%d]",
+						n);
 #endif
 		if (x < 0)
 				x = 0;
@@ -1189,8 +1188,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int x = CURSOR_X + (n>0?n:1);
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorRight:%d]",
-						__FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen cursorRight:%d]",
+						n);
 #endif
 		if (x >= WIDTH)
 				x =	 WIDTH - 1;
@@ -1204,8 +1203,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int y = CURSOR_Y - (n>0?n:1);
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorUp:%d]",
-						__FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen cursorUp:%d]",
+						n);
 #endif
 		if(CURSOR_Y >= SCROLL_TOP)
 				CURSOR_Y=y<SCROLL_TOP?SCROLL_TOP:y;
@@ -1219,8 +1218,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int y = CURSOR_Y + (n>0?n:1);
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorDown:%d, Y = %d; SCROLL_BOTTOM = %d]",
-						__FILE__, __LINE__, n, CURSOR_Y, SCROLL_BOTTOM);
+		HBLogDebug(@"-[VT100Screen cursorDown:%d, Y = %d; SCROLL_BOTTOM = %d]",
+						n, CURSOR_Y, SCROLL_BOTTOM);
 #endif
 		if(CURSOR_Y <= SCROLL_BOTTOM)
 				CURSOR_Y=y>SCROLL_BOTTOM?SCROLL_BOTTOM:y;
@@ -1235,8 +1234,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorToX:%d]",
-						__FILE__, __LINE__, x);
+		HBLogDebug(@"-[VT100Screen cursorToX:%d]",
+						x);
 #endif
 		x_pos = (x-1);
 
@@ -1252,8 +1251,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)cursorToX:(int)x Y:(int)y {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen cursorToX:%d Y:%d]",
-						__FILE__, __LINE__, x, y);
+		HBLogDebug(@"-[VT100Screen cursorToX:%d Y:%d]",
+						x, y);
 #endif
 		int x_pos, y_pos;
 
@@ -1284,8 +1283,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)saveCursorPosition {
 		int i;
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen saveCursorPosition]",
-						__FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen saveCursorPosition]");
 #endif
 
 		if(CURSOR_X < 0)
@@ -1307,8 +1305,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)restoreCursorPosition {
 		int i;
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen restoreCursorPosition]",
-						__FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen restoreCursorPosition]");
 #endif
 		CURSOR_X = SAVE_CURSOR_X;
 		CURSOR_Y = SAVE_CURSOR_Y;
@@ -1323,8 +1320,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int top, bottom;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen setTopBottom:(%d,%d)]",
-						__FILE__, __LINE__, token.u.csi.p[0], token.u.csi.p[1]);
+		HBLogDebug(@"-[VT100Screen setTopBottom:(%d,%d)]",
+						token.u.csi.p[0], token.u.csi.p[1]);
 #endif
 
 		top = token.u.csi.p[0] == 0 ? 0 : token.u.csi.p[0] - 1;
@@ -1350,7 +1347,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *sourceLine, *targetLine;
 
 		//#if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen scrollUp]", __FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen scrollUp]");
 		//#endif
 
 		NSParameterAssert(SCROLL_TOP >= 0 && SCROLL_TOP < HEIGHT);
@@ -1389,7 +1386,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *sourceLine, *targetLine;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen scrollDown]", __FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen scrollDown]");
 #endif
 
 		NSParameterAssert(SCROLL_TOP >= 0 && SCROLL_TOP < HEIGHT);
@@ -1426,7 +1423,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int i;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen insertBlank; %d]", __FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen insertBlank; %d]", n);
 #endif
 
 		// HBLogDebug(@"insertBlank[%d@(%d,%d)]",n,CURSOR_X,CURSOR_Y);
@@ -1457,7 +1454,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *sourceLine, *targetLine, *aDefaultLine;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen insertLines; %d]", __FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen insertLines; %d]", n);
 #endif
 		// HBLogDebug(@"insertLines %d[%d,%d]",n, CURSOR_X,CURSOR_Y);
 		if (n+CURSOR_Y<=SCROLL_BOTTOM) {
@@ -1491,7 +1488,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		screen_char_t *sourceLine, *targetLine, *aDefaultLine;
 
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen deleteLines; %d]", __FILE__, __LINE__, n);
+		HBLogDebug(@"-[VT100Screen deleteLines; %d]", n);
 #endif
 
 		// HBLogDebug(@"insertLines %d[%d,%d]",n, CURSOR_X,CURSOR_Y);
@@ -1522,8 +1519,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)setPlayBellFlag:(BOOL)flag {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):+[VT100Screen setPlayBellFlag:%s]",
-			__FILE__, __LINE__, flag == YES ? "YES" : "NO");
+		HBLogDebug(@"+[VT100Screen setPlayBellFlag:%s]",
+			flag == YES ? "YES" : "NO");
 #endif
 		PLAYBELL = flag;
 }
@@ -1531,15 +1528,15 @@ static __inline__ screen_char_t *incrementLinePointer(
 - (void)setShowBellFlag:(BOOL)flag
 {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):+[VT100Screen setShowBellFlag:%s]",
-			__FILE__, __LINE__, flag == YES ? "YES" : "NO");
+		HBLogDebug(@"+[VT100Screen setShowBellFlag:%s]",
+			flag == YES ? "YES" : "NO");
 #endif
 		SHOWBELL = flag;
 }
 
 - (void)activateBell {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"%s(%d):-[VT100Screen playBell]", __FILE__, __LINE__);
+		HBLogDebug(@"-[VT100Screen playBell]");
 #endif
 		if (PLAYBELL) {
 				// TODO(allen): Implement! :)
@@ -1604,7 +1601,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		if (dirty) {
 			memset(dirty, 1, WIDTH *HEIGHT *sizeof(char));
 		}
-	
+
 		[refreshDelegate refresh];
 }
 
