@@ -19,8 +19,6 @@
 - (void)loadView {
 	[super loadView];
 
-	self.preferredContentSize = CGSizeMake(320.f, 480.f);
-
 	if (self.viewControllers.count == 0) {
 		[self pushViewController:self.rootListController animated:NO];
 	}
