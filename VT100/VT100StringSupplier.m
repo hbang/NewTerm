@@ -35,6 +35,7 @@
 
 	if (rowIndex != self.rowCount) {
 		unicharBuffer[width] = '\n';
+		width += 1;
 	}
 
 	return [[[NSString alloc] initWithCharacters:unicharBuffer length:width] autorelease];
