@@ -7,7 +7,6 @@
 // VT100 subsystem.	 This layer mostly exists to keep the complexity/mess of
 // the VT100Terminal and VT100 screen away from everything else.
 
-#import <Foundation/Foundation.h>
 #import "VT100Types.h"
 
 // Forward declarations
@@ -23,7 +22,7 @@
 	VT100Screen *screen;
 	VT100Terminal *terminal;
 	id <ScreenBufferRefreshDelegate> refreshDelegate;
-	
+
 	// Points on the screen
 	ScreenPosition selectionStart;
 	ScreenPosition selectionEnd;

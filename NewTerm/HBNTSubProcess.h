@@ -1,7 +1,6 @@
 // SubProcess.h
 // MobileTerminal
 
-#import <Foundation/Foundation.h>
 #import "HBNTPTY.h"
 
 // Forks a terminal subprocess.

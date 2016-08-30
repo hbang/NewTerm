@@ -6,8 +6,6 @@
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 typedef NS_ENUM(NSUInteger, HBNTTerminalModifierKey) {
 	HBNTTerminalModifierKeyNone,
 	HBNTTerminalModifierKeyCtrl,

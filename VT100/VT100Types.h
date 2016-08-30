@@ -5,8 +5,6 @@
 // components and the higher level text view components so they both do not
 // have to depend on each other.
 
-#import <Foundation/Foundation.h>
-
 // Buffer space used to draw any particular row.
 static const int kMaxRowBufferSize = 200;
 
@@ -74,5 +72,3 @@ typedef struct {
 - (NSString *)stringForLine:(int)rowIndex;
 - (NSAttributedString *)attributedStringForLine:(int)rowIndex;
 @end
-
-

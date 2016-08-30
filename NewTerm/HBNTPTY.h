@@ -1,8 +1,6 @@
 // PTY.h
 // MobileTerminal
 
-#import <Foundation/Foundation.h>
-
 // Controls settings on PTY, currently just width and height.
 @interface HBNTPTY : NSObject
 

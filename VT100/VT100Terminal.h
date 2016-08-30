@@ -34,8 +34,6 @@
  **	 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#import <Foundation/Foundation.h>
-
 // VT100TCC types
 #define VT100CC_NULL 0
 #define VT100CC_ENQ 5		 // Transmit ANSWERBACK message

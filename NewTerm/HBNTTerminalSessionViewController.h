@@ -6,7 +6,6 @@
 //  Copyright (c) 2014 HASHBANG Productions. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
 #import "VT100Types.h"
 
 @class VT100ColorMap;

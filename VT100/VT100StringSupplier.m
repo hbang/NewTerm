@@ -1,9 +1,9 @@
 // VT100RowStringSupplier.m
 // MobileTerminal
 
-#import "VT100StringSupplier.h"
+@import CoreText;
 
-#import <CoreText/CoreText.h>
+#import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
 #import "VT100Types.h"
 

@@ -3,9 +3,7 @@
 //
 //
 
-#import <CoreText/CoreText.h>
-#import <Foundation/Foundation.h>
-#import <UIKit/UIFont.h>
+@import CoreText;
 
 @interface FontMetrics : NSObject
 

@@ -6,8 +6,6 @@
 //  Copyright (c) 2014 HASHBANG Productions. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
 static CGFloat const kHBNTTableViewCellMargin = 15.f;
 
 @interface HBNTTableViewCell : UITableViewCell

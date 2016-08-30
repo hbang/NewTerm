@@ -1,7 +1,6 @@
 // VT100RowStringSupplier.h
 // MobileTerminal
 
-#import <Foundation/Foundation.h>
 #import "VT100Types.h"
 
 @class VT100ColorMap;

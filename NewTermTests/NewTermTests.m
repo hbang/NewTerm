@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 HASHBANG Productions. All rights reserved.
 //
 
-#import <XCTest/XCTest.h>
+@import XCTest;
 
 @interface NewTermTests : XCTestCase
 
