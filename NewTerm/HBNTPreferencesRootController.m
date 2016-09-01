@@ -32,6 +32,14 @@
 
 - (PSListController *)rootListController {
 	if (!_rootListController) {
+		static Class HBNTPreferencesRootListController;
+		static dispatch_once_t onceToken;
+		dispatch_once(&onceToken, ^{
+			// lazy load the preference bundle and the root list controller class
+			[[NSBundle bundleWithPath:@"/Library/PreferenceBundles/NewTerm.bundle"] load];
+			HBNTPreferencesRootListController = objc_getClass("HBNTPreferencesRootListController");
+		})
+
 		_rootListController = [[HBNTPreferencesRootListController alloc] initForContentSize:self.view.frame.size];
 		PSSpecifier *specifier = [[PSSpecifier alloc] init];
 		specifier.target = _rootListController;
