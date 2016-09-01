@@ -7,8 +7,9 @@
 //
 
 #import "HBNTPreferencesRootController.h"
-#import "HBNTPreferencesRootListController.h"
+#import "../prefs/HBNTPreferencesRootListController.h"
 #import <Preferences/PSSpecifier.h>
+#include <objc/runtime.h>
 
 @implementation HBNTPreferencesRootController {
     PSListController *_rootListController;
@@ -38,7 +39,7 @@
 			// lazy load the preference bundle and the root list controller class
 			[[NSBundle bundleWithPath:@"/Library/PreferenceBundles/NewTerm.bundle"] load];
 			HBNTPreferencesRootListController = objc_getClass("HBNTPreferencesRootListController");
-		})
+		});
 
 		_rootListController = [[HBNTPreferencesRootListController alloc] initForContentSize:self.view.frame.size];
 		PSSpecifier *specifier = [[PSSpecifier alloc] init];

@@ -12,7 +12,7 @@
 			<key>headerCellClass</key>
 			<string>HBPackageNameHeaderCell</string>
 			<key>icon</key>
-			<string>Icon-Small.png</string>
+			<string>icon.png</string>
 			<key>packageIdentifier</key>
 			<string>ws.hbang.newterm</string>
 			<key>packageNameOverride</key>
