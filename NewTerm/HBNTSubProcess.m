@@ -35,7 +35,7 @@ static const char kDefaultUsername[] = "mobile";
 	}
 
 	const char *username = getenv("USER");
-	
+
 	if (username == NULL) {
 		username = kDefaultUsername;
 	}
@@ -57,7 +57,9 @@ static const char kDefaultUsername[] = "mobile";
 		// /bin/sh if that is available.
 		char * login_args[] = { "login", "-fp", (char*)username, (char *)0, };
 		char * sh_args[] = { "sh", (char *)0, };
-		char * env[] = { "TERM=xterm-color", (char *)0 };
+
+		// TODO: these should be configurable
+		char * env[] = { "TERM=xterm-color", "LANG=en_US.UTF-8", (char *)0 };
 
 		// NOTE: These should never return if successful
 		[self _startProcess:"/usr/bin/login" arguments:login_args environment:env];
@@ -87,7 +89,7 @@ static const char kDefaultUsername[] = "mobile";
 }
 
 - (int)_startProcess:(const char *)path arguments:(char *const[])args environment:(char *const[])env {
-	NSString *pathString = [NSString stringWithUTF8String:path];
+	NSString *pathString = @(path);
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:pathString]) {
 		HBLogError(@"%s: File does not exist\n", path);
