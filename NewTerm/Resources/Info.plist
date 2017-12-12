@@ -56,17 +56,11 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
-		<string>DejaVuSansMono.ttf</string>
-		<string>DejaVuSansMono-Bold.ttf</string>
-		<string>DejaVuSansMono-BoldOblique.ttf</string>
-		<string>DejaVuSansMono-Oblique.ttf</string>
+		<string>FiraCode-Bold.otf</string>
+		<string>FiraCode-Retina.ttf</string>
 		<string>Hack-Bold.otf</string>
-		<string>Hack-BoldItalic.otf</string>
-		<string>Hack-Italic.otf</string>
 		<string>Hack-Regular.otf</string>
 		<string>SourceCodePro-Bold.otf</string>
-		<string>SourceCodePro-BoldIt.otf</string>
-		<string>SourceCodePro-It.otf</string>
 		<string>SourceCodePro-Regular.otf</string>
 	</array>
 	<key>UIDeviceFamily</key>
