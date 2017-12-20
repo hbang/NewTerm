@@ -24,6 +24,8 @@
 	<string>iphoneos</string>
 	<key>HBPackageIdentifier</key>
 	<string>ws.hbang.newterm</string>
+	<key>LSRequiresIPhoneOS</key>
+	<true/>
 	<key>NSPrincipalClass</key>
 	<string>HBNTPreferencesRootListController</string>
 </dict>
