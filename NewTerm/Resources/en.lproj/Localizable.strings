@@ -20,6 +20,6 @@
 
 	<!-- Message indicating the user can press any key to restart the terminal. -->
 	<key>PROCESS_COMPLETED_MESSAGE</key>
-	<string>Press any key to restart.</string>
+	<string>Press any key to close the tab.</string>
 </dict>
 </plist>

@@ -60,7 +60,7 @@
 		// infinite loop. Print a message on the screen with instructions on how
 		// to restart the process.
 
-		NSString *message = [NSString stringWithFormat:@"[%@]\r\n%@\r\n", NSLocalizedString(@"PROCESS_COMPLETED_TITLE", @"Title displayed when the terminal’s process has ended."), NSLocalizedString(@"PROCESS_COMPLETED_MESSAGE", @"Message indicating the user can press any key to restart the terminal.")];
+		NSString *message = [NSString stringWithFormat:@"[%@]\r\n%@\r\n", NSLocalizedString(@"PROCESS_COMPLETED_TITLE", @"Title displayed when the terminal’s process has ended."), NSLocalizedString(@"PROCESS_COMPLETED_MESSAGE", @"Message indicating the user can press any key to close the tab.")];
 
 		[_viewController readInputStream:[message dataUsingEncoding:NSUTF8StringEncoding]];
 		_processEnded = YES;
@@ -77,9 +77,8 @@
 
 - (void)receiveKeyboardInput:(NSData *)data {
 	if (_processEnded) {
-		// The sub process previously exited, restart it at the users request.
-		[_viewController clearScreen];
-		[self startSubProcess];
+		// The sub process previously exited, close it at the users request.
+		[_viewController close];
 	} else {
 		// Forward the data from the keyboard directly to the subprocess
 		[_subProcess.fileHandle writeData:data];

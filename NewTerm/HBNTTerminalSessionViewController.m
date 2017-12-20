@@ -10,6 +10,7 @@
 #import "HBNTTerminalController.h"
 #import "HBNTTerminalTextView.h"
 #import "HBNTPreferences.h"
+#import "HBNTRootViewController.h"
 #import "VT100.h"
 #import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
@@ -28,7 +29,6 @@
 	HBNTTerminalController *_terminalController;
 
 	BOOL _hasAppeared;
-	BOOL _keyboardVisible;
 
 	NSException *_failureException;
 }
@@ -62,7 +62,7 @@
 - (void)loadView {
 	[super loadView];
 
-	self.title = NSLocalizedString(@"TERMINAL", @"Generic title displayed before the terminal sets a proper title.");;
+	self.title = NSLocalizedString(@"TERMINAL", @"Generic title displayed before the terminal sets a proper title.");
 
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
@@ -83,7 +83,7 @@
 	[super viewWillAppear:animated];
 
 	[self registerForKeyboardNotifications];
-	self.showKeyboard = YES;
+	[self becomeFirstResponder];
 
 	[self updateScreenSize];
 }
@@ -92,9 +92,7 @@
 	[super viewWillDisappear:animated];
 
 	[self unregisterForKeyboardNotifications];
-	self.showKeyboard = NO;
-
-	[self updateScreenSize];
+	[self resignFirstResponder];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -189,6 +187,13 @@
 	[_buffer clearScreen];
 }
 
+- (void)close {
+	// TODO: i guess this is kind of the wrong spot
+	if (self.parentViewController && self.parentViewController.class == HBNTRootViewController.class) {
+		[(HBNTRootViewController *)self.parentViewController removeTerminal:self];
+	}
+}
+
 #pragma mark - Keyboard management
 
 - (void)registerForKeyboardNotifications {
@@ -206,20 +211,20 @@
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
-	_keyboardVisible = !_keyboardVisible;
+	BOOL keyboardVisible = self.isFirstResponder;
 
 	if (!_hasAppeared) {
 		_hasAppeared = YES;
 		_textView.showsVerticalScrollIndicator = YES;
 	}
 
-	self.navigationController.toolbarHidden = _keyboardVisible;
+	self.navigationController.toolbarHidden = keyboardVisible;
 
 	CGRect keyboardFrame = ((NSValue *)notification.userInfo[UIKeyboardFrameEndUserInfoKey]).CGRectValue;
 
 	UIEdgeInsets insets = _textView.contentInset;
 	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
-	insets.bottom = _keyboardVisible ? keyboardFrame.size.height : toolbarHeight;
+	insets.bottom = keyboardVisible ? keyboardFrame.size.height : toolbarHeight;
 
 	[UIView animateWithDuration:((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue animations:^{
 		_textView.contentInset = insets;
@@ -227,16 +232,24 @@
 	}];
 }
 
-- (void)setShowKeyboard:(BOOL)showKeyboard {
-	if (showKeyboard) {
-		[_textView becomeFirstResponder];
-	} else {
-		[_textView resignFirstResponder];
-	}
+- (BOOL)becomeFirstResponder {
+	return [_textView becomeFirstResponder];
+}
+
+- (BOOL)resignFirstResponder {
+	return [_textView resignFirstResponder];
+}
+
+- (BOOL)isFirstResponder {
+	return _textView.isFirstResponder;
 }
 
 - (void)toggleKeyboard:(id)sender {
-	self.showKeyboard = !_keyboardVisible;
+	if (self.isFirstResponder) {
+		[self resignFirstResponder];
+	} else {
+		[self becomeFirstResponder];
+	}
 }
 
 @end

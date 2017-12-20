@@ -14,6 +14,7 @@
 
 - (void)readInputStream:(NSData *)data;
 - (void)clearScreen;
+- (void)close;
 
 @property (strong, nonatomic, readonly) UITextView *textView;
 
