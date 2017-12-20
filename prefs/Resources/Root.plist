@@ -28,7 +28,7 @@
 			<key>validTitles</key>
 			<array>
 				<string>Courier</string>
-				<string>DejaVu Sans Mono</string>
+				<string>Fira Code</string>
 				<string>Hack</string>
 				<string>Menlo</string>
 				<string>Source Code Pro</string>
@@ -36,7 +36,7 @@
 			<key>validValues</key>
 			<array>
 				<string>Courier</string>
-				<string>DejaVuSansMono</string>
+				<string>FiraCode-Retina</string>
 				<string>Hack-Regular</string>
 				<string>Menlo-Regular</string>
 				<string>SourceCodePro-Regular</string>
