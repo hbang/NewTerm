@@ -34,6 +34,8 @@
  **	 Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
+#import "VT100Types.h"
+
 // VT100TCC types
 #define VT100CC_NULL 0
 #define VT100CC_ENQ 5		 // Transmit ANSWERBACK message
@@ -139,7 +141,7 @@ typedef struct {
 		unsigned char *position;
 		int length;
 		union {
-				NSString *string;
+				CFStringRef string;
 				unsigned char code;
 				struct {
 						int p[VT100CSIPARAM_MAX];

@@ -177,10 +177,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		if (temp_buffer) {
 				free(temp_buffer);
 		}
-
-		[printToAnsiString release];
-
-		[super dealloc];
+		
 #if DEBUG_ALLOC
 		HBLogDebug(@"%s: %p, done", __PRETTY_FUNCTION__, self);
 #endif
@@ -548,10 +545,10 @@ static __inline__ screen_char_t *incrementLinePointer(
 	 case VT100_ASCIISTRING:
 						// check if we are in print mode
 						if ([self printToAnsi] == YES)
-								[self printStringToAnsi: token.u.string];
+								[self printStringToAnsi: (__bridge NSString *)token.u.string];
 						// else display string on screen
 						else
-								[self setString:token.u.string ascii: token.type == VT100_ASCIISTRING];
+								[self setString:(__bridge NSString *)token.u.string ascii: token.type == VT100_ASCIISTRING];
 						break;
 	 case VT100_UNKNOWNCHAR: break;
 	 case VT100_NOTSUPPORT: break;
@@ -712,15 +709,11 @@ static __inline__ screen_char_t *incrementLinePointer(
 															break;
 													case 5:
 															// allocate a string for the stuff to be printed
-															if (printToAnsiString != nil)
-																	[printToAnsiString release];
 															printToAnsiString = [[NSMutableString alloc] init];
 															[self setPrintToAnsi: YES];
 															break;
 													default:
 															//print out the whole screen
-															if (printToAnsiString != nil)
-																	[printToAnsiString release];
 															printToAnsiString = nil;
 															[self setPrintToAnsi: NO];
 															printPending = YES;
@@ -854,6 +847,10 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)setString:(NSString *)string ascii:(BOOL)ascii {
 		screen_char_t *buffer;
+		HBLogDebug(@"-[VT100Screen setString:%p at %d]",
+						string, CURSOR_X);
+		HBLogDebug(@"-[VT100Screen setString:%@ at %d]",
+						string, CURSOR_X);
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen setString:%@ at %d]",

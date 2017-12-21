@@ -16,30 +16,30 @@
 	self = [super init];
 	
 	if (self) {
-		_background       = [[UIColor alloc] initWithWhite:0.f alpha:1.f];;
-		_foreground	      = [[UIColor alloc] initWithWhite:0.95f alpha:1.f];
-		_foregroundBold   = [[UIColor alloc] initWithWhite:1.f alpha:1.f];
-		_foregroundCursor = [[UIColor alloc] initWithWhite:0.95f alpha:1.f];
-		_backgroundCursor = [[UIColor alloc] initWithWhite:0.4f alpha:1.f];
+		_background       = [UIColor colorWithWhite:0.f alpha:1.f];
+		_foreground	      = [UIColor colorWithWhite:0.95f alpha:1.f];
+		_foregroundBold   = [UIColor colorWithWhite:1.f alpha:1.f];
+		_foregroundCursor = [UIColor colorWithWhite:0.95f alpha:1.f];
+		_backgroundCursor = [UIColor colorWithWhite:0.4f alpha:1.f];
 		_isDark = YES;
 		
 		// System 7.5 colors, why not?
-		_table[0]  = [[UIColor alloc] initWithRed:0.0f green:0.0f blue:0.0f alpha:1.f]; // black
-		_table[1]  = [[UIColor alloc] initWithRed:0.6f green:0.0f blue:0.0f alpha:1.f]; // dark red
-		_table[2]  = [[UIColor alloc] initWithRed:0.0f green:0.6f blue:0.0f alpha:1.f]; // dark green
-		_table[3]  = [[UIColor alloc] initWithRed:0.6f green:0.4f blue:0.0f alpha:1.f]; // dark yellow
-		_table[4]  = [[UIColor alloc] initWithRed:0.0f green:0.0f blue:0.6f alpha:1.f]; // dark blue
-		_table[5]  = [[UIColor alloc] initWithRed:0.6f green:0.0f blue:0.6f alpha:1.f]; // dark magenta
-		_table[6]  = [[UIColor alloc] initWithRed:0.0f green:0.6f blue:0.6f alpha:1.f]; // dark cyan
-		_table[7]  = [[UIColor alloc] initWithRed:0.6f green:0.6f blue:0.6f alpha:1.f]; // dark white
-		_table[8]  = [[UIColor alloc] initWithRed:0.0f green:0.0f blue:0.0f alpha:1.f]; // black
-		_table[9]  = [[UIColor alloc] initWithRed:1.0f green:0.0f blue:0.0f alpha:1.f]; // red
-		_table[10] = [[UIColor alloc] initWithRed:0.0f green:1.0f blue:0.0f alpha:1.f]; // green
-		_table[11] = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:0.0f alpha:1.f]; // yellow
-		_table[12] = [[UIColor alloc] initWithRed:0.0f green:0.0f blue:1.0f alpha:1.f]; // blue
-		_table[13] = [[UIColor alloc] initWithRed:1.0f green:0.0f blue:1.0f alpha:1.f]; // magenta
-		_table[14] = [[UIColor alloc] initWithRed:0.0f green:1.0f blue:1.0f alpha:1.f]; // light cyan
-		_table[15] = [[UIColor alloc] initWithRed:1.0f green:1.0f blue:1.0f alpha:1.f]; // white
+		_table[0]  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.f]; // black
+		_table[1]  = [UIColor colorWithRed:0.6f green:0.0f blue:0.0f alpha:1.f]; // dark red
+		_table[2]  = [UIColor colorWithRed:0.0f green:0.6f blue:0.0f alpha:1.f]; // dark green
+		_table[3]  = [UIColor colorWithRed:0.6f green:0.4f blue:0.0f alpha:1.f]; // dark yellow
+		_table[4]  = [UIColor colorWithRed:0.0f green:0.0f blue:0.6f alpha:1.f]; // dark blue
+		_table[5]  = [UIColor colorWithRed:0.6f green:0.0f blue:0.6f alpha:1.f]; // dark magenta
+		_table[6]  = [UIColor colorWithRed:0.0f green:0.6f blue:0.6f alpha:1.f]; // dark cyan
+		_table[7]  = [UIColor colorWithRed:0.6f green:0.6f blue:0.6f alpha:1.f]; // dark white
+		_table[8]  = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.f]; // black
+		_table[9]  = [UIColor colorWithRed:1.0f green:0.0f blue:0.0f alpha:1.f]; // red
+		_table[10] = [UIColor colorWithRed:0.0f green:1.0f blue:0.0f alpha:1.f]; // green
+		_table[11] = [UIColor colorWithRed:1.0f green:1.0f blue:0.0f alpha:1.f]; // yellow
+		_table[12] = [UIColor colorWithRed:0.0f green:0.0f blue:1.0f alpha:1.f]; // blue
+		_table[13] = [UIColor colorWithRed:1.0f green:0.0f blue:1.0f alpha:1.f]; // magenta
+		_table[14] = [UIColor colorWithRed:0.0f green:1.0f blue:1.0f alpha:1.f]; // light cyan
+		_table[15] = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.f]; // white
 	}
 	
 	return self;
@@ -50,26 +50,20 @@
 	
 	if (self) {
 		if (dictionary[@"Background"]) {
-			[_background release];
-			_background = [[self _colorFromArray:dictionary[@"Background"]] retain];
+			_background = [self _colorFromArray:dictionary[@"Background"]];
 		}
 		
 		if (dictionary[@"Text"]) {
-			[_foreground release];
-			_foreground = [[self _colorFromArray:dictionary[@"Text"]] retain];
+			_foreground = [self _colorFromArray:dictionary[@"Text"]];
 		}
 		
 		if (dictionary[@"BoldText"]) {
-			[_foregroundBold release];
-			_foregroundBold = [[self _colorFromArray:dictionary[@"BoldText"]] retain];
+			_foregroundBold = [self _colorFromArray:dictionary[@"BoldText"]];
 		}
 		
 		if (dictionary[@"Cursor"]) {
-			[_foregroundCursor release];
-			_foregroundCursor = [[self _colorFromArray:dictionary[@"Cursor"]] retain];
-			
-			[_backgroundCursor release];
-			_backgroundCursor = [[self _colorFromArray:dictionary[@"Cursor"]] retain];
+			_foregroundCursor = [self _colorFromArray:dictionary[@"Cursor"]];
+			_backgroundCursor = [self _colorFromArray:dictionary[@"Cursor"]];
 		}
 		
 		if (dictionary[@"Dark"]) {
@@ -86,19 +80,6 @@
 	}
 	
 	return [UIColor colorWithRed:((NSNumber *)array[0]).floatValue / 255.f green:((NSNumber *)array[1]).floatValue / 255.f blue:((NSNumber *)array[2]).floatValue / 255.f alpha:1.f];
-}
-
-- (void) dealloc {
-	for (int i = 0; i < COLOR_MAP_MAX_COLORS; i++) {
-		[_table[i] release];
-	}
-	
-	[_background release];
-	[_foreground release];
-	[_foregroundBold release];
-	[_foregroundCursor release];
-	[_backgroundCursor release];
-	[super dealloc];
 }
 
 - (UIColor *)colorAtIndex:(unsigned int)index {

@@ -1,8 +1,6 @@
 // VT100RowStringSupplier.m
 // MobileTerminal
 
-@import CoreText;
-
 #import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
 #import "VT100Types.h"
@@ -38,7 +36,7 @@
 		width += 1;
 	}
 
-	return [[[NSString alloc] initWithCharacters:unicharBuffer length:width] autorelease];
+	return [[NSString alloc] initWithBytes:unicharBuffer length:width encoding:NSUTF8StringEncoding];
 }
 
 - (NSAttributedString *)attributedString {

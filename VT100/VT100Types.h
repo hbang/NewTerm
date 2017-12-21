@@ -10,9 +10,9 @@ static const int kMaxRowBufferSize = 200;
 
 // TODO(allen): Include the dirty bit in this struct
 typedef struct screen_char_t {
-		unichar ch;	 // the actual character
-		unsigned int bg_color;	// background color
-		unsigned int fg_color;	// foreground color
+	unichar ch;	 // the actual character
+	unsigned int bg_color;	// background color
+	unsigned int fg_color;	// foreground color
 } screen_char_t;
 
 typedef struct {
@@ -46,13 +46,6 @@ typedef struct {
 - (void)readInputStream:(NSData *)data;
 
 - (void)clearScreen;
-
-- (void)clearSelection;
-- (BOOL)hasSelection;
-- (void)setSelectionStart:(ScreenPosition)point;
-- (ScreenPosition)selectionStart;
-- (void)setSelectionEnd:(ScreenPosition)point;
-- (ScreenPosition)selectionEnd;
 
 @end
 

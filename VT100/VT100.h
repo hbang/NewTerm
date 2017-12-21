@@ -22,10 +22,6 @@
 	VT100Screen *screen;
 	VT100Terminal *terminal;
 	id <ScreenBufferRefreshDelegate> refreshDelegate;
-
-	// Points on the screen
-	ScreenPosition selectionStart;
-	ScreenPosition selectionEnd;
 }
 
 @property (nonatomic, retain) id <ScreenBufferRefreshDelegate> refreshDelegate;
@@ -52,10 +48,5 @@
 - (ScreenPosition)cursorPosition;
 
 - (void)clearScreen;
-
-- (void)clearSelection;
-- (BOOL)hasSelection;
-- (void)setSelectionStart:(ScreenPosition)point;
-- (void)setSelectionEnd:(ScreenPosition)point;
 
 @end

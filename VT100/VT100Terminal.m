@@ -346,6 +346,7 @@ static VT100TCC decode_csi(unsigned char *datap,
 				size_t *rmlen,VT100Screen *SCREEN)
 {
 		VT100TCC result;
+		result.u.string = nil;
 		CSIParam param={{0},0};
 		size_t paramlen;
 		int i;
@@ -596,6 +597,7 @@ static VT100TCC decode_other(unsigned char *datap,
 				size_t *rmlen)
 {
 		VT100TCC result;
+		result.u.string = nil;
 		int c1, c2;
 
 		NSCParameterAssert(datap[0] == ESC);
@@ -732,6 +734,7 @@ static VT100TCC decode_control(unsigned char *datap,
 				VT100Screen *SCREEN)
 {
 		VT100TCC result;
+		result.u.string = nil;
 
 		if (isCSI(datap, datalen)) {
 				result = decode_csi(datap, datalen, rmlen, SCREEN);
@@ -791,6 +794,7 @@ static VT100TCC decode_utf8(unsigned char *datap,
 				size_t datalen ,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 		int reqbyte;
@@ -828,6 +832,7 @@ static VT100TCC decode_euccn(unsigned char *datap,
 				size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -862,6 +867,7 @@ static VT100TCC decode_big5(unsigned char *datap,
 				size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -895,6 +901,7 @@ static VT100TCC decode_euc_jp(unsigned char *datap,
 				size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -927,6 +934,7 @@ static VT100TCC decode_euc_jp(unsigned char *datap,
 static VT100TCC decode_sjis(unsigned char *datap, size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -956,6 +964,7 @@ static VT100TCC decode_euckr(unsigned char *datap,
 				size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -979,6 +988,7 @@ static VT100TCC decode_euckr(unsigned char *datap,
 static VT100TCC decode_other_enc(unsigned char *datap, size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -1002,6 +1012,7 @@ static VT100TCC decode_other_enc(unsigned char *datap, size_t datalen,
 static VT100TCC decode_ascii_string(unsigned char *datap, size_t datalen,
 				size_t *rmlen) {
 		VT100TCC result;
+		result.u.string = nil;
 		unsigned char *p = datap;
 		size_t len = datalen;
 
@@ -1021,11 +1032,10 @@ static VT100TCC decode_ascii_string(unsigned char *datap, size_t datalen,
 				result.type = VT100_ASCIISTRING;
 		}
 
-		result.u.string =[[[NSString alloc]
+		result.u.string = (__bridge CFStringRef)[[NSString alloc]
 				initWithBytes:datap
 							 length:*rmlen
-						 encoding:NSASCIIStringEncoding]
-						 autorelease];
+						 encoding:NSASCIIStringEncoding];
 
 		if (result.u.string==nil) {
 				*rmlen = 0;
@@ -1043,6 +1053,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 
 		*rmlen = 0;
 		result.type = VT100_UNKNOWNCHAR;
+		result.u.string = nil;
 		result.u.code = datap[0];
 
 		// HBLogDebug(@"data: %@",[NSData dataWithBytes:datap length:datalen]);
@@ -1069,19 +1080,18 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		}
 
 		if (result.type != VT100_WAIT) {
-				result.u.string =[[[NSString alloc]
+				result.u.string = CFBridgingRetain([[NSString alloc]
 						initWithBytes:datap
 									 length:*rmlen
-								 encoding:encoding]
-								 autorelease];
+								 encoding:encoding]);
 
 				if (result.u.string==nil) {
 						int i;
 						for(i=*rmlen-1;i>=0&&!result.u.string;i--) {
 								datap[i]=UNKNOWN;
 								result.u.string =
-										[[[NSString alloc] initWithBytes:datap length:*rmlen
-																						encoding:encoding] autorelease];
+										CFBridgingRetain([[NSString alloc] initWithBytes:datap length:*rmlen
+																						encoding:encoding]);
 						}
 				}
 		}
@@ -1147,16 +1157,12 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 - (void)dealloc
 {
 		free(STREAM);
-		[streamLock release];
-		[termType release];
 
 		int i;
 		for(i = 0; i < TERMINFO_KEYS; i ++) {
 				if (key_strings[i]) free(key_strings[i]);
 				key_strings[i]=NULL;
 		}
-
-		[super dealloc];
 }
 
 - (NSString *)termtype {
@@ -1164,8 +1170,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 }
 
 - (void)setTermType:(NSString *)ttype {
-		if (termType) [termType release];
-		termType = [[NSString stringWithString:ttype] retain];
+		termType = [NSString stringWithString:ttype];
 
 		NSRange range = [termType rangeOfString:@"xterm"];
 		allowKeypadMode = range.location != NSNotFound;
@@ -1302,6 +1307,7 @@ static VT100TCC decode_string(unsigned char *datap, size_t datalen,
 		unsigned char *datap;
 		size_t datalen;
 		VT100TCC result;
+		result.u.string = nil;
 
 		// acquire lock
 		[streamLock lock];

@@ -9,7 +9,7 @@
 	self = [super init];
 	
 	if (self) {
-		_font = [uiFont retain];
+		_font = uiFont;
 		
 		CTFontRef ctFont = (__bridge CTFontRef)_font;
 		NSAssert(ctFont != NULL, @"Error in CTFontCreateWithName");
@@ -33,11 +33,6 @@
 	}
 	
 	return self;
-}
-
-- (void) dealloc {
-	[_font release];
-	[super dealloc];
 }
 
 @end

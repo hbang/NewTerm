@@ -31,12 +31,6 @@ static const int kDefaultHeight = 25;
 	return self;
 }
 
-- (void) dealloc {
-	[terminal release];
-	[screen release];
-	[super dealloc];
-}
-
 // This object itself is the refresh delegate for the screen.	 When we're
 // invoked, invoke our refresh delegate and then reset the dirty bits on the
 // screen since we should have now refreshed the screen.
@@ -67,22 +61,21 @@ static const int kDefaultHeight = 25;
 	[screen.refreshDelegate refresh];
 }
 
-- (void)setScreenSize:(ScreenSize)size
-{
-	[screen resizeWidth:size.width height:size.height];
-}
-
 - (ScreenSize)screenSize {
 	ScreenSize size;
-	size.width = [screen width];
-	size.height = [screen height];
+	size.width = screen.width;
+	size.height = screen.height;
 	return size;
+}
+
+- (void)setScreenSize:(ScreenSize)size {
+	[screen resizeWidth:size.width height:size.height];
 }
 
 - (ScreenPosition)cursorPosition {
 	ScreenPosition position;
-	position.x = [screen cursorX];
-	position.y = [screen cursorY];
+	position.x = screen.cursorX;
+	position.y = screen.cursorY;
 	return position;
 }
 
@@ -102,35 +95,5 @@ static const int kDefaultHeight = 25;
 - (unsigned)scrollbackLines {
 	return [screen numberOfScrollbackLines];
 }
-
-- (BOOL)hasSelection {
-	return selectionStart.x != -1 && selectionStart.y != -1 &&
-		selectionEnd.x != -1 && selectionEnd.y != -1;
-}
-
-- (void)clearSelection {
-	selectionStart.x = -1;
-	selectionStart.y = -1;
-	selectionEnd.x = -1;
-	selectionEnd.y = -1;
-}
-
-- (void)setSelectionStart:(ScreenPosition)point {
-	selectionStart = point;
-}
-
-- (ScreenPosition)selectionStart
-{
-	return selectionStart;
-}
-
-- (void)setSelectionEnd:(ScreenPosition)point {
-	selectionEnd = point;
-}
-
-- (ScreenPosition)selectionEnd {
-	return selectionEnd;
-}
-
 
 @end
