@@ -55,11 +55,15 @@ static const char kDefaultUsername[] = "mobile";
 		// Handle the child subprocess
 		// First try to use /bin/login since its a little nicer. Fall back to
 		// /bin/sh if that is available.
-		char * login_args[] = { "login", "-fp", (char*)username, (char *)0, };
-		char * sh_args[] = { "sh", (char *)0, };
+		char *login_args[] = { "login", "-fp", (char *)username, NULL };
+		char *sh_args[] = { "sh", NULL };
 
 		// TODO: these should be configurable
-		char * env[] = { "TERM=xterm-color", "LANG=en_US.UTF-8", (char *)0 };
+		char *env[] = {
+			"TERM=xterm-color",
+			"LANG=en_US.UTF-8",
+			NULL
+		};
 
 		// NOTE: These should never return if successful
 		[self _startProcess:"/usr/bin/login" arguments:login_args environment:env];
@@ -92,17 +96,17 @@ static const char kDefaultUsername[] = "mobile";
 	NSString *pathString = @(path);
 	NSFileManager *fileManager = [NSFileManager defaultManager];
 	if (![fileManager fileExistsAtPath:pathString]) {
-		HBLogError(@"%s: File does not exist\n", path);
+		HBLogError(@"%s: File does not exist", path);
 		return -1;
 	}
 	// Notably, we don't test group or other bits so this still might not always
 	// notice if the binary is not executable by us.
 	if (![fileManager isExecutableFileAtPath:pathString]) {
-		HBLogError(@"%s: File does not exist\n", path);
+		HBLogError(@"%s: File does not exist", path);
 		return -1;
 	}
 	if (execve(path, args, env) == -1) {
-		HBLogError(@"execlp:");
+		HBLogError(@"%s: exec failed: %s", path, strerror(errno));
 		return -1;
 	}
 	// execve never returns if successful
