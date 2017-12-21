@@ -151,9 +151,11 @@
 	// It is not worth the effort to fail gracefully (increasing the buffer size would
 	// be better).
 	NSParameterAssert(size.width < kMaxRowBufferSize);
-	_buffer.screenSize = size;
 
-	[_terminalController updateScreenSize];
+	if (size.width != _buffer.screenSize.width || size.height != _buffer.screenSize.height) {
+		_buffer.screenSize = size;
+		[_terminalController updateScreenSize];
+	}
 }
 
 - (void)refresh {
@@ -174,7 +176,9 @@
 	CGPoint offset = _textView.contentOffset;
 	offset.y = _buffer.scrollbackLines == 0 ? -inset.top : inset.bottom + _textView.contentSize.height - _textView.frame.size.height;
 
-	_textView.contentOffset = offset;
+	if (_textView.contentOffset.y != offset.y) {
+		_textView.contentOffset = offset;
+	}
 }
 
 - (void)readInputStream:(NSData *)data {
