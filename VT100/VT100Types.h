@@ -5,15 +5,10 @@
 // components and the higher level text view components so they both do not
 // have to depend on each other.
 
+#import "ScreenChar.h"
+
 // Buffer space used to draw any particular row.
 static const int kMaxRowBufferSize = 200;
-
-// TODO(allen): Include the dirty bit in this struct
-typedef struct screen_char_t {
-	unichar ch;	 // the actual character
-	unsigned int bg_color;	// background color
-	unsigned int fg_color;	// foreground color
-} screen_char_t;
 
 typedef struct {
 	int width;

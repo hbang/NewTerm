@@ -35,122 +35,11 @@
  */
 
 #import "VT100Types.h"
-
-// VT100TCC types
-#define VT100CC_NULL 0
-#define VT100CC_ENQ 5		 // Transmit ANSWERBACK message
-#define VT100CC_BEL 7		 // Sound bell
-#define VT100CC_BS 8		// Move cursor to the left
-#define VT100CC_HT 9		// Move cursor to the next tab stop
-#define VT100CC_LF 10 // line feed or new line operation
-#define VT100CC_VT 11 // Same as <LF>.
-#define VT100CC_FF 12 // Same as <LF>.
-#define VT100CC_CR 13 // Move the cursor to the left margin
-#define VT100CC_SO 14 // Invoke the G1 character set
-#define VT100CC_SI 15 // Invoke the G0 character set
-#define VT100CC_DC1 17 // Causes terminal to resume transmission (XON).
-#define VT100CC_DC3 19 // Causes terminal to stop transmitting all codes except XOFF and XON (XOFF).
-#define VT100CC_CAN 24 // Cancel a control sequence
-#define VT100CC_SUB 26 // Same as <CAN>.
-#define VT100CC_ESC 27 // Introduces a control sequence.
-#define VT100CC_DEL 255 // Ignored on input; not stored in buffer.
-
-#define VT100_WAIT 1000
-#define VT100_NOTSUPPORT 1001
-#define VT100_SKIP 1002
-#define VT100_STRING 1003 // string
-#define VT100_ASCIISTRING 1004 // only for ASCIIs
-#define VT100_UNKNOWNCHAR 1005
-#define VT100CSI_DECSET 1006
-#define VT100CSI_DECRST 1007
-
-#define VT100CSI_CPR 2000 // Cursor Position Report
-#define VT100CSI_CUB 2001 // Cursor Backward
-#define VT100CSI_CUD 2002 // Cursor Down
-#define VT100CSI_CUF 2003 // Cursor Forward
-#define VT100CSI_CUP 2004 // Cursor Position
-#define VT100CSI_CUU 2005 // Cursor Up
-#define VT100CSI_DA 2006 // Device Attributes
-#define VT100CSI_DECALN 2007 // Screen Alignment Display
-#define VT100CSI_DECDHL 2013 // Double Height Line
-#define VT100CSI_DECDWL 2014 // Double Width Line
-#define VT100CSI_DECID 2015 // Identify Terminal
-#define VT100CSI_DECKPAM 2017 // Keypad Application Mode
-#define VT100CSI_DECKPNM 2018 // Keypad Numeric Mode
-#define VT100CSI_DECLL 2019 // Load LEDS
-#define VT100CSI_DECRC 2021 // Restore Cursor
-#define VT100CSI_DECREPTPARM 2022 // Report Terminal Parameters
-#define VT100CSI_DECREQTPARM 2023 // Request Terminal Parameters
-#define VT100CSI_DECSC 2024 // Save Cursor
-#define VT100CSI_DECSTBM 2027 // Set Top and Bottom Margins
-#define VT100CSI_DECSWL 2028 // Single-width Line
-#define VT100CSI_DECTST 2029 // Invoke Confidence Test
-#define VT100CSI_DSR 2030 // Device Status Report
-#define VT100CSI_ED 2031 // Erase In Display
-#define VT100CSI_EL 2032 // Erase In Line
-#define VT100CSI_HTS 2033 // Horizontal Tabulation Set
-#define VT100CSI_HVP 2034 // Horizontal and Vertical Position
-#define VT100CSI_IND 2035 // Index
-#define VT100CSI_NEL 2037 // Next Line
-#define VT100CSI_RI 2038 // Reverse Index
-#define VT100CSI_RIS 2039 // Reset To Initial State
-#define VT100CSI_RM 2040 // Reset Mode
-#define VT100CSI_SCS 2041
-#define VT100CSI_SCS0 2041 // Select Character Set 0
-#define VT100CSI_SCS1 2042 // Select Character Set 1
-#define VT100CSI_SCS2 2043 // Select Character Set 2
-#define VT100CSI_SCS3 2044 // Select Character Set 3
-#define VT100CSI_SGR 2045 // Select Graphic Rendition
-#define VT100CSI_SM 2046 // Set Mode
-#define VT100CSI_TBC 2047 // Tabulation Clear
-
-// some xterm extension
-#define XTERMCC_WIN_TITLE 86 // Set window title
-#define XTERMCC_ICON_TITLE 91
-#define XTERMCC_WINICON_TITLE 92
-#define XTERMCC_INSBLNK 87 // Insert blank
-#define XTERMCC_INSLN 88 // Insert lines
-#define XTERMCC_DELCH 89 // delete blank
-#define XTERMCC_DELLN 90 // delete lines
-#define XTERMCC_WINDOWSIZE 93 // (8,H,W) NK: added for Vim resizing window
-#define XTERMCC_WINDOWSIZE_PIXEL 94 // (8,H,W) NK: added for Vim resizing window
-#define XTERMCC_WINDOWPOS 95 // (3,Y,X) NK: added for Vim positioning window
-#define XTERMCC_ICONIFY 96
-#define XTERMCC_DEICONIFY 97
-#define XTERMCC_RAISE 98
-#define XTERMCC_LOWER 99
-#define XTERMCC_SU 100 // scroll up
-#define XTERMCC_SD 101 // scroll down
-
-// Some ansi stuff
-#define ANSICSI_CHA 3000 // Cursor Horizontal Absolute
-#define ANSICSI_VPA 3001 // Vert Position Absolute
-#define ANSICSI_VPR 3002 // Vert Position Relative
-#define ANSICSI_ECH 3003 // Erase Character
-#define ANSICSI_PRINT 3004 // Print to Ansi
-
-// Toggle between ansi/vt52
-#define STRICT_ANSI_MODE 4000
+#import "VT100Token.h"
 
 #define VT100CSIPARAM_MAX 16
 
 @class VT100Screen;
-
-typedef struct {
-		int type;
-		unsigned char *position;
-		int length;
-		union {
-				CFStringRef string;
-				unsigned char code;
-				struct {
-						int p[VT100CSIPARAM_MAX];
-						int count;
-						BOOL question;
-						int modifier;
-				} csi;
-		} u;
-} VT100TCC;
 
 // character attributes
 #define VT100CHARATTR_ALLOFF 0
@@ -166,16 +55,16 @@ typedef struct {
 #define VT100CHARATTR_POSITIVE 27
 
 typedef enum {
-		COLORCODE_BLACK=0,
-		COLORCODE_RED=1,
-		COLORCODE_GREEN=2,
-		COLORCODE_YELLOW=3,
-		COLORCODE_BLUE=4,
-		COLORCODE_PURPLE=5,
-		COLORCODE_WATER=6,
-		COLORCODE_WHITE=7,
-		COLORCODE_256=8,
-		COLORS
+	COLORCODE_BLACK=0,
+	COLORCODE_RED=1,
+	COLORCODE_GREEN=2,
+	COLORCODE_YELLOW=3,
+	COLORCODE_BLUE=4,
+	COLORCODE_PURPLE=5,
+	COLORCODE_WATER=6,
+	COLORCODE_WHITE=7,
+	COLORCODE_256=8,
+	COLORS
 } colorCode;
 
 // 8 color support
@@ -241,76 +130,76 @@ typedef enum {
 
 // terminfo stuff
 enum {
-		TERMINFO_KEY_LEFT, TERMINFO_KEY_RIGHT, TERMINFO_KEY_UP, TERMINFO_KEY_DOWN,
-		TERMINFO_KEY_HOME, TERMINFO_KEY_END, TERMINFO_KEY_PAGEDOWN, TERMINFO_KEY_PAGEUP,
-		TERMINFO_KEY_F0, TERMINFO_KEY_F1, TERMINFO_KEY_F2, TERMINFO_KEY_F3, TERMINFO_KEY_F4,
-		TERMINFO_KEY_F5, TERMINFO_KEY_F6, TERMINFO_KEY_F7, TERMINFO_KEY_F8, TERMINFO_KEY_F9,
-		TERMINFO_KEY_F10, TERMINFO_KEY_F11, TERMINFO_KEY_F12, TERMINFO_KEY_F13, TERMINFO_KEY_F14,
-		TERMINFO_KEY_F15, TERMINFO_KEY_F16, TERMINFO_KEY_F17, TERMINFO_KEY_F18, TERMINFO_KEY_F19,
-		TERMINFO_KEY_F20, TERMINFO_KEY_F21, TERMINFO_KEY_F22, TERMINFO_KEY_F23, TERMINFO_KEY_F24,
-		TERMINFO_KEY_F25, TERMINFO_KEY_F26, TERMINFO_KEY_F27, TERMINFO_KEY_F28, TERMINFO_KEY_F29,
-		TERMINFO_KEY_F30, TERMINFO_KEY_F31, TERMINFO_KEY_F32, TERMINFO_KEY_F33, TERMINFO_KEY_F34,
-		TERMINFO_KEY_F35,
-		TERMINFO_KEY_BACKSPACE, TERMINFO_KEY_BACK_TAB,
-		TERMINFO_KEY_TAB,
-		TERMINFO_KEY_DEL, TERMINFO_KEY_INS,
-		TERMINFO_KEY_HELP,
-		TERMINFO_KEYS
+	TERMINFO_KEY_LEFT, TERMINFO_KEY_RIGHT, TERMINFO_KEY_UP, TERMINFO_KEY_DOWN,
+	TERMINFO_KEY_HOME, TERMINFO_KEY_END, TERMINFO_KEY_PAGEDOWN, TERMINFO_KEY_PAGEUP,
+	TERMINFO_KEY_F0, TERMINFO_KEY_F1, TERMINFO_KEY_F2, TERMINFO_KEY_F3, TERMINFO_KEY_F4,
+	TERMINFO_KEY_F5, TERMINFO_KEY_F6, TERMINFO_KEY_F7, TERMINFO_KEY_F8, TERMINFO_KEY_F9,
+	TERMINFO_KEY_F10, TERMINFO_KEY_F11, TERMINFO_KEY_F12, TERMINFO_KEY_F13, TERMINFO_KEY_F14,
+	TERMINFO_KEY_F15, TERMINFO_KEY_F16, TERMINFO_KEY_F17, TERMINFO_KEY_F18, TERMINFO_KEY_F19,
+	TERMINFO_KEY_F20, TERMINFO_KEY_F21, TERMINFO_KEY_F22, TERMINFO_KEY_F23, TERMINFO_KEY_F24,
+	TERMINFO_KEY_F25, TERMINFO_KEY_F26, TERMINFO_KEY_F27, TERMINFO_KEY_F28, TERMINFO_KEY_F29,
+	TERMINFO_KEY_F30, TERMINFO_KEY_F31, TERMINFO_KEY_F32, TERMINFO_KEY_F33, TERMINFO_KEY_F34,
+	TERMINFO_KEY_F35,
+	TERMINFO_KEY_BACKSPACE, TERMINFO_KEY_BACK_TAB,
+	TERMINFO_KEY_TAB,
+	TERMINFO_KEY_DEL, TERMINFO_KEY_INS,
+	TERMINFO_KEY_HELP,
+	TERMINFO_KEYS
 };
 
 typedef enum {
-		MOUSE_REPORTING_NONE = -1,
-		MOUSE_REPORTING_NORMAL = 0,
-		MOUSE_REPORTING_HILITE,
-		MOUSE_REPORTING_BUTTON_MOTION,
-		MOUSE_REPORTING_ALL_MOTION,
+	MOUSE_REPORTING_NONE = -1,
+	MOUSE_REPORTING_NORMAL = 0,
+	MOUSE_REPORTING_HILITE,
+	MOUSE_REPORTING_BUTTON_MOTION,
+	MOUSE_REPORTING_ALL_MOTION,
 } mouseMode;
 
 @interface VT100Terminal : NSObject {
-		NSString *termType;
-		NSStringEncoding ENCODING;
-		VT100Screen *SCREEN;
-		NSLock *streamLock;
+	NSString *termType;
+	NSStringEncoding ENCODING;
+	VT100Screen *SCREEN;
+	NSLock *streamLock;
 
-		unsigned char *STREAM;
-		int current_stream_length;
-		int total_stream_length;
+	unsigned char *STREAM;
+	int current_stream_length;
+	int total_stream_length;
 
-		BOOL LINE_MODE; // YES=Newline, NO=Line feed
-		BOOL CURSOR_MODE; // YES=Application, NO=Cursor
-		BOOL ANSI_MODE; // YES=ANSI, NO=VT52
-		BOOL COLUMN_MODE; // YES=132 Column, NO=80 Column
-		BOOL SCROLL_MODE; // YES=Smooth, NO=Jump
-		BOOL SCREEN_MODE; // YES=Reverse, NO=Normal
-		BOOL ORIGIN_MODE; // YES=Relative, NO=Absolute
-		BOOL WRAPAROUND_MODE; // YES=On, NO=Off
-		BOOL AUTOREPEAT_MODE; // YES=On, NO=Off
-		BOOL INTERLACE_MODE; // YES=On, NO=Off
-		BOOL KEYPAD_MODE; // YES=Application, NO=Numeric
-		BOOL INSERT_MODE; // YES=Insert, NO=Replace
-		int CHARSET; // G0...G3
-		BOOL XON; // YES=XON, NO=XOFF
-		BOOL numLock; // YES=ON, NO=OFF, default=YES;
-		mouseMode MOUSE_MODE;
+	BOOL LINE_MODE; // YES=Newline, NO=Line feed
+	BOOL CURSOR_MODE; // YES=Application, NO=Cursor
+	BOOL ANSI_MODE; // YES=ANSI, NO=VT52
+	BOOL COLUMN_MODE; // YES=132 Column, NO=80 Column
+	BOOL SCROLL_MODE; // YES=Smooth, NO=Jump
+	BOOL SCREEN_MODE; // YES=Reverse, NO=Normal
+	BOOL ORIGIN_MODE; // YES=Relative, NO=Absolute
+	BOOL WRAPAROUND_MODE; // YES=On, NO=Off
+	BOOL AUTOREPEAT_MODE; // YES=On, NO=Off
+	BOOL INTERLACE_MODE; // YES=On, NO=Off
+	BOOL KEYPAD_MODE; // YES=Application, NO=Numeric
+	BOOL INSERT_MODE; // YES=Insert, NO=Replace
+	int CHARSET; // G0...G3
+	BOOL XON; // YES=XON, NO=XOFF
+	BOOL numLock; // YES=ON, NO=OFF, default=YES;
+	mouseMode MOUSE_MODE;
 
-		int FG_COLORCODE;
-		int BG_COLORCODE;
-		int bold, under, blink, reversed, highlight;
+	int FG_COLORCODE;
+	int BG_COLORCODE;
+	int bold, under, blink, reversed, highlight;
 
-		int saveBold, saveUnder, saveBlink, saveReversed, saveHighlight;
-		int saveCHARSET;
+	int saveBold, saveUnder, saveBlink, saveReversed, saveHighlight;
+	int saveCHARSET;
 
-		BOOL TRACE;
+	BOOL TRACE;
 
-		BOOL strictAnsiMode;
-		BOOL allowColumnMode;
+	BOOL strictAnsiMode;
+	BOOL allowColumnMode;
 
-		BOOL allowKeypadMode;
+	BOOL allowKeypadMode;
 
-		unsigned int streamOffset;
+	unsigned int streamOffset;
 
-		//terminfo
-		char *key_strings[TERMINFO_KEYS];
+	//terminfo
+	char *key_strings[TERMINFO_KEYS];
 }
 
 - (id)init;
@@ -333,7 +222,7 @@ typedef enum {
 
 - (void)cleanStream;
 - (void)putStreamData:(NSData *)data;
-- (VT100TCC)getNextToken;
+- (VT100Token *)getNextToken;
 
 - (void)reset;
 
@@ -374,8 +263,8 @@ typedef enum {
 - (NSData *)reportStatus;
 - (NSData *)reportDeviceAttribute;
 - (NSData *)reportSecondaryDeviceAttribute;
-- (void)setMode:(VT100TCC)token;
-- (void)setCharAttr:(VT100TCC)token;
+- (void)setMode:(VT100Token *)token;
+- (void)setCharAttr:(VT100Token *)token;
 - (void)setScreen:(VT100Screen *)sc;
 
 @end

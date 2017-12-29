@@ -24,10 +24,10 @@
 	screen_char_t *row = [_screenBuffer bufferForRow:rowIndex];
 
 	for (int j = 0; j < width; ++j) {
-		if (row[j].ch == '\0') {
+		if (row[j].code == '\0') {
 			unicharBuffer[j] = ' ';
 		} else {
-			unicharBuffer[j] = row[j].ch;
+			unicharBuffer[j] = row[j].code;
 		}
 	}
 
@@ -49,17 +49,19 @@
 		cursorPosition.y += _screenBuffer.numberOfRows - _screenBuffer.screenSize.height;
 	}
 
-	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] init];
+	NSMutableString *allLines = [NSMutableString string];
+
+	for (int i = 0; i < self.rowCount; i++) {
+		[allLines appendString:[self stringForLine:i]];
+	}
+
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines];
 	NSUInteger startOffset = 0;
 
 	for (int i = 0; i < self.rowCount; i++) {
-		NSString *string = [self stringForLine:i];
-		[attributedString.mutableString appendString:string];
-
-		// Update the string with background/foreground color attributes. This loop
-		// compares the the colors of characters and sets the attribute when it runs
-		// into a character of a different color. It runs one extra time to set the
-		// attribute for the run of characters at the end of the line.
+		// Update the string with background/foreground color attributes. This loop compares the colors
+		// of characters and sets the attribute when it runs into a character of a different color. It
+		// runs one extra time to set the attribute for the run of characters at the end of the line.
 		NSUInteger lastColorIndex = NSUIntegerMax;
 		UIColor *lastColor = nil;
 		screen_char_t *row = [_screenBuffer bufferForRow:i];
@@ -71,7 +73,7 @@
 			UIColor *color = nil;
 
 			if (!eol) {
-				color = [_colorMap colorAtIndex:row[j].bg_color];
+				color = [_colorMap colorAtIndex:row[j].backgroundColor];
 
 				if (cursorPosition.x == j && cursorPosition.y == i) {
 					color = _colorMap.backgroundCursor;
@@ -100,7 +102,7 @@
 			UIColor *color = nil;
 
 			if (!eol) {
-				color = [_colorMap colorAtIndex:row[j].fg_color];
+				color = [_colorMap colorAtIndex:row[j].foregroundColor];
 
 				if (cursorPosition.x == j && cursorPosition.y == i) {
 					color = _colorMap.foregroundCursor;
@@ -120,7 +122,7 @@
 			}
 		}
 
-		startOffset += string.length;
+		startOffset += width;
 	}
 
 	return attributedString;

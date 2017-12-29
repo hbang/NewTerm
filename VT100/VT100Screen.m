@@ -45,7 +45,7 @@ void translate(screen_char_t *s, int len)
 {
 		int i;
 		for (i = 0; i < len ; i++) {
-				s[i].ch = charmap[(int)(s[i].ch)];
+				s[i].code = charmap[(int)(s[i].code)];
 		}
 }
 
@@ -56,11 +56,11 @@ void padString(NSString *s, screen_char_t *buf, int fg, int bg, int *len,
 		int l=*len;
 		int i,j;
 		for(i=j=0;i<l;i++,j++) {
-				buf[j].ch = [s characterAtIndex:i];
-				buf[j].fg_color = fg;
-				buf[j].bg_color = bg;
-				if (buf[j].ch == 0xfeff || buf[j].ch == 0x200b ||
-						buf[j].ch == 0x200c || buf[j].ch == 0x200d) { //zero width space
+				buf[j].code = [s characterAtIndex:i];
+				buf[j].foregroundColor = fg;
+				buf[j].backgroundColor = bg;
+				if (buf[j].code == 0xfeff || buf[j].code == 0x200b ||
+						buf[j].code == 0x200c || buf[j].code == 0x200d) { //zero width space
 						j--;
 				}
 		}
@@ -297,7 +297,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		for(;HEIGHT>CURSOR_Y+1;HEIGHT--) {
 				aLine = [self getLineAtScreenIndex: HEIGHT-1];
 				for (i=0;i<WIDTH;i++)
-						if (aLine[i].ch) break;
+						if (aLine[i].code) break;
 				if (i<WIDTH) break;
 		}
 
@@ -317,15 +317,15 @@ static __inline__ screen_char_t *incrementLinePointer(
 						memcpy(c2, c1, REAL_WIDTH *sizeof(screen_char_t));
 				} else if (WIDTH < width) {
 						memcpy(c2, c1, WIDTH *sizeof(screen_char_t));
-						c2[width].ch = 0; // no wrapping by default
+						c2[width].code = 0; // no wrapping by default
 						x2 = WIDTH;
-						while (c1[WIDTH].ch) { //wrapping?
+						while (c1[WIDTH].code) { //wrapping?
 								c1 = [self getLineAtIndex:++y1];
 								for(x1=0;x1<WIDTH;x1++,x2++) {
-										for(x3=x1; x3<=WIDTH && !c1[x3].ch; x3++);
+										for(x3=x1; x3<=WIDTH && !c1[x3].code; x3++);
 										if (x3>WIDTH) break;
 										if (x2>=width) {
-												c2[width].ch = 1;
+												c2[width].code = 1;
 												x2 = 0;
 												if (wrapped) {
 														new_scrollback_top = incrementLinePointer(bl, new_scrollback_top, new_total_height, width, &_wrap);
@@ -333,7 +333,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 												c2 = incrementLinePointer(bl, c2, new_total_height, width, &_wrap);
 												wrapped = wrapped || _wrap;
 												if (_wrap) y2 = 0; else y2++;
-												c2[width].ch = 0;
+												c2[width].code = 0;
 										}
 										c2[x2]=c1[x1];
 								}
@@ -341,14 +341,14 @@ static __inline__ screen_char_t *incrementLinePointer(
 						if (x2<width) memcpy(c2+x2, defaultLine, (width-x2)*sizeof(screen_char_t));
 				} else {
 						memcpy(c2, c1, width *sizeof(screen_char_t));
-						c2[width].ch = 0; // no wrapping by default
+						c2[width].code = 0; // no wrapping by default
 						x1 = x2 = width;
 						do {
 								for(;x1<WIDTH;x1++,x2++) {
-										for(x3=x1; x3<WIDTH && !c1[x3].ch; x3++);
-										if (x3>=WIDTH && !c1[WIDTH].ch) break;
+										for(x3=x1; x3<WIDTH && !c1[x3].code; x3++);
+										if (x3>=WIDTH && !c1[WIDTH].code) break;
 										if (x2>=width) {
-												c2[width].ch = 1;
+												c2[width].code = 1;
 												x2 = 0;
 												if (wrapped) {
 														new_scrollback_top = incrementLinePointer(bl, new_scrollback_top, new_total_height, width, &_wrap);
@@ -356,11 +356,11 @@ static __inline__ screen_char_t *incrementLinePointer(
 												c2 = incrementLinePointer(bl, c2, new_total_height, width, &_wrap);
 												wrapped = wrapped || _wrap;
 												if (_wrap) y2 = 0; else y2++;
-												c2[width].ch = 0;
+												c2[width].code = 0;
 										}
 										c2[x2]=c1[x1];
 								}
-								if (c1[WIDTH].ch) {
+								if (c1[WIDTH].code) {
 										c1 = [self getLineAtIndex:++y1];
 										x1 = 0;
 								} else
@@ -523,7 +523,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		blinkingCursor = flag;
 }
 
-- (void)putToken:(VT100TCC)token {
+- (void)putToken:(VT100Token *)token {
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen putToken: (%d)]",
@@ -545,10 +545,10 @@ static __inline__ screen_char_t *incrementLinePointer(
 	 case VT100_ASCIISTRING:
 						// check if we are in print mode
 						if ([self printToAnsi] == YES)
-								[self printStringToAnsi: (__bridge NSString *)token.u.string];
+								[self printStringToAnsi: token.string];
 						// else display string on screen
 						else
-								[self setString:(__bridge NSString *)token.u.string ascii: token.type == VT100_ASCIISTRING];
+								[self setString:token.string ascii: token.type == VT100_ASCIISTRING];
 						break;
 	 case VT100_UNKNOWNCHAR: break;
 	 case VT100_NOTSUPPORT: break;
@@ -580,13 +580,13 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 											// VT100 CSI
 	 case VT100CSI_CPR: break;
-	 case VT100CSI_CUB: [self cursorLeft:token.u.csi.p[0]]; break;
-	 case VT100CSI_CUD: [self cursorDown:token.u.csi.p[0]]; break;
-	 case VT100CSI_CUF: [self cursorRight:token.u.csi.p[0]]; break;
+	 case VT100CSI_CUB: [self cursorLeft:token.csi->p[0]]; break;
+	 case VT100CSI_CUD: [self cursorDown:token.csi->p[0]]; break;
+	 case VT100CSI_CUF: [self cursorRight:token.csi->p[0]]; break;
 	 case VT100CSI_CUP:
-		 [self cursorToX:token.u.csi.p[1] Y:token.u.csi.p[0]];
+		 [self cursorToX:token.csi->p[1] Y:token.csi->p[0]];
 		 break;
-	 case VT100CSI_CUU: [self cursorUp:token.u.csi.p[0]]; break;
+	 case VT100CSI_CUU: [self cursorUp:token.csi->p[0]]; break;
 	 case VT100CSI_DA:
 											HBLogDebug(@"Not implemented DA");
 											break;
@@ -595,11 +595,11 @@ static __inline__ screen_char_t *incrementLinePointer(
 											for (i = 0; i < HEIGHT; i++) {
 													aLine = [self getLineAtScreenIndex: i];
 													for(j = 0; j < WIDTH; j++) {
-															aLine[j].ch ='E';
-															aLine[j].fg_color = [TERMINAL foregroundColorCode];
-															aLine[j].bg_color = [TERMINAL backgroundColorCode];
+															aLine[j].code ='E';
+															aLine[j].foregroundColor = [TERMINAL foregroundColorCode];
+															aLine[j].backgroundColor = [TERMINAL backgroundColorCode];
 													}
-													aLine[WIDTH].ch = 0;
+													aLine[WIDTH].code = 0;
 											}
 											[self setDirty];
 											break;
@@ -608,14 +608,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 	 case VT100CSI_DECID: break;
 	 case VT100CSI_DECKPAM: break;
 	 case VT100CSI_DECKPNM: break;
-	 case VT100CSI_DECLL: break;
 	 case VT100CSI_DECRC: [self restoreCursorPosition]; break;
-	 case VT100CSI_DECREPTPARM: break;
-	 case VT100CSI_DECREQTPARM: break;
 	 case VT100CSI_DECSC: [self saveCursorPosition]; break;
 	 case VT100CSI_DECSTBM: [self setTopBottom:token]; break;
-	 case VT100CSI_DECSWL: break;
-	 case VT100CSI_DECTST: break;
 	 case VT100CSI_DSR:
 												 HBLogDebug(@"Not implemented DSR");
 												 break;
@@ -624,7 +619,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 	 case VT100CSI_EL: [self eraseInLine:token]; break;
 	 case VT100CSI_HTS: if (CURSOR_X<WIDTH) tabStop[CURSOR_X]=YES; break;
 	 case VT100CSI_HVP:
-		 [self cursorToX:token.u.csi.p[1] Y:token.u.csi.p[0]];
+		 [self cursorToX:token.csi->p[1] Y:token.csi->p[0]];
 		 break;
 	 case VT100CSI_NEL:
 		 CURSOR_X=0;
@@ -650,14 +645,14 @@ static __inline__ screen_char_t *incrementLinePointer(
 		 break;
 	 case VT100CSI_RIS: break;
 	 case VT100CSI_RM: break;
-	 case VT100CSI_SCS0: charset[0]=(token.u.code=='0'); break;
-	 case VT100CSI_SCS1: charset[1]=(token.u.code=='0'); break;
-	 case VT100CSI_SCS2: charset[2]=(token.u.code=='0'); break;
-	 case VT100CSI_SCS3: charset[3]=(token.u.code=='0'); break;
+	 case VT100CSI_SCS0: charset[0]=(token.code=='0'); break;
+	 case VT100CSI_SCS1: charset[1]=(token.code=='0'); break;
+	 case VT100CSI_SCS2: charset[2]=(token.code=='0'); break;
+	 case VT100CSI_SCS3: charset[3]=(token.code=='0'); break;
 	 case VT100CSI_SGR: [self selectGraphicRendition:token]; break;
 	 case VT100CSI_SM: break;
 	 case VT100CSI_TBC:
-										 switch (token.u.csi.p[0]) {
+										 switch (token.csi->p[0]) {
 												 case 3: [self clearTabStop]; break;
 												 case 0: if (CURSOR_X<WIDTH) tabStop[CURSOR_X]=NO;
 										 }
@@ -665,7 +660,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 	 case VT100CSI_DECSET:
 	 case VT100CSI_DECRST:
-										 if (token.u.csi.p[0]==3 && [TERMINAL allowColumnMode] == YES) {
+										 if (token.csi->p[0]==3 && [TERMINAL allowColumnMode] == YES) {
 												 // set the column
 												 newWidth = [TERMINAL columnMode]?132:80;
 												 newHeight = HEIGHT;
@@ -673,25 +668,25 @@ static __inline__ screen_char_t *incrementLinePointer(
 										 break;
 										 // ANSI CSI
 	 case ANSICSI_CHA:
-		[self cursorToX: token.u.csi.p[0]];
+		[self cursorToX: token.csi->p[0]];
 		break;
 	 case ANSICSI_VPA:
-		[self cursorToX: CURSOR_X+1 Y: token.u.csi.p[0]];
+		[self cursorToX: CURSOR_X+1 Y: token.csi->p[0]];
 		break;
 	 case ANSICSI_VPR:
-		[self cursorToX: CURSOR_X+1 Y: token.u.csi.p[0]+CURSOR_Y+1];
+		[self cursorToX: CURSOR_X+1 Y: token.csi->p[0]+CURSOR_Y+1];
 		break;
 	 case ANSICSI_ECH:
 		if (CURSOR_X<WIDTH) {
 				i=WIDTH *CURSOR_Y+CURSOR_X;
-				j=token.u.csi.p[0];
+				j=token.csi->p[0];
 				if (j + CURSOR_X > WIDTH)
 						j = WIDTH - CURSOR_X;
 				aLine = [self getLineAtScreenIndex: CURSOR_Y];
 				for(k = 0; k < j; k++) {
-						aLine[CURSOR_X+k].ch = 0;
-						aLine[CURSOR_X+k].fg_color = [TERMINAL foregroundColorCode];
-						aLine[CURSOR_X+k].bg_color = [TERMINAL backgroundColorCode];
+						aLine[CURSOR_X+k].code = 0;
+						aLine[CURSOR_X+k].foregroundColor = [TERMINAL foregroundColorCode];
+						aLine[CURSOR_X+k].backgroundColor = [TERMINAL backgroundColorCode];
 				}
 				memset(dirty+i,1,j);
 		}
@@ -702,7 +697,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 											break;
 
 	 case ANSICSI_PRINT:
-											switch (token.u.csi.p[0]) {
+											switch (token.csi->p[0]) {
 													case 4:
 															// print our stuff!!
 															printPending = YES;
@@ -719,15 +714,15 @@ static __inline__ screen_char_t *incrementLinePointer(
 															printPending = YES;
 											}
 											break;
-	 case XTERMCC_INSBLNK: [self insertBlank:token.u.csi.p[0]]; break;
-	 case XTERMCC_INSLN: [self insertLines:token.u.csi.p[0]]; break;
-	 case XTERMCC_DELCH: [self deleteCharacters:token.u.csi.p[0]]; break;
-	 case XTERMCC_DELLN: [self deleteLines:token.u.csi.p[0]]; break;
+	 case VT100CSI_ICH: [self insertBlank:token.csi->p[0]]; break;
+	 case XTERMCC_INSLN: [self insertLines:token.csi->p[0]]; break;
+	 case XTERMCC_DELCH: [self deleteCharacters:token.csi->p[0]]; break;
+	 case XTERMCC_DELLN: [self deleteLines:token.csi->p[0]]; break;
 	 case XTERMCC_SU:
-											 for (i=0; i<token.u.csi.p[0]; i++) [self scrollUp];
+											 for (i=0; i<token.csi->p[0]; i++) [self scrollUp];
 											 break;
 	 case XTERMCC_SD:
-											 for (i=0; i<token.u.csi.p[0]; i++) [self scrollDown];
+											 for (i=0; i<token.csi->p[0]; i++) [self scrollDown];
 											 break;
 
 
@@ -847,10 +842,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (void)setString:(NSString *)string ascii:(BOOL)ascii {
 		screen_char_t *buffer;
-		HBLogDebug(@"-[VT100Screen setString:%p at %d]",
-						string, CURSOR_X);
-		HBLogDebug(@"-[VT100Screen setString:%@ at %d]",
-						string, CURSOR_X);
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen setString:%@ at %d]",
@@ -876,9 +867,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 				[string getCharacters: sc];
 				int i;
 				for (i = 0; i < len; i++) {
-						buffer[i].ch = sc[i];
-						buffer[i].fg_color = fg;
-						buffer[i].bg_color = bg;
+						buffer[i].code = sc[i];
+						buffer[i].foregroundColor = fg;
+						buffer[i].backgroundColor = bg;
 				}
 
 				// check for graphical characters
@@ -907,8 +898,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		// TODO(allen): Implement insert mode
 		for (int idx = 0; idx < len; idx++) {
 				// cut off in the middle of double width characters
-				if (buffer[idx].ch == 0xffff) {
-						buffer[idx].ch = '#';
+				if (buffer[idx].code == 0xffff) {
+						buffer[idx].code = '#';
 				}
 				screen_char_t *aLine = [self getLineAtScreenIndex: CURSOR_Y];
 				aLine[CURSOR_X] = buffer[idx];
@@ -921,7 +912,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 				// Wrap
 				if (CURSOR_X >= WIDTH) {
 						CURSOR_X = 0;
-						[self getLineAtScreenIndex: CURSOR_Y][WIDTH].ch = 1;
+						[self getLineAtScreenIndex: CURSOR_Y][WIDTH].code = 1;
 						[self setNewLine];
 				}
 		}
@@ -999,9 +990,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 						memmove(aLine + CURSOR_X, aLine + CURSOR_X + n, (WIDTH-CURSOR_X-n)*sizeof(screen_char_t));
 				}
 				for(i = 0; i < n; i++) {
-						aLine[WIDTH-n+i].ch = 0;
-						aLine[WIDTH-n+i].fg_color = [TERMINAL foregroundColorCode];
-						aLine[WIDTH-n+i].bg_color = [TERMINAL backgroundColorCode];
+						aLine[WIDTH-n+i].code = 0;
+						aLine[WIDTH-n+i].foregroundColor = [TERMINAL foregroundColorCode];
+						aLine[WIDTH-n+i].backgroundColor = [TERMINAL backgroundColorCode];
 				}
 				memset(dirty+idx+CURSOR_X,1,WIDTH-CURSOR_X);
 		}
@@ -1049,7 +1040,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		[self releaseLock];
 }
 
-- (void)eraseInDisplay:(VT100TCC)token {
+- (void)eraseInDisplay:(VT100Token *)token {
 		int x1, y1, x2, y2;
 		int i, total_height;
 		screen_char_t *aScreenChar;
@@ -1057,9 +1048,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen eraseInDisplay:(param=%d); X = %d; Y = %d]",
-						token.u.csi.p[0], CURSOR_X, CURSOR_Y);
+						token.csi->p[0], CURSOR_X, CURSOR_Y);
 #endif
-		switch (token.u.csi.p[0]) {
+		switch (token.csi->p[0]) {
 				case 1:
 						x1 = 0;
 						y1 = 0;
@@ -1096,15 +1087,15 @@ static __inline__ screen_char_t *incrementLinePointer(
 		for(i = idx1, aScreenChar = screen_top + idx1; i < idx2; i++, aScreenChar++) {
 				if(aScreenChar >= (buffer_lines + total_height *REAL_WIDTH))
 						aScreenChar = buffer_lines; // wrap around to top of buffer
-				aScreenChar->ch = 0;
-				aScreenChar->fg_color = [TERMINAL foregroundColorCode];
-				aScreenChar->bg_color = [TERMINAL backgroundColorCode];
+				aScreenChar->code = 0;
+				aScreenChar->foregroundColor = [TERMINAL foregroundColorCode];
+				aScreenChar->backgroundColor = [TERMINAL backgroundColorCode];
 		}
 
 		memset(dirty+y1 *WIDTH+x1,1,((y2-y1)*WIDTH+(x2-x1))*sizeof(char));
 }
 
-- (void)eraseInLine:(VT100TCC)token {
+- (void)eraseInLine:(VT100Token *)token {
 		screen_char_t *aLine;
 		int i;
 		int idx, x1 ,x2;
@@ -1112,12 +1103,12 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen eraseInLine:(param=%d); X = %d; Y = %d]",
-						token.u.csi.p[0], CURSOR_X, CURSOR_Y);
+						token.csi->p[0], CURSOR_X, CURSOR_Y);
 #endif
 
 
 		x1 = x2 = 0;
-		switch (token.u.csi.p[0]) {
+		switch (token.csi->p[0]) {
 				case 1:
 						x1=0;
 						x2=CURSOR_X<WIDTH?CURSOR_X+1:WIDTH;
@@ -1151,16 +1142,16 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 
 		for(i = x1; i < x2; i++) {
-				aLine[i].ch = 0;
-				aLine[i].fg_color = fgCode;
-				aLine[i].bg_color = bgCode;
+				aLine[i].code = 0;
+				aLine[i].foregroundColor = fgCode;
+				aLine[i].backgroundColor = bgCode;
 		}
 
 		idx=CURSOR_Y *WIDTH+x1;
 		memset(dirty+idx,1,(x2-x1)*sizeof(char));
 }
 
-- (void)selectGraphicRendition:(VT100TCC)token {
+- (void)selectGraphicRendition:(VT100Token *)token {
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen selectGraphicRendition:...]");
 #endif
@@ -1313,16 +1304,16 @@ static __inline__ screen_char_t *incrementLinePointer(
 		NSParameterAssert(CURSOR_Y >= 0 && CURSOR_Y < HEIGHT);
 }
 
-- (void)setTopBottom:(VT100TCC)token {
+- (void)setTopBottom:(VT100Token *)token {
 		int top, bottom;
 
 #if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen setTopBottom:(%d,%d)]",
-						token.u.csi.p[0], token.u.csi.p[1]);
+						token.csi->p[0], token.csi->p[1]);
 #endif
 
-		top = token.u.csi.p[0] == 0 ? 0 : token.u.csi.p[0] - 1;
-		bottom = token.u.csi.p[1] == 0 ? HEIGHT - 1 : token.u.csi.p[1] - 1;
+		top = token.csi->p[0] == 0 ? 0 : token.csi->p[0] - 1;
+		bottom = token.csi->p[1] == 0 ? HEIGHT - 1 : token.csi->p[1] - 1;
 		if (top >= 0 && top < HEIGHT &&
 						bottom >= 0 && bottom < HEIGHT &&
 						bottom >= top) {
@@ -1435,9 +1426,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 		memmove(aLine + CURSOR_X + n,aLine + CURSOR_X,(WIDTH-CURSOR_X-n)*sizeof(screen_char_t));
 
 		for(i = 0; i < n; i++) {
-				aLine[CURSOR_X+i].ch = 0;
-				aLine[CURSOR_X+i].fg_color = [TERMINAL foregroundColorCode];
-				aLine[CURSOR_X+i].bg_color = [TERMINAL backgroundColorCode];
+				aLine[CURSOR_X+i].code = 0;
+				aLine[CURSOR_X+i].foregroundColor = [TERMINAL foregroundColorCode];
+				aLine[CURSOR_X+i].backgroundColor = [TERMINAL backgroundColorCode];
 		}
 
 		// everything from CURSOR_X to end of line is dirty
@@ -1663,12 +1654,12 @@ static __inline__ screen_char_t *incrementLinePointer(
 		default_line = (screen_char_t *)malloc((width+1)*sizeof(screen_char_t));
 
 		for(i = 0; i < width; i++) {
-				default_line[i].ch = 0;
-				default_line[i].fg_color = [TERMINAL foregroundColorCode];
-				default_line[i].bg_color = [TERMINAL backgroundColorCode];
+				default_line[i].code = 0;
+				default_line[i].foregroundColor = [TERMINAL foregroundColorCode];
+				default_line[i].backgroundColor = [TERMINAL backgroundColorCode];
 		}
 		//Not wrapped by default
-		default_line[width].ch = 0;
+		default_line[width].code = 0;
 
 		default_fg_code = [TERMINAL foregroundColorCode];
 		default_bg_code = [TERMINAL backgroundColorCode];

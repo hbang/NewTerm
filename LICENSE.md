@@ -1,6 +1,6 @@
 Licensed under the GNU General Public License, version 2.0.
 
-Contains code from [iTerm](http://iterm.sourceforge.net) and [Linux](https://kernel.org). Contains fonts [Fira Code](https://github.com/tonsky/FiraCode), [Hack](http://sourcefoundry.org/hack/), and [Source Code Pro](http://adobe-fonts.github.io/source-code-pro/).
+Contains code from [iTerm2](https://iterm2.com/), [iTerm](http://iterm.sourceforge.net/), and [Linux](https://kernel.org/). Contains fonts [Fira Code](https://github.com/tonsky/FiraCode), [Hack](http://sourcefoundry.org/hack/), and [Source Code Pro](http://adobe-fonts.github.io/source-code-pro/).
 
 ----
 
@@ -32,7 +32,7 @@ This Font Software is licensed under the Hack Open Font License v2.0 and the Bit
 
 These licenses are copied below.
 
-## iTerm
+## iTerm & iTerm2
 This program is free software; you can redistribute it and/or modify
 it under the terms of the GNU General Public License as published by
 the Free Software Foundation; either version 2 of the License, or

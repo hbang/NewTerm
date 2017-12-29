@@ -132,7 +132,7 @@
 - (BOOL)tryLock;
 
 // edit screen buffer
-- (void)putToken:(VT100TCC)token;
+- (void)putToken:(VT100Token *)token;
 - (void)clearBuffer;
 - (void)clearScrollbackBuffer;
 - (void)saveBuffer;
@@ -146,9 +146,9 @@
 - (void)setTab;
 - (void)clearTabStop;
 - (void)clearScreen;
-- (void)eraseInDisplay:(VT100TCC)token;
-- (void)eraseInLine:(VT100TCC)token;
-- (void)selectGraphicRendition:(VT100TCC)token;
+- (void)eraseInDisplay:(VT100Token *)token;
+- (void)eraseInLine:(VT100Token *)token;
+- (void)selectGraphicRendition:(VT100Token *)token;
 - (void)cursorLeft:(int)n;
 - (void)cursorRight:(int)n;
 - (void)cursorUp:(int)n;
@@ -157,7 +157,7 @@
 - (void)cursorToX:(int)x Y:(int)y;
 - (void)saveCursorPosition;
 - (void)restoreCursorPosition;
-- (void)setTopBottom:(VT100TCC)token;
+- (void)setTopBottom:(VT100Token *)token;
 - (void)scrollUp;
 - (void)scrollDown;
 - (void)activateBell;

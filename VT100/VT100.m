@@ -43,7 +43,7 @@ static const int kDefaultHeight = 25;
 	// Push the input stream into the terminal, then parse the stream back out as
 	// a series of tokens and feed them back to the screen
 	[terminal putStreamData:data];
-	VT100TCC token;
+	VT100Token *token;
 	while((token = [terminal getNextToken]),
 				token.type != VT100_WAIT && token.type != VT100CC_NULL) {
 		// process token
