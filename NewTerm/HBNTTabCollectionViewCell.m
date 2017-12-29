@@ -22,6 +22,7 @@
 		_closeButton = [[UIButton alloc] init];
 		_closeButton.translatesAutoresizingMaskIntoConstraints = NO;
 		_closeButton.accessibilityLabel = @"Close tab"; // TODO: l10n
+		_closeButton.titleLabel.font = [UIFont systemFontOfSize:16.f];
 		[_closeButton setTitle:@"×" forState:UIControlStateNormal];
 		[self.contentView addSubview:_closeButton];
 
