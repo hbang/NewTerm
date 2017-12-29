@@ -66,14 +66,7 @@
 
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_textView.showsVerticalScrollIndicator = NO;
 	_textView.backgroundColor = _stringSupplier.colorMap.background;
-	_textView.dataDetectorTypes = UIDataDetectorTypeLink;
-	_textView.linkTextAttributes = @{
-		NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
-	};
-	_textView.textContainerInset = UIEdgeInsetsZero;
-	_textView.textContainer.lineFragmentPadding = 0;
 	_textView.contentInset = UIEdgeInsetsMake(self.parentViewController.topLayoutGuide.length, 0, 0, 0);
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
