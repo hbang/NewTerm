@@ -50,6 +50,7 @@
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
 
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:HBPreferencesDidChangeNotification object:nil];
 		[self preferencesUpdated];
 
 		@try {
@@ -166,8 +167,7 @@
 - (void)refresh {
 	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
 		// TODO: we shouldn't load all lines' attributed strings, just ones that changed
-		NSMutableAttributedString *attributedString = _stringSupplier.attributedString;
-		[attributedString addAttribute:NSFontAttributeName value:_fontMetrics.font range:NSMakeRange(0, attributedString.string.length)];
+		NSAttributedString *attributedString = [_stringSupplier attributedStringWithFontMetrics:_fontMetrics];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			_textView.attributedText = attributedString;

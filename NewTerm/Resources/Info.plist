@@ -57,7 +57,7 @@
 	<key>UIAppFonts</key>
 	<array>
 		<string>FiraCode-Bold.otf</string>
-		<string>FiraCode-Retina.ttf</string>
+		<string>FiraCode-Retina.otf</string>
 		<string>Hack-Bold.otf</string>
 		<string>Hack-Regular.otf</string>
 		<string>SourceCodePro-Bold.otf</string>

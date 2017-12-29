@@ -179,10 +179,10 @@ typedef struct screen_char_t
 
 // Do not renumber. These are tag numbers and also saved in prefs.
 typedef NS_ENUM(NSUInteger, iTermUnicodeNormalization) {
-    iTermUnicodeNormalizationNone = 0,
-    iTermUnicodeNormalizationNFC = 1,
-    iTermUnicodeNormalizationNFD = 2,
-    iTermUnicodeNormalizationHFSPlus = 3,
+	iTermUnicodeNormalizationNone = 0,
+	iTermUnicodeNormalizationNFC = 1,
+	iTermUnicodeNormalizationNFD = 2,
+	iTermUnicodeNormalizationHFSPlus = 3,
 };
 
 // Typically used to store a single screen line.

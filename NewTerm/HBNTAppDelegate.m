@@ -22,6 +22,11 @@
 
 	[UITableView appearance].backgroundColor = backgroundColor;
 	[UITableViewCell appearance].backgroundColor = backgroundColor;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	// this is deprecated but apple doesn’t exactly provide an easy, supported way to do this
+	[UITableViewCell appearance].textColor = textColor;
+#pragma clang diagnostic pop
 
 	[UINavigationBar appearance].titleTextAttributes = @{ NSForegroundColorAttributeName: textColor };
 	[UITextField appearance].textColor = textColor;

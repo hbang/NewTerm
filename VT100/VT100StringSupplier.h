@@ -3,7 +3,7 @@
 
 #import "VT100Types.h"
 
-@class VT100ColorMap;
+@class VT100ColorMap, FontMetrics;
 
 @interface VT100StringSupplier : NSObject <AttributedStringSupplier>
 
@@ -13,6 +13,6 @@
 - (int)rowCount;
 
 - (NSString *)stringForLine:(int)rowIndex;
-- (NSMutableAttributedString *)attributedString;
+- (NSMutableAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics;
 
 @end

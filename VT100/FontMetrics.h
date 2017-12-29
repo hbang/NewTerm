@@ -7,9 +7,10 @@
 
 @interface FontMetrics : NSObject
 
-- (instancetype)initWithFont:(UIFont *)font;
+- (instancetype)initWithFont:(UIFont *)font boldFont:(UIFont *)boldFont;
 
-@property (nonatomic, retain, readonly) UIFont *font;
+@property (nonatomic, strong, readonly) UIFont *regularFont;
+@property (nonatomic, strong, readonly) UIFont *boldFont;
 
 // The dimensions of a single glyph on the screen
 @property (nonatomic, readonly) CGSize boundingBox;

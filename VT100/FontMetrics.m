@@ -5,13 +5,14 @@
 
 @implementation FontMetrics
 
-- (instancetype)initWithFont:(UIFont *)uiFont {
+- (instancetype)initWithFont:(UIFont *)uiFont boldFont:(UIFont *)boldUIFont {
 	self = [super init];
 	
 	if (self) {
-		_font = uiFont;
+		_regularFont = uiFont;
+		_boldFont = boldUIFont;
 		
-		CTFontRef ctFont = (__bridge CTFontRef)_font;
+		CTFontRef ctFont = (__bridge CTFontRef)_regularFont;
 		NSAssert(ctFont != NULL, @"Error in CTFontCreateWithName");
 		
 		// This creates a CoreText line that isn't drawn, but used to get the

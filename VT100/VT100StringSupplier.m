@@ -4,6 +4,7 @@
 #import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
 #import "VT100Types.h"
+#import "FontMetrics.h"
 
 @implementation VT100StringSupplier
 
@@ -32,14 +33,13 @@
 	}
 
 	if (rowIndex != self.rowCount) {
-		unicharBuffer[width] = '\n';
-		width += 1;
+		unicharBuffer[width - 1] = '\n';
 	}
 
-	return [[NSString alloc] initWithBytes:unicharBuffer length:width encoding:NSUTF8StringEncoding];
+	return [[NSString alloc] initWithCharacters:unicharBuffer length:width];
 }
 
-- (NSAttributedString *)attributedString {
+- (NSAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics {
 	int width = self.columnCount;
 	ScreenPosition cursorPosition = _screenBuffer.cursorPosition;
 
@@ -55,7 +55,9 @@
 		[allLines appendString:[self stringForLine:i]];
 	}
 
-	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines];
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines attributes:@{
+		NSFontAttributeName: fontMetrics.regularFont
+	}];
 	NSUInteger startOffset = 0;
 
 	for (int i = 0; i < self.rowCount; i++) {

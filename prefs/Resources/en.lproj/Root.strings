@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>SETTINGS</key>
+	<string>Settings</string>
+	
+	<key>INTERFACE</key>
+	<string>Interface</string>
+
+	<key>FONT</key>
+	<string>Font Family</string>
+
+	<key>FONT_SIZE_N</key>
+	<string>Font Size: %i</string>
+
+	<key>COLOR_SCHEME</key>
+	<string>Color Scheme</string>
+
+	<key>INTERFACE_FOOTER</key>
+	<string>Close and re-open all tabs to completely apply color scheme changes.</string>
+</dict>
+</plist>

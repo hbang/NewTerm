@@ -37,7 +37,7 @@
 		static dispatch_once_t onceToken;
 		dispatch_once(&onceToken, ^{
 			// lazy load the preference bundle and the root list controller class
-			NSURL *prefsBundleURL = [[NSBundle mainBundle] URLForResource:@"NewTermPreferences" withExtension:@"bundle"];
+			NSURL *prefsBundleURL = [[NSBundle mainBundle] URLForResource:@"NewTermPreferences" withExtension:@"bundle" subdirectory:@"PreferenceBundles"];
 			[[NSBundle bundleWithURL:prefsBundleURL] load];
 			HBNTPreferencesRootListController = objc_getClass("HBNTPreferencesRootListController");
 		});

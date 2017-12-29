@@ -7,6 +7,8 @@
 
 #import "ScreenChar.h"
 
+@class FontMetrics;
+
 // Buffer space used to draw any particular row.
 static const int kMaxRowBufferSize = 200;
 
@@ -58,5 +60,5 @@ typedef struct {
 @protocol AttributedStringSupplier
 - (int)rowCount;
 - (NSString *)stringForLine:(int)rowIndex;
-- (NSMutableAttributedString *)attributedString;
+- (NSAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics;
 @end

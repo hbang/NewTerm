@@ -8,10 +8,6 @@
 		<string>Courier</string>
 		<key>Bold</key>
 		<string>Courier-Bold</string>
-		<key>BoldItalic</key>
-		<string>Courier-BoldOblique</string>
-		<key>Italic</key>
-		<string>Courier-Oblique</string>
 	</dict>
 	<key>Courier New</key>
 	<dict>
@@ -19,54 +15,34 @@
 		<string>CourierNewPSMT</string>
 		<key>Bold</key>
 		<string>CourierNew-BoldMT</string>
-		<key>BoldItalic</key>
-		<string>CourierNew-BoldItalicMT</string>
-		<key>Italic</key>
-		<string>CourierNew-ItalicMT</string>
 	</dict>
 	<key>Fira Code</key>
 	<dict>
+		<key>Regular</key>
+		<string>FiraCode-Retina</string>
 		<key>Bold</key>
 		<string>FiraCode-Bold</string>
-		<key>BoldItalic</key>
-		<string>FiraCode-Bold</string>
-		<key>Italic</key>
-		<string>FiraCode-Retina</string>
-		<key>Regular</key>
-		<string>FireCode-Retina</string>
 	</dict>
 	<key>Hack</key>
 	<dict>
-		<key>Bold</key>
-		<string>Hack-Bold</string>
-		<key>BoldItalic</key>
-		<string>Hack-BoldItalic</string>
-		<key>Italic</key>
-		<string>Hack-Italic</string>
 		<key>Regular</key>
 		<string>Hack-Regular</string>
+		<key>Bold</key>
+		<string>Hack-Bold</string>
 	</dict>
 	<key>Menlo</key>
 	<dict>
-		<key>Bold</key>
-		<string>Menlo-Bold</string>
-		<key>BoldItalic</key>
-		<string>Menlo-BoldItalic</string>
-		<key>Italic</key>
-		<string>Menlo-Italic</string>
 		<key>Regular</key>
 		<string>Menlo-Regular</string>
+		<key>Bold</key>
+		<string>Menlo-Bold</string>
 	</dict>
 	<key>Source Code Pro</key>
 	<dict>
-		<key>Bold</key>
-		<string>SourceCodePro-Bold</string>
-		<key>BoldItalic</key>
-		<string>SourceCodePro-BoldIt</string>
-		<key>Italic</key>
-		<string>SourceCodePro-It</string>
 		<key>Regular</key>
 		<string>SourceCodePro-Regular</string>
+		<key>Bold</key>
+		<string>SourceCodePro-Bold</string>
 	</dict>
 </dict>
 </plist>

@@ -12,6 +12,8 @@
 @implementation HBNTPreferences {
 	HBPreferences *_preferences;
 
+	NSDictionary *_fontFamilies;
+
 	NSString *_fontName;
 	CGFloat _fontSize;
 }
@@ -30,10 +32,12 @@
 	self = [super init];
 
 	if (self) {
-		_preferences = [[HBPreferences alloc] initWithIdentifier:@"ws.hbang.newterm"];
+		_preferences = [[HBPreferences alloc] initWithIdentifier:@"ws.hbang.Terminal"];
 
-		[_preferences registerObject:&_fontName default:@"Hack-Regular" forKey:@"FontName"];
-		[_preferences registerFloat:&_fontSize default:13.f forKey:@"FontSize"];
+		[_preferences registerObject:&_fontName default:@"Fira Code" forKey:@"fontName"];
+		[_preferences registerFloat:&_fontSize default:13.f forKey:IS_IPAD ? @"fontSizePad" : @"fontSizePhone"];
+
+		_fontFamilies = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Fonts" withExtension:@"plist"]];
 
 		[self addObserver:self forKeyPath:@"_fontName" options:kNilOptions context:nil];
 		[self addObserver:self forKeyPath:@"_fontSize" options:kNilOptions context:nil];
@@ -55,14 +59,26 @@
 #pragma mark - Create model objects from preferences
 
 - (void)_fontMetricsChanged {
-	UIFont *font = [UIFont fontWithName:_fontName size:_fontSize];
+	NSDictionary *family = _fontFamilies[_fontName];
+	UIFont *regularFont, *boldFont;
 
-	if (!font) {
-		HBLogWarn(@"font %@ size %f could not be initialised", _fontName, _fontSize);
-		font = [UIFont fontWithName:@"Courier" size:13.f];
+	if (family) {
+		// if we have the font name as a known family, use its regular and bold names
+		regularFont = [UIFont fontWithName:family[@"Regular"] size:_fontSize];
+		boldFont = [UIFont fontWithName:family[@"Bold"] size:_fontSize];
+	} else {
+		// fallback for older style: raw font name stored in preferences. bold not supported
+		regularFont = [UIFont fontWithName:_fontName size:_fontSize];
+		boldFont = [UIFont fontWithName:_fontName size:_fontSize];
 	}
 
-	_fontMetrics = [[FontMetrics alloc] initWithFont:font];
+	if (!regularFont || !boldFont) {
+		HBLogWarn(@"font %@ size %f could not be initialised", _fontName, _fontSize);
+		regularFont = [UIFont fontWithName:@"Courier" size:13.f];
+		boldFont = [UIFont fontWithName:@"Courier-Bold" size:13.f];
+	}
+
+	_fontMetrics = [[FontMetrics alloc] initWithFont:regularFont boldFont:boldFont];
 }
 
 @end

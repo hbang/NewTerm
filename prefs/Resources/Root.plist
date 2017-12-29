@@ -8,15 +8,15 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Terminate and re-open NewTerm to completely apply color scheme changes.</string>
+			<string>INTERFACE_FOOTER</string>
 			<key>label</key>
-			<string>Interface</string>
+			<string>INTERFACE</string>
 		</dict>
 		<dict>
 			<key>cell</key>
 			<string>PSLinkListCell</string>
 			<key>default</key>
-			<string>SourceCodePro-Regular</string>
+			<string>Fira Code</string>
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
 			<key>detail</key>
@@ -24,10 +24,11 @@
 			<key>key</key>
 			<string>fontName</string>
 			<key>label</key>
-			<string>Font</string>
+			<string>FONT</string>
 			<key>validTitles</key>
 			<array>
 				<string>Courier</string>
+				<string>Courier New</string>
 				<string>Fira Code</string>
 				<string>Hack</string>
 				<string>Menlo</string>
@@ -36,27 +37,30 @@
 			<key>validValues</key>
 			<array>
 				<string>Courier</string>
-				<string>FiraCode-Retina</string>
-				<string>Hack-Regular</string>
-				<string>Menlo-Regular</string>
-				<string>SourceCodePro-Regular</string>
+				<string>Courier New</string>
+				<string>Fira Code</string>
+				<string>Hack</string>
+				<string>Menlo</string>
+				<string>Source Code Pro</string>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSLinkListCell</string>
+			<key>cellClass</key>
+			<string>HBStepperTableCell</string>
 			<key>default</key>
 			<real>12</real>
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
-			<key>detail</key>
-			<string>PSListItemsController</string>
 			<key>key</key>
 			<string>fontSizePhone</string>
 			<key>label</key>
-			<string>Size</string>
+			<string>FONT_SIZE_N</string>
+			<key>max</key>
+			<real>20</real>
+			<key>min</key>
+			<real>10</real>
 			<key>requiredCapabilities</key>
 			<array>
 				<dict>
@@ -64,64 +68,30 @@
 					<false/>
 				</dict>
 			</array>
-			<key>validTitles</key>
-			<array>
-				<string>11</string>
-				<string>12</string>
-				<string>13</string>
-				<string>14</string>
-				<string>15</string>
-				<string>16</string>
-			</array>
-			<key>validValues</key>
-			<array>
-				<real>11</real>
-				<real>12</real>
-				<real>13</real>
-				<real>14</real>
-				<real>15</real>
-				<real>16</real>
-			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>
 		</dict>
 		<dict>
-			<key>cell</key>
-			<string>PSLinkListCell</string>
+			<key>cellClass</key>
+			<string>HBStepperTableCell</string>
 			<key>default</key>
-			<real>18</real>
+			<real>16</real>
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
-			<key>detail</key>
-			<string>PSListItemsController</string>
 			<key>key</key>
 			<string>fontSizePad</string>
 			<key>label</key>
-			<string>Size</string>
+			<string>FONT_SIZE_N</string>
+			<key>max</key>
+			<real>20</real>
+			<key>min</key>
+			<real>10</real>
 			<key>requiredCapabilities</key>
 			<array>
 				<dict>
 					<key>ipad</key>
 					<true/>
 				</dict>
-			</array>
-			<key>validTitles</key>
-			<array>
-				<string>11</string>
-				<string>12</string>
-				<string>13</string>
-				<string>14</string>
-				<string>15</string>
-				<string>16</string>
-			</array>
-			<key>validValues</key>
-			<array>
-				<real>11</real>
-				<real>12</real>
-				<real>13</real>
-				<real>14</real>
-				<real>15</real>
-				<real>16</real>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>
@@ -138,7 +108,7 @@
 			<key>key</key>
 			<string>theme</string>
 			<key>label</key>
-			<string>Color Scheme</string>
+			<string>COLOR_SCHEME</string>
 			<key>validTitles</key>
 			<array>
 				<string>Basic</string>
@@ -180,10 +150,10 @@
 			<key>isController</key>
 			<true/>
 			<key>label</key>
-			<string>About</string>
+			<string>ABOUT</string>
 		</dict>
 	</array>
 	<key>title</key>
-	<string>Settings</string>
+	<string>SETTINGS</string>
 </dict>
 </plist>

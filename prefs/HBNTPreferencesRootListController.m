@@ -7,6 +7,7 @@
 //
 
 #import "HBNTPreferencesRootListController.h"
+#import <CepheiPrefs/HBAppearanceSettings.h>
 
 @implementation HBNTPreferencesRootListController
 
@@ -22,6 +23,15 @@
 	[super loadView];
 
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
+
+	HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
+	appearance.translucentNavigationBar = YES;
+	appearance.tableViewCellTextColor = [UIColor whiteColor];
+	appearance.tableViewCellBackgroundColor = [UIColor colorWithWhite:0.055f alpha:1];
+	appearance.tableViewCellSeparatorColor = [UIColor colorWithWhite:0.149f alpha:1];
+	appearance.tableViewCellSelectionColor = appearance.tableViewCellSeparatorColor;
+	appearance.tableViewBackgroundColor = [UIColor colorWithWhite:0.089f alpha:1];
+	self.hb_appearanceSettings = appearance;
 }
 
 #pragma mark - Callbacks

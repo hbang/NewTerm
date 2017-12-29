@@ -14,9 +14,13 @@
 			<key>icon</key>
 			<string>icon.png</string>
 			<key>packageIdentifier</key>
-			<string>ws.hbang.newterm</string>
+			<string>ws.hbang.newterm2</string>
 			<key>packageNameOverride</key>
 			<string>NewTerm</string>
+			<key>titleColor</key>
+			<string>#ffffff</string>
+			<key>subtitleColor</key>
+			<string>#cccccc</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -36,7 +40,7 @@
 			<key>subtitle</key>
 			<string>VISIT_WEBSITE</string>
 			<key>url</key>
-			<string>https://www.hbang.ws/</string>
+			<string>https://hbang.ws/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -66,7 +70,7 @@
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>defaults</key>
-			<string>ws.hbang.newterm</string>
+			<string>ws.hbang.newterm2</string>
 			<key>label</key>
 			<string>EMAIL_SUPPORT</string>
 		</dict>
@@ -82,7 +86,7 @@
 			<key>label</key>
 			<string>TRANSLATORS</string>
 			<key>url</key>
-			<string>https://www.hbang.ws/translations/</string>
+			<string>https://hbang.ws/translations/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -98,7 +102,7 @@
 			<key>label</key>
 			<string>DONATE</string>
 			<key>url</key>
-			<string>https://www.hbang.ws/donate/</string>
+			<string>https://hbang.ws/donate/</string>
 		</dict>
 	</array>
 	<key>title</key>
