@@ -17,6 +17,7 @@
 - (void)close;
 
 @property (strong, nonatomic, readonly) UITextView *textView;
+@property (nonatomic) UIEdgeInsets barInsets;
 
 @property (strong, nonatomic) UIFont *font;
 @property (strong, nonatomic) VT100ColorMap *colorMap;

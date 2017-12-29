@@ -21,5 +21,13 @@
 	<!-- Message indicating the user can press any key to restart the terminal. -->
 	<key>PROCESS_COMPLETED_MESSAGE</key>
 	<string>Press any key to close the tab.</string>
+
+	<!-- VoiceOver label for the new tab button. -->
+	<key>NEW_TAB</key>
+	<string>New Tab</string>
+
+	<!-- VoiceOver label for the close tab button. -->
+	<key>CLOSE_TAB</key>
+	<string>Close Tab</string>
 </dict>
 </plist>

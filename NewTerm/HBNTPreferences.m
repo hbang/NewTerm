@@ -8,7 +8,6 @@
 
 #import "HBNTPreferences.h"
 #import "FontMetrics.h"
-#import <Cephei/HBPreferences.h>
 
 @implementation HBNTPreferences {
 	HBPreferences *_preferences;

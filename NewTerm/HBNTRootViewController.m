@@ -9,50 +9,61 @@
 #import "HBNTRootViewController.h"
 #import "HBNTPreferencesRootController.h"
 #import "HBNTTerminalSessionViewController.h"
+#import "HBNTTabToolbar.h"
 #import "HBNTTabCollectionViewCell.h"
 
 @interface HBNTRootViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
+
 @end
 
 @implementation HBNTRootViewController {
 	NSMutableArray *_terminals;
 	NSUInteger _selectedTabIndex;
 
+	HBNTTabToolbar *_tabToolbar;
+	UIToolbar *_bottomToolbar;
 	UICollectionView *_tabsCollectionView;
 }
 
 - (void)loadView {
 	[super loadView];
 
+	self.automaticallyAdjustsScrollViewInsets = NO;
+	self.navigationController.navigationBarHidden = YES;
+
 	_terminals = [NSMutableArray array];
 
-	[self addTerminal];
+	_tabToolbar = [[HBNTTabToolbar alloc] init];
+	_tabToolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth;
+	[_tabToolbar.addButton addTarget:self action:@selector(addTerminal) forControlEvents:UIControlEventTouchUpInside];
 
-	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addTerminal)];
-
-	self.toolbarItems = @[
-		[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)]
-	];
-
-	self.navigationController.toolbarHidden = NO;
-
-	UINavigationBar *navigationBar = self.navigationController.navigationBar;
-	CGRect tabsFrame = navigationBar.bounds;
-	tabsFrame.size.width -= 56;
-
-	UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
-	collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-	collectionViewLayout.minimumInteritemSpacing = 0;
-	collectionViewLayout.estimatedItemSize = CGSizeMake(100, 44);
-
-	_tabsCollectionView = [[UICollectionView alloc] initWithFrame:tabsFrame collectionViewLayout:collectionViewLayout];
-	_tabsCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+	_tabsCollectionView = _tabToolbar.tabsCollectionView;
 	_tabsCollectionView.dataSource = self;
 	_tabsCollectionView.delegate = self;
-	_tabsCollectionView.backgroundColor = nil;
-	[navigationBar addSubview:_tabsCollectionView];
 
-	[_tabsCollectionView registerClass:HBNTTabCollectionViewCell.class forCellWithReuseIdentifier:@"TabCell"];
+	[self.view addSubview:_tabToolbar];
+
+	_bottomToolbar = [[UIToolbar alloc] init];
+	_bottomToolbar.items = @[
+		[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)]
+	];
+	[self.view addSubview:_bottomToolbar];
+
+	[self addTerminal];
+}
+
+- (void)viewWillLayoutSubviews {
+	[super viewWillLayoutSubviews];
+
+	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 44.f;
+	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+
+	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
+	_bottomToolbar.frame = CGRectMake(0, self.view.frame.size.height - barHeight, self.view.frame.size.width, barHeight);
+
+	for (HBNTTerminalSessionViewController *viewController in _terminals) {
+		viewController.barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height, 0, _bottomToolbar.frame.size.height, 0);
+	}
 }
 
 #pragma mark - Tab management
@@ -62,7 +73,7 @@
 
 	[self addChildViewController:terminalViewController];
 	[terminalViewController willMoveToParentViewController:self];
-	[self.view addSubview:terminalViewController.view];
+	[self.view insertSubview:terminalViewController.view belowSubview:_tabToolbar];
 	[terminalViewController didMoveToParentViewController:self];
 
 	[_terminals addObject:terminalViewController];
@@ -95,6 +106,10 @@
 	} else {
 		[self removeTerminalAtIndex:index];
 	}
+}
+
+- (void)removeTerminalButtonTapped:(UIButton *)button {
+	[self removeTerminalAtIndex:button.tag];
 }
 
 - (NSUInteger)selectedTabIndex {
@@ -140,6 +155,8 @@
 	HBNTTabCollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:@"TabCell" forIndexPath:indexPath];
 	cell.textLabel.text = terminalViewController.title;
 	cell.selected = _selectedTabIndex == indexPath.row;
+	cell.closeButton.tag = indexPath.row;
+	[cell.closeButton addTarget:self action:@selector(removeTerminalButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
 	return cell;
 }
 

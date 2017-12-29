@@ -13,7 +13,7 @@ typedef NS_ENUM(NSUInteger, HBNTTerminalModifierKey) {
 	HBNTTerminalModifierKeyEsc
 };
 
-typedef void(^HBNTTerminalKeyUpCompletion)();
+typedef void (^HBNTTerminalKeyUpCompletion)();
 
 // Protocol implemented by listener of keyboard events
 @protocol HBNTTerminalInputProtocol

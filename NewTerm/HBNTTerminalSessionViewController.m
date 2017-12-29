@@ -29,6 +29,7 @@
 	HBNTTerminalController *_terminalController;
 
 	BOOL _hasAppeared;
+	CGFloat _keyboardHeight;
 
 	NSException *_failureException;
 }
@@ -37,6 +38,8 @@
 	self = [super init];
 
 	if (self) {
+		self.automaticallyAdjustsScrollViewInsets = NO;
+		
 		_buffer = [[VT100 alloc] init];
 		_buffer.refreshDelegate = self;
 
@@ -67,7 +70,7 @@
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_textView.backgroundColor = _stringSupplier.colorMap.background;
-	_textView.contentInset = UIEdgeInsetsMake(self.parentViewController.topLayoutGuide.length, 0, 0, 0);
+	_textView.showsVerticalScrollIndicator = NO;
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
 }
@@ -130,11 +133,20 @@
 #pragma mark - Screen
 
 - (void)updateScreenSize {
+	// update the text view insets. if the keyboard height is non-zero, keyboard is visible and
+	// that’s our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
+	UIEdgeInsets barInsets = _barInsets;
+	barInsets.bottom = _keyboardHeight ?: barInsets.bottom;
+	HBLogDebug(@"keyboard height %f final height %f", _keyboardHeight, barInsets.bottom);
+
+	_textView.contentInset = _barInsets;
+	_textView.scrollIndicatorInsets = _textView.contentInset;
+
 	CGSize glyphSize = _fontMetrics.boundingBox;
 
 	// Determine the screen size based on the font size
-	CGFloat width = _textView.frame.size.width - _textView.textContainerInset.left - _textView.textContainerInset.right;
-	CGFloat height = _textView.frame.size.height - _textView.textContainerInset.top - _textView.textContainerInset.bottom - _textView.contentInset.top - _textView.contentInset.bottom;
+	CGFloat width = _textView.frame.size.width;
+	CGFloat height = _textView.frame.size.height - barInsets.top - barInsets.bottom;
 
 	ScreenSize size;
 	size.width = floorf(width / glyphSize.width);
@@ -208,24 +220,18 @@
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
-	BOOL keyboardVisible = self.isFirstResponder;
-
 	if (!_hasAppeared) {
 		_hasAppeared = YES;
 		_textView.showsVerticalScrollIndicator = YES;
 	}
 
-	self.navigationController.toolbarHidden = keyboardVisible;
-
 	CGRect keyboardFrame = ((NSValue *)notification.userInfo[UIKeyboardFrameEndUserInfoKey]).CGRectValue;
+	_keyboardHeight = keyboardFrame.size.height;
 
-	UIEdgeInsets insets = _textView.contentInset;
-	CGFloat toolbarHeight = self.navigationController.toolbar.frame.size.height;
-	insets.bottom = keyboardVisible ? keyboardFrame.size.height : toolbarHeight;
-
+	// we call updateScreenSize in an animation block to force it to be animated with the exact
+	// parameters given to us in the notification
 	[UIView animateWithDuration:((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue animations:^{
-		_textView.contentInset = insets;
-		_textView.scrollIndicatorInsets = insets;
+		[self updateScreenSize];
 	}];
 }
 
