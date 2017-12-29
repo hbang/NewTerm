@@ -49,6 +49,7 @@
 	_tabsCollectionView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_tabsCollectionView.dataSource = self;
 	_tabsCollectionView.delegate = self;
+	_tabsCollectionView.backgroundColor = nil;
 	[navigationBar addSubview:_tabsCollectionView];
 
 	[_tabsCollectionView registerClass:HBNTTabCollectionViewCell.class forCellWithReuseIdentifier:@"TabCell"];
