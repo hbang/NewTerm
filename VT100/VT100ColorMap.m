@@ -69,6 +69,13 @@
 		if (dictionary[@"Dark"]) {
 			_isDark = ((NSNumber *)dictionary[@"Dark"]).boolValue;
 		}
+		
+		if (dictionary[@"ColorTable"] && [dictionary[@"ColorTable"] isKindOfClass:NSArray.class] && ((NSDictionary *)dictionary[@"ColorTable"]).count == COLOR_MAP_MAX_COLORS) {
+			NSArray *colors = dictionary[@"ColorTable"];
+			for (int i = 0; i < colors.count; i++) {
+				_table[i] = [self _colorFromArray:colors[i]];
+			}
+		}
 	}
 	
 	return self;
