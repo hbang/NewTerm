@@ -25,6 +25,7 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
 
 	HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
+	appearance.tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
 	appearance.translucentNavigationBar = YES;
 	appearance.tableViewCellTextColor = [UIColor whiteColor];
 	appearance.tableViewCellBackgroundColor = [UIColor colorWithWhite:0.055f alpha:1];
