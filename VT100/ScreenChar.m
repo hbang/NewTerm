@@ -587,12 +587,7 @@ void InitializeScreenChar(screen_char_t *s, screen_char_t fg, screen_char_t bg) 
 	s->complexChar = NO;
 
 	s->foregroundColor = fg.foregroundColor;
-	s->fgGreen = fg.fgGreen;
-	s->fgBlue = fg.fgBlue;
-
 	s->backgroundColor = bg.backgroundColor;
-	s->bgGreen = bg.bgGreen;
-	s->bgBlue = bg.bgBlue;
 
 	s->foregroundColorMode = fg.foregroundColorMode;
 	s->backgroundColorMode = bg.backgroundColorMode;

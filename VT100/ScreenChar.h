@@ -136,14 +136,10 @@ typedef struct screen_char_t
 	//   foreground/backgroundColor gives red component and fg/bgGreen, fg/bgBlue
 	//     give the rest of the color's components
 	// For images, foregroundColor doubles as the x index.
-	unsigned int foregroundColor : 8;
-	unsigned int fgGreen : 8;
-	unsigned int fgBlue  : 8;
+	unsigned int foregroundColor;
 
 	// For images, backgroundColor doubles as the y index.
-	unsigned int backgroundColor : 8;
-	unsigned int bgGreen : 8;
-	unsigned int bgBlue  : 8;
+	unsigned int backgroundColor;
 
 	// These determine the interpretation of foreground/backgroundColor.
 	unsigned int foregroundColorMode : 2;
@@ -206,11 +202,7 @@ static inline NSString* ReplacementString()
 
 static inline BOOL ScreenCharacterAttributesEqual(screen_char_t *c1, screen_char_t *c2) {
 	return (c1->foregroundColor == c2->foregroundColor &&
-	        c1->fgGreen == c2->fgGreen &&
-	        c1->fgBlue == c2->fgBlue &&
 	        c1->backgroundColor == c2->backgroundColor &&
-	        c1->bgGreen == c2->bgGreen &&
-	        c1->bgBlue == c2->bgBlue &&
 	        c1->foregroundColorMode == c2->foregroundColorMode &&
 	        c1->backgroundColorMode == c2->backgroundColorMode &&
 	        c1->bold == c2->bold &&
@@ -226,8 +218,6 @@ static inline BOOL ScreenCharacterAttributesEqual(screen_char_t *c1, screen_char
 static inline void CopyForegroundColor(screen_char_t* to, const screen_char_t from)
 {
 	to->foregroundColor = from.foregroundColor;
-	to->fgGreen = from.fgGreen;
-	to->fgBlue = from.fgBlue;
 	to->foregroundColorMode = from.foregroundColorMode;
 	to->bold = from.bold;
 	to->faint = from.faint;
@@ -242,8 +232,6 @@ static inline void CopyForegroundColor(screen_char_t* to, const screen_char_t fr
 static inline void CopyBackgroundColor(screen_char_t* to, const screen_char_t from)
 {
 	to->backgroundColor = from.backgroundColor;
-	to->bgGreen = from.bgGreen;
-	to->bgBlue = from.bgBlue;
 	to->backgroundColorMode = from.backgroundColorMode;
 }
 
@@ -252,15 +240,7 @@ static inline BOOL BackgroundColorsEqual(const screen_char_t a,
                                          const screen_char_t b)
 {
 	if (a.backgroundColorMode == b.backgroundColorMode) {
-		if (a.backgroundColorMode != ColorMode24bit) {
-			// for normal and alternate ColorMode
-			return a.backgroundColor == b.backgroundColor;
-		} else {
-			// RGB must all be equal for 24bit color
-			return a.backgroundColor == b.backgroundColor &&
-				a.bgGreen == b.bgGreen &&
-				a.bgBlue == b.bgBlue;
-		}
+		return a.backgroundColor == b.backgroundColor;
 	} else {
 		// different ColorMode == different colors
 		return NO;
@@ -280,15 +260,7 @@ static inline BOOL ForegroundAttributesEqual(const screen_char_t a,
 		return NO;
 	}
 	if (a.foregroundColorMode == b.foregroundColorMode) {
-		if (a.foregroundColorMode != ColorMode24bit) {
-			// for normal and alternate ColorMode
-			return a.foregroundColor == b.foregroundColor;
-		} else {
-			// RGB must all be equal for 24bit color
-			return a.foregroundColor == b.foregroundColor &&
-				a.fgGreen == b.fgGreen &&
-				a.fgBlue == b.fgBlue;
-		}
+		return a.foregroundColor == b.foregroundColor;
 	} else {
 		// different ColorMode == different colors
 		return NO;
