@@ -24,8 +24,8 @@
  */
 
 // Debug option
-#define DEBUG_ALLOC DEBUG
-#define DEBUG_METHOD_TRACE DEBUG
+#define DEBUG_ALLOC 0
+#define DEBUG_METHOD_TRACE 0
 
 #import "VT100Screen.h"
 
@@ -1334,9 +1334,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 		int i;
 		screen_char_t *sourceLine, *targetLine;
 
-		//#if DEBUG_METHOD_TRACE
+		#if DEBUG_METHOD_TRACE
 		HBLogDebug(@"-[VT100Screen scrollUp]");
-		//#endif
+		#endif
 
 		NSParameterAssert(SCROLL_TOP >= 0 && SCROLL_TOP < HEIGHT);
 		NSParameterAssert(SCROLL_BOTTOM >= 0 && SCROLL_BOTTOM < HEIGHT);
