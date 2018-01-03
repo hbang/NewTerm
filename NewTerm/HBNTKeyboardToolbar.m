@@ -40,7 +40,7 @@
 }
 
 - (BOOL)_isSmallDevice {
-	return [UIScreen mainScreen].bounds.size.height < 700.f;
+	return [UIScreen mainScreen].bounds.size.height < 600.f;
 }
 
 - (CGSize)intrinsicContentSize {

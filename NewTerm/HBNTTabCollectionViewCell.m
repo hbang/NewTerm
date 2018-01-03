@@ -27,7 +27,6 @@
 		[self.contentView addSubview:_closeButton];
 
 		[self.contentView hb_addCompactConstraints:@[
-			@"contentView.height = 44", // TODO: don’t hardcode this. sorry
 			@"textLabel.centerY = contentView.centerY",
 			@"textLabel.left = contentView.left + 6",
 			@"closeButton.width = 24",
@@ -42,6 +41,12 @@
 	}
 
 	return self;
+}
+
+- (CGSize)intrinsicContentSize {
+	CGSize size = [super intrinsicContentSize];
+	size.height = [UIScreen mainScreen].bounds.size.height < 600 ? 32.f : 40.f;
+	return size;
 }
 
 @end

@@ -36,12 +36,15 @@
 
 - (void)layoutSubviews {
 	[super layoutSubviews];
+	
+	UICollectionViewFlowLayout *collectionViewLayout = (UICollectionViewFlowLayout *)_tabsCollectionView.collectionViewLayout;
 
 	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 	CGFloat addButtonWidth = 44.f;
 
 	_addButton.frame = CGRectMake(self.frame.size.width - addButtonWidth, statusBarHeight, addButtonWidth, self.frame.size.height - statusBarHeight);
-	_tabsCollectionView.frame = CGRectMake(0, statusBarHeight, _addButton.frame.origin.x, _addButton.frame.size.height);
+	collectionViewLayout.estimatedItemSize = CGSizeMake(100, _addButton.frame.size.height);
+	_tabsCollectionView.frame = CGRectMake(0, statusBarHeight, _addButton.frame.origin.x, collectionViewLayout.estimatedItemSize.height);
 
 	CGFloat newButtonSize = _addButton.frame.size.height < 44.f ? 18.f : 24.f;
 	

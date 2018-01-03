@@ -55,7 +55,7 @@
 - (void)viewWillLayoutSubviews {
 	[super viewWillLayoutSubviews];
 
-	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 44.f;
+	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 40.f;
 	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 
 	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
