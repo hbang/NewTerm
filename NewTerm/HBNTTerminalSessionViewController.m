@@ -20,7 +20,6 @@
 
 @implementation HBNTTerminalSessionViewController {
 	HBNTTerminalTextView *_textView;
-	NSMutableAttributedString *_attributedString;
 
 	VT100 *_buffer;
 	VT100StringSupplier *_stringSupplier;
@@ -31,6 +30,7 @@
 
 	BOOL _hasAppeared;
 	CGFloat _keyboardHeight;
+	CGPoint _lastAutomaticScrollOffset;
 
 	NSException *_failureException;
 }
@@ -137,8 +137,8 @@
 #pragma mark - Screen
 
 - (void)updateScreenSize {
-	// update the text view insets. if the keyboard height is non-zero, keyboard is visible and
-	// that’s our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
+	// update the text view insets. if the keyboard height is non-zero, keyboard is visible and that’s
+	// our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
 	UIEdgeInsets barInsets = _barInsets;
 	barInsets.bottom = _keyboardHeight ?: barInsets.bottom;
 	HBLogDebug(@"keyboard height %f final height %f", _keyboardHeight, barInsets.bottom);
@@ -181,11 +181,21 @@
 }
 
 - (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
+	// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
+	// bottom. when they scroll back, the automatic scrolling will continue
+	if (_textView.contentOffset.y < _lastAutomaticScrollOffset.y - 20) {
+		return;
+	}
+	
+	// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
 	CGPoint offset = _textView.contentOffset;
-	offset.y = _buffer.scrollbackLines == 0 ? -inset.top : inset.bottom + _textView.contentSize.height - _textView.frame.size.height;
+	CGFloat bottom = _keyboardHeight ?: inset.bottom;
+	offset.y = _buffer.scrollbackLines == 0 ? -inset.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
 
+	// if the offset has changed, update it and our lastAutomaticScrollOffset
 	if (_textView.contentOffset.y != offset.y) {
 		_textView.contentOffset = offset;
+		_lastAutomaticScrollOffset = offset;
 	}
 }
 
