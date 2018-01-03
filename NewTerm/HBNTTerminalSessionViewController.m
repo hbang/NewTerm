@@ -27,6 +27,7 @@
 	VT100ColorMap *_colorMap;
 	FontMetrics *_fontMetrics;
 	HBNTTerminalController *_terminalController;
+	dispatch_queue_t _updateQueue;
 
 	BOOL _hasAppeared;
 	CGFloat _keyboardHeight;
@@ -49,6 +50,8 @@
 
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
+
+		_updateQueue = dispatch_queue_create("ws.hbang.Terminal.update-queue", DISPATCH_QUEUE_SERIAL);
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:HBPreferencesDidChangeNotification object:nil];
 		[self preferencesUpdated];
@@ -165,8 +168,8 @@
 }
 
 - (void)refresh {
-	dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-		// TODO: we shouldn't load all lines' attributed strings, just ones that changed
+	dispatch_async(_updateQueue, ^{
+		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
 		NSAttributedString *attributedString = [_stringSupplier attributedStringWithFontMetrics:_fontMetrics];
 
 		dispatch_async(dispatch_get_main_queue(), ^{
