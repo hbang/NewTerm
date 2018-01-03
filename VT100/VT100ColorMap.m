@@ -3,6 +3,7 @@
 
 #import "VT100ColorMap.h"
 #import "VT100Terminal.h"
+#import <Cephei/UIColor+HBAdditions.h>
 
 @interface VT100ColorMap () {
 	UIColor *_table[COLOR_MAP_MAX_COLORS];
@@ -50,43 +51,35 @@
 	
 	if (self) {
 		if (dictionary[@"Background"]) {
-			_background = [self _colorFromArray:dictionary[@"Background"]];
+			_background = [UIColor hb_colorWithPropertyListValue:dictionary[@"Background"]];
 		}
 		
 		if (dictionary[@"Text"]) {
-			_foreground = [self _colorFromArray:dictionary[@"Text"]];
+			_foreground = [UIColor hb_colorWithPropertyListValue:dictionary[@"Text"]];
 		}
 		
 		if (dictionary[@"BoldText"]) {
-			_foregroundBold = [self _colorFromArray:dictionary[@"BoldText"]];
+			_foregroundBold = [UIColor hb_colorWithPropertyListValue:dictionary[@"BoldText"]];
 		}
 		
 		if (dictionary[@"Cursor"]) {
-			_foregroundCursor = [self _colorFromArray:dictionary[@"Cursor"]];
-			_backgroundCursor = [self _colorFromArray:dictionary[@"Cursor"]];
+			_foregroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
+			_backgroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
 		}
 		
-		if (dictionary[@"Dark"]) {
-			_isDark = ((NSNumber *)dictionary[@"Dark"]).boolValue;
+		if (dictionary[@"IsDark"]) {
+			_isDark = ((NSNumber *)dictionary[@"IsDark"]).boolValue;
 		}
 		
 		if (dictionary[@"ColorTable"] && [dictionary[@"ColorTable"] isKindOfClass:NSArray.class] && ((NSDictionary *)dictionary[@"ColorTable"]).count == COLOR_MAP_MAX_COLORS) {
 			NSArray *colors = dictionary[@"ColorTable"];
 			for (int i = 0; i < colors.count; i++) {
-				_table[i] = [self _colorFromArray:colors[i]];
+				_table[i] = [UIColor hb_colorWithPropertyListValue:colors[i]];
 			}
 		}
 	}
 	
 	return self;
-}
-
-- (UIColor *)_colorFromArray:(NSArray *)array {
-	if (!array || array.count != 3) {
-		return nil;
-	}
-	
-	return [UIColor colorWithRed:((NSNumber *)array[0]).floatValue / 255.f green:((NSNumber *)array[1]).floatValue / 255.f blue:((NSNumber *)array[2]).floatValue / 255.f alpha:1.f];
 }
 
 - (UIColor *)colorAtIndex:(unsigned int)index {

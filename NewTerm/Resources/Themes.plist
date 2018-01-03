@@ -5,312 +5,164 @@
 	<key>Basic</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
+		<string>#ffffff</string>
 		<key>BoldText</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 		<key>Cursor</key>
-		<array>
-			<integer>127</integer>
-			<integer>127</integer>
-			<integer>127</integer>
-		</array>
-		<key>Dark</key>
+		<string>#7f7f7f</string>
+		<key>IsDark</key>
 		<false/>
-		<key>Font</key>
-		<string>Meslo</string>
 		<key>Text</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 	</dict>
-	<key>Grass</key>
+	<key>Grass</key> <!-- tastes badddd -->
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>19</integer>
-			<integer>119</integer>
-			<integer>61</integer>
-		</array>
+		<string>#13773d</string>
 		<key>BoldText</key>
-		<array>
-			<integer>255</integer>
-			<integer>176</integer>
-			<integer>59</integer>
-		</array>
+		<string>#ffb03b</string>
 		<key>Cursor</key>
-		<array>
-			<integer>142</integer>
-			<integer>40</integer>
-			<integer>0</integer>
-		</array>
-		<key>Dark</key>
+		<string>#8e2800</string>
+		<key>IsDark</key>
 		<false/>
-		<key>Font</key>
-		<string>Courier</string>
 		<key>Text</key>
-		<array>
-			<integer>255</integer>
-			<integer>240</integer>
-			<integer>165</integer>
-		</array>
+		<string>#fff0a5</string>
 	</dict>
 	<key>Homebrew</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 		<key>BoldText</key>
-		<array>
-			<integer>0</integer>
-			<integer>255</integer>
-			<integer>0</integer>
-		</array>
+		<string>#00ff00</string>
 		<key>Cursor</key>
-		<array>
-			<integer>56</integer>
-			<integer>254</integer>
-			<integer>39</integer>
-		</array>
-		<key>Dark</key>
+		<string>#38fe27</string>
+		<key>IsDark</key>
 		<true/>
-		<key>Font</key>
-		<string>Meslo</string>
 		<key>Text</key>
-		<array>
-			<integer>19</integer>
-			<integer>119</integer>
-			<integer>61</integer>
-		</array>
+		<string>#13773d</string>
 	</dict>
 	<key>kirb</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>15</integer>
-			<integer>15</integer>
-			<integer>15</integer>
-		</array>
+		<string>#0f0f0f</string>
 		<key>BoldText</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
+		<string>#ffffff</string>
 		<key>Cursor</key>
-		<array>
-			<integer>0</integer>
-			<integer>217</integer>
-			<integer>0</integer>
-		</array>
-		<key>Dark</key>
+		<string>#00d900</string>
+		<key>IsDark</key>
 		<true/>
-		<key>Font</key>
-		<string>Hack</string>
 		<key>Text</key>
-		<array>
-			<integer>242</integer>
-			<integer>242</integer>
-			<integer>242</integer>
-		</array>
+		<string>#f2f2f2</string>
 	</dict>
 	<key>Man Page</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>254</integer>
-			<integer>244</integer>
-			<integer>156</integer>
-		</array>
+		<string>#fef49c</string>
 		<key>BoldText</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 		<key>Cursor</key>
-		<array>
-			<integer>127</integer>
-			<integer>127</integer>
-			<integer>127</integer>
-		</array>
-		<key>Dark</key>
+		<string>#7f7f7f</string>
+		<key>IsDark</key>
 		<false/>
-		<key>Font</key>
-		<string>Meslo</string>
 		<key>Text</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 	</dict>
 	<key>Novel</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>223</integer>
-			<integer>219</integer>
-			<integer>195</integer>
-		</array>
+		<string>#dfdbc3</string>
 		<key>BoldText</key>
-		<array>
-			<integer>127</integer>
-			<integer>42</integer>
-			<integer>25</integer>
-		</array>
+		<string>#7f2a19</string>
 		<key>Cursor</key>
-		<array>
-			<integer>58</integer>
-			<integer>35</integer>
-			<integer>34</integer>
-		</array>
-		<key>Dark</key>
+		<string>#3a2322</string>
+		<key>IsDark</key>
 		<false/>
-		<key>Font</key>
-		<string>Courier</string>
 		<key>Text</key>
-		<array>
-			<integer>59</integer>
-			<integer>35</integer>
-			<integer>34</integer>
-		</array>
+		<string>#3b2322</string>
 	</dict>
 	<key>Ocean</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>34</integer>
-			<integer>79</integer>
-			<integer>188</integer>
-		</array>
+		<string>#224fbc</string>
 		<key>BoldText</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
+		<string>#ffffff</string>
 		<key>Cursor</key>
-		<array>
-			<integer>127</integer>
-			<integer>127</integer>
-			<integer>127</integer>
-		</array>
-		<key>Dark</key>
+		<string>#7f7f7f</string>
+		<key>IsDark</key>
 		<true/>
-		<key>Font</key>
-		<string>Courier</string>
 		<key>Text</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
+		<string>#ffffff</string>
 	</dict>
 	<key>Pro</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#000000</string>
 		<key>BoldText</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
+		<string>#ffffff</string>
 		<key>Cursor</key>
-		<array>
-			<integer>77</integer>
-			<integer>77</integer>
-			<integer>77</integer>
-		</array>
-		<key>Dark</key>
+		<string>#4d4d4d</string>
+		<key>IsDark</key>
 		<true/>
-		<key>Font</key>
-		<string>Source Code Pro</string>
 		<key>Text</key>
-		<array>
-			<integer>242</integer>
-			<integer>242</integer>
-			<integer>242</integer>
-		</array>
+		<string>#f2f2f2</string>
 	</dict>
 	<key>Red Sands</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>122</integer>
-			<integer>37</integer>
-			<integer>30</integer>
-		</array>
+		<string>#7a251e</string>
 		<key>BoldText</key>
-		<array>
-			<integer>223</integer>
-			<integer>189</integer>
-			<integer>34</integer>
-		</array>
+		<string>#dfbd22</string>
 		<key>Cursor</key>
-		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
-		</array>
-		<key>Dark</key>
+		<string>#ffffff</string>
+		<key>IsDark</key>
 		<true/>
-		<key>Font</key>
-		<string>Meslo</string>
 		<key>Text</key>
-		<array>
-			<integer>215</integer>
-			<integer>201</integer>
-			<integer>167</integer>
-		</array>
+		<string>#d7c9a7</string>
 	</dict>
 	<key>Silver Aerogel</key>
 	<dict>
 		<key>Background</key>
-		<array>
-			<integer>128</integer>
-			<integer>128</integer>
-			<integer>128</integer>
-		</array>
+		<string>#808080</string>
 		<key>BoldText</key>
+		<string>#ffffff</string>
+		<key>Cursor</key>
+		<string>#d9d9d9</string>
+		<key>IsDark</key>
+		<false/>
+		<key>Text</key>
+		<string>#000000</string>
+	</dict>
+	<key>VSCode</key>
+	<dict>
+		<key>Background</key>
+		<string>#1e1e1e</string>
+		<key>BoldText</key>
+		<string>#cccccc</string>
+		<key>ColorTable</key>
 		<array>
-			<integer>255</integer>
-			<integer>255</integer>
-			<integer>255</integer>
+			<string>#000000</string>
+			<string>#cd3131</string>
+			<string>#0dbc79</string>
+			<string>#e5e510</string>
+			<string>#2472c8</string>
+			<string>#bc3fbc</string>
+			<string>#11a8cd</string>
+			<string>#e5e5e5</string>
+			<string>#666666</string>
+			<string>#f14c4c</string>
+			<string>#23d18b</string>
+			<string>#f5f543</string>
+			<string>#3b8eea</string>
+			<string>#d670d6</string>
+			<string>#29b8db</string>
+			<string>#e5e5e5</string>
 		</array>
 		<key>Cursor</key>
-		<array>
-			<integer>217</integer>
-			<integer>217</integer>
-			<integer>217</integer>
-		</array>
-		<key>Dark</key>
-		<false/>
-		<key>Font</key>
-		<string>Meslo</string>
+		<string>#0dbc79</string>
+		<key>IsDark</key>
+		<true/>
 		<key>Text</key>
-		<array>
-			<integer>0</integer>
-			<integer>0</integer>
-			<integer>0</integer>
-		</array>
+		<string>#ffffff</string>
 	</dict>
 </dict>
 </plist>
