@@ -39,21 +39,17 @@
 
 		_fontFamilies = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Fonts" withExtension:@"plist"]];
 
-		[self addObserver:self forKeyPath:@"_fontName" options:kNilOptions context:nil];
-		[self addObserver:self forKeyPath:@"_fontSize" options:kNilOptions context:nil];
-
-		[self _fontMetricsChanged];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:HBPreferencesDidChangeNotification object:nil];
+		[self preferencesUpdated];
 	}
 
 	return self;
 }
 
-#pragma mark - KVO
+#pragma mark - Callbacks
 
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if ([keyPath isEqualToString:@"_fontName"] || [keyPath isEqualToString:@"_fontSize"]) {
-		[self _fontMetricsChanged];
-	}
+- (void)preferencesUpdated {
+	[self _fontMetricsChanged];
 }
 
 #pragma mark - Create model objects from preferences
