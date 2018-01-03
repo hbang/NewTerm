@@ -7,6 +7,7 @@ NewTerm_PRIVATE_FRAMEWORKS = Preferences
 NewTerm_EXTRA_FRAMEWORKS = Cephei
 NewTerm_LIBRARIES = curses
 NewTerm_CFLAGS = -I../headers -I../VT100 -fobjc-arc
+NewTerm_CODESIGN_FLAGS = -Sentitlements.plist
 
 include $(THEOS_MAKE_PATH)/application.mk
 
