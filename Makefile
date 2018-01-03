@@ -10,5 +10,5 @@ include $(THEOS_MAKE_PATH)/aggregate.mk
 
 after-install::
 ifneq ($(XCODE),1)
-	install.exec "killall NewTerm; sblaunch -dp ws.hbang.Terminal"
+	install.exec "killall NewTerm; sleep 0.1; sblaunch -p ws.hbang.Terminal"
 endif
