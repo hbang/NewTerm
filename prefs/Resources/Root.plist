@@ -121,6 +121,7 @@
 				<string>Pro</string>
 				<string>Red Sands</string>
 				<string>Silver Aerogel</string>
+				<string>VSCode</string>
 			</array>
 			<key>validValues</key>
 			<array>
@@ -134,6 +135,7 @@
 				<string>Pro</string>
 				<string>Red Sands</string>
 				<string>Silver Aerogel</string>
+				<string>VSCode</string>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>

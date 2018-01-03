@@ -40,6 +40,7 @@
 - (void)preferencesUpdated {
 	HBNTPreferences *preferences = [%c(HBNTPreferences) sharedInstance];
 
+	_stringSupplier.colorMap = preferences.colorMap;
 	_textView.backgroundColor = _stringSupplier.colorMap.background;
 	_textView.attributedText = [_stringSupplier attributedStringWithFontMetrics:preferences.fontMetrics];
 }

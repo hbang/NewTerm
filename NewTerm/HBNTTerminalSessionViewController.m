@@ -45,7 +45,6 @@
 		_buffer.refreshDelegate = self;
 
 		_stringSupplier = [[VT100StringSupplier alloc] init];
-		_stringSupplier.colorMap = [[VT100ColorMap alloc] init];
 		_stringSupplier.screenBuffer = _buffer;
 
 		_terminalController = [[HBNTTerminalController alloc] init];
@@ -73,7 +72,6 @@
 
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-	_textView.backgroundColor = _stringSupplier.colorMap.background;
 	_textView.showsVerticalScrollIndicator = NO;
 	_textView.terminalInputDelegate = _terminalController;
 	[self.view addSubview:_textView];
@@ -120,7 +118,10 @@
 #pragma mark - Preferences
 
 - (void)preferencesUpdated {
-	_fontMetrics = [HBNTPreferences sharedInstance].fontMetrics;
+	HBNTPreferences *preferences = [HBNTPreferences sharedInstance];
+	_stringSupplier.colorMap = preferences.colorMap;
+	_fontMetrics = preferences.fontMetrics;
+	_textView.backgroundColor = _stringSupplier.colorMap.background;
 	[self refresh];
 }
 

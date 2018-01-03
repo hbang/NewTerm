@@ -8,12 +8,13 @@
 
 #import <Cephei/HBPreferences.h>
 
-@class FontMetrics;
+@class FontMetrics, VT100ColorMap;
 
 @interface HBNTPreferences : NSObject
 
 + (instancetype)sharedInstance;
 
 @property (strong, nonatomic, readonly) FontMetrics *fontMetrics;
+@property (strong, nonatomic, readonly) VT100ColorMap *colorMap;
 
 @end

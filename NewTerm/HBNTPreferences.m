@@ -8,14 +8,17 @@
 
 #import "HBNTPreferences.h"
 #import "FontMetrics.h"
+#import "VT100ColorMap.h"
 
 @implementation HBNTPreferences {
 	HBPreferences *_preferences;
 
-	NSDictionary *_fontFamilies;
+	NSDictionary *_fontsPlist;
+	NSDictionary *_themesPlist;
 
 	NSString *_fontName;
 	CGFloat _fontSize;
+	NSString *_themeName;
 }
 
 + (instancetype)sharedInstance {
@@ -36,8 +39,10 @@
 
 		[_preferences registerObject:&_fontName default:@"Fira Code" forKey:@"fontName"];
 		[_preferences registerFloat:&_fontSize default:13.f forKey:IS_IPAD ? @"fontSizePad" : @"fontSizePhone"];
+		[_preferences registerObject:&_themeName default:@"kirb" forKey:@"theme"];
 
-		_fontFamilies = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Fonts" withExtension:@"plist"]];
+		_fontsPlist = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Fonts" withExtension:@"plist"]];
+		_themesPlist = [NSDictionary dictionaryWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"Themes" withExtension:@"plist"]];
 
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:HBPreferencesDidChangeNotification object:nil];
 		[self preferencesUpdated];
@@ -50,12 +55,13 @@
 
 - (void)preferencesUpdated {
 	[self _fontMetricsChanged];
+	[self _colorMapChanged];
 }
 
 #pragma mark - Create model objects from preferences
 
 - (void)_fontMetricsChanged {
-	NSDictionary *family = _fontFamilies[_fontName];
+	NSDictionary *family = _fontsPlist[_fontName];
 	UIFont *regularFont, *boldFont;
 
 	if (family) {
@@ -75,6 +81,17 @@
 	}
 
 	_fontMetrics = [[FontMetrics alloc] initWithFont:regularFont boldFont:boldFont];
+}
+
+- (void)_colorMapChanged {
+	// if the theme doesn’t exist… how did we get here? force it to the default, which will call this
+	// method again
+	if (!_themesPlist[_themeName]) {
+		_preferences[@"theme"] = @"kirb";
+		return;
+	}
+
+	_colorMap = [[VT100ColorMap alloc] initWithDictionary:_themesPlist[_themeName]];
 }
 
 @end
