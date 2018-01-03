@@ -9,4 +9,6 @@ SUBPROJECTS = NewTerm prefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
 
 after-install::
-	install.exec "killall NewTerm" || true
+ifneq ($(XCODE),1)
+	install.exec "killall NewTerm; sblaunch ws.hbang.Terminal"
+endif

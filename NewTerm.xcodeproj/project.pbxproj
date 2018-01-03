@@ -1,0 +1,138 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 48;
+	objects = {
+
+/* Begin PBXFileReference section */
+		CF22F9AE1FFB97F7003175DE /* prefs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefs; sourceTree = "<group>"; };
+		CF22F9AF1FFB97F7003175DE /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
+		CF22F9B21FFB97F7003175DE /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		CF22F9B31FFB97F7003175DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		CF22F9B41FFB97F7003175DE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
+		CF22F9B51FFB97F7003175DE /* VT100 */ = {isa = PBXFileReference; lastKnownFileType = folder; path = VT100; sourceTree = "<group>"; };
+		CF22F9B61FFB97F7003175DE /* headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = headers; sourceTree = "<group>"; };
+		CF22F9B91FFB97F7003175DE /* NewTerm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NewTerm; sourceTree = "<group>"; };
+		CF22F9BC1FFB97F7003175DE /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		CF22F9A81FFB97F7003175DE = {
+			isa = PBXGroup;
+			children = (
+				CF22F9B91FFB97F7003175DE /* NewTerm */,
+				CF22F9B51FFB97F7003175DE /* VT100 */,
+				CF22F9AE1FFB97F7003175DE /* prefs */,
+				CF22F9B61FFB97F7003175DE /* headers */,
+				CF22F9B21FFB97F7003175DE /* Makefile */,
+				CF22F9BC1FFB97F7003175DE /* control */,
+				CF22F9AF1FFB97F7003175DE /* LICENSE.md */,
+				CF22F9B31FFB97F7003175DE /* README.md */,
+				CF22F9B41FFB97F7003175DE /* .gitignore */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXLegacyTarget section */
+		CF22F9C01FFB98A5003175DE /* NewTerm */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "do THEOS_DEVICE_PORT=2223 XCODE=1";
+			buildConfigurationList = CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm" */;
+			buildPhases = (
+			);
+			buildToolPath = /usr/local/bin/make;
+			buildWorkingDirectory = "";
+			dependencies = (
+			);
+			name = NewTerm;
+			passBuildSettingsInEnvironment = 0;
+			productName = NewTerm;
+		};
+/* End PBXLegacyTarget section */
+
+/* Begin PBXProject section */
+		CF22F9A91FFB97F7003175DE /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0910;
+				TargetAttributes = {
+					CF22F9C01FFB98A5003175DE = {
+						CreatedOnToolsVersion = 9.1;
+					};
+				};
+			};
+			buildConfigurationList = CF22F9AC1FFB97F7003175DE /* Build configuration list for PBXProject "NewTerm" */;
+			compatibilityVersion = "Xcode 8.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = CF22F9A81FFB97F7003175DE;
+			productRefGroup = CF22F9A81FFB97F7003175DE;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				CF22F9C01FFB98A5003175DE /* NewTerm */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		CF22F9AA1FFB97F7003175DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		CF22F9AB1FFB97F7003175DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		CF22F9C21FFB98A5003175DE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 1.0;
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		CF22F9C31FFB98A5003175DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				IPHONEOS_DEPLOYMENT_TARGET = 1.0;
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CF22F9AC1FFB97F7003175DE /* Build configuration list for PBXProject "NewTerm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF22F9AA1FFB97F7003175DE /* Debug */,
+				CF22F9AB1FFB97F7003175DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CF22F9C21FFB98A5003175DE /* Debug */,
+				CF22F9C31FFB98A5003175DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = CF22F9A91FFB97F7003175DE /* Project object */;
+}
