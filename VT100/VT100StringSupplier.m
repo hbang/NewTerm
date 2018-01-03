@@ -31,8 +31,10 @@
 			unicharBuffer[j] = row[j].code;
 		}
 	}
-
-	if (rowIndex != self.rowCount) {
+	
+	// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a newline
+	// if the line ends with a space
+	if (rowIndex != self.rowCount && unicharBuffer[width - 1] == ' ') {
 		unicharBuffer[width - 1] = '\n';
 	}
 
@@ -54,10 +56,16 @@
 	for (int i = 0; i < self.rowCount; i++) {
 		[allLines appendString:[self stringForLine:i]];
 	}
+	
+	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
+	paragraphStyle.alignment = NSTextAlignmentLeft;
+	paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines attributes:@{
-		NSFontAttributeName: fontMetrics.regularFont
+		NSFontAttributeName: fontMetrics.regularFont,
+		NSParagraphStyleAttributeName: paragraphStyle
 	}];
+	
 	NSUInteger startOffset = 0;
 
 	for (int i = 0; i < self.rowCount; i++) {
@@ -83,7 +91,9 @@
 			}
 
 			if (eol || ![color isEqual:lastColor]) {
-				if (lastColorIndex != NSUIntegerMax) {
+				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
+				// elsewhere in this logic
+				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + j - lastColorIndex < attributedString.string.length) {
 					int length = j - lastColorIndex;
 					[attributedString addAttribute:NSBackgroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
 				}
@@ -96,7 +106,7 @@
 		}
 
 		// Same thing again for foreground color
-		lastColorIndex = -1;
+		lastColorIndex = NSUIntegerMax;
 		lastColor = nil;
 
 		for (int j = 0; j <= width; ++j) {
@@ -112,7 +122,9 @@
 			}
 
 			if (eol || ![color isEqual:lastColor]) {
-				if (lastColorIndex != -1) {
+				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
+				// elsewhere in this logic
+				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + j - lastColorIndex < attributedString.string.length) {
 					int length = j - lastColorIndex;
 					[attributedString addAttribute:NSForegroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
 				}
