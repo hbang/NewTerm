@@ -60,5 +60,5 @@ typedef struct {
 @protocol AttributedStringSupplier
 - (int)rowCount;
 - (NSString *)stringForLine:(int)rowIndex;
-- (NSAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics;
+- (NSAttributedString *)attributedString;
 @end

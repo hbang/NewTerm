@@ -34,14 +34,20 @@
 	
 	// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a newline
 	// if the line ends with a space
-	if (rowIndex != self.rowCount && unicharBuffer[width - 1] == ' ') {
+	if (rowIndex != self.rowCount - 1 && unicharBuffer[width - 1] == ' ') {
 		unicharBuffer[width - 1] = '\n';
 	}
 
 	return [[NSString alloc] initWithCharacters:unicharBuffer length:width];
 }
 
-- (NSAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics {
+- (NSMutableAttributedString *)attributedString {
+	NSParameterAssert(_fontMetrics);
+	NSParameterAssert(_fontMetrics.regularFont);
+	NSParameterAssert(_fontMetrics.boldFont);
+	NSParameterAssert(_screenBuffer);
+	NSParameterAssert(_colorMap);
+
 	int width = self.columnCount;
 	ScreenPosition cursorPosition = _screenBuffer.cursorPosition;
 
@@ -62,7 +68,7 @@
 	paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines attributes:@{
-		NSFontAttributeName: fontMetrics.regularFont,
+		NSFontAttributeName: _fontMetrics.regularFont,
 		NSParagraphStyleAttributeName: paragraphStyle
 	}];
 	

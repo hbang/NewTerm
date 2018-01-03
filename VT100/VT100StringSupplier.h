@@ -7,12 +7,13 @@
 
 @interface VT100StringSupplier : NSObject <AttributedStringSupplier>
 
-@property (nonatomic, retain) id <ScreenBuffer> screenBuffer;
-@property (nonatomic, retain) VT100ColorMap *colorMap;
+@property (nonatomic, weak) id <ScreenBuffer> screenBuffer;
+@property (nonatomic, strong) VT100ColorMap *colorMap;
+@property (nonatomic, strong) FontMetrics *fontMetrics;
 
 - (int)rowCount;
 
 - (NSString *)stringForLine:(int)rowIndex;
-- (NSMutableAttributedString *)attributedStringWithFontMetrics:(FontMetrics *)fontMetrics;
+- (NSMutableAttributedString *)attributedString;
 
 @end

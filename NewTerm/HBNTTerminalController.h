@@ -7,16 +7,28 @@
 //
 
 #import "HBNTTerminalTextView.h"
+#import "VT100Types.h"
 
-@class HBNTTerminalSessionViewController, VT100ColorMap;
+@class HBNTTerminalSessionViewController, VT100ColorMap, FontMetrics;
+
+@protocol HBNTTerminalControllerDelegate
+
+@required
+- (void)refreshWithAttributedString:(NSAttributedString *)attributedString backgroundColor:(UIColor *)backgroundColor;
+- (void)close;
+
+@end
 
 @interface HBNTTerminalController : NSObject <HBNTTerminalKeyboardProtocol>
 
 - (void)startSubProcess;
-- (void)updateScreenSize;
 
-@property (strong, nonatomic) HBNTTerminalSessionViewController *viewController;
-@property (strong, nonatomic) UIFont *font;
-@property (strong, nonatomic) VT100ColorMap *colorMap;
+@property (nonatomic, strong) HBNTTerminalSessionViewController *viewController;
+@property (nonatomic) ScreenSize screenSize;
+@property (nonatomic, strong, readonly) VT100ColorMap *colorMap;
+@property (nonatomic, strong, readonly) FontMetrics *fontMetrics;
+@property (nonatomic, readonly) int scrollbackLines;
+
+@property (nonatomic, weak) id <HBNTTerminalControllerDelegate> delegate;
 
 @end

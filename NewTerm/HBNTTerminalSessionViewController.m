@@ -11,28 +11,18 @@
 #import "HBNTTerminalTextView.h"
 #import "HBNTPreferences.h"
 #import "HBNTRootViewController.h"
-#import "VT100.h"
-#import "VT100StringSupplier.h"
 #import "VT100ColorMap.h"
 #import "FontMetrics.h"
 
-// TODO: a lot of this probably shouldn't be here...
-
 @implementation HBNTTerminalSessionViewController {
+	HBNTTerminalController *_terminalController;
 	HBNTTerminalTextView *_textView;
 
-	VT100 *_buffer;
-	VT100StringSupplier *_stringSupplier;
-	VT100ColorMap *_colorMap;
-	FontMetrics *_fontMetrics;
-	HBNTTerminalController *_terminalController;
-	dispatch_queue_t _updateQueue;
+	NSException *_failureException;
 
 	BOOL _hasAppeared;
 	CGFloat _keyboardHeight;
 	CGPoint _lastAutomaticScrollOffset;
-
-	NSException *_failureException;
 }
 
 - (instancetype)init {
@@ -40,20 +30,10 @@
 
 	if (self) {
 		self.automaticallyAdjustsScrollViewInsets = NO;
-		
-		_buffer = [[VT100 alloc] init];
-		_buffer.refreshDelegate = self;
-
-		_stringSupplier = [[VT100StringSupplier alloc] init];
-		_stringSupplier.screenBuffer = _buffer;
 
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
-
-		_updateQueue = dispatch_queue_create("ws.hbang.Terminal.update-queue", DISPATCH_QUEUE_SERIAL);
-
-		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:HBPreferencesDidChangeNotification object:nil];
-		[self preferencesUpdated];
+		_terminalController.delegate = self;
 
 		@try {
 			[_terminalController startSubProcess];
@@ -82,8 +62,6 @@
 
 	[self registerForKeyboardNotifications];
 	[self becomeFirstResponder];
-
-	[self updateScreenSize];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -95,11 +73,6 @@
 
 - (void)viewWillLayoutSubviews {
 	[super viewWillLayoutSubviews];
-	[self updateScreenSize];
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation {
-	[super didRotateFromInterfaceOrientation:fromInterfaceOrientation];
 	[self updateScreenSize];
 }
 
@@ -115,26 +88,6 @@
 	}
 }
 
-#pragma mark - Preferences
-
-- (void)preferencesUpdated {
-	HBNTPreferences *preferences = [HBNTPreferences sharedInstance];
-	_stringSupplier.colorMap = preferences.colorMap;
-	_fontMetrics = preferences.fontMetrics;
-	_textView.backgroundColor = _stringSupplier.colorMap.background;
-	[self refresh];
-}
-
-#pragma mark - Calculations
-
-- (int)screenWidth {
-	return _buffer.screenSize.width;
-}
-
-- (int)screenHeight {
-	return _buffer.screenSize.height;
-}
-
 #pragma mark - Screen
 
 - (void)updateScreenSize {
@@ -142,12 +95,11 @@
 	// our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
 	UIEdgeInsets barInsets = _barInsets;
 	barInsets.bottom = _keyboardHeight ?: barInsets.bottom;
-	HBLogDebug(@"keyboard height %f final height %f", _keyboardHeight, barInsets.bottom);
 
 	_textView.contentInset = _barInsets;
 	_textView.scrollIndicatorInsets = _textView.contentInset;
 
-	CGSize glyphSize = _fontMetrics.boundingBox;
+	CGSize glyphSize = _terminalController.fontMetrics.boundingBox;
 
 	// Determine the screen size based on the font size
 	CGFloat width = _textView.frame.size.width;
@@ -157,28 +109,23 @@
 	size.width = floorf(width / glyphSize.width);
 	size.height = floorf(height / glyphSize.height);
 
-	// The font size should not be too small that it overflows the glyph buffers.
-	// It is not worth the effort to fail gracefully (increasing the buffer size would
-	// be better).
+	// The font size should not be too small that it overflows the glyph buffers. It is not worth the
+	// effort to fail gracefully (increasing the buffer size would be better).
 	NSParameterAssert(size.width < kMaxRowBufferSize);
 
-	if (size.width != _buffer.screenSize.width || size.height != _buffer.screenSize.height) {
-		_buffer.screenSize = size;
-		[_terminalController updateScreenSize];
+	if (size.width != _terminalController.screenSize.width || size.height != _terminalController.screenSize.height) {
+		_terminalController.screenSize = size;
 	}
 }
 
-- (void)refresh {
-	dispatch_async(_updateQueue, ^{
-		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
-		NSAttributedString *attributedString = [_stringSupplier attributedStringWithFontMetrics:_fontMetrics];
+- (void)refreshWithAttributedString:(NSAttributedString *)attributedString backgroundColor:(UIColor *)backgroundColor {
+	_textView.attributedText = attributedString;
 
-		dispatch_async(dispatch_get_main_queue(), ^{
-			_textView.attributedText = attributedString;
+	if (backgroundColor != _textView.backgroundColor) {
+		_textView.backgroundColor = backgroundColor;
+	}
 
-			[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
-		});
-	});
+	[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
 }
 
 - (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
@@ -191,23 +138,13 @@
 	// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
 	CGPoint offset = _textView.contentOffset;
 	CGFloat bottom = _keyboardHeight ?: inset.bottom;
-	offset.y = _buffer.scrollbackLines == 0 ? -inset.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
+	offset.y = _terminalController.scrollbackLines == 0 ? -inset.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
 
 	// if the offset has changed, update it and our lastAutomaticScrollOffset
 	if (_textView.contentOffset.y != offset.y) {
 		_textView.contentOffset = offset;
 		_lastAutomaticScrollOffset = offset;
 	}
-}
-
-- (void)readInputStream:(NSData *)data {
-	// Simply forward the input stream down the VT100 processor. When it notices
-	// changes to the screen, it should invoke our refresh delegate below.
-	[_buffer readInputStream:data];
-}
-
-- (void)clearScreen {
-	[_buffer clearScreen];
 }
 
 - (void)close {

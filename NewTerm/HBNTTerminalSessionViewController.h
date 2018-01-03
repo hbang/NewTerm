@@ -7,22 +7,13 @@
 //
 
 #import "VT100Types.h"
+#import "HBNTTerminalController.h"
 
 @class VT100ColorMap;
 
-@interface HBNTTerminalSessionViewController : UIViewController <ScreenBufferRefreshDelegate>
+@interface HBNTTerminalSessionViewController : UIViewController <HBNTTerminalControllerDelegate>
 
-- (void)readInputStream:(NSData *)data;
-- (void)clearScreen;
-- (void)close;
-
-@property (strong, nonatomic, readonly) UITextView *textView;
+@property (nonatomic, strong, readonly) UITextView *textView;
 @property (nonatomic) UIEdgeInsets barInsets;
-
-@property (strong, nonatomic) UIFont *font;
-@property (strong, nonatomic) VT100ColorMap *colorMap;
-
-@property (nonatomic, readonly) int screenWidth;
-@property (nonatomic, readonly) int screenHeight;
 
 @end
