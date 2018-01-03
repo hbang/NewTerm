@@ -6,15 +6,6 @@
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
-typedef NS_ENUM(NSUInteger, HBNTTerminalModifierKey) {
-	HBNTTerminalModifierKeyNone,
-	HBNTTerminalModifierKeyCtrl,
-	HBNTTerminalModifierKeyMeta,
-	HBNTTerminalModifierKeyEsc
-};
-
-typedef void (^HBNTTerminalKeyUpCompletion)();
-
 // Protocol implemented by listener of keyboard events
 @protocol HBNTTerminalInputProtocol
 
@@ -24,9 +15,6 @@ typedef void (^HBNTTerminalKeyUpCompletion)();
 @end
 
 @protocol HBNTTerminalKeyboardProtocol <HBNTTerminalInputProtocol>
-
-@required
-- (void)modifierKeyPressed:(HBNTTerminalModifierKey)modifierKey;
 
 @end
 

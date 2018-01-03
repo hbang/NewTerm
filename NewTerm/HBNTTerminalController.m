@@ -73,10 +73,6 @@
 	}
 }
 
-- (void)modifierKeyPressed:(HBNTTerminalModifierKey)modifierKey {
-	// TODO
-}
-
 #pragma mark - Properties
 
 - (UIFont *)font {

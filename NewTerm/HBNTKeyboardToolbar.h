@@ -1,7 +1,9 @@
+@class HBNTKeyboardButton;
+
 @interface HBNTKeyboardToolbar : UIToolbar
 
-@property (nonatomic, strong) UIButton *ctrlKey;
-@property (nonatomic, strong) UIButton *metaKey;
-@property (nonatomic, strong) UIButton *tabKey;
+@property (nonatomic, strong) HBNTKeyboardButton *ctrlKey;
+@property (nonatomic, strong) HBNTKeyboardButton *metaKey;
+@property (nonatomic, strong) HBNTKeyboardButton *tabKey;
 
 @end
