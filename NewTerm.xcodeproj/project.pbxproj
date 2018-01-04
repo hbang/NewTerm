@@ -16,12 +16,14 @@
 		CF22F9B61FFB97F7003175DE /* headers */ = {isa = PBXFileReference; lastKnownFileType = folder; path = headers; sourceTree = "<group>"; };
 		CF22F9B91FFB97F7003175DE /* NewTerm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NewTerm; sourceTree = "<group>"; };
 		CF22F9BC1FFB97F7003175DE /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
+		CF22F9E81FFE011E003175DE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NewTerm/LaunchScreen.storyboard; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
 		CF22F9A81FFB97F7003175DE = {
 			isa = PBXGroup;
 			children = (
+				CF22F9E81FFE011E003175DE /* LaunchScreen.storyboard */,
 				CF22F9B91FFB97F7003175DE /* NewTerm */,
 				CF22F9B51FFB97F7003175DE /* VT100 */,
 				CF22F9AE1FFB97F7003175DE /* prefs */,
