@@ -2,6 +2,8 @@ Licensed under the GNU General Public License, version 2.0.
 
 Contains code from [iTerm2](https://iterm2.com/), [iTerm](http://iterm.sourceforge.net/), and [Linux](https://kernel.org/). Contains fonts [Fira Code](https://github.com/tonsky/FiraCode), [Hack](http://sourcefoundry.org/hack/), and [Source Code Pro](http://adobe-fonts.github.io/source-code-pro/).
 
+Contains bell glyph by i cons from The Noun Project.
+
 ----
 
 # Third-party code/resources

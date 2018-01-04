@@ -15,6 +15,7 @@
 
 @required
 - (void)refreshWithAttributedString:(NSAttributedString *)attributedString backgroundColor:(UIColor *)backgroundColor;
+- (void)activateBell;
 - (void)close;
 
 @end

@@ -9,14 +9,17 @@
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTerminalController.h"
 #import "HBNTTerminalTextView.h"
+#import "HBNTHUDView.h"
 #import "HBNTPreferences.h"
 #import "HBNTRootViewController.h"
 #import "VT100ColorMap.h"
 #import "FontMetrics.h"
+#import <Cephei/UIView+CompactConstraint.h>
 
 @implementation HBNTTerminalSessionViewController {
 	HBNTTerminalController *_terminalController;
 	HBNTTerminalTextView *_textView;
+	HBNTHUDView *_bellHUDView;
 
 	NSException *_failureException;
 
@@ -128,6 +131,30 @@
 	[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
 }
 
+- (void)activateBell {
+	if (!_bellHUDView) {
+		_bellHUDView = [[HBNTHUDView alloc] initWithImage:[UIImage imageNamed:@"bell-hud"]];
+		_bellHUDView.translatesAutoresizingMaskIntoConstraints = NO;
+		[self.view addSubview:_bellHUDView];
+		[self.view hb_addCompactConstraints:@[
+			@"hudView.centerX = self.centerX",
+			@"hudView.top = self.top + 100"
+		] metrics:nil views:@{
+			@"self": self.view,
+			@"hudView": _bellHUDView
+		}];
+	}
+
+	[_bellHUDView animate];
+}
+
+- (void)close {
+	// TODO: i guess this is kind of the wrong spot
+	if (self.parentViewController && self.parentViewController.class == HBNTRootViewController.class) {
+		[(HBNTRootViewController *)self.parentViewController removeTerminal:self];
+	}
+}
+
 - (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
 	// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
 	// bottom. when they scroll back, the automatic scrolling will continue
@@ -144,13 +171,6 @@
 	if (_textView.contentOffset.y != offset.y) {
 		_textView.contentOffset = offset;
 		_lastAutomaticScrollOffset = offset;
-	}
-}
-
-- (void)close {
-	// TODO: i guess this is kind of the wrong spot
-	if (self.parentViewController && self.parentViewController.class == HBNTRootViewController.class) {
-		[(HBNTRootViewController *)self.parentViewController removeTerminal:self];
 	}
 }
 

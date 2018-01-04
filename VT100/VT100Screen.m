@@ -149,7 +149,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 		newWinTitle = nil;
 		newIconTitle = nil;
-		soundBell =	 NO;
 		scrollUpLines = 0;
 		[self initScreenWithWidth:DEFAULT_TERMINAL_WIDTH Height:DEFAULT_TERMINAL_HEIGHT];
 		return self;
@@ -471,7 +470,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 		[self showCursor: YES];
 		newWinTitle = nil;
 		newIconTitle = nil;
-		soundBell = NO;
 }
 
 - (int)width
@@ -555,7 +553,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 													// VT100 CC
 	 case VT100CC_ENQ: break;
-	 case VT100CC_BEL: soundBell = YES; break;
+	 case VT100CC_BEL: [self activateBell]; break;
 	 case VT100CC_BS: [self backSpace]; break;
 	 case VT100CC_HT: [self setTab]; break;
 	 case VT100CC_LF:
@@ -770,7 +768,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 		[self releaseLock];
 		[self setDirty];
-		[refreshDelegate refresh];
 }
 
 - (void)saveBuffer {
@@ -1505,37 +1502,12 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 }
 
-- (void)setPlayBellFlag:(BOOL)flag {
-#if DEBUG_METHOD_TRACE
-		HBLogDebug(@"+[VT100Screen setPlayBellFlag:%s]",
-			flag == YES ? "YES" : "NO");
-#endif
-		PLAYBELL = flag;
-}
-
-- (void)setShowBellFlag:(BOOL)flag
-{
-#if DEBUG_METHOD_TRACE
-		HBLogDebug(@"+[VT100Screen setShowBellFlag:%s]",
-			flag == YES ? "YES" : "NO");
-#endif
-		SHOWBELL = flag;
-}
-
 - (void)activateBell {
 #if DEBUG_METHOD_TRACE
-		HBLogDebug(@"-[VT100Screen playBell]");
+		HBLogDebug(@"-[VT100Screen activateBell]");
 #endif
-		if (PLAYBELL) {
-				// TODO(allen): Implement! :)
-				HBLogDebug(@"Bell not implemented");
-				//NSBeep();
-		}
-		if (SHOWBELL) {
-				// TODO(allen): Implement! :)
-				HBLogDebug(@"Visual bell not implemented");
-				//[SESSION setBell: YES];
-		}
+
+		[refreshDelegate activateBell];
 }
 
 - (void)showCursor:(BOOL)show {
@@ -1599,17 +1571,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 
 - (int)newHeight {
 		return newHeight;
-}
-
-- (void)updateBell
-{
-		if (soundBell)
-				[self activateBell];
-		soundBell = NO;
-}
-
-- (void)setBell {
-		soundBell = YES;
 }
 
 - (int)scrollUpLines {

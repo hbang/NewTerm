@@ -39,6 +39,11 @@ static const int kDefaultHeight = 25;
 	[screen resetDirty];
 }
 
+- (void)activateBell {
+	// tell the refresh delegate to activate the bell
+	[refreshDelegate activateBell];
+}
+
 - (void)readInputStream:(NSData *)data {
 	// Push the input stream into the terminal, then parse the stream back out as
 	// a series of tokens and feed them back to the screen

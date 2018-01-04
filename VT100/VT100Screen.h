@@ -46,8 +46,6 @@
 		VT100Terminal *TERMINAL;
 		int charset[4], saveCharset[4];
 		BOOL blinkShow;
-		BOOL PLAYBELL;
-		BOOL SHOWBELL;
 
 		BOOL blinkingCursor;
 
@@ -91,7 +89,6 @@
 		int newWidth, newHeight;
 		NSString *newWinTitle;
 		NSString *newIconTitle;
-		BOOL soundBell;
 		int scrollUpLines;
 		BOOL printPending;
 	
@@ -118,8 +115,6 @@
 - (BOOL)blinkingCursor;
 - (void)setBlinkingCursor:(BOOL)flag;
 - (void)showCursor:(BOOL)show;
-- (void)setPlayBellFlag:(BOOL)flag;
-- (void)setShowBellFlag:(BOOL)flag;
 
 // line access
 - (screen_char_t *)getLineAtIndex:(int)theIndex;
@@ -181,8 +176,6 @@
 // UI stuff
 - (int)newWidth;
 - (int)newHeight;
-- (void)updateBell;
-- (void)setBell;
 - (int)scrollUpLines;
 - (void)resetScrollUpLines;
 

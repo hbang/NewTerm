@@ -52,6 +52,7 @@ typedef struct {
 @protocol ScreenBufferRefreshDelegate <NSObject>
 @required
 - (void)refresh;
+- (void)activateBell;
 @end
 
 // Supplies an attributed string for a row of text.	 In practice this is just

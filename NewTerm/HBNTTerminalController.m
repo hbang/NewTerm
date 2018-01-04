@@ -90,6 +90,16 @@
 	return _buffer.scrollbackLines;
 }
 
+- (VT100ColorMap *)colorMap {
+	return _stringSupplier.colorMap;
+}
+
+- (FontMetrics *)fontMetrics {
+	return _stringSupplier.fontMetrics;
+}
+
+#pragma mark - Screen Buffer Delegate
+
 - (void)refresh {
 	// TODO: we should handle the scrollback separately so it only appears if the user scrolls
 	dispatch_async(_updateQueue, ^{
@@ -100,14 +110,10 @@
 			[_delegate refreshWithAttributedString:attributedString backgroundColor:backgroundColor];
 		});
 	});
-}
+} 
 
-- (VT100ColorMap *)colorMap {
-	return _stringSupplier.colorMap;
-}
-
-- (FontMetrics *)fontMetrics {
-	return _stringSupplier.fontMetrics;
+- (void)activateBell {
+	[_delegate activateBell];
 }
 
 #pragma mark - Sub Process
