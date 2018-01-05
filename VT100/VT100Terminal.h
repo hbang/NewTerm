@@ -155,73 +155,22 @@ typedef enum {
 	MOUSE_REPORTING_ALL_MOTION,
 } mouseMode;
 
-@interface VT100Terminal : NSObject {
-	NSString *termType;
-	NSStringEncoding ENCODING;
-	NSLock *streamLock;
+@interface VT100Terminal : NSObject
 
-	unsigned char *STREAM;
-	int current_stream_length;
-	int total_stream_length;
+- (instancetype)init;
 
-	BOOL LINE_MODE; // YES=Newline, NO=Line feed
-	BOOL CURSOR_MODE; // YES=Application, NO=Cursor
-	BOOL ANSI_MODE; // YES=ANSI, NO=VT52
-	BOOL COLUMN_MODE; // YES=132 Column, NO=80 Column
-	BOOL SCROLL_MODE; // YES=Smooth, NO=Jump
-	BOOL SCREEN_MODE; // YES=Reverse, NO=Normal
-	BOOL ORIGIN_MODE; // YES=Relative, NO=Absolute
-	BOOL WRAPAROUND_MODE; // YES=On, NO=Off
-	BOOL AUTOREPEAT_MODE; // YES=On, NO=Off
-	BOOL INTERLACE_MODE; // YES=On, NO=Off
-	BOOL KEYPAD_MODE; // YES=Application, NO=Numeric
-	BOOL INSERT_MODE; // YES=Insert, NO=Replace
-	int CHARSET; // G0...G3
-	BOOL XON; // YES=XON, NO=XOFF
-	BOOL numLock; // YES=ON, NO=OFF, default=YES;
-	mouseMode MOUSE_MODE;
-
-	int FG_COLORCODE;
-	int BG_COLORCODE;
-	int bold, under, blink, reversed, highlight;
-
-	int saveBold, saveUnder, saveBlink, saveReversed, saveHighlight;
-	int saveCHARSET;
-
-	BOOL TRACE;
-
-	BOOL strictAnsiMode;
-	BOOL allowColumnMode;
-
-	BOOL allowKeypadMode;
-
-	unsigned int streamOffset;
-
-	//terminfo
-	char *key_strings[TERMINFO_KEYS];
-}
-
-- (id)init;
-- (void)dealloc;
+@property (nonatomic, strong) NSString *termType;
+@property (nonatomic) BOOL trace;
+@property (nonatomic) BOOL strictAnsiMode;
+@property (nonatomic) BOOL allowColumnMode;
+@property (nonatomic) NSStringEncoding encoding;
 
 @property (nonatomic, weak) VT100Screen *currentScreen;
 @property (nonatomic, strong) VT100Screen *primaryScreen;
 @property (nonatomic, strong) VT100Screen *alternateScreen;
 
-- (NSString *)termtype;
-- (void)setTermType:(NSString *)termtype;
-
-- (BOOL)trace;
-- (void)setTrace:(BOOL)flag;
-
-- (BOOL)strictAnsiMode;
-- (void)setStrictAnsiMode:(BOOL)flag;
-
-- (BOOL)allowColumnMode;
-- (void)setAllowColumnMode:(BOOL)flag;
-
-- (NSStringEncoding)encoding;
-- (void)setEncoding:(NSStringEncoding)encoding;
+- (void)setMode:(VT100Token *)token;
+- (void)setCharAttr:(VT100Token *)token;
 
 - (void)cleanStream;
 - (void)putStreamData:(NSData *)data;
@@ -244,20 +193,21 @@ typedef enum {
 - (NSData *)keyPFn:(int)n;
 - (NSData *)keypadData:(unichar)unicode keystr:(NSString *)keystr;
 
-- (BOOL)lineMode;
-- (BOOL)cursorMode;
-- (BOOL)columnMode;
-- (BOOL)scrollMode;
-- (BOOL)screenMode;
-- (BOOL)originMode;
-- (BOOL)wraparoundMode;
-- (BOOL)autorepeatMode;
-- (BOOL)interlaceMode;
-- (BOOL)keypadMode;
-- (BOOL)insertMode;
-- (int)charset;
-- (BOOL)xon;
-- (mouseMode)mouseMode;
+@property (nonatomic, readonly) BOOL lineMode; // YES=Newline, NO=Line feed
+@property (nonatomic, readonly) BOOL cursorMode; // YES=Application, NO=Cursor
+@property (nonatomic, readonly) BOOL ansiMode; // YES=ANSI, NO=VT52
+@property (nonatomic, readonly) BOOL columnMode; // YES=132 Column, NO=80 Column
+@property (nonatomic, readonly) BOOL scrollMode; // YES=Smooth, NO=Jump
+@property (nonatomic, readonly) BOOL screenMode; // YES=Reverse, NO=Normal
+@property (nonatomic, readonly) BOOL originMode; // YES=Relative, NO=Absolute
+@property (nonatomic, readonly) BOOL wraparoundMode; // YES=On, NO=Off
+@property (nonatomic, readonly) BOOL autorepeatMode; // YES=On, NO=Off
+@property (nonatomic, readonly) BOOL interlaceMode; // YES=On, NO=Off
+@property (nonatomic, readonly) BOOL keypadMode; // YES=Application, NO=Numeric
+@property (nonatomic, readonly) BOOL insertMode; // YES=Insert, NO=Replace
+@property (nonatomic, readonly) int charset; // G0...G3
+@property (nonatomic, readonly) BOOL xon; // YES=_xon, NO=XOFF
+@property (nonatomic, readonly) mouseMode mouseMode;
 
 - (int)foregroundColorCode;
 - (int)backgroundColorCode;
@@ -266,8 +216,6 @@ typedef enum {
 - (NSData *)reportStatus;
 - (NSData *)reportDeviceAttribute;
 - (NSData *)reportSecondaryDeviceAttribute;
-- (void)setMode:(VT100Token *)token;
-- (void)setCharAttr:(VT100Token *)token;
 
 @end
 

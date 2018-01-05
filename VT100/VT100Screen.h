@@ -32,106 +32,29 @@
 #define TABWINDOW 300
 
 @interface VT100Screen : NSObject
-{
-		int WIDTH; // width of screen
-		int HEIGHT; // height of screen
-		int CURSOR_X;
-		int CURSOR_Y;
-		int SAVE_CURSOR_X;
-		int SAVE_CURSOR_Y;
-		int SCROLL_TOP;
-		int SCROLL_BOTTOM;
-		BOOL tabStop[TABWINDOW];
 
-		VT100Terminal *TERMINAL;
-		int charset[4], saveCharset[4];
-		BOOL blinkShow;
+@property (nonatomic, strong) VT100Terminal *terminal;
+@property (nonatomic, weak) id <ScreenBufferRefreshDelegate> refreshDelegate;
 
-		BOOL blinkingCursor;
-
-		// single buffer that holds both scrollback and screen contents
-		screen_char_t *buffer_lines;
-		// buffer holding flags for each char on whether it needs to be redrawn
-		char *dirty;
-		// a single default line
-		screen_char_t *default_line;
-		// temporary buffer to store main buffer in SAVE_BUFFER/RESET_BUFFER mode
-		screen_char_t *temp_buffer;
-
-		// pointer to last line in buffer
-		screen_char_t *last_buffer_line;
-		// pointer to first screen line
-		screen_char_t *screen_top;
-		//pointer to first scrollback line
-		screen_char_t *scrollback_top;
-
-		// default line stuff
-		char default_bg_code;
-		char default_fg_code;
-		int default_line_width;
-
-		//scroll back stuff
-		BOOL dynamic_scrollback_size;
-		// max size of scrollback buffer
-		unsigned int max_scrollback_lines;
-		// current number of lines in scrollback buffer
-		unsigned int current_scrollback_lines;
-
-
-		// print to ansi...
-		BOOL printToAnsi; // YES=ON, NO=OFF, default=NO;
-		NSMutableString *printToAnsiString;
-
-		NSLock *screenLock;
-
-
-		// UI related
-		int newWidth, newHeight;
-		NSString *newWinTitle;
-		NSString *newIconTitle;
-		int scrollUpLines;
-		BOOL printPending;
-	
-		id <ScreenBufferRefreshDelegate> refreshDelegate;
-}
-
-@property (nonatomic, retain) id <ScreenBufferRefreshDelegate> refreshDelegate;
-
-- (id)init;
-- (void)dealloc;
-
-- (void)initScreenWithWidth:(int)width Height:(int)height;
+@property (nonatomic) int width, height;
 
 - (void)resizeWidth:(int)width height:(int)height;
 - (void)reset;
 - (void)setWidth:(int)width height:(int)height;
-- (int)width;
-- (int)height;
-- (unsigned int)scrollbackLines;
-- (void)setScrollback:(unsigned int)lineCount;
-- (void)setTerminal:(VT100Terminal *)terminal;
-- (VT100Terminal *)terminal;
 
-- (BOOL)blinkingCursor;
-- (void)setBlinkingCursor:(BOOL)flag;
-- (void)showCursor:(BOOL)show;
+@property (nonatomic) unsigned int maxScrollbackLines;
+
+@property (nonatomic) BOOL cursorVisible;
+@property (nonatomic) BOOL blinkingCursor;
 
 // line access
 - (screen_char_t *)getLineAtIndex:(int)theIndex;
 - (screen_char_t *)getLineAtScreenIndex:(int)theIndex;
-- (char *)dirty;
-
-// lock
-- (void)acquireLock;
-- (void)releaseLock;
-- (BOOL)tryLock;
 
 // edit screen buffer
 - (void)putToken:(VT100Token *)token;
 - (void)clearBuffer;
 - (void)clearScrollbackBuffer;
-- (void)saveBuffer;
-- (void)restoreBuffer;
 
 // internal
 - (void)setString:(NSString *)s ascii:(BOOL)ascii;
@@ -159,24 +82,24 @@
 - (void)insertBlank:(int)n;
 - (void)insertLines:(int)n;
 - (void)deleteLines:(int)n;
-- (int)cursorX;
-- (int)cursorY;
+
+@property (nonatomic, readonly) int cursorX, cursorY;
 
 - (void)resetDirty;
 - (void)setDirty;
 
 - (int)numberOfLines;
-- (unsigned)numberOfScrollbackLines;
+- (unsigned int)numberOfScrollbackLines;
 
 // print to ansi...
-- (BOOL)printToAnsi;
-- (void)setPrintToAnsi:(BOOL)aFlag;
+@property (nonatomic) BOOL printToAnsi;
+
 - (void)printStringToAnsi:(NSString *)aString;
 
 // UI stuff
-- (int)newWidth;
-- (int)newHeight;
-- (int)scrollUpLines;
+@property (nonatomic, readonly) int newWidth, newHeight;
+@property (nonatomic, readonly) int scrollUpLines;
+
 - (void)resetScrollUpLines;
 
 @end

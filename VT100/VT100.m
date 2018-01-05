@@ -6,23 +6,22 @@
 #import "VT100Terminal.h"
 #import "VT100Screen.h"
 
-// The default width and height are basically thrown away as soon as the text
-// view is initialized and determins the right height and width for the
-// current font.
+// The default width and height are basically thrown away as soon as the text view is initialized
+// and determines the right height and width for the current font.
 static const int kDefaultWidth = 80;
 static const int kDefaultHeight = 25;
 
-@implementation VT100
+@implementation VT100 {
+	VT100Terminal *_terminal;
+}
 
-@synthesize refreshDelegate;
-
-- (id) init {
+- (instancetype)init {
 	self = [super init];
 
 	if (self) {
 		_terminal = [[VT100Terminal alloc] init];
 		_terminal.encoding = NSUTF8StringEncoding;
-
+		
 		_terminal.primaryScreen.refreshDelegate = self;
 		_terminal.alternateScreen.refreshDelegate = self;
 		[_terminal.primaryScreen resizeWidth:kDefaultWidth height:kDefaultHeight];

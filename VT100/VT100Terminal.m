@@ -13,7 +13,7 @@
  **					 Initial code by Kiichi Kusama
  **
  **	 This program is free software; you can redistribute it and/or modify
- **	 it under the terms of the GNU General Public License as published by
+ **	 it _under the terms of the GNU General Public License as published by
  **	 the Free Software Foundation; either version 2 of the License, or
  **	 (at your option) any later version.
  **
@@ -37,7 +37,31 @@
 #define STANDARD_STREAM_SIZE 100000
 #define UNKNOWN ('#')
 
-@implementation VT100Terminal
+@implementation VT100Terminal {
+  NSString *_termType;
+	NSStringEncoding _encoding;
+	NSLock *_streamLock;
+
+	unsigned char *_stream;
+	int _currentStreamLength;
+	int _totalStreamLength;
+
+	BOOL _numLock; // YES=ON, NO=OFF, default=YES;
+
+	int _fgColorCode;
+	int _bgColorCode;
+	int _bold, _under, _blink, _reversed, _highlight;
+
+	int _saveBold, _saveUnder, _saveBlink, _saveReversed, _saveHighlight;
+	int _saveCharset;
+
+	BOOL _allowKeypadMode;
+
+	unsigned int _streamOffset;
+
+	//terminfo
+	char *_keyStrings[TERMINFO_KEYS];
+}
 
 #define iscontrol(c) ((c) <= 0x1f)
 
@@ -1147,7 +1171,7 @@ static VT100Token *decode_string(unsigned char* datap,
   return result;
 }
 
-- (id)init {
+- (instancetype)init {
   int i;
 
   self = [super init];
@@ -1156,49 +1180,48 @@ static VT100Token *decode_string(unsigned char* datap,
     return nil;
   }
 
-  ENCODING = NSASCIIStringEncoding;
-  total_stream_length = STANDARD_STREAM_SIZE;
-  STREAM = malloc(total_stream_length);
-  current_stream_length = 0;
+  _encoding = NSASCIIStringEncoding;
+  _totalStreamLength = STANDARD_STREAM_SIZE;
+  _stream = malloc(_totalStreamLength);
+  _currentStreamLength = 0;
 
-  streamLock = [[NSLock alloc] init];
+  _streamLock = [[NSLock alloc] init];
 
-  termType = nil;
+  _termType = nil;
   for (i = 0; i < TERMINFO_KEYS; i++) {
-    key_strings[i] = NULL;
+    _keyStrings[i] = NULL;
   }
 
-  LINE_MODE = NO;
-  CURSOR_MODE = NO;
-  COLUMN_MODE = NO;
-  SCROLL_MODE = NO;
-  SCREEN_MODE = NO;
-  ORIGIN_MODE = NO;
-  WRAPAROUND_MODE = YES;
-  AUTOREPEAT_MODE = NO;
-  INTERLACE_MODE = NO;
-  KEYPAD_MODE = NO;
-  INSERT_MODE = NO;
-  saveCHARSET = CHARSET = NO;
-  XON = YES;
-  bold = blink = reversed = under = 0;
-  saveBold = saveBlink = saveReversed = saveUnder = 0;
-  highlight = saveHighlight = NO;
-  FG_COLORCODE = FG_COLOR_CODE;
-  BG_COLORCODE = BG_COLOR_CODE;
-  MOUSE_MODE = MOUSE_REPORTING_NONE;
+  _lineMode = NO;
+  _cursorMode = NO;
+  _columnMode = NO;
+  _scrollMode = NO;
+  _screenMode = NO;
+  _originMode = NO;
+  _wraparoundMode = YES;
+  _autorepeatMode = NO;
+  _interlaceMode = NO;
+  _keypadMode = NO;
+  _insertMode = NO;
+  _saveCharset = _charset = NO;
+  _xon = YES;
+  _bold = _blink = _reversed = _under = 0;
+  _saveBold = _saveBlink = _saveReversed = _saveUnder = 0;
+  _highlight = _saveHighlight = NO;
+  _fgColorCode = FG_COLOR_CODE;
+  _bgColorCode = BG_COLOR_CODE;
+  _mouseMode = MOUSE_REPORTING_NONE;
 
-  TRACE = NO;
+  _trace = NO;
+  _strictAnsiMode = NO;
+  _allowColumnMode = YES;
+  _allowKeypadMode = YES;
 
-  strictAnsiMode = NO;
-  allowColumnMode = YES;
-  allowKeypadMode = YES;
+  _streamOffset = 0;
 
-  streamOffset = 0;
+  _numLock = YES;
 
-  numLock = YES;
-
-  [self setTermType:@"xterm-256color"];
+  [self setTermType:@"xterm-color"];
 
   _primaryScreen = [[VT100Screen alloc] init];
   _primaryScreen.terminal = self;
@@ -1212,26 +1235,26 @@ static VT100Token *decode_string(unsigned char* datap,
 }
 
 - (void)dealloc {
-  free(STREAM);
+  free(_stream);
 
   int i;
   for (i = 0; i < TERMINFO_KEYS; i++) {
-    if (key_strings[i]) {
-      free(key_strings[i]);
+    if (_keyStrings[i]) {
+      free(_keyStrings[i]);
     }
-    key_strings[i] = NULL;
+    _keyStrings[i] = NULL;
   }
 }
 
-- (NSString*)termtype {
-  return termType;
+- (NSString*)termType {
+  return _termType;
 }
 
-- (void)setTermType:(NSString*)ttype {
-  termType = [NSString stringWithString:ttype];
+- (void)setTermType:(NSString*)termType {
+  _termType = [termType copy];
 
-  NSRange range = [termType rangeOfString:@"xterm"];
-  allowKeypadMode = range.location != NSNotFound;
+  NSRange range = [_termType rangeOfString:@"xterm"];
+  _allowKeypadMode = range.location != NSNotFound;
 
   int i;
   int r = 0;
@@ -1240,17 +1263,16 @@ static VT100Token *decode_string(unsigned char* datap,
   if (!issetup) {
     issetup = 1;
     // this crashes on non-Cydia systems when called multiple times
-    setupterm((char*)[termType UTF8String], fileno(stdout), &r);
+    setupterm((char*)[_termType UTF8String], fileno(stdout), &r);
   }
 
   if (r != 1) {
-    HBLogDebug(@"Terminal type %s is not defined (%d)", [termType UTF8String],
-               r);
+    HBLogDebug(@"Terminal type %@ is not defined (%d)", _termType, r);
     for (i = 0; i < TERMINFO_KEYS; i++) {
-      if (key_strings[i]) {
-        free(key_strings[i]);
+      if (_keyStrings[i]) {
+        free(_keyStrings[i]);
       }
-      key_strings[i] = NULL;
+      _keyStrings[i] = NULL;
     }
   } else {
     char* key_names[] = {
@@ -1266,97 +1288,65 @@ static VT100Token *decode_string(unsigned char* datap,
     };
 
     for (i = 0; i < TERMINFO_KEYS; i++) {
-      if (key_strings[i]) {
-        free(key_strings[i]);
+      if (_keyStrings[i]) {
+        free(_keyStrings[i]);
       }
-      key_strings[i] = key_names[i] ? strdup(key_names[i]) : NULL;
+      _keyStrings[i] = key_names[i] ? strdup(key_names[i]) : NULL;
     }
   }
 }
 
 - (void)reset {
-  LINE_MODE = NO;
-  CURSOR_MODE = NO;
-  COLUMN_MODE = NO;
-  SCROLL_MODE = NO;
-  SCREEN_MODE = NO;
-  ORIGIN_MODE = NO;
-  WRAPAROUND_MODE = YES;
-  AUTOREPEAT_MODE = NO;
-  INTERLACE_MODE = NO;
-  KEYPAD_MODE = NO;
-  INSERT_MODE = NO;
-  saveCHARSET = CHARSET = NO;
-  XON = YES;
-  bold = blink = reversed = under = 0;
-  saveBold = saveBlink = saveReversed = saveUnder = 0;
-  highlight = saveHighlight = NO;
-  FG_COLORCODE = FG_COLOR_CODE;
-  BG_COLORCODE = BG_COLOR_CODE;
-  MOUSE_MODE = MOUSE_REPORTING_NONE;
+  _lineMode = NO;
+  _cursorMode = NO;
+  _columnMode = NO;
+  _scrollMode = NO;
+  _screenMode = NO;
+  _originMode = NO;
+  _wraparoundMode = YES;
+  _autorepeatMode = NO;
+  _interlaceMode = NO;
+  _keypadMode = NO;
+  _insertMode = NO;
+  _saveCharset = _charset = NO;
+  _xon = YES;
+  _bold = _blink = _reversed = _under = 0;
+  _saveBold = _saveBlink = _saveReversed = _saveUnder = 0;
+  _highlight = _saveHighlight = NO;
+  _fgColorCode = FG_COLOR_CODE;
+  _bgColorCode = BG_COLOR_CODE;
+  _mouseMode = MOUSE_REPORTING_NONE;
 
-  TRACE = NO;
+  _trace = NO;
 
-  strictAnsiMode = NO;
-  allowColumnMode = YES;
+  _strictAnsiMode = NO;
+  _allowColumnMode = YES;
   [_currentScreen reset];
 }
 
-- (BOOL)trace {
-  return TRACE;
-}
-
-- (void)setTrace:(BOOL)flag {
-  TRACE = flag;
-}
-
-- (BOOL)strictAnsiMode {
-  return (strictAnsiMode);
-}
-
-- (void)setStrictAnsiMode:(BOOL)flag {
-  strictAnsiMode = flag;
-}
-
-- (BOOL)allowColumnMode {
-  return (allowColumnMode);
-}
-
-- (void)setAllowColumnMode:(BOOL)flag {
-  allowColumnMode = flag;
-}
-
-- (NSStringEncoding)encoding {
-  return ENCODING;
-}
-
-- (void)setEncoding:(NSStringEncoding)encoding {
-  ENCODING = encoding;
-}
-
 - (void)cleanStream {
-  [streamLock lock];
-  current_stream_length = 0;
-  [streamLock unlock];
+  [_streamLock lock];
+  _currentStreamLength = 0;
+  [_streamLock unlock];
 }
 
 - (void)putStreamData:(NSData*)data {
   unsigned char* buffer = (unsigned char*)[data bytes];
   int length = [data length];
-  [streamLock lock];
-  if (current_stream_length + length > total_stream_length) {
-    int n = (length + current_stream_length) / STANDARD_STREAM_SIZE;
+  [_streamLock lock];
+  if (_currentStreamLength + length > _totalStreamLength) {
+    int n = (length + _currentStreamLength) / STANDARD_STREAM_SIZE;
 
-    total_stream_length += n * STANDARD_STREAM_SIZE;
-    STREAM = reallocf(STREAM, total_stream_length);
+    _totalStreamLength += n * STANDARD_STREAM_SIZE;
+    _stream = reallocf(_stream, _totalStreamLength);
   }
 
-  memcpy(STREAM + current_stream_length, buffer, length);
-  current_stream_length += length;
-  if (current_stream_length == 0) {
-    streamOffset = 0;
+  memcpy(_stream + _currentStreamLength, buffer, length);
+  _currentStreamLength += length;
+  if (_currentStreamLength == 0) {
+    _streamOffset = 0;
   }
-  [streamLock unlock];
+  [_streamLock unlock];
 }
 
 - (VT100Token *)getNextToken {
@@ -1365,24 +1355,24 @@ static VT100Token *decode_string(unsigned char* datap,
   VT100Token *result = [VT100Token token];
 
   // acquire lock
-  [streamLock lock];
+  [_streamLock lock];
 
   // get our current position in the stream
-  datap = STREAM + streamOffset;
-  datalen = current_stream_length - streamOffset;
+  datap = _stream + _streamOffset;
+  datalen = _currentStreamLength - _streamOffset;
 
   if (datalen == 0) {
     result.type = VT100CC_NULL;
     result.length = 0;
-    streamOffset = 0;
-    current_stream_length = 0;
+    _streamOffset = 0;
+    _currentStreamLength = 0;
 
-    if (total_stream_length >= STANDARD_STREAM_SIZE * 2) {
+    if (_totalStreamLength >= STANDARD_STREAM_SIZE * 2) {
       // We are done with this stream. Get rid of it and allocate a new one
       // to avoid allowing this to grow too big.
-      free(STREAM);
-      total_stream_length = STANDARD_STREAM_SIZE;
-      STREAM = malloc(total_stream_length);
+      free(_stream);
+      _totalStreamLength = STANDARD_STREAM_SIZE;
+      _stream = malloc(_totalStreamLength);
     }
   } else {
     size_t rmlen = 0;
@@ -1392,14 +1382,14 @@ static VT100Token *decode_string(unsigned char* datap,
       result.length = rmlen;
       result.position = datap;
     } else if (iscontrol(datap[0])) {
-      result = decode_control(datap, datalen, &rmlen, ENCODING, _currentScreen);
+      result = decode_control(datap, datalen, &rmlen, _encoding, _currentScreen);
       result.length = rmlen;
       result.position = datap;
       [self setMode:result];
       [self setCharAttr:result];
     } else {
-      if (isString(datap, ENCODING)) {
-        result = decode_string(datap, datalen, &rmlen, ENCODING);
+      if (isString(datap, _encoding)) {
+        result = decode_string(datap, datalen, &rmlen, _encoding);
         if (result.type != VT100_WAIT && rmlen == 0) {
           result.type = VT100_UNKNOWNCHAR;
           result.code = datap[0];
@@ -1415,56 +1405,56 @@ static VT100Token *decode_string(unsigned char* datap,
     }
 
     if (rmlen > 0) {
-      NSParameterAssert(current_stream_length >= streamOffset + rmlen);
-      if (TRACE && result.type == VT100_UNKNOWNCHAR) {
+      NSParameterAssert(_currentStreamLength >= _streamOffset + rmlen);
+      if (_trace && result.type == VT100_UNKNOWNCHAR) {
         // HBLogDebug(@"INPUT-BUFFER %@, read %d byte, type %d",
-        // STREAM, rmlen, result.type);
+        // _stream, rmlen, result.type);
       }
       // mark our current position in the stream
-      streamOffset += rmlen;
+      _streamOffset += rmlen;
     }
   }
 
   // release lock
-  [streamLock unlock];
+  [_streamLock unlock];
 
   return result;
 }
 
 - (NSData*)keyArrowUp:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_UP]
-                        length:strlen(key_strings[TERMINFO_KEY_UP])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_UP]
+                        length:strlen(_keyStrings[TERMINFO_KEY_UP])];
 }
 
 - (NSData*)keyArrowDown:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_DOWN]
-                        length:strlen(key_strings[TERMINFO_KEY_DOWN])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_DOWN]
+                        length:strlen(_keyStrings[TERMINFO_KEY_DOWN])];
 }
 
 - (NSData*)keyArrowLeft:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_LEFT]
-                        length:strlen(key_strings[TERMINFO_KEY_LEFT])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_LEFT]
+                        length:strlen(_keyStrings[TERMINFO_KEY_LEFT])];
 }
 
 - (NSData*)keyArrowRight:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_RIGHT]
-                        length:strlen(key_strings[TERMINFO_KEY_RIGHT])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_RIGHT]
+                        length:strlen(_keyStrings[TERMINFO_KEY_RIGHT])];
 }
 
 - (NSData*)keyHome:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_HOME]
-                        length:strlen(key_strings[TERMINFO_KEY_HOME])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_HOME]
+                        length:strlen(_keyStrings[TERMINFO_KEY_HOME])];
 }
 
 - (NSData*)keyEnd:(unsigned int)modflag {
-  return [NSData dataWithBytes:key_strings[TERMINFO_KEY_END]
-                        length:strlen(key_strings[TERMINFO_KEY_END])];
+  return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_END]
+                        length:strlen(_keyStrings[TERMINFO_KEY_END])];
 }
 
 - (NSData*)keyInsert {
-  if (key_strings[TERMINFO_KEY_INS]) {
-    return [NSData dataWithBytes:key_strings[TERMINFO_KEY_INS]
-                          length:strlen(key_strings[TERMINFO_KEY_INS])];
+  if (_keyStrings[TERMINFO_KEY_INS]) {
+    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_INS]
+                          length:strlen(_keyStrings[TERMINFO_KEY_INS])];
   }
   return [NSData dataWithBytes:KEY_INSERT length:conststr_sizeof(KEY_INSERT)];
 }
@@ -1473,34 +1463,34 @@ static VT100Token *decode_string(unsigned char* datap,
   /*unsigned char del = 0x7f;
                                   return [NSData dataWithBytes:&del length:1];*/
 
-  if (key_strings[TERMINFO_KEY_DEL]) {
-    return [NSData dataWithBytes:key_strings[TERMINFO_KEY_DEL]
-                          length:strlen(key_strings[TERMINFO_KEY_DEL])];
+  if (_keyStrings[TERMINFO_KEY_DEL]) {
+    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_DEL]
+                          length:strlen(_keyStrings[TERMINFO_KEY_DEL])];
   }
   return [NSData dataWithBytes:KEY_DEL length:conststr_sizeof(KEY_DEL)];
 }
 
 - (NSData*)keyBackspace {
-  if (key_strings[TERMINFO_KEY_BACKSPACE]) {
-    return [NSData dataWithBytes:key_strings[TERMINFO_KEY_BACKSPACE]
-                          length:strlen(key_strings[TERMINFO_KEY_BACKSPACE])];
+  if (_keyStrings[TERMINFO_KEY_BACKSPACE]) {
+    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_BACKSPACE]
+                          length:strlen(_keyStrings[TERMINFO_KEY_BACKSPACE])];
   }
   return [NSData dataWithBytes:KEY_BACKSPACE
                         length:conststr_sizeof(KEY_BACKSPACE)];
 }
 
 - (NSData*)keyPageUp {
-  if (key_strings[TERMINFO_KEY_PAGEUP]) {
-    return [NSData dataWithBytes:key_strings[TERMINFO_KEY_PAGEUP]
-                          length:strlen(key_strings[TERMINFO_KEY_PAGEUP])];
+  if (_keyStrings[TERMINFO_KEY_PAGEUP]) {
+    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_PAGEUP]
+                          length:strlen(_keyStrings[TERMINFO_KEY_PAGEUP])];
   }
   return [NSData dataWithBytes:KEY_PAGE_UP length:conststr_sizeof(KEY_PAGE_UP)];
 }
 
 - (NSData*)keyPageDown {
-  if (key_strings[TERMINFO_KEY_PAGEDOWN]) {
-    return [NSData dataWithBytes:key_strings[TERMINFO_KEY_PAGEDOWN]
-                          length:strlen(key_strings[TERMINFO_KEY_PAGEDOWN])];
+  if (_keyStrings[TERMINFO_KEY_PAGEDOWN]) {
+    return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_PAGEDOWN]
+                          length:strlen(_keyStrings[TERMINFO_KEY_PAGEDOWN])];
   }
   return [NSData dataWithBytes:KEY_PAGE_DOWN
                         length:conststr_sizeof(KEY_PAGE_DOWN)];
@@ -1513,44 +1503,44 @@ static VT100Token *decode_string(unsigned char* datap,
   size_t len;
 
   if (no <= 5) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     sprintf(str, KEY_FUNCTION_FORMAT, no + 10);
 
   } else if (no <= 10) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     sprintf(str, KEY_FUNCTION_FORMAT, no + 11);
 
   } else if (no <= 14) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     sprintf(str, KEY_FUNCTION_FORMAT, no + 12);
 
   } else if (no <= 16) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     sprintf(str, KEY_FUNCTION_FORMAT, no + 13);
 
   } else if (no <= 20) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     sprintf(str, KEY_FUNCTION_FORMAT, no + 14);
 
   } else if (no <= 35) {
-    if (key_strings[TERMINFO_KEY_F0 + no]) {
-      return [NSData dataWithBytes:key_strings[TERMINFO_KEY_F0 + no]
-                            length:strlen(key_strings[TERMINFO_KEY_F0 + no])];
+    if (_keyStrings[TERMINFO_KEY_F0 + no]) {
+      return [NSData dataWithBytes:_keyStrings[TERMINFO_KEY_F0 + no]
+                            length:strlen(_keyStrings[TERMINFO_KEY_F0 + no])];
     }
     str[0] = 0;
 
@@ -1658,73 +1648,17 @@ static VT100Token *decode_string(unsigned char* datap,
   return (theData);
 }
 
-- (BOOL)lineMode {
-  return LINE_MODE;
-}
-
-- (BOOL)cursorMode {
-  return CURSOR_MODE;
-}
-
-- (BOOL)columnMode {
-  return COLUMN_MODE;
-}
-
-- (BOOL)scrollMode {
-  return SCROLL_MODE;
-}
-
-- (BOOL)screenMode {
-  return SCREEN_MODE;
-}
-
-- (BOOL)originMode {
-  return ORIGIN_MODE;
-}
-
-- (BOOL)wraparoundMode {
-  return WRAPAROUND_MODE;
-}
-
-- (BOOL)autorepeatMode {
-  return AUTOREPEAT_MODE;
-}
-
-- (BOOL)interlaceMode {
-  return INTERLACE_MODE;
-}
-
-- (BOOL)keypadMode {
-  return KEYPAD_MODE;
-}
-
-- (BOOL)insertMode {
-  return INSERT_MODE;
-}
-
-- (BOOL)xon {
-  return XON;
-}
-
-- (int)charset {
-  return CHARSET;
-}
-
-- (mouseMode)mouseMode {
-  return MOUSE_MODE;
-}
-
 - (int)foregroundColorCode {
-  if (FG_COLORCODE % 256 > 7) {
-    return (reversed ? BG_COLORCODE : FG_COLORCODE) + bold * BOLD_MASK +
-           under * UNDER_MASK + blink * BLINK_MASK;
+  if (_fgColorCode % 256 > 7) {
+    return (_reversed ? _bgColorCode : _fgColorCode) + _bold * BOLD_MASK +
+           _under * UNDER_MASK + _blink * BLINK_MASK;
   }
-  return (reversed ? BG_COLORCODE : FG_COLORCODE + (highlight ? 1 : bold) * 8) +
-         bold * BOLD_MASK + under * UNDER_MASK + blink * BLINK_MASK;
+  return (_reversed ? _bgColorCode : _fgColorCode + (_highlight ? 1 : _bold) * 8) +
+         _bold * BOLD_MASK + _under * UNDER_MASK + _blink * BLINK_MASK;
 }
 
 - (int)backgroundColorCode {
-  return (reversed ? FG_COLORCODE : BG_COLORCODE);
+  return (_reversed ? _fgColorCode : _bgColorCode);
 }
 
 - (NSData*)reportActivePositionWithX:(int)x Y:(int)y {
@@ -1759,42 +1693,42 @@ static VT100Token *decode_string(unsigned char* datap,
 
       switch (token.csi->p[0]) {
         case 20:
-          LINE_MODE = mode;
+          _lineMode = mode;
           break;
         case 1:
-          CURSOR_MODE = mode;
+          _cursorMode = mode;
           break;
         case 2:
-          ANSI_MODE = mode;
+          _ansiMode = mode;
           break;
         case 3:
-          COLUMN_MODE = mode;
+          _columnMode = mode;
           break;
         case 4:
-          SCROLL_MODE = mode;
+          _scrollMode = mode;
           break;
         case 5:
-          SCREEN_MODE = mode;
+          _screenMode = mode;
           [_currentScreen setDirty];
           break;
         case 6:
-          ORIGIN_MODE = mode;
+          _originMode = mode;
           break;
         case 7:
-          WRAPAROUND_MODE = mode;
+          _wraparoundMode = mode;
           break;
         case 8:
-          AUTOREPEAT_MODE = mode;
+          _autorepeatMode = mode;
           break;
         case 9:
-          INTERLACE_MODE = mode;
+          _interlaceMode = mode;
           break;
         // TODO(allen): Implement this command -- it needs to be
         // exposed via the ScreenBuffer interface
         //		case 25:
         //[SCREEN showCursor: mode]; break;
         case 40:
-          allowColumnMode = mode;
+          _allowColumnMode = mode;
           break;
         case 47:
           _currentScreen = mode ? _alternateScreen : _primaryScreen;
@@ -1804,9 +1738,9 @@ static VT100Token *decode_string(unsigned char* datap,
         case 1002:
         case 1003:
           if (mode) {
-            MOUSE_MODE = token.csi->p[0] - 1000;
+            _mouseMode = token.csi->p[0] - 1000;
           } else {
-            MOUSE_MODE = MOUSE_REPORTING_NONE;
+            _mouseMode = MOUSE_REPORTING_NONE;
           }
           break;
       }
@@ -1817,43 +1751,43 @@ static VT100Token *decode_string(unsigned char* datap,
 
       switch (token.csi->p[0]) {
         case 4:
-          INSERT_MODE = mode;
+          _insertMode = mode;
           break;
       }
       break;
     case VT100CSI_DECKPAM:
-      KEYPAD_MODE = YES;
+      _keypadMode = YES;
       break;
     case VT100CSI_DECKPNM:
-      KEYPAD_MODE = NO;
+      _keypadMode = NO;
       break;
     case VT100CC_SI:
-      CHARSET = 0;
+      _charset = 0;
       break;
     case VT100CC_SO:
-      CHARSET = 1;
+      _charset = 1;
       break;
     case VT100CC_DC1:
-      XON = YES;
+      _xon = YES;
       break;
     case VT100CC_DC3:
-      XON = NO;
+      _xon = NO;
       break;
     case VT100CSI_DECRC:
-      bold = saveBold;
-      under = saveUnder;
-      blink = saveBlink;
-      reversed = saveReversed;
-      highlight = saveHighlight;
-      CHARSET = saveCHARSET;
+      _bold = _saveBold;
+      _under = _saveUnder;
+      _blink = _saveBlink;
+      _reversed = _saveReversed;
+      _highlight = _saveHighlight;
+      _charset = _saveCharset;
       break;
     case VT100CSI_DECSC:
-      saveBold = bold;
-      saveUnder = under;
-      saveBlink = blink;
-      saveReversed = reversed;
-      saveHighlight = highlight;
-      saveCHARSET = CHARSET;
+      _saveBold = _bold;
+      _saveUnder = _under;
+      _saveBlink = _blink;
+      _saveReversed = _reversed;
+      _saveHighlight = _highlight;
+      _saveCharset = _charset;
       break;
     
     default:
@@ -1866,9 +1800,9 @@ static VT100Token *decode_string(unsigned char* datap,
   if (token.type == VT100CSI_SGR) {
     if (token.csi->count == 0) {
       // all attribute off
-      bold = under = blink = reversed = highlight = 0;
-      FG_COLORCODE = FG_COLOR_CODE;
-      BG_COLORCODE = BG_COLOR_CODE;
+      _bold = _under = _blink = _reversed = _highlight = 0;
+      _fgColorCode = FG_COLOR_CODE;
+      _bgColorCode = BG_COLOR_CODE;
     } else {
       int i;
       for (i = 0; i < token.csi->count; ++i) {
@@ -1876,72 +1810,72 @@ static VT100Token *decode_string(unsigned char* datap,
         switch (n) {
           case VT100CHARATTR_ALLOFF:
             // all attribute off
-            bold = under = blink = reversed = highlight = 0;
-            FG_COLORCODE = FG_COLOR_CODE;
-            BG_COLORCODE = BG_COLOR_CODE;
+            _bold = _under = _blink = _reversed = _highlight = 0;
+            _fgColorCode = FG_COLOR_CODE;
+            _bgColorCode = BG_COLOR_CODE;
             break;
 
           case VT100CHARATTR_BOLD:
-            bold = 1;
+            _bold = 1;
             break;
           case VT100CHARATTR_NORMAL:
-            bold = 0;
+            _bold = 0;
             break;
           case VT100CHARATTR_UNDER:
-            under = 1;
+            _under = 1;
             break;
           case VT100CHARATTR_NOT_UNDER:
-            under = 0;
+            _under = 0;
             break;
           case VT100CHARATTR_BLINK:
-            blink = 1;
+            _blink = 1;
             break;
           case VT100CHARATTR_STEADY:
-            blink = 0;
+            _blink = 0;
             break;
           case VT100CHARATTR_REVERSE:
-            reversed = 1;
+            _reversed = 1;
             break;
           case VT100CHARATTR_POSITIVE:
-            reversed = 0;
+            _reversed = 0;
             break;
           case VT100CHARATTR_FG_DEFAULT:
-            FG_COLORCODE = FG_COLOR_CODE;
+            _fgColorCode = FG_COLOR_CODE;
             break;
           case VT100CHARATTR_BG_DEFAULT:
-            BG_COLORCODE = BG_COLOR_CODE;
+            _bgColorCode = BG_COLOR_CODE;
             break;
           case VT100CHARATTR_FG_256:
             if (token.csi->count == 3 && i == 0 && token.csi->p[1] == 5) {
-              FG_COLORCODE = token.csi->p[2];
+              _fgColorCode = token.csi->p[2];
               i = 2;
             }
             break;
           case VT100CHARATTR_BG_256:
             if (token.csi->count == 3 && i == 0 && token.csi->p[1] == 5) {
-              BG_COLORCODE = token.csi->p[2];
+              _bgColorCode = token.csi->p[2];
               i = 2;
             }
             break;
           default:
             // 8 color support
             if (n >= VT100CHARATTR_FG_BLACK && n <= VT100CHARATTR_FG_WHITE) {
-              FG_COLORCODE = n - VT100CHARATTR_FG_BASE - COLORCODE_BLACK;
-              highlight = 0;
+              _fgColorCode = n - VT100CHARATTR_FG_BASE - COLORCODE_BLACK;
+              _highlight = 0;
             } else if (n >= VT100CHARATTR_BG_BLACK &&
                        n <= VT100CHARATTR_BG_WHITE) {
-              BG_COLORCODE = n - VT100CHARATTR_BG_BASE - COLORCODE_BLACK;
-              highlight = 0;
+              _bgColorCode = n - VT100CHARATTR_BG_BASE - COLORCODE_BLACK;
+              _highlight = 0;
             }
             // 16 color support
             if (n >= VT100CHARATTR_FG_HI_BLACK &&
                 n <= VT100CHARATTR_FG_HI_WHITE) {
-              FG_COLORCODE = n - VT100CHARATTR_FG_HI_BASE - COLORCODE_BLACK;
-              highlight = 1;
+              _fgColorCode = n - VT100CHARATTR_FG_HI_BASE - COLORCODE_BLACK;
+              _highlight = 1;
             } else if (n >= VT100CHARATTR_BG_HI_BLACK &&
                        n <= VT100CHARATTR_BG_HI_WHITE) {
-              BG_COLORCODE = n - VT100CHARATTR_BG_HI_BASE - COLORCODE_BLACK;
-              highlight = 1;
+              _bgColorCode = n - VT100CHARATTR_BG_HI_BASE - COLORCODE_BLACK;
+              _highlight = 1;
             }
         }
       }
