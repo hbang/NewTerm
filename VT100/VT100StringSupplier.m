@@ -97,10 +97,11 @@
 			}
 
 			if (eol || ![color isEqual:lastColor]) {
+				int length = j - lastColorIndex;
+				
 				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
 				// elsewhere in this logic
-				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + j - lastColorIndex < attributedString.string.length) {
-					int length = j - lastColorIndex;
+				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {
 					[attributedString addAttribute:NSBackgroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
 				}
 
@@ -128,10 +129,11 @@
 			}
 
 			if (eol || ![color isEqual:lastColor]) {
+				int length = j - lastColorIndex;
+				
 				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
 				// elsewhere in this logic
-				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + j - lastColorIndex < attributedString.string.length) {
-					int length = j - lastColorIndex;
+				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {
 					[attributedString addAttribute:NSForegroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
 				}
 
