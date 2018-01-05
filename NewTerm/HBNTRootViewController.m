@@ -49,6 +49,8 @@
 	];
 	[self.view addSubview:_bottomToolbar];
 
+	// reload data so the collection view knows we’re empty, then add our first tab
+	[_tabsCollectionView reloadData];
 	[self addTerminal];
 }
 
@@ -77,8 +79,10 @@
 	[terminalViewController didMoveToParentViewController:self];
 
 	[_terminals addObject:terminalViewController];
-	[_tabsCollectionView reloadData];
-	self.selectedTabIndex = _terminals.count - 1;
+	
+	NSUInteger newTabIndex = _terminals.count - 1;
+	[_tabsCollectionView insertItemsAtIndexPaths:@[ [NSIndexPath indexPathForItem:newTabIndex inSection:0] ]];
+	self.selectedTabIndex = newTabIndex;
 }
 
 - (void)removeTerminalAtIndex:(NSUInteger)index {
@@ -88,12 +92,12 @@
 	[terminalViewController.view removeFromSuperview];
 
 	[_terminals removeObjectAtIndex:index];
+	[_tabsCollectionView insertItemsAtIndexPaths:@[ [NSIndexPath indexPathForItem:index inSection:0] ]];
 
 	// if this was the last tab, make a new tab. otherwise select the closest tab we have available
 	if (_terminals.count == 0) {
 		[self addTerminal];
 	} else {
-		[_tabsCollectionView reloadData];
 		self.selectedTabIndex = index >= _terminals.count ? index - 1 : index;
 	}
 }
@@ -117,6 +121,12 @@
 }
 
 - (void)setSelectedTabIndex:(NSUInteger)selectedTabIndex {
+	// if this is what’s already selected, just select it again and return
+	if (selectedTabIndex == _selectedTabIndex) {
+		[_tabsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_selectedTabIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+		return;
+	}
+	
 	// this will crash if out of bounds, but i’d rather it crash anyway
 	HBNTTerminalSessionViewController *previousViewController = _terminals[_selectedTabIndex];
 	HBNTTerminalSessionViewController *newViewController = _terminals[selectedTabIndex];
