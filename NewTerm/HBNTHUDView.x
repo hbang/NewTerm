@@ -51,7 +51,7 @@
 	// display for 1.5 secs, fade out in 0.3 secs, then remove from superview
 	self.alpha = 1;
 	
-	[UIView animateWithDuration:0.3f delay:1.f options:kNilOptions animations:^{
+	[UIView animateWithDuration:0.3f delay:0.75f options:kNilOptions animations:^{
 		self.alpha = 0;
 	} completion:nil];
 }
