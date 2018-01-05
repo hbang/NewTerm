@@ -37,32 +37,6 @@
 #define STANDARD_STREAM_SIZE 100000
 #define UNKNOWN ('#')
 
-@implementation VT100Terminal {
-  NSString *_termType;
-	NSStringEncoding _encoding;
-	NSLock *_streamLock;
-
-	unsigned char *_stream;
-	int _currentStreamLength;
-	int _totalStreamLength;
-
-	BOOL _numLock; // YES=ON, NO=OFF, default=YES;
-
-	int _fgColorCode;
-	int _bgColorCode;
-	int _bold, _under, _blink, _reversed, _highlight;
-
-	int _saveBold, _saveUnder, _saveBlink, _saveReversed, _saveHighlight;
-	int _saveCharset;
-
-	BOOL _allowKeypadMode;
-
-	unsigned int _streamOffset;
-
-	//terminfo
-	char *_keyStrings[TERMINFO_KEYS];
-}
-
 #define iscontrol(c) ((c) <= 0x1f)
 
 /*
@@ -152,6 +126,8 @@ Simplifed Chinese (EUC_CN)
 #define MOUSE_REPORT_FORMAT "\033[M%c%c%c"
 
 #define conststr_sizeof(n) ((sizeof(n)) - 1)
+
+#pragma mark - Decoders
 
 // functions
 static BOOL isCSI(const unsigned char* /*code*/, size_t /*len*/);
@@ -1169,6 +1145,34 @@ static VT100Token *decode_string(unsigned char* datap,
     }
   }
   return result;
+}
+
+#pragma mark - Class
+
+@implementation VT100Terminal {
+  NSString *_termType;
+	NSStringEncoding _encoding;
+	NSLock *_streamLock;
+
+	unsigned char *_stream;
+	int _currentStreamLength;
+	int _totalStreamLength;
+
+	BOOL _numLock; // YES=ON, NO=OFF, default=YES;
+
+	int _fgColorCode;
+	int _bgColorCode;
+	int _bold, _under, _blink, _reversed, _highlight;
+
+	int _saveBold, _saveUnder, _saveBlink, _saveReversed, _saveHighlight;
+	int _saveCharset;
+
+	BOOL _allowKeypadMode;
+
+	unsigned int _streamOffset;
+
+	//terminfo
+	char *_keyStrings[TERMINFO_KEYS];
 }
 
 - (instancetype)init {
