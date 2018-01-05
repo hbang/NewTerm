@@ -99,7 +99,7 @@
 	UIEdgeInsets barInsets = _barInsets;
 	barInsets.bottom = _keyboardHeight ?: barInsets.bottom;
 
-	_textView.contentInset = _barInsets;
+	_textView.contentInset = barInsets;
 	_textView.scrollIndicatorInsets = _textView.contentInset;
 
 	CGSize glyphSize = _terminalController.fontMetrics.boundingBox;
@@ -189,29 +189,34 @@
 - (void)registerForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardVisibilityChanged:) name:UIKeyboardWillHideNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScreenSize) name:UIKeyboardDidShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateScreenSize) name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)unregisterForKeyboardNotifications {
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillShowNotification object:nil];
 	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardWillHideNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidShowNotification object:nil];
-	[[NSNotificationCenter defaultCenter] removeObserver:self name:UIKeyboardDidHideNotification object:nil];
 }
 
 - (void)keyboardVisibilityChanged:(NSNotification *)notification {
+	// we do this to avoid the scroll indicator from appearing as soon as the terminal appears. we
+	// only want to see it after the keyboard has appeared
 	if (!_hasAppeared) {
 		_hasAppeared = YES;
 		_textView.showsVerticalScrollIndicator = YES;
 	}
 
+	// YES when showing, NO when hiding
+	BOOL direction = [notification.name isEqualToString:UIKeyboardWillShowNotification];
+
+	CGFloat animationDuration = ((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue;
+
+	// determine the final keyboard height. we still get a height if hiding, so force it to 0 if this
+	// isn’t a show notification
 	CGRect keyboardFrame = ((NSValue *)notification.userInfo[UIKeyboardFrameEndUserInfoKey]).CGRectValue;
-	_keyboardHeight = keyboardFrame.size.height;
+	_keyboardHeight = direction ? keyboardFrame.size.height : 0;
 
 	// we call updateScreenSize in an animation block to force it to be animated with the exact
 	// parameters given to us in the notification
-	[UIView animateWithDuration:((NSNumber *)notification.userInfo[UIKeyboardAnimationDurationUserInfoKey]).doubleValue animations:^{
+	[UIView animateWithDuration:animationDuration animations:^{
 		[self updateScreenSize];
 	}];
 }
