@@ -158,7 +158,6 @@ typedef enum {
 @interface VT100Terminal : NSObject {
 	NSString *termType;
 	NSStringEncoding ENCODING;
-	VT100Screen *SCREEN;
 	NSLock *streamLock;
 
 	unsigned char *STREAM;
@@ -204,6 +203,10 @@ typedef enum {
 
 - (id)init;
 - (void)dealloc;
+
+@property (nonatomic, weak) VT100Screen *currentScreen;
+@property (nonatomic, strong) VT100Screen *primaryScreen;
+@property (nonatomic, strong) VT100Screen *alternateScreen;
 
 - (NSString *)termtype;
 - (void)setTermType:(NSString *)termtype;
@@ -265,7 +268,6 @@ typedef enum {
 - (NSData *)reportSecondaryDeviceAttribute;
 - (void)setMode:(VT100Token *)token;
 - (void)setCharAttr:(VT100Token *)token;
-- (void)setScreen:(VT100Screen *)sc;
 
 @end
 

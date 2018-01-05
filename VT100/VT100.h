@@ -19,7 +19,6 @@
 // implementing the ScreenBuffer protocol.
 @interface VT100 : NSObject <ScreenBuffer, ScreenBufferRefreshDelegate> {
 @private
-	VT100Screen *screen;
 	VT100Terminal *terminal;
 	id <ScreenBufferRefreshDelegate> refreshDelegate;
 }

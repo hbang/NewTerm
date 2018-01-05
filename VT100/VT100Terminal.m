@@ -330,7 +330,7 @@ static size_t getCSIParam(unsigned char* datap,
         case VT100CC_ENQ:
           break;
         case VT100CC_BEL:
-          [SCREEN setBell];
+          [SCREEN activateBell];
           break;
         case VT100CC_BS:
           [SCREEN backSpace];
@@ -1200,6 +1200,14 @@ static VT100Token *decode_string(unsigned char* datap,
 
   [self setTermType:@"xterm-256color"];
 
+  _primaryScreen = [[VT100Screen alloc] init];
+  _primaryScreen.terminal = self;
+
+  _alternateScreen = [[VT100Screen alloc] init];
+  _alternateScreen.terminal = self;
+
+  _currentScreen = _primaryScreen;
+
   return self;
 }
 
@@ -1291,7 +1299,7 @@ static VT100Token *decode_string(unsigned char* datap,
 
   strictAnsiMode = NO;
   allowColumnMode = YES;
-  [SCREEN reset];
+  [_currentScreen reset];
 }
 
 - (BOOL)trace {
@@ -1384,7 +1392,7 @@ static VT100Token *decode_string(unsigned char* datap,
       result.length = rmlen;
       result.position = datap;
     } else if (iscontrol(datap[0])) {
-      result = decode_control(datap, datalen, &rmlen, ENCODING, SCREEN);
+      result = decode_control(datap, datalen, &rmlen, ENCODING, _currentScreen);
       result.length = rmlen;
       result.position = datap;
       [self setMode:result];
@@ -1767,7 +1775,7 @@ static VT100Token *decode_string(unsigned char* datap,
           break;
         case 5:
           SCREEN_MODE = mode;
-          [SCREEN setDirty];
+          [_currentScreen setDirty];
           break;
         case 6:
           ORIGIN_MODE = mode;
@@ -1789,11 +1797,7 @@ static VT100Token *decode_string(unsigned char* datap,
           allowColumnMode = mode;
           break;
         case 47:
-          if (mode) {
-            [SCREEN saveBuffer];
-          } else {
-            [SCREEN restoreBuffer];
-          }
+          _currentScreen = mode ? _alternateScreen : _primaryScreen;
           break;  // alternate screen buffer mode
         case 1000:
           /* case 1001: */ /* MOUSE_REPORTING_HILITE not implemented yet */
@@ -1943,10 +1947,6 @@ static VT100Token *decode_string(unsigned char* datap,
       }
     }
   }
-}
-
-- (void)setScreen:(VT100Screen*)sc {
-  SCREEN = sc;
 }
 
 @end

@@ -128,10 +128,19 @@
 		_textView.backgroundColor = backgroundColor;
 	}
 
-	[self scrollToBottomWithInsets:_textView.scrollIndicatorInsets];
+	[self scrollToBottom];
+}
+
+- (void)alternateModeStateChanged:(BOOL)alternateMode {
+	// block scrolling in alternate mode, allow in regular mode. also, force a scroll to bottom to
+	// ensure we’re at a good scroll position
+	// TODO: this is currently not implemented
+	_textView.scrollEnabled = !alternateMode;
+	[self scrollToBottom];
 }
 
 - (void)activateBell {
+	// display the bell HUD, lazily initialising it if it hasn’t been yet
 	if (!_bellHUDView) {
 		_bellHUDView = [[HBNTHUDView alloc] initWithImage:[UIImage imageNamed:@"bell-hud"]];
 		_bellHUDView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -155,17 +164,18 @@
 	}
 }
 
-- (void)scrollToBottomWithInsets:(UIEdgeInsets)inset {
+- (void)scrollToBottom {
 	// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
 	// bottom. when they scroll back, the automatic scrolling will continue
-	if (_textView.contentOffset.y < _lastAutomaticScrollOffset.y - 20) {
-		return;
-	}
+	// if (_textView.contentOffset.y < _lastAutomaticScrollOffset.y - 20) {
+	// 	return;
+	// }
 	
 	// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
+	UIEdgeInsets insets = _textView.scrollIndicatorInsets;
 	CGPoint offset = _textView.contentOffset;
-	CGFloat bottom = _keyboardHeight ?: inset.bottom;
-	offset.y = _terminalController.scrollbackLines == 0 ? -inset.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
+	CGFloat bottom = _keyboardHeight ?: insets.bottom;
+	offset.y = _terminalController.scrollbackLines == 0 ? -insets.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
 
 	// if the offset has changed, update it and our lastAutomaticScrollOffset
 	if (_textView.contentOffset.y != offset.y) {
