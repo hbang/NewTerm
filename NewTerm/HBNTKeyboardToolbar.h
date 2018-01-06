@@ -2,8 +2,7 @@
 
 @interface HBNTKeyboardToolbar : UIToolbar
 
-@property (nonatomic, strong) HBNTKeyboardButton *ctrlKey;
-@property (nonatomic, strong) HBNTKeyboardButton *metaKey;
-@property (nonatomic, strong) HBNTKeyboardButton *tabKey;
+@property (nonatomic, strong) HBNTKeyboardButton *ctrlKey, *metaKey, *tabKey;
+@property (nonatomic, strong) HBNTKeyboardButton *upKey, *downKey, *leftKey, *rightKey;
 
 @end

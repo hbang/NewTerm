@@ -27,13 +27,19 @@
 		[self setBackgroundImage:[self _imageWithColor:[UIColor colorWithWhite:0.6784313725f alpha:1]] forState:UIControlStateSelected];
 		self.layer.cornerRadius = IS_IPAD ? 6.f : 4.f;
 		self.clipsToBounds = YES;
+
+		// make a click when tapped
+		[self addTarget:[UIDevice currentDevice] action:@selector(playInputClick) forControlEvents:UIControlEventTouchUpInside];
 	}
  
 	return self;
 }
 
 - (CGSize)intrinsicContentSize {
-	return CGSizeMake(IS_IPAD ? 79.f : 44.f, IS_IPAD ? 40.f : UIViewNoIntrinsicMetric);
+	CGSize contentSize = [super intrinsicContentSize];
+	contentSize.width += 16.f;
+	contentSize.height = IS_IPAD ? 40.f : UIViewNoIntrinsicMetric;
+	return contentSize;
 }
  
 - (UIImage *)_imageWithColor:(UIColor *)color {

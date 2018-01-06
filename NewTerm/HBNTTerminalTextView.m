@@ -11,10 +11,10 @@
 #import "HBNTKeyboardToolbar.h"
 
 @implementation HBNTTerminalTextView {
-	HBNTKeyboardButton *_ctrlKey;
-	HBNTKeyboardButton *_metaKey;
-	BOOL _ctrlDown;
-	BOOL _metaDown;
+	HBNTKeyboardButton *_ctrlKey, *_metaKey;
+	BOOL _ctrlDown, _metaDown;
+
+	NSData *_tabKeyData, *_upKeyData, *_downKeyData, *_leftKeyData, *_rightKeyData;
 }
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
@@ -42,6 +42,7 @@
 		// TODO: this should be themable
 		self.keyboardAppearance = UIKeyboardAppearanceDark;
 
+		// TODO: this is kinda ugly and causes duped code for these buttons
 		if (IS_IPAD && [self respondsToSelector:@selector(inputAssistantItem)]) {
 			_ctrlKey = [HBNTKeyboardButton buttonWithTitle:@"Ctrl" target:self action:@selector(ctrlKeyPressed:)];
 			_metaKey = [HBNTKeyboardButton buttonWithTitle:@"Esc" target:self action:@selector(metaKeyPressed:)];
@@ -53,16 +54,33 @@
 					[[UIBarButtonItem alloc] initWithCustomView:_metaKey],
 					[[UIBarButtonItem alloc] initWithCustomView:[HBNTKeyboardButton buttonWithTitle:@"Tab" target:self action:@selector(tabKeyPressed:)]]
 				] representativeItem:nil]];
+			self.inputAssistantItem.trailingBarButtonGroups = [self.inputAssistantItem.trailingBarButtonGroups arrayByAddingObject:
+				[[UIBarButtonItemGroup alloc] initWithBarButtonItems:@[
+					[[UIBarButtonItem alloc] initWithCustomView:[HBNTKeyboardButton buttonWithTitle:@"▲" target:self action:@selector(upKeyPressed:)]],
+					[[UIBarButtonItem alloc] initWithCustomView:[HBNTKeyboardButton buttonWithTitle:@"▼" target:self action:@selector(downKeyPressed:)]],
+					[[UIBarButtonItem alloc] initWithCustomView:[HBNTKeyboardButton buttonWithTitle:@"◀" target:self action:@selector(leftKeyPressed:)]],
+					[[UIBarButtonItem alloc] initWithCustomView:[HBNTKeyboardButton buttonWithTitle:@"▶" target:self action:@selector(rightKeyPressed:)]]
+				] representativeItem:nil]];
 		} else {
 			HBNTKeyboardToolbar *toolbar = [[HBNTKeyboardToolbar alloc] init];
 			toolbar.translatesAutoresizingMaskIntoConstraints = NO;
 			[toolbar.ctrlKey addTarget:self action:@selector(ctrlKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
 			[toolbar.metaKey addTarget:self action:@selector(metaKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
 			[toolbar.tabKey addTarget:self action:@selector(tabKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
+			[toolbar.upKey addTarget:self action:@selector(upKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
+			[toolbar.downKey addTarget:self action:@selector(downKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
+			[toolbar.leftKey addTarget:self action:@selector(leftKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
+			[toolbar.rightKey addTarget:self action:@selector(rightKeyPressed:) forControlEvents:UIControlEventTouchUpInside];
 			self.inputAccessoryView = toolbar;
 			
 			_ctrlKey = toolbar.ctrlKey;
 			_metaKey = toolbar.metaKey;
+
+			_tabKeyData = [NSData dataWithBytes:"\t" length:1];
+			_upKeyData = [NSData dataWithBytes:"\e[A" length:3];
+			_downKeyData = [NSData dataWithBytes:"\e[B" length:3];
+			_leftKeyData = [NSData dataWithBytes:"\e[D" length:3];
+			_rightKeyData = [NSData dataWithBytes:"\e[C" length:3];
 		}
 	}
 
@@ -80,13 +98,23 @@
 }
 
 - (void)tabKeyPressed:(UIButton *)button {
-	static dispatch_once_t onceToken;
-	static NSData *TabData;
-	dispatch_once(&onceToken, ^{
-		TabData = [NSData dataWithBytes:"\t" length:1];
-	});
+	[self.terminalInputDelegate receiveKeyboardInput:_tabKeyData];
+}
 
-	[self.terminalInputDelegate receiveKeyboardInput:TabData];
+- (void)upKeyPressed:(UIButton *)button {
+	[self.terminalInputDelegate receiveKeyboardInput:_upKeyData];
+}
+
+- (void)downKeyPressed:(UIButton *)button {
+	[self.terminalInputDelegate receiveKeyboardInput:_downKeyData];
+}
+
+- (void)leftKeyPressed:(UIButton *)button {
+	[self.terminalInputDelegate receiveKeyboardInput:_leftKeyData];
+}
+
+- (void)rightKeyPressed:(UIButton *)button {
+	[self.terminalInputDelegate receiveKeyboardInput:_rightKeyData];
 }
 
 #pragma mark - UITextInput
@@ -124,7 +152,7 @@
 			}
 		} else if (_metaDown) {
 			// prepend the escape character
-			[data appendBytes:"\x1B" length:1];
+			[data appendBytes:"\e" length:1];
 		}
 		
 		if (character == 0x0a) {

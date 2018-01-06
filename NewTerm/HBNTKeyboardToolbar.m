@@ -2,6 +2,10 @@
 #import "HBNTKeyboardButton.h"
 #import <Cephei/UIView+CompactConstraint.h>
 
+@interface HBNTKeyboardToolbar () <UIInputViewAudioFeedback>
+
+@end
+
 @implementation HBNTKeyboardToolbar
 
 - (instancetype)init {
@@ -14,7 +18,12 @@
 
 		UIView *spacerView = [[UIView alloc] init];
 
-		for (UIView *view in @[ _ctrlKey, _metaKey, _tabKey, spacerView ]) {
+		_upKey = [HBNTKeyboardButton buttonWithTitle:@"▲"];
+		_downKey = [HBNTKeyboardButton buttonWithTitle:@"▼"];
+		_leftKey = [HBNTKeyboardButton buttonWithTitle:@"◀"];
+		_rightKey = [HBNTKeyboardButton buttonWithTitle:@"▶"];
+
+		for (UIView *view in @[ _ctrlKey, _metaKey, _tabKey, spacerView, _upKey, _downKey, _leftKey, _rightKey ]) {
 			view.translatesAutoresizingMaskIntoConstraints = NO;
 			[self addSubview:view];
 
@@ -25,7 +34,7 @@
 			}];
 		}
 
-		[self hb_addConstraintsWithVisualFormat:@"H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView]|" options:kNilOptions metrics:@{
+		[self hb_addConstraintsWithVisualFormat:@"H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView][_upKey]-margin-[_downKey]-margin-[_leftKey]-margin-[_rightKey]-outerMargin-|" options:kNilOptions metrics:@{
 			@"outerMargin": @3.f,
 			@"margin": @6.f
 		} views:@{
@@ -33,10 +42,19 @@
 			@"metaKey": _metaKey,
 			@"tabKey": _tabKey,
 			@"spacerView": spacerView,
+			@"_upKey": _upKey,
+			@"_downKey": _downKey,
+			@"_leftKey": _leftKey,
+			@"_rightKey": _rightKey,
 		}];
 	}
 
 	return self;
+}
+
+- (BOOL)enableInputClicksWhenVisible {
+	// conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound when tapped
+	return YES;
 }
 
 - (BOOL)_isSmallDevice {
