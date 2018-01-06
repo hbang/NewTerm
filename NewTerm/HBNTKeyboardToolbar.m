@@ -34,7 +34,7 @@
 			}];
 		}
 
-		[self hb_addConstraintsWithVisualFormat:@"H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView][_upKey]-margin-[_downKey]-margin-[_leftKey]-margin-[_rightKey]-outerMargin-|" options:kNilOptions metrics:@{
+		[self hb_addConstraintsWithVisualFormat:@"H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView(>=margin)][_upKey]-margin-[_downKey]-margin-[_leftKey]-margin-[_rightKey]-outerMargin-|" options:kNilOptions metrics:@{
 			@"outerMargin": @3.f,
 			@"margin": @6.f
 		} views:@{
