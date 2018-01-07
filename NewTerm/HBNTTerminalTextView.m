@@ -32,6 +32,7 @@
 
 - (void)_commonInit {
 	self.backgroundColor = [UIColor blackColor];
+	self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 	self.showsHorizontalScrollIndicator = NO;
 	self.dataDetectorTypes = UIDataDetectorTypeLink;
 	self.editable = NO;
