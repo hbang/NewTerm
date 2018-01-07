@@ -144,15 +144,10 @@
 		_textView.backgroundColor = backgroundColor;
 	}
 
-	[self scrollToBottom];
-}
-
-- (void)alternateModeStateChanged:(BOOL)alternateMode {
-	// block scrolling in alternate mode, allow in regular mode. also, force a scroll to bottom to
-	// ensure we’re at a good scroll position
-	// TODO: this is currently not implemented
-	_textView.scrollEnabled = !alternateMode;
-	[self scrollToBottom];
+	// TODO: not sure why this is needed all of a sudden? what did i break?
+	dispatch_async(dispatch_get_main_queue(), ^{
+		[self scrollToBottom];
+	});
 }
 
 - (void)activateBell {
@@ -183,10 +178,11 @@
 - (void)scrollToBottom {
 	// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
 	// bottom. when they scroll back, the automatic scrolling will continue
+	// TODO: buggy
 	// if (_textView.contentOffset.y < _lastAutomaticScrollOffset.y - 20) {
 	// 	return;
 	// }
-	
+
 	// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
 	UIEdgeInsets insets = _textView.scrollIndicatorInsets;
 	CGPoint offset = _textView.contentOffset;
