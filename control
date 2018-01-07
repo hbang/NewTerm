@@ -13,5 +13,5 @@ Icon: file:///Applications/NewTerm.app/Icon-Small@2x.png
 Depiction: https://cydia.hbang.ws/package/ws.hbang.newterm2/
 Support: https://hbang.ws/support/
 Sponsor: thebigboss.org <http://thebigboss.org>
-Tag: compatible::ios7, compatible::ios8, compatible::ios9, compatible::ios10, compatible::ios11
+Tag: compatible::ios6, compatible::ios7, compatible::ios8, compatible::ios9, compatible::ios10, compatible::ios11
 dev: hbang
