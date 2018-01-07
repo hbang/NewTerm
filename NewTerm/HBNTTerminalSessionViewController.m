@@ -8,6 +8,7 @@
 
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTerminalController.h"
+#import "HBNTTerminalKeyInput.h"
 #import "HBNTTerminalTextView.h"
 #import "HBNTHUDView.h"
 #import "HBNTPreferences.h"
@@ -18,6 +19,7 @@
 
 @implementation HBNTTerminalSessionViewController {
 	HBNTTerminalController *_terminalController;
+	HBNTTerminalKeyInput *_keyInput;
 	HBNTTerminalTextView *_textView;
 	HBNTHUDView *_bellHUDView;
 
@@ -32,8 +34,6 @@
 	self = [super init];
 
 	if (self) {
-		self.automaticallyAdjustsScrollViewInsets = NO;
-
 		_terminalController = [[HBNTTerminalController alloc] init];
 		_terminalController.viewController = self;
 		_terminalController.delegate = self;
@@ -56,8 +56,14 @@
 	_textView = [[HBNTTerminalTextView alloc] initWithFrame:self.view.bounds];
 	_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	_textView.showsVerticalScrollIndicator = NO;
-	_textView.terminalInputDelegate = _terminalController;
+	// TODO: this breaks stuff sorta
+	// [_textView addGestureRecognizer:[[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(handleTextViewTap:)]];
 	[self.view addSubview:_textView];
+
+	_keyInput = [[HBNTTerminalKeyInput alloc] init];
+	_keyInput.textView = _textView;
+	_keyInput.terminalInputDelegate = _terminalController;
+	[self.view addSubview:_keyInput];
 }
 
 - (void)viewWillAppear:(BOOL)animated {
@@ -85,10 +91,14 @@
 	if (_failureException) {
 		NSString *ok = NSLocalizedStringFromTableInBundle(@"OK", @"Localizable", [NSBundle bundleForClass:UIView.class], nil);
 
-		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:NSLocalizedString(@"TERMINAL_LAUNCH_FAILED", @"Alert title displayed when a terminal could not be launched.") message:_failureException.reason preferredStyle:UIAlertControllerStyleAlert];
-		[alertController addAction:[UIAlertAction actionWithTitle:ok style:UIAlertActionStyleCancel handler:nil]];
-		[self.navigationController presentViewController:alertController animated:YES completion:nil];
+		UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:NSLocalizedString(@"TERMINAL_LAUNCH_FAILED", @"Alert title displayed when a terminal could not be launched.") message:_failureException.reason delegate:nil cancelButtonTitle:ok otherButtonTitles:nil];
+		[alertView show];
 	}
+}
+
+- (void)removeFromParentViewController {
+	[_terminalController stopSubProcess];
+	[super removeFromParentViewController];
 }
 
 #pragma mark - Screen
@@ -222,21 +232,27 @@
 }
 
 - (BOOL)becomeFirstResponder {
-	return [_textView becomeFirstResponder];
+	return [_keyInput becomeFirstResponder];
 }
 
 - (BOOL)resignFirstResponder {
-	return [_textView resignFirstResponder];
+	return [_keyInput resignFirstResponder];
 }
 
 - (BOOL)isFirstResponder {
-	return _textView.isFirstResponder;
+	return _keyInput.isFirstResponder;
 }
 
 - (void)toggleKeyboard:(id)sender {
 	if (self.isFirstResponder) {
 		[self resignFirstResponder];
 	} else {
+		[self becomeFirstResponder];
+	}
+}
+
+- (void)handleTextViewTap:(UITapGestureRecognizer *)gestureRecognizer {
+	if (gestureRecognizer.state == UIGestureRecognizerStateEnded && !self.isFirstResponder) {
 		[self becomeFirstResponder];
 	}
 }

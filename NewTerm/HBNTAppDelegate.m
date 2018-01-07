@@ -32,11 +32,18 @@
 	[UITextField appearance].textColor = textColor;
 
 	[UITableView appearance].separatorColor = lightTintColor;
-	[UITextField appearance].keyboardAppearance = UIKeyboardAppearanceDark;
-	[UIScrollView appearance].keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+	[UITextField appearance].keyboardAppearance = UIKeyboardAppearanceAlert;
+
+	if ([UIScrollView instancesRespondToSelector:@selector(setKeyboardDismissMode:)]) {
+		[UIScrollView appearance].keyboardDismissMode = UIScrollViewKeyboardDismissModeInteractive;
+	}
 
 	_window = [[UIWindow alloc] initWithFrame:[UIScreen mainScreen].bounds];
-	_window.tintColor = tintColor;
+
+	if ([_window respondsToSelector:@selector(setTintColor:)]) {
+		_window.tintColor = tintColor;
+	}
+
 	_window.rootViewController = [[UINavigationController alloc] initWithRootViewController:[[HBNTRootViewController alloc] init]];
 	[_window makeKeyAndVisible];
 

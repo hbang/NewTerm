@@ -6,7 +6,7 @@
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
-#import "HBNTTerminalTextView.h"
+#import "HBNTTerminalKeyInput.h"
 #import "VT100Types.h"
 
 @class HBNTTerminalSessionViewController, VT100ColorMap, FontMetrics;
@@ -23,6 +23,7 @@
 @interface HBNTTerminalController : NSObject <HBNTTerminalKeyboardProtocol>
 
 - (void)startSubProcess;
+- (void)stopSubProcess;
 
 @property (nonatomic, strong) HBNTTerminalSessionViewController *viewController;
 @property (nonatomic) ScreenSize screenSize;

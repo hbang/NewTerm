@@ -110,7 +110,7 @@
 			[_delegate refreshWithAttributedString:attributedString backgroundColor:backgroundColor];
 		});
 	});
-} 
+}
 
 - (void)activateBell {
 	[_delegate activateBell];
@@ -152,6 +152,11 @@
 		// Queue another read
 		[_subProcess.fileHandle readInBackgroundAndNotify];
 	}
+}
+
+- (void)stopSubProcess {
+	_processEnded = YES;
+	[_subProcess stop];
 }
 
 - (void)receiveKeyboardInput:(NSData *)data {

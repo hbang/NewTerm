@@ -8,6 +8,7 @@
 
 #import "HBNTPreferencesRootListController.h"
 #import <CepheiPrefs/HBAppearanceSettings.h>
+#import <version.h>
 
 @implementation HBNTPreferencesRootListController
 
@@ -25,8 +26,8 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
 
 	HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
-	appearance.tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
-	appearance.translucentNavigationBar = YES;
+	appearance.tintColor = [UIWindow instancesRespondToSelector:@selector(tintColor)] ? [UIApplication sharedApplication].keyWindow.tintColor : nil;
+	appearance.translucentNavigationBar = IS_IOS_OR_NEWER(iOS_7_0);
 	appearance.tableViewCellTextColor = [UIColor whiteColor];
 	appearance.tableViewCellBackgroundColor = [UIColor colorWithWhite:0.055f alpha:1];
 	appearance.tableViewCellSeparatorColor = [UIColor colorWithWhite:0.149f alpha:1];

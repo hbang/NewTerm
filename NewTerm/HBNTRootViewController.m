@@ -11,6 +11,7 @@
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTabToolbar.h"
 #import "HBNTTabCollectionViewCell.h"
+#import <version.h>
 
 @interface HBNTRootViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -28,7 +29,6 @@
 - (void)loadView {
 	[super loadView];
 
-	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.navigationController.navigationBarHidden = YES;
 
 	_terminals = [NSMutableArray array];
@@ -45,12 +45,12 @@
 
 	_bottomToolbar = [[UIToolbar alloc] init];
 	_bottomToolbar.items = @[
-		[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)]
+		[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)],
+		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
+		[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStylePlain target:self action:@selector(showKeyboard)]
 	];
 	[self.view addSubview:_bottomToolbar];
-
-	// reload data so the collection view knows we’re empty, then add our first tab
-	[_tabsCollectionView reloadData];
+	
 	[self addTerminal];
 }
 
@@ -58,13 +58,16 @@
 	[super viewWillLayoutSubviews];
 
 	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 40.f;
-	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
+	CGFloat statusBarHeight = IS_IOS_OR_NEWER(iOS_7_0) ? [UIApplication sharedApplication].statusBarFrame.size.height : 0;
+	CGFloat statusBarOffset = IS_IOS_OR_NEWER(iOS_7_0) ? 0 : -[UIApplication sharedApplication].statusBarFrame.size.height;
 
 	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
 	_bottomToolbar.frame = CGRectMake(0, self.view.frame.size.height - barHeight, self.view.frame.size.width, barHeight);
 
+	UIEdgeInsets barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height + statusBarOffset, 0, _bottomToolbar.frame.size.height, 0);
+
 	for (HBNTTerminalSessionViewController *viewController in _terminals) {
-		viewController.barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height, 0, _bottomToolbar.frame.size.height, 0);
+		viewController.barInsets = barInsets;
 	}
 }
 
@@ -79,25 +82,27 @@
 	[terminalViewController didMoveToParentViewController:self];
 
 	[_terminals addObject:terminalViewController];
-	
-	NSUInteger newTabIndex = _terminals.count - 1;
-	[_tabsCollectionView insertItemsAtIndexPaths:@[ [NSIndexPath indexPathForItem:newTabIndex inSection:0] ]];
-	self.selectedTabIndex = newTabIndex;
+
+	[_tabsCollectionView reloadData];
+	[_tabsCollectionView layoutIfNeeded];
+	self.selectedTabIndex = _terminals.count - 1;
+	[_tabsCollectionView reloadData];
 }
 
 - (void)removeTerminalAtIndex:(NSUInteger)index {
-	HBNTTerminalSessionViewController *terminalViewController = [_terminals objectAtIndex:index];
+	HBNTTerminalSessionViewController *terminalViewController = _terminals[index];
 
 	[terminalViewController removeFromParentViewController];
 	[terminalViewController.view removeFromSuperview];
 
 	[_terminals removeObjectAtIndex:index];
-	[_tabsCollectionView insertItemsAtIndexPaths:@[ [NSIndexPath indexPathForItem:index inSection:0] ]];
 
 	// if this was the last tab, make a new tab. otherwise select the closest tab we have available
 	if (_terminals.count == 0) {
 		[self addTerminal];
 	} else {
+		[_tabsCollectionView reloadData];
+		[_tabsCollectionView layoutIfNeeded];
 		self.selectedTabIndex = index >= _terminals.count ? index - 1 : index;
 	}
 }
@@ -126,9 +131,12 @@
 		[_tabsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:_selectedTabIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
 		return;
 	}
+
+	NSUInteger oldSelectedTabIndex = _selectedTabIndex < _terminals.count ? _selectedTabIndex : NSUIntegerMax;
 	
-	// this will crash if out of bounds, but i’d rather it crash anyway
-	HBNTTerminalSessionViewController *previousViewController = _terminals[_selectedTabIndex];
+	// if the previous index is now out of bounds, just use nil as our previous. the tab and view
+	// controller were removed so we don’t need to do anything
+	HBNTTerminalSessionViewController *previousViewController = _selectedTabIndex < _terminals.count ? _terminals[_selectedTabIndex] : nil;
 	HBNTTerminalSessionViewController *newViewController = _terminals[selectedTabIndex];
 
 	_selectedTabIndex = selectedTabIndex;
@@ -142,7 +150,16 @@
 	newViewController.view.hidden = NO;
 	[newViewController viewDidAppear:NO];
 
-	[_tabsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedTabIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredVertically];
+	[_tabsCollectionView performBatchUpdates:^{
+		if (oldSelectedTabIndex != NSUIntegerMax) {
+			[_tabsCollectionView deselectItemAtIndexPath:[NSIndexPath indexPathForItem:oldSelectedTabIndex inSection:0] animated:NO];
+		}
+
+		[_tabsCollectionView selectItemAtIndexPath:[NSIndexPath indexPathForItem:selectedTabIndex inSection:0] animated:YES scrollPosition:UICollectionViewScrollPositionCenteredHorizontally];
+	} completion:^(BOOL finished) {
+		// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
+		[_tabsCollectionView reloadData];
+	}];
 }
 
 #pragma mark - Callbacks
@@ -151,6 +168,11 @@
 	HBNTPreferencesRootController *rootController = [[HBNTPreferencesRootController alloc] initWithTitle:NSLocalizedString(@"SETTINGS", @"Title of Settings page.") identifier:[NSBundle mainBundle].infoDictionary[@"CFBundleIdentifier"]];
 	rootController.modalPresentationStyle = UIModalPresentationFormSheet;
 	[self.navigationController presentViewController:rootController animated:YES completion:nil];
+}
+
+- (void)showKeyboard {
+	HBNTTerminalSessionViewController *viewController = _terminals[_selectedTabIndex];
+	[viewController becomeFirstResponder];
 }
 
 #pragma mark - Collection view
@@ -172,6 +194,11 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	self.selectedTabIndex = indexPath.row;
+}
+
+- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
+	// hardcode a width for now, just so we work on ios 6. to be worked on…
+	return CGSizeMake(100, _tabsCollectionView.frame.size.height);
 }
 
 @end

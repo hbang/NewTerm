@@ -1,4 +1,4 @@
-export TARGET = iphone:clang:latest:8.0
+export TARGET = iphone:clang:9.3:6.0
 
 export ADDITIONAL_LDFLAGS = -rpath @executable_path/Frameworks
 

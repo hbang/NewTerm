@@ -116,8 +116,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 		char *_dirty;
 		// a single default line
 		screen_char_t *_defaultLine;
-		// temporary buffer to store main buffer in SAVE_BUFFER/RESET_BUFFER mode
-		screen_char_t *_tempBuffer;
 
 		// pointer to last line in buffer
 		screen_char_t *_lastBufferLine;
@@ -211,10 +209,6 @@ static __inline__ screen_char_t *incrementLinePointer(
 		// free our default line
 		if (_defaultLine) {
 				free(_defaultLine);
-		}
-
-		if (_tempBuffer) {
-				free(_tempBuffer);
 		}
 		
 #if DEBUG_ALLOC
@@ -417,8 +411,8 @@ static __inline__ screen_char_t *incrementLinePointer(
 		}
 
 		// reassign our pointers
-		if(_bufferLines)
-				free(_bufferLines);
+		if(_bufferLines){HBLogDebug(@"aaaa");
+				free(_bufferLines);HBLogDebug(@"bbbb");}
 		_bufferLines = bl;
 		_scrollbackTop = new_scrollback_top;
 		_lastBufferLine = bl + (new_total_height - 1)*(width+1);
@@ -470,15 +464,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 		if (_saveCursorY >= height)
 				_saveCursorY = height-1;
 
-		// if we did the resize in SAVE_BUFFER mode, too bad, get rid of it
-		if (_tempBuffer) {
-				free(_tempBuffer);
-				_tempBuffer=NULL;
-		}
-
 		// force a redraw
-		if(_dirty)
-				free(_dirty);
+		if(_dirty){HBLogDebug(@"cccc");
+				free(_dirty);HBLogDebug(@"dddd");}
 		_dirty=(char *)malloc(height *width *sizeof(char));
 		[self setDirty];
 		// release lock

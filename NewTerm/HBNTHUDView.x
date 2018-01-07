@@ -15,10 +15,10 @@
 		self.clipsToBounds = YES;
 		self.layer.cornerRadius = 16;
 
-		if (@available(iOS 8.0, *)) {
-			_backdropView = [[UIVisualEffectView alloc] initWithEffect:[UIBlurEffect effectWithStyle:UIBlurEffectStyleDark]];
+		if (%c(UIVisualEffectView)) {
+			_backdropView = [[%c(UIVisualEffectView) alloc] initWithEffect:[%c(UIBlurEffect) effectWithStyle:UIBlurEffectStyleDark]];
 			_backdropView.frame = self.bounds;
-		} else if (@available(iOS 7.0, *)) {
+		} else if (%c(_UIBackdropView)) {
 			_backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:self.bounds autosizesToFitSuperview:YES settings:[[%c(_UIBackdropViewSettingsUltraDark) alloc] initWithDefaultValues]];
 		} else {
 			_backdropView = [[UIView alloc] initWithFrame:self.bounds];

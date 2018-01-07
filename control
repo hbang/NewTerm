@@ -1,6 +1,6 @@
 Package: ws.hbang.newterm2
 Name: NewTerm 2
-Depends: firmware (>= 8.0), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8, ws.hbang.common (>= 1.11)
+Depends: firmware (>= 6.0), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8, ws.hbang.common (>= 1.11)
 Conflicts: ws.hbang.newterm
 Replaces: ws.hbang.newterm
 Version: 2.0~beta1
