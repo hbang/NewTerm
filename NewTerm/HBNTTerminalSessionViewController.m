@@ -26,6 +26,7 @@
 	NSException *_failureException;
 
 	BOOL _hasAppeared;
+	BOOL _hasStarted;
 	CGFloat _keyboardHeight;
 	CGPoint _lastAutomaticScrollOffset;
 }
@@ -40,6 +41,7 @@
 
 		@try {
 			[_terminalController startSubProcess];
+			_hasStarted = YES;
 		} @catch (NSException *exception) {
 			_failureException = exception;
 		}
@@ -97,7 +99,11 @@
 }
 
 - (void)removeFromParentViewController {
-	[_terminalController stopSubProcess];
+	if (_hasStarted) {
+		// TODO: for some reason this always throws “subprocess was never started”? groannnn
+		// [_terminalController stopSubProcess];
+	}
+
 	[super removeFromParentViewController];
 }
 
