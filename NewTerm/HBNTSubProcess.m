@@ -66,10 +66,10 @@ static const char kDefaultUsername[] = "mobile";
 		};
 
 		// NOTE: These should never return if successful
-		[self _startProcess:"/bootstrap/bin/bash" arguments:sh_args environment:env];
-		[self _startProcess:"/usr/bin/login" arguments:login_args environment:env];
-		[self _startProcess:"/bin/login" arguments:login_args environment:env];
-		[self _startProcess:"/bin/sh" arguments:sh_args environment:env];
+		[self _startProcess:@"/usr/bin/login" arguments:login_args environment:env];
+		[self _startProcess:@"/bin/login" arguments:login_args environment:env];
+		[self _startProcess:@"/bin/sh" arguments:sh_args environment:env];
+		[self _startProcess:@"/bootstrap/bin/bash" arguments:sh_args environment:env];
 	} else {
 		HBLogDebug(@"process forked: %d", pid);
 		_childPID = pid;
@@ -93,23 +93,24 @@ static const char kDefaultUsername[] = "mobile";
 	_childPID = 0;
 }
 
-- (int)_startProcess:(const char *)path arguments:(char *const[])args environment:(char *const[])env {
-	NSString *pathString = @(path);
+- (int)_startProcess:(NSString *)path arguments:(char *const[])args environment:(char *const[])env {
 	NSFileManager *fileManager = [NSFileManager defaultManager];
-	if (![fileManager fileExistsAtPath:pathString]) {
-		HBLogError(@"%s: File does not exist", path);
+
+	if (![fileManager fileExistsAtPath:path]) {
 		return -1;
 	}
+
 	// Notably, we don't test group or other bits so this still might not always
 	// notice if the binary is not executable by us.
-	if (![fileManager isExecutableFileAtPath:pathString]) {
-		HBLogError(@"%s: File does not exist", path);
+	if (![fileManager isExecutableFileAtPath:path]) {
 		return -1;
 	}
-	if (execve(path, args, env) == -1) {
-		HBLogError(@"%s: exec failed: %s", path, strerror(errno));
+
+	if (execve(path.UTF8String, args, env) == -1) {
+		HBLogError(@"%@: exec failed: %s", path, strerror(errno));
 		return -1;
 	}
+
 	// execve never returns if successful
 	return 0;
 }
