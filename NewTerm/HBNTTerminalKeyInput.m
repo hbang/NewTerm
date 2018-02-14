@@ -190,14 +190,26 @@
 	} else if (action == @selector(cut:)) {
 		// ensure cut is never allowed
 		return NO;
+	} else if (action == @selector(copy) || action == @selector(select:) || action == @selector(selectAll:)) {
+		// allow copy, select, select all based on what the text view feels like doing
+		return [_textView canPerformAction:action withSender:sender];
 	}
-
+	
+	// consult the super implementation’s opinion
 	return [super canPerformAction:action withSender:sender];
 }
 
 - (void)copy:(id)sender {
-	// forward the copy operation to the text view
+	// forward the operation to the text view
 	[_textView copy:sender];
+}
+
+- (void)select:(id)sender {
+	[_textView select:sender];
+}
+
+- (void)selectAll:(id)sender {
+	[_textView selectAll:sender];
 }
 
 - (void)paste:(id)sender {
