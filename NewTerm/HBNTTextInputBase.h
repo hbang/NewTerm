@@ -110,9 +110,9 @@
 @property (nonatomic) UITextAutocapitalizationType autocapitalizationType; // default is UITextAutocapitalizationTypeSentences
 @property (nonatomic) UITextAutocorrectionType autocorrectionType;         // default is UITextAutocorrectionTypeDefault
 @property (nonatomic) UITextSpellCheckingType spellCheckingType;           // default is UITextSpellCheckingTypeDefault
-@property (nonatomic) UITextSmartQuotesType smartQuotesType;               // default is UITextSmartQuotesTypeDefault
-@property (nonatomic) UITextSmartDashesType smartDashesType;               // default is UITextSmartDashesTypeDefault
-@property (nonatomic) UITextSmartInsertDeleteType smartInsertDeleteType;   // default is UITextSmartInsertDeleteTypeDefault
+@property (nonatomic) UITextSmartQuotesType smartQuotesType NS_AVAILABLE_IOS(11_0); // default is UITextSmartQuotesTypeDefault
+@property (nonatomic) UITextSmartDashesType smartDashesType NS_AVAILABLE_IOS(11_0); // default is UITextSmartDashesTypeDefault
+@property (nonatomic) UITextSmartInsertDeleteType smartInsertDeleteType NS_AVAILABLE_IOS(11_0); // default is UITextSmartInsertDeleteTypeDefault
 @property (nonatomic) UIKeyboardType keyboardType;                         // default is UIKeyboardTypeDefault
 @property (nonatomic) UIKeyboardAppearance keyboardAppearance;             // default is UIKeyboardAppearanceDefault
 @property (nonatomic) UIReturnKeyType returnKeyType;                       // default is UIReturnKeyDefault

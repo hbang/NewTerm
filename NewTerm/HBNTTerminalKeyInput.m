@@ -17,9 +17,12 @@
 		self.autocapitalizationType = UITextAutocapitalizationTypeNone;
 		self.autocorrectionType = UITextAutocorrectionTypeNo;
 		self.spellCheckingType = UITextSpellCheckingTypeNo;
-		self.smartQuotesType = UITextSmartQuotesTypeNo;
-		self.smartDashesType = UITextSmartDashesTypeNo;
-		self.smartInsertDeleteType = UITextSmartInsertDeleteTypeNo;
+
+		if (@available(iOS 11.0, *)) {
+			self.smartQuotesType = UITextSmartQuotesTypeNo;
+			self.smartDashesType = UITextSmartDashesTypeNo;
+			self.smartInsertDeleteType = UITextSmartInsertDeleteTypeNo;
+		}
 
 		// TODO: this should be themable
 		self.keyboardAppearance = UIKeyboardAppearanceDark;
