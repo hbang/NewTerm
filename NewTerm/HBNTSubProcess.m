@@ -66,6 +66,7 @@ static const char kDefaultUsername[] = "mobile";
 		};
 
 		// NOTE: These should never return if successful
+		[self _startProcess:"/bootstrap/bin/bash" arguments:sh_args environment:env];
 		[self _startProcess:"/usr/bin/login" arguments:login_args environment:env];
 		[self _startProcess:"/bin/login" arguments:login_args environment:env];
 		[self _startProcess:"/bin/sh" arguments:sh_args environment:env];
