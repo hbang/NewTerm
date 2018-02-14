@@ -59,14 +59,14 @@
 			
 			_ctrlKey = _toolbar.ctrlKey;
 			_metaKey = _toolbar.metaKey;
-
-			_backspaceData = [NSData dataWithBytes:"\x7F" length:1];
-			_tabKeyData = [NSData dataWithBytes:"\t" length:1];
-			_upKeyData = [NSData dataWithBytes:"\e[A" length:3];
-			_downKeyData = [NSData dataWithBytes:"\e[B" length:3];
-			_leftKeyData = [NSData dataWithBytes:"\e[D" length:3];
-			_rightKeyData = [NSData dataWithBytes:"\e[C" length:3];
 		}
+
+		_backspaceData = [NSData dataWithBytes:"\x7F" length:1];
+		_tabKeyData = [NSData dataWithBytes:"\t" length:1];
+		_upKeyData = [NSData dataWithBytes:"\e[A" length:3];
+		_downKeyData = [NSData dataWithBytes:"\e[B" length:3];
+		_leftKeyData = [NSData dataWithBytes:"\e[D" length:3];
+		_rightKeyData = [NSData dataWithBytes:"\e[C" length:3];
 	}
 
 	return self;
