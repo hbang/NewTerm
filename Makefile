@@ -1,5 +1,8 @@
-export TARGET = iphone:clang:9.3:6.0
+export TARGET = iphone::6.0
+export SDKVERSION_arm64 = latest
+export SDKVERSION_armv7 = 9.3
 
+# TODO: export ADDITIONAL_CFLAGS = -Wextra -Wno-unused-parameter
 export ADDITIONAL_LDFLAGS = -rpath @executable_path/Frameworks
 
 include $(THEOS)/makefiles/common.mk
