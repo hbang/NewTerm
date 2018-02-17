@@ -8,6 +8,10 @@
 	self = [super init];
 
 	if (self) {
+		UIView *toolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+		toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self addSubview:toolbar];
+
 		UICollectionViewFlowLayout *collectionViewLayout = [[UICollectionViewFlowLayout alloc] init];
 		collectionViewLayout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
 		collectionViewLayout.minimumInteritemSpacing = 0;

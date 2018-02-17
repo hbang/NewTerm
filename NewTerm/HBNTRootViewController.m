@@ -22,7 +22,6 @@
 	NSUInteger _selectedTabIndex;
 
 	HBNTTabToolbar *_tabToolbar;
-	UIToolbar *_bottomToolbar;
 	UICollectionView *_tabsCollectionView;
 }
 
@@ -42,14 +41,13 @@
 	_tabsCollectionView.delegate = self;
 
 	[self.view addSubview:_tabToolbar];
-
-	_bottomToolbar = [[UIToolbar alloc] init];
-	_bottomToolbar.items = @[
+		
+	[self setToolbarItems:@[
 		[[UIBarButtonItem alloc] initWithImage:[UIImage imageNamed:@"settings"] style:UIBarButtonItemStylePlain target:self action:@selector(showSettings:)],
 		[[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemFlexibleSpace target:nil action:nil],
 		[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStylePlain target:self action:@selector(showKeyboard)]
-	];
-	[self.view addSubview:_bottomToolbar];
+	] animated:NO];
+	[self.navigationController setToolbarHidden:NO animated:NO];
 	
 	[self addTerminal];
 }
@@ -59,12 +57,10 @@
 
 	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 40.f;
 	CGFloat statusBarHeight = IS_IOS_OR_NEWER(iOS_7_0) ? [UIApplication sharedApplication].statusBarFrame.size.height : 0;
-	CGFloat statusBarOffset = IS_IOS_OR_NEWER(iOS_7_0) ? 0 : -[UIApplication sharedApplication].statusBarFrame.size.height;
 
 	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
-	_bottomToolbar.frame = CGRectMake(0, self.view.frame.size.height - barHeight, self.view.frame.size.width, barHeight);
 
-	UIEdgeInsets barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height + statusBarOffset, 0, _bottomToolbar.frame.size.height, 0);
+	UIEdgeInsets barInsets = UIEdgeInsetsMake(barHeight, 0, 0, 0);
 
 	for (HBNTTerminalSessionViewController *viewController in _terminals) {
 		viewController.barInsets = barInsets;

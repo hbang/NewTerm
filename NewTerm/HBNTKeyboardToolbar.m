@@ -12,6 +12,10 @@
 	self = [super init];
 
 	if (self) {
+		UIView *toolbar = [[UIToolbar alloc] initWithFrame:self.bounds];
+		toolbar.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+		[self addSubview:toolbar];
+
 		_ctrlKey = [HBNTKeyboardButton buttonWithTitle:@"Ctrl"];
 		_metaKey = [HBNTKeyboardButton buttonWithTitle:@"Esc"];
 		_tabKey = [HBNTKeyboardButton buttonWithTitle:@"Tab"];
