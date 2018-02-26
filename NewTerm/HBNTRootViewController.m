@@ -57,13 +57,12 @@
 
 	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 40.f;
 	CGFloat statusBarHeight = IS_IOS_OR_NEWER(iOS_7_0) ? [UIApplication sharedApplication].statusBarFrame.size.height : 0;
+	CGFloat bottomBarHeight = self.navigationController.toolbar.frame.size.height;
 
 	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
 
-	UIEdgeInsets barInsets = UIEdgeInsetsMake(barHeight, 0, 0, 0);
-
 	for (HBNTTerminalSessionViewController *viewController in _terminals) {
-		viewController.barInsets = barInsets;
+		viewController.contentInset = UIEdgeInsetsMake(_tabToolbar.frame.size.height, 0, bottomBarHeight, 0);
 	}
 }
 
@@ -74,6 +73,8 @@
 
 	[self addChildViewController:terminalViewController];
 	[terminalViewController willMoveToParentViewController:self];
+	terminalViewController.view.frame = self.view.bounds;
+	terminalViewController.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	[self.view insertSubview:terminalViewController.view belowSubview:_tabToolbar];
 	[terminalViewController didMoveToParentViewController:self];
 
@@ -156,6 +157,8 @@
 		// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
 		[_tabsCollectionView reloadData];
 	}];
+
+	[self viewWillLayoutSubviews];
 }
 
 #pragma mark - Callbacks

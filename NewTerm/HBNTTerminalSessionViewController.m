@@ -27,6 +27,7 @@
 
 	BOOL _hasAppeared;
 	BOOL _hasStarted;
+	UIEdgeInsets _contentInset;
 	CGFloat _keyboardHeight;
 	CGPoint _lastAutomaticScrollOffset;
 }
@@ -78,8 +79,8 @@
 - (void)viewWillDisappear:(BOOL)animated {
 	[super viewWillDisappear:animated];
 
-	[self unregisterForKeyboardNotifications];
 	[self resignFirstResponder];
+	[self unregisterForKeyboardNotifications];
 }
 
 - (void)viewWillLayoutSubviews {
@@ -109,11 +110,41 @@
 
 #pragma mark - Screen
 
+- (UIEdgeInsets)contentInset {
+#ifdef __IPHONE_11_0
+	if (@available(iOS 11.0, *)) {
+		return self.additionalSafeAreaInsets;
+	}
+#endif
+
+	return _contentInset;
+}
+
+- (void)setContentInset:(UIEdgeInsets)contentInset {
+#ifdef __IPHONE_11_0
+	if (@available(iOS 11.0, *)) {
+		self.additionalSafeAreaInsets = contentInset;
+		return;
+	}
+#endif
+
+	_contentInset = contentInset;
+}
+
 - (void)updateScreenSize {
 	// update the text view insets. if the keyboard height is non-zero, keyboard is visible and that’s
 	// our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
-	UIEdgeInsets barInsets = _barInsets;
+	UIEdgeInsets barInsets = self.contentInset;
 	barInsets.bottom = _keyboardHeight ?: barInsets.bottom;
+
+	HBLogDebug(@"inset orig %@ new %@ keyboard %f", NSStringFromUIEdgeInsets(self.contentInset), NSStringFromUIEdgeInsets(barInsets), _keyboardHeight);
+
+#ifdef __IPHONE_11_0
+	if (@available(iOS 11.0, *)) {
+		barInsets.top -= self.view.safeAreaInsets.top;
+		barInsets.bottom -= self.view.safeAreaInsets.bottom;
+	}
+#endif
 
 	_textView.contentInset = barInsets;
 	_textView.scrollIndicatorInsets = _textView.contentInset;
@@ -121,7 +152,7 @@
 	CGSize glyphSize = _terminalController.fontMetrics.boundingBox;
 
 	// Determine the screen size based on the font size
-	CGFloat width = _textView.frame.size.width;
+	CGFloat width = _textView.frame.size.width - barInsets.left - barInsets.right;
 	CGFloat height = _textView.frame.size.height - barInsets.top - barInsets.bottom;
 
 	ScreenSize size;
@@ -182,17 +213,12 @@
 	// if (_textView.contentOffset.y < _lastAutomaticScrollOffset.y - 20) {
 	// 	return;
 	// }
+	
+	CGFloat originalY = _textView.contentOffset.y;
+	[_textView scrollRectToVisible:CGRectMake(0, _terminalController.scrollbackLines == 0 ? 0 : _textView.contentSize.height - 1, _textView.contentSize.width, 1) animated:NO];
 
-	// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
-	UIEdgeInsets insets = _textView.scrollIndicatorInsets;
-	CGPoint offset = _textView.contentOffset;
-	CGFloat bottom = _keyboardHeight ?: insets.bottom;
-	offset.y = _terminalController.scrollbackLines == 0 ? -insets.top : bottom + _textView.contentSize.height - _textView.frame.size.height;
-
-	// if the offset has changed, update it and our lastAutomaticScrollOffset
-	if (_textView.contentOffset.y != offset.y) {
-		_textView.contentOffset = offset;
-		_lastAutomaticScrollOffset = offset;
+	if (_textView.contentOffset.y != originalY) {
+		_lastAutomaticScrollOffset = _textView.contentOffset;
 	}
 }
 

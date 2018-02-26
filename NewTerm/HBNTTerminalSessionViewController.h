@@ -14,6 +14,6 @@
 @interface HBNTTerminalSessionViewController : UIViewController <HBNTTerminalControllerDelegate>
 
 @property (nonatomic, strong, readonly) UITextView *textView;
-@property (nonatomic) UIEdgeInsets barInsets;
+@property (nonatomic) UIEdgeInsets contentInset;
 
 @end
