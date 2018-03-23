@@ -34,7 +34,7 @@
 	self.backgroundColor = [UIColor blackColor];
 	self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
 	self.showsHorizontalScrollIndicator = NO;
-	self.dataDetectorTypes = UIDataDetectorTypeLink;
+	self.dataDetectorTypes = UIDataDetectorTypeNone;
 	self.editable = NO;
 
 	if ([self respondsToSelector:@selector(setLinkTextAttributes:)]) {
