@@ -24,6 +24,7 @@
 	VT100 *_buffer;
 	VT100StringSupplier *_stringSupplier;
 	dispatch_queue_t _updateQueue;
+	dispatch_queue_t _secondaryUpdateQueue;
 
 	HBNTSubProcess *_subProcess;
 	HBNTPTY *_pty;
@@ -37,7 +38,8 @@
 	if (self) {
 		// create a serial background queue for updating the text view, using the address of self to
 		// make the name unique
-		_updateQueue = dispatch_queue_create([NSString stringWithFormat:@"ws.hbang.Terminal.update-queue-%p", self].UTF8String, DISPATCH_QUEUE_SERIAL);
+		_updateQueue = dispatch_queue_create([NSString stringWithFormat:@"ws.hbang.Terminal.foreground-update-queue-%p", self].UTF8String, DISPATCH_QUEUE_SERIAL);
+		_secondaryUpdateQueue = dispatch_queue_create([NSString stringWithFormat:@"ws.hbang.Terminal.update-queue-secondary-%p", self].UTF8String, DISPATCH_QUEUE_SERIAL);
 
 		_buffer = [[VT100 alloc] init];
 		_buffer.refreshDelegate = self;
@@ -103,11 +105,19 @@
 - (void)refresh {
 	// TODO: we should handle the scrollback separately so it only appears if the user scrolls
 	dispatch_async(_updateQueue, ^{
-		NSAttributedString *attributedString = _stringSupplier.attributedString;
+		NSMutableAttributedString *attributedString = _stringSupplier.attributedString;
 		UIColor *backgroundColor = _stringSupplier.colorMap.background;
 
 		dispatch_async(dispatch_get_main_queue(), ^{
 			[_delegate refreshWithAttributedString:attributedString backgroundColor:backgroundColor];
+		});
+
+		dispatch_async(_secondaryUpdateQueue, ^{
+			[_stringSupplier detectLinksForAttributedString:attributedString];
+
+			dispatch_async(dispatch_get_main_queue(), ^{
+				[_delegate refreshWithAttributedString:attributedString backgroundColor:backgroundColor];
+			});
 		});
 	});
 }

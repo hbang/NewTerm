@@ -16,4 +16,6 @@
 - (NSString *)stringForLine:(int)rowIndex;
 - (NSMutableAttributedString *)attributedString;
 
+- (void)detectLinksForAttributedString:(NSMutableAttributedString *)attributedString;
+
 @end
