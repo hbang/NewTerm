@@ -20,9 +20,6 @@
 			_backdropView.frame = self.bounds;
 		} else if (%c(_UIBackdropView)) {
 			_backdropView = [[%c(_UIBackdropView) alloc] initWithFrame:self.bounds autosizesToFitSuperview:YES settings:[[%c(_UIBackdropViewSettingsUltraDark) alloc] initWithDefaultValues]];
-		} else {
-			_backdropView = [[UIView alloc] initWithFrame:self.bounds];
-			_backdropView.backgroundColor = [[UITableView appearance].backgroundColor colorWithAlphaComponent:0.9f];
 		}
 
 		_backdropView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;

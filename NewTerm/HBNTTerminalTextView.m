@@ -7,46 +7,51 @@
 //
 
 #import "HBNTTerminalTextView.h"
+#import "HBNTKeyboardButton.h"
+#import "HBNTKeyboardToolbar.h"
 
-@implementation HBNTTerminalTextView
+#ifndef __IPHONE_11_0
+#define UITextSmartQuotesType NSInteger
+#define UITextSmartDashesType NSInteger
+#define UITextSmartInsertDeleteType NSInteger
+#define UITextSmartQuotesTypeNo 1
+#define UITextSmartDashesTypeNo 1
+#define UITextSmartInsertDeleteTypeNo 1
+
+@interface UITextView ()
+
+@property (nonatomic) UITextSmartQuotesType smartQuotesType NS_AVAILABLE_IOS(11_0); // default is UITextSmartQuotesTypeDefault
+@property (nonatomic) UITextSmartDashesType smartDashesType NS_AVAILABLE_IOS(11_0); // default is UITextSmartDashesTypeDefault
+@property (nonatomic) UITextSmartInsertDeleteType smartInsertDeleteType NS_AVAILABLE_IOS(11_0); // default is UITextSmartInsertDeleteTypeDefault
+
+@end
+#endif
+
+@implementation HBNTTerminalTextView {
+	HBNTKeyboardToolbar *_toolbar;
+	HBNTKeyboardButton *_ctrlKey, *_metaKey;
+	BOOL _ctrlDown, _metaDown;
+
+	NSData *_backspaceData, *_tabKeyData, *_upKeyData, *_downKeyData, *_leftKeyData, *_rightKeyData;
+}
 
 - (instancetype)initWithFrame:(CGRect)frame textContainer:(NSTextContainer *)textContainer {
 	self = [super initWithFrame:frame textContainer:textContainer];
 
 	if (self) {
-		[self _commonInit];
-	}
-
-	return self;
-}
-
-- (instancetype)initWithFrame:(CGRect)frame {
-	self = [super initWithFrame:frame];
-
-	if (self) {
-		[self _commonInit];
-	}
-
-	return self;
-}
-
-- (void)_commonInit {
-	self.backgroundColor = [UIColor blackColor];
-	self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
-	self.showsHorizontalScrollIndicator = NO;
-	self.dataDetectorTypes = UIDataDetectorTypeNone;
-	self.editable = NO;
-
-	if ([self respondsToSelector:@selector(setLinkTextAttributes:)]) {
+		self.backgroundColor = [UIColor blackColor];
+		self.indicatorStyle = UIScrollViewIndicatorStyleWhite;
+		self.showsHorizontalScrollIndicator = NO;
+		self.dataDetectorTypes = UIDataDetectorTypeNone;
+		self.editable = NO;
 		self.linkTextAttributes = @{
 			NSUnderlineStyleAttributeName: @(NSUnderlineStyleSingle)
 		};
-	}
-
-	if ([self respondsToSelector:@selector(textContainer)]) {
 		self.textContainerInset = UIEdgeInsetsZero;
 		self.textContainer.lineFragmentPadding = 0;
 	}
+
+	return self;
 }
 
 #pragma mark - UIResponder

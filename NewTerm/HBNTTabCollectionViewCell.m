@@ -7,7 +7,8 @@
 	self = [super initWithFrame:frame];
 
 	if (self) {
-		// self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
+		self.translatesAutoresizingMaskIntoConstraints = NO;
+		self.contentView.translatesAutoresizingMaskIntoConstraints = NO;
 
 		self.selectedBackgroundView = [[UIView alloc] init];
 		self.selectedBackgroundView.backgroundColor = [UIColor colorWithWhite:85.f / 255.f alpha:0.7f];
@@ -16,7 +17,6 @@
 		_textLabel.translatesAutoresizingMaskIntoConstraints = NO;
 		_textLabel.font = [UIFont systemFontOfSize:16.f];
 		_textLabel.textColor = [UIColor whiteColor];
-		_textLabel.backgroundColor = [UIColor clearColor];
 		[self.contentView addSubview:_textLabel];
 
 		_closeButton = [[UIButton alloc] init];

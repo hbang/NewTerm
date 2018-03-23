@@ -11,7 +11,6 @@
 #import "HBNTTerminalSessionViewController.h"
 #import "HBNTTabToolbar.h"
 #import "HBNTTabCollectionViewCell.h"
-#import <version.h>
 
 @interface HBNTRootViewController () <UICollectionViewDelegate, UICollectionViewDataSource>
 
@@ -29,6 +28,7 @@
 - (void)loadView {
 	[super loadView];
 
+	self.automaticallyAdjustsScrollViewInsets = NO;
 	self.navigationController.navigationBarHidden = YES;
 
 	_terminals = [NSMutableArray array];
@@ -50,7 +50,9 @@
 		[[UIBarButtonItem alloc] initWithTitle:@"▲" style:UIBarButtonItemStylePlain target:self action:@selector(showKeyboard)]
 	];
 	[self.view addSubview:_bottomToolbar];
-	
+
+	// reload data so the collection view knows we’re empty, then add our first tab
+	[_tabsCollectionView reloadData];
 	[self addTerminal];
 }
 
@@ -58,16 +60,13 @@
 	[super viewWillLayoutSubviews];
 
 	CGFloat barHeight = [UIScreen mainScreen].bounds.size.height < 600.f ? 32.f : 40.f;
-	CGFloat statusBarHeight = IS_IOS_OR_NEWER(iOS_7_0) ? [UIApplication sharedApplication].statusBarFrame.size.height : 0;
-	CGFloat statusBarOffset = IS_IOS_OR_NEWER(iOS_7_0) ? 0 : -[UIApplication sharedApplication].statusBarFrame.size.height;
+	CGFloat statusBarHeight = [UIApplication sharedApplication].statusBarFrame.size.height;
 
 	_tabToolbar.frame = CGRectMake(0, 0, self.view.frame.size.width, statusBarHeight + barHeight);
 	_bottomToolbar.frame = CGRectMake(0, self.view.frame.size.height - barHeight, self.view.frame.size.width, barHeight);
 
-	UIEdgeInsets barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height + statusBarOffset, 0, _bottomToolbar.frame.size.height, 0);
-
 	for (HBNTTerminalSessionViewController *viewController in _terminals) {
-		viewController.barInsets = barInsets;
+		viewController.barInsets = UIEdgeInsetsMake(_tabToolbar.frame.size.height, 0, _bottomToolbar.frame.size.height, 0);
 	}
 }
 
@@ -194,11 +193,6 @@
 
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
 	self.selectedTabIndex = indexPath.row;
-}
-
-- (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
-	// hardcode a width for now, just so we work on ios 6. to be worked on…
-	return CGSizeMake(100, _tabsCollectionView.frame.size.height);
 }
 
 @end

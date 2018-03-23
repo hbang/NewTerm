@@ -24,13 +24,7 @@
 		_textView = [[%c(HBNTTerminalTextView) alloc] initWithFrame:self.bounds];
 		_textView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		_textView.editable = NO;
-
-		if ([_textView respondsToSelector:@selector(setSelectable:)]) {
-			_textView.selectable = NO;
-		} else {
-			_textView.userInteractionEnabled = NO;
-		}
-		
+		_textView.selectable = NO;
 		[self addSubview:_textView];
 
 		NSData *colorTest = [NSData dataWithContentsOfURL:[[NSBundle mainBundle] URLForResource:@"colortest" withExtension:@"txt"]];
