@@ -89,5 +89,7 @@
 		<string>UIInterfaceOrientationLandscapeLeft</string>
 		<string>UIInterfaceOrientationLandscapeRight</string>
 	</array>
+	<key>HBUsesCepheiPrefs</key>
+	<true/>
 </dict>
 </plist>
