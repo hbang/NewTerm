@@ -144,20 +144,17 @@ extension TerminalController: SubProcessDelegate {
 	}
 	
 	func subProcess(didDisconnectWithError error: Error?) {
-		NSLog("disconnected… %@", error == nil ? NSError() : error! as NSError)
+		// we have nothing useful to do if the process has already ended
+		if processEnded {
+			return
+		}
 		
+		processEnded = true
+
 		// show a message inside the terminal indicating that the session has ended, and that the user
 		// can press any key to close the tab
 		let message = "[\(NSLocalizedString("PROCESS_COMPLETED_TITLE", comment: ""))]\r\n\(NSLocalizedString("PROCESS_COMPLETED_MESSAGE", comment: ""))"
 		readInputStream(message.data(using: .utf8))
-		
-		processEnded = true
-
-		do {
-			try subProcess!.stop()
-		} catch {
-			NSLog("subprocess stop failed… %@", error as NSError)
-		}
 	}
 	
 	func subProcess(didReceiveError error: Error) {
