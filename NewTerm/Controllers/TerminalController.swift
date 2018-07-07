@@ -26,12 +26,12 @@ class TerminalController: VT100 {
 	private var stringSupplier = VT100StringSupplier()
 	
 	var colorMap: VT100ColorMap {
-		get { return stringSupplier.colorMap }
+		get { return stringSupplier.colorMap! }
 		set { stringSupplier.colorMap = newValue }
 	}
 	
 	var fontMetrics: FontMetrics {
-		get { return stringSupplier.fontMetrics }
+		get { return stringSupplier.fontMetrics! }
 		set { stringSupplier.fontMetrics = newValue }
 	}
 	
@@ -116,7 +116,7 @@ extension TerminalController {
 		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
 		updateQueue.async {
 			let attributedString = self.stringSupplier.attributedString()!
-			let backgroundColor = self.stringSupplier.colorMap.background!
+			let backgroundColor = self.stringSupplier.colorMap!.background!
 			
 			DispatchQueue.main.async {
 				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)

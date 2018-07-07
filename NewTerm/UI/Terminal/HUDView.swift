@@ -51,14 +51,14 @@ class HUDView: UIView {
 	@objc func animate() {
 		// if our alpha is non-zero, we’re already visible. maybe we should extend the visible duration
 		// but eh. just do nothing
-		if alpha == 0 {
+		if alpha != 0 {
 			return
 		}
 		
 		alpha = 1
 		
 		// display for 1.5 secs, fade out in 0.3 secs, then remove from superview
-		UIView.animate(withDuration: 0.3, delay: 0.75, options: UIViewAnimationOptions(), animations: {
+		UIView.animate(withDuration: 0.3, delay: 0.75, options: .init(), animations: {
 			self.alpha = 0
 		}, completion: nil)
 	}

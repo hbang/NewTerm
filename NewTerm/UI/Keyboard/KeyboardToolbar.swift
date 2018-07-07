@@ -8,7 +8,9 @@
 
 import UIKit
 
-class KeyboardToolbar: UIToolbar {
+class KeyboardToolbar: UIView {
+
+	let backdropView = UIToolbar()
 	
 	@objc let ctrlKey = KeyboardButton(title: "Ctrl")
 	@objc let metaKey = KeyboardButton(title: "Esc")
@@ -22,23 +24,13 @@ class KeyboardToolbar: UIToolbar {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
+		backdropView.frame = bounds
+		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		addSubview(backdropView)
+
 		let spacerView = UIView()
-		
-		for view in [ ctrlKey, metaKey, tabKey, spacerView, upKey, downKey, leftKey, rightKey ] {
-			view.translatesAutoresizingMaskIntoConstraints = false
-			addSubview(view)
-			
-			addConstraints(withVisualFormat: "V:|-margin-[key]-margin-|", options: NSLayoutFormatOptions(), metrics: [
-				"margin": isSmallDevice ? 2 : 4
-			], views: [
-				"key": view
-			])
-		}
-		
-		addConstraints(withVisualFormat: "H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView(>=margin)][upKey]-margin-[downKey]-margin-[leftKey]-margin-[rightKey]-outerMargin-|", options: NSLayoutFormatOptions(), metrics: [
-			"outerMargin": 3,
-			"margin": 6
-		], views: [
+
+		let views = [
 			"ctrlKey": ctrlKey,
 			"metaKey": metaKey,
 			"tabKey": tabKey,
@@ -47,7 +39,54 @@ class KeyboardToolbar: UIToolbar {
 			"downKey": downKey,
 			"leftKey": leftKey,
 			"rightKey": rightKey,
-		])
+		]
+
+		let outerXSpacing = CGFloat(3)
+		let xSpacing = CGFloat(6)
+		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
+		let bottomSpacing = CGFloat(isSmallDevice ? 0 : 2)
+		
+		if #available(iOS 9.0, *) {
+			let sortedViews = [ ctrlKey, metaKey, tabKey, spacerView, upKey, downKey, leftKey, rightKey ]
+
+			let stackView = UIStackView(arrangedSubviews: sortedViews)
+			stackView.translatesAutoresizingMaskIntoConstraints = false
+			stackView.axis = .horizontal
+			stackView.spacing = xSpacing
+			addSubview(stackView)
+
+			addCompactConstraints([
+				"stackView.top = toolbar.top + topSpacing",
+				"stackView.bottom = toolbar.bottom - bottomSpacing",
+				"stackView.left = toolbar.left + outerXSpacing",
+				"stackView.right = toolbar.right - outerXSpacing"
+			], metrics: [
+				"outerXSpacing": outerXSpacing,
+				"topSpacing": topSpacing,
+				"bottomSpacing": bottomSpacing
+			], views: [
+				"toolbar": self,
+				"stackView": stackView
+			])
+		} else {
+			// do it the hard way with constraints
+			for view in views.values {
+				view.translatesAutoresizingMaskIntoConstraints = false
+				addSubview(view)
+				
+				addConstraints(withVisualFormat: "V:|-topSpacing-[key]-bottomSpacing-|", options: .init(), metrics: [
+					"topSpacing": topSpacing,
+					"bottomSpacing": bottomSpacing
+				], views: [
+					"key": view
+				])
+			}
+			
+			addConstraints(withVisualFormat: "H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView(>=margin)][upKey]-margin-[downKey]-margin-[leftKey]-margin-[rightKey]-outerMargin-|", options: .init(), metrics: [
+				"outerMargin": outerXSpacing,
+				"margin": xSpacing
+			], views: views)
+		}
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

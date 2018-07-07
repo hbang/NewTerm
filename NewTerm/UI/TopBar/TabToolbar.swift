@@ -8,7 +8,9 @@
 
 import UIKit
 
-class TabToolbar: UIToolbar {
+class TabToolbar: UIView {
+
+	let backdropView = UIToolbar()
 	
 	var tabsCollectionView: UICollectionView!
 	var addButton: UIButton!
@@ -17,6 +19,10 @@ class TabToolbar: UIToolbar {
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
+		
+		backdropView.frame = bounds
+		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		addSubview(backdropView)
 		
 		let collectionViewLayout = UICollectionViewFlowLayout()
 		collectionViewLayout.scrollDirection = .horizontal

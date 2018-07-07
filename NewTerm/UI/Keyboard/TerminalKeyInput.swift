@@ -17,7 +17,13 @@ import UIKit
 class TerminalKeyInput: TextInputBase {
 	
 	@objc weak var terminalInputDelegate: TerminalInputProtocol?
-	@objc weak var textView: UITextView?
+	@objc weak var textView: UITextView! {
+		didSet {
+			textView.frame = bounds
+			textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+			addSubview(textView)
+		}
+	}
 	
 	private var toolbar: KeyboardToolbar?
 	private var ctrlKey: KeyboardButton!
@@ -37,45 +43,48 @@ class TerminalKeyInput: TextInputBase {
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 		
-		isUserInteractionEnabled = false
-		
 		autocapitalizationType = .none
 		autocorrectionType = .no
 		spellCheckingType = .no
-		
-//		if #available(iOS 11.0, *) {
-//			smartQuotesType = .no
-//			smartDashesType = .no
-//			smartInsertDeleteType = .no
-//		}
+		smartQuotesType = .no
+		smartDashesType = .no
+		smartInsertDeleteType = .no
 		
 		// TODO: this should be themable
 		keyboardAppearance = .dark
 		
 		// TODO: this is kinda ugly and causes duped code for these buttons
-		if #available(iOS 9.0, *) {
-			ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
-			metaKey = KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))
-			
-			inputAssistantItem.allowsHidingShortcuts = false
-			
-			var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
-			leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-				UIBarButtonItem(customView: ctrlKey),
-				UIBarButtonItem(customView: metaKey),
-				UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed)))
-			], representativeItem: nil))
-			inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
-			
-			var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
-			trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-				UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
+		var hasPadToolbar = false
+
+		if UIDevice.current.userInterfaceIdiom == .pad {
+			if #available(iOS 9.0, *) {
+				hasPadToolbar = true
+
+				ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
+				metaKey = KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))
+				
+				inputAssistantItem.allowsHidingShortcuts = false
+				
+				var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
+				leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
+					UIBarButtonItem(customView: ctrlKey),
+					UIBarButtonItem(customView: metaKey),
+					UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed)))
 				], representativeItem: nil))
-			inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
-		} else {
+				inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
+				
+				var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
+				trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
+					UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
+					UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
+					UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
+					UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
+					], representativeItem: nil))
+				inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
+			}
+		}
+		
+		if !hasPadToolbar {
 			toolbar = KeyboardToolbar()
 			toolbar!.translatesAutoresizingMaskIntoConstraints = false
 			toolbar!.ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
@@ -132,6 +141,12 @@ class TerminalKeyInput: TextInputBase {
 	}
 	
 	// MARK: - UITextInput
+
+	@objc var textInputView: UIView {
+		// if we have the instance of the text view, return it here so stuff like selection hopefully
+		// works. if not, just return self for the moment
+		return textView ?? self
+	}
 	
 	override var hasText: Bool {
 		// we always “have text”, even if we don’t

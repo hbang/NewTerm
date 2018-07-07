@@ -13,7 +13,7 @@ class TerminalSessionViewController: UIViewController {
 	var barInsets = UIEdgeInsets.zero
 	
 	private var terminalController = TerminalController()
-	private var keyInput = TerminalKeyInput()
+	private var keyInput = TerminalKeyInput(frame: .zero)
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
 	
 	private lazy var bellHUDView: HUDView = {
@@ -50,13 +50,10 @@ class TerminalSessionViewController: UIViewController {
 		super.loadView()
 		
 		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
-		
-		textView.frame = view.bounds
-		textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+
 		textView.showsVerticalScrollIndicator = false
 		// TODO: this breaks stuff sorta
 		// textView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:))))
-		view.addSubview(textView)
 		
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
@@ -69,14 +66,14 @@ class TerminalSessionViewController: UIViewController {
 		super.viewWillAppear(animated)
 		
 		registerForKeyboardNotifications()
-		_ = becomeFirstResponder()
+		becomeFirstResponder()
 	}
 	
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 		
 		unregisterForKeyboardNotifications()
-		_ = resignFirstResponder()
+		resignFirstResponder()
 	}
 	
 	override func viewWillLayoutSubviews() {
@@ -199,11 +196,11 @@ class TerminalSessionViewController: UIViewController {
 		}
 	}
 	
-	override func becomeFirstResponder() -> Bool {
+	@discardableResult override func becomeFirstResponder() -> Bool {
 		return keyInput.becomeFirstResponder()
 	}
 	
-	override func resignFirstResponder() -> Bool {
+	@discardableResult override func resignFirstResponder() -> Bool {
 		return keyInput.resignFirstResponder()
 	}
 	
@@ -213,7 +210,7 @@ class TerminalSessionViewController: UIViewController {
 	
 	func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
 		if gestureRecognizer.state == .ended && !isFirstResponder {
-			_ = becomeFirstResponder()
+			becomeFirstResponder()
 		}
 	}
 	
@@ -240,7 +237,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			view.addSubview(bellHUDView)
 			view.addCompactConstraints([
 				"hudView.centerX = self.centerX",
-				"hudView.top = self.top + 100"
+				"hudView.centerY = self.centerY / 3"
 			], metrics: nil, views: [
 				"self": view,
 				"hudView": bellHUDView

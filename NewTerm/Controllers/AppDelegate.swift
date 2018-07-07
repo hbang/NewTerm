@@ -6,6 +6,7 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
+// wen rels kirb!!!
 import UIKit
 
 @UIApplicationMain
