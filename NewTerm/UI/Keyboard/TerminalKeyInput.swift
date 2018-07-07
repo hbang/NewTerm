@@ -46,9 +46,12 @@ class TerminalKeyInput: TextInputBase {
 		autocapitalizationType = .none
 		autocorrectionType = .no
 		spellCheckingType = .no
-		smartQuotesType = .no
-		smartDashesType = .no
-		smartInsertDeleteType = .no
+
+		if #available(iOS 11.0, *) {
+			smartQuotesType = .no
+			smartDashesType = .no
+			smartInsertDeleteType = .no
+		}
 		
 		// TODO: this should be themable
 		keyboardAppearance = .dark
@@ -142,13 +145,13 @@ class TerminalKeyInput: TextInputBase {
 	
 	// MARK: - UITextInput
 
-	@objc var textInputView: UIView {
+	override var textInputView: UIView {
 		// if we have the instance of the text view, return it here so stuff like selection hopefully
 		// works. if not, just return self for the moment
 		return textView ?? self
 	}
 	
-	override var hasText: Bool {
+	override func hasText() -> Bool {
 		// we always “have text”, even if we don’t
 		return true
 	}

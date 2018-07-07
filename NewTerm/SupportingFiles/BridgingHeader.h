@@ -5,6 +5,7 @@
 @import UIKit;
 
 #import "Extensions/NSArray+Additions.h"
+#import "UI/Keyboard/TextInputBase.h"
 #import <CompactConstraint/CompactConstraint.h>
 #import <VT100/FontMetrics.h>
 #import <VT100/VT100.h>
