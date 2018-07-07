@@ -10,15 +10,24 @@ import UIKit
 
 class KeyboardButton: UIButton {
 	
-	convenience init(title: String) {
+	convenience init(title: String, glyph: String? = nil, image: UIImage? = nil, highlightedImage: UIImage? = nil, target: AnyObject? = nil, action: Selector? = nil) {
 		self.init(frame: .zero)
-		setTitle(title, for: .normal)
-	}
-	
-	convenience init(title: String, target: AnyObject, action: Selector) {
-		self.init(frame: .zero)
-		setTitle(title, for: .normal)
-		addTarget(target, action: action, for: .touchUpInside)
+
+		accessibilityLabel = title
+
+		if image != nil {
+			let actualImage = image!.withRenderingMode(.alwaysTemplate)
+			let actualHighlightedImage = highlightedImage == nil ? actualImage : highlightedImage!.withRenderingMode(.alwaysTemplate)
+			setImage(actualImage, for: .normal)
+			setImage(actualHighlightedImage, for: .highlighted)
+			setImage(actualHighlightedImage, for: .selected)
+		} else {
+			setTitle(glyph ?? title, for: .normal)
+		}
+
+		if target != nil && action != nil {
+			addTarget(target!, action: action!, for: .touchUpInside)
+		}
 	}
 	
 	override init(frame: CGRect) {
@@ -27,7 +36,8 @@ class KeyboardButton: UIButton {
 		clipsToBounds = true
 		layer.cornerRadius = isBigDevice ? 6 : 4
 		titleLabel!.font = .systemFont(ofSize: isBigDevice ? 18 : 15)
-		setTitleColor(.white, for: .normal)
+		tintColor = .white
+		setTitleColor(tintColor, for: .normal)
 		setTitleColor(.black, for: .selected)
 		setBackgroundImage(image(color: UIColor(white: 0.3529411765, alpha: 1)), for: .normal)
 		setBackgroundImage(image(color: UIColor(white: 0.2078431373, alpha: 1)), for: .highlighted)

@@ -32,14 +32,6 @@ class RootViewController: UIViewController {
 		
 		view.addSubview(tabToolbar)
 		
-		setToolbarItems([
-			UIBarButtonItem(image: #imageLiteral(resourceName: "settings"), style: .plain, target: self, action: #selector(self.showSettings(_:))),
-			UIBarButtonItem(barButtonSystemItem: .flexibleSpace, target: nil, action: nil),
-			UIBarButtonItem(title: "▲", style: .plain, target: self, action: #selector(self.showKeyboard))
-		], animated: false)
-		
-		navigationController!.setToolbarHidden(false, animated: false)
-		
 		addTerminal()
 	}
 	
@@ -49,20 +41,17 @@ class RootViewController: UIViewController {
 		let barHeight = CGFloat(isSmallDevice ? 32 : 40)
 		
 		let topMargin: CGFloat
-		let bottomMargin: CGFloat
 		
 		if #available(iOS 11.0, *) {
 			topMargin = view.safeAreaInsets.top
-			bottomMargin = view.safeAreaInsets.bottom
 		} else {
 			topMargin = UIApplication.shared.statusBarFrame.size.height
-			bottomMargin = bottomLayoutGuide.length
 		}
 		
 		tabToolbar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + barHeight)
 		tabToolbar.topMargin = topMargin
 		
-		let barInsets = UIEdgeInsets(top: tabToolbar.frame.size.height, left: 0, bottom: bottomMargin, right: 0)
+		let barInsets = UIEdgeInsets(top: tabToolbar.frame.size.height, left: 0, bottom: 0, right: 0)
 		
 		for viewController in terminals {
 			viewController.barInsets = barInsets
@@ -150,23 +139,10 @@ class RootViewController: UIViewController {
 			}
 			
 			self.tabsCollectionView.selectItem(at: IndexPath(item: selectedTabIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-		}, completion: { (finished) in
+		}, completion: { (_) in
 			// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
 			self.tabsCollectionView.reloadData()
 		})
-	}
-	
-	// MARK: - Callbacks
-	
-	@objc func showSettings(_ sender: UIBarButtonItem) {
-		let rootController = UIViewController() // TODO
-		rootController.modalPresentationStyle = .formSheet
-		navigationController?.present(rootController, animated: true, completion: nil)
-	}
-	
-	@objc func showKeyboard() {
-		let viewController = terminals[selectedTabIndex]
-		_ = viewController.becomeFirstResponder()
 	}
 	
 }

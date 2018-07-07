@@ -15,11 +15,12 @@ class KeyboardToolbar: UIView {
 	let ctrlKey = KeyboardButton(title: "Ctrl")
 	let metaKey = KeyboardButton(title: "Esc")
 	let tabKey = KeyboardButton(title: "Tab")
+	let moreKey = KeyboardButton(title: "Fn")
 	
-	let upKey = KeyboardButton(title: "▲")
-	let downKey = KeyboardButton(title: "▼")
-	let leftKey = KeyboardButton(title: "◀")
-	let rightKey = KeyboardButton(title: "▶")
+	let upKey = KeyboardButton(title: "Up", glyph: "▲")
+	let downKey = KeyboardButton(title: "Down", glyph: "▼")
+	let leftKey = KeyboardButton(title: "Left", glyph: "◀")
+	let rightKey = KeyboardButton(title: "Right", glyph: "▶")
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -28,12 +29,18 @@ class KeyboardToolbar: UIView {
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		addSubview(backdropView)
 
+		let outerXSpacing = CGFloat(3)
+		let xSpacing = CGFloat(6)
+		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
+		let bottomSpacing = CGFloat(isSmallDevice ? 0 : 2)
+
 		let spacerView = UIView()
 
 		let views = [
 			"ctrlKey": ctrlKey,
 			"metaKey": metaKey,
 			"tabKey": tabKey,
+			"moreKey": moreKey,
 			"spacerView": spacerView,
 			"upKey": upKey,
 			"downKey": downKey,
@@ -41,15 +48,16 @@ class KeyboardToolbar: UIView {
 			"rightKey": rightKey,
 		]
 
-		let outerXSpacing = CGFloat(3)
-		let xSpacing = CGFloat(6)
-		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
-		let bottomSpacing = CGFloat(isSmallDevice ? 0 : 2)
+		let containerView: UIView
 		
 		if #available(iOS 9.0, *) {
-			let sortedViews = [ ctrlKey, metaKey, tabKey, spacerView, upKey, downKey, leftKey, rightKey ]
+			let sortedViews = [
+				ctrlKey, metaKey, tabKey, moreKey, spacerView,
+				upKey, downKey, leftKey, rightKey
+			]
 
 			let stackView = UIStackView(arrangedSubviews: sortedViews)
+			containerView = stackView
 			stackView.translatesAutoresizingMaskIntoConstraints = false
 			stackView.axis = .horizontal
 			stackView.spacing = xSpacing
@@ -69,6 +77,8 @@ class KeyboardToolbar: UIView {
 				"stackView": stackView
 			])
 		} else {
+			containerView = self
+
 			// do it the hard way with constraints
 			for view in views.values {
 				view.translatesAutoresizingMaskIntoConstraints = false
@@ -82,11 +92,24 @@ class KeyboardToolbar: UIView {
 				])
 			}
 			
-			addConstraints(withVisualFormat: "H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey][spacerView(>=margin)][upKey]-margin-[downKey]-margin-[leftKey]-margin-[rightKey]-outerMargin-|", options: .init(), metrics: [
+			addConstraints(withVisualFormat: "H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey]-margin-[moreKey][spacerView(>=margin)][upKey]-margin-[downKey]-margin-[leftKey]-margin-[rightKey]-outerMargin-|", options: .init(), metrics: [
 				"outerMargin": outerXSpacing,
 				"margin": xSpacing
 			], views: views)
 		}
+
+		containerView.addCompactConstraints([
+			"ctrlKey.width >= metaKey.width",
+			"metaKey.width >= ctrlKey.width",
+			"metaKey.width >= tabKey.width",
+			"tabKey.width >= metaKey.width",
+			"tabKey.width >= moreKey.width",
+			"moreKey.width >= tabKey.width",
+			"upKey.width = upKey.height",
+			"downKey.width = downKey.height",
+			"leftKey.width = leftKey.height",
+			"rightKey.width = rightKey.height"
+		], metrics: nil, views: views)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {

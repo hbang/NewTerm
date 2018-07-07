@@ -15,6 +15,8 @@ protocol TerminalControllerDelegate {
 	func close()
 	func didReceiveError(error: Error)
 	
+	func openSettings()
+	
 }
 
 class TerminalController: VT100 {
@@ -97,6 +99,10 @@ extension TerminalController: TerminalInputProtocol {
 			// Forward the data from the keyboard directly to the subprocess
 			subProcess!.write(data: data)
 		}
+	}
+
+	func openSettings() {
+		delegate!.openSettings()
 	}
 	
 }

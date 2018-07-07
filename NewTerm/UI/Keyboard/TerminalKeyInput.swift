@@ -11,6 +11,7 @@ import UIKit
 protocol TerminalInputProtocol {
 	
 	func receiveKeyboardInput(data: Data)
+	func openSettings()
 	
 }
 
@@ -21,12 +22,14 @@ class TerminalKeyInput: TextInputBase {
 		didSet {
 			textView.frame = bounds
 			textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-			addSubview(textView)
+			insertSubview(textView, at: 0)
 		}
 	}
 	
 	private var toolbar: KeyboardToolbar?
 	private var ctrlKey: KeyboardButton!
+	private var moreKey: KeyboardButton!
+	private var moreToolbar = KeyboardPopupToolbar(frame: .zero)
 	
 	private var ctrlDown = false
 	
@@ -37,6 +40,11 @@ class TerminalKeyInput: TextInputBase {
 	private let downKeyData = Data(bytes: [0x1B, 0x5B, 0x42]) // \e[B
 	private let leftKeyData = Data(bytes: [0x1B, 0x5B, 0x44]) // \e[D
 	private let rightKeyData = Data(bytes: [0x1B, 0x5B, 0x43]) // \e[C
+	private let homeKeyData = Data(bytes: [0x1B, 0x5B, 0x48]) // \e[H
+	private let endKeyData = Data(bytes: [0x1B, 0x5B, 0x46]) // \e[F
+	private let pageUpKeyData = Data(bytes: [0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
+	private let pageDownKeyData = Data(bytes: [0x1B, 0x5B, 0x36, 0x7E]) // \e[6~
+	private let deleteKeyData = Data(bytes: [0x1B, 0x5B, 0x33, 0x7E]) // \e[3~
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -62,6 +70,7 @@ class TerminalKeyInput: TextInputBase {
 				hasPadToolbar = true
 
 				ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
+				moreKey = KeyboardButton(title: "Fn", target: self, action: #selector(self.moreKeyPressed))
 				
 				inputAssistantItem.allowsHidingShortcuts = false
 				
@@ -69,7 +78,8 @@ class TerminalKeyInput: TextInputBase {
 				leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
 					UIBarButtonItem(customView: ctrlKey),
 					UIBarButtonItem(customView: KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))),
-					UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed)))
+					UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed))),
+					UIBarButtonItem(customView: moreKey)
 				], representativeItem: nil))
 				inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
 				
@@ -90,13 +100,25 @@ class TerminalKeyInput: TextInputBase {
 			toolbar!.ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
 			toolbar!.metaKey.addTarget(self, action: #selector(self.metaKeyPressed), for: .touchUpInside)
 			toolbar!.tabKey.addTarget(self, action: #selector(self.tabKeyPressed), for: .touchUpInside)
+			toolbar!.moreKey.addTarget(self, action: #selector(self.moreKeyPressed), for: .touchUpInside)
 			toolbar!.upKey.addTarget(self, action: #selector(self.upKeyPressed), for: .touchUpInside)
 			toolbar!.downKey.addTarget(self, action: #selector(self.downKeyPressed), for: .touchUpInside)
 			toolbar!.leftKey.addTarget(self, action: #selector(self.leftKeyPressed), for: .touchUpInside)
 			toolbar!.rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
 			
 			ctrlKey = toolbar!.ctrlKey
+			moreKey = toolbar!.moreKey
 		}
+
+		setMoreRowVisible(false, animated: false)
+		addSubview(moreToolbar)
+
+		moreToolbar.homeKey.addTarget(self, action: #selector(self.homeKeyPressed), for: .touchUpInside)
+		moreToolbar.endKey.addTarget(self, action: #selector(self.endKeyPressed), for: .touchUpInside)
+		moreToolbar.pageUpKey.addTarget(self, action: #selector(self.pageUpKeyPressed), for: .touchUpInside)
+		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.pageDownKeyPressed), for: .touchUpInside)
+		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
+		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
 	}
 	
 	required init?(coder aDecoder: NSCoder) {
@@ -121,6 +143,10 @@ class TerminalKeyInput: TextInputBase {
 	@objc func tabKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: tabKeyData)
 	}
+
+	@objc func moreKeyPressed() {
+		setMoreRowVisible(moreToolbar.isHidden, animated: true)
+	}
 	
 	@objc func upKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: upKeyData)
@@ -136,6 +162,60 @@ class TerminalKeyInput: TextInputBase {
 	
 	@objc func rightKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: rightKeyData)
+	}
+
+	@objc func homeKeyPressed() {
+		terminalInputDelegate!.receiveKeyboardInput(data: homeKeyData)
+	}
+
+	@objc func endKeyPressed() {
+		terminalInputDelegate!.receiveKeyboardInput(data: endKeyData)
+	}
+
+	@objc func pageUpKeyPressed() {
+		terminalInputDelegate!.receiveKeyboardInput(data: pageUpKeyData)
+	}
+
+	@objc func pageDownKeyPressed() {
+		terminalInputDelegate!.receiveKeyboardInput(data: pageDownKeyData)
+	}
+
+	@objc func deleteKeyPressed() {
+		terminalInputDelegate!.receiveKeyboardInput(data: deleteKeyData)
+	}
+
+	@objc func settingsKeyPressed() {
+		terminalInputDelegate!.openSettings()
+	}
+
+	// MARK: - More row
+
+	override func layoutSubviews() {
+		super.layoutSubviews()
+
+		let moreToolbarHeight = moreToolbar.intrinsicContentSize.height
+		moreToolbar.frame = CGRect(x: 0, y: textView.frame.size.height - textView.scrollIndicatorInsets.bottom - moreToolbarHeight, width: textView.frame.size.width, height: moreToolbarHeight)
+	}
+
+	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
+		// if we’re already in the specified state, return
+		if visible == !moreToolbar.isHidden {
+			return
+		}
+
+		moreKey.isSelected = visible
+
+		// only hiding is animated
+		if !visible && animated {
+			UIView.animate(withDuration: 0.2, animations: {
+				self.moreToolbar.alpha = 0
+			}, completion: { (_) in
+				self.moreToolbar.isHidden = true
+			})
+		} else {
+			moreToolbar.alpha = visible ? 1 : 0
+			moreToolbar.isHidden = !visible
+		}
 	}
 	
 	// MARK: - UITextInput
@@ -183,6 +263,10 @@ class TerminalKeyInput: TextInputBase {
 		if ctrlDown {
 			ctrlDown = false
 			ctrlKey.isSelected = false
+		}
+
+		if !moreToolbar.isHidden {
+			setMoreRowVisible(false, animated: true)
 		}
 	}
 	

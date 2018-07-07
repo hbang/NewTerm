@@ -112,6 +112,10 @@ class TerminalSessionViewController: UIViewController {
 		// our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
 		var newInsets = barInsets
 		newInsets.bottom = keyboardHeight > 0 ? keyboardHeight : barInsets.bottom
+
+		if #available(iOS 11.0, *) {
+			newInsets.top -= view.safeAreaInsets.top
+		}
 		
 		textView.contentInset = newInsets
 		textView.scrollIndicatorInsets = textView.contentInset
@@ -125,7 +129,7 @@ class TerminalSessionViewController: UIViewController {
 		
 		// Determine the screen size based on the font size
 		let width = textView.frame.size.width
-		let height = textView.frame.size.height - newInsets.top - newInsets.bottom
+		let height = textView.frame.size.height - barInsets.top - newInsets.bottom
 		
 		let size = ScreenSize(width: UInt16(width / glyphSize.width), height: UInt16(height / glyphSize.height))
 		
@@ -149,9 +153,14 @@ class TerminalSessionViewController: UIViewController {
 		// }
 		
 		// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
-		let insets = textView.scrollIndicatorInsets
+		var insets = textView.scrollIndicatorInsets
 		var offset = textView.contentOffset
 		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
+
+		if #available(iOS 11.0, *) {
+			insets.top += view.safeAreaInsets.top
+		}
+
 		offset.y = terminalController.scrollbackLines() == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
 		
 		// if the offset has changed, update it and our lastAutomaticScrollOffset
@@ -267,6 +276,12 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let nsError = error as NSError
 		let alertView = UIAlertView(title: title, message: nsError.localizedDescription, delegate: nil, cancelButtonTitle: ok)
 		alertView.show()
+	}
+
+	func openSettings() {
+		let rootController = PreferencesRootController(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."), identifier: "Root")!
+		rootController.modalPresentationStyle = .formSheet
+		navigationController!.present(rootController, animated: true, completion: nil)
 	}
 	
 }
