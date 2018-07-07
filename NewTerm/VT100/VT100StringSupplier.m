@@ -5,8 +5,12 @@
 #import "VT100ColorMap.h"
 #import "VT100Types.h"
 #import "FontMetrics.h"
+#import <version.h>
 
-@implementation VT100StringSupplier
+@implementation VT100StringSupplier {
+	NSMutableSet <NSValue *> *_lastLinkRanges;
+	NSDataDetector *_linkDataDetector;
+}
 
 - (int)rowCount {
 	return _screenBuffer.numberOfRows;
@@ -147,7 +151,86 @@
 		startOffset += width;
 	}
 
+	// if links are supported, create links in all the locations we found last time we scanned for
+	// links
+	if (IS_IOS_OR_NEWER(iOS_7_0)) {
+		for (NSValue *value in _lastLinkRanges) {
+			NSRange range = value.rangeValue;
+
+			if (range.location + range.length <= attributedString.string.length) {
+				NSString *urlString = [attributedString.string substringWithRange:range];
+				NSURL *url = [NSURL URLWithString:urlString];
+
+				// if NSURL thinks this is a valid url, 
+				if (url) {
+					[attributedString addAttribute:NSLinkAttributeName value:url range:range];
+				}
+			}
+		}
+	}
+
 	return attributedString;
+}
+
+- (void)detectLinksForAttributedString:(NSMutableAttributedString *)attributedString {
+	// links are only natively supported as of iOS 7, i probably won’t bother to add all the support
+	// needed for links on iOS 6
+	if (!IS_IOS_OR_NEWER(iOS_7_0)) {
+		return;
+	}
+
+	static dispatch_once_t onceToken;
+	dispatch_once(&onceToken, ^{
+		_lastLinkRanges = [NSMutableSet set];
+
+		NSError *error = nil;
+		_linkDataDetector = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:&error];
+		NSAssert(!error, @"%@", error.description);
+	});
+
+	NSMutableSet *addedLinkRanges = [NSMutableSet set];
+	NSMutableSet *removedLinkRanges = [NSMutableSet set];
+
+	[_linkDataDetector enumerateMatchesInString:attributedString.string options:kNilOptions range:NSMakeRange(0, attributedString.string.length) usingBlock:^(NSTextCheckingResult *result, NSMatchingFlags flags, BOOL *stop) {
+		[addedLinkRanges addObject:[NSValue valueWithRange:result.range]];
+	}];
+
+	for (NSValue *value in _lastLinkRanges) {
+		NSRange range = value.rangeValue;
+
+		// if it starts after the end of the string, it’s already been removed. don’t worry about it
+		if (range.location >= attributedString.string.length) {
+			continue;
+		}
+
+		// if it ends further than the end of the string, subtract the difference from the length
+		if (range.location + range.length >= attributedString.string.length) {
+			range.length -= (range.location + range.length) - attributedString.string.length;
+		}
+
+		NSURL *url = [NSURL URLWithString:[attributedString.string substringWithRange:range]];
+
+		// if this link is now invalid, or wasn’t found in this latest refresh, remove it
+		if (!url || ![addedLinkRanges containsObject:value]) {
+			[addedLinkRanges removeObject:value];
+			[removedLinkRanges addObject:value];
+
+			[attributedString removeAttribute:NSLinkAttributeName range:value.rangeValue];
+		}
+	}
+
+	for (NSValue *value in addedLinkRanges) {
+		// if this link is new, create its attributes
+		if (![_lastLinkRanges containsObject:value]) {
+			NSRange range = value.rangeValue;
+			NSURL *url = [NSURL URLWithString:[attributedString.string substringWithRange:range]];
+			HBLogDebug(@"adding2 %@ = %@", url, NSStringFromRange(range));
+			[attributedString addAttribute:NSLinkAttributeName value:url range:range];
+		}
+	}
+
+	// remember these link ranges for the next refresh
+	_lastLinkRanges = addedLinkRanges;
 }
 
 @end
