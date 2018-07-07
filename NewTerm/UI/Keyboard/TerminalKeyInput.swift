@@ -27,10 +27,8 @@ class TerminalKeyInput: TextInputBase {
 	
 	private var toolbar: KeyboardToolbar?
 	private var ctrlKey: KeyboardButton!
-	private var metaKey: KeyboardButton!
 	
 	private var ctrlDown = false
-	private var metaDown = false
 	
 	private let backspaceData = Data(bytes: [0x7F]) // \x7F
 	private let metaKeyData = Data(bytes: [0x1B]) // \e
@@ -64,14 +62,13 @@ class TerminalKeyInput: TextInputBase {
 				hasPadToolbar = true
 
 				ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
-				metaKey = KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))
 				
 				inputAssistantItem.allowsHidingShortcuts = false
 				
 				var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
 				leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
 					UIBarButtonItem(customView: ctrlKey),
-					UIBarButtonItem(customView: metaKey),
+					UIBarButtonItem(customView: KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))),
 					UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed)))
 				], representativeItem: nil))
 				inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
@@ -99,7 +96,6 @@ class TerminalKeyInput: TextInputBase {
 			toolbar!.rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
 			
 			ctrlKey = toolbar!.ctrlKey
-			metaKey = toolbar!.metaKey
 		}
 	}
 	
@@ -119,8 +115,7 @@ class TerminalKeyInput: TextInputBase {
 	}
 	
 	@objc func metaKeyPressed() {
-		metaDown = !metaDown
-		metaKey.isSelected = metaDown
+		terminalInputDelegate!.receiveKeyboardInput(data: metaKeyData)
 	}
 	
 	@objc func tabKeyPressed() {
@@ -173,9 +168,6 @@ class TerminalKeyInput: TextInputBase {
 				if character >= 0x41 && character <= 0x7A { // >= 'a' <= 'z'
 					newCharacter -= 0x40 // 'a' - 1
 				}
-			} else if metaDown {
-				// prepend the escape character
-				data.append(contentsOf: metaKeyData)
 			}
 			
 			// convert newline to carriage return
@@ -191,11 +183,6 @@ class TerminalKeyInput: TextInputBase {
 		if ctrlDown {
 			ctrlDown = false
 			ctrlKey.isSelected = false
-		}
-		
-		if metaDown {
-			metaDown = false
-			metaKey.isSelected = false
 		}
 	}
 	
