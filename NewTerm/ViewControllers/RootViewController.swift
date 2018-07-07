@@ -171,7 +171,7 @@ class RootViewController: UIViewController {
 	
 }
 
-extension RootViewController: UICollectionViewDataSource, UICollectionViewDelegate {
+extension RootViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
 	
 	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
 		return terminals.count
@@ -186,6 +186,10 @@ extension RootViewController: UICollectionViewDataSource, UICollectionViewDelega
 		cell.closeButton.tag = indexPath.row
 		cell.closeButton.addTarget(self, action: #selector(self.removeTerminalButtonTapped(_:)), for: .touchUpInside)
 		return cell
+	}
+
+	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+		return CGSize(width: 100, height: tabsCollectionView.frame.size.height)
 	}
 	
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
