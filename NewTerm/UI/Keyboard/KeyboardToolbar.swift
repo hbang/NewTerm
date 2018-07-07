@@ -12,14 +12,14 @@ class KeyboardToolbar: UIView {
 
 	let backdropView = UIToolbar()
 	
-	@objc let ctrlKey = KeyboardButton(title: "Ctrl")
-	@objc let metaKey = KeyboardButton(title: "Esc")
-	@objc let tabKey = KeyboardButton(title: "Tab")
+	let ctrlKey = KeyboardButton(title: "Ctrl")
+	let metaKey = KeyboardButton(title: "Esc")
+	let tabKey = KeyboardButton(title: "Tab")
 	
-	@objc let upKey = KeyboardButton(title: "▲")
-	@objc let downKey = KeyboardButton(title: "▼")
-	@objc let leftKey = KeyboardButton(title: "◀")
-	@objc let rightKey = KeyboardButton(title: "▶")
+	let upKey = KeyboardButton(title: "▲")
+	let downKey = KeyboardButton(title: "▼")
+	let leftKey = KeyboardButton(title: "◀")
+	let rightKey = KeyboardButton(title: "▶")
 	
 	override init(frame: CGRect) {
 		super.init(frame: frame)

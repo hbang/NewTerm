@@ -8,16 +8,16 @@
 
 import UIKit
 
-@objc protocol TerminalInputProtocol {
+protocol TerminalInputProtocol {
 	
-	@objc func receiveKeyboardInput(data: Data)
+	func receiveKeyboardInput(data: Data)
 	
 }
 
 class TerminalKeyInput: TextInputBase {
 	
-	@objc weak var terminalInputDelegate: TerminalInputProtocol?
-	@objc weak var textView: UITextView! {
+	var terminalInputDelegate: TerminalInputProtocol?
+	weak var textView: UITextView! {
 		didSet {
 			textView.frame = bounds
 			textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
@@ -79,7 +79,7 @@ class TerminalKeyInput: TextInputBase {
 					UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
 					UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
 					UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
-					], representativeItem: nil))
+				], representativeItem: nil))
 				inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
 			}
 		}

@@ -18,16 +18,16 @@ enum SubProcessIOError: Error {
 	case readFailed, writeFailed
 }
 
-@objc protocol SubProcessDelegate: NSObjectProtocol {
+protocol SubProcessDelegate: NSObjectProtocol {
 
-	@objc func subProcessDidConnect()
-	@objc func subProcess(didReceiveData data: Data)
-	@objc func subProcess(didDisconnectWithError error: Error?)
-	@objc func subProcess(didReceiveError error: Error)
+	func subProcessDidConnect()
+	func subProcess(didReceiveData data: Data)
+	func subProcess(didDisconnectWithError error: Error?)
+	func subProcess(didReceiveError error: Error)
 	
 }
 
-@objc class SubProcess: NSObject {
+class SubProcess: NSObject {
 
 	private static let newlineData = Data(bytes: "\r\n", count: 2)
 	
@@ -35,7 +35,7 @@ enum SubProcessIOError: Error {
 	private static let defaultWidth: UInt16 = 80
 	private static let defaultHeight: UInt16 = 25
 
-	@objc var delegate: SubProcessDelegate?
+	var delegate: SubProcessDelegate?
 
 	private var childPID: pid_t?
 	private var fileDescriptor: Int32?

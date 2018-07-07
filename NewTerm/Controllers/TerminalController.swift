@@ -8,18 +8,18 @@
 
 import UIKit
 
-@objc protocol TerminalControllerDelegate {
+protocol TerminalControllerDelegate {
 	
-	@objc func refresh(attributedString: NSAttributedString, backgroundColor: UIColor)
-	@objc func activateBell()
-	@objc func close()
-	@objc func didReceiveError(error: Error)
+	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor)
+	func activateBell()
+	func close()
+	func didReceiveError(error: Error)
 	
 }
 
 class TerminalController: VT100 {
 	
-	weak var delegate: TerminalControllerDelegate?
+	var delegate: TerminalControllerDelegate?
 	
 	private var updateQueue: DispatchQueue!
 	
@@ -38,7 +38,7 @@ class TerminalController: VT100 {
 	private var subProcess: SubProcess?
 	private var processEnded: Bool = false
 	
-	@objc override var screenSize: ScreenSize {
+	override var screenSize: ScreenSize {
 		get { return super.screenSize }
 
 		set {

@@ -10,12 +10,12 @@ import UIKit
 
 class KeyboardButton: UIButton {
 	
-	@objc convenience init(title: String) {
+	convenience init(title: String) {
 		self.init(frame: .zero)
 		setTitle(title, for: .normal)
 	}
 	
-	@objc convenience init(title: String, target: AnyObject, action: Selector) {
+	convenience init(title: String, target: AnyObject, action: Selector) {
 		self.init(frame: .zero)
 		setTitle(title, for: .normal)
 		addTarget(target, action: action, for: .touchUpInside)

@@ -91,7 +91,7 @@ class RootViewController: UIViewController {
 		tabsCollectionView.reloadData()
 	}
 	
-	@objc func removeTerminal(terminal terminalViewController: TerminalSessionViewController) {
+	func removeTerminal(terminal terminalViewController: TerminalSessionViewController) {
 		guard let index = terminals.index(of: terminalViewController) else {
 			NSLog("asked to remove terminal that doesn’t exist? %@", terminalViewController)
 			return

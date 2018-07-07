@@ -22,7 +22,7 @@ class HUDView: UIView {
 		}
 	}()
 	
-	@objc init(image: UIImage) {
+	init(image: UIImage) {
 		super.init(frame: CGRect(origin: .zero, size: intrinsicContentSize))
 		
 		alpha = 0
@@ -48,7 +48,7 @@ class HUDView: UIView {
 		return CGSize(width: 54, height: 54)
 	}
 	
-	@objc func animate() {
+	func animate() {
 		// if our alpha is non-zero, we’re already visible. maybe we should extend the visible duration
 		// but eh. just do nothing
 		if alpha != 0 {
