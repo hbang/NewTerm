@@ -1,4 +1,4 @@
-export TARGET = iphone:clang:latest:7.0
+export TARGET = iphone:clang:11.2:7.0
 
 PROJECT_DIR := $(PWD)/NewTerm
 INCLUDES := -I$(PROJECT_DIR) -I$(PROJECT_DIR)/External -I$(PROJECT_DIR)/External/ncurses
