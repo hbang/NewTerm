@@ -165,8 +165,8 @@ class TerminalKeyInput: TextInputBase {
 				}
 				
 				// convert to the matching control character
-				if character >= 0x41 && character <= 0x7A { // >= 'a' <= 'z'
-					newCharacter -= 0x40 // 'a' - 1
+				if character >= 0x61 && character <= 0x7A { // >= 'a' <= 'z'
+					newCharacter -= 0x61 - 1 // 'a' - 1
 				}
 			}
 			
