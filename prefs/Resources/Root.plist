@@ -112,6 +112,7 @@
 			<key>validTitles</key>
 			<array>
 				<string>Basic</string>
+				<string>Basic (Dark)</string>
 				<string>Grass</string>
 				<string>Homebrew</string>
 				<string>kirb</string>
@@ -126,6 +127,7 @@
 			<key>validValues</key>
 			<array>
 				<string>Basic</string>
+				<string>Basic (Dark)</string>
 				<string>Grass</string>
 				<string>Homebrew</string>
 				<string>kirb</string>

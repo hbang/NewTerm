@@ -15,6 +15,19 @@
 		<key>Text</key>
 		<string>#000000</string>
 	</dict>
+	<key>Basic (Dark)</key>
+	<dict>
+		<key>Background</key>
+		<string>#1e1e1e</string>
+		<key>BoldText</key>
+		<string>#ffffff</string>
+		<key>Cursor</key>
+		<string>#9d9d9d</string>
+		<key>IsDark</key>
+		<true/>
+		<key>Text</key>
+		<string>#ffffff</string>
+	</dict>
 	<key>Grass</key> <!-- tastes badddd -->
 	<dict>
 		<key>Background</key>
@@ -47,6 +60,25 @@
 		<string>#0f0f0f</string>
 		<key>BoldText</key>
 		<string>#ffffff</string>
+		<key>ColorTable</key>
+		<array>
+			<string>#000000</string>
+			<string>#ea2305</string>
+			<string>#63c33a</string>
+			<string>#f0d200</string>
+			<string>#0093cb</string>
+			<string>#8e65cb</string>
+			<string>#00c2ea</string>
+			<string>#cacaca</string>
+			<string>#797979</string>
+			<string>#ff290d</string>
+			<string>#00db00</string>
+			<string>#eae600</string>
+			<string>#00a9fe</string>
+			<string>#7b4ebd</string>
+			<string>#00e8ea</string>
+			<string>#eaeaea</string>
+		</array>
 		<key>Cursor</key>
 		<string>#00d900</string>
 		<key>IsDark</key>
