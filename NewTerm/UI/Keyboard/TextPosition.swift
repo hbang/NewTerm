@@ -9,11 +9,11 @@
 import UIKit
 
 class TextPosition: UITextPosition {
-	
+
 	var position: CGFloat = 0
-	
+
 	override init() {
 		super.init()
 	}
-	
+
 }

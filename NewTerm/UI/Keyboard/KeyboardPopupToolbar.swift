@@ -18,12 +18,12 @@ class KeyboardPopupToolbar: UIView {
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
 	let deleteKey = KeyboardButton(title: "Delete Forward", image: #imageLiteral(resourceName: "delete-forward"), highlightedImage: #imageLiteral(resourceName: "delete-forward-down"))
 	let settingsKey = KeyboardButton(title: "Settings", image: #imageLiteral(resourceName: "settings"), highlightedImage: #imageLiteral(resourceName: "settings-down"))
-	
+
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
 		translatesAutoresizingMaskIntoConstraints = false
-		
+
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		addSubview(backdropView)
@@ -39,7 +39,7 @@ class KeyboardPopupToolbar: UIView {
 		homeEndSpacerView.translatesAutoresizingMaskIntoConstraints = false
 		pageUpDownSpacerView.translatesAutoresizingMaskIntoConstraints = false
 		deleteSpacerView.translatesAutoresizingMaskIntoConstraints = false
-		
+
 		homeEndSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
 		pageUpDownSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
 		deleteSpacerView.addCompactConstraint("self.width <= max", metrics: [
@@ -61,7 +61,7 @@ class KeyboardPopupToolbar: UIView {
 		]
 
 		let containerView: UIView
-		
+
 		if #available(iOS 9.0, *) {
 			let sortedViews = [
 				homeKey, endKey, pageUpDownSpacerView,
@@ -96,14 +96,14 @@ class KeyboardPopupToolbar: UIView {
 			for view in views.values {
 				view.translatesAutoresizingMaskIntoConstraints = false
 				addSubview(view)
-				
+
 				addConstraints(withVisualFormat: "V:|-ySpacing-[key]-ySpacing-|", options: .init(), metrics: [
 					"ySpacing": ySpacing
 				], views: [
 					"key": view
 				])
 			}
-			
+
 			addConstraints(withVisualFormat: "H:|-outerMargin-[deleteSpacerView(>=doubleMargin)][settingsKey]-outerMargin-|", options: .init(), metrics: [
 				"outerMargin": outerXSpacing,
 				"margin": xSpacing,
@@ -122,24 +122,24 @@ class KeyboardPopupToolbar: UIView {
 			"settingsKey.width >= settingsKey.height"
 		], metrics: nil, views: views)
 	}
-	
+
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
 		size.height = isSmallDevice ? 32 : 40
 		return size
 	}
-	
+
 }
 
 extension KeyboardPopupToolbar: UIInputViewAudioFeedback {
-	
+
 	var enableInputClicksWhenVisible: Bool {
 		// conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound when tapped
 		return true
 	}
-	
+
 }

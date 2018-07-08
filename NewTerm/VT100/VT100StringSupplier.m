@@ -35,7 +35,7 @@
 			unicharBuffer[j] = row[j].code;
 		}
 	}
-	
+
 	// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a newline
 	// if the line ends with a space
 	if (rowIndex != self.rowCount - 1 && unicharBuffer[width - 1] == ' ') {
@@ -66,7 +66,7 @@
 	for (int i = 0; i < self.rowCount; i++) {
 		[allLines appendString:[self stringForLine:i]];
 	}
-	
+
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentLeft;
 	paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
@@ -75,7 +75,7 @@
 		NSFontAttributeName: _fontMetrics.regularFont,
 		NSParagraphStyleAttributeName: paragraphStyle
 	}];
-	
+
 	NSUInteger startOffset = 0;
 
 	for (int i = 0; i < self.rowCount; i++) {
@@ -102,7 +102,7 @@
 
 			if (eol || ![color isEqual:lastColor]) {
 				int length = j - lastColorIndex;
-				
+
 				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
 				// elsewhere in this logic
 				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {
@@ -134,7 +134,7 @@
 
 			if (eol || ![color isEqual:lastColor]) {
 				int length = j - lastColorIndex;
-				
+
 				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
 				// elsewhere in this logic
 				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {

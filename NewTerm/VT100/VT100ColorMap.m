@@ -15,7 +15,7 @@
 
 - (instancetype)init {
 	self = [super init];
-	
+
 	if (self) {
 		_background       = [UIColor colorWithWhite:0.f alpha:1.f];
 		_foreground	      = [UIColor colorWithWhite:0.95f alpha:1.f];
@@ -23,7 +23,7 @@
 		_foregroundCursor = [UIColor colorWithWhite:0.95f alpha:1.f];
 		_backgroundCursor = [UIColor colorWithWhite:0.4f alpha:1.f];
 		_isDark = YES;
-		
+
 		// System 7.5 colors, why not?
 		_table[kiTermScreenCharAnsiColorBlack]         = [UIColor colorWithRed:0.0f green:0.0f blue:0.0f alpha:1.f];
 		_table[kiTermScreenCharAnsiColorRed]           = [UIColor colorWithRed:0.6f green:0.0f blue:0.0f alpha:1.f];
@@ -42,35 +42,35 @@
 		_table[kiTermScreenCharAnsiColorBrightCyan]    = [UIColor colorWithRed:0.0f green:1.0f blue:1.0f alpha:1.f];
 		_table[kiTermScreenCharAnsiColorBrightWhite]   = [UIColor colorWithRed:1.0f green:1.0f blue:1.0f alpha:1.f];
 	}
-	
+
 	return self;
 }
 
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary {
 	self = [self init];
-	
+
 	if (self) {
 		if (dictionary[@"Background"]) {
 			_background = [UIColor hb_colorWithPropertyListValue:dictionary[@"Background"]];
 		}
-		
+
 		if (dictionary[@"Text"]) {
 			_foreground = [UIColor hb_colorWithPropertyListValue:dictionary[@"Text"]];
 		}
-		
+
 		if (dictionary[@"BoldText"]) {
 			_foregroundBold = [UIColor hb_colorWithPropertyListValue:dictionary[@"BoldText"]];
 		}
-		
+
 		if (dictionary[@"Cursor"]) {
 			_foregroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
 			_backgroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
 		}
-		
+
 		if (dictionary[@"IsDark"]) {
 			_isDark = ((NSNumber *)dictionary[@"IsDark"]).boolValue;
 		}
-		
+
 		if (dictionary[@"ColorTable"] && [dictionary[@"ColorTable"] isKindOfClass:NSArray.class] && ((NSDictionary *)dictionary[@"ColorTable"]).count == COLOR_MAP_MAX_COLORS) {
 			NSArray *colors = dictionary[@"ColorTable"];
 			for (int i = 0; i < colors.count; i++) {
@@ -78,7 +78,7 @@
 			}
 		}
 	}
-	
+
 	return self;
 }
 

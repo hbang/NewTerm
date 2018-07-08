@@ -21,7 +21,7 @@ static const int kDefaultHeight = 25;
 	if (self) {
 		_terminal = [[VT100Terminal alloc] init];
 		_terminal.encoding = NSUTF8StringEncoding;
-		
+
 		_terminal.primaryScreen.refreshDelegate = self;
 		_terminal.alternateScreen.refreshDelegate = self;
 		[_terminal.primaryScreen resizeWidth:kDefaultWidth height:kDefaultHeight];

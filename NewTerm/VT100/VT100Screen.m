@@ -210,7 +210,7 @@ static __inline__ screen_char_t *incrementLinePointer(
 		if (_defaultLine) {
 				free(_defaultLine);
 		}
-		
+
 #if DEBUG_ALLOC
 		NSLog(@"%s: %p, done", __PRETTY_FUNCTION__, self);
 #endif

@@ -12,7 +12,7 @@ let isBigDevice: Bool = {
 	switch UIDevice.current.userInterfaceIdiom {
 	case .phone, .carPlay, .unspecified:
 		return false
-	
+
 	case .pad, .tv:
 		return true
 	}

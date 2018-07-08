@@ -33,7 +33,7 @@
 		free(_csi);
 		_csi = NULL;
 	}
-	
+
 	if (_asciiData.buffer != _asciiData.staticBuffer) {
 		free(_asciiData.buffer);
 	}
@@ -43,7 +43,7 @@
 	_asciiData.buffer = NULL;
 	_asciiData.length = 0;
 	_asciiData.screenChars = NULL;
-	
+
 	_type = 0;
 	_code = 0;
 }
@@ -234,7 +234,7 @@
 
 - (void)setAsciiBytes:(char *)bytes length:(int)length {
 	assert(_asciiData.buffer == NULL);
-	
+
 	_asciiData.length = length;
 	if (length > sizeof(_asciiData.staticBuffer)) {
 		_asciiData.buffer = malloc(length);
@@ -242,7 +242,7 @@
 		_asciiData.buffer = _asciiData.staticBuffer;
 	}
 	memcpy(_asciiData.buffer, bytes, length);
-	
+
 	[self preInitializeScreenChars];
 }
 

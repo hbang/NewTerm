@@ -9,14 +9,14 @@
 import UIKit
 
 protocol TerminalInputProtocol {
-	
+
 	func receiveKeyboardInput(data: Data)
 	func openSettings()
-	
+
 }
 
 class TerminalKeyInput: TextInputBase {
-	
+
 	var terminalInputDelegate: TerminalInputProtocol?
 	weak var textView: UITextView! {
 		didSet {
@@ -25,14 +25,14 @@ class TerminalKeyInput: TextInputBase {
 			insertSubview(textView, at: 0)
 		}
 	}
-	
+
 	private var toolbar: KeyboardToolbar?
 	private var ctrlKey: KeyboardButton!
 	private var moreKey: KeyboardButton!
 	private var moreToolbar = KeyboardPopupToolbar(frame: .zero)
-	
+
 	private var ctrlDown = false
-	
+
 	private let backspaceData = Data(bytes: [0x7F]) // \x7F
 	private let metaKeyData = Data(bytes: [0x1B]) // \e
 	private let tabKeyData = Data(bytes: [0x09]) // \t
@@ -45,10 +45,10 @@ class TerminalKeyInput: TextInputBase {
 	private let pageUpKeyData = Data(bytes: [0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
 	private let pageDownKeyData = Data(bytes: [0x1B, 0x5B, 0x36, 0x7E]) // \e[6~
 	private let deleteKeyData = Data(bytes: [0x1B, 0x5B, 0x33, 0x7E]) // \e[3~
-	
+
 	override init(frame: CGRect) {
 		super.init(frame: frame)
-		
+
 		autocapitalizationType = .none
 		autocorrectionType = .no
 		spellCheckingType = .no
@@ -58,10 +58,10 @@ class TerminalKeyInput: TextInputBase {
 			smartDashesType = .no
 			smartInsertDeleteType = .no
 		}
-		
+
 		// TODO: this should be themable
 		keyboardAppearance = .dark
-		
+
 		// TODO: this is kinda ugly and causes duped code for these buttons
 		var hasPadToolbar = false
 
@@ -71,9 +71,9 @@ class TerminalKeyInput: TextInputBase {
 
 				ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
 				moreKey = KeyboardButton(title: "Fn", target: self, action: #selector(self.moreKeyPressed))
-				
+
 				inputAssistantItem.allowsHidingShortcuts = false
-				
+
 				var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
 				leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
 					UIBarButtonItem(customView: ctrlKey),
@@ -82,7 +82,7 @@ class TerminalKeyInput: TextInputBase {
 					UIBarButtonItem(customView: moreKey)
 				], representativeItem: nil))
 				inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
-				
+
 				var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
 				trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
 					UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
@@ -93,7 +93,7 @@ class TerminalKeyInput: TextInputBase {
 				inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
 			}
 		}
-		
+
 		if !hasPadToolbar {
 			toolbar = KeyboardToolbar()
 			toolbar!.translatesAutoresizingMaskIntoConstraints = false
@@ -105,7 +105,7 @@ class TerminalKeyInput: TextInputBase {
 			toolbar!.downKey.addTarget(self, action: #selector(self.downKeyPressed), for: .touchUpInside)
 			toolbar!.leftKey.addTarget(self, action: #selector(self.leftKeyPressed), for: .touchUpInside)
 			toolbar!.rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
-			
+
 			ctrlKey = toolbar!.ctrlKey
 			moreKey = toolbar!.moreKey
 		}
@@ -120,26 +120,26 @@ class TerminalKeyInput: TextInputBase {
 		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
 		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
 	}
-	
+
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	override var inputAccessoryView: UIView? {
 		return toolbar
 	}
-	
+
 	// MARK: - Callbacks
-	
+
 	@objc func ctrlKeyPressed() {
 		ctrlDown = !ctrlDown
 		ctrlKey.isSelected = ctrlDown
 	}
-	
+
 	@objc func metaKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: metaKeyData)
 	}
-	
+
 	@objc func tabKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: tabKeyData)
 	}
@@ -147,19 +147,19 @@ class TerminalKeyInput: TextInputBase {
 	@objc func moreKeyPressed() {
 		setMoreRowVisible(moreToolbar.isHidden, animated: true)
 	}
-	
+
 	@objc func upKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: upKeyData)
 	}
-	
+
 	@objc func downKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: downKeyData)
 	}
-	
+
 	@objc func leftKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: leftKeyData)
 	}
-	
+
 	@objc func rightKeyPressed() {
 		terminalInputDelegate!.receiveKeyboardInput(data: rightKeyData)
 	}
@@ -217,7 +217,7 @@ class TerminalKeyInput: TextInputBase {
 			moreToolbar.isHidden = !visible
 		}
 	}
-	
+
 	// MARK: - UITextInput
 
 	override var textInputView: UIView {
@@ -225,41 +225,41 @@ class TerminalKeyInput: TextInputBase {
 		// works. if not, just return self for the moment
 		return textView ?? self
 	}
-	
+
 	override func hasText() -> Bool {
 		// we always “have text”, even if we don’t
 		return true
 	}
-	
+
 	override func insertText(_ text: String) {
 		let input = text.data(using: .utf8)!
 		var data = Data()
-		
+
 		for character in input {
 			var newCharacter = character
-			
+
 			if ctrlDown {
 				// translate capital to lowercase
 				if character >= 0x41 && character <= 0x5A { // >= 'A' <= 'Z'
 					newCharacter += 0x61 - 0x41 // 'a' - 'A'
 				}
-				
+
 				// convert to the matching control character
 				if character >= 0x61 && character <= 0x7A { // >= 'a' <= 'z'
 					newCharacter -= 0x61 - 1 // 'a' - 1
 				}
 			}
-			
+
 			// convert newline to carriage return
 			if character == 0x0A {
 				newCharacter = 0x0D
 			}
-			
+
 			data.append(contentsOf: [ newCharacter ])
 		}
-		
+
 		terminalInputDelegate!.receiveKeyboardInput(data: data)
-		
+
 		if ctrlDown {
 			ctrlDown = false
 			ctrlKey.isSelected = false
@@ -269,56 +269,56 @@ class TerminalKeyInput: TextInputBase {
 			setMoreRowVisible(false, animated: true)
 		}
 	}
-	
+
 	override func deleteBackward() {
 		terminalInputDelegate!.receiveKeyboardInput(data: backspaceData)
 	}
-	
+
 	// MARK: - UIResponder
-	
+
 	override func becomeFirstResponder() -> Bool {
 		super.becomeFirstResponder()
 		return true
 	}
-	
+
 	override var canBecomeFirstResponder: Bool {
 		return true
 	}
-	
+
 	override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
 		switch action {
 		case #selector(self.paste(_:)):
 			// only paste if the pasteboard contains a plaintext type
 			return UIPasteboard.general.contains(pasteboardTypes: UIPasteboardTypeListString as! [String])
-		
+
 		case #selector(self.cut(_:)):
 			// ensure cut is never allowed
 			return false
-		
+
 		default:
 			// the rest are handled by super (which probably just returns false for everything…)
 			return super.canPerformAction(action, withSender: sender)
 		}
 	}
-	
+
 	override func copy(_ sender: Any?) {
 		textView?.copy(sender)
 	}
-	
+
 	override func paste(_ sender: Any?) {
 		let pasteboard = UIPasteboard.general
-		
+
 		// we already checked this above in canPerformAction(_:withSender:), but double check again
 		if !pasteboard.contains(pasteboardTypes: UIPasteboardTypeListString as! [String]) {
 			return
 		}
-		
+
 		guard let string = pasteboard.string else {
 			// welp?
 			return
 		}
-		
+
 		terminalInputDelegate!.receiveKeyboardInput(data: string.data(using: .utf8)!)
 	}
-	
+
 }

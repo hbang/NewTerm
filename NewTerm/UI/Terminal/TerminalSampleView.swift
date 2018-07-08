@@ -31,7 +31,7 @@ class TerminalSampleView: UIView {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: UserDefaults.didChangeNotification, object: nil)
 		preferencesUpdated()
 	}
-	
+
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}

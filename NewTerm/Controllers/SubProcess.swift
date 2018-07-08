@@ -24,13 +24,13 @@ protocol SubProcessDelegate: NSObjectProtocol {
 	func subProcess(didReceiveData data: Data)
 	func subProcess(didDisconnectWithError error: Error?)
 	func subProcess(didReceiveError error: Error)
-	
+
 }
 
 class SubProcess: NSObject {
 
 	private static let newlineData = Data(bytes: "\r\n", count: 2)
-	
+
 	// Simply used to initialize the terminal and thrown away after startup.
 	private static let defaultWidth: UInt16 = 80
 	private static let defaultHeight: UInt16 = 25
@@ -40,7 +40,7 @@ class SubProcess: NSObject {
 	private var childPID: pid_t?
 	private var fileDescriptor: Int32?
 	public var fileHandle: FileHandle?
-	
+
 	var screenSize: ScreenSize = ScreenSize() {
 		didSet {
 			if fileDescriptor == nil {
@@ -80,7 +80,7 @@ class SubProcess: NSObject {
 					NSLog("fork failed: %d: %s", errno, strerror(errno))
 					throw SubProcessIllegalStateError.forkFailed
 				}
-				
+
 			case 0:
 				// Handle the child subprocess. First try to use /bin/login since it’s a little nicer. Fall
 				// back to /bin/bash if that is available.
@@ -97,7 +97,7 @@ class SubProcess: NSObject {
 				_ = attemptStartProcess(path: "/bin/sh", arguments: shArgs, environment: env)
 				_ = attemptStartProcess(path: "/bootstrap/bin/bash", arguments: shArgs, environment: env)
 				break
-			
+
 			default:
 				NSLog("process forked: %d", pid)
 				childPID = pid
@@ -154,7 +154,7 @@ class SubProcess: NSObject {
 		if !fileManager.fileExists(atPath: path) {
 			return -1
 		}
-		
+
 		// Notably, we don't test group or other bits so this still might not always
 		// notice if the binary is not executable by us.
 		if !fileManager.isExecutableFile(atPath: path) {
