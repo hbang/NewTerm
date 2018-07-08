@@ -28,6 +28,7 @@ class TerminalSessionViewController: UIViewController {
 	
 	private var keyboardHeight = CGFloat(0)
 	private var lastAutomaticScrollOffset = CGPoint.zero
+	private var invertScrollToTop = false
 	
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -52,9 +53,17 @@ class TerminalSessionViewController: UIViewController {
 		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
 		textView.showsVerticalScrollIndicator = false
-		// TODO: this breaks stuff sorta
-		// textView.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:))))
+		textView.delegate = self
+
+		let gestureRecognizers = [
+			UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
+		]
 		
+		for gestureRecognizer in gestureRecognizers {
+			gestureRecognizer.delegate = self
+			textView.addGestureRecognizer(gestureRecognizer)
+		}
+
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		keyInput.textView = textView
@@ -141,10 +150,24 @@ class TerminalSessionViewController: UIViewController {
 		
 		terminalController.screenSize = size
 	}
+
+	// MARK: - UIResponder
 	
-	// MARK: - Keyboard/Responder
+	@discardableResult override func becomeFirstResponder() -> Bool {
+		return keyInput.becomeFirstResponder()
+	}
 	
-	func scrollToBottom() {
+	@discardableResult override func resignFirstResponder() -> Bool {
+		return keyInput.resignFirstResponder()
+	}
+	
+	override var isFirstResponder: Bool {
+		return keyInput.isFirstResponder
+	}
+	
+	// MARK: - Keyboard
+	
+	func scrollToBottom(animated: Bool = false) {
 		// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
 		// bottom. when they scroll back, the automatic scrolling will continue
 		// TODO: buggy
@@ -165,7 +188,7 @@ class TerminalSessionViewController: UIViewController {
 		
 		// if the offset has changed, update it and our lastAutomaticScrollOffset
 		if textView.contentOffset.y != offset.y {
-			textView.contentOffset = offset
+			textView.setContentOffset(offset, animated: animated)
 			lastAutomaticScrollOffset = offset
 		}
 	}
@@ -187,10 +210,12 @@ class TerminalSessionViewController: UIViewController {
 			hasAppeared = false
 			textView.showsVerticalScrollIndicator = true
 		}
+
+		// hide toolbar popups if visible
+		keyInput.setMoreRowVisible(false, animated: true)
 		
 		// YES when showing, NO when hiding
 		let direction = notification.name == .UIKeyboardWillShow
-		
 		let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
 	
 		// determine the final keyboard height. we still get a height if hiding, so force it to 0 if this
@@ -204,20 +229,10 @@ class TerminalSessionViewController: UIViewController {
 			self.updateScreenSize()
 		}
 	}
+
+	// MARK: - Gestures
 	
-	@discardableResult override func becomeFirstResponder() -> Bool {
-		return keyInput.becomeFirstResponder()
-	}
-	
-	@discardableResult override func resignFirstResponder() -> Bool {
-		return keyInput.resignFirstResponder()
-	}
-	
-	override var isFirstResponder: Bool {
-		return keyInput.isFirstResponder
-	}
-	
-	func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
+	@objc func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
 		if gestureRecognizer.state == .ended && !isFirstResponder {
 			becomeFirstResponder()
 		}
@@ -284,4 +299,44 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		navigationController!.present(rootController, animated: true, completion: nil)
 	}
 	
+}
+
+extension TerminalSessionViewController: UITextViewDelegate {
+
+	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+		// hide toolbar popups if visible
+		keyInput.setMoreRowVisible(false, animated: true)
+	}
+
+	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
+		let insets = scrollView.scrollIndicatorInsets
+
+		// if we’re at the top of the scroll view, guess that the user wants to go back to the bottom
+		if scrollView.contentOffset.y <= (scrollView.frame.size.height - insets.top - insets.bottom) / 2 {
+			// wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
+			UIView.animate(withDuration: 0.5) {
+				self.scrollToBottom(animated: true)
+			}
+
+			return false
+		}
+		
+		return true
+	}
+
+	func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
+		// since the scroll view is at {0, 0}, it won’t respond to scroll to top events till the next
+		// scroll. trick it by scrolling 1 physical pixel up
+		scrollView.contentOffset.y -= CGFloat(1) / UIScreen.main.scale
+	}
+
+}
+
+// yes another delegate extension, sorry
+extension TerminalSessionViewController: UIGestureRecognizerDelegate {
+
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		return true
+	}
+
 }
