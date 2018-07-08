@@ -64,13 +64,13 @@
 		</dict>
 		<dict>
 			<key>action</key>
-			<string>hb_sendSupportEmail</string>
+			<string>hb_sendSupportEmail:</string>
 			<key>cell</key>
 			<string>PSLinkCell</string>
 			<key>cellClass</key>
 			<string>HBTintedTableCell</string>
 			<key>defaults</key>
-			<string>ws.hbang.newterm2</string>
+			<string>ws.hbang.Terminal</string>
 			<key>label</key>
 			<string>EMAIL_SUPPORT</string>
 		</dict>
