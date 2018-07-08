@@ -1,5 +1,8 @@
 #import "HBNTTerminalSampleViewController.h"
-#import "HBNTTerminalSampleView.h"
+
+@interface TerminalSampleView : UIView
+
+@end
 
 @implementation HBNTTerminalSampleViewController
 
@@ -8,7 +11,7 @@
 
 	self.title = NSLocalizedStringFromTableInBundle(@"SAMPLE", @"Root", [NSBundle bundleForClass:self.class], @"");
 
-	HBNTTerminalSampleView *sampleView = [[HBNTTerminalSampleView alloc] initWithFrame:self.view.bounds];
+	TerminalSampleView *sampleView = [[%c(TerminalSampleView) alloc] initWithFrame:self.view.bounds];
 	sampleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 	self.view = sampleView;
 }

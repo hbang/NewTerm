@@ -1,5 +1,8 @@
 #import "HBNTTerminalSampleTableCell.h"
-#import "HBNTTerminalSampleView.h"
+
+@interface TerminalSampleView : UIView
+
+@end
 
 @implementation HBNTTerminalSampleTableCell
 
@@ -9,7 +12,7 @@
 	if (self) {
 		self.textLabel.hidden = YES;
 		
-		HBNTTerminalSampleView *sampleView = [[HBNTTerminalSampleView alloc] initWithFrame:self.contentView.bounds];
+		TerminalSampleView *sampleView = [[%c(TerminalSampleView) alloc] initWithFrame:self.contentView.bounds];
 		sampleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		sampleView.userInteractionEnabled = NO;
 		[self.contentView addSubview:sampleView];
