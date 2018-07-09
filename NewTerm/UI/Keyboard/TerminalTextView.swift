@@ -16,7 +16,7 @@ class TerminalTextView: UITextView {
 		backgroundColor = .black
 		indicatorStyle = .white
 		showsHorizontalScrollIndicator = false
-		dataDetectorTypes = .link
+		dataDetectorTypes = [] // none
 		isEditable = false
 		textContainerInset = .zero
 		self.textContainer.lineFragmentPadding = 0

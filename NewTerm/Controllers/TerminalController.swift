@@ -24,6 +24,7 @@ class TerminalController: VT100 {
 	var delegate: TerminalControllerDelegate?
 
 	private var updateQueue: DispatchQueue!
+	private var secondaryUpdateQueue: DispatchQueue!
 
 	private var stringSupplier = VT100StringSupplier()
 
@@ -57,6 +58,7 @@ class TerminalController: VT100 {
 		super.init()
 
 		updateQueue = DispatchQueue(label: String(format: "au.com.hbang.NewTerm.update-queue-%p", self))
+		secondaryUpdateQueue = DispatchQueue(label: String(format: "au.com.hbang.NewTerm.update-queue-secondary-%p", self))
 
 		stringSupplier.screenBuffer = self
 
@@ -126,6 +128,14 @@ extension TerminalController {
 
 			DispatchQueue.main.async {
 				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
+
+				self.secondaryUpdateQueue.async {
+					self.stringSupplier.detectLinks(for: attributedString)
+
+					DispatchQueue.main.async {
+						self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
+					}
+				}
 			}
 		}
 	}

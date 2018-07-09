@@ -151,20 +151,17 @@
 		startOffset += width;
 	}
 
-	// if links are supported, create links in all the locations we found last time we scanned for
-	// links
-	if (IS_IOS_OR_NEWER(iOS_7_0)) {
-		for (NSValue *value in _lastLinkRanges) {
-			NSRange range = value.rangeValue;
+	// create links in all the locations we found last time we scanned for links
+	for (NSValue *value in _lastLinkRanges) {
+		NSRange range = value.rangeValue;
 
-			if (range.location + range.length <= attributedString.string.length) {
-				NSString *urlString = [attributedString.string substringWithRange:range];
-				NSURL *url = [NSURL URLWithString:urlString];
+		if (range.location + range.length <= attributedString.string.length) {
+			NSString *urlString = [attributedString.string substringWithRange:range];
+			NSURL *url = [NSURL URLWithString:urlString];
 
-				// if NSURL thinks this is a valid url, 
-				if (url) {
-					[attributedString addAttribute:NSLinkAttributeName value:url range:range];
-				}
+			// if NSURL thinks this is a valid url, it’s good enough for us
+			if (url) {
+				[attributedString addAttribute:NSLinkAttributeName value:url range:range];
 			}
 		}
 	}
@@ -173,16 +170,11 @@
 }
 
 - (void)detectLinksForAttributedString:(NSMutableAttributedString *)attributedString {
-	// links are only natively supported as of iOS 7, i probably won’t bother to add all the support
-	// needed for links on iOS 6
-	if (!IS_IOS_OR_NEWER(iOS_7_0)) {
-		return;
-	}
-
 	static dispatch_once_t onceToken;
 	dispatch_once(&onceToken, ^{
 		_lastLinkRanges = [NSMutableSet set];
 
+		// not exactly sure why a data detector would fail to init…
 		NSError *error = nil;
 		_linkDataDetector = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:&error];
 		NSAssert(!error, @"%@", error.description);
@@ -224,7 +216,6 @@
 		if (![_lastLinkRanges containsObject:value]) {
 			NSRange range = value.rangeValue;
 			NSURL *url = [NSURL URLWithString:[attributedString.string substringWithRange:range]];
-			HBLogDebug(@"adding2 %@ = %@", url, NSStringFromRange(range));
 			[attributedString addAttribute:NSLinkAttributeName value:url range:range];
 		}
 	}
