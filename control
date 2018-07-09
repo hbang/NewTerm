@@ -1,11 +1,11 @@
 Package: ws.hbang.newterm2
-Name: NewTerm 2
+Name: NewTerm 2 (iOS 7 – 11)
 Depends: firmware (>= 7.0), com.modmyi.libswift4 (>= 4.0.3-3), ws.hbang.common (>= 1.11.2), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8
 Conflicts: ws.hbang.newterm
 Replaces: ws.hbang.newterm
 Version: 2.0
 Architecture: iphoneos-arm
-Description: A powerful terminal emulator for iOS
+Description: A powerful terminal app for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
