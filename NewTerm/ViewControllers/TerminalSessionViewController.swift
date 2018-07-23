@@ -7,8 +7,19 @@
 //
 
 import UIKit
+import AudioToolbox
 
 class TerminalSessionViewController: UIViewController {
+
+	static let bellSoundID: SystemSoundID = {
+		var soundID: SystemSoundID = 0
+
+		if AudioServicesCreateSystemSoundID(Bundle.main.url(forResource: "bell", withExtension: "m4a")! as CFURL, &soundID) == kAudioServicesNoError {
+			return soundID
+		}
+
+		fatalError("couldn’t initialise bell sound")
+	}()
 
 	var barInsets = UIEdgeInsets.zero
 
@@ -256,19 +267,27 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	func activateBell() {
-		// display the bell HUD, lazily initialising it if it hasn’t been yet
-		if bellHUDView.superview == nil {
-			view.addSubview(bellHUDView)
-			view.addCompactConstraints([
-				"hudView.centerX = self.centerX",
-				"hudView.centerY = self.centerY / 3"
-			], metrics: nil, views: [
-				"self": view,
-				"hudView": bellHUDView
-			])
+		let preferences = Preferences.shared
+
+		if preferences.bellHUD {
+			// display the bell HUD, lazily initialising it if it hasn’t been yet
+			if bellHUDView.superview == nil {
+				view.addSubview(bellHUDView)
+				view.addCompactConstraints([
+					"hudView.centerX = self.centerX",
+					"hudView.centerY = self.centerY / 3"
+				], metrics: nil, views: [
+					"self": view,
+					"hudView": bellHUDView
+				])
+			}
+
+			bellHUDView.animate()
 		}
 
-		bellHUDView.animate()
+		if preferences.bellSound {
+			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
+		}
 	}
 
 	func close() {

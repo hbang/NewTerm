@@ -165,6 +165,40 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>BELL</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>key</key>
+			<string>bellHUD</string>
+			<key>label</key>
+			<string>BELL_HUD</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>key</key>
+			<string>bellSound</string>
+			<key>label</key>
+			<string>BELL_SOUND</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>cell</key>
