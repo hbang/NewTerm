@@ -13,3 +13,4 @@
 #import <VT100/VT100StringSupplier.h>
 #import <VT100/VT100Types.h>
 #import <VT100/VT100ColorMap.h>
+#import <Cephei/HBPreferences.h>

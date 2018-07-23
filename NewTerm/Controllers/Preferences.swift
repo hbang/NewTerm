@@ -12,7 +12,11 @@ class Preferences {
 
 	static let shared = Preferences()
 
+#if THEOS_SWIFT
+	let preferences = HBPreferences(identifier: "ws.hbang.Terminal")
+#else
 	let preferences = UserDefaults.standard
+#endif
 
 	let fontsPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Fonts", withExtension: "plist")!)!
 	let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
@@ -21,13 +25,21 @@ class Preferences {
 	var colorMap: VT100ColorMap!
 
 	init() {
-		preferences.register(defaults: [
+		preferences.registerDefaults([
 			"fontName": "Fira Code",
-			"fontSize": 12,
-			"theme": "kirb"
+			"fontSizePhone": 12,
+			"fontSizePad": 13,
+			"theme": "kirb",
+			"bellHUD": true,
+			"bellSound": false
 		])
 
+#if THEOS_SWIFT
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: UserDefaults.didChangeNotification, object: preferences)
+#else
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: HBPreferences.didChangeNotification, object: preferences)
+#endif
+
 		preferencesUpdated()
 	}
 
@@ -36,11 +48,19 @@ class Preferences {
 	}
 
 	var fontSize: CGFloat {
-		get { return preferences.object(forKey: "fontSize") as! CGFloat }
+		get { return preferences.object(forKey: isBigDevice ? "fontSizePad" : "fontSizePhone") as! CGFloat }
 	}
 
 	var themeName: String {
 		get { return preferences.object(forKey: "theme") as! String }
+	}
+
+	var bellHUD: Bool {
+		get { return preferences.bool(forKey: "bellHUD") }
+	}
+
+	var bellSound: Bool {
+		get { return preferences.bool(forKey: "bellSound") }
 	}
 
 	// MARK: - Callbacks
@@ -63,7 +83,7 @@ class Preferences {
 
 		if regularFont == nil || boldFont == nil {
 			NSLog("font %@ size %f could not be initialised", fontName, fontSize)
-			preferences.set("Courier", forKey: "fontName")
+			preferences.setObject("Courier", forKey: "fontName")
 			return
 		}
 
@@ -75,7 +95,7 @@ class Preferences {
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
 			NSLog("theme %@ doesn’t exist", themeName)
-			preferences.set("kirb", forKey: "theme")
+			preferences.setObject("kirb", forKey: "theme")
 			return
 		}
 
