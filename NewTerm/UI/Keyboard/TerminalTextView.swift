@@ -16,6 +16,7 @@ class TerminalTextView: UITextView {
 		backgroundColor = .black
 		indicatorStyle = .white
 		showsHorizontalScrollIndicator = false
+		alwaysBounceVertical = true
 		dataDetectorTypes = [] // none
 		isEditable = false
 		textContainerInset = .zero
