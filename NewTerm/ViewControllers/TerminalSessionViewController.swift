@@ -21,7 +21,7 @@ class TerminalSessionViewController: UIViewController {
 		fatalError("couldn’t initialise bell sound")
 	}()
 
-	var barInsets = UIEdgeInsets.zero
+	var barInsets = UIEdgeInsets()
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)

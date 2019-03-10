@@ -19,7 +19,7 @@ class TerminalTextView: UITextView {
 		alwaysBounceVertical = true
 		dataDetectorTypes = [] // none
 		isEditable = false
-		textContainerInset = .zero
+		textContainerInset = UIEdgeInsets()
 		self.textContainer.lineFragmentPadding = 0
 
 		linkTextAttributes = [
