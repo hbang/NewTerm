@@ -76,79 +76,24 @@
 		NSParagraphStyleAttributeName: paragraphStyle
 	}];
 
-	NSUInteger startOffset = 0;
-
 	for (int i = 0; i < self.rowCount; i++) {
-		// Update the string with background/foreground color attributes. This loop compares the colors
-		// of characters and sets the attribute when it runs into a character of a different color. It
-		// runs one extra time to set the attribute for the run of characters at the end of the line.
-		NSUInteger lastColorIndex = NSUIntegerMax;
-		UIColor *lastColor = nil;
 		screen_char_t *row = [_screenBuffer bufferForRow:i];
 
-		// TODO(aporter): This looks a lot more complicated than it needs to be. Try
-		// this again with fewer lines of code.
-		for (int j = 0; j <= width; ++j) {
-			BOOL eol = (j == width); // reached end of line
-			UIColor *color = nil;
-
-			if (!eol) {
-				color = [_colorMap colorAtIndex:row[j].backgroundColor];
-
-				if (cursorPosition.x == j && cursorPosition.y == i) {
-					color = _colorMap.backgroundCursor;
-				}
+		for (int j = 0; j <= width; j++) {
+			int location = (i * width) + j;
+			if (location + 1 > allLines.length) {
+				continue;
 			}
 
-			if (eol || ![color isEqual:lastColor]) {
-				int length = j - lastColorIndex;
+			NSMutableDictionary *attributes = [self _charAttributes:row[j]];
 
-				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
-				// elsewhere in this logic
-				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {
-					[attributedString addAttribute:NSBackgroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
-				}
-
-				if (!eol) {
-					lastColorIndex = j;
-					lastColor = color;
-				}
+			if (cursorPosition.x == j && cursorPosition.y == i) {
+				attributes[NSForegroundColorAttributeName] = _colorMap.foregroundCursor;
+				attributes[NSBackgroundColorAttributeName] = _colorMap.backgroundCursor;
 			}
+
+			[attributedString addAttributes:attributes range:NSMakeRange(location, 1)];
 		}
-
-		// Same thing again for foreground color
-		lastColorIndex = NSUIntegerMax;
-		lastColor = nil;
-
-		for (int j = 0; j <= width; ++j) {
-			BOOL eol = (j == width); // reached end of line
-			UIColor *color = nil;
-
-			if (!eol) {
-				color = [_colorMap colorAtIndex:row[j].foregroundColor];
-
-				if (cursorPosition.x == j && cursorPosition.y == i) {
-					color = _colorMap.foregroundCursor;
-				}
-			}
-
-			if (eol || ![color isEqual:lastColor]) {
-				int length = j - lastColorIndex;
-
-				// TODO: the less than length check shouldn’t really be here, there’s clearly a bug
-				// elsewhere in this logic
-				if (lastColorIndex != NSUIntegerMax && startOffset + lastColorIndex + length <= attributedString.string.length) {
-					[attributedString addAttribute:NSForegroundColorAttributeName value:lastColor range:NSMakeRange(startOffset + lastColorIndex, length)];
-				}
-
-				if (!eol) {
-					lastColorIndex = j;
-					lastColor = color;
-				}
-			}
-		}
-
-		startOffset += width;
 	}
 
 	// create links in all the locations we found last time we scanned for links
@@ -167,6 +112,19 @@
 	}
 
 	return attributedString;
+}
+
+- (NSMutableDictionary *)_charAttributes:(screen_char_t)c {
+	UIColor *fgColor = [_colorMap colorAtIndex:c.foregroundColor];
+	UIColor *bgColor = [_colorMap colorAtIndex:c.backgroundColor];
+
+	// int underlineStyle = c.underline ? (NSUnderlineStyleSingle | NSUnderlineByWord) : 0;
+
+	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
+	attributes[NSForegroundColorAttributeName] = fgColor;
+	attributes[NSBackgroundColorAttributeName] = bgColor;
+	// attributes[NSUnderlineStyleAttributeName] = @(underlineStyle);
+	return attributes;
 }
 
 - (void)detectLinksForAttributedString:(NSMutableAttributedString *)attributedString {
