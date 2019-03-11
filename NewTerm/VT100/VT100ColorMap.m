@@ -86,7 +86,7 @@
 	// TODO(allen): The logic here is pretty ad hoc and could use some some helpful comments
 	// describing whats its doing. It seems to work?
 	if (index == -1) {
-		return [UIColor clearColor];
+		return _background;
 	} else if (index & COLOR_CODE_MASK) {
 		switch (index) {
 			case CURSOR_TEXT:
@@ -94,11 +94,11 @@
 			case CURSOR_BG:
 				return _backgroundCursor;
 			case BG_COLOR_CODE:
-				return [UIColor clearColor];
+				return _background;
 			default:
 				if (index & BOLD_MASK) {
 					if (index - BOLD_MASK == BG_COLOR_CODE) {
-						return [UIColor clearColor];
+						return _background;
 					} else {
 						return _foregroundBold;
 					}
