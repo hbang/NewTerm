@@ -129,13 +129,13 @@ extension TerminalController {
 			DispatchQueue.main.async {
 				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 
-				self.secondaryUpdateQueue.async {
-					self.stringSupplier.detectLinks(for: attributedString)
+				// self.secondaryUpdateQueue.async {
+				// 	self.stringSupplier.detectLinks(for: attributedString)
 
-					DispatchQueue.main.async {
-						self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-					}
-				}
+				// 	DispatchQueue.main.async {
+				// 		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
+				// 	}
+				// }
 			}
 		}
 	}
