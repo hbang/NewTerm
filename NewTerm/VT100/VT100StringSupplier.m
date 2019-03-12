@@ -39,6 +39,10 @@
 	// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a newline
 	// if the line ends with a space
 	if (rowIndex != self.rowCount - 1 && unicharBuffer[width - 1] == ' ') {
+		if (unicharBuffer[width - 2] == ' ') {
+			// TODO: this is crazy. there has to be a better way to stop spaces from being collapsed
+			unicharBuffer[width - 2] = 0xA0; // non-breaking space
+		}
 		unicharBuffer[width - 1] = '\n';
 	}
 
@@ -69,6 +73,7 @@
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentLeft;
+	paragraphStyle.baseWritingDirection = NSWritingDirectionLeftToRight;
 	paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
 	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines attributes:@{
