@@ -122,11 +122,11 @@ extension TerminalController {
 		}
 
 		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
-		updateQueue.async {
+		DispatchQueue.main.async {
 			let attributedString = self.stringSupplier.attributedString()!
 			let backgroundColor = self.stringSupplier.colorMap!.background!
 
-			DispatchQueue.main.async {
+			// DispatchQueue.main.async {
 				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 
 				// self.secondaryUpdateQueue.async {
@@ -136,7 +136,7 @@ extension TerminalController {
 				// 		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 				// 	}
 				// }
-			}
+			// }
 		}
 	}
 
