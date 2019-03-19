@@ -3,13 +3,13 @@ Name: NewTerm 2 (iOS 7 – 12)
 Depends: firmware (>= 7.0), com.modmyi.libswift4 (>= 4.2.1-1), ws.hbang.common (>= 1.11.2), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8
 Conflicts: ws.hbang.newterm
 Replaces: ws.hbang.newterm
-Version: 2.0
+Version: 2.1
 Architecture: iphoneos-arm
 Description: A powerful terminal app for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
-Icon: file:///Applications/NewTerm.app/Icon-Small@2x.png
+Icon: https://repo.chariz.io/package/ws.hbang.newterm2/icon@3x.png
 Depiction: https://repo.chariz.io/package/ws.hbang.newterm2/
 Support: https://hbang.ws/support/
 Sponsor: thebigboss.org <http://thebigboss.org>
