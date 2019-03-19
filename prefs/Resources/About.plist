@@ -40,7 +40,7 @@
 			<key>subtitle</key>
 			<string>VISIT_WEBSITE</string>
 			<key>url</key>
-			<string>https://hbang.ws/</string>
+			<string>https://hashbang.productions/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -86,7 +86,7 @@
 			<key>label</key>
 			<string>TRANSLATORS</string>
 			<key>url</key>
-			<string>https://hbang.ws/translations/</string>
+			<string>https://hashbang.productions/translations/</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -102,7 +102,7 @@
 			<key>label</key>
 			<string>DONATE</string>
 			<key>url</key>
-			<string>https://hbang.ws/donate/</string>
+			<string>https://hashbang.productions/donate/</string>
 		</dict>
 	</array>
 	<key>title</key>

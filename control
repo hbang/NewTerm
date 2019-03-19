@@ -11,7 +11,5 @@ Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
 Icon: https://repo.chariz.io/package/ws.hbang.newterm2/icon@3x.png
 Depiction: https://repo.chariz.io/package/ws.hbang.newterm2/
-Support: https://hbang.ws/support/
-Sponsor: thebigboss.org <http://thebigboss.org>
+Support: https://hashbang.productions/support/
 Tag: compatible::ios7, compatible::ios8, compatible::ios9, compatible::ios10, compatible::ios11, compatible::ios12
-dev: hbang
