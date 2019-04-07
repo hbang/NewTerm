@@ -3,6 +3,8 @@
 
 #import "VT100Types.h"
 
+static NSAttributedStringKey const VT100AttributedStringBackgroundColor = @"VT100AttributedStringBackgroundColor";
+
 @class VT100ColorMap, FontMetrics;
 
 @interface VT100StringSupplier : NSObject <AttributedStringSupplier>
@@ -14,7 +16,7 @@
 - (int)rowCount;
 
 - (NSString *)stringForLine:(int)rowIndex;
-- (NSMutableAttributedString *)attributedString;
+- (NSMutableAttributedString *)attributedStringForLine:(int)rowIndex;
 
 - (void)detectLinksForAttributedString:(NSMutableAttributedString *)attributedString NS_SWIFT_NAME(detectLinks(for:));
 

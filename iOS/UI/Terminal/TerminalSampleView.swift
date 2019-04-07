@@ -41,7 +41,7 @@ class TerminalSampleView: UIView {
 		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics
 		textView.backgroundColor = stringSupplier.colorMap.background
-		textView.attributedText = stringSupplier.attributedString()
+		// textView.attributedText = stringSupplier.attributedString()
 	}
 
 }

@@ -14,7 +14,7 @@ import UIKit
 
 public protocol TerminalControllerDelegate {
 
-	func refresh(attributedString: NSAttributedString, backgroundColor: Color)
+	func refresh(backgroundColor: UIColor)
 	func activateBell()
 	func close()
 	func didReceiveError(error: Error)
@@ -30,7 +30,7 @@ public class TerminalController: VT100 {
 	private var updateQueue: DispatchQueue!
 	private var secondaryUpdateQueue: DispatchQueue!
 
-	private var stringSupplier = VT100StringSupplier()
+	let stringSupplier = VT100StringSupplier()
 
 	public var colorMap: VT100ColorMap {
 		get { return stringSupplier.colorMap! }
@@ -77,6 +77,10 @@ public class TerminalController: VT100 {
 		refresh()
 	}
 
+	func attributedString(forLine line: Int) -> NSAttributedString {
+		return stringSupplier.attributedString(forLine: Int32(line))
+	}
+
 	// MARK: - Sub Process
 
 	public func startSubProcess() throws {
@@ -116,23 +120,7 @@ extension TerminalController {
 			return
 		}
 
-		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
-		DispatchQueue.main.async {
-			let attributedString = self.stringSupplier.attributedString()!
-			let backgroundColor = self.stringSupplier.colorMap!.background!
-
-			// DispatchQueue.main.async {
-				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-
-				// self.secondaryUpdateQueue.async {
-				// 	self.stringSupplier.detectLinks(for: attributedString)
-
-				// 	DispatchQueue.main.async {
-				// 		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-				// 	}
-				// }
-			// }
-		}
+		self.delegate?.refresh(backgroundColor: stringSupplier.colorMap!.background)
 	}
 
 	override public func activateBell() {

@@ -27,28 +27,18 @@
 	int width = self.columnCount;
 	screen_char_t *row = [_screenBuffer bufferForRow:rowIndex];
 
-	for (int j = 0; j < width; ++j) {
-		if (row[j].code == '\0') {
-			unicharBuffer[j] = ' ';
+	for (int i = 0; i < width; ++i) {
+		if (row[i].code == '\0') {
+			unicharBuffer[i] = ' ';
 		} else {
-			unicharBuffer[j] = row[j].code;
+			unicharBuffer[i] = row[i].code;
 		}
-	}
-
-	// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a newline
-	// if the line ends with a space
-	if (rowIndex != self.rowCount - 1 && unicharBuffer[width - 1] == ' ') {
-		if (unicharBuffer[width - 2] == ' ') {
-			// TODO: this is crazy. there has to be a better way to stop spaces from being collapsed
-			unicharBuffer[width - 2] = 0xA0; // non-breaking space
-		}
-		unicharBuffer[width - 1] = '\n';
 	}
 
 	return [[NSString alloc] initWithCharacters:unicharBuffer length:width];
 }
 
-- (NSMutableAttributedString *)attributedString {
+- (NSMutableAttributedString *)attributedStringForLine:(int)rowIndex {
 	NSParameterAssert(_fontMetrics);
 	NSParameterAssert(_fontMetrics.regularFont);
 	NSParameterAssert(_fontMetrics.boldFont);
@@ -64,40 +54,29 @@
 		cursorPosition.y += _screenBuffer.numberOfRows - _screenBuffer.screenSize.height;
 	}
 
-	NSMutableString *allLines = [NSMutableString string];
-
-	for (int i = 0; i < self.rowCount; i++) {
-		[allLines appendString:[self stringForLine:i]];
-	}
+	NSString *text = [self stringForLine:rowIndex];
 
 	NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
 	paragraphStyle.alignment = NSTextAlignmentLeft;
 	paragraphStyle.baseWritingDirection = NSWritingDirectionLeftToRight;
 	paragraphStyle.lineBreakMode = NSLineBreakByCharWrapping;
 
-	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:allLines attributes:@{
+	NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithString:text attributes:@{
 		NSFontAttributeName: _fontMetrics.regularFont,
 		NSParagraphStyleAttributeName: paragraphStyle
 	}];
 
-	for (int i = 0; i < self.rowCount; i++) {
-		screen_char_t *row = [_screenBuffer bufferForRow:i];
+	screen_char_t *row = [_screenBuffer bufferForRow:rowIndex];
 
-		for (int j = 0; j <= width; j++) {
-			int location = (i * width) + j;
-			if (location + 1 > allLines.length) {
-				continue;
-			}
+	for (int i = 0; i < width; i++) {
+		NSMutableDictionary *attributes = [self _charAttributes:row[i]];
 
-			NSMutableDictionary *attributes = [self _charAttributes:row[j]];
-
-			if (cursorPosition.x == j && cursorPosition.y == i) {
-				attributes[NSForegroundColorAttributeName] = _colorMap.foregroundCursor;
-				attributes[NSBackgroundColorAttributeName] = _colorMap.backgroundCursor;
-			}
-
-			[attributedString addAttributes:attributes range:NSMakeRange(location, 1)];
+		if (cursorPosition.x == i && cursorPosition.y == rowIndex) {
+			attributes[NSForegroundColorAttributeName] = _colorMap.foregroundCursor;
+			attributes[VT100AttributedStringBackgroundColor] = _colorMap.backgroundCursor;
 		}
+
+		[attributedString addAttributes:attributes range:NSMakeRange(i, 1)];
 	}
 
 	// create links in all the locations we found last time we scanned for links
@@ -126,7 +105,7 @@
 
 	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
 	attributes[NSForegroundColorAttributeName] = fgColor;
-	attributes[NSBackgroundColorAttributeName] = bgColor;
+	attributes[VT100AttributedStringBackgroundColor] = bgColor;
 	// attributes[NSUnderlineStyleAttributeName] = @(underlineStyle);
 	return attributes;
 }

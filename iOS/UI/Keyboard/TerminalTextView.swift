@@ -14,9 +14,8 @@ class TerminalTextView: UITextView {
 		super.init(frame: frame, textContainer: textContainer)
 
 		backgroundColor = .black
-		indicatorStyle = .white
+		showsVerticalScrollIndicator = false
 		showsHorizontalScrollIndicator = false
-		alwaysBounceVertical = true
 		dataDetectorTypes = [] // none
 		isEditable = false
 		textContainerInset = UIEdgeInsets()

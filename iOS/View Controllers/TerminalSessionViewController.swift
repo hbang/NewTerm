@@ -25,7 +25,12 @@ class TerminalSessionViewController: UIViewController {
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)
-	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
+	private let collectionView: UICollectionView = {
+		let layout = UICollectionViewFlowLayout()
+		layout.minimumLineSpacing = 0
+		layout.minimumInteritemSpacing = 0
+		return UICollectionView(frame: .zero, collectionViewLayout: layout)
+	}()
 
 	private lazy var bellHUDView: HUDView = {
 		let bellHUDView = HUDView(image: #imageLiteral(resourceName: "bell").withRenderingMode(.alwaysTemplate))
@@ -67,8 +72,11 @@ class TerminalSessionViewController: UIViewController {
 
 		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
-		textView.showsVerticalScrollIndicator = false
-		textView.delegate = self
+		collectionView.showsVerticalScrollIndicator = false
+		collectionView.indicatorStyle = .white
+		collectionView.dataSource = self
+		collectionView.delegate = self
+		collectionView.register(TerminalCollectionViewCell.self, forCellWithReuseIdentifier: "Cell")
 
 		let gestureRecognizers = [
 			UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
@@ -76,12 +84,12 @@ class TerminalSessionViewController: UIViewController {
 
 		for gestureRecognizer in gestureRecognizers {
 			gestureRecognizer.delegate = self
-			textView.addGestureRecognizer(gestureRecognizer)
+			collectionView.addGestureRecognizer(gestureRecognizer)
 		}
 
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-		keyInput.textView = textView
+		keyInput.collectionView = collectionView
 		keyInput.terminalInputDelegate = terminalController
 		view.addSubview(keyInput)
 	}
@@ -153,8 +161,8 @@ class TerminalSessionViewController: UIViewController {
 			newInsets.top -= view.safeAreaInsets.top
 		}
 
-		textView.contentInset = newInsets
-		textView.scrollIndicatorInsets = textView.contentInset
+		collectionView.contentInset = newInsets
+		collectionView.scrollIndicatorInsets = collectionView.contentInset
 
 		let glyphSize = terminalController.fontMetrics.boundingBox
 
@@ -164,8 +172,8 @@ class TerminalSessionViewController: UIViewController {
 		}
 
 		// Determine the screen size based on the font size
-		let width = textView.frame.size.width
-		let height = textView.frame.size.height - barInsets.top - newInsets.bottom
+		let width = collectionView.frame.size.width
+		let height = collectionView.frame.size.height - barInsets.top - newInsets.bottom
 
 		let size = ScreenSize(width: UInt16(width / glyphSize.width), height: UInt16(height / glyphSize.height))
 
@@ -203,19 +211,19 @@ class TerminalSessionViewController: UIViewController {
 		// }
 
 		// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
-		var insets = textView.scrollIndicatorInsets
-		var offset = textView.contentOffset
+		var insets = collectionView.scrollIndicatorInsets
+		var offset = collectionView.contentOffset
 		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
 
 		if #available(iOS 11.0, *) {
 			insets.top += view.safeAreaInsets.top
 		}
 
-		offset.y = terminalController.scrollbackLines() == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
+		offset.y = terminalController.scrollbackLines() == 0 ? -insets.top : bottom + collectionView.contentSize.height - collectionView.frame.size.height
 
 		// if the offset has changed, update it and our lastAutomaticScrollOffset
-		if textView.contentOffset.y != offset.y {
-			textView.setContentOffset(offset, animated: animated)
+		if collectionView.contentOffset.y != offset.y {
+			collectionView.setContentOffset(offset, animated: animated)
 			lastAutomaticScrollOffset = offset
 		}
 	}
@@ -235,7 +243,7 @@ class TerminalSessionViewController: UIViewController {
 		// we only want to see it after the keyboard has appeared
 		if !hasAppeared {
 			hasAppeared = false
-			textView.showsVerticalScrollIndicator = true
+			collectionView.showsVerticalScrollIndicator = true
 		}
 
 		// hide toolbar popups if visible
@@ -267,13 +275,36 @@ class TerminalSessionViewController: UIViewController {
 
 }
 
+extension TerminalSessionViewController: UICollectionViewDelegate, UICollectionViewDataSource {
+
+	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+		return Int(terminalController.numberOfRows())
+	}
+
+	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! TerminalCollectionViewCell
+		cell.terminalController = terminalController
+		cell.rowIndex = indexPath.row
+		cell.fontMetrics = terminalController.fontMetrics
+		return cell
+	}
+
+}
+
 extension TerminalSessionViewController: TerminalControllerDelegate {
 
-	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor) {
-		textView.attributedText = attributedString
+	func refresh(backgroundColor: UIColor) {
+		collectionView.reloadData()
 
-		if backgroundColor != textView.backgroundColor {
-			textView.backgroundColor = backgroundColor
+		if backgroundColor != collectionView.backgroundColor {
+			collectionView.backgroundColor = backgroundColor
+		}
+
+		let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
+		let itemSize = layout.itemSize
+		let glyphSize = terminalController.fontMetrics.boundingBox
+		if itemSize.width != collectionView.frame.size.width || itemSize.height != glyphSize.height {
+			layout.itemSize = CGSize(width: collectionView.frame.size.width, height: glyphSize.height)
 		}
 
 		// TODO: not sure why this is needed all of a sudden? what did i break?

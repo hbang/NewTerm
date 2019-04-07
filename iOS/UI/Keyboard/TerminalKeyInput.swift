@@ -11,11 +11,11 @@ import UIKit
 class TerminalKeyInput: TextInputBase {
 
 	var terminalInputDelegate: TerminalInputProtocol?
-	weak var textView: UITextView! {
+	weak var collectionView: UICollectionView! {
 		didSet {
-			textView.frame = bounds
-			textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-			insertSubview(textView, at: 0)
+			collectionView.frame = bounds
+			collectionView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+			insertSubview(collectionView, at: 0)
 		}
 	}
 
@@ -190,7 +190,7 @@ class TerminalKeyInput: TextInputBase {
 		} else {
 			insets = textView.scrollIndicatorInsets
 		}
-		moreToolbar.frame = CGRect(x: 0, y: textView.frame.size.height - insets.bottom - moreToolbarHeight, width: textView.frame.size.width, height: moreToolbarHeight)
+		moreToolbar.frame = CGRect(x: 0, y: collectionView.frame.size.height - insets.bottom - moreToolbarHeight, width: collectionView.frame.size.width, height: moreToolbarHeight)
 	}
 
 	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
@@ -219,7 +219,7 @@ class TerminalKeyInput: TextInputBase {
 	override var textInputView: UIView {
 		// if we have the instance of the text view, return it here so stuff like selection hopefully
 		// works. if not, just return self for the moment
-		return textView ?? self
+		return collectionView ?? self
 	}
 
 	override func hasText() -> Bool {
@@ -298,7 +298,8 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	override func copy(_ sender: Any?) {
-		textView?.copy(sender)
+		// TODO: what can we do for this?
+		collectionView?.copy(sender)
 	}
 
 	override func paste(_ sender: Any?) {
