@@ -52,7 +52,9 @@
 	<string>????</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
-	<key>LSRequiresIPhoneOS</key>
+	<key>NSSupportsAutomaticTermination</key>
+	<true/>
+	<key>NSSupportsSuddenTermination</key>
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
@@ -63,6 +65,8 @@
 		<string>SourceCodePro-Bold.otf</string>
 		<string>SourceCodePro-Regular.otf</string>
 	</array>
+	<key>ATSApplicationFontsPath</key>
+	<string>./</string>
 	<key>UIDeviceFamily</key>
 	<array>
 		<integer>1</integer>

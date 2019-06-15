@@ -27,8 +27,14 @@ class Preferences {
 	var colorMap: VT100ColorMap!
 
 	private init() {
+#if TARGET_UIKITONMAC
+		let defaultFontName = "Menlo"
+#else
+		let defaultFontName = "Fira Code"
+#endif
+
 		preferences.register(defaults: [
-			"fontName": "Fira Code",
+			"fontName": defaultFontName,
 			"fontSizePhone": 12,
 			"fontSizePad": 13,
 			"theme": "kirb",

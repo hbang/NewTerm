@@ -1,5 +1,9 @@
+ifeq ($(PLATFORM),mac)
+export TARGET = uikitformac:latest:13.0
+else
 export TARGET = iphone:latest:10.0
 LINK_CEPHEI := 1
+endif
 
 PROJECT_DIR := $(PWD)/NewTerm
 INCLUDES := -I$(PROJECT_DIR) -I$(PROJECT_DIR)/External -I$(PROJECT_DIR)/External/ncurses
@@ -41,5 +45,9 @@ endif
 
 after-install::
 ifneq ($(XCODE),1)
+ifeq ($(PLATFORM),mac)
+	install.exec "open /Applications/NewTerm.app"
+else
 	install.exec "killall NewTerm; sleep 0.1; sblaunch ws.hbang.Terminal"
+endif
 endif
