@@ -10,7 +10,7 @@
 @class FontMetrics;
 
 // Buffer space used to draw any particular row.
-static const int kMaxRowBufferSize = 200;
+static const int kMaxRowBufferSize = 400;
 
 typedef struct {
 	unsigned short width;

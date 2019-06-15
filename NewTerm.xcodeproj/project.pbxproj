@@ -6,59 +6,438 @@
 	objectVersion = 48;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		CFBB96C722B5481B00585BE6 /* PreferencesRootController.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967922B5481B00585BE6 /* PreferencesRootController.m */; };
+		CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967C22B5481B00585BE6 /* HUDView.swift */; };
+		CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */; };
+		CFBB96CA22B5481B00585BE6 /* UIColor+HBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */; };
+		CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */; };
+		CFBB96CC22B5481B00585BE6 /* TabToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbar.swift */; };
+		CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */; };
+		CFBB96CE22B5481B00585BE6 /* TextPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968622B5481B00585BE6 /* TextPosition.swift */; };
+		CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */; };
+		CFBB96D022B5481B00585BE6 /* TextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968822B5481B00585BE6 /* TextInputBase.m */; };
+		CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */; };
+		CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */; };
+		CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */; };
+		CFBB96D422B5481B00585BE6 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
+		CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */; };
+		CFBB96D822B5481B00585BE6 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969422B5481B00585BE6 /* NSArray+Additions.m */; };
+		CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
+		CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */; };
+		CFBB96DB22B5481B00585BE6 /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969C22B5481B00585BE6 /* VT100Screen.m */; };
+		CFBB96DC22B5481B00585BE6 /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969D22B5481B00585BE6 /* VT100Terminal.m */; };
+		CFBB96DD22B5481B00585BE6 /* NSStringITerm.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969E22B5481B00585BE6 /* NSStringITerm.m */; };
+		CFBB96DE22B5481B00585BE6 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */; };
+		CFBB96DF22B5481B00585BE6 /* VT100ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */; };
+		CFBB96E022B5481B00585BE6 /* VT100.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A422B5481B00585BE6 /* VT100.m */; };
+		CFBB96E122B5481B00585BE6 /* FontMetrics.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A822B5481B00585BE6 /* FontMetrics.m */; };
+		CFBB96E222B5481B00585BE6 /* VT100Token.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A922B5481B00585BE6 /* VT100Token.m */; };
+		CFBB96E322B5481B00585BE6 /* ScreenChar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96AA22B5481B00585BE6 /* ScreenChar.m */; };
+		CFBB96E522B5481B00585BE6 /* NSCharacterSet+iTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */; };
+		CFBB96E622B5481B00585BE6 /* UIView+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */; };
+		CFBB96E822B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */; };
+		CFBB96EA22B5481B00585BE6 /* SubProcess.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C222B5481B00585BE6 /* SubProcess.swift */; };
+		CFBB96EB22B5481B00585BE6 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C322B5481B00585BE6 /* Preferences.swift */; };
+		CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C422B5481B00585BE6 /* AppDelegate.swift */; };
+		CFBB96ED22B5481B00585BE6 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C522B5481B00585BE6 /* TerminalController.swift */; };
+		CFBB96EE22B5481B00585BE6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */; };
+		CFBB972522B548D700585BE6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F022B548D700585BE6 /* Localizable.strings */; };
+		CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F222B548D700585BE6 /* InfoPlist.strings */; };
+		CFBB972822B548D700585BE6 /* FiraCode-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */; };
+		CFBB972A22B548D700585BE6 /* bell.m4a in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F722B548D700585BE6 /* bell.m4a */; };
+		CFBB972D22B548D700585BE6 /* FiraCode-Retina.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */; };
+		CFBB973122B548D700585BE6 /* colortest.txt in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FE22B548D700585BE6 /* colortest.txt */; };
+		CFBB973222B548D700585BE6 /* Fonts.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FF22B548D700585BE6 /* Fonts.plist */; };
+		CFBB973A22B548D700585BE6 /* Hack-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB970722B548D700585BE6 /* Hack-Regular.otf */; };
+		CFBB974322B548D700585BE6 /* SourceCodePro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */; };
+		CFBB974622B548D700585BE6 /* Hack-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB971322B548D700585BE6 /* Hack-Bold.otf */; };
+		CFBB975422B548D700585BE6 /* SourceCodePro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */; };
+		CFBB975622B548D700585BE6 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972322B548D700585BE6 /* Themes.plist */; };
+		CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFBB975922B5499600585BE6 /* Assets.xcassets */; };
+		CFBB975F22B54AAA00585BE6 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CFBB975E22B54AAA00585BE6 /* libcurses.tbd */; };
+		CFBB976122B552A600585BE6 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFBB976022B552A600585BE6 /* Main.storyboard */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		CF22F9AE1FFB97F7003175DE /* prefs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefs; sourceTree = "<group>"; };
-		CF22F9AF1FFB97F7003175DE /* LICENSE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = LICENSE.md; sourceTree = "<group>"; };
-		CF22F9B21FFB97F7003175DE /* Makefile */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
 		CF22F9B31FFB97F7003175DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
-		CF22F9B41FFB97F7003175DE /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
-		CF22F9B91FFB97F7003175DE /* NewTerm */ = {isa = PBXFileReference; lastKnownFileType = folder; path = NewTerm; sourceTree = "<group>"; };
-		CF22F9BC1FFB97F7003175DE /* control */ = {isa = PBXFileReference; lastKnownFileType = text; path = control; sourceTree = "<group>"; };
-		CF22F9E81FFE011E003175DE /* LaunchScreen.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = NewTerm/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CFBB966122B546DA00585BE6 /* NewTerm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTerm.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		CFBB967922B5481B00585BE6 /* PreferencesRootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferencesRootController.m; sourceTree = "<group>"; };
+		CFBB967A22B5481B00585BE6 /* PreferencesRootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferencesRootController.h; sourceTree = "<group>"; };
+		CFBB967C22B5481B00585BE6 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
+		CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSampleView.swift; sourceTree = "<group>"; };
+		CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HBAdditions.h"; sourceTree = "<group>"; };
+		CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HBAdditions.m"; sourceTree = "<group>"; };
+		CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCollectionViewCell.swift; sourceTree = "<group>"; };
+		CFBB968322B5481B00585BE6 /* TabToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbar.swift; sourceTree = "<group>"; };
+		CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalKeyInput.swift; sourceTree = "<group>"; };
+		CFBB968622B5481B00585BE6 /* TextPosition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextPosition.swift; sourceTree = "<group>"; };
+		CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbar.swift; sourceTree = "<group>"; };
+		CFBB968822B5481B00585BE6 /* TextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputBase.m; sourceTree = "<group>"; };
+		CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardPopupToolbar.swift; sourceTree = "<group>"; };
+		CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalTextView.swift; sourceTree = "<group>"; };
+		CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
+		CFBB968C22B5481B00585BE6 /* TextInputBase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextInputBase.h; sourceTree = "<group>"; };
+		CFBB968D22B5481B00585BE6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
+		CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
+		CFBB969322B5481B00585BE6 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
+		CFBB969422B5481B00585BE6 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
+		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
+		CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSessionViewController.swift; sourceTree = "<group>"; };
+		CFBB969922B5481B00585BE6 /* VT100.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100.h; sourceTree = "<group>"; };
+		CFBB969A22B5481B00585BE6 /* VT100Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Token.h; sourceTree = "<group>"; };
+		CFBB969B22B5481B00585BE6 /* FontMetrics.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontMetrics.h; sourceTree = "<group>"; };
+		CFBB969C22B5481B00585BE6 /* VT100Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Screen.m; sourceTree = "<group>"; };
+		CFBB969D22B5481B00585BE6 /* VT100Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Terminal.m; sourceTree = "<group>"; };
+		CFBB969E22B5481B00585BE6 /* NSStringITerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringITerm.m; sourceTree = "<group>"; };
+		CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100StringSupplier.m; sourceTree = "<group>"; };
+		CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100ColorMap.m; sourceTree = "<group>"; };
+		CFBB96A122B5481B00585BE6 /* ScreenChar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenChar.h; sourceTree = "<group>"; };
+		CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+iTerm.h"; sourceTree = "<group>"; };
+		CFBB96A322B5481B00585BE6 /* iTermParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTermParser.h; sourceTree = "<group>"; };
+		CFBB96A422B5481B00585BE6 /* VT100.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100.m; sourceTree = "<group>"; };
+		CFBB96A522B5481B00585BE6 /* VT100Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Terminal.h; sourceTree = "<group>"; };
+		CFBB96A622B5481B00585BE6 /* VT100Screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Screen.h; sourceTree = "<group>"; };
+		CFBB96A722B5481B00585BE6 /* charmaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = charmaps.h; sourceTree = "<group>"; };
+		CFBB96A822B5481B00585BE6 /* FontMetrics.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontMetrics.m; sourceTree = "<group>"; };
+		CFBB96A922B5481B00585BE6 /* VT100Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Token.m; sourceTree = "<group>"; };
+		CFBB96AA22B5481B00585BE6 /* ScreenChar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenChar.m; sourceTree = "<group>"; };
+		CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100ColorMap.h; sourceTree = "<group>"; };
+		CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringITerm.h; sourceTree = "<group>"; };
+		CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100StringSupplier.h; sourceTree = "<group>"; };
+		CFBB96AE22B5481B00585BE6 /* VT100Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Types.h; sourceTree = "<group>"; };
+		CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+iTerm.m"; sourceTree = "<group>"; };
+		CFBB96B322B5481B00585BE6 /* term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = term.h; sourceTree = "<group>"; };
+		CFBB96B422B5481B00585BE6 /* ncurses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses.h; sourceTree = "<group>"; };
+		CFBB96B522B5481B00585BE6 /* ncurses_dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses_dll.h; sourceTree = "<group>"; };
+		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
+		CFBB96B822B5481B00585BE6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CompactConstraint.m"; sourceTree = "<group>"; };
+		CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CompactConstraint.h"; sourceTree = "<group>"; };
+		CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CompactConstraint.h"; sourceTree = "<group>"; };
+		CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactConstraint.h; sourceTree = "<group>"; };
+		CFBB96BE22B5481B00585BE6 /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		CFBB96C022B5481B00585BE6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		CFBB96C222B5481B00585BE6 /* SubProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubProcess.swift; sourceTree = "<group>"; };
+		CFBB96C322B5481B00585BE6 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
+		CFBB96C422B5481B00585BE6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		CFBB96C522B5481B00585BE6 /* TerminalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalController.swift; sourceTree = "<group>"; };
+		CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CFBB96F122B548D700585BE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
+		CFBB96F322B548D700585BE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Bold.otf"; sourceTree = "<group>"; };
+		CFBB96F722B548D700585BE6 /* bell.m4a */ = {isa = PBXFileReference; lastKnownFileType = file; path = bell.m4a; sourceTree = "<group>"; };
+		CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Retina.otf"; sourceTree = "<group>"; };
+		CFBB96FE22B548D700585BE6 /* colortest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = colortest.txt; sourceTree = "<group>"; };
+		CFBB96FF22B548D700585BE6 /* Fonts.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Fonts.plist; sourceTree = "<group>"; };
+		CFBB970722B548D700585BE6 /* Hack-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Regular.otf"; sourceTree = "<group>"; };
+		CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.otf"; sourceTree = "<group>"; };
+		CFBB971322B548D700585BE6 /* Hack-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Bold.otf"; sourceTree = "<group>"; };
+		CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.otf"; sourceTree = "<group>"; };
+		CFBB972322B548D700585BE6 /* Themes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Themes.plist; sourceTree = "<group>"; };
+		CFBB975922B5499600585BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		CFBB975C22B54AA600585BE6 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libncurses.tbd; sourceTree = DEVELOPER_DIR; };
+		CFBB975E22B54AAA00585BE6 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libcurses.tbd; sourceTree = DEVELOPER_DIR; };
+		CFBB976022B552A600585BE6 /* Main.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		CFBB976222B557E700585BE6 /* NewTerm (macOS).entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "NewTerm (macOS).entitlements"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		CFBB965E22B546DA00585BE6 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFBB975F22B54AAA00585BE6 /* libcurses.tbd in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
 		CF22F9A81FFB97F7003175DE = {
 			isa = PBXGroup;
 			children = (
-				CF22F9E81FFE011E003175DE /* LaunchScreen.storyboard */,
-				CF22F9B91FFB97F7003175DE /* NewTerm */,
-				CF22F9AE1FFB97F7003175DE /* prefs */,
-				CF22F9B21FFB97F7003175DE /* Makefile */,
-				CF22F9BC1FFB97F7003175DE /* control */,
-				CF22F9AF1FFB97F7003175DE /* LICENSE.md */,
 				CF22F9B31FFB97F7003175DE /* README.md */,
-				CF22F9B41FFB97F7003175DE /* .gitignore */,
+				CFBB967622B5481A00585BE6 /* NewTerm */,
+				CFBB96EF22B548D700585BE6 /* Resources */,
+				CF22F9AE1FFB97F7003175DE /* prefs */,
+				CFBB975B22B54AA600585BE6 /* Frameworks */,
+				CFBB966122B546DA00585BE6 /* NewTerm.app */,
 			);
+			sourceTree = "<group>";
+		};
+		CFBB967622B5481A00585BE6 /* NewTerm */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96C122B5481B00585BE6 /* Controllers */,
+				CFBB969222B5481B00585BE6 /* Extensions */,
+				CFBB96B122B5481B00585BE6 /* External */,
+				CFBB967722B5481A00585BE6 /* UI */,
+				CFBB969522B5481B00585BE6 /* ViewControllers */,
+				CFBB969822B5481B00585BE6 /* VT100 */,
+				CFBB976022B552A600585BE6 /* Main.storyboard */,
+				CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */,
+				CFBB968D22B5481B00585BE6 /* Global.swift */,
+				CFBB976222B557E700585BE6 /* NewTerm (macOS).entitlements */,
+				CFBB96BD22B5481B00585BE6 /* SupportingFiles */,
+			);
+			path = NewTerm;
+			sourceTree = "<group>";
+		};
+		CFBB967722B5481A00585BE6 /* UI */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB967E22B5481B00585BE6 /* Extensions */,
+				CFBB968422B5481B00585BE6 /* Keyboard */,
+				CFBB967822B5481B00585BE6 /* Preferences */,
+				CFBB967B22B5481B00585BE6 /* Terminal */,
+				CFBB968122B5481B00585BE6 /* TopBar */,
+			);
+			path = UI;
+			sourceTree = "<group>";
+		};
+		CFBB967822B5481B00585BE6 /* Preferences */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB967A22B5481B00585BE6 /* PreferencesRootController.h */,
+				CFBB967922B5481B00585BE6 /* PreferencesRootController.m */,
+			);
+			path = Preferences;
+			sourceTree = "<group>";
+		};
+		CFBB967B22B5481B00585BE6 /* Terminal */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB967C22B5481B00585BE6 /* HUDView.swift */,
+				CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */,
+			);
+			path = Terminal;
+			sourceTree = "<group>";
+		};
+		CFBB967E22B5481B00585BE6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */,
+				CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CFBB968122B5481B00585BE6 /* TopBar */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */,
+				CFBB968322B5481B00585BE6 /* TabToolbar.swift */,
+			);
+			path = TopBar;
+			sourceTree = "<group>";
+		};
+		CFBB968422B5481B00585BE6 /* Keyboard */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */,
+				CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */,
+				CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */,
+				CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */,
+				CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */,
+				CFBB968C22B5481B00585BE6 /* TextInputBase.h */,
+				CFBB968822B5481B00585BE6 /* TextInputBase.m */,
+				CFBB968622B5481B00585BE6 /* TextPosition.swift */,
+			);
+			path = Keyboard;
+			sourceTree = "<group>";
+		};
+		CFBB969222B5481B00585BE6 /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB969322B5481B00585BE6 /* NSArray+Additions.h */,
+				CFBB969422B5481B00585BE6 /* NSArray+Additions.m */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
+		CFBB969522B5481B00585BE6 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB969622B5481B00585BE6 /* RootViewController.swift */,
+				CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		CFBB969822B5481B00585BE6 /* VT100 */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96A722B5481B00585BE6 /* charmaps.h */,
+				CFBB969B22B5481B00585BE6 /* FontMetrics.h */,
+				CFBB96A822B5481B00585BE6 /* FontMetrics.m */,
+				CFBB96A322B5481B00585BE6 /* iTermParser.h */,
+				CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */,
+				CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */,
+				CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */,
+				CFBB969E22B5481B00585BE6 /* NSStringITerm.m */,
+				CFBB96A122B5481B00585BE6 /* ScreenChar.h */,
+				CFBB96AA22B5481B00585BE6 /* ScreenChar.m */,
+				CFBB969922B5481B00585BE6 /* VT100.h */,
+				CFBB96A422B5481B00585BE6 /* VT100.m */,
+				CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */,
+				CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */,
+				CFBB96A622B5481B00585BE6 /* VT100Screen.h */,
+				CFBB969C22B5481B00585BE6 /* VT100Screen.m */,
+				CFBB96A522B5481B00585BE6 /* VT100Terminal.h */,
+				CFBB969D22B5481B00585BE6 /* VT100Terminal.m */,
+				CFBB969A22B5481B00585BE6 /* VT100Token.h */,
+				CFBB96A922B5481B00585BE6 /* VT100Token.m */,
+				CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */,
+				CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */,
+				CFBB96AE22B5481B00585BE6 /* VT100Types.h */,
+			);
+			path = VT100;
+			sourceTree = "<group>";
+		};
+		CFBB96B122B5481B00585BE6 /* External */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96B622B5481B00585BE6 /* CompactConstraint */,
+				CFBB96B222B5481B00585BE6 /* ncurses */,
+			);
+			path = External;
+			sourceTree = "<group>";
+		};
+		CFBB96B222B5481B00585BE6 /* ncurses */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96B322B5481B00585BE6 /* term.h */,
+				CFBB96B422B5481B00585BE6 /* ncurses.h */,
+				CFBB96B522B5481B00585BE6 /* ncurses_dll.h */,
+			);
+			path = ncurses;
+			sourceTree = "<group>";
+		};
+		CFBB96B622B5481B00585BE6 /* CompactConstraint */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */,
+				CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */,
+				CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */,
+				CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */,
+				CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */,
+				CFBB96B822B5481B00585BE6 /* LICENSE */,
+			);
+			path = CompactConstraint;
+			sourceTree = "<group>";
+		};
+		CFBB96BD22B5481B00585BE6 /* SupportingFiles */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96BE22B5481B00585BE6 /* BridgingHeader.h */,
+				CFBB96C022B5481B00585BE6 /* Info.plist */,
+			);
+			path = SupportingFiles;
+			sourceTree = "<group>";
+		};
+		CFBB96C122B5481B00585BE6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96C422B5481B00585BE6 /* AppDelegate.swift */,
+				CFBB96C322B5481B00585BE6 /* Preferences.swift */,
+				CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */,
+				CFBB96C222B5481B00585BE6 /* SubProcess.swift */,
+				CFBB96C522B5481B00585BE6 /* TerminalController.swift */,
+			);
+			path = Controllers;
+			sourceTree = "<group>";
+		};
+		CFBB96EF22B548D700585BE6 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB975922B5499600585BE6 /* Assets.xcassets */,
+				CFBB975822B5490F00585BE6 /* Fonts */,
+				CFBB96F022B548D700585BE6 /* Localizable.strings */,
+				CFBB96F222B548D700585BE6 /* InfoPlist.strings */,
+				CFBB96FF22B548D700585BE6 /* Fonts.plist */,
+				CFBB972322B548D700585BE6 /* Themes.plist */,
+				CFBB96F722B548D700585BE6 /* bell.m4a */,
+				CFBB96FE22B548D700585BE6 /* colortest.txt */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		CFBB975822B5490F00585BE6 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */,
+				CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */,
+				CFBB970722B548D700585BE6 /* Hack-Regular.otf */,
+				CFBB971322B548D700585BE6 /* Hack-Bold.otf */,
+				CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */,
+				CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */,
+			);
+			name = Fonts;
+			sourceTree = "<group>";
+		};
+		CFBB975B22B54AA600585BE6 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				CFBB975E22B54AAA00585BE6 /* libcurses.tbd */,
+				CFBB975C22B54AA600585BE6 /* libncurses.tbd */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
-		CF22F9C01FFB98A5003175DE /* NewTerm */ = {
+		CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */ = {
 			isa = PBXLegacyTarget;
 			buildArgumentsString = "do THEOS_DEVICE_IP=local XCODE=1 THEOS=/Users/kirb/theos";
-			buildConfigurationList = CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm" */;
+			buildConfigurationList = CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm (Theos)" */;
 			buildPhases = (
 			);
 			buildToolPath = /usr/local/bin/make;
 			buildWorkingDirectory = "";
 			dependencies = (
 			);
-			name = NewTerm;
+			name = "NewTerm (Theos)";
 			passBuildSettingsInEnvironment = 0;
 			productName = NewTerm;
 		};
 /* End PBXLegacyTarget section */
 
+/* Begin PBXNativeTarget section */
+		CFBB966022B546DA00585BE6 /* NewTerm (macOS) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CFBB967222B546DB00585BE6 /* Build configuration list for PBXNativeTarget "NewTerm (macOS)" */;
+			buildPhases = (
+				CFBB965D22B546DA00585BE6 /* Sources */,
+				CFBB965E22B546DA00585BE6 /* Frameworks */,
+				CFBB965F22B546DA00585BE6 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "NewTerm (macOS)";
+			productName = "NewTerm (macOS)";
+			productReference = CFBB966122B546DA00585BE6 /* NewTerm.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
 /* Begin PBXProject section */
 		CF22F9A91FFB97F7003175DE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0910;
+				LastSwiftUpdateCheck = 1100;
+				LastUpgradeCheck = 1100;
 				TargetAttributes = {
 					CF22F9C01FFB98A5003175DE = {
 						CreatedOnToolsVersion = 9.1;
+					};
+					CFBB966022B546DA00585BE6 = {
+						CreatedOnToolsVersion = 11.0;
+						ProvisioningStyle = Automatic;
 					};
 				};
 			};
@@ -75,21 +454,165 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF22F9C01FFB98A5003175DE /* NewTerm */,
+				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
+				CFBB966022B546DA00585BE6 /* NewTerm (macOS) */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		CFBB965F22B546DA00585BE6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFBB973222B548D700585BE6 /* Fonts.plist in Resources */,
+				CFBB972D22B548D700585BE6 /* FiraCode-Retina.otf in Resources */,
+				CFBB973122B548D700585BE6 /* colortest.txt in Resources */,
+				CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */,
+				CFBB975422B548D700585BE6 /* SourceCodePro-Regular.otf in Resources */,
+				CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */,
+				CFBB974622B548D700585BE6 /* Hack-Bold.otf in Resources */,
+				CFBB972522B548D700585BE6 /* Localizable.strings in Resources */,
+				CFBB973A22B548D700585BE6 /* Hack-Regular.otf in Resources */,
+				CFBB975622B548D700585BE6 /* Themes.plist in Resources */,
+				CFBB976122B552A600585BE6 /* Main.storyboard in Resources */,
+				CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */,
+				CFBB974322B548D700585BE6 /* SourceCodePro-Bold.otf in Resources */,
+				CFBB972822B548D700585BE6 /* FiraCode-Bold.otf in Resources */,
+				CFBB972A22B548D700585BE6 /* bell.m4a in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		CFBB965D22B546DA00585BE6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
+				CFBB96CA22B5481B00585BE6 /* UIColor+HBAdditions.m in Sources */,
+				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
+				CFBB96EB22B5481B00585BE6 /* Preferences.swift in Sources */,
+				CFBB96DE22B5481B00585BE6 /* VT100StringSupplier.m in Sources */,
+				CFBB96EA22B5481B00585BE6 /* SubProcess.swift in Sources */,
+				CFBB96DD22B5481B00585BE6 /* NSStringITerm.m in Sources */,
+				CFBB96EE22B5481B00585BE6 /* SceneDelegate.swift in Sources */,
+				CFBB96E022B5481B00585BE6 /* VT100.m in Sources */,
+				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
+				CFBB96E822B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
+				CFBB96E122B5481B00585BE6 /* FontMetrics.m in Sources */,
+				CFBB96E222B5481B00585BE6 /* VT100Token.m in Sources */,
+				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
+				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
+				CFBB96D822B5481B00585BE6 /* NSArray+Additions.m in Sources */,
+				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
+				CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */,
+				CFBB96DC22B5481B00585BE6 /* VT100Terminal.m in Sources */,
+				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
+				CFBB96E322B5481B00585BE6 /* ScreenChar.m in Sources */,
+				CFBB96DF22B5481B00585BE6 /* VT100ColorMap.m in Sources */,
+				CFBB96D422B5481B00585BE6 /* Global.swift in Sources */,
+				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
+				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
+				CFBB96CC22B5481B00585BE6 /* TabToolbar.swift in Sources */,
+				CFBB96E622B5481B00585BE6 /* UIView+CompactConstraint.m in Sources */,
+				CFBB96ED22B5481B00585BE6 /* TerminalController.swift in Sources */,
+				CFBB96E522B5481B00585BE6 /* NSCharacterSet+iTerm.m in Sources */,
+				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
+				CFBB96C722B5481B00585BE6 /* PreferencesRootController.m in Sources */,
+				CFBB96D022B5481B00585BE6 /* TextInputBase.m in Sources */,
+				CFBB96CE22B5481B00585BE6 /* TextPosition.swift in Sources */,
+				CFBB96DB22B5481B00585BE6 /* VT100Screen.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		CFBB96F022B548D700585BE6 /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFBB96F122B548D700585BE6 /* en */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		CFBB96F222B548D700585BE6 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				CFBB96F322B548D700585BE6 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		CF22F9AA1FFB97F7003175DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				ONLY_ACTIVE_ARCH = YES;
 			};
 			name = Debug;
 		};
 		CF22F9AB1FFB97F7003175DE /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
 		};
@@ -109,6 +632,159 @@
 			};
 			name = Release;
 		};
+		CFBB967322B546DB00585BE6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "NewTerm/NewTerm (macOS).entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					NewTerm/External,
+					NewTerm,
+				);
+				INFOPLIST_FILE = NewTerm/SupportingFiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
+				PRODUCT_NAME = NewTerm;
+				SDKROOT = iphoneos;
+				SUPPORTS_UIKITFORMAC = YES;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OBJC_BRIDGING_HEADER = NewTerm/SupportingFiles/BridgingHeader.h;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFBB967422B546DB00585BE6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_ENTITLEMENTS = "NewTerm/NewTerm (macOS).entitlements";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 1;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DERIVE_UIKITFORMAC_PRODUCT_BUNDLE_IDENTIFIER = YES;
+				DEVELOPMENT_TEAM = "";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					NewTerm/External,
+					NewTerm,
+				);
+				INFOPLIST_FILE = NewTerm/SupportingFiles/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MARKETING_VERSION = 3.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
+				PRODUCT_NAME = NewTerm;
+				SDKROOT = iphoneos;
+				SUPPORTS_UIKITFORMAC = YES;
+				SWIFT_OBJC_BRIDGING_HEADER = NewTerm/SupportingFiles/BridgingHeader.h;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -121,11 +797,20 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm" */ = {
+		CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm (Theos)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				CF22F9C21FFB98A5003175DE /* Debug */,
 				CF22F9C31FFB98A5003175DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		CFBB967222B546DB00585BE6 /* Build configuration list for PBXNativeTarget "NewTerm (macOS)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFBB967322B546DB00585BE6 /* Debug */,
+				CFBB967422B546DB00585BE6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

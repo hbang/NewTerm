@@ -10,7 +10,6 @@ INCLUDES := -I$(PROJECT_DIR) -I$(PROJECT_DIR)/External -I$(PROJECT_DIR)/External
 
 export ADDITIONAL_CFLAGS = -fobjc-arc $(INCLUDES)
 export ADDITIONAL_SWIFTFLAGS = $(INCLUDES)
-export ADDITIONAL_LDFLAGS = -rpath @executable_path/Frameworks
 
 include $(THEOS)/makefiles/common.mk
 

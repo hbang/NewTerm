@@ -5,7 +5,6 @@
 #import "VT100ColorMap.h"
 #import "VT100Types.h"
 #import "FontMetrics.h"
-#import <version.h>
 
 @implementation VT100StringSupplier {
 	NSMutableSet <NSValue *> *_lastLinkRanges;
