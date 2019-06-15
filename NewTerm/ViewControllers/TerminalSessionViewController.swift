@@ -108,12 +108,13 @@ class TerminalSessionViewController: UIViewController {
 			let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: Bundle(for: UIView.self), comment: "")
 			let title = NSLocalizedString("TERMINAL_LAUNCH_FAILED", comment: "Alert title displayed when a terminal could not be launched.")
 
-			let alertView = UIAlertView(title: title, message: failureError!.localizedDescription, delegate: nil, cancelButtonTitle: ok)
-			alertView.show()
+			let alertController = UIAlertController(title: title, message: failureError!.localizedDescription, preferredStyle: .alert)
+			alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
+			present(alertController, animated: true, completion: nil)
 		}
 	}
 
-	override func removeFromParentViewController() {
+	override func removeFromParent() {
 		if hasStarted {
 			do {
 				try terminalController.stopSubProcess()
@@ -122,7 +123,7 @@ class TerminalSessionViewController: UIViewController {
 			}
 		}
 
-		super.removeFromParentViewController()
+		super.removeFromParent()
 	}
 
 	// MARK: - Screen
@@ -205,13 +206,13 @@ class TerminalSessionViewController: UIViewController {
 	}
 
 	func registerForKeyboardNotifications() {
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: .UIKeyboardWillShow, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: .UIKeyboardWillHide, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
 
 	func unregisterForKeyboardNotifications() {
-		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillShow, object: nil)
-		NotificationCenter.default.removeObserver(self, name: .UIKeyboardWillHide, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
 	}
 
 	@objc func keyboardVisibilityChanged(_ notification: Notification) {
@@ -226,12 +227,12 @@ class TerminalSessionViewController: UIViewController {
 		keyInput.setMoreRowVisible(false, animated: true)
 
 		// YES when showing, NO when hiding
-		let direction = notification.name == .UIKeyboardWillShow
-		let animationDuration = notification.userInfo![UIKeyboardAnimationDurationUserInfoKey] as! TimeInterval
+		let direction = notification.name == UIResponder.keyboardWillShowNotification
+		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 
 		// determine the final keyboard height. we still get a height if hiding, so force it to 0 if this
 		// isn’t a show notification
-		let keyboardFrame = notification.userInfo![UIKeyboardFrameEndUserInfoKey] as! CGRect
+		let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
 		keyboardHeight = direction ? keyboardFrame.size.height : 0
 
 		// we call updateScreenSize in an animation block to force it to be animated with the exact
@@ -277,7 +278,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 					"hudView.centerX = self.centerX",
 					"hudView.centerY = self.centerY / 3"
 				], metrics: nil, views: [
-					"self": view,
+					"self": view!,
 					"hudView": bellHUDView
 				])
 			}
@@ -308,12 +309,13 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let title = NSLocalizedString("TERMINAL_LAUNCH_FAILED", comment: "Alert title displayed when a terminal could not be launched.")
 
 		let nsError = error as NSError
-		let alertView = UIAlertView(title: title, message: nsError.localizedDescription, delegate: nil, cancelButtonTitle: ok)
-		alertView.show()
+		let alertController = UIAlertController(title: title, message: nsError.localizedDescription, preferredStyle: .alert)
+		alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
+		present(alertController, animated: true, completion: nil)
 	}
 
 	func openSettings() {
-		let rootController = PreferencesRootController(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."), identifier: "Root")!
+		let rootController = PreferencesRootController()//title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."), identifier: "Root")!
 		rootController.modalPresentationStyle = .formSheet
 		navigationController!.present(rootController, animated: true, completion: nil)
 	}

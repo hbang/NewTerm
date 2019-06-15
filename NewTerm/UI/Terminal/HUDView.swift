@@ -13,13 +13,7 @@ class HUDView: UIView {
 	let imageView = UIImageView()
 
 	let backdropView: UIView = {
-		if #available(iOS 8.0, *) {
-			return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-		} else {
-			let view = UIView()
-			view.backgroundColor = UITableView.appearance().backgroundColor!.withAlphaComponent(0.9)
-			return view
-		}
+		return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 	}()
 
 	init(image: UIImage) {

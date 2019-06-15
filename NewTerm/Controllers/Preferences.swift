@@ -10,9 +10,11 @@ import UIKit
 
 class Preferences {
 
+	static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
+
 	static let shared = Preferences()
 
-#if THEOS_SWIFT
+#if LINK_CEPHEI
 	let preferences = HBPreferences(identifier: "ws.hbang.Terminal")
 #else
 	let preferences = UserDefaults.standard
@@ -24,8 +26,8 @@ class Preferences {
 	var fontMetrics: FontMetrics!
 	var colorMap: VT100ColorMap!
 
-	init() {
-		preferences.registerDefaults([
+	private init() {
+		preferences.register(defaults: [
 			"fontName": "Fira Code",
 			"fontSizePhone": 12,
 			"fontSizePad": 13,
@@ -34,13 +36,13 @@ class Preferences {
 			"bellSound": false
 		])
 
-#if THEOS_SWIFT
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: UserDefaults.didChangeNotification, object: preferences)
+#if LINK_CEPHEI
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: HBPreferences.didChangeNotification, object: preferences)
 #else
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: HBPreferences.didChangeNotification, object: preferences)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: UserDefaults.didChangeNotification, object: preferences)
 #endif
 
-		preferencesUpdated()
+		preferencesUpdated(notification: nil)
 	}
 
 	var fontName: String {
@@ -65,9 +67,13 @@ class Preferences {
 
 	// MARK: - Callbacks
 
-	@objc private func preferencesUpdated() {
+	@objc func preferencesUpdated(notification: Notification?) {
 		fontMetricsChanged()
 		colorMapChanged()
+
+		if notification != nil {
+			NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
+		}
 	}
 
 	private func fontMetricsChanged() {
@@ -83,19 +89,19 @@ class Preferences {
 
 		if regularFont == nil || boldFont == nil {
 			NSLog("font %@ size %f could not be initialised", fontName, fontSize)
-			preferences.setObject("Courier", forKey: "fontName")
+			preferences.set("Courier", forKey: "fontName")
 			return
 		}
 
 		fontMetrics = FontMetrics(font: regularFont, boldFont: boldFont)
 	}
 
-	func colorMapChanged() {
+	private func colorMapChanged() {
 		// if the theme doesn’t exist… how did we get here? force it to the default, which will call
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
 			NSLog("theme %@ doesn’t exist", themeName)
-			preferences.setObject("kirb", forKey: "theme")
+			preferences.set("kirb", forKey: "theme")
 			return
 		}
 

@@ -48,57 +48,32 @@ class KeyboardToolbar: UIView {
 			"rightKey": rightKey,
 		]
 
-		let containerView: UIView
+		let sortedViews = [
+			ctrlKey, metaKey, tabKey, moreKey, spacerView,
+			upKey, downKey, leftKey, rightKey
+		]
 
-		if #available(iOS 9.0, *) {
-			let sortedViews = [
-				ctrlKey, metaKey, tabKey, moreKey, spacerView,
-				upKey, downKey, leftKey, rightKey
-			]
+		let stackView = UIStackView(arrangedSubviews: sortedViews)
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.axis = .horizontal
+		stackView.spacing = xSpacing
+		addSubview(stackView)
 
-			let stackView = UIStackView(arrangedSubviews: sortedViews)
-			containerView = stackView
-			stackView.translatesAutoresizingMaskIntoConstraints = false
-			stackView.axis = .horizontal
-			stackView.spacing = xSpacing
-			addSubview(stackView)
+		addCompactConstraints([
+			"stackView.top = toolbar.top + topSpacing",
+			"stackView.bottom = toolbar.bottom - bottomSpacing",
+			"stackView.left = toolbar.left + outerXSpacing",
+			"stackView.right = toolbar.right - outerXSpacing"
+		], metrics: [
+			"outerXSpacing": outerXSpacing,
+			"topSpacing": topSpacing,
+			"bottomSpacing": bottomSpacing
+		], views: [
+			"toolbar": self,
+			"stackView": stackView
+		])
 
-			addCompactConstraints([
-				"stackView.top = toolbar.top + topSpacing",
-				"stackView.bottom = toolbar.bottom - bottomSpacing",
-				"stackView.left = toolbar.left + outerXSpacing",
-				"stackView.right = toolbar.right - outerXSpacing"
-			], metrics: [
-				"outerXSpacing": outerXSpacing,
-				"topSpacing": topSpacing,
-				"bottomSpacing": bottomSpacing
-			], views: [
-				"toolbar": self,
-				"stackView": stackView
-			])
-		} else {
-			containerView = self
-
-			// do it the hard way with constraints
-			for view in views.values {
-				view.translatesAutoresizingMaskIntoConstraints = false
-				addSubview(view)
-
-				addConstraints(withVisualFormat: "V:|-topSpacing-[key]-bottomSpacing-|", options: .init(), metrics: [
-					"topSpacing": topSpacing,
-					"bottomSpacing": bottomSpacing
-				], views: [
-					"key": view
-				])
-			}
-
-			addConstraints(withVisualFormat: "H:|-outerMargin-[ctrlKey]-margin-[metaKey]-margin-[tabKey]-margin-[moreKey][spacerView(>=margin)][upKey]-margin-[downKey]-margin-[leftKey]-margin-[rightKey]-outerMargin-|", options: .init(), metrics: [
-				"outerMargin": outerXSpacing,
-				"margin": xSpacing
-			], views: views)
-		}
-
-		containerView.addCompactConstraints([
+		stackView.addCompactConstraints([
 			"ctrlKey.width >= metaKey.width",
 			"metaKey.width >= ctrlKey.width",
 			"metaKey.width >= tabKey.width",

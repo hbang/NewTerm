@@ -62,7 +62,7 @@ class TerminalController: VT100 {
 
 		stringSupplier.screenBuffer = self
 
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: UserDefaults.didChangeNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
 	}
 

@@ -14,7 +14,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	var window: UIWindow?
 
-	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
+	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		let textColor = UIColor.white
 		let tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
 		let backgroundColor = UIColor(white: 26 / 255, alpha: 1)

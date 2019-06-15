@@ -7,12 +7,17 @@
 //
 
 #import "PreferencesRootController.h"
+
+#if LINK_CEPHEI
 #import "../prefs/HBNTPreferencesRootListController.h"
 #import <Preferences/PSSpecifier.h>
 #include <objc/runtime.h>
+#endif
 
 @implementation PreferencesRootController {
+#if LINK_CEPHEI
 	PSListController *_rootListController;
+#endif
 }
 
 #pragma mark - UIViewController
@@ -20,9 +25,11 @@
 - (void)loadView {
 	[super loadView];
 
+#if LINK_CEPHEI
 	if (self.viewControllers.count == 0) {
 		[self pushViewController:self.rootListController animated:NO];
 	}
+#endif
 }
 
 - (UIStatusBarStyle)preferredStatusBarStyle {
@@ -31,6 +38,7 @@
 
 #pragma mark - PSRootController
 
+#if LINK_CEPHEI
 - (PSListController *)rootListController {
 	if (!_rootListController) {
 		static Class HBNTPreferencesRootListController;
@@ -52,5 +60,6 @@
 
 	return _rootListController;
 }
+#endif
 
 @end

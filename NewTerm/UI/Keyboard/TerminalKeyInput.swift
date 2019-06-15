@@ -33,18 +33,18 @@ class TerminalKeyInput: TextInputBase {
 
 	private var ctrlDown = false
 
-	private let backspaceData = Data(bytes: [0x7F]) // \x7F
-	private let metaKeyData = Data(bytes: [0x1B]) // \e
-	private let tabKeyData = Data(bytes: [0x09]) // \t
-	private let upKeyData = Data(bytes: [0x1B, 0x5B, 0x41]) // \e[A
-	private let downKeyData = Data(bytes: [0x1B, 0x5B, 0x42]) // \e[B
-	private let leftKeyData = Data(bytes: [0x1B, 0x5B, 0x44]) // \e[D
-	private let rightKeyData = Data(bytes: [0x1B, 0x5B, 0x43]) // \e[C
-	private let homeKeyData = Data(bytes: [0x1B, 0x5B, 0x48]) // \e[H
-	private let endKeyData = Data(bytes: [0x1B, 0x5B, 0x46]) // \e[F
-	private let pageUpKeyData = Data(bytes: [0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
-	private let pageDownKeyData = Data(bytes: [0x1B, 0x5B, 0x36, 0x7E]) // \e[6~
-	private let deleteKeyData = Data(bytes: [0x1B, 0x5B, 0x33, 0x7E]) // \e[3~
+	private let backspaceData = Data([0x7F]) // \x7F
+	private let metaKeyData = Data([0x1B]) // \e
+	private let tabKeyData = Data([0x09]) // \t
+	private let upKeyData = Data([0x1B, 0x5B, 0x41]) // \e[A
+	private let downKeyData = Data([0x1B, 0x5B, 0x42]) // \e[B
+	private let leftKeyData = Data([0x1B, 0x5B, 0x44]) // \e[D
+	private let rightKeyData = Data([0x1B, 0x5B, 0x43]) // \e[C
+	private let homeKeyData = Data([0x1B, 0x5B, 0x48]) // \e[H
+	private let endKeyData = Data([0x1B, 0x5B, 0x46]) // \e[F
+	private let pageUpKeyData = Data([0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
+	private let pageDownKeyData = Data([0x1B, 0x5B, 0x36, 0x7E]) // \e[6~
+	private let deleteKeyData = Data([0x1B, 0x5B, 0x33, 0x7E]) // \e[3~
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -63,38 +63,30 @@ class TerminalKeyInput: TextInputBase {
 		keyboardAppearance = .dark
 
 		// TODO: this is kinda ugly and causes duped code for these buttons
-		var hasPadToolbar = false
-
 		if UIDevice.current.userInterfaceIdiom == .pad {
-			if #available(iOS 9.0, *) {
-				hasPadToolbar = true
+			ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
+			moreKey = KeyboardButton(title: "Fn", target: self, action: #selector(self.moreKeyPressed))
 
-				ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
-				moreKey = KeyboardButton(title: "Fn", target: self, action: #selector(self.moreKeyPressed))
+			inputAssistantItem.allowsHidingShortcuts = false
 
-				inputAssistantItem.allowsHidingShortcuts = false
+			var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
+			leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
+				UIBarButtonItem(customView: ctrlKey),
+				UIBarButtonItem(customView: KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed))),
+				UIBarButtonItem(customView: moreKey)
+			], representativeItem: nil))
+			inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
 
-				var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
-				leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-					UIBarButtonItem(customView: ctrlKey),
-					UIBarButtonItem(customView: KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))),
-					UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed))),
-					UIBarButtonItem(customView: moreKey)
-				], representativeItem: nil))
-				inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
-
-				var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
-				trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-					UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
-					UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
-					UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
-					UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
-				], representativeItem: nil))
-				inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
-			}
-		}
-
-		if !hasPadToolbar {
+			var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
+			trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
+				UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
+			], representativeItem: nil))
+			inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
+		} else {
 			toolbar = KeyboardToolbar()
 			toolbar!.translatesAutoresizingMaskIntoConstraints = false
 			toolbar!.ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
@@ -289,7 +281,7 @@ class TerminalKeyInput: TextInputBase {
 		switch action {
 		case #selector(self.paste(_:)):
 			// only paste if the pasteboard contains a plaintext type
-			return UIPasteboard.general.contains(pasteboardTypes: UIPasteboardTypeListString as! [String])
+			return UIPasteboard.general.contains(pasteboardTypes: UIPasteboard.typeListString as! [String])
 
 		case #selector(self.cut(_:)):
 			// ensure cut is never allowed
@@ -309,7 +301,7 @@ class TerminalKeyInput: TextInputBase {
 		let pasteboard = UIPasteboard.general
 
 		// we already checked this above in canPerformAction(_:withSender:), but double check again
-		if !pasteboard.contains(pasteboardTypes: UIPasteboardTypeListString as! [String]) {
+		if !pasteboard.contains(pasteboardTypes: UIPasteboard.typeListString as! [String]) {
 			return
 		}
 

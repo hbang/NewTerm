@@ -60,58 +60,33 @@ class KeyboardPopupToolbar: UIView {
 			"settingsKey": settingsKey
 		]
 
-		let containerView: UIView
+		let sortedViews = [
+			homeKey, endKey, pageUpDownSpacerView,
+			pageUpKey, pageDownKey, homeEndSpacerView,
+			deleteKey, deleteSpacerView,
+			settingsKey
+		]
 
-		if #available(iOS 9.0, *) {
-			let sortedViews = [
-				homeKey, endKey, pageUpDownSpacerView,
-				pageUpKey, pageDownKey, homeEndSpacerView,
-				deleteKey, deleteSpacerView,
-				settingsKey
-			]
+		let stackView = UIStackView(arrangedSubviews: sortedViews)
+		stackView.translatesAutoresizingMaskIntoConstraints = false
+		stackView.axis = .horizontal
+		stackView.spacing = xSpacing
+		addSubview(stackView)
 
-			let stackView = UIStackView(arrangedSubviews: sortedViews)
-			containerView = stackView
-			stackView.translatesAutoresizingMaskIntoConstraints = false
-			stackView.axis = .horizontal
-			stackView.spacing = xSpacing
-			addSubview(stackView)
+		addCompactConstraints([
+			"stackView.top = toolbar.top + ySpacing",
+			"stackView.bottom = toolbar.bottom - ySpacing",
+			"stackView.left = toolbar.left + outerXSpacing",
+			"stackView.right = toolbar.right - outerXSpacing"
+		], metrics: [
+			"outerXSpacing": outerXSpacing,
+			"ySpacing": ySpacing
+		], views: [
+			"toolbar": self,
+			"stackView": stackView
+		])
 
-			addCompactConstraints([
-				"stackView.top = toolbar.top + ySpacing",
-				"stackView.bottom = toolbar.bottom - ySpacing",
-				"stackView.left = toolbar.left + outerXSpacing",
-				"stackView.right = toolbar.right - outerXSpacing"
-			], metrics: [
-				"outerXSpacing": outerXSpacing,
-				"ySpacing": ySpacing
-			], views: [
-				"toolbar": self,
-				"stackView": stackView
-			])
-		} else {
-			containerView = self
-
-			// do it the hard way with constraints
-			for view in views.values {
-				view.translatesAutoresizingMaskIntoConstraints = false
-				addSubview(view)
-
-				addConstraints(withVisualFormat: "V:|-ySpacing-[key]-ySpacing-|", options: .init(), metrics: [
-					"ySpacing": ySpacing
-				], views: [
-					"key": view
-				])
-			}
-
-			addConstraints(withVisualFormat: "H:|-outerMargin-[deleteSpacerView(>=doubleMargin)][settingsKey]-outerMargin-|", options: .init(), metrics: [
-				"outerMargin": outerXSpacing,
-				"margin": xSpacing,
-				"doubleMargin": xSpacing * 2
-			], views: views)
-		}
-
-		containerView.addCompactConstraints([
+		stackView.addCompactConstraints([
 			"homeKey.width >= endKey.width",
 			"endKey.width >= homeKey.width",
 			"endKey.width >= pageUpKey.width",

@@ -3,7 +3,7 @@
 
 #import "VT100ColorMap.h"
 #import "VT100Terminal.h"
-#import <Cephei/UIColor+HBAdditions.h>
+#import "UI/Extensions/UIColor+HBAdditions.h"
 
 @interface VT100ColorMap () {
 	UIColor *_table[COLOR_MAP_MAX_COLORS];
@@ -51,20 +51,20 @@
 
 	if (self) {
 		if (dictionary[@"Background"]) {
-			_background = [UIColor hb_colorWithPropertyListValue:dictionary[@"Background"]];
+			_background = [UIColor colorWithPropertyListValue:dictionary[@"Background"]];
 		}
 
 		if (dictionary[@"Text"]) {
-			_foreground = [UIColor hb_colorWithPropertyListValue:dictionary[@"Text"]];
+			_foreground = [UIColor colorWithPropertyListValue:dictionary[@"Text"]];
 		}
 
 		if (dictionary[@"BoldText"]) {
-			_foregroundBold = [UIColor hb_colorWithPropertyListValue:dictionary[@"BoldText"]];
+			_foregroundBold = [UIColor colorWithPropertyListValue:dictionary[@"BoldText"]];
 		}
 
 		if (dictionary[@"Cursor"]) {
-			_foregroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
-			_backgroundCursor = [UIColor hb_colorWithPropertyListValue:dictionary[@"Cursor"]];
+			_foregroundCursor = [UIColor colorWithPropertyListValue:dictionary[@"Cursor"]];
+			_backgroundCursor = [UIColor colorWithPropertyListValue:dictionary[@"Cursor"]];
 		}
 
 		if (dictionary[@"IsDark"]) {
@@ -74,7 +74,7 @@
 		if (dictionary[@"ColorTable"] && [dictionary[@"ColorTable"] isKindOfClass:NSArray.class] && ((NSDictionary *)dictionary[@"ColorTable"]).count == COLOR_MAP_MAX_COLORS) {
 			NSArray *colors = dictionary[@"ColorTable"];
 			for (int i = 0; i < colors.count; i++) {
-				_table[i] = [UIColor hb_colorWithPropertyListValue:colors[i]];
+				_table[i] = [UIColor colorWithPropertyListValue:colors[i]];
 			}
 		}
 	}

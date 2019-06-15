@@ -53,7 +53,7 @@ class KeyboardButton: UIButton {
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
 		size.width += 16
-		size.height = isBigDevice ? 40 : UIViewNoIntrinsicMetric
+		size.height = isBigDevice ? 40 : UIView.noIntrinsicMetric
 		return size
 	}
 

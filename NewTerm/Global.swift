@@ -15,6 +15,9 @@ let isBigDevice: Bool = {
 
 	case .pad, .tv:
 		return true
+
+	@unknown default:
+		return false
 	}
 }()
 
