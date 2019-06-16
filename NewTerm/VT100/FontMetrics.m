@@ -36,4 +36,8 @@
 	return self;
 }
 
+- (NSString *)description {
+	return [NSString stringWithFormat:@"<%@: %p; regularFont = %@; boldFont = %@; boundingBox = %@>", self.class, self, _regularFont, _boldFont, NSStringFromCGSize(_boundingBox)];
+}
+
 @end

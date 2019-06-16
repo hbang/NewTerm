@@ -27,8 +27,8 @@ class Preferences {
 	var colorMap: VT100ColorMap!
 
 	private init() {
-#if TARGET_UIKITONMAC
-		let defaultFontName = "Menlo"
+#if targetEnvironment(UIKitForMac)
+		let defaultFontName = "SF Mono"
 #else
 		let defaultFontName = "Fira Code"
 #endif
@@ -86,10 +86,17 @@ class Preferences {
 		var regularFont: UIFont?
 		var boldFont: UIFont?
 
-		if let family = fontsPlist[fontName] as? [String: String] {
-			if family["Regular"] != nil && family["Bold"] != nil {
-				regularFont = UIFont(name: family["Regular"]!, size: fontSize)
-				boldFont = UIFont(name: family["Bold"]!, size: fontSize)
+		if fontName == "SF Mono" {
+			if #available(iOS 13.0, *) {
+				regularFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+				boldFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+			}
+		} else {
+			if let family = fontsPlist[fontName] as? [String: String] {
+				if family["Regular"] != nil && family["Bold"] != nil {
+					regularFont = UIFont(name: family["Regular"]!, size: fontSize)
+					boldFont = UIFont(name: family["Bold"]!, size: fontSize)
+				}
 			}
 		}
 
