@@ -64,7 +64,7 @@ class RootViewController: UIViewController {
 
 	// MARK: - Tab management
 
-	@objc func addTerminal() {
+	@IBAction func addTerminal() {
 		let terminalViewController = TerminalSessionViewController()
 
 		addChild(terminalViewController)
@@ -109,6 +109,20 @@ class RootViewController: UIViewController {
 		removeTerminal(index: button.tag)
 	}
 
+	@IBAction func removeCurrentTerminal() {
+		removeTerminal(index: selectedTabIndex)
+	}
+
+	@IBAction func removeAllTerminals() {
+		for terminalViewController in terminals {
+			terminalViewController.removeFromParent()
+			terminalViewController.view.removeFromSuperview()
+		}
+
+		terminals.removeAll()
+		addTerminal()
+	}
+
 	func switchToTab(index: Int) {
 		// if this is what’s already selected, just select it again and return
 		if index == selectedTabIndex {
@@ -143,6 +157,18 @@ class RootViewController: UIViewController {
 			// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
 			self.tabsCollectionView.reloadData()
 		})
+	}
+
+	// MARK: - Window management
+
+	@IBAction func addWindow() {
+		let options = UIWindowScene.ActivationRequestOptions()
+		options.requestingScene = view.window!.windowScene
+		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
+	}
+
+	@IBAction func closeCurrentWindow() {
+		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
 	}
 
 }

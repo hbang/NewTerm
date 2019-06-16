@@ -65,24 +65,41 @@
                                 <menu discoverabilityTitle="" identifier="com.apple.menu.close" id="Cng-n7-uzQ">
                                     <commandGroupOptions key="options" displayInline="YES"/>
                                     <children>
-                                        <command title="New Tab" propertyListString="" input="t" id="vOX-tw-MEX">
+                                        <command title="New Window" propertyListString="" input="n" id="vOX-tw-MEX">
                                             <keyModifierFlags key="modifierFlags" command="YES"/>
-                                        </command>
-                                        <command title="Close Tab" discoverabilityTitle="" propertyListString="" input="w" id="2Pt-Zc-WRv">
-                                            <keyModifierFlags key="modifierFlags" command="YES"/>
-                                            <alternates>
-                                                <commandAlternate title="Close All" actionName="closeAll:" id="rza-pz-gLx">
-                                                    <keyModifierFlags key="modifierFlags" option="YES"/>
-                                                </commandAlternate>
-                                            </alternates>
                                             <connections>
-                                                <action selector="performClose:" destination="4q8-XT-ran" id="Bf3-UR-vMo"/>
+                                                <action selector="addWindow" destination="4q8-XT-ran" id="LlE-81-wbQ"/>
+                                            </connections>
+                                        </command>
+                                        <command title="New Tab" propertyListString="" input="t" id="XAl-aJ-gwl">
+                                            <keyModifierFlags key="modifierFlags" command="YES"/>
+                                            <connections>
+                                                <action selector="addTerminal" destination="4q8-XT-ran" id="LOa-Bl-Iq6"/>
                                             </connections>
                                         </command>
                                     </children>
                                 </menu>
-                                <menu discoverabilityTitle="" identifier="com.apple.menu.print" id="sOp-cC-4GN">
+                                <menu title="Close" discoverabilityTitle="" id="oUp-ZR-dtm">
                                     <commandGroupOptions key="options" displayInline="YES"/>
+                                    <children>
+                                        <command title="Close Window" discoverabilityTitle="" propertyListString="" input="W" id="2Pt-Zc-WRv">
+                                            <keyModifierFlags key="modifierFlags" command="YES"/>
+                                            <connections>
+                                                <action selector="closeCurrentWindow" destination="4q8-XT-ran" id="rsS-uv-1rn"/>
+                                            </connections>
+                                        </command>
+                                        <command title="Close Tab" discoverabilityTitle="" propertyListString="" input="w" id="pK3-tL-hxa">
+                                            <keyModifierFlags key="modifierFlags" command="YES"/>
+                                            <alternates>
+                                                <commandAlternate title="Close All Tabs" actionName="closeAll:" id="8Uh-Zh-9jf">
+                                                    <keyModifierFlags key="modifierFlags" option="YES"/>
+                                                </commandAlternate>
+                                            </alternates>
+                                            <connections>
+                                                <action selector="removeCurrentTerminal" destination="4q8-XT-ran" id="tx7-x0-c1B"/>
+                                            </connections>
+                                        </command>
+                                    </children>
                                 </menu>
                             </children>
                         </menu>
@@ -277,8 +294,7 @@
                                         <menu title="Text Style" discoverabilityTitle="" identifier="com.apple.menu.text-style" id="xU5-TG-iRL">
                                             <commandGroupOptions key="options" displayInline="YES"/>
                                             <children>
-                                                <command title="Show Fonts" discoverabilityTitle="" propertyListString="" input="t" id="mT2-sn-TrR">
-                                                    <keyModifierFlags key="modifierFlags" command="YES"/>
+                                                <command title="Show Fonts" discoverabilityTitle="" propertyListString="" id="mT2-sn-TrR">
                                                     <connections>
                                                         <action selector="toggleFontPanel:" destination="4q8-XT-ran" id="hj9-lW-uMT"/>
                                                     </connections>

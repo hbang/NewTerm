@@ -9,6 +9,10 @@
 import UIKit
 import AudioToolbox
 
+#if targetEnvironment(UIKitForMac)
+import AppKit
+#endif
+
 class TerminalSessionViewController: UIViewController {
 
 	static let bellSoundID: SystemSoundID = {
@@ -80,6 +84,15 @@ class TerminalSessionViewController: UIViewController {
 		keyInput.textView = textView
 		keyInput.terminalInputDelegate = terminalController
 		view.addSubview(keyInput)
+	}
+
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow, modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow, modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
