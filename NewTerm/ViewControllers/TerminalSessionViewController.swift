@@ -47,7 +47,15 @@ class TerminalSessionViewController: UIViewController {
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+		setUp()
+	}
 
+	required init?(coder aDecoder: NSCoder) {
+		super.init(coder: aDecoder)
+		setUp()
+	}
+
+	func setUp() {
 		terminalController.delegate = self
 
 		do {
@@ -56,10 +64,6 @@ class TerminalSessionViewController: UIViewController {
 		} catch {
 			failureError = error
 		}
-	}
-
-	required init?(coder aDecoder: NSCoder) {
-		fatalError("init(coder:) has not been implemented")
 	}
 
 	override func loadView() {
@@ -306,9 +310,14 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 	func close() {
 		// TODO: i guess this is kind of the wrong spot
+		#if targetEnvironment(UIKitForMac)
+		#warning("TODO")
+		fatalError("Not implemented!")
+		#else
 		if let rootViewController = parent as? RootViewController {
 			rootViewController.removeTerminal(terminal: self)
 		}
+		#endif
 	}
 
 	func didReceiveError(error: Error) {

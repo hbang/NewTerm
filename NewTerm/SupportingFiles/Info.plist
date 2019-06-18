@@ -43,9 +43,9 @@
 					<key>UILaunchStoryboardName</key>
 					<string>LaunchScreen</string>
 					<key>UISceneConfigurationName</key>
-					<string>Default Configuration</string>
+					<string>Terminal</string>
 					<key>UISceneDelegateClassName</key>
-					<string>$(PRODUCT_MODULE_NAME).SceneDelegate</string>
+					<string>$(PRODUCT_MODULE_NAME).TerminalSceneDelegate</string>
 					<key>UISceneStoryboardFile</key>
 					<string>Main</string>
 				</dict>

@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -23,7 +23,7 @@
 		CFBB96D422B5481B00585BE6 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
 		CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */; };
 		CFBB96D822B5481B00585BE6 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969422B5481B00585BE6 /* NSArray+Additions.m */; };
-		CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
+		CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; platformFilter = ios; };
 		CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */; };
 		CFBB96DB22B5481B00585BE6 /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969C22B5481B00585BE6 /* VT100Screen.m */; };
 		CFBB96DC22B5481B00585BE6 /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969D22B5481B00585BE6 /* VT100Terminal.m */; };
@@ -41,7 +41,7 @@
 		CFBB96EB22B5481B00585BE6 /* Preferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C322B5481B00585BE6 /* Preferences.swift */; };
 		CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C422B5481B00585BE6 /* AppDelegate.swift */; };
 		CFBB96ED22B5481B00585BE6 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C522B5481B00585BE6 /* TerminalController.swift */; };
-		CFBB96EE22B5481B00585BE6 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */; };
+		CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */; };
 		CFBB972522B548D700585BE6 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F022B548D700585BE6 /* Localizable.strings */; };
 		CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F222B548D700585BE6 /* InfoPlist.strings */; };
 		CFBB972822B548D700585BE6 /* FiraCode-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */; };
@@ -123,7 +123,7 @@
 		CFBB96C322B5481B00585BE6 /* Preferences.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Preferences.swift; sourceTree = "<group>"; };
 		CFBB96C422B5481B00585BE6 /* AppDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		CFBB96C522B5481B00585BE6 /* TerminalController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalController.swift; sourceTree = "<group>"; };
-		CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSceneDelegate.swift; sourceTree = "<group>"; };
 		CFBB96F122B548D700585BE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/Localizable.strings; sourceTree = "<group>"; };
 		CFBB96F322B548D700585BE6 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Bold.otf"; sourceTree = "<group>"; };
@@ -342,9 +342,9 @@
 			children = (
 				CFBB96C422B5481B00585BE6 /* AppDelegate.swift */,
 				CFBB96C322B5481B00585BE6 /* Preferences.swift */,
-				CFBB96C622B5481B00585BE6 /* SceneDelegate.swift */,
 				CFBB96C222B5481B00585BE6 /* SubProcess.swift */,
 				CFBB96C522B5481B00585BE6 /* TerminalController.swift */,
+				CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -497,7 +497,7 @@
 				CFBB96DE22B5481B00585BE6 /* VT100StringSupplier.m in Sources */,
 				CFBB96EA22B5481B00585BE6 /* SubProcess.swift in Sources */,
 				CFBB96DD22B5481B00585BE6 /* NSStringITerm.m in Sources */,
-				CFBB96EE22B5481B00585BE6 /* SceneDelegate.swift in Sources */,
+				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96E022B5481B00585BE6 /* VT100.m in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
 				CFBB96E822B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
@@ -695,7 +695,10 @@
 				);
 				INFOPLIST_FILE = NewTerm/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -769,7 +772,10 @@
 				);
 				INFOPLIST_FILE = NewTerm/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				MARKETING_VERSION = 3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -777,8 +783,9 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_UIKITFORMAC = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = NewTerm/SupportingFiles/BridgingHeader.h;
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
