@@ -97,6 +97,7 @@ class TerminalSessionViewController: UIViewController {
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow, modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
