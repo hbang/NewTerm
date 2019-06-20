@@ -27,16 +27,18 @@ class Preferences {
 	var colorMap: VT100ColorMap!
 
 	private init() {
-#if targetEnvironment(UIKitForMac)
-		let defaultFontName = "SF Mono"
-#else
-		let defaultFontName = "Fira Code"
-#endif
+		let defaultFontName: String
+		if #available(iOS 13.0, *) {
+			defaultFontName = "SF Mono"
+		} else {
+			defaultFontName = "Fira Code"
+		}
 
 		preferences.register(defaults: [
 			"fontName": defaultFontName,
 			"fontSizePhone": 12,
 			"fontSizePad": 13,
+			"fontSizeMac": 16,
 			"theme": "kirb",
 			"bellHUD": true,
 			"bellSound": false
@@ -56,7 +58,13 @@ class Preferences {
 	}
 
 	var fontSize: CGFloat {
-		get { return preferences.object(forKey: isBigDevice ? "fontSizePad" : "fontSizePhone") as! CGFloat }
+		get {
+			#if targetEnvironment(UIKitForMac)
+			return preferences.object(forKey: "fontSizeMac") as! CGFloat
+			#else
+			return preferences.object(forKey: isBigDevice ? "fontSizePad" : "fontSizePhone") as! CGFloat
+			#endif
+		}
 	}
 
 	var themeName: String {
