@@ -8,27 +8,27 @@
 
 import UIKit
 
-// #if targetEnvironment(macCatalyst)
-// import AppKit
-// #endif
+#if targetEnvironment(macCatalyst)
+import AppKit
+#endif
 
-// @available(iOS 13.0, *)
-// class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
+@available(iOS 13.0, *)
+class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
-// 	var window: UIWindow?
+	var window: UIWindow?
 
-// 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-// 		window!.tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
+	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
+		window!.tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
 
-// 		if let navigationController = window!.rootViewController as? UINavigationController {
-// 			let storyboard = navigationController.storyboard!
-// 			#if targetEnvironment(macCatalyst)
-// 			let viewController = storyboard.instantiateViewController(identifier: "terminalSessionViewController")
-// 			#else
-// 			let viewController = storyboard.instantiateViewController(identifier: "terminalViewController")
-// 			#endif
-// 			navigationController.viewControllers = [ viewController ]
-// 		}
-// 	}
+		if let navigationController = window!.rootViewController as? UINavigationController {
+			let storyboard = navigationController.storyboard!
+			#if targetEnvironment(macCatalyst)
+			let viewController = storyboard.instantiateViewController(identifier: "terminalSessionViewController")
+			#else
+			let viewController = storyboard.instantiateViewController(identifier: "terminalViewController")
+			#endif
+			navigationController.viewControllers = [ viewController ]
+		}
+	}
 
-// }
+}
