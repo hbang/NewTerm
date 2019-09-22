@@ -60,8 +60,8 @@
 	<array>
 		<string>FiraCode-Bold.otf</string>
 		<string>FiraCode-Retina.otf</string>
-		<string>Hack-Bold.otf</string>
-		<string>Hack-Regular.otf</string>
+		<string>Hack-Bold.ttf</string>
+		<string>Hack-Regular.ttf</string>
 		<string>SourceCodePro-Bold.otf</string>
 		<string>SourceCodePro-Regular.otf</string>
 	</array>

@@ -48,9 +48,9 @@
 		CFBB972D22B548D700585BE6 /* FiraCode-Retina.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */; };
 		CFBB973122B548D700585BE6 /* colortest.txt in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FE22B548D700585BE6 /* colortest.txt */; };
 		CFBB973222B548D700585BE6 /* Fonts.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FF22B548D700585BE6 /* Fonts.plist */; };
-		CFBB973A22B548D700585BE6 /* Hack-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB970722B548D700585BE6 /* Hack-Regular.otf */; };
+		CFBB973A22B548D700585BE6 /* Hack-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB970722B548D700585BE6 /* Hack-Regular.ttf */; };
 		CFBB974322B548D700585BE6 /* SourceCodePro-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */; };
-		CFBB974622B548D700585BE6 /* Hack-Bold.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB971322B548D700585BE6 /* Hack-Bold.otf */; };
+		CFBB974622B548D700585BE6 /* Hack-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB971322B548D700585BE6 /* Hack-Bold.ttf */; };
 		CFBB975422B548D700585BE6 /* SourceCodePro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */; };
 		CFBB975622B548D700585BE6 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972322B548D700585BE6 /* Themes.plist */; };
 		CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFBB975922B5499600585BE6 /* Assets.xcassets */; };
@@ -129,9 +129,9 @@
 		CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "FiraCode-Retina.otf"; sourceTree = "<group>"; };
 		CFBB96FE22B548D700585BE6 /* colortest.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = colortest.txt; sourceTree = "<group>"; };
 		CFBB96FF22B548D700585BE6 /* Fonts.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Fonts.plist; sourceTree = "<group>"; };
-		CFBB970722B548D700585BE6 /* Hack-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Regular.otf"; sourceTree = "<group>"; };
+		CFBB970722B548D700585BE6 /* Hack-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Regular.ttf"; sourceTree = "<group>"; };
 		CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Bold.otf"; sourceTree = "<group>"; };
-		CFBB971322B548D700585BE6 /* Hack-Bold.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Bold.otf"; sourceTree = "<group>"; };
+		CFBB971322B548D700585BE6 /* Hack-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hack-Bold.ttf"; sourceTree = "<group>"; };
 		CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "SourceCodePro-Regular.otf"; sourceTree = "<group>"; };
 		CFBB972322B548D700585BE6 /* Themes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Themes.plist; sourceTree = "<group>"; };
 		CFBB975922B5499600585BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -366,8 +366,8 @@
 			children = (
 				CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */,
 				CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */,
-				CFBB970722B548D700585BE6 /* Hack-Regular.otf */,
-				CFBB971322B548D700585BE6 /* Hack-Bold.otf */,
+				CFBB970722B548D700585BE6 /* Hack-Regular.ttf */,
+				CFBB971322B548D700585BE6 /* Hack-Bold.ttf */,
 				CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */,
 				CFBB971022B548D700585BE6 /* SourceCodePro-Bold.otf */,
 			);
@@ -468,9 +468,9 @@
 				CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */,
 				CFBB975422B548D700585BE6 /* SourceCodePro-Regular.otf in Resources */,
 				CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */,
-				CFBB974622B548D700585BE6 /* Hack-Bold.otf in Resources */,
+				CFBB974622B548D700585BE6 /* Hack-Bold.ttf in Resources */,
 				CFBB972522B548D700585BE6 /* Localizable.strings in Resources */,
-				CFBB973A22B548D700585BE6 /* Hack-Regular.otf in Resources */,
+				CFBB973A22B548D700585BE6 /* Hack-Regular.ttf in Resources */,
 				CFBB975622B548D700585BE6 /* Themes.plist in Resources */,
 				CFBB976122B552A600585BE6 /* Main.storyboard in Resources */,
 				CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */,
