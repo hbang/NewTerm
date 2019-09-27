@@ -9,9 +9,9 @@
 import UIKit
 import AudioToolbox
 
-#if targetEnvironment(UIKitForMac)
-import AppKit
-#endif
+// #if targetEnvironment(macCatalyst)
+// import AppKit
+// #endif
 
 class TerminalSessionViewController: UIViewController {
 
@@ -311,14 +311,14 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 	func close() {
 		// TODO: i guess this is kind of the wrong spot
-		#if targetEnvironment(UIKitForMac)
-		#warning("TODO")
-		fatalError("Not implemented!")
-		#else
+		// #if targetEnvironment(macCatalyst)
+		// #warning("TODO")
+		// fatalError("Not implemented!")
+		// #else
 		if let rootViewController = parent as? RootViewController {
 			rootViewController.removeTerminal(terminal: self)
 		}
-		#endif
+		// #endif
 	}
 
 	func didReceiveError(error: Error) {

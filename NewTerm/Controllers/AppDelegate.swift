@@ -16,6 +16,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		let textColor = UIColor.white
+		let tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
 		let backgroundColor = UIColor(white: 26 / 255, alpha: 1)
 		let lightTintColor = UIColor(white: 60 / 255, alpha: 1)
 
@@ -38,6 +39,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		UIScrollView.appearance().keyboardDismissMode = .interactive
 
+		// if #available(iOS 13.0, *) {
+			// handled by UISceneSession lifecycle methods below
+		// } else {
+			window = UIWindow(frame: UIScreen.main.bounds)
+			window!.tintColor = tintColor
+			window!.rootViewController = UINavigationController(rootViewController: RootViewController())
+			window!.makeKeyAndVisible()
+		// }
+
 		_ = Preferences.shared
 
 		return true
@@ -45,9 +55,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 	// MARK: - UISceneSession Lifecycle
 
-	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-		return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
-	}
+	// @available(iOS 13.0, *)
+	// func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+	// 	return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
+	// }
 
 }
 

@@ -18,11 +18,11 @@ APPLICATION_NAME = NewTerm
 NewTerm_FILES = $(shell find NewTerm -name \*.x -or -name \*.m -or -name \*.swift)
 NewTerm_SWIFT_BRIDGING_HEADER = $(PROJECT_DIR)/SupportingFiles/BridgingHeader.h
 NewTerm_LIBRARIES = curses
-NewTerm_CODESIGN_ENTITLEMENTS = -S$(PROJECT_DIR)/entitlements.plist
+NewTerm_CODESIGN_FLAGS = -S$(PROJECT_DIR)/entitlements.plist
 
 ifeq ($(LINK_CEPHEI),1)
-ADDITIONAL_CFLAGS += -DHAS_CEPHEI
-ADDITIONAL_SWIFTFLAGS += -DHAS_CEPHEI
+ADDITIONAL_CFLAGS += -DLINK_CEPHEI
+ADDITIONAL_SWIFTFLAGS += -DLINK_CEPHEI -Xcc -DLINK_CEPHEI
 
 NewTerm_PRIVATE_FRAMEWORKS = Preferences
 NewTerm_EXTRA_FRAMEWORKS = Cephei CepheiUI

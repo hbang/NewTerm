@@ -161,15 +161,19 @@ class RootViewController: UIViewController {
 
 	// MARK: - Window management
 
-	@IBAction func addWindow() {
-		let options = UIWindowScene.ActivationRequestOptions()
-		options.requestingScene = view.window!.windowScene
-		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
-	}
+	// @IBAction func addWindow() {
+		// if #available(iOS 13.0, *) {
+		// 	let options = UIWindowScene.ActivationRequestOptions()
+		// 	options.requestingScene = view.window!.windowScene
+		// 	UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
+		// }
+	// }
 
-	@IBAction func closeCurrentWindow() {
-		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
-	}
+	// @IBAction func closeCurrentWindow() {
+		// if #available(iOS 13.0, *) {
+		// 	UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
+		// }
+	// }
 
 }
 

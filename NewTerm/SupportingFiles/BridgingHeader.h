@@ -14,8 +14,9 @@
 #import <VT100/VT100Types.h>
 #import <VT100/VT100ColorMap.h>
 
-#if LINK_CEPHEI
+#ifdef LINK_CEPHEI
 #import <Cephei/HBPreferences.h>
+#else
 #endif
 
 // “The UIKit module currently doesn’t import the newly added NSToolbar and NSTouchBar headers,

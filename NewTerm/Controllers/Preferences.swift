@@ -59,16 +59,20 @@ class Preferences {
 
 	var fontSize: CGFloat {
 		get {
-			#if targetEnvironment(UIKitForMac)
-			return preferences.object(forKey: "fontSizeMac") as! CGFloat
-			#else
+			// #if targetEnvironment(macCatalyst)
+			// return preferences.object(forKey: "fontSizeMac") as! CGFloat
+			// #else
 			return preferences.object(forKey: isBigDevice ? "fontSizePad" : "fontSizePhone") as! CGFloat
-			#endif
+			// #endif
 		}
 	}
 
 	var themeName: String {
 		get { return preferences.object(forKey: "theme") as! String }
+	}
+
+	var keyboardAccessoryStyle: KeyboardButton.Style {
+		get { return KeyboardButton.Style(rawValue: preferences.integer(forKey: "keyboardAccessoryStyle")) ?? .text }
 	}
 
 	var bellHUD: Bool {
@@ -95,10 +99,10 @@ class Preferences {
 		var boldFont: UIFont?
 
 		if fontName == "SF Mono" {
-			if #available(iOS 13.0, *) {
-				regularFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
-				boldFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .bold)
-			}
+			// if #available(iOS 13.0, *) {
+			// 	regularFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+			// 	boldFont = UIFont.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+			// }
 		} else {
 			if let family = fontsPlist[fontName] as? [String: String] {
 				if family["Regular"] != nil && family["Bold"] != nil {
