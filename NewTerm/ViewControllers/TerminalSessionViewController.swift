@@ -32,7 +32,7 @@ class TerminalSessionViewController: UIViewController {
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
 
 	private lazy var bellHUDView: HUDView = {
-		let bellHUDView = HUDView(image: #imageLiteral(resourceName: "bell-hud"))
+		let bellHUDView = HUDView(image: #imageLiteral(resourceName: "bell").withRenderingMode(.alwaysTemplate))
 		bellHUDView.translatesAutoresizingMaskIntoConstraints = false
 		return bellHUDView
 	}()

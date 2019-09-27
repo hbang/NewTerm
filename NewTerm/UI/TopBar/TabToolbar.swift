@@ -22,6 +22,7 @@ class TabToolbar: UIView {
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		backdropView.delegate = self
 		addSubview(backdropView)
 
 		let collectionViewLayout = UICollectionViewFlowLayout()
@@ -29,7 +30,6 @@ class TabToolbar: UIView {
 		collectionViewLayout.minimumInteritemSpacing = 0
 		collectionViewLayout.minimumLineSpacing = 0
 
-		// the weird frame is to appease ios 6 UICollectionView
 		tabsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 		tabsCollectionView.backgroundColor = nil
 		tabsCollectionView.indicatorStyle = .white
@@ -39,17 +39,10 @@ class TabToolbar: UIView {
 		tabsCollectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.reuseIdentifier)
 
 		addButton = UIButton(type: .system)
-		addButton.titleLabel!.font = UIFont.systemFont(ofSize: 18)
-		addButton.setTitle("＋", for: .normal)
+		addButton.setImage(isSmallDevice ? #imageLiteral(resourceName: "add-small") : #imageLiteral(resourceName: "add"), for: .normal)
 		addButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
+		addButton.contentMode = .center
 		addSubview(addButton)
-
-		let shadowHeight = CGFloat(1) / UIScreen.main.scale
-
-		let shadowView = UIView(frame: CGRect(x: 0, y: frame.size.height - shadowHeight, width: frame.size.width, height: shadowHeight))
-		shadowView.autoresizingMask = [ .flexibleWidth, .flexibleTopMargin ]
-		shadowView.backgroundColor = UIColor(white: 64 / 255, alpha: 1)
-		addSubview(shadowView)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -63,12 +56,15 @@ class TabToolbar: UIView {
 
 		addButton.frame = CGRect(x: frame.size.width - addButtonWidth, y: topMargin, width: addButtonWidth, height: frame.size.height - topMargin)
 		tabsCollectionView.frame = CGRect(x: 0, y: topMargin, width: addButton.frame.origin.x, height: addButton.frame.size.height)
+	}
 
-		let newButtonSize = CGFloat(addButton.frame.size.height < 40 ? 18 : 24)
+}
 
-		if (addButton.titleLabel!.font.pointSize != newButtonSize) {
-			addButton.titleLabel!.font = UIFont.systemFont(ofSize: newButtonSize)
-		}
+extension TabToolbar: UIToolbarDelegate {
+
+	func position(for bar: UIBarPositioning) -> UIBarPosition {
+		// helps UIToolbar figure out where to place the shadow line
+		return .top
 	}
 
 }

@@ -166,6 +166,43 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
+			<string>INPUT</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>0</integer>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>detail</key>
+			<string>PSListItemsController</string>
+			<key>key</key>
+			<string>keyboardAccessoryStyle</string>
+			<key>label</key>
+			<string>KEYBOARD_STYLE</string>
+			<key>validTitles</key>
+			<array>
+				<string>KEYBOARD_STYLE_TEXT</string>
+				<string>KEYBOARD_STYLE_ICONS</string>
+			</array>
+			<key>shortTitles</key>
+			<array>
+				<string>KEYBOARD_STYLE_TEXT_SHORT</string>
+				<string>KEYBOARD_STYLE_ICONS_SHORT</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+			</array>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
 			<string>BELL</string>
 		</dict>
 		<dict>

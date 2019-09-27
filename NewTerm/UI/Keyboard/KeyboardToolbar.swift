@@ -12,29 +12,39 @@ class KeyboardToolbar: UIView {
 
 	let backdropView = UIToolbar()
 
-	let ctrlKey = KeyboardButton(title: "Ctrl")
-	let metaKey = KeyboardButton(title: "Esc")
-	let tabKey = KeyboardButton(title: "Tab")
-	let moreKey = KeyboardButton(title: "Fn")
+	let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", image: #imageLiteral(resourceName: "key-control"))
+	let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", image: #imageLiteral(resourceName: "key-escape"))
+	let tabKey = KeyboardButton(title: "Tab", glyph: "Tab", image: #imageLiteral(resourceName: "key-tab"))
+	let moreKey = KeyboardButton(title: "Functions", glyph: "Fn", image: #imageLiteral(resourceName: "key-more"))
 
-	let upKey = KeyboardButton(title: "Up", glyph: "▲")
-	let downKey = KeyboardButton(title: "Down", glyph: "▼")
-	let leftKey = KeyboardButton(title: "Left", glyph: "◀")
-	let rightKey = KeyboardButton(title: "Right", glyph: "▶")
+	let upKey = KeyboardButton(title: "Up", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))
+	let downKey = KeyboardButton(title: "Down", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))
+	let leftKey = KeyboardButton(title: "Left", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
+	let rightKey = KeyboardButton(title: "Right", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
+
+	var buttons: [KeyboardButton]!
+	var squareButtonConstraints: [NSLayoutConstraint]!
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		backdropView.delegate = self
 		addSubview(backdropView)
 
+		let height = isSmallDevice ? 36 : 44
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
 		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
 		let bottomSpacing = CGFloat(isSmallDevice ? 0 : 2)
 
 		let spacerView = UIView()
+
+		buttons = [
+			ctrlKey, metaKey, tabKey, moreKey,
+			upKey, downKey, leftKey, rightKey
+		]
 
 		let views = [
 			"ctrlKey": ctrlKey,
@@ -60,11 +70,13 @@ class KeyboardToolbar: UIView {
 		addSubview(stackView)
 
 		addCompactConstraints([
+			"self.height = height",
 			"stackView.top = toolbar.top + topSpacing",
 			"stackView.bottom = toolbar.bottom - bottomSpacing",
 			"stackView.left = toolbar.left + outerXSpacing",
 			"stackView.right = toolbar.right - outerXSpacing"
 		], metrics: [
+			"height": height,
 			"outerXSpacing": outerXSpacing,
 			"topSpacing": topSpacing,
 			"bottomSpacing": bottomSpacing
@@ -85,16 +97,55 @@ class KeyboardToolbar: UIView {
 			"leftKey.width = leftKey.height",
 			"rightKey.width = rightKey.height"
 		], metrics: nil, views: views)
+
+		squareButtonConstraints = NSLayoutConstraint.compactConstraints([
+			"ctrlKey.width = ctrlKey.height",
+			"metaKey.width = metaKey.height",
+			"tabKey.width = tabKey.height",
+			"moreKey.width = moreKey.height"
+		], metrics: nil, views: views, self: self)
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
+		preferencesUpdated()
 	}
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	@objc func preferencesUpdated() {
+		let preferences = Preferences.shared
+		let style = preferences.keyboardAccessoryStyle
+
+		for button in buttons {
+			button.style = style
+		}
+
+		// enable 1:1 width:height aspect ratio if using icons style
+		switch style {
+			case .text:
+				NSLayoutConstraint.deactivate(squareButtonConstraints)
+				break
+
+			case .icons:
+				NSLayoutConstraint.activate(squareButtonConstraints)
+				break
+		}
+	}
+
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
-		size.height = isSmallDevice ? 32 : 40
+		size.height = isSmallDevice ? 36 : 44
 		return size
+	}
+
+}
+
+extension KeyboardToolbar: UIToolbarDelegate {
+
+	func position(for bar: UIBarPositioning) -> UIBarPosition {
+		// helps UIToolbar figure out where to place the shadow line
+		return .bottom
 	}
 
 }

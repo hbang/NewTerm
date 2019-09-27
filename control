@@ -9,7 +9,7 @@ Description: A powerful terminal app for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
-Icon: https://repo.chariz.io/package/ws.hbang.newterm2/icon@3x.png
+Icon: file:///Applications/NewTerm.app/AppIcon60x60@3x.png
 Depiction: https://repo.chariz.io/package/ws.hbang.newterm2/
 Support: https://hashbang.productions/support/
 Tag: compatible::ios10, compatible::ios11, compatible::ios12

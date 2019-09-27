@@ -16,8 +16,10 @@ class KeyboardPopupToolbar: UIView {
 	let endKey = KeyboardButton(title: "End", glyph: "End")
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
-	let deleteKey = KeyboardButton(title: "Delete Forward", image: #imageLiteral(resourceName: "delete-forward"), highlightedImage: #imageLiteral(resourceName: "delete-forward-down"))
-	let settingsKey = KeyboardButton(title: "Settings", image: #imageLiteral(resourceName: "settings"), highlightedImage: #imageLiteral(resourceName: "settings-down"))
+	let deleteKey = KeyboardButton(title: "Delete Forward", image: #imageLiteral(resourceName: "key-delete-forward"), highlightedImage: #imageLiteral(resourceName: "key-delete-forward-down"))
+	let settingsKey = KeyboardButton(title: "Settings", image: #imageLiteral(resourceName: "key-settings"))
+
+	var buttons: [KeyboardButton]!
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -26,8 +28,10 @@ class KeyboardPopupToolbar: UIView {
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		backdropView.delegate = self
 		addSubview(backdropView)
 
+		let height = isSmallDevice ? 36 : 44
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
 		let ySpacing = CGFloat(isSmallDevice ? 2 : 4)
@@ -47,6 +51,13 @@ class KeyboardPopupToolbar: UIView {
 		], views: nil)
 
 		deleteKey.titleLabel!.font = UIFont(name: "Helvetica Neue", size: deleteKey.titleLabel!.font.pointSize)
+
+		buttons = [
+			homeKey, endKey,
+			pageUpKey, pageDownKey,
+			deleteKey,
+			settingsKey
+		]
 
 		let views = [
 			"homeKey": homeKey,
@@ -74,11 +85,13 @@ class KeyboardPopupToolbar: UIView {
 		addSubview(stackView)
 
 		addCompactConstraints([
+			"self.height = height",
 			"stackView.top = toolbar.top + ySpacing",
 			"stackView.bottom = toolbar.bottom - ySpacing",
 			"stackView.left = toolbar.left + outerXSpacing",
 			"stackView.right = toolbar.right - outerXSpacing"
 		], metrics: [
+			"height": height,
 			"outerXSpacing": outerXSpacing,
 			"ySpacing": ySpacing
 		], views: [
@@ -96,16 +109,37 @@ class KeyboardPopupToolbar: UIView {
 			"deleteKey.width >= deleteKey.height",
 			"settingsKey.width >= settingsKey.height"
 		], metrics: nil, views: views)
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
+		preferencesUpdated()
 	}
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	@objc func preferencesUpdated() {
+		let preferences = Preferences.shared
+		let style = preferences.keyboardAccessoryStyle
+
+		for button in buttons {
+			button.style = style
+		}
+	}
+
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
-		size.height = isSmallDevice ? 32 : 40
+		size.height = isSmallDevice ? 36 : 44
 		return size
+	}
+
+}
+
+extension KeyboardPopupToolbar: UIToolbarDelegate {
+
+	func position(for bar: UIBarPositioning) -> UIBarPosition {
+		// helps UIToolbar figure out where to place the shadow line
+		return .bottom
 	}
 
 }

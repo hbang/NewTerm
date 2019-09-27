@@ -12,9 +12,7 @@ class HUDView: UIView {
 
 	let imageView = UIImageView()
 
-	let backdropView: UIView = {
-		return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-	}()
+	let backdropView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
 
 	init(image: UIImage) {
 		super.init(frame: .zero)
@@ -23,6 +21,7 @@ class HUDView: UIView {
 		alpha = 0
 		clipsToBounds = true
 		layer.cornerRadius = 16
+		tintColor = .white
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]

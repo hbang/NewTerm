@@ -10,20 +10,21 @@ import UIKit
 
 class KeyboardButton: UIButton {
 
+	enum Style: Int {
+		case text = 0, icons = 1
+	}
+
+	private(set) var glyph: String?
+	private(set) var image: UIImage?
+	private(set) var highlightedImage: UIImage?
+
 	convenience init(title: String, glyph: String? = nil, image: UIImage? = nil, highlightedImage: UIImage? = nil, target: AnyObject? = nil, action: Selector? = nil) {
 		self.init(frame: .zero)
 
 		accessibilityLabel = title
-
-		if image != nil {
-			let actualImage = image!.withRenderingMode(.alwaysTemplate)
-			let actualHighlightedImage = highlightedImage == nil ? actualImage : highlightedImage!.withRenderingMode(.alwaysTemplate)
-			setImage(actualImage, for: .normal)
-			setImage(actualHighlightedImage, for: .highlighted)
-			setImage(actualHighlightedImage, for: .selected)
-		} else {
-			setTitle(glyph ?? title, for: .normal)
-		}
+		self.glyph = glyph
+		self.image = image
+		self.highlightedImage = highlightedImage
 
 		if target != nil && action != nil {
 			addTarget(target!, action: action!, for: .touchUpInside)
@@ -37,17 +38,38 @@ class KeyboardButton: UIButton {
 		layer.cornerRadius = isBigDevice ? 6 : 4
 		titleLabel!.font = .systemFont(ofSize: isBigDevice ? 18 : 15)
 		tintColor = .white
+		adjustsImageWhenHighlighted = false
 		setTitleColor(tintColor, for: .normal)
 		setTitleColor(.black, for: .selected)
-		setBackgroundImage(image(color: UIColor(white: 0.3529411765, alpha: 1)), for: .normal)
-		setBackgroundImage(image(color: UIColor(white: 0.2078431373, alpha: 1)), for: .highlighted)
-		setBackgroundImage(image(color: UIColor(white: 0.6784313725, alpha: 1)), for: .selected)
+		setBackgroundImage(image(of: UIColor(white: 0.3529411765, alpha: 1)), for: .normal)
+		setBackgroundImage(image(of: UIColor(white: 0.2078431373, alpha: 1)), for: .highlighted)
+		setBackgroundImage(image(of: UIColor(white: 0.6784313725, alpha: 1)), for: .selected)
+		setBackgroundImage(image(of: UIColor(white: 0.6784313725, alpha: 1)), for: [ .highlighted, .selected ])
 
 		addTarget(UIDevice.current, action: #selector(UIDevice.playInputClick), for: .touchUpInside)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
+	}
+
+	var style: Style = .text {
+		didSet {
+			let actualNormalImage: UIImage?
+			let actualHighlightedImage: UIImage?
+			if image != nil && (glyph == nil || style == .icons) {
+				actualNormalImage = image!.withRenderingMode(.alwaysTemplate)
+				actualHighlightedImage = highlightedImage?.withRenderingMode(.alwaysTemplate)
+				setTitle(nil, for: .normal)
+			} else {
+				actualNormalImage = nil
+				actualHighlightedImage = nil
+				setTitle(glyph ?? accessibilityLabel, for: .normal)
+			}
+			setImage(actualNormalImage, for: .normal)
+			setImage(actualHighlightedImage, for: .highlighted)
+			setImage(actualHighlightedImage, for: .selected)
+		}
 	}
 
 	override var intrinsicContentSize: CGSize {
@@ -57,20 +79,11 @@ class KeyboardButton: UIButton {
 		return size
 	}
 
-	private func image(color: UIColor) -> UIImage {
-		// https://stackoverflow.com/a/14525049/709376
-		let rect = CGRect(x: 0, y: 0, width: 1, height: 1)
-
-		UIGraphicsBeginImageContextWithOptions(rect.size, true, 1)
-
-		let context = UIGraphicsGetCurrentContext()!
-		context.setFillColor(color.cgColor)
-		context.fill(rect)
-
-		let image = UIGraphicsGetImageFromCurrentImageContext()!
-		UIGraphicsEndImageContext()
-
-		return image
+	private func image(of color: UIColor) -> UIImage {
+		return UIGraphicsImageRenderer(size: CGSize(width: 1, height: 1)).image { context in
+			color.setFill()
+			context.fill(CGRect(x: 0, y: 0, width: 1, height: 1))
+		}
 	}
 
 }
