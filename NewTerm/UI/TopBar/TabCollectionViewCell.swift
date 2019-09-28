@@ -14,8 +14,14 @@ class TabCollectionViewCell: UICollectionViewCell {
 
 	let textLabel = UILabel()
 	let closeButton = UIButton()
+	let separatorView = UIView()
 
 	var separatorViewWidthConstraint: NSLayoutConstraint!
+
+	var isLastItem: Bool {
+		get { return separatorView.isHidden }
+		set { separatorView.isHidden = newValue }
+	}
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -37,7 +43,6 @@ class TabCollectionViewCell: UICollectionViewCell {
 		closeButton.alpha = 0.5
 		contentView.addSubview(closeButton)
 
-		let separatorView = UIView()
 		separatorView.translatesAutoresizingMaskIntoConstraints = false
 		separatorView.backgroundColor = UIColor(white: 85 / 255, alpha: 0.4)
 		contentView.addSubview(separatorView)
@@ -45,7 +50,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		contentView.addCompactConstraints([
 			"textLabel.centerY = contentView.centerY",
 			"textLabel.left = contentView.left + 6",
-			"closeButton.width = 24",
+			"closeButton.width = 30",
 			"closeButton.height = contentView.height",
 			"closeButton.left = textLabel.right",
 			"closeButton.right = contentView.right",

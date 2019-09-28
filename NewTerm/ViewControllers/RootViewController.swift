@@ -191,6 +191,7 @@ extension RootViewController: UICollectionViewDataSource, UICollectionViewDelega
 		cell.isSelected = selectedTabIndex == indexPath.row
 		cell.closeButton.tag = indexPath.row
 		cell.closeButton.addTarget(self, action: #selector(self.removeTerminalButtonTapped(_:)), for: .touchUpInside)
+		cell.isLastItem = indexPath.row == terminals.count - 1
 		return cell
 	}
 
