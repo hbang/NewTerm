@@ -70,7 +70,9 @@ class TabCollectionViewCell: UICollectionViewCell {
 	override func willMove(toWindow newWindow: UIWindow?) {
 		super.willMove(toWindow: newWindow)
 
-		separatorViewWidthConstraint.constant = 1 / newWindow!.screen.scale
+		if newWindow != nil {
+			separatorViewWidthConstraint.constant = 1 / newWindow!.screen.scale
+		}
 	}
 
 	override var intrinsicContentSize: CGSize {
