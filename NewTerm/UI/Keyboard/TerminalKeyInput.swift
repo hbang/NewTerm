@@ -201,7 +201,7 @@ class TerminalKeyInput: TextInputBase {
 		if !visible && animated {
 			UIView.animate(withDuration: 0.2, animations: {
 				self.moreToolbar.alpha = 0
-			}, completion: { (_) in
+			}, completion: { _ in
 				self.moreToolbar.isHidden = true
 			})
 		} else {

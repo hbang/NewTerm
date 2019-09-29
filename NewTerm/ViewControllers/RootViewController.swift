@@ -153,7 +153,7 @@ class RootViewController: UIViewController {
 			}
 
 			self.tabsCollectionView.selectItem(at: IndexPath(item: selectedTabIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-		}, completion: { (_) in
+		}, completion: { _ in
 			// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
 			self.tabsCollectionView.reloadData()
 		})

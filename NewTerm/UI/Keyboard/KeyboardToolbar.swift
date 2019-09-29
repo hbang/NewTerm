@@ -37,7 +37,7 @@ class KeyboardToolbar: UIView {
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
 		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
-		let bottomSpacing = CGFloat(isSmallDevice ? 0 : 2)
+		let bottomSpacing = CGFloat(2)
 
 		let spacerView = UIView()
 

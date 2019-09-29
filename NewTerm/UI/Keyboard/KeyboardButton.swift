@@ -41,10 +41,10 @@ class KeyboardButton: UIButton {
 		adjustsImageWhenHighlighted = false
 		setTitleColor(tintColor, for: .normal)
 		setTitleColor(.black, for: .selected)
-		setBackgroundImage(image(of: UIColor(white: 0.3529411765, alpha: 1)), for: .normal)
-		setBackgroundImage(image(of: UIColor(white: 0.2078431373, alpha: 1)), for: .highlighted)
-		setBackgroundImage(image(of: UIColor(white: 0.6784313725, alpha: 1)), for: .selected)
-		setBackgroundImage(image(of: UIColor(white: 0.6784313725, alpha: 1)), for: [ .highlighted, .selected ])
+		setBackgroundImage(image(of: UIColor(white: 1, alpha: 69 / 255)), for: .normal)
+		setBackgroundImage(image(of: UIColor(white: 1, alpha: 32 / 255)), for: .highlighted)
+		setBackgroundImage(image(of: UIColor(white: 1, alpha: 182 / 255)), for: .selected)
+		setBackgroundImage(image(of: UIColor(white: 1, alpha: 32 / 255)), for: [ .highlighted, .selected ])
 
 		addTarget(UIDevice.current, action: #selector(UIDevice.playInputClick), for: .touchUpInside)
 	}
@@ -77,6 +77,18 @@ class KeyboardButton: UIButton {
 		size.width += 16
 		size.height = isBigDevice ? 40 : UIView.noIntrinsicMetric
 		return size
+	}
+
+	override var isSelected: Bool {
+		didSet {
+			tintColor = isSelected && !isHighlighted ? .black : .white
+		}
+	}
+
+	override var isHighlighted: Bool {
+		didSet {
+			tintColor = isSelected && !isHighlighted ? .black : .white
+		}
 	}
 
 	private func image(of color: UIColor) -> UIImage {

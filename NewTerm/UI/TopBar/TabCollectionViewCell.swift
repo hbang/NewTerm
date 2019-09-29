@@ -27,7 +27,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		super.init(frame: frame)
 
 		selectedBackgroundView = UIView()
-		selectedBackgroundView!.backgroundColor = UIColor(white: 85 / 255, alpha: 0.7)
+		selectedBackgroundView!.backgroundColor = UIColor(white: 1, alpha: 69 / 255)
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.font = UIFont.systemFont(ofSize: 16)

@@ -31,10 +31,11 @@ class KeyboardPopupToolbar: UIView {
 		backdropView.delegate = self
 		addSubview(backdropView)
 
-		let height = isSmallDevice ? 36 : 44
+		let height = isSmallDevice ? 37 : 45
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
-		let ySpacing = CGFloat(isSmallDevice ? 2 : 4)
+		let topSpacing = CGFloat(isSmallDevice ? 2 : 3)
+		let bottomSpacing = CGFloat(isSmallDevice ? 3 : 4)
 
 		let homeEndSpacerView = UIView()
 		let pageUpDownSpacerView = UIView()
@@ -49,8 +50,6 @@ class KeyboardPopupToolbar: UIView {
 		deleteSpacerView.addCompactConstraint("self.width <= max", metrics: [
 			"max": CGFloat.greatestFiniteMagnitude
 		], views: nil)
-
-		deleteKey.titleLabel!.font = UIFont(name: "Helvetica Neue", size: deleteKey.titleLabel!.font.pointSize)
 
 		buttons = [
 			homeKey, endKey,
@@ -86,14 +85,15 @@ class KeyboardPopupToolbar: UIView {
 
 		addCompactConstraints([
 			"self.height = height",
-			"stackView.top = toolbar.top + ySpacing",
-			"stackView.bottom = toolbar.bottom - ySpacing",
+			"stackView.top = toolbar.top + topSpacing",
+			"stackView.bottom = toolbar.bottom - bottomSpacing",
 			"stackView.left = toolbar.left + outerXSpacing",
 			"stackView.right = toolbar.right - outerXSpacing"
 		], metrics: [
 			"height": height,
 			"outerXSpacing": outerXSpacing,
-			"ySpacing": ySpacing
+			"topSpacing": topSpacing,
+			"bottomSpacing": bottomSpacing
 		], views: [
 			"toolbar": self,
 			"stackView": stackView
@@ -129,7 +129,7 @@ class KeyboardPopupToolbar: UIView {
 
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
-		size.height = isSmallDevice ? 36 : 44
+		size.height = isSmallDevice ? 37 : 45
 		return size
 	}
 
