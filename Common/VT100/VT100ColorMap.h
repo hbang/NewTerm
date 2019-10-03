@@ -20,6 +20,6 @@
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;
 
 // Terminal color index
-- (Color *)colorAtIndex:(unsigned)index isBackground:(BOOL)isBackground;
+- (Color *)colorAtIndex:(unsigned)index;
 
 @end

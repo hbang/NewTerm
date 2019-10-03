@@ -35,24 +35,21 @@
 		CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969322B5481B00585BE6 /* NSArray+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC722BB737200AFB1E1 /* UIColor+HBAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCC922BB737200AFB1E1 /* charmaps.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A722B5481B00585BE6 /* charmaps.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCCB22BB737200AFB1E1 /* iTermParser.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A322B5481B00585BE6 /* iTermParser.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCCC22BB737200AFB1E1 /* NSCharacterSet+iTerm.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CF71BCC922BB737200AFB1E1 /* charmaps.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A722B5481B00585BE6 /* charmaps.h */; };
+		CF71BCCB22BB737200AFB1E1 /* iTermParser.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A322B5481B00585BE6 /* iTermParser.h */; };
+		CF71BCCC22BB737200AFB1E1 /* NSCharacterSet+iTerm.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */; };
 		CF71BCCD22BB737200AFB1E1 /* NSStringITerm.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCCE22BB737200AFB1E1 /* ScreenChar.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A122B5481B00585BE6 /* ScreenChar.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCCF22BB737200AFB1E1 /* VT100.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969922B5481B00585BE6 /* VT100.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD022BB737200AFB1E1 /* VT100ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD122BB737200AFB1E1 /* VT100Screen.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A622B5481B00585BE6 /* VT100Screen.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD222BB737200AFB1E1 /* VT100Terminal.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A522B5481B00585BE6 /* VT100Terminal.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD322BB737200AFB1E1 /* VT100Token.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969A22B5481B00585BE6 /* VT100Token.h */; settings = {ATTRIBUTES = (Public, ); }; };
+		CF71BCD122BB737200AFB1E1 /* VT100Screen.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A622B5481B00585BE6 /* VT100Screen.h */; };
+		CF71BCD222BB737200AFB1E1 /* VT100Terminal.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A522B5481B00585BE6 /* VT100Terminal.h */; };
+		CF71BCD322BB737200AFB1E1 /* VT100Token.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969A22B5481B00585BE6 /* VT100Token.h */; };
 		CF71BCD422BB737200AFB1E1 /* VT100StringSupplier.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD522BB737200AFB1E1 /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AE22B5481B00585BE6 /* VT100Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD922BB737200AFB1E1 /* term.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96B322B5481B00585BE6 /* term.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCDA22BB737200AFB1E1 /* ncurses.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96B422B5481B00585BE6 /* ncurses.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCDB22BB737200AFB1E1 /* ncurses_dll.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96B522B5481B00585BE6 /* ncurses_dll.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6622BB6AD500AFB1E1 /* NewTermCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
 		CF71BCE222BB79DD00AFB1E1 /* TerminalSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BCE122BB79DD00AFB1E1 /* TerminalSessionViewController.swift */; };
@@ -93,6 +90,10 @@
 		CFBB975422B548D700585BE6 /* SourceCodePro-Regular.otf in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */; };
 		CFBB975622B548D700585BE6 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972322B548D700585BE6 /* Themes.plist */; };
 		CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFBB975922B5499600585BE6 /* Assets.xcassets */; };
+		CFD5538E2345E315005805D1 /* curses.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538A2345E315005805D1 /* curses.h */; };
+		CFD5538F2345E315005805D1 /* term.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538B2345E315005805D1 /* term.h */; };
+		CFD553902345E315005805D1 /* ncurses_dll.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538C2345E315005805D1 /* ncurses_dll.h */; };
+		CFD553912345E315005805D1 /* ncurses.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538D2345E315005805D1 /* ncurses.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -201,9 +202,6 @@
 		CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100StringSupplier.h; sourceTree = "<group>"; };
 		CFBB96AE22B5481B00585BE6 /* VT100Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Types.h; sourceTree = "<group>"; };
 		CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+iTerm.m"; sourceTree = "<group>"; };
-		CFBB96B322B5481B00585BE6 /* term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = term.h; sourceTree = "<group>"; };
-		CFBB96B422B5481B00585BE6 /* ncurses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses.h; sourceTree = "<group>"; };
-		CFBB96B522B5481B00585BE6 /* ncurses_dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses_dll.h; sourceTree = "<group>"; };
 		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
 		CFBB96B822B5481B00585BE6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CompactConstraint.m"; sourceTree = "<group>"; };
@@ -232,6 +230,10 @@
 		CFBB975922B5499600585BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFBB975C22B54AA600585BE6 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libncurses.tbd; sourceTree = DEVELOPER_DIR; };
 		CFBB975E22B54AAA00585BE6 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libcurses.tbd; sourceTree = DEVELOPER_DIR; };
+		CFD5538A2345E315005805D1 /* curses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curses.h; sourceTree = "<group>"; };
+		CFD5538B2345E315005805D1 /* term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = term.h; sourceTree = "<group>"; };
+		CFD5538C2345E315005805D1 /* ncurses_dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses_dll.h; sourceTree = "<group>"; };
+		CFD5538D2345E315005805D1 /* ncurses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -502,9 +504,10 @@
 		CFBB96B222B5481B00585BE6 /* ncurses */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB96B322B5481B00585BE6 /* term.h */,
-				CFBB96B422B5481B00585BE6 /* ncurses.h */,
-				CFBB96B522B5481B00585BE6 /* ncurses_dll.h */,
+				CFD5538A2345E315005805D1 /* curses.h */,
+				CFD5538C2345E315005805D1 /* ncurses_dll.h */,
+				CFD5538D2345E315005805D1 /* ncurses.h */,
+				CFD5538B2345E315005805D1 /* term.h */,
 			);
 			path = ncurses;
 			sourceTree = "<group>";
@@ -595,8 +598,12 @@
 				CF71BCCD22BB737200AFB1E1 /* NSStringITerm.h in Headers */,
 				CF71BCCE22BB737200AFB1E1 /* ScreenChar.h in Headers */,
 				CF71BCCF22BB737200AFB1E1 /* VT100.h in Headers */,
+				CFD553912345E315005805D1 /* ncurses.h in Headers */,
 				CF71BCD022BB737200AFB1E1 /* VT100ColorMap.h in Headers */,
+				CFD553902345E315005805D1 /* ncurses_dll.h in Headers */,
+				CFD5538E2345E315005805D1 /* curses.h in Headers */,
 				CF71BCD122BB737200AFB1E1 /* VT100Screen.h in Headers */,
+				CFD5538F2345E315005805D1 /* term.h in Headers */,
 				CF71BCD222BB737200AFB1E1 /* VT100Terminal.h in Headers */,
 				CF71BCD322BB737200AFB1E1 /* VT100Token.h in Headers */,
 				CF71BCD422BB737200AFB1E1 /* VT100StringSupplier.h in Headers */,
@@ -604,9 +611,6 @@
 				CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */,
 				CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */,
 				CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */,
-				CF71BCD922BB737200AFB1E1 /* term.h in Headers */,
-				CF71BCDA22BB737200AFB1E1 /* ncurses.h in Headers */,
-				CF71BCDB22BB737200AFB1E1 /* ncurses_dll.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -908,9 +912,14 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					Common/External,
+					Common/External/ncurses,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_SWIFT_FLAGS = "";
 			};
 			name = Debug;
 		};
@@ -942,8 +951,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					Common/External,
+					Common/External/ncurses,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				OTHER_SWIFT_FLAGS = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
 			name = Release;
@@ -981,7 +995,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = macOS/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -997,7 +1011,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = macOS/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1008,7 +1022,7 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = macOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1031,7 +1045,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = macOS/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1042,7 +1056,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = macOS/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1052,7 +1066,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
-				SWIFT_OBJC_BRIDGING_HEADER = macOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1226,7 +1240,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = NewTerm;
+				HEADER_SEARCH_PATHS = iOS;
 				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1299,7 +1313,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = NewTerm;
+				HEADER_SEARCH_PATHS = iOS;
 				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (

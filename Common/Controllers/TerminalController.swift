@@ -157,7 +157,6 @@ extension TerminalController: SubProcessDelegate {
 	func subProcess(didDisconnectWithError error: Error?) {
 		if error == nil {
 			// graceful termination
-			delegate?.close()
 			return
 		}
 

@@ -1,1 +1,1 @@
-ncurses_dll.h
+curses.h
