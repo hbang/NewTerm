@@ -7,12 +7,9 @@
 //
 
 import UIKit
+import NewTermCommon
 
 class KeyboardButton: UIButton {
-
-	enum Style: Int {
-		case text = 0, icons = 1
-	}
 
 	private(set) var glyph: String?
 	private(set) var image: UIImage?
@@ -53,7 +50,7 @@ class KeyboardButton: UIButton {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	var style: Style = .text {
+	var style: KeyboardButtonStyle = .text {
 		didSet {
 			let actualNormalImage: UIImage?
 			let actualHighlightedImage: UIImage?

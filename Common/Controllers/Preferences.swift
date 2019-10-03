@@ -12,6 +12,10 @@ import AppKit
 import UIKit
 #endif
 
+public enum KeyboardButtonStyle: Int {
+	case text = 0, icons = 1
+}
+
 public class Preferences {
 
 	public static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
@@ -48,11 +52,11 @@ public class Preferences {
 			"bellSound": false
 		])
 
-#if LINK_CEPHEI
+		#if LINK_CEPHEI
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: HBPreferences.didChangeNotification, object: preferences)
-#else
+		#else
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: UserDefaults.didChangeNotification, object: preferences)
-#endif
+		#endif
 
 		preferencesUpdated(notification: nil)
 	}
@@ -75,11 +79,13 @@ public class Preferences {
 		get { return preferences.object(forKey: "theme") as! String }
 	}
 
-	var keyboardAccessoryStyle: KeyboardButton.Style {
-		get { return KeyboardButton.Style(rawValue: preferences.integer(forKey: "keyboardAccessoryStyle")) ?? .text }
+	#if os(iOS)
+	public var keyboardAccessoryStyle: KeyboardButtonStyle {
+		get { return KeyboardButtonStyle(rawValue: preferences.integer(forKey: "keyboardAccessoryStyle")) ?? .text }
 	}
+	#endif
 
-	var bellHUD: Bool {
+	public var bellHUD: Bool {
 		get { return preferences.bool(forKey: "bellHUD") }
 	}
 
