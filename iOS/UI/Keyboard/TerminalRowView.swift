@@ -12,7 +12,9 @@ class TerminalRowView: UIView {
 
 	private static let textTransform = CGAffineTransform(a: 1.0, b: 0.0, c: 0.0, d: -1.0, tx: 0.0, ty: 0.0)
 
-	var rowIndex: Int!
+	var rowIndex: Int! {
+		didSet { setNeedsDisplay() }
+	}
 	var terminalController: TerminalController!
 	var fontMetrics: FontMetrics!
 
@@ -34,12 +36,11 @@ class TerminalRowView: UIView {
 		var remaining = NSRange(location: 0, length: (attributedString.string as NSString).length)
 		while remaining.length > 0 {
 			var range = NSRange()
-			if let backgroundColor = attributedString.attribute(.backgroundColor, at: remaining.location, effectiveRange: &range) as? UIColor {
-				context.setFillColor(backgroundColor.cgColor)
-				context.fill(characterRect(range: range))
-				remaining.length -= range.length
-				remaining.location += range.length
-			}
+			let backgroundColor = attributedString.attribute(.backgroundColor, at: remaining.location, effectiveRange: &range) as? UIColor ?? .black
+			context.setFillColor(backgroundColor.cgColor)
+			context.fill(characterRect(range: range))
+			remaining.length -= range.length
+			remaining.location += range.length
 		}
 	}
 

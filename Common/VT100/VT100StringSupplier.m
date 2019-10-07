@@ -73,7 +73,7 @@
 
 		if (cursorPosition.x == i && cursorPosition.y == rowIndex) {
 			attributes[NSForegroundColorAttributeName] = _colorMap.foregroundCursor;
-			attributes[VT100AttributedStringBackgroundColor] = _colorMap.backgroundCursor;
+			attributes[NSBackgroundColorAttributeName] = _colorMap.backgroundCursor;
 		}
 
 		[attributedString addAttributes:attributes range:NSMakeRange(i, 1)];
@@ -105,7 +105,7 @@
 
 	NSMutableDictionary *attributes = [NSMutableDictionary dictionary];
 	attributes[NSForegroundColorAttributeName] = fgColor;
-	attributes[VT100AttributedStringBackgroundColor] = bgColor;
+	attributes[NSBackgroundColorAttributeName] = bgColor;
 	// attributes[NSUnderlineStyleAttributeName] = @(underlineStyle);
 	return attributes;
 }

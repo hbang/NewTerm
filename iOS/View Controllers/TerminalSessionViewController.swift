@@ -294,11 +294,11 @@ extension TerminalSessionViewController: UICollectionViewDelegate, UICollectionV
 extension TerminalSessionViewController: TerminalControllerDelegate {
 
 	func refresh(backgroundColor: UIColor) {
-		collectionView.reloadData()
-
 		if backgroundColor != collectionView.backgroundColor {
 			collectionView.backgroundColor = backgroundColor
 		}
+		collectionView.reloadData()
+		collectionView.setNeedsDisplay()
 
 		let layout = collectionView.collectionViewLayout as! UICollectionViewFlowLayout
 		let itemSize = layout.itemSize
@@ -307,7 +307,6 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			layout.itemSize = CGSize(width: collectionView.frame.size.width, height: glyphSize.height)
 		}
 
-		// TODO: not sure why this is needed all of a sudden? what did i break?
 		DispatchQueue.main.async {
 			self.scrollToBottom()
 		}

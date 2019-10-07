@@ -14,7 +14,7 @@ import UIKit
 
 public protocol TerminalControllerDelegate {
 
-	func refresh(backgroundColor: UIColor)
+	func refresh(backgroundColor: Color)
 	func activateBell()
 	func close()
 	func didReceiveError(error: Error)
@@ -77,7 +77,7 @@ public class TerminalController: VT100 {
 		refresh()
 	}
 
-	func attributedString(forLine line: Int) -> NSAttributedString {
+	public func attributedString(forLine line: Int) -> NSAttributedString {
 		return stringSupplier.attributedString(forLine: Int32(line))
 	}
 

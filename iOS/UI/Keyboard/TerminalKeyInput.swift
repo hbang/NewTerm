@@ -186,9 +186,9 @@ class TerminalKeyInput: TextInputBase {
 		let moreToolbarHeight = moreToolbar.intrinsicContentSize.height
 		let insets: UIEdgeInsets
 		if #available(iOS 13.0, *) {
-			insets = textView.verticalScrollIndicatorInsets
+			insets = collectionView.verticalScrollIndicatorInsets
 		} else {
-			insets = textView.scrollIndicatorInsets
+			insets = collectionView.scrollIndicatorInsets
 		}
 		moreToolbar.frame = CGRect(x: 0, y: collectionView.frame.size.height - insets.bottom - moreToolbarHeight, width: collectionView.frame.size.width, height: moreToolbarHeight)
 	}
