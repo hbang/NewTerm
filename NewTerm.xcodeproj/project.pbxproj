@@ -288,7 +288,7 @@
 				CF71BCE022BB79CF00AFB1E1 /* ViewControllers */,
 				CF71BC2922BB61E400AFB1E1 /* Main.storyboard */,
 				CF71BC2722BB61E400AFB1E1 /* Assets.xcassets */,
-				CF71BCE422BB7AA900AFB1E1 /* SupportingFiles */,
+				CF71BCE422BB7AA900AFB1E1 /* Supporting Files */,
 			);
 			path = Mac;
 			sourceTree = "<group>";
@@ -302,7 +302,7 @@
 				CFBB969822B5481B00585BE6 /* VT100 */,
 				CFBB96B122B5481B00585BE6 /* External */,
 				CFBB968D22B5481B00585BE6 /* Global.swift */,
-				CF71BC5E22BB643600AFB1E1 /* SupportingFiles */,
+				CF71BC5E22BB643600AFB1E1 /* Supporting Files */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -317,14 +317,14 @@
 			path = Controllers;
 			sourceTree = "<group>";
 		};
-		CF71BC5E22BB643600AFB1E1 /* SupportingFiles */ = {
+		CF71BC5E22BB643600AFB1E1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				CF71BC8722BB6DBB00AFB1E1 /* Info.plist */,
 				CF71BC6622BB6AD500AFB1E1 /* NewTermCommon.h */,
 				CF71BC5F22BB657500AFB1E1 /* PrefixHeader.pch */,
 			);
-			path = SupportingFiles;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CF71BC6522BB6A5800AFB1E1 /* UI */ = {
@@ -352,14 +352,14 @@
 			path = ViewControllers;
 			sourceTree = "<group>";
 		};
-		CF71BCE422BB7AA900AFB1E1 /* SupportingFiles */ = {
+		CF71BCE422BB7AA900AFB1E1 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				CF71BCE322BB7AA600AFB1E1 /* BridgingHeader.h */,
 				CF71BC2C22BB61E400AFB1E1 /* Info.plist */,
 				CF71BC2D22BB61E400AFB1E1 /* NewTerm.entitlements */,
 			);
-			path = SupportingFiles;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CF71BCEB22BB860C00AFB1E1 /* UI */ = {
@@ -383,9 +383,9 @@
 			children = (
 				CFBB96C122B5481B00585BE6 /* Controllers */,
 				CFBB967722B5481A00585BE6 /* UI */,
-				CFBB969522B5481B00585BE6 /* ViewControllers */,
+				CFBB969522B5481B00585BE6 /* View Controllers */,
 				CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */,
-				CFBB96BD22B5481B00585BE6 /* SupportingFiles */,
+				CFBB96BD22B5481B00585BE6 /* Supporting Files */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -396,7 +396,7 @@
 				CFBB968422B5481B00585BE6 /* Keyboard */,
 				CFBB967822B5481B00585BE6 /* Preferences */,
 				CFBB967B22B5481B00585BE6 /* Terminal */,
-				CFBB968122B5481B00585BE6 /* TopBar */,
+				CFBB968122B5481B00585BE6 /* Top Bar */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -419,13 +419,13 @@
 			path = Terminal;
 			sourceTree = "<group>";
 		};
-		CFBB968122B5481B00585BE6 /* TopBar */ = {
+		CFBB968122B5481B00585BE6 /* Top Bar */ = {
 			isa = PBXGroup;
 			children = (
 				CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */,
 				CFBB968322B5481B00585BE6 /* TabToolbar.swift */,
 			);
-			path = TopBar;
+			path = "Top Bar";
 			sourceTree = "<group>";
 		};
 		CFBB968422B5481B00585BE6 /* Keyboard */ = {
@@ -453,13 +453,13 @@
 			path = Extensions;
 			sourceTree = "<group>";
 		};
-		CFBB969522B5481B00585BE6 /* ViewControllers */ = {
+		CFBB969522B5481B00585BE6 /* View Controllers */ = {
 			isa = PBXGroup;
 			children = (
 				CFBB969622B5481B00585BE6 /* RootViewController.swift */,
 				CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */,
 			);
-			path = ViewControllers;
+			path = "View Controllers";
 			sourceTree = "<group>";
 		};
 		CFBB969822B5481B00585BE6 /* VT100 */ = {
@@ -525,13 +525,13 @@
 			path = CompactConstraint;
 			sourceTree = "<group>";
 		};
-		CFBB96BD22B5481B00585BE6 /* SupportingFiles */ = {
+		CFBB96BD22B5481B00585BE6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
 				CFBB96BE22B5481B00585BE6 /* BridgingHeader.h */,
 				CFBB96C022B5481B00585BE6 /* Info.plist */,
 			);
-			path = SupportingFiles;
+			path = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		CFBB96C122B5481B00585BE6 /* Controllers */ = {
@@ -561,8 +561,8 @@
 		CFBB975822B5490F00585BE6 /* Fonts */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */,
 				CFBB96FA22B548D700585BE6 /* FiraCode-Retina.otf */,
+				CFBB96F522B548D700585BE6 /* FiraCode-Bold.otf */,
 				CFBB970722B548D700585BE6 /* Hack-Regular.ttf */,
 				CFBB971322B548D700585BE6 /* Hack-Bold.ttf */,
 				CFBB972122B548D700585BE6 /* SourceCodePro-Regular.otf */,
@@ -995,12 +995,13 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mac/Supporting Files/NewTerm.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -1011,7 +1012,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1022,7 +1023,7 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mac/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1045,18 +1046,19 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mac/Supporting Files/NewTerm.entitlements";
+				CODE_SIGN_IDENTITY = "-";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_NS_ASSERTIONS = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1066,7 +1068,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
-				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mac/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1093,7 +1095,6 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1101,7 +1102,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = Common/SupportingFiles/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "Common/Supporting Files/PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1109,7 +1110,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				HEADER_SEARCH_PATHS = "Common/**";
-				INFOPLIST_FILE = Common/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1152,18 +1153,17 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PREFIX_HEADER = Common/SupportingFiles/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "Common/Supporting Files/PrefixHeader.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				HEADER_SEARCH_PATHS = "Common/**";
-				INFOPLIST_FILE = Common/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1241,7 +1241,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = iOS;
-				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1256,7 +1256,7 @@
 				SDKROOT = iphoneos;
 				SUPPORTS_UIKITFORMAC = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = iOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1314,7 +1314,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = iOS;
-				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1328,7 +1328,7 @@
 				SDKROOT = iphoneos;
 				SUPPORTS_UIKITFORMAC = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = iOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
