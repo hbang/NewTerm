@@ -1,15 +1,15 @@
 Package: ws.hbang.newterm2
-Name: NewTerm 2 (iOS 10 – 12)
+Name: NewTerm 2 (iOS 10 – 13)
 Depends: firmware (>= 10.0), firmware (>= 12.2) | org.swift.libswift, ws.hbang.common (>= 1.13), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8
 Conflicts: ws.hbang.newterm
 Replaces: ws.hbang.newterm
-Version: 2.2-2
+Version: 2.2.1
 Architecture: iphoneos-arm
 Description: A powerful terminal app for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
 Icon: file:///Applications/NewTerm.app/AppIcon60x60@3x.png
-Depiction: https://repo.packix.com/package/ws.hbang.newterm2/
+Depiction: https://repo.chariz.com/package/ws.hbang.newterm2/
 Support: https://hashbang.productions/support/
-Tag: compatible::ios10, compatible::ios11, compatible::ios12
+Tag: compatible::ios10, compatible::ios11, compatible::ios12, compatible::ios13
