@@ -26,12 +26,15 @@
 
 	HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
 	appearance.tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
-	appearance.translucentNavigationBar = YES;
-	appearance.tableViewCellTextColor = [UIColor whiteColor];
-	appearance.tableViewCellBackgroundColor = [UIColor colorWithWhite:0.055f alpha:1];
-	appearance.tableViewCellSeparatorColor = [UIColor colorWithWhite:0.149f alpha:1];
-	appearance.tableViewCellSelectionColor = appearance.tableViewCellSeparatorColor;
-	appearance.tableViewBackgroundColor = [UIColor colorWithWhite:0.089f alpha:1];
+	if (@available(iOS 13.0, *)) {
+	} else {
+		appearance.translucentNavigationBar = YES;
+		appearance.tableViewCellTextColor = [UIColor whiteColor];
+		appearance.tableViewCellBackgroundColor = [UIColor colorWithWhite:0.055f alpha:1];
+		appearance.tableViewCellSeparatorColor = [UIColor colorWithWhite:0.149f alpha:1];
+		appearance.tableViewCellSelectionColor = appearance.tableViewCellSeparatorColor;
+		appearance.tableViewBackgroundColor = [UIColor colorWithWhite:0.089f alpha:1];
+	}
 	self.hb_appearanceSettings = appearance;
 }
 
