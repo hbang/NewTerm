@@ -32,6 +32,7 @@
 				<string>Fira Code</string>
 				<string>Hack</string>
 				<string>Menlo</string>
+				<string>SF Mono</string>
 				<string>Source Code Pro</string>
 			</array>
 			<key>validValues</key>
@@ -41,6 +42,7 @@
 				<string>Fira Code</string>
 				<string>Hack</string>
 				<string>Menlo</string>
+				<string>SF Mono</string>
 				<string>Source Code Pro</string>
 			</array>
 			<key>PostNotification</key>
