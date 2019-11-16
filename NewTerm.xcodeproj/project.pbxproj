@@ -905,6 +905,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = Common/External;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -917,6 +918,7 @@
 					Common/External/ncurses,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "";
@@ -944,6 +946,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = Common/External;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
@@ -956,6 +959,7 @@
 					Common/External/ncurses,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 10.15;
 				OTHER_SWIFT_FLAGS = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
@@ -995,7 +999,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mac/Supporting Files/NewTerm.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1011,7 +1015,7 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1022,7 +1026,7 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mac/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1045,7 +1049,7 @@
 				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
-				CODE_SIGN_ENTITLEMENTS = Mac/SupportingFiles/NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "Mac/Supporting Files/NewTerm.entitlements";
 				CODE_SIGN_STYLE = Automatic;
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1056,7 +1060,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				INFOPLIST_FILE = Mac/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/../Frameworks",
@@ -1066,7 +1070,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = macosx;
-				SWIFT_OBJC_BRIDGING_HEADER = Mac/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "Mac/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 			};
@@ -1101,7 +1105,7 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PREFIX_HEADER = Common/SupportingFiles/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "Common/Supporting Files/PrefixHeader.pch";
 				GCC_PREPROCESSOR_DEFINITIONS = (
 					"DEBUG=1",
 					"$(inherited)",
@@ -1109,7 +1113,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				HEADER_SEARCH_PATHS = "Common/**";
-				INFOPLIST_FILE = Common/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1159,11 +1163,11 @@
 				ENABLE_NS_ASSERTIONS = NO;
 				FRAMEWORK_VERSION = A;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_PREFIX_HEADER = Common/SupportingFiles/PrefixHeader.pch;
+				GCC_PREFIX_HEADER = "Common/Supporting Files/PrefixHeader.pch";
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				HEADER_SEARCH_PATHS = "Common/**";
-				INFOPLIST_FILE = Common/SupportingFiles/Info.plist;
+				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1226,6 +1230,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(THEOS_VENDOR_LIBRARY_PATH)",
+					"$(THEOS_LIBRARY_PATH)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1240,8 +1249,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = iOS;
-				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
+				HEADER_SEARCH_PATHS = (
+					"$(THEOS_VENDOR_INCLUDE_PATH)",
+					"$(THEOS_INCLUDE_PATH)",
+					"$(inherited)",
+					iOS,
+				);
+				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				HEADER_SEARCH_PATHS = (
 					"$(THEOS_VENDOR_INCLUDE_PATH)",
@@ -1255,16 +1269,24 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(THEOS_VENDOR_LIBRARY_PATH)",
+					"$(THEOS_LIBRARY_PATH)",
+				);
 				MARKETING_VERSION = 3.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_CFLAGS = "$(LINK_CEPHEI)";
+				OTHER_LDFLAGS = "$(CEPHEI_LDFLAGS)";
+				OTHER_SWIFT_FLAGS = "$(LINK_CEPHEI)";
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_UIKITFORMAC = NO;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
-				SWIFT_OBJC_BRIDGING_HEADER = iOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1313,6 +1335,11 @@
 				DEVELOPMENT_TEAM = "";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(THEOS_VENDOR_LIBRARY_PATH)",
+					"$(THEOS_LIBRARY_PATH)",
+				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -1321,8 +1348,13 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				HEADER_SEARCH_PATHS = iOS;
-				INFOPLIST_FILE = iOS/SupportingFiles/Info.plist;
+				HEADER_SEARCH_PATHS = (
+					"$(THEOS_VENDOR_INCLUDE_PATH)",
+					"$(THEOS_INCLUDE_PATH)",
+					"$(inherited)",
+					iOS,
+				);
+				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				HEADER_SEARCH_PATHS = (
 					"$(THEOS_VENDOR_INCLUDE_PATH)",
@@ -1336,15 +1368,23 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(THEOS_VENDOR_LIBRARY_PATH)",
+					"$(THEOS_LIBRARY_PATH)",
+				);
 				MARKETING_VERSION = 3.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
+				OTHER_CFLAGS = "$(LINK_CEPHEI)";
+				OTHER_LDFLAGS = "$(CEPHEI_LDFLAGS)";
+				OTHER_SWIFT_FLAGS = "$(LINK_CEPHEI)";
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_UIKITFORMAC = NO;
 				SWIFT_COMPILATION_MODE = wholemodule;
-				SWIFT_OBJC_BRIDGING_HEADER = iOS/SupportingFiles/BridgingHeader.h;
+				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
