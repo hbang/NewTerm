@@ -44,6 +44,9 @@
 	<key>BELL_HUD</key>
 	<string>HUD</string>
 
+	<key>BELL_VIBRATE</key>
+	<string>Vibrate</string>
+
 	<key>BELL_SOUND</key>
 	<string>Sound</string>
 </dict>

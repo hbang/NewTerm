@@ -311,6 +311,15 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			bellHUDView.animate()
 		}
 
+		if preferences.bellVibrate {
+			// According to the docs, we should let the feedback generator get deallocated so the
+			// Taptic Engine goes back to sleep afterwards.
+			// Also according to the docs, we should use the most semantic impact generator, which would
+			// be UINotificationFeedbackGenerator, but I think a single tap feels better than two or three
+			let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+			feedbackGenerator.impactOccurred()
+		}
+
 		if preferences.bellSound {
 			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
 		}

@@ -49,6 +49,7 @@ public class Preferences {
 			"fontSizeMac": 12,
 			"theme": "kirb",
 			"bellHUD": true,
+			"bellVibrate": true,
 			"bellSound": false
 		])
 
@@ -97,6 +98,10 @@ public class Preferences {
 
 	public var bellHUD: Bool {
 		get { return preferences.bool(forKey: "bellHUD") }
+	}
+
+	public var bellVibrate: Bool {
+		get { return preferences.bool(forKey: "bellVibrate") }
 	}
 
 	public var bellSound: Bool {

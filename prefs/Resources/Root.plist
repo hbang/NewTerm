@@ -225,6 +225,24 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>key</key>
+			<string>bellVibrate</string>
+			<key>label</key>
+			<string>BELL_VIBRATE</string>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+			<key>requiredCapabilities</key>
+			<array>
+				<string>DeviceSupportsHaptics</string>
+			</array>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
 			<false/>
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
