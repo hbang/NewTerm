@@ -12,15 +12,15 @@ class KeyboardToolbar: UIView {
 
 	let backdropView = UIToolbar()
 
-	let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", image: #imageLiteral(resourceName: "key-control"))
-	let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", image: #imageLiteral(resourceName: "key-escape"))
-	let tabKey = KeyboardButton(title: "Tab", glyph: "Tab", image: #imageLiteral(resourceName: "key-tab"))
-	let moreKey = KeyboardButton(title: "Functions", glyph: "Fn", image: #imageLiteral(resourceName: "key-more"))
+	let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
+	let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
+	let tabKey = KeyboardButton(title: "Tab", glyph: "Tab", systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))
+	let moreKey = KeyboardButton(title: "Functions", glyph: "Fn", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
 
-	let upKey = KeyboardButton(title: "Up", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))
-	let downKey = KeyboardButton(title: "Down", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))
-	let leftKey = KeyboardButton(title: "Left", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
-	let rightKey = KeyboardButton(title: "Right", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
+	let upKey = KeyboardButton(title: "Up", systemImage: "arrowtriangle.up", systemHighlightedImage: "arrowtriangle.up.fill", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))
+	let downKey = KeyboardButton(title: "Down", systemImage: "arrowtriangle.down", systemHighlightedImage: "arrowtriangle.down.fill", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))
+	let leftKey = KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
+	let rightKey = KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
 
 	var buttons: [KeyboardButton]!
 	var squareButtonConstraints: [NSLayoutConstraint]!

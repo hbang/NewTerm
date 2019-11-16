@@ -13,11 +13,9 @@ class TerminalSessionViewController: UIViewController {
 
 	static let bellSoundID: SystemSoundID = {
 		var soundID: SystemSoundID = 0
-
 		if AudioServicesCreateSystemSoundID(Bundle.main.url(forResource: "bell", withExtension: "m4a")! as CFURL, &soundID) == kAudioServicesNoError {
 			return soundID
 		}
-
 		fatalError("couldn’t initialise bell sound")
 	}()
 
@@ -28,7 +26,14 @@ class TerminalSessionViewController: UIViewController {
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
 
 	private lazy var bellHUDView: HUDView = {
-		let bellHUDView = HUDView(image: #imageLiteral(resourceName: "bell").withRenderingMode(.alwaysTemplate))
+		let image: UIImage
+		if #available(iOS 13.0, *) {
+			let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
+			image = UIImage(systemName: "bell", withConfiguration: configuration)!
+		} else {
+			image = #imageLiteral(resourceName: "bell").withRenderingMode(.alwaysTemplate)
+		}
+		let bellHUDView = HUDView(image: image)
 		bellHUDView.translatesAutoresizingMaskIntoConstraints = false
 		return bellHUDView
 	}()
@@ -203,7 +208,12 @@ class TerminalSessionViewController: UIViewController {
 		// }
 
 		// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
-		var insets = textView.scrollIndicatorInsets
+		var insets: UIEdgeInsets
+		if #available(iOS 13.0, *) {
+			insets = textView.verticalScrollIndicatorInsets
+		} else {
+			insets = textView.scrollIndicatorInsets
+		}
 		var offset = textView.contentOffset
 		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
 
@@ -345,7 +355,12 @@ extension TerminalSessionViewController: UITextViewDelegate {
 	}
 
 	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-		let insets = scrollView.scrollIndicatorInsets
+		let insets: UIEdgeInsets
+		if #available(iOS 13.0, *) {
+			insets = scrollView.verticalScrollIndicatorInsets
+		} else {
+			insets = scrollView.scrollIndicatorInsets
+		}
 
 		// if we’re at the top of the scroll view, guess that the user wants to go back to the bottom
 		if scrollView.contentOffset.y <= (scrollView.frame.size.height - insets.top - insets.bottom) / 2 {

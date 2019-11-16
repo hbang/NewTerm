@@ -15,13 +15,20 @@ class KeyboardButton: UIButton {
 	private(set) var image: UIImage?
 	private(set) var highlightedImage: UIImage?
 
-	convenience init(title: String, glyph: String? = nil, image: UIImage? = nil, highlightedImage: UIImage? = nil, target: AnyObject? = nil, action: Selector? = nil) {
+	convenience init(title: String, glyph: String? = nil, systemImage: String? = nil, systemHighlightedImage: String? = nil, image: UIImage? = nil, highlightedImage: UIImage? = nil, target: AnyObject? = nil, action: Selector? = nil) {
 		self.init(frame: .zero)
 
 		accessibilityLabel = title
 		self.glyph = glyph
-		self.image = image
-		self.highlightedImage = highlightedImage
+
+		if #available(iOS 13.0, *), systemImage != nil {
+			let configuration = UIImage.SymbolConfiguration(pointSize: titleLabel!.font.pointSize * 1.2, weight: .regular, scale: .default)
+			self.image = UIImage(systemName: systemImage!, withConfiguration: configuration)
+			self.highlightedImage = systemHighlightedImage == nil ? nil : UIImage(systemName: systemHighlightedImage!, withConfiguration: configuration)
+		} else {
+			self.image = image
+			self.highlightedImage = highlightedImage
+		}
 
 		if target != nil && action != nil {
 			addTarget(target!, action: action!, for: .touchUpInside)

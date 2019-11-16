@@ -12,7 +12,13 @@ class HUDView: UIView {
 
 	let imageView = UIImageView()
 
-	let backdropView = UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+	let backdropView: UIVisualEffectView = {
+		if #available(iOS 13.0, *) {
+			return UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
+		} else {
+			return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
+		}
+	}()
 
 	init(image: UIImage) {
 		super.init(frame: .zero)

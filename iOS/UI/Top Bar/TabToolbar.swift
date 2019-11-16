@@ -39,7 +39,12 @@ class TabToolbar: UIView {
 		tabsCollectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.reuseIdentifier)
 
 		addButton = UIButton(type: .system)
-		addButton.setImage(isSmallDevice ? #imageLiteral(resourceName: "add-small") : #imageLiteral(resourceName: "add"), for: .normal)
+		if #available(iOS 13.0, *) {
+			let configuration = UIImage.SymbolConfiguration(scale: isSmallDevice ? .medium : .large)
+			addButton.setImage(UIImage(systemName: "plus", withConfiguration: configuration), for: .normal)
+		} else {
+			addButton.setImage(isSmallDevice ? #imageLiteral(resourceName: "add-small") : #imageLiteral(resourceName: "add"), for: .normal)
+		}
 		addButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
 		addButton.contentMode = .center
 		addSubview(addButton)

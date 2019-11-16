@@ -16,8 +16,8 @@ class KeyboardPopupToolbar: UIView {
 	let endKey = KeyboardButton(title: "End", glyph: "End")
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
-	let deleteKey = KeyboardButton(title: "Delete Forward", image: #imageLiteral(resourceName: "key-delete-forward"), highlightedImage: #imageLiteral(resourceName: "key-delete-forward-down"))
-	let settingsKey = KeyboardButton(title: "Settings", image: #imageLiteral(resourceName: "key-settings"))
+	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill", image: #imageLiteral(resourceName: "key-delete-forward"), highlightedImage: #imageLiteral(resourceName: "key-delete-forward-down"))
+	let settingsKey = KeyboardButton(title: "Settings", systemImage: "gear", image: #imageLiteral(resourceName: "key-settings"))
 
 	var buttons: [KeyboardButton]!
 
