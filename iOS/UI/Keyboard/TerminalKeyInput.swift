@@ -57,26 +57,26 @@ class TerminalKeyInput: TextInputBase {
 
 		// TODO: this is kinda ugly and causes duped code for these buttons
 		if UIDevice.current.userInterfaceIdiom == .pad {
-			ctrlKey = KeyboardButton(title: "Ctrl", target: self, action: #selector(self.ctrlKeyPressed))
-			moreKey = KeyboardButton(title: "Fn", target: self, action: #selector(self.moreKeyPressed))
+			ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
+			moreKey = KeyboardButton(title: "Functions", glyph: "Fn", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
 
 			inputAssistantItem.allowsHidingShortcuts = false
 
 			var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
 			leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
 				UIBarButtonItem(customView: ctrlKey),
-				UIBarButtonItem(customView: KeyboardButton(title: "Esc", target: self, action: #selector(self.metaKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "Tab", target: self, action: #selector(self.tabKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Tab", glyph: "Tab", systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))),
 				UIBarButtonItem(customView: moreKey)
 			], representativeItem: nil))
 			inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
 
 			var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
 			trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-				UIBarButtonItem(customView: KeyboardButton(title: "▲", target: self, action: #selector(self.upKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "▼", target: self, action: #selector(self.downKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "◀", target: self, action: #selector(self.leftKeyPressed))),
-				UIBarButtonItem(customView: KeyboardButton(title: "▶", target: self, action: #selector(self.rightKeyPressed))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Up", systemImage: "arrowtriangle.up", systemHighlightedImage: "arrowtriangle.up.fill", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Down", systemImage: "arrowtriangle.down", systemHighlightedImage: "arrowtriangle.down.fill", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))),
+				UIBarButtonItem(customView: KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))),
 			], representativeItem: nil))
 			inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
 		} else {
