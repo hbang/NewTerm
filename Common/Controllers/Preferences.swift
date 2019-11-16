@@ -52,6 +52,14 @@ public class Preferences {
 			"bellSound": false
 		])
 
+		// Fix the default font for users of NewTerm 2.2.1 on iOS 13
+		if #available(iOS 13.0, *), fontName == "Courier" && lastVersion == nil {
+			fontName = defaultFontName
+		}
+
+		let infoPlist = Bundle.main.infoDictionary!
+		lastVersion = infoPlist["CFBundleVersion"] as? Int
+
 		#if LINK_CEPHEI
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: HBPreferences.didChangeNotification, object: preferences)
 		#else
@@ -63,6 +71,7 @@ public class Preferences {
 
 	public var fontName: String {
 		get { return preferences.object(forKey: "fontName") as! String }
+		set { preferences.set(newValue, forKey: "fontName") }
 	}
 
 	public var fontSize: CGFloat {
@@ -77,6 +86,7 @@ public class Preferences {
 
 	public var themeName: String {
 		get { return preferences.object(forKey: "theme") as! String }
+		set { preferences.set(newValue, forKey: "theme") }
 	}
 
 	#if os(iOS)
@@ -91,6 +101,11 @@ public class Preferences {
 
 	public var bellSound: Bool {
 		get { return preferences.bool(forKey: "bellSound") }
+	}
+
+	public var lastVersion: Int? {
+		get { return preferences.object(forKey: "lastVersion") as? Int }
+		set { preferences.set(newValue, forKey: "lastVersion") }
 	}
 
 	// MARK: - Callbacks
@@ -124,7 +139,7 @@ public class Preferences {
 
 		if regularFont == nil || boldFont == nil {
 			NSLog("font %@ size %f could not be initialised", fontName, fontSize)
-			preferences.set("Courier", forKey: "fontName")
+			fontName = "Courier"
 			return
 		}
 
@@ -136,7 +151,7 @@ public class Preferences {
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
 			NSLog("theme %@ doesn’t exist", themeName)
-			preferences.set("kirb", forKey: "theme")
+			themeName = "kirb"
 			return
 		}
 
