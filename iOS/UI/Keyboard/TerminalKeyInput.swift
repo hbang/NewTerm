@@ -20,8 +20,19 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	private var toolbar: KeyboardToolbar?
-	private var ctrlKey: KeyboardButton!
-	private var moreKey: KeyboardButton!
+
+	private let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
+	private let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
+	private let tabKey = KeyboardButton(title: "Tab", glyph: "Tab", systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))
+	private let moreKey = KeyboardButton(title: "Functions", glyph: "Fn", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
+
+	private let upKey = KeyboardButton(title: "Up", systemImage: "arrowtriangle.up", systemHighlightedImage: "arrowtriangle.up.fill", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))
+	private let downKey = KeyboardButton(title: "Down", systemImage: "arrowtriangle.down", systemHighlightedImage: "arrowtriangle.down.fill", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))
+	private let leftKey = KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
+	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
+
+	private var buttons: [KeyboardButton]!
+	private var squareButtonConstraints: [NSLayoutConstraint]!
 	private var moreToolbar = KeyboardPopupToolbar(frame: .zero)
 
 	private var ctrlDown = false
@@ -52,51 +63,94 @@ class TerminalKeyInput: TextInputBase {
 			smartInsertDeleteType = .no
 		}
 
-		// TODO: this should be themable
-		keyboardAppearance = .dark
+		if #available(iOS 13.0, *) {
+		} else {
+			// TODO: this should be themable
+			keyboardAppearance = .dark
+		}
 
-		// TODO: this is kinda ugly and causes duped code for these buttons
+		buttons = [
+			ctrlKey, metaKey, tabKey, moreKey,
+			upKey, downKey, leftKey, rightKey
+		]
+
 		if UIDevice.current.userInterfaceIdiom == .pad {
-			ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
-			moreKey = KeyboardButton(title: "Functions", glyph: "Fn", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
-
 			inputAssistantItem.allowsHidingShortcuts = false
+
+			let xSpacing = CGFloat(6)
+			let height = CGFloat(isSmallDevice ? 36 : 44)
+
+			let leftContainerView = UIView()
+			leftContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+			let leftSpacerView = UIView()
+			leftSpacerView.translatesAutoresizingMaskIntoConstraints = false
+
+			let leftStackView = UIStackView(arrangedSubviews: [ ctrlKey, metaKey, tabKey, moreKey, leftSpacerView ])
+			leftStackView.translatesAutoresizingMaskIntoConstraints = false
+			leftStackView.axis = .horizontal
+			leftStackView.spacing = xSpacing
+			leftContainerView.addSubview(leftStackView)
 
 			var leadingBarButtonGroups = inputAssistantItem.leadingBarButtonGroups
 			leadingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-				UIBarButtonItem(customView: ctrlKey),
-				UIBarButtonItem(customView: KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))),
-				UIBarButtonItem(customView: KeyboardButton(title: "Tab", glyph: "Tab", systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))),
-				UIBarButtonItem(customView: moreKey)
+				UIBarButtonItem(customView: leftContainerView)
 			], representativeItem: nil))
 			inputAssistantItem.leadingBarButtonGroups = leadingBarButtonGroups
 
+			let rightContainerView = UIView()
+			rightContainerView.translatesAutoresizingMaskIntoConstraints = false
+
+			let rightSpacerView = UIView()
+			rightSpacerView.translatesAutoresizingMaskIntoConstraints = false
+
+			let rightStackView = UIStackView(arrangedSubviews: [ rightSpacerView, upKey, downKey, leftKey, rightKey ])
+			rightStackView.translatesAutoresizingMaskIntoConstraints = false
+			rightStackView.axis = .horizontal
+			rightStackView.spacing = xSpacing
+			rightContainerView.addSubview(rightStackView)
+
 			var trailingBarButtonGroups = inputAssistantItem.trailingBarButtonGroups
 			trailingBarButtonGroups.append(UIBarButtonItemGroup(barButtonItems: [
-				UIBarButtonItem(customView: KeyboardButton(title: "Up", systemImage: "arrowtriangle.up", systemHighlightedImage: "arrowtriangle.up.fill", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))),
-				UIBarButtonItem(customView: KeyboardButton(title: "Down", systemImage: "arrowtriangle.down", systemHighlightedImage: "arrowtriangle.down.fill", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))),
-				UIBarButtonItem(customView: KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))),
-				UIBarButtonItem(customView: KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))),
+				UIBarButtonItem(customView: rightContainerView)
 			], representativeItem: nil))
 			inputAssistantItem.trailingBarButtonGroups = trailingBarButtonGroups
+
+			NSLayoutConstraint.activate([
+				leftStackView.leadingAnchor.constraint(equalTo: leftContainerView.leadingAnchor),
+				rightStackView.leadingAnchor.constraint(equalTo: rightContainerView.leadingAnchor),
+				leftStackView.trailingAnchor.constraint(equalTo: leftContainerView.trailingAnchor),
+				rightStackView.trailingAnchor.constraint(equalTo: rightContainerView.trailingAnchor),
+				leftStackView.heightAnchor.constraint(equalToConstant: height),
+				rightStackView.heightAnchor.constraint(equalToConstant: height),
+				leftStackView.centerYAnchor.constraint(equalTo: leftContainerView.centerYAnchor),
+				rightStackView.centerYAnchor.constraint(equalTo: rightContainerView.centerYAnchor)
+			])
 		} else {
 			toolbar = KeyboardToolbar()
 			toolbar!.translatesAutoresizingMaskIntoConstraints = false
-			toolbar!.ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
-			toolbar!.metaKey.addTarget(self, action: #selector(self.metaKeyPressed), for: .touchUpInside)
-			toolbar!.tabKey.addTarget(self, action: #selector(self.tabKeyPressed), for: .touchUpInside)
-			toolbar!.moreKey.addTarget(self, action: #selector(self.moreKeyPressed), for: .touchUpInside)
-			toolbar!.upKey.addTarget(self, action: #selector(self.upKeyPressed), for: .touchUpInside)
-			toolbar!.downKey.addTarget(self, action: #selector(self.downKeyPressed), for: .touchUpInside)
-			toolbar!.leftKey.addTarget(self, action: #selector(self.leftKeyPressed), for: .touchUpInside)
-			toolbar!.rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
-
-			ctrlKey = toolbar!.ctrlKey
-			moreKey = toolbar!.moreKey
+			toolbar!.ctrlKey = ctrlKey
+			toolbar!.metaKey = metaKey
+			toolbar!.tabKey = tabKey
+			toolbar!.moreKey = moreKey
+			toolbar!.upKey = upKey
+			toolbar!.downKey = downKey
+			toolbar!.leftKey = leftKey
+			toolbar!.rightKey = rightKey
+			toolbar!.setUp()
 		}
 
 		setMoreRowVisible(false, animated: false)
 		addSubview(moreToolbar)
+
+		ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
+		metaKey.addTarget(self, action: #selector(self.metaKeyPressed), for: .touchUpInside)
+		tabKey.addTarget(self, action: #selector(self.tabKeyPressed), for: .touchUpInside)
+		moreKey.addTarget(self, action: #selector(self.moreKeyPressed), for: .touchUpInside)
+		upKey.addTarget(self, action: #selector(self.upKeyPressed), for: .touchUpInside)
+		downKey.addTarget(self, action: #selector(self.downKeyPressed), for: .touchUpInside)
+		leftKey.addTarget(self, action: #selector(self.leftKeyPressed), for: .touchUpInside)
+		rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
 
 		moreToolbar.homeKey.addTarget(self, action: #selector(self.homeKeyPressed), for: .touchUpInside)
 		moreToolbar.endKey.addTarget(self, action: #selector(self.endKeyPressed), for: .touchUpInside)
@@ -104,6 +158,43 @@ class TerminalKeyInput: TextInputBase {
 		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.pageDownKeyPressed), for: .touchUpInside)
 		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
 		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
+
+		let views: [String: UIView] = [
+			"ctrlKey": ctrlKey,
+			"metaKey": metaKey,
+			"tabKey": tabKey,
+			"moreKey": moreKey,
+			"upKey": upKey,
+			"downKey": downKey,
+			"leftKey": leftKey,
+			"rightKey": rightKey,
+		]
+
+		NSLayoutConstraint.activate(NSLayoutConstraint.compactConstraints([
+			"ctrlKey.width >= metaKey.width",
+			"metaKey.width >= ctrlKey.width",
+			"metaKey.width >= tabKey.width",
+			"tabKey.width >= metaKey.width",
+			"tabKey.width >= moreKey.width",
+			"moreKey.width >= tabKey.width"
+		], metrics: nil, views: views, self: nil))
+
+		NSLayoutConstraint.activate(NSLayoutConstraint.compactConstraints([
+			"upKey.width = upKey.height",
+			"downKey.width = downKey.height",
+			"leftKey.width = leftKey.height",
+			"rightKey.width = rightKey.height"
+		], metrics: nil, views: views, self: nil))
+
+		squareButtonConstraints = NSLayoutConstraint.compactConstraints([
+			"ctrlKey.width = ctrlKey.height",
+			"metaKey.width = metaKey.height",
+			"tabKey.width = tabKey.height",
+			"moreKey.width = moreKey.height"
+		], metrics: nil, views: views, self: self)
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
+		preferencesUpdated()
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -112,6 +203,26 @@ class TerminalKeyInput: TextInputBase {
 
 	override var inputAccessoryView: UIView? {
 		return toolbar
+	}
+
+	@objc func preferencesUpdated() {
+		let preferences = Preferences.shared
+		let style = preferences.keyboardAccessoryStyle
+
+		for button in buttons {
+			button.style = style
+		}
+
+		// enable 1:1 width:height aspect ratio if using icons style
+		switch style {
+			case .text:
+				NSLayoutConstraint.deactivate(squareButtonConstraints)
+				break
+
+			case .icons:
+				NSLayoutConstraint.activate(squareButtonConstraints)
+				break
+		}
 	}
 
 	// MARK: - Callbacks
