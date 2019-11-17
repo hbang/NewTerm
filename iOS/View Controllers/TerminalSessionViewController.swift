@@ -94,12 +94,21 @@ class TerminalSessionViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
+		addKeyCommand(UIKeyCommand(input: ",", modifierFlags: [ .command ], action: #selector(self.openSettings), discoverabilityTitle: NSLocalizedString("SETTINGS", comment: "Title of Settings page.")))
+
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow, modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow, modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: "", modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
+
+		let letters = [
+			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+			"s", "t", "u", "v", "w", "x", "y", "z"
+		]
+		for key in letters {
+			addKeyCommand(UIKeyCommand(input: key, modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -325,7 +334,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		}
 	}
 
-	func close() {
+	@objc func close() {
 		// TODO: i guess this is kind of the wrong spot
 		if let rootViewController = parent as? RootViewController {
 			rootViewController.removeTerminal(terminal: self)
@@ -348,10 +357,12 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		present(alertController, animated: true, completion: nil)
 	}
 
-	func openSettings() {
-		let rootController = PreferencesRootController()//title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."), identifier: "Root")!
-		rootController.modalPresentationStyle = .formSheet
-		navigationController!.present(rootController, animated: true, completion: nil)
+	@objc func openSettings() {
+		if presentedViewController == nil {
+			let rootController = PreferencesRootController()
+			rootController.modalPresentationStyle = .formSheet
+			navigationController!.present(rootController, animated: true, completion: nil)
+		}
 	}
 
 }

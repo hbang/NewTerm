@@ -17,8 +17,7 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		let tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
 		
 		if let windowScene = scene as? UIWindowScene {
-			window = UIWindow(frame: UIScreen.main.bounds)
-			window!.windowScene = windowScene
+			window = UIWindow(windowScene: windowScene)
 			window!.tintColor = tintColor
 			window!.rootViewController = UINavigationController(rootViewController: RootViewController())
 			window!.makeKeyAndVisible()

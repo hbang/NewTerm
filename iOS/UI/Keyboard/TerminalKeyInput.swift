@@ -233,8 +233,10 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	@objc func ctrlKeyCommandPressed(_ keyCommand: UIKeyCommand) {
-		ctrlDown = keyCommand.modifierFlags.contains(.control)
-		ctrlKey.isSelected = ctrlDown
+		if keyCommand.input != nil {
+			ctrlDown = true
+			insertText(keyCommand.input!)
+		}
 	}
 
 	@objc func metaKeyPressed() {

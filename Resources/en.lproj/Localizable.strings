@@ -29,5 +29,13 @@
 	<!-- VoiceOver label for the close tab button. -->
 	<key>CLOSE_TAB</key>
 	<string>Close Tab</string>
+
+	<!-- VoiceOver label for the new window button. -->
+	<key>NEW_WINDOW</key>
+	<string>New Window</string>
+
+	<!-- VoiceOver label for the close window button. -->
+	<key>CLOSE_WINDOW</key>
+	<string>Close Window</string>
 </dict>
 </plist>

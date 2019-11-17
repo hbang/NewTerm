@@ -33,6 +33,16 @@ class RootViewController: UIViewController {
 		view.addSubview(tabToolbar)
 
 		addTerminal()
+
+		addKeyCommand(UIKeyCommand(input: "t", modifierFlags: [ .command ], action: #selector(self.addTerminal), discoverabilityTitle: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")))
+		addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command ], action: #selector(self.removeCurrentTerminal), discoverabilityTitle: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")))
+
+		if #available(iOS 13.0, *), UIApplication.shared.supportsMultipleScenes {
+			addKeyCommand(UIKeyCommand(input: "n", modifierFlags: [ .command ], action: #selector(self.addWindow), discoverabilityTitle: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button.")))
+			addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command, .shift ], action: #selector(self.closeCurrentWindow), discoverabilityTitle: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button.")))
+
+			tabToolbar.addButton.addInteraction(UIContextMenuInteraction(delegate: self))
+		}
 	}
 
 	override func viewWillLayoutSubviews() {
@@ -91,9 +101,14 @@ class RootViewController: UIViewController {
 
 		terminals.remove(at: index)
 
-		// if this was the last tab, make a new tab. otherwise select the closest tab we have available
+		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
+		// select the closest tab we have available
 		if terminals.count == 0 {
-			addTerminal()
+			if #available(iOS 13.0, *), UIApplication.shared.supportsMultipleScenes {
+				closeCurrentWindow()
+			} else {
+				addTerminal()
+			}
 		} else {
 			tabsCollectionView.reloadData()
 			tabsCollectionView.layoutIfNeeded()
@@ -161,18 +176,16 @@ class RootViewController: UIViewController {
 
 	// MARK: - Window management
 
+	@available(iOS 13.0, *)
 	@IBAction func addWindow() {
-		if #available(iOS 13.0, *) {
-			let options = UIWindowScene.ActivationRequestOptions()
-			options.requestingScene = view.window!.windowScene
-			UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
-		}
+		let options = UIWindowScene.ActivationRequestOptions()
+		options.requestingScene = view.window!.windowScene
+		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
 	}
 
+	@available(iOS 13.0, *)
 	@IBAction func closeCurrentWindow() {
-		if #available(iOS 13.0, *) {
-			UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
-		}
+		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
 	}
 
 }
@@ -201,6 +214,23 @@ extension RootViewController: UICollectionViewDataSource, UICollectionViewDelega
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		switchToTab(index: indexPath.row)
+	}
+
+}
+
+@available(iOS 13.0, *)
+extension RootViewController: UIContextMenuInteractionDelegate {
+
+	func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+		if !UIApplication.shared.supportsMultipleScenes {
+			return nil
+		}
+		return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { _ -> UIMenu? in
+			return UIMenu(title: "", children: [
+				UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."), image: UIImage(systemName: "plus.rectangle.on.rectangle"), action: #selector(self.addWindow)),
+				UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."), image: UIImage(systemName: "xmark.rectangle"), action: #selector(self.closeCurrentWindow))
+			])
+		})
 	}
 
 }
