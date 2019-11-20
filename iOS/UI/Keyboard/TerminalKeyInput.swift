@@ -31,6 +31,7 @@ class TerminalKeyInput: TextInputBase {
 	private let leftKey = KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
 	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
 
+	private var longPressTimer: Timer?
 	private var buttons: [KeyboardButton]!
 	private var squareButtonConstraints: [NSLayoutConstraint]!
 	private var moreToolbar = KeyboardPopupToolbar(frame: .zero)
@@ -158,6 +159,11 @@ class TerminalKeyInput: TextInputBase {
 		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.pageDownKeyPressed), for: .touchUpInside)
 		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
 		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
+
+		for key in [ upKey, downKey, leftKey, rightKey ] {
+			let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(_:)))
+			key.addGestureRecognizer(gestureRecognizer)
+		}
 
 		let views: [String: UIView] = [
 			"ctrlKey": ctrlKey,
@@ -289,6 +295,41 @@ class TerminalKeyInput: TextInputBase {
 
 	@objc func settingsKeyPressed() {
 		terminalInputDelegate!.openSettings()
+	}
+	
+	@objc func arrowKeyLongPressed(_ sender: UILongPressGestureRecognizer) {
+		switch sender.state {
+		case .began:
+			switch sender.view! {
+			case upKey:
+				longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(upKeyPressed), userInfo: nil, repeats: true)
+				break
+
+			case downKey:
+				longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(downKeyPressed), userInfo: nil, repeats: true)
+				break
+
+			case leftKey:
+				longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(leftKeyPressed), userInfo: nil, repeats: true)
+				break
+
+			case rightKey:
+				longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(rightKeyPressed), userInfo: nil, repeats: true)
+				break
+
+			default:
+				break
+			}
+			break
+
+		case .ended, .cancelled:
+			longPressTimer?.invalidate()
+			longPressTimer = nil
+			break
+
+		default:
+			break
+		}
 	}
 
 	// MARK: - More row
