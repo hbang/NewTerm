@@ -20,6 +20,8 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	private var toolbar: KeyboardToolbar?
+	
+	private var longPressTimer: Timer?
 
 	private let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
 	private let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
@@ -158,6 +160,16 @@ class TerminalKeyInput: TextInputBase {
 		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.pageDownKeyPressed), for: .touchUpInside)
 		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
 		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
+		
+		let upLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(longPressRecognizer:)))
+		let downLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(longPressRecognizer:)))
+		let leftLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(longPressRecognizer:)))
+		let rightLongPressRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(longPressRecognizer:)))
+		
+		upKey.addGestureRecognizer(upLongPressRecognizer)
+		downKey.addGestureRecognizer(downLongPressRecognizer)
+		leftKey.addGestureRecognizer(leftLongPressRecognizer)
+		rightKey.addGestureRecognizer(rightLongPressRecognizer)
 
 		let views: [String: UIView] = [
 			"ctrlKey": ctrlKey,
@@ -289,6 +301,32 @@ class TerminalKeyInput: TextInputBase {
 
 	@objc func settingsKeyPressed() {
 		terminalInputDelegate!.openSettings()
+	}
+	
+	@objc func arrowKeyLongPressed(longPressRecognizer: UILongPressGestureRecognizer){
+		let keyName: String? = longPressRecognizer.view!.accessibilityLabel;
+	
+		if longPressRecognizer.state == UIGestureRecognizer.State.began {
+			if longPressTimer == nil {
+				switch keyName {
+				case "Up":
+					longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(upKeyPressed), userInfo: nil, repeats: true)
+				case "Down":
+					longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(downKeyPressed), userInfo: nil, repeats: true)
+				case "Left":
+					longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(leftKeyPressed), userInfo: nil, repeats: true)
+				case "Right":
+					longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(rightKeyPressed), userInfo: nil, repeats: true)
+				default:
+					longPressTimer = nil
+				}
+			}
+		} else if longPressRecognizer.state == UIGestureRecognizer.State.ended {
+			if longPressTimer != nil {
+				longPressTimer!.invalidate()
+				longPressTimer = nil
+			}
+		}
 	}
 
 	// MARK: - More row
