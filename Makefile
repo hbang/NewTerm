@@ -12,7 +12,7 @@ include $(THEOS)/makefiles/common.mk
 
 XCODEPROJ_NAME = NewTerm
 
-NewTerm_XCODEFLAGS = LINK_CEPHEI=-DLINK_CEPHEI CEPHEI_LDFLAGS="-framework Cephei -framework Preferences"
+NewTerm_XCODEFLAGS = LINK_CEPHEI=-DLINK_CEPHEI CEPHEI_LDFLAGS="-framework Cephei -framework Preferences" SWIFT_OLD_RPATH=/usr/lib/libswift/stable
 NewTerm_XCODE_SCHEME = NewTerm (iOS)
 NewTerm_CODESIGN_FLAGS = -SiOS/entitlements.plist
 
