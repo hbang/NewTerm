@@ -89,7 +89,9 @@ class SubProcess: NSObject {
 
 				let env = ([
 					"TERM=xterm-color",
-					"LANG=en_US.UTF-8"
+					"LANG=en_US.UTF-8",
+					"TERM_PROGRAM=NewTerm",
+					"LC_TERMINAL=NewTerm"
 				] as NSArray).cStringArray()!
 
 				#if !targetEnvironment(simulator)
