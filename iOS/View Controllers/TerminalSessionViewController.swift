@@ -165,10 +165,18 @@ class TerminalSessionViewController: UIViewController {
 
 		if #available(iOS 11.0, *) {
 			newInsets.top -= view.safeAreaInsets.top
-		}
+			newInsets.left = view.safeAreaInsets.left
+			newInsets.right = view.safeAreaInsets.right
+			textView.contentInset = newInsets
 
-		textView.contentInset = newInsets
-		textView.scrollIndicatorInsets = textView.contentInset
+			var scrollInsets = newInsets
+			scrollInsets.left = 0
+			scrollInsets.right = 0
+			textView.scrollIndicatorInsets = scrollInsets
+		} else {
+			textView.contentInset = newInsets
+			textView.scrollIndicatorInsets = newInsets
+		}
 
 		let glyphSize = terminalController.fontMetrics.boundingBox
 

@@ -47,12 +47,19 @@ class KeyboardToolbar: UIView {
 		stackView.spacing = xSpacing
 		addSubview(stackView)
 
+		let safeArea: String
+		if #available(iOS 11.0, *) {
+			safeArea = "safe"
+		} else {
+			safeArea = "toolbar"
+		}
+
 		addCompactConstraints([
 			"self.height = height",
 			"stackView.top = toolbar.top + topSpacing",
 			"stackView.bottom = toolbar.bottom - bottomSpacing",
-			"stackView.left = toolbar.left + outerXSpacing",
-			"stackView.right = toolbar.right - outerXSpacing"
+			"stackView.left = \(safeArea).left + outerXSpacing",
+			"stackView.right = \(safeArea).right - outerXSpacing"
 		], metrics: [
 			"height": height,
 			"outerXSpacing": outerXSpacing,

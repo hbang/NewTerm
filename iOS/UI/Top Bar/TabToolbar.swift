@@ -58,8 +58,14 @@ class TabToolbar: UIView {
 		super.layoutSubviews()
 
 		let addButtonWidth = CGFloat(44)
+		let addButtonOffset: CGFloat
+		if #available(iOS 11.0, *) {
+			addButtonOffset = safeAreaInsets.right
+		} else {
+			addButtonOffset = 0
+		}
 
-		addButton.frame = CGRect(x: frame.size.width - addButtonWidth, y: topMargin, width: addButtonWidth, height: frame.size.height - topMargin)
+		addButton.frame = CGRect(x: frame.size.width - addButtonWidth - addButtonOffset, y: topMargin, width: addButtonWidth, height: frame.size.height - topMargin)
 		tabsCollectionView.frame = CGRect(x: 0, y: topMargin, width: addButton.frame.origin.x, height: addButton.frame.size.height)
 	}
 
