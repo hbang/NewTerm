@@ -22,11 +22,7 @@ public class Preferences {
 
 	public static let shared = Preferences()
 
-#if LINK_CEPHEI
-	let preferences = HBPreferences(identifier: "ws.hbang.Terminal")
-#else
 	let preferences = UserDefaults.standard
-#endif
 
 	let fontsPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Fonts", withExtension: "plist")!)!
 	let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
@@ -34,15 +30,18 @@ public class Preferences {
 	public var fontMetrics: FontMetrics!
 	public var colorMap: VT100ColorMap!
 
-	private init() {
+	private var kvoContext = 0
+
+	override init() {
+		super.init()
+
 		let defaultFontName: String
 		if #available(iOS 13.0, macOS 10.15, *) {
 			defaultFontName = "SF Mono"
 		} else {
 			defaultFontName = "Fira Code"
 		}
-
-		preferences.register(defaults: [
+		let defaults: [String: Any] = [
 			"fontName": defaultFontName,
 			"fontSizePhone": 12,
 			"fontSizePad": 13,
@@ -51,22 +50,15 @@ public class Preferences {
 			"bellHUD": true,
 			"bellVibrate": true,
 			"bellSound": false
-		])
-
-		// Fix the default font for users of NewTerm 2.2.1 on iOS 13
-		if #available(iOS 13.0, *), fontName == "Courier" && lastVersion == nil {
-			fontName = defaultFontName
-		}
+		]
+		preferences.register(defaults: defaults)
 
 		let infoPlist = Bundle.main.infoDictionary!
 		lastVersion = infoPlist["CFBundleVersion"] as? Int
 
-		#if LINK_CEPHEI
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: HBPreferences.didChangeNotification, object: preferences)
-		#else
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated(notification:)), name: UserDefaults.didChangeNotification, object: preferences)
-		#endif
-
+		for key in defaults.keys {
+			preferences.addObserver(self, forKeyPath: key, options: [], context: &kvoContext)
+		}
 		preferencesUpdated(notification: nil)
 	}
 
@@ -120,13 +112,18 @@ public class Preferences {
 
 	// MARK: - Callbacks
 
+	override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
+		if context == &kvoContext {
+			preferencesUpdated(notification: nil)
+		} else {
+			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
+		}
+	}
+
 	@objc func preferencesUpdated(notification: Notification?) {
 		fontMetricsChanged()
 		colorMapChanged()
-
-		if notification != nil {
-			NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
-		}
+		NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
 	}
 
 	private func fontMetricsChanged() {

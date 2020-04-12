@@ -13,7 +13,3 @@
 #import "VT100StringSupplier.h"
 #import "VT100Types.h"
 #import "VT100ColorMap.h"
-
-#if LINK_CEPHEI
-#import <Cephei/HBPreferences.h>
-#endif
