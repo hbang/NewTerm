@@ -27,7 +27,12 @@ class HUDView: UIView {
 		alpha = 0
 		clipsToBounds = true
 		layer.cornerRadius = 16
-		tintColor = .white
+		if #available(iOS 13, *) {
+			layer.cornerCurve = .continuous
+			tintColor = .label
+		} else {
+			tintColor = .white
+		}
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]

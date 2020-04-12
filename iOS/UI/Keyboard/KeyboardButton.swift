@@ -41,7 +41,11 @@ class KeyboardButton: UIButton {
 		clipsToBounds = true
 		layer.cornerRadius = isBigDevice ? 6 : 4
 		titleLabel!.font = .systemFont(ofSize: isBigDevice ? 18 : 15)
-		tintColor = .white
+		if #available(iOS 13, *) {
+			tintColor = .label
+		} else {
+			tintColor = .white
+		}
 		adjustsImageWhenHighlighted = false
 		setTitleColor(tintColor, for: .normal)
 		setTitleColor(.black, for: .selected)
@@ -85,13 +89,21 @@ class KeyboardButton: UIButton {
 
 	override var isSelected: Bool {
 		didSet {
-			tintColor = isSelected && !isHighlighted ? .black : .white
+			if #available(iOS 13, *) {
+				tintColor = isSelected && !isHighlighted ? .label : .systemBackground
+			} else {
+				tintColor = isSelected && !isHighlighted ? .black : .white
+			}
 		}
 	}
 
 	override var isHighlighted: Bool {
 		didSet {
-			tintColor = isSelected && !isHighlighted ? .black : .white
+			if #available(iOS 13, *) {
+				tintColor = isSelected && !isHighlighted ? .label : .systemBackground
+			} else {
+				tintColor = isSelected && !isHighlighted ? .black : .white
+			}
 		}
 	}
 

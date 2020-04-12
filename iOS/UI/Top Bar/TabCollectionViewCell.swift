@@ -32,7 +32,11 @@ class TabCollectionViewCell: UICollectionViewCell {
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.font = UIFont.systemFont(ofSize: 16)
-		textLabel.textColor = .white
+		if #available(iOS 13, *) {
+			textLabel.textColor = .label
+		} else {
+			textLabel.textColor = .white
+		}
 		textLabel.textAlignment = .center
 		contentView.addSubview(textLabel)
 
@@ -45,7 +49,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		}
 		closeButton.accessibilityLabel = NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")
 		closeButton.contentMode = .center
-		closeButton.tintColor = .white
+		closeButton.tintColor = textLabel.textColor
 		closeButton.alpha = 0.5
 		contentView.addSubview(closeButton)
 

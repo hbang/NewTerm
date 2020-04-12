@@ -7,6 +7,7 @@
 //
 
 #import "PreferencesRootController.h"
+#import <NewTerm-Swift.h>
 
 #if LINK_CEPHEI
 #import "../prefs/HBNTPreferencesRootListController.h"
@@ -32,8 +33,27 @@
 #endif
 }
 
+- (void)viewDidLoad {
+	[super viewDidLoad];
+
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:Preferences.didChangeNotification object:nil];
+	[self preferencesUpdated];
+}
+
 - (UIStatusBarStyle)preferredStatusBarStyle {
-	return UIStatusBarStyleLightContent;
+	if (@available(iOS 13, *)) {
+		return [super preferredStatusBarStyle];
+	} else {
+		return UIStatusBarStyleLightContent;
+	}
+}
+
+- (void)preferencesUpdated {
+	Preferences *preferences = [Preferences shared];
+
+	if (@available(iOS 13, *)) {
+		self.overrideUserInterfaceStyle = preferences.userInterfaceStyle;
+	}
 }
 
 #pragma mark - PSRootController

@@ -32,7 +32,10 @@ class TabToolbar: UIView {
 
 		tabsCollectionView = UICollectionView(frame: .zero, collectionViewLayout: collectionViewLayout)
 		tabsCollectionView.backgroundColor = nil
-		tabsCollectionView.indicatorStyle = .white
+		if #available(iOS 13, *) {
+		} else {
+			tabsCollectionView.indicatorStyle = .white
+		}
 		tabsCollectionView.allowsMultipleSelection = false
 		addSubview(tabsCollectionView)
 

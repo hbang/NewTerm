@@ -16,11 +16,11 @@ public enum KeyboardButtonStyle: Int {
 	case text = 0, icons = 1
 }
 
-public class Preferences {
+@objc public class Preferences: NSObject {
 
-	public static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
+	@objc public static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
 
-	public static let shared = Preferences()
+	@objc public static let shared = Preferences()
 
 	let preferences = UserDefaults.standard
 
