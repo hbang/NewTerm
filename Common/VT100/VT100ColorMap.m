@@ -132,4 +132,8 @@
 	}
 }
 
+- (UIUserInterfaceStyle)userInterfaceStyle {
+	return _isDark ? UIUserInterfaceStyleDark : UIUserInterfaceStyleLight;
+}
+
 @end

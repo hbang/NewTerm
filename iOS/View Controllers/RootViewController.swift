@@ -45,6 +45,13 @@ class RootViewController: UIViewController {
 		}
 	}
 
+	override func viewDidLoad() {
+		super.viewDidLoad()
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
+		preferencesUpdated()
+	}
+
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 
@@ -186,6 +193,15 @@ class RootViewController: UIViewController {
 	@available(iOS 13.0, *)
 	@IBAction func closeCurrentWindow() {
 		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
+	}
+
+	// MARK: - Preferences
+
+	@objc private func preferencesUpdated() {
+		let preferences = Preferences.shared
+		if #available(iOS 13, *) {
+			overrideUserInterfaceStyle = preferences.userInterfaceStyle
+		}
 	}
 
 }

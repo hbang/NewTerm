@@ -2,6 +2,17 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>Anonymous Pro</key>
+	<dict>
+		<key>Regular</key>
+		<string>AnonymousPro</string>
+		<key>Bold</key>
+		<string>AnonymousPro-Bold</string>
+		<key>Italic</key>
+		<string>AnonymousPro-Italic</string>
+		<key>BoldItalic</key>
+		<string>AnonymousPro-BoldItalic</string>
+	</dict>
 	<key>Courier</key>
 	<dict>
 		<key>Regular</key>
@@ -30,6 +41,17 @@
 		<key>Bold</key>
 		<string>Hack-Bold</string>
 	</dict>
+	<key>JetBrains Mono</key>
+	<dict>
+		<key>Regular</key>
+		<string>JetBrainsMono-Regular</string>
+		<key>Bold</key>
+		<string>JetBrainsMono-Bold</string>
+		<key>Italic</key>
+		<string>JetBrainsMono-Italic</string>
+		<key>BoldItalic</key>
+		<string>JetBrainsMono-BoldItalic</string>
+	</dict>
 	<key>Menlo</key>
 	<dict>
 		<key>Regular</key>
@@ -45,6 +67,17 @@
 		<string>SourceCodePro-Regular</string>
 		<key>Bold</key>
 		<string>SourceCodePro-Bold</string>
+	</dict>
+	<key>Ubuntu Mono</key>
+	<dict>
+		<key>Regular</key>
+		<string>UbuntuMono-Regular</string>
+		<key>Bold</key>
+		<string>UbuntuMono-Bold</string>
+		<key>Italic</key>
+		<string>UbuntuMono-Italic</string>
+		<key>BoldItalic</key>
+		<string>UbuntuMono-BoldItalic</string>
 	</dict>
 </dict>
 </plist>

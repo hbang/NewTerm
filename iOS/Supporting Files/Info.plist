@@ -24,12 +24,24 @@
 	<true/>
 	<key>UIAppFonts</key>
 	<array>
+		<string>AnonymousPro-Bold.ttf</string>
+		<string>AnonymousPro-BoldItalic.ttf</string>
+		<string>AnonymousPro-Italic.ttf</string>
+		<string>AnonymousPro-Regular.ttf</string>
 		<string>FiraCode-Bold.otf</string>
 		<string>FiraCode-Retina.otf</string>
 		<string>Hack-Bold.ttf</string>
 		<string>Hack-Regular.ttf</string>
+		<string>JetBrainsMono-Bold.ttf</string>
+		<string>JetBrainsMono-BoldItalic.ttf</string>
+		<string>JetBrainsMono-Italic.ttf</string>
+		<string>JetBrainsMono-Regular.ttf</string>
 		<string>SourceCodePro-Bold.otf</string>
 		<string>SourceCodePro-Regular.otf</string>
+		<string>UbuntuMono-Bold.ttf</string>
+		<string>UbuntuMono-BoldItalic.ttf</string>
+		<string>UbuntuMono-Italic.ttf</string>
+		<string>UbuntuMono-Regular.ttf</string>
 	</array>
 	<key>UIApplicationSceneManifest</key>
 	<dict>

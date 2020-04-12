@@ -20,30 +20,36 @@
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
 			<key>detail</key>
-			<string>PSListItemsController</string>
+			<string>HBNTPreferencesFontPickerListController</string>
 			<key>key</key>
 			<string>fontName</string>
 			<key>label</key>
 			<string>FONT</string>
 			<key>validTitles</key>
 			<array>
+				<string>Anonymous Pro</string>
 				<string>Courier</string>
 				<string>Courier New</string>
 				<string>Fira Code</string>
 				<string>Hack</string>
+				<string>JetBrains Mono</string>
 				<string>Menlo</string>
 				<string>SF Mono</string>
 				<string>Source Code Pro</string>
+				<string>Ubuntu Mono</string>
 			</array>
 			<key>validValues</key>
 			<array>
+				<string>Anonymous Pro</string>
 				<string>Courier</string>
 				<string>Courier New</string>
 				<string>Fira Code</string>
 				<string>Hack</string>
+				<string>JetBrains Mono</string>
 				<string>Menlo</string>
 				<string>SF Mono</string>
 				<string>Source Code Pro</string>
+				<string>Ubuntu Mono</string>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>

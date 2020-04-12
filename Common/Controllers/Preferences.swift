@@ -113,6 +113,11 @@ public class Preferences {
 		set { preferences.set(newValue, forKey: "lastVersion") }
 	}
 
+	@available(iOS 13, *)
+	@objc public var userInterfaceStyle: UIUserInterfaceStyle {
+		return colorMap.userInterfaceStyle
+	}
+
 	// MARK: - Callbacks
 
 	@objc func preferencesUpdated(notification: Notification?) {
