@@ -88,7 +88,7 @@ class SubProcess: NSObject {
 				let bashArgs = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
 
 				let env = ([
-					"TERM=xterm-color",
+					"TERM=xterm-noapp",
 					"LANG=en_US.UTF-8",
 					"TERM_PROGRAM=NewTerm",
 					"LC_TERMINAL=NewTerm"

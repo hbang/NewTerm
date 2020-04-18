@@ -1225,7 +1225,7 @@ static VT100Token *decode_string(unsigned char* datap,
 
   _numLock = YES;
 
-  [self setTermType:@"xterm-color"];
+  [self setTermType:@"xterm-noapp"];
 
   _primaryScreen = [[VT100Screen alloc] init];
   _primaryScreen.terminal = self;
