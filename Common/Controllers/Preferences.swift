@@ -146,7 +146,11 @@ public enum KeyboardButtonStyle: Int {
 
 		if regularFont == nil || boldFont == nil {
 			NSLog("font %@ size %f could not be initialised", fontName, fontSize)
-			fontName = "Courier"
+			if #available(iOS 13.0, macOS 10.15, *) {
+				fontName = "SF Mono"
+			} else {
+				fontName = "Courier"
+			}
 			return
 		}
 
