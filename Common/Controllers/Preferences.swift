@@ -35,11 +35,14 @@ public enum KeyboardButtonStyle: Int {
 	override init() {
 		super.init()
 
+		// TODO: Preferences really shouldn’t be responsible for loading fonts!
+		FontMetrics.loadFonts()
+
 		let defaultFontName: String
 		if #available(iOS 13.0, macOS 10.15, *) {
 			defaultFontName = "SF Mono"
 		} else {
-			defaultFontName = "Fira Code"
+			defaultFontName = "Menlo"
 		}
 		let defaults: [String: Any] = [
 			"fontName": defaultFontName,

@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 import CoreText
 
 @objc public class FontMetrics: NSObject {
@@ -18,6 +19,23 @@ import CoreText
 	@objc public let leading: CGFloat
 
 	@objc public let boundingBox: CGSize
+
+	class func loadFonts() {
+		// Runtime load all fonts we’re interested in.
+		// TODO: This should only load the fonts the user wants.
+		guard let listing = try? FileManager.default.contentsOfDirectory(at: Bundle.main.resourceURL!, includingPropertiesForKeys: nil, options: [ .skipsSubdirectoryDescendants, .skipsHiddenFiles ]) else {
+			return
+		}
+		let fonts = listing.filter { item in item.pathExtension == "ttf" || item.pathExtension == "otf" }
+		if fonts.count > 0 {
+			var cfErrorsWrapper: Unmanaged<CFArray>? = nil
+			CTFontManagerRegisterFontsForURLs(fonts as CFArray, .process, &cfErrorsWrapper)
+			if let cfErrors = cfErrorsWrapper?.takeUnretainedValue(),
+				let errors = cfErrors as? [NSError] {
+				NSLog("%li error(s) loading fonts: %@", errors.count, errors)
+			}
+		}
+	}
 
 	init(regularFont: Font, boldFont: Font) {
 		self.regularFont = regularFont
