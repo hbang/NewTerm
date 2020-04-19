@@ -42,9 +42,13 @@ class TerminalKeyInput: TextInputBase {
 	private let metaKeyData = Data([0x1B]) // \e
 	private let tabKeyData = Data([0x09]) // \t
 	private let upKeyData = Data([0x1B, 0x5B, 0x41]) // \e[A
+	private let upKeyAppData = Data([0x1B, 0x4F, 0x41]) // \eOA
 	private let downKeyData = Data([0x1B, 0x5B, 0x42]) // \e[B
+	private let downKeyAppData = Data([0x1B, 0x4F, 0x42]) // \eOB
 	private let leftKeyData = Data([0x1B, 0x5B, 0x44]) // \e[D
+	private let leftKeyAppData = Data([0x1B, 0x4F, 0x44]) // \eOD
 	private let rightKeyData = Data([0x1B, 0x5B, 0x43]) // \e[C
+	private let rightKeyAppData = Data([0x1B, 0x4F, 0x43]) // \eOC
 	private let homeKeyData = Data([0x1B, 0x5B, 0x48]) // \e[H
 	private let endKeyData = Data([0x1B, 0x5B, 0x46]) // \e[F
 	private let pageUpKeyData = Data([0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
@@ -258,19 +262,19 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	@objc func upKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: upKeyData)
+		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? upKeyAppData : upKeyData)
 	}
 
 	@objc func downKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: downKeyData)
+		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? downKeyAppData : downKeyData)
 	}
 
 	@objc func leftKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: leftKeyData)
+		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? leftKeyAppData : leftKeyData)
 	}
 
 	@objc func rightKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: rightKeyData)
+		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? rightKeyAppData : rightKeyData)
 	}
 
 	@objc func homeKeyPressed() {

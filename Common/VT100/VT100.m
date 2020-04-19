@@ -98,4 +98,8 @@ static const int kDefaultHeight = 25;
 	return [_terminal.currentScreen numberOfScrollbackLines];
 }
 
+- (BOOL)applicationCursor {
+	return _terminal.cursorMode;
+}
+
 @end

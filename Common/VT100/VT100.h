@@ -39,4 +39,6 @@
 
 - (void)clearScreen;
 
+@property (nonatomic, readonly) BOOL applicationCursor;
+
 @end

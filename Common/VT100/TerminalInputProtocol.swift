@@ -10,4 +10,6 @@ public protocol TerminalInputProtocol {
 	func receiveKeyboardInput(data: Data)
 	func openSettings()
 
+	var applicationCursor: Bool { get }
+
 }
