@@ -1,6 +1,6 @@
 Package: ws.hbang.newterm2
 Name: NewTerm (iOS 10 – 13)
-Depends: firmware (>= 10.0), firmware (>= 12.2) | org.swift.libswift, firmware (>= 13.0) | ws.hbang.newtermfonts, ws.hbang.common (>= 1.14), bash, coreutils, ncurses, system-cmds, com.linusyang.localeutf8
+Depends: firmware (>= 10.0), firmware (>= 12.2) | org.swift.libswift, firmware (>= 13.0) | ws.hbang.newtermfonts, ws.hbang.common (>= 1.14), bash, coreutils, ncurses, system-cmds, gettext-localizations | com.linusyang.localeutf8
 Conflicts: ws.hbang.newterm, com.lint.ntarrows
 Replaces: ws.hbang.newterm, com.lint.ntarrows
 Version: 2.4

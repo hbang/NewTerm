@@ -70,6 +70,7 @@ class SubProcess: NSObject {
 		windowSize.ws_row = SubProcess.defaultHeight
 
 		fileDescriptor = Int32()
+		let localeCode = self.localeCode
 		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 
 		switch pid {
@@ -89,7 +90,7 @@ class SubProcess: NSObject {
 
 				let env = ([
 					"TERM=xterm-color",
-					"LANG=en_US.UTF-8",
+					"LANG=\(localeCode)",
 					"TERM_PROGRAM=NewTerm",
 					"LC_TERMINAL=NewTerm"
 				] as NSArray).cStringArray()!
@@ -174,6 +175,25 @@ class SubProcess: NSObject {
 
 	func write(data: Data) {
 		fileHandle!.write(data)
+	}
+
+	private var localeCode: String {
+		// Try and find a locale suitable for the user. Use en_US.UTF-8 as fallback.
+		// TODO: There has to be a better way to get a gettext locale out of the Apple locale. For
+		// instance, a phone set to Simplified Chinese but a region of Australia will only have the
+		// language zh_AU… which isn’t a thing. But gettext only has languages in country pairs, no
+		// safe generic fallbacks exist, like zh-Hans in this case.
+		for language in Locale.preferredLanguages {
+			let locale = Locale(identifier: language)
+			if let languageCode = locale.languageCode, let regionCode = locale.regionCode {
+				let identifier = "\(languageCode)_\(regionCode).UTF-8"
+				let url = URL(fileURLWithPath: "/usr/share/locale").appendingPathComponent(identifier)
+				if (try? url.checkResourceIsReachable()) == true {
+					return identifier
+				}
+			}
+		}
+		return "en_US.UTF-8"
 	}
 
 	deinit {
