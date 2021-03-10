@@ -21,15 +21,15 @@ class TerminalKeyInput: TextInputBase {
 
 	private var toolbar: KeyboardToolbar?
 
-	private let ctrlKey = KeyboardButton(title: "Control", glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
-	private let metaKey = KeyboardButton(title: "Escape", glyph: "Esc", systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
-	private let tabKey = KeyboardButton(title: "Tab", glyph: "Tab", systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))
-	private let moreKey = KeyboardButton(title: "Functions", glyph: "Fn", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
+	private let ctrlKey  = KeyboardButton(title: "Control",   glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
+	private let metaKey  = KeyboardButton(title: "Escape",    glyph: "Esc",  systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
+	private let tabKey   = KeyboardButton(title: "Tab",       glyph: "Tab",  systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))
+	private let moreKey  = KeyboardButton(title: "Functions", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
 
-	private let upKey = KeyboardButton(title: "Up", systemImage: "arrowtriangle.up", systemHighlightedImage: "arrowtriangle.up.fill", image: #imageLiteral(resourceName: "key-up"), highlightedImage: #imageLiteral(resourceName: "key-up-down"))
-	private let downKey = KeyboardButton(title: "Down", systemImage: "arrowtriangle.down", systemHighlightedImage: "arrowtriangle.down.fill", image: #imageLiteral(resourceName: "key-down"), highlightedImage: #imageLiteral(resourceName: "key-down-down"))
-	private let leftKey = KeyboardButton(title: "Left", systemImage: "arrowtriangle.left", systemHighlightedImage: "arrowtriangle.left.fill", image: #imageLiteral(resourceName: "key-left"), highlightedImage: #imageLiteral(resourceName: "key-left-down"))
-	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrowtriangle.right", systemHighlightedImage: "arrowtriangle.right.fill", image: #imageLiteral(resourceName: "key-right"), highlightedImage: #imageLiteral(resourceName: "key-right-down"))
+	private let upKey    = KeyboardButton(title: "Up",    systemImage: "arrow.up",    image: #imageLiteral(resourceName: "key-up"))
+	private let downKey  = KeyboardButton(title: "Down",  systemImage: "arrow.down",  image: #imageLiteral(resourceName: "key-down"))
+	private let leftKey  = KeyboardButton(title: "Left",  systemImage: "arrow.left",  image: #imageLiteral(resourceName: "key-left"))
+	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrow.right", image: #imageLiteral(resourceName: "key-right"))
 
 	private var longPressTimer: Timer?
 	private var buttons: [KeyboardButton]!
@@ -38,22 +38,22 @@ class TerminalKeyInput: TextInputBase {
 
 	private var ctrlDown = false
 
-	private let backspaceData = Data([0x7F]) // \x7F
-	private let metaKeyData = Data([0x1B]) // \e
-	private let tabKeyData = Data([0x09]) // \t
-	private let upKeyData = Data([0x1B, 0x5B, 0x41]) // \e[A
-	private let upKeyAppData = Data([0x1B, 0x4F, 0x41]) // \eOA
-	private let downKeyData = Data([0x1B, 0x5B, 0x42]) // \e[B
-	private let downKeyAppData = Data([0x1B, 0x4F, 0x42]) // \eOB
-	private let leftKeyData = Data([0x1B, 0x5B, 0x44]) // \e[D
-	private let leftKeyAppData = Data([0x1B, 0x4F, 0x44]) // \eOD
-	private let rightKeyData = Data([0x1B, 0x5B, 0x43]) // \e[C
-	private let rightKeyAppData = Data([0x1B, 0x4F, 0x43]) // \eOC
-	private let homeKeyData = Data([0x1B, 0x5B, 0x48]) // \e[H
-	private let endKeyData = Data([0x1B, 0x5B, 0x46]) // \e[F
-	private let pageUpKeyData = Data([0x1B, 0x5B, 0x35, 0x7E]) // \e[5~
-	private let pageDownKeyData = Data([0x1B, 0x5B, 0x36, 0x7E]) // \e[6~
-	private let deleteKeyData = Data([0x1B, 0x5B, 0x33, 0x7E]) // \e[3~
+	private let backspaceData   = Data([ 0x7F ]) // \x7F
+	private let metaKeyData     = Data([ 0x1B ]) // \e
+	private let tabKeyData      = Data([ 0x09 ]) // \t
+	private let upKeyData       = Data([ 0x1B, 0x5B, 0x41 ]) // \e[A
+	private let upKeyAppData    = Data([ 0x1B, 0x4F, 0x41 ]) // \eOA
+	private let downKeyData     = Data([ 0x1B, 0x5B, 0x42 ]) // \e[B
+	private let downKeyAppData  = Data([ 0x1B, 0x4F, 0x42 ]) // \eOB
+	private let leftKeyData     = Data([ 0x1B, 0x5B, 0x44 ]) // \e[D
+	private let leftKeyAppData  = Data([ 0x1B, 0x4F, 0x44 ]) // \eOD
+	private let rightKeyData    = Data([ 0x1B, 0x5B, 0x43 ]) // \e[C
+	private let rightKeyAppData = Data([ 0x1B, 0x4F, 0x43 ]) // \eOC
+	private let homeKeyData     = Data([ 0x1B, 0x5B, 0x48 ]) // \e[H
+	private let endKeyData      = Data([ 0x1B, 0x5B, 0x46 ]) // \e[F
+	private let pageUpKeyData   = Data([ 0x1B, 0x5B, 0x35, 0x7E ]) // \e[5~
+	private let pageDownKeyData = Data([ 0x1B, 0x5B, 0x36, 0x7E ]) // \e[6~
+	private let deleteKeyData   = Data([ 0x1B, 0x5B, 0x33, 0x7E ]) // \e[3~
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -148,60 +148,37 @@ class TerminalKeyInput: TextInputBase {
 		setMoreRowVisible(false, animated: false)
 		addSubview(moreToolbar)
 
-		ctrlKey.addTarget(self, action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
-		metaKey.addTarget(self, action: #selector(self.metaKeyPressed), for: .touchUpInside)
-		tabKey.addTarget(self, action: #selector(self.tabKeyPressed), for: .touchUpInside)
-		moreKey.addTarget(self, action: #selector(self.moreKeyPressed), for: .touchUpInside)
-		upKey.addTarget(self, action: #selector(self.upKeyPressed), for: .touchUpInside)
-		downKey.addTarget(self, action: #selector(self.downKeyPressed), for: .touchUpInside)
-		leftKey.addTarget(self, action: #selector(self.leftKeyPressed), for: .touchUpInside)
-		rightKey.addTarget(self, action: #selector(self.rightKeyPressed), for: .touchUpInside)
+		ctrlKey.addTarget(self,  action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
+		metaKey.addTarget(self,  action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		tabKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		moreKey.addTarget(self,  action: #selector(self.moreKeyPressed), for: .touchUpInside)
+		upKey.addTarget(self,    action: #selector(self.arrowKeyPressed), for: .touchUpInside)
+		downKey.addTarget(self,  action: #selector(self.arrowKeyPressed), for: .touchUpInside)
+		leftKey.addTarget(self,  action: #selector(self.arrowKeyPressed), for: .touchUpInside)
+		rightKey.addTarget(self, action: #selector(self.arrowKeyPressed), for: .touchUpInside)
 
-		moreToolbar.homeKey.addTarget(self, action: #selector(self.homeKeyPressed), for: .touchUpInside)
-		moreToolbar.endKey.addTarget(self, action: #selector(self.endKeyPressed), for: .touchUpInside)
-		moreToolbar.pageUpKey.addTarget(self, action: #selector(self.pageUpKeyPressed), for: .touchUpInside)
-		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.pageDownKeyPressed), for: .touchUpInside)
-		moreToolbar.deleteKey.addTarget(self, action: #selector(self.deleteKeyPressed), for: .touchUpInside)
-		moreToolbar.settingsKey.addTarget(self, action: #selector(self.settingsKeyPressed), for: .touchUpInside)
+		moreToolbar.homeKey.addTarget(self,     action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		moreToolbar.endKey.addTarget(self,      action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		moreToolbar.pageUpKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		moreToolbar.deleteKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
 
 		for key in [ upKey, downKey, leftKey, rightKey ] {
 			let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(_:)))
 			key.addGestureRecognizer(gestureRecognizer)
 		}
 
-		let views: [String: UIView] = [
-			"ctrlKey": ctrlKey,
-			"metaKey": metaKey,
-			"tabKey": tabKey,
-			"moreKey": moreKey,
-			"upKey": upKey,
-			"downKey": downKey,
-			"leftKey": leftKey,
-			"rightKey": rightKey,
-		]
+		NSLayoutConstraint.activate([
+			ctrlKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
+			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: ctrlKey.widthAnchor),
+			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor),
+			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
+			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: moreKey.widthAnchor),
+			moreKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor)
+		])
 
-		NSLayoutConstraint.activate(NSLayoutConstraint.compactConstraints([
-			"ctrlKey.width >= metaKey.width",
-			"metaKey.width >= ctrlKey.width",
-			"metaKey.width >= tabKey.width",
-			"tabKey.width >= metaKey.width",
-			"tabKey.width >= moreKey.width",
-			"moreKey.width >= tabKey.width"
-		], metrics: nil, views: views, self: nil))
-
-		NSLayoutConstraint.activate(NSLayoutConstraint.compactConstraints([
-			"upKey.width = upKey.height",
-			"downKey.width = downKey.height",
-			"leftKey.width = leftKey.height",
-			"rightKey.width = rightKey.height"
-		], metrics: nil, views: views, self: nil))
-
-		squareButtonConstraints = NSLayoutConstraint.compactConstraints([
-			"ctrlKey.width = ctrlKey.height",
-			"metaKey.width = metaKey.height",
-			"tabKey.width = tabKey.height",
-			"moreKey.width = moreKey.height"
-		], metrics: nil, views: views, self: self)
+		NSLayoutConstraint.activate([ upKey, downKey, leftKey, rightKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) })
+		squareButtonConstraints = [ ctrlKey, metaKey, tabKey, moreKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) }
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
@@ -225,13 +202,8 @@ class TerminalKeyInput: TextInputBase {
 
 		// enable 1:1 width:height aspect ratio if using icons style
 		switch style {
-			case .text:
-				NSLayoutConstraint.deactivate(squareButtonConstraints)
-				break
-
-			case .icons:
-				NSLayoutConstraint.activate(squareButtonConstraints)
-				break
+		case .text:  NSLayoutConstraint.deactivate(squareButtonConstraints)
+		case .icons: NSLayoutConstraint.activate(squareButtonConstraints)
 		}
 	}
 
@@ -249,81 +221,52 @@ class TerminalKeyInput: TextInputBase {
 		}
 	}
 
-	@objc func metaKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: metaKeyData)
+	@objc private func inputKeyPressed(_ sender: KeyboardButton) {
+		let keyValues: [KeyboardButton: Data] = [
+			metaKey:  metaKeyData,
+			tabKey:   tabKeyData,
+			moreToolbar.homeKey:     homeKeyData,
+			moreToolbar.endKey:      endKeyData,
+			moreToolbar.pageUpKey:   pageUpKeyData,
+			moreToolbar.pageDownKey: pageDownKeyData,
+			moreToolbar.deleteKey:   deleteKeyData
+		]
+		if let data = keyValues[sender] {
+			terminalInputDelegate!.receiveKeyboardInput(data: data)
+		}
 	}
 
-	@objc func tabKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: tabKeyData)
+	@objc private func arrowKeyPressed(_ sender: KeyboardButton) {
+		let keyValues: [KeyboardButton: Data] = [
+			upKey:    upKeyData,
+			downKey:  downKeyData,
+			leftKey:  leftKeyData,
+			rightKey: rightKeyData
+		]
+		let keyAppValues: [KeyboardButton: Data] = [
+			upKey:    upKeyAppData,
+			downKey:  downKeyAppData,
+			leftKey:  leftKeyAppData,
+			rightKey: rightKeyAppData
+		]
+		let values = terminalInputDelegate!.applicationCursor ? keyValues : keyAppValues
+		if let data = values[sender] {
+			terminalInputDelegate!.receiveKeyboardInput(data: data)
+		}
+	}
+
+	@objc private func arrowRepeatTimerFired(_ timer: Timer) {
+		arrowKeyPressed(timer.userInfo as! KeyboardButton)
 	}
 
 	@objc func moreKeyPressed() {
 		setMoreRowVisible(moreToolbar.isHidden, animated: true)
 	}
-
-	@objc func upKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? upKeyAppData : upKeyData)
-	}
-
-	@objc func downKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? downKeyAppData : downKeyData)
-	}
-
-	@objc func leftKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? leftKeyAppData : leftKeyData)
-	}
-
-	@objc func rightKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: terminalInputDelegate!.applicationCursor ? rightKeyAppData : rightKeyData)
-	}
-
-	@objc func homeKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: homeKeyData)
-	}
-
-	@objc func endKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: endKeyData)
-	}
-
-	@objc func pageUpKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: pageUpKeyData)
-	}
-
-	@objc func pageDownKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: pageDownKeyData)
-	}
-
-	@objc func deleteKeyPressed() {
-		terminalInputDelegate!.receiveKeyboardInput(data: deleteKeyData)
-	}
-
-	@objc func settingsKeyPressed() {
-		terminalInputDelegate!.openSettings()
-	}
 	
 	@objc func arrowKeyLongPressed(_ sender: UILongPressGestureRecognizer) {
 		switch sender.state {
 		case .began:
-			switch sender.view! {
-			case upKey:
-				longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(upKeyPressed), userInfo: nil, repeats: true)
-				break
-
-			case downKey:
-				longPressTimer = Timer.scheduledTimer(timeInterval: 0.2, target: self, selector: #selector(downKeyPressed), userInfo: nil, repeats: true)
-				break
-
-			case leftKey:
-				longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(leftKeyPressed), userInfo: nil, repeats: true)
-				break
-
-			case rightKey:
-				longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(rightKeyPressed), userInfo: nil, repeats: true)
-				break
-
-			default:
-				break
-			}
+			longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.arrowRepeatTimerFired), userInfo: sender.view, repeats: true)
 			break
 
 		case .ended, .cancelled:
@@ -431,7 +374,7 @@ class TerminalKeyInput: TextInputBase {
 	// MARK: - UIResponder
 
 	override func becomeFirstResponder() -> Bool {
-		super.becomeFirstResponder()
+		_ = super.becomeFirstResponder()
 		return true
 	}
 
@@ -443,7 +386,7 @@ class TerminalKeyInput: TextInputBase {
 		switch action {
 		case #selector(self.paste(_:)):
 			// only paste if the pasteboard contains a plaintext type
-			return UIPasteboard.general.contains(pasteboardTypes: UIPasteboard.typeListString as! [String])
+			return UIPasteboard.general.hasStrings || UIPasteboard.general.hasURLs
 
 		case #selector(self.cut(_:)):
 			// ensure cut is never allowed
@@ -460,19 +403,9 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	override func paste(_ sender: Any?) {
-		let pasteboard = UIPasteboard.general
-
-		// we already checked this above in canPerformAction(_:withSender:), but double check again
-		if !pasteboard.contains(pasteboardTypes: UIPasteboard.typeListString as! [String]) {
-			return
+		if let data = UIPasteboard.general.string?.data(using: .utf8) {
+			terminalInputDelegate!.receiveKeyboardInput(data: data)
 		}
-
-		guard let string = pasteboard.string else {
-			// welp?
-			return
-		}
-
-		terminalInputDelegate!.receiveKeyboardInput(data: string.data(using: .utf8)!)
 	}
 
 }

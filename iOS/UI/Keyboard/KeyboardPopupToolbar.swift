@@ -17,7 +17,6 @@ class KeyboardPopupToolbar: UIView {
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
 	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill", image: #imageLiteral(resourceName: "key-delete-forward"), highlightedImage: #imageLiteral(resourceName: "key-delete-forward-down"))
-	let settingsKey = KeyboardButton(title: "Settings", systemImage: "gear", image: #imageLiteral(resourceName: "key-settings"))
 
 	var buttons: [KeyboardButton]!
 
@@ -54,8 +53,7 @@ class KeyboardPopupToolbar: UIView {
 		buttons = [
 			homeKey, endKey,
 			pageUpKey, pageDownKey,
-			deleteKey,
-			settingsKey
+			deleteKey
 		]
 
 		let views = [
@@ -66,15 +64,13 @@ class KeyboardPopupToolbar: UIView {
 			"pageDownKey": pageDownKey,
 			"pageUpDownSpacerView": pageUpDownSpacerView,
 			"deleteKey": deleteKey,
-			"deleteSpacerView": deleteSpacerView,
-			"settingsKey": settingsKey
+			"deleteSpacerView": deleteSpacerView
 		]
 
 		let sortedViews = [
 			homeKey, endKey, pageUpDownSpacerView,
 			pageUpKey, pageDownKey, homeEndSpacerView,
-			deleteKey, deleteSpacerView,
-			settingsKey
+			deleteKey, deleteSpacerView
 		]
 
 		let stackView = UIStackView(arrangedSubviews: sortedViews)
@@ -113,8 +109,7 @@ class KeyboardPopupToolbar: UIView {
 			"pageUpKey.width >= endKey.width",
 			"pageUpKey.width >= pageDownKey.width",
 			"pageDownKey.width >= pageUpKey.width",
-			"deleteKey.width >= deleteKey.height",
-			"settingsKey.width >= settingsKey.height"
+			"deleteKey.width >= deleteKey.height"
 		], metrics: nil, views: views)
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
