@@ -61,7 +61,11 @@ class RootViewController: UIViewController {
 	}
 
 	override var preferredStatusBarStyle: UIStatusBarStyle {
-		return .lightContent
+		if #available(iOS 13, *) {
+			return super.preferredStatusBarStyle
+		} else {
+			return .lightContent
+		}
 	}
 
 	// MARK: - Tab management
@@ -187,6 +191,14 @@ extension RootViewController: TabToolbarDelegate {
 	}
 
 	func openPasswordManager() {
+		PasswordManagerController.present(on: self, sourceView: UIView()) { result in
+			DispatchQueue.main.async {
+				if let result = result {
+					let terminal = self.terminals[self.selectedTabIndex]
+					terminal.inputText(result)
+				}
+			}
+		}
 	}
 
 }
