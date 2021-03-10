@@ -7,24 +7,6 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>condensed</key>
-			<true/>
-			<key>headerCellClass</key>
-			<string>HBPackageNameHeaderCell</string>
-			<key>icon</key>
-			<string>icon.png</string>
-			<key>packageIdentifier</key>
-			<string>ws.hbang.newterm2</string>
-			<key>packageNameOverride</key>
-			<string>NewTerm</string>
-			<key>titleColor</key>
-			<string>#ffffff</string>
-			<key>subtitleColor</key>
-			<string>#cccccc</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
 		</dict>
 		<dict>
 			<key>big</key>
@@ -47,8 +29,6 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>DEVELOPER</string>
-			<key>footerText</key>
-			<string>CREDITS_SUBTITLE</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -57,6 +37,22 @@
 			<string>Adam Demasi</string>
 			<key>user</key>
 			<string>hbkirb</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>footerText</key>
+			<string>CREDITS_SUBTITLE</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>ACKNOWLEDGEMENTS</string>
+			<key>url</key>
+			<string>https://github.com/hbang/NewTerm/blob/master/LICENSE.md</string>
 		</dict>
 		<dict>
 			<key>cell</key>

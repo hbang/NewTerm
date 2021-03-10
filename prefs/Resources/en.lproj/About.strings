@@ -4,5 +4,8 @@
 <dict>
 	<key>CREDITS_SUBTITLE</key>
 	<string>Based on MobileTerminal by Allen Porter, et al, and iTerm2 by George Nachman, Fabian &amp; Ujwal Sathyam, et al.</string>
+
+	<key>ACKNOWLEDGEMENTS</key>
+	<string>Acknowledgements</string>
 </dict>
 </plist>
