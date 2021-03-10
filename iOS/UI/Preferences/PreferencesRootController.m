@@ -6,7 +6,6 @@
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
-@import NewTermCommon;
 #import "PreferencesRootController.h"
 
 #if LINK_CEPHEI
@@ -33,26 +32,11 @@
 #endif
 }
 
-- (void)viewDidLoad {
-	[super viewDidLoad];
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:Preferences.didChangeNotification object:nil];
-	[self preferencesUpdated];
-}
-
 - (UIStatusBarStyle)preferredStatusBarStyle {
 	if (@available(iOS 13, *)) {
 		return [super preferredStatusBarStyle];
 	} else {
 		return UIStatusBarStyleLightContent;
-	}
-}
-
-- (void)preferencesUpdated {
-	Preferences *preferences = [Preferences shared];
-
-	if (@available(iOS 13, *)) {
-		self.overrideUserInterfaceStyle = preferences.userInterfaceStyle;
 	}
 }
 
