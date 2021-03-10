@@ -15,7 +15,12 @@
 @property (nonatomic, retain, readonly) Color *backgroundCursor;
 
 @property (nonatomic, readonly) BOOL isDark;
+
+#if TARGET_OS_IPHONE
 @property (nonatomic, readonly) UIUserInterfaceStyle userInterfaceStyle;
+#else
+@property (nonatomic, readonly) NSAppearanceName appearanceStyle;
+#endif
 
 - (instancetype)init;
 - (instancetype)initWithDictionary:(NSDictionary *)dictionary;

@@ -132,8 +132,14 @@
 	}
 }
 
+#if TARGET_OS_IPHONE
 - (UIUserInterfaceStyle)userInterfaceStyle {
 	return _isDark ? UIUserInterfaceStyleDark : UIUserInterfaceStyleLight;
 }
+#else
+- (NSAppearanceName)appearanceStyle {
+	return _isDark ? NSAppearanceNameDarkAqua : NSAppearanceNameAqua;
+}
+#endif
 
 @end

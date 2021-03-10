@@ -17,7 +17,7 @@ public let isBigDevice: Bool = {
 	case .phone, .carPlay, .unspecified:
 		return false
 
-	case .pad, .tv:
+	case .pad, .tv, .mac:
 		return true
 
 	@unknown default:

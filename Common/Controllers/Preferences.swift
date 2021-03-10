@@ -13,10 +13,11 @@ import UIKit
 #endif
 
 public enum KeyboardButtonStyle: Int {
-	case text = 0, icons = 1
+	case text, icons
 }
 
-@objc public class Preferences: NSObject {
+@objc(Preferences)
+public class Preferences: NSObject {
 
 	@objc public static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
 
@@ -28,7 +29,7 @@ public enum KeyboardButtonStyle: Int {
 	let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
 
 	public var fontMetrics: FontMetrics!
-	public var colorMap: VT100ColorMap!
+	@objc public var colorMap: VT100ColorMap!
 
 	private var kvoContext = 0
 
@@ -52,7 +53,7 @@ public enum KeyboardButtonStyle: Int {
 			"theme": "kirb",
 			"bellHUD": true,
 			"bellVibrate": true,
-			"bellSound": false
+			"bellSound": true
 		]
 		preferences.register(defaults: defaults)
 
@@ -62,7 +63,7 @@ public enum KeyboardButtonStyle: Int {
 		for key in defaults.keys {
 			preferences.addObserver(self, forKeyPath: key, options: [], context: &kvoContext)
 		}
-		preferencesUpdated(notification: nil)
+		preferencesUpdated(fromNotification: false)
 	}
 
 	public var fontName: String {
@@ -108,25 +109,33 @@ public enum KeyboardButtonStyle: Int {
 		set { preferences.set(newValue, forKey: "lastVersion") }
 	}
 
+	#if os(iOS)
 	@available(iOS 13, *)
 	@objc public var userInterfaceStyle: UIUserInterfaceStyle {
 		return colorMap.userInterfaceStyle
 	}
+	#elseif os(macOS)
+	@objc public var appearanceStyle: NSAppearance.Name {
+		return colorMap.appearanceStyle
+	}
+	#endif
 
 	// MARK: - Callbacks
 
 	override open func observeValue(forKeyPath keyPath: String?, of object: Any?, change: [NSKeyValueChangeKey : Any]?, context: UnsafeMutableRawPointer?) {
 		if context == &kvoContext {
-			preferencesUpdated(notification: nil)
+			preferencesUpdated(fromNotification: true)
 		} else {
 			super.observeValue(forKeyPath: keyPath, of: object, change: change, context: context)
 		}
 	}
 
-	@objc func preferencesUpdated(notification: Notification?) {
+	func preferencesUpdated(fromNotification: Bool) {
 		fontMetricsChanged()
 		colorMapChanged()
-		NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
+		if fromNotification {
+			NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
+		}
 	}
 
 	private func fontMetricsChanged() {
@@ -148,11 +157,11 @@ public enum KeyboardButtonStyle: Int {
 		}
 
 		if regularFont == nil || boldFont == nil {
-			NSLog("font %@ size %f could not be initialised", fontName, fontSize)
+			NSLog("Font %@ size %.1f could not be initialised", fontName, fontSize)
 			if #available(iOS 13.0, macOS 10.15, *) {
 				fontName = "SF Mono"
 			} else {
-				fontName = "Courier"
+				fontName = "Menlo"
 			}
 			return
 		}
@@ -164,12 +173,16 @@ public enum KeyboardButtonStyle: Int {
 		// if the theme doesn’t exist… how did we get here? force it to the default, which will call
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
-			NSLog("theme %@ doesn’t exist", themeName)
-			themeName = "kirb"
+			NSLog("Theme %@ doesn’t exist", themeName)
+			themeName = "Basic"
 			return
 		}
 
 		colorMap = VT100ColorMap(dictionary: theme)
+
+		#if os(macOS)
+		NSApp.appearance = NSAppearance(named: colorMap.appearanceStyle)
+		#endif
 	}
 
 }

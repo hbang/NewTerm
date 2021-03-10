@@ -48,7 +48,7 @@ class KeyboardPopupToolbar: UIView {
 		homeEndSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
 		pageUpDownSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
 		deleteSpacerView.addCompactConstraint("self.width <= max", metrics: [
-			"max": CGFloat.greatestFiniteMagnitude
+			"max": 1000 // TODO: ??? What was this for?
 		], views: nil)
 
 		buttons = [

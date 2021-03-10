@@ -5,5 +5,6 @@ NewTermPreferences_FILES = $(wildcard *.[xm])
 NewTermPreferences_INSTALL_PATH = /Applications/NewTerm.app/PreferenceBundles
 NewTermPreferences_PRIVATE_FRAMEWORKS = Preferences
 NewTermPreferences_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
+NewTermPreferences_CFLAGS = -fobjc-arc
 
 include $(THEOS_MAKE_PATH)/bundle.mk

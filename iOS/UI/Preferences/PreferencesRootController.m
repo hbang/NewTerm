@@ -6,8 +6,8 @@
 //  Copyright (c) 2015 HASHBANG Productions. All rights reserved.
 //
 
+@import NewTermCommon;
 #import "PreferencesRootController.h"
-#import <NewTerm-Swift.h>
 
 #if LINK_CEPHEI
 #import "../prefs/HBNTPreferencesRootListController.h"
