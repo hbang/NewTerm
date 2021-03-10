@@ -13,6 +13,13 @@
 		<key>BoldItalic</key>
 		<string>AnonymousPro-BoldItalic</string>
 	</dict>
+	<key>Cascadia Code</key>
+	<dict>
+		<key>Regular</key>
+		<string>CascadiaCode-Roman</string>
+		<key>Bold</key>
+		<string>CascadiaCode-Roman_Bold</string>
+	</dict>
 	<key>Courier</key>
 	<dict>
 		<key>Regular</key>
@@ -25,7 +32,7 @@
 		<key>Regular</key>
 		<string>CourierNewPSMT</string>
 		<key>Bold</key>
-		<string>CourierNew-BoldMT</string>
+		<string>CourierNewPS-BoldMT</string>
 	</dict>
 	<key>Fira Code</key>
 	<dict>
@@ -34,12 +41,40 @@
 		<key>Bold</key>
 		<string>FiraCode-Bold</string>
 	</dict>
+	<key>Fixedsys Excelsior</key>
+	<dict>
+		<key>Regular</key>
+		<string>FixedsysExcelsiorIIIb</string>
+		<key>Bold</key>
+		<string>FixedsysExcelsiorIIIb</string>
+	</dict>
 	<key>Hack</key>
 	<dict>
 		<key>Regular</key>
 		<string>Hack-Regular</string>
 		<key>Bold</key>
 		<string>Hack-Bold</string>
+	</dict>
+	<key>Inconsolata</key>
+	<dict>
+		<key>Regular</key>
+		<string>Inconsolata-Regular</string>
+		<key>Bold</key>
+		<string>Inconsolata-Regular_Bold</string>
+	</dict>
+	<key>Inconsolata Condensed</key>
+	<dict>
+		<key>Regular</key>
+		<string>Inconsolata-Regular_Condensed-Regular</string>
+		<key>Bold</key>
+		<string>Inconsolata-Regular_Condensed-Bold</string>
+	</dict>
+	<key>Inconsolata Expanded</key>
+	<dict>
+		<key>Regular</key>
+		<string>Inconsolata-Regular_Expanded-Regular</string>
+		<key>Bold</key>
+		<string>Inconsolata-Regular_Expanded-Bold</string>
 	</dict>
 	<key>JetBrains Mono</key>
 	<dict>

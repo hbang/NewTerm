@@ -1,16 +1,34 @@
 Licensed under the GNU General Public License, version 2.0.
 
-Contains code from [iTerm2](https://iterm2.com/), [iTerm](http://iterm.sourceforge.net/), and [Linux](https://kernel.org/).
+Contains code from MobileTerminal, by Allen Porter, et al.
 
-Contains fonts [Fira Code](https://github.com/tonsky/FiraCode), [Hack](http://sourcefoundry.org/hack/), and [Source Code Pro](http://adobe-fonts.github.io/source-code-pro/).
+Contains code from [iTerm2](https://iterm2.com/) and [iTerm](http://iterm.sourceforge.net/), by George Nachman, Fabian & Ujwal Sathyam, et al.
 
-Contains bell glyph by i cons from The Noun Project.
+Contains code from [Linux](https://kernel.org/).
 
-Contains bell sound from WoodenBeaver.
+Contains the following fonts:
+
+* [Cascadia Code](https://github.com/microsoft/cascadia-code) (Microsoft)
+* [Fira Code](https://github.com/tonsky/FiraCode) (Mozilla-derived)
+* [Fixedsys Excelsior](https://web.archive.org/web/20190207073141/http://www.fixedsysexcelsior.com/)
+* [Hack](http://sourcefoundry.org/hack/) (BitStream Vera Sans Mono-derived)
+* [Inconsolata](https://www.levien.com/type/myfonts/inconsolata.html)
+* [JetBrains Mono](https://www.jetbrains.com/lp/mono/) (JetBrains)
+* [Source Code Pro](http://adobe-fonts.github.io/source-code-pro/) (Adobe)
+
+Contains bell sound from [WoodenBeaver](https://github.com/madsrh/WoodenBeaver).
 
 ----
 
 # Third-party code/resources
+## Cascadia Code
+Copyright (c) 2019 - Present, Microsoft Corporation,
+with Reserved Font Name Cascadia Code.
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
 ## Fira Code
 Copyright (c) 2014, Nikita Prokopov http://tonsky.me
 with Reserved Font Name Fira Code.
@@ -27,6 +45,11 @@ This Font Software is licensed under the SIL Open Font License, Version 1.1.
 This license is copied below, and is also available with a FAQ at:
 http://scripts.sil.org/OFL
 
+## Fixedsys Excelsior
+From https://github.com/kika/fixedsys/issues/21#issuecomment-511143610:
+
+> The font is intended to be free to use and alter as you see fit.
+
 ## Hack
 Hack Copyright 2015, Christopher Simpkins with Reserved Font Name "Hack".
 
@@ -37,6 +60,13 @@ DejaVu modifications of the original Bitstream Vera Sans Mono typeface have been
 This Font Software is licensed under the Hack Open Font License v2.0 and the Bitstream Vera License.
 
 These licenses are copied below.
+
+## Inconsolata
+Copyright 2006 The Inconsolata Project Authors
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
 
 ## iTerm & iTerm2
 This program is free software; you can redistribute it and/or modify
