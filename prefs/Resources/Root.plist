@@ -7,8 +7,6 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>INTERFACE_FOOTER</string>
 			<key>label</key>
 			<string>INTERFACE</string>
 		</dict>
@@ -112,7 +110,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
 			<key>detail</key>
-			<string>PSListItemsController</string>
+			<string>HBNTPreferencesListItemsController</string>
 			<key>key</key>
 			<string>theme</string>
 			<key>label</key>
@@ -184,7 +182,7 @@
 			<key>defaults</key>
 			<string>ws.hbang.Terminal</string>
 			<key>detail</key>
-			<string>PSListItemsController</string>
+			<string>HBNTPreferencesListItemsController</string>
 			<key>key</key>
 			<string>keyboardAccessoryStyle</string>
 			<key>label</key>

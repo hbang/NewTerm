@@ -6,8 +6,8 @@
 //  Copyright © 2020 HASHBANG Productions. All rights reserved.
 //
 
-#import <Preferences/PSListItemsController.h>
+#import "HBNTPreferencesListItemsController.h"
 
-@interface HBNTPreferencesFontPickerListController : PSListItemsController
+@interface HBNTPreferencesFontPickerListController : HBNTPreferencesListItemsController
 
 @end

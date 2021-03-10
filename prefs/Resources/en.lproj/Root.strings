@@ -17,9 +17,6 @@
 	<key>COLOR_SCHEME</key>
 	<string>Color Scheme</string>
 
-	<key>INTERFACE_FOOTER</key>
-	<string>Close and re-open all tabs to completely apply color scheme changes.</string>
-
 	<key>SAMPLE</key>
 	<string>Sample</string>
 

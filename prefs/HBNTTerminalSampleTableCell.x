@@ -22,12 +22,12 @@
 	if (self) {
 		self.textLabel.hidden = YES;
 		self.selectedBackgroundView = [[UIView alloc] init];
-		
+
 		TerminalSampleView *sampleView = [[%c(TerminalSampleView) alloc] initWithFrame:self.contentView.bounds];
 		sampleView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		sampleView.userInteractionEnabled = NO;
 		[self.contentView addSubview:sampleView];
-		
+
 		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(preferencesUpdated) name:[%c(Preferences) didChangeNotification] object:nil];
 		[self preferencesUpdated];
 	}
