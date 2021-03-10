@@ -148,7 +148,7 @@ class TerminalSessionViewController: UIViewController {
 			do {
 				try terminalController.stopSubProcess()
 			} catch {
-				NSLog("failed to stop subprocess… %@", error as NSError)
+				os_log("Failed to stop subprocess: %@", type: .error, error as NSError)
 			}
 		}
 

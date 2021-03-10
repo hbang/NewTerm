@@ -8,6 +8,7 @@
 import Foundation
 import CoreGraphics
 import CoreText
+import os.log
 
 @objc public class FontMetrics: NSObject {
 
@@ -32,7 +33,7 @@ import CoreText
 			CTFontManagerRegisterFontsForURLs(fonts as CFArray, .process, &cfErrorsWrapper)
 			if let cfErrors = cfErrorsWrapper?.takeUnretainedValue(),
 				let errors = cfErrors as? [NSError] {
-				NSLog("%li error(s) loading fonts: %@", errors.count, errors)
+				os_log("%{public}li error(s) loading fonts: %{public}@", type: .error, errors.count, errors)
 			}
 		}
 	}

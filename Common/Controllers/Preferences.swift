@@ -12,6 +12,8 @@ import AppKit
 import UIKit
 #endif
 
+import os.log
+
 public enum KeyboardButtonStyle: Int {
 	case text, icons
 }
@@ -157,7 +159,7 @@ public class Preferences: NSObject {
 		}
 
 		if regularFont == nil || boldFont == nil {
-			NSLog("Font %@ size %.1f could not be initialised", fontName, fontSize)
+			os_log("Font %{public}@ size %{public}.1f could not be initialised", type: .error, fontName, fontSize)
 			if #available(iOS 13.0, macOS 10.15, *) {
 				fontName = "SF Mono"
 			} else {
@@ -173,7 +175,7 @@ public class Preferences: NSObject {
 		// if the theme doesn’t exist… how did we get here? force it to the default, which will call
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
-			NSLog("Theme %@ doesn’t exist", themeName)
+			os_log("Theme %{public}@ doesn’t exist", type: .error, themeName)
 			themeName = "Basic"
 			return
 		}

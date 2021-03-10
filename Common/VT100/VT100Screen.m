@@ -411,8 +411,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 		}
 
 		// reassign our pointers
-		if(_bufferLines){NSLog(@"aaaa");
-				free(_bufferLines);NSLog(@"bbbb");}
+		if(_bufferLines){
+				free(_bufferLines);
+		}
 		_bufferLines = bl;
 		_scrollbackTop = new_scrollback_top;
 		_lastBufferLine = bl + (new_total_height - 1)*(width+1);
@@ -465,8 +466,9 @@ static __inline__ screen_char_t *incrementLinePointer(
 				_saveCursorY = height-1;
 
 		// force a redraw
-		if(_dirty){NSLog(@"cccc");
-				free(_dirty);NSLog(@"dddd");}
+		if(_dirty){
+				free(_dirty);
+		}
 		_dirty=(char *)malloc(height *width *sizeof(char));
 		[self setDirty];
 		// release lock

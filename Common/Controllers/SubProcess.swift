@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import os.log
 
 enum SubProcessIllegalStateError: Error {
 	case alreadyStarted, notStarted
@@ -45,8 +46,7 @@ class SubProcess: NSObject {
 		didSet {
 			if fileDescriptor == nil {
 				// we can’t throw from didSet… shrug?
-				NSLog("screen size set before subprocess was started")
-				return
+				fatalError("Screen size set before subprocess was started")
 			}
 
 			var windowSize = winsize()
@@ -54,7 +54,7 @@ class SubProcess: NSObject {
 			windowSize.ws_row = screenSize.height
 
 			if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
-				NSLog("setting screen size failed: %d: %s", errno, strerror(errno))
+				os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
 				delegate!.subProcess(didReceiveError: SubProcessIOError.writeFailed)
 			}
 		}
@@ -78,7 +78,7 @@ class SubProcess: NSObject {
 				if errno == EPERM {
 					throw SubProcessIllegalStateError.inSandbox
 				} else {
-					NSLog("fork failed: %d: %s", errno, strerror(errno))
+					os_log("Fork failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
 					throw SubProcessIllegalStateError.forkFailed
 				}
 
@@ -88,11 +88,13 @@ class SubProcess: NSObject {
 				let loginArgs = ([ "login", "-fp", NSUserName() ] as NSArray).cStringArray()!
 				let bashArgs = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
 
+				let useGlyphFonts = Preferences.shared.useGlyphFonts
 				let env = ([
 					"TERM=xterm-color",
 					"LANG=\(localeCode)",
 					"TERM_PROGRAM=NewTerm",
-					"LC_TERMINAL=NewTerm"
+					"LC_TERMINAL=NewTerm",
+					"AWESOME_TERMINAL_FONTS_LOADED=\(useGlyphFonts ? "1" : "0")"
 				] as NSArray).cStringArray()!
 
 				#if !targetEnvironment(simulator)
@@ -102,7 +104,7 @@ class SubProcess: NSObject {
 				break
 
 			default:
-				NSLog("process forked: %d", pid)
+				os_log("Process forked: %d", type: .debug, pid)
 				childPID = pid
 
 				fileHandle = FileHandle(fileDescriptor: fileDescriptor!, closeOnDealloc: true)
@@ -136,7 +138,7 @@ class SubProcess: NSObject {
 
 	@objc private func didReceiveData(_ notification: Notification) {
 		guard let data = notification.userInfo?[NSFileHandleNotificationDataItem] as? Data else {
-			NSLog("file handle read callback returned nil data")
+			os_log("File handle read callback returned nil data", type: .error)
 			return
 		}
 
@@ -165,7 +167,7 @@ class SubProcess: NSObject {
 		}
 
 		if execve(path, arguments, environment) == -1 {
-			NSLog("%@: exec failed: %s", path, strerror(errno))
+			os_log("%{public}@: exec failed: %{public}d: %{public}s", type: .error, path, errno, strerror(errno))
 			return -1
 		}
 
@@ -198,7 +200,7 @@ class SubProcess: NSObject {
 
 	deinit {
 		if childPID != nil {
-			NSLog("warning: illegal state — SubProcess deallocated while still running")
+			os_log("Illegal state - SubProcess deallocated while still running", type: .error)
 		}
 	}
 
