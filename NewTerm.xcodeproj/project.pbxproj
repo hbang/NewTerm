@@ -65,7 +65,7 @@
 		CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967C22B5481B00585BE6 /* HUDView.swift */; };
 		CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */; };
 		CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */; };
-		CFBB96CC22B5481B00585BE6 /* TabToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbar.swift */; };
+		CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */; };
 		CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */; };
 		CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */; };
 		CFBB96D022B5481B00585BE6 /* TextInputBase.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968822B5481B00585BE6 /* TextInputBase.m */; };
@@ -161,7 +161,7 @@
 		CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+HBAdditions.h"; sourceTree = "<group>"; };
 		CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+HBAdditions.m"; sourceTree = "<group>"; };
 		CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCollectionViewCell.swift; sourceTree = "<group>"; };
-		CFBB968322B5481B00585BE6 /* TabToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbar.swift; sourceTree = "<group>"; };
+		CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbarViewController.swift; sourceTree = "<group>"; };
 		CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalKeyInput.swift; sourceTree = "<group>"; };
 		CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbar.swift; sourceTree = "<group>"; };
 		CFBB968822B5481B00585BE6 /* TextInputBase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextInputBase.m; sourceTree = "<group>"; };
@@ -411,7 +411,7 @@
 			isa = PBXGroup;
 			children = (
 				CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */,
-				CFBB968322B5481B00585BE6 /* TabToolbar.swift */,
+				CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */,
 			);
 			path = "Top Bar";
 			sourceTree = "<group>";
@@ -801,7 +801,7 @@
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
-				CFBB96CC22B5481B00585BE6 /* TabToolbar.swift in Sources */,
+				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 				CFBB96C722B5481B00585BE6 /* PreferencesRootController.m in Sources */,
 				CFBB96D022B5481B00585BE6 /* TextInputBase.m in Sources */,
@@ -1094,7 +1094,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
@@ -1148,7 +1147,6 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
-				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";

@@ -8,6 +8,7 @@
 
 import UIKit
 import AudioToolbox
+import os.log
 
 class TerminalSessionViewController: UIViewController {
 
@@ -153,6 +154,10 @@ class TerminalSessionViewController: UIViewController {
 		}
 
 		super.removeFromParent()
+	}
+
+	func inputText(_ text: String) {
+		terminalController.receiveKeyboardInput(data: text.data(using: .utf8)!)
 	}
 
 	// MARK: - Screen
@@ -333,7 +338,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			// Taptic Engine goes back to sleep afterwards.
 			// Also according to the docs, we should use the most semantic impact generator, which would
 			// be UINotificationFeedbackGenerator, but I think a single tap feels better than two or three
-			let feedbackGenerator = UIImpactFeedbackGenerator(style: .medium)
+			let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 			feedbackGenerator.impactOccurred()
 		}
 

@@ -13,24 +13,18 @@ class RootViewController: UIViewController {
 	var terminals: [TerminalSessionViewController] = []
 	var selectedTabIndex = Int(0)
 
-	var tabToolbar = TabToolbar()
-
-	var tabsCollectionView: UICollectionView {
-		return tabToolbar.tabsCollectionView
-	}
+	let tabToolbar = TabToolbarViewController()
 
 	override func loadView() {
 		super.loadView()
 
 		navigationController!.isNavigationBarHidden = true
 
-		tabToolbar.autoresizingMask = [ .flexibleWidth ]
-		tabToolbar.addButton.addTarget(self, action: #selector(self.addTerminal), for: .touchUpInside)
-
-		tabsCollectionView.dataSource = self
-		tabsCollectionView.delegate = self
-
-		view.addSubview(tabToolbar)
+		tabToolbar.view.autoresizingMask = [ .flexibleWidth ]
+		tabToolbar.delegate = self
+		tabToolbar.dataSource = self
+		addChild(tabToolbar)
+		view.addSubview(tabToolbar.view)
 
 		addTerminal()
 
@@ -48,8 +42,6 @@ class RootViewController: UIViewController {
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 
-		let barHeight = CGFloat(isSmallDevice ? 32 : 40)
-
 		let topMargin: CGFloat
 
 		if #available(iOS 11.0, *) {
@@ -58,10 +50,10 @@ class RootViewController: UIViewController {
 			topMargin = UIApplication.shared.statusBarFrame.size.height
 		}
 
-		tabToolbar.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + barHeight)
+		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + 66)
 		tabToolbar.topMargin = topMargin
 
-		let barInsets = UIEdgeInsets(top: tabToolbar.frame.size.height, left: 0, bottom: 0, right: 0)
+		let barInsets = UIEdgeInsets(top: tabToolbar.view.frame.size.height, left: 0, bottom: 0, right: 0)
 
 		for viewController in terminals {
 			viewController.barInsets = barInsets
@@ -79,15 +71,13 @@ class RootViewController: UIViewController {
 
 		addChild(terminalViewController)
 		terminalViewController.willMove(toParent: self)
-		view.insertSubview(terminalViewController.view, belowSubview: tabToolbar)
+		view.insertSubview(terminalViewController.view, belowSubview: tabToolbar.view)
 		terminalViewController.didMove(toParent: self)
 
 		terminals.append(terminalViewController)
 
-		tabsCollectionView.reloadData()
-		tabsCollectionView.layoutIfNeeded()
-		switchToTab(index: terminals.count - 1)
-		tabsCollectionView.reloadData()
+		tabToolbar.didAddTab(at: terminals.count - 1)
+		selectTerminal(at: terminals.count - 1)
 	}
 
 	func removeTerminal(terminal terminalViewController: TerminalSessionViewController) {
@@ -110,22 +100,16 @@ class RootViewController: UIViewController {
 				addTerminal()
 			}
 		} else {
-			tabsCollectionView.reloadData()
-			tabsCollectionView.layoutIfNeeded()
-			switchToTab(index: index >= terminals.count ? index - 1 : index)
+			selectTerminal(at: index >= terminals.count ? index - 1 : index)
 		}
 	}
 
-	func removeTerminal(index: Int) {
+	func removeTerminal(at index: Int) {
 		removeTerminal(terminal: terminals[index])
 	}
 
-	@objc func removeTerminalButtonTapped(_ button: UIButton) {
-		removeTerminal(index: button.tag)
-	}
-
 	@IBAction func removeCurrentTerminal() {
-		removeTerminal(index: selectedTabIndex)
+		removeTerminal(at: selectedTabIndex)
 	}
 
 	@IBAction func removeAllTerminals() {
@@ -138,11 +122,8 @@ class RootViewController: UIViewController {
 		addTerminal()
 	}
 
-	func switchToTab(index: Int) {
-		// if this is what’s already selected, just select it again and return
-		if index == selectedTabIndex {
-			tabsCollectionView.selectItem(at: IndexPath(item: selectedTabIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-		}
+	func selectTerminal(at index: Int) {
+		tabToolbar.didSelectTab(at: index)
 
 		let oldSelectedTabIndex = selectedTabIndex < terminals.count ? selectedTabIndex : nil
 
@@ -161,17 +142,6 @@ class RootViewController: UIViewController {
 		newViewController.viewWillAppear(false)
 		newViewController.view.isHidden = false
 		newViewController.viewDidAppear(false)
-
-		tabsCollectionView.performBatchUpdates({
-			if oldSelectedTabIndex != nil {
-				self.tabsCollectionView.deselectItem(at: IndexPath(item: oldSelectedTabIndex!, section: 0), animated: false)
-			}
-
-			self.tabsCollectionView.selectItem(at: IndexPath(item: selectedTabIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
-		}, completion: { _ in
-			// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
-			self.tabsCollectionView.reloadData()
-		})
 	}
 
 	// MARK: - Window management
@@ -190,30 +160,33 @@ class RootViewController: UIViewController {
 
 }
 
-extension RootViewController: UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
+extension RootViewController: TabToolbarDataSource {
 
-	func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+	func numberOfTerminals() -> Int {
 		return terminals.count
 	}
 
-	func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-		let terminalViewController = terminals[indexPath.row]
-
-		let cell = collectionView.dequeueReusableCell(withReuseIdentifier: TabCollectionViewCell.reuseIdentifier, for: indexPath) as! TabCollectionViewCell
-		cell.textLabel.text = terminalViewController.title
-		cell.isSelected = selectedTabIndex == indexPath.row
-		cell.closeButton.tag = indexPath.row
-		cell.closeButton.addTarget(self, action: #selector(self.removeTerminalButtonTapped(_:)), for: .touchUpInside)
-		cell.isLastItem = indexPath.row == terminals.count - 1
-		return cell
+	func selectedTerminalIndex() -> Int {
+		return selectedTabIndex
 	}
 
-	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 100, height: tabsCollectionView.frame.size.height)
+	func terminalName(at index: Int) -> String {
+		return terminals[index].title ?? ""
 	}
 
-	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		switchToTab(index: indexPath.row)
+}
+
+extension RootViewController: TabToolbarDelegate {
+
+	func openSettings() {
+		if presentedViewController == nil {
+			let rootController = PreferencesRootController()
+			rootController.modalPresentationStyle = .formSheet
+			navigationController!.present(rootController, animated: true, completion: nil)
+		}
+	}
+
+	func openPasswordManager() {
 	}
 
 }
