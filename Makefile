@@ -24,6 +24,8 @@ SUBPROJECTS = prefs
 include $(THEOS_MAKE_PATH)/aggregate.mk
 endif
 
-all package install::
+all stage package install::
 # TODO: This should be possible natively in Theos!
+ifeq ($(or $(INSTALL_FONTS),$(FINALPACKAGE)),1)
 	+$(MAKE) -C Fonts $@ THEOS_PROJECT_DIR=$(THEOS_PROJECT_DIR)/Fonts
+endif
