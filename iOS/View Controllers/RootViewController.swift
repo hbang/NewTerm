@@ -191,14 +191,8 @@ extension RootViewController: TabToolbarDelegate {
 	}
 
 	func openPasswordManager() {
-		PasswordManagerController.present(on: self, sourceView: UIView()) { result in
-			DispatchQueue.main.async {
-				if let result = result {
-					let terminal = self.terminals[self.selectedTabIndex]
-					terminal.inputText(result)
-				}
-			}
-		}
+		let terminal = terminals[selectedTabIndex]
+		terminal.activatePasswordManager()
 	}
 
 }

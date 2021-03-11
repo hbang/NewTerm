@@ -38,9 +38,12 @@ class TerminalKeyInput: TextInputBase {
 
 	private var ctrlDown = false
 
+	private var passwordInputView: TerminalPasswordInputView?
+
 	private let backspaceData   = Data([ 0x7F ]) // \x7F
 	private let metaKeyData     = Data([ 0x1B ]) // \e
 	private let tabKeyData      = Data([ 0x09 ]) // \t
+	private let returnKeyData   = Data([ 0x0D ]) // \r
 	private let upKeyData       = Data([ 0x1B, 0x5B, 0x41 ]) // \e[A
 	private let upKeyAppData    = Data([ 0x1B, 0x4F, 0x41 ]) // \eOA
 	private let downKeyData     = Data([ 0x1B, 0x5B, 0x42 ]) // \e[B
@@ -315,6 +318,22 @@ class TerminalKeyInput: TextInputBase {
 		}
 	}
 
+	// MARK: - Password manager
+
+	@available(iOS 11, *)
+	func activatePasswordManager() {
+		// Trigger the iOS password manager button, or cancel the operation.
+		if let passwordInputView = passwordInputView {
+			// We’ll become first responder automatically after removing the view.
+			passwordInputView.removeFromSuperview()
+		} else {
+			passwordInputView = TerminalPasswordInputView()
+			passwordInputView!.passwordDelegate = self
+			addSubview(passwordInputView!)
+			passwordInputView!.becomeFirstResponder()
+		}
+	}
+
 	// MARK: - UITextInput
 
 	override var textInputView: UIView {
@@ -374,8 +393,12 @@ class TerminalKeyInput: TextInputBase {
 	// MARK: - UIResponder
 
 	override func becomeFirstResponder() -> Bool {
-		_ = super.becomeFirstResponder()
-		return true
+		if let passwordInputView = passwordInputView {
+			return passwordInputView.becomeFirstResponder()
+		} else {
+			_ = super.becomeFirstResponder()
+			return true
+		}
 	}
 
 	override var canBecomeFirstResponder: Bool {
@@ -406,6 +429,29 @@ class TerminalKeyInput: TextInputBase {
 		if let data = UIPasteboard.general.string?.data(using: .utf8) {
 			terminalInputDelegate!.receiveKeyboardInput(data: data)
 		}
+	}
+
+}
+
+extension TerminalKeyInput: TerminalPasswordInputViewDelegate {
+
+	func passwordInputViewDidComplete(password: String?) {
+		NSLog("text field delegate called %@", password ?? "")
+		if let password = password {
+			// User could have typed on the keyboard while it was in password mode, rather than using the
+			// password autofill. Send a return if it seems like a password was actually received,
+			// otherwise just pretend it was typed like normal.
+			if password.count > 2,
+				 let data = password.data(using: .utf8) {
+				terminalInputDelegate!.receiveKeyboardInput(data: data)
+				terminalInputDelegate!.receiveKeyboardInput(data: returnKeyData)
+			} else {
+				insertText(password)
+			}
+		}
+		passwordInputView?.removeFromSuperview()
+		passwordInputView = nil
+		_ = becomeFirstResponder()
 	}
 
 }
