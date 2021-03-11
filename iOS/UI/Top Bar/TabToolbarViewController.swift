@@ -55,8 +55,8 @@ class TabToolbarViewController: UIViewController {
 			passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
 			plusImage = UIImage(systemName: "plus", withConfiguration: configuration)
 		} else {
-			gearImage = UIImage(named: "key-settings") // TODO: CHECK THIS
-			passwordImage = UIImage(named: "add-small")
+			gearImage = UIImage(named: "key-settings")
+			passwordImage = UIImage()
 			plusImage = UIImage(named: "add-small")
 		}
 
