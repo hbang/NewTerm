@@ -46,9 +46,6 @@ class KeyboardPopupToolbar: UIView {
 
 		homeEndSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
 		pageUpDownSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
-		deleteSpacerView.addCompactConstraint("self.width <= max", metrics: [
-			"max": 1000 // TODO: ??? What was this for?
-		], views: nil)
 
 		buttons = [
 			homeKey, endKey,
@@ -91,7 +88,7 @@ class KeyboardPopupToolbar: UIView {
 			"stackView.top = toolbar.top + topSpacing",
 			"stackView.bottom = toolbar.bottom - bottomSpacing",
 			"stackView.left = \(safeArea).left + outerXSpacing",
-			"stackView.right = \(safeArea).right - outerXSpacing"
+			"stackView.right <= \(safeArea).right - outerXSpacing"
 		], metrics: [
 			"height": height,
 			"outerXSpacing": outerXSpacing,

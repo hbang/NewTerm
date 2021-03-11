@@ -35,6 +35,7 @@ class TerminalKeyInput: TextInputBase {
 	private var buttons: [KeyboardButton]!
 	private var squareButtonConstraints: [NSLayoutConstraint]!
 	private var moreToolbar = KeyboardPopupToolbar(frame: .zero)
+	private var moreToolbarBottomConstraint: NSLayoutConstraint!
 
 	private var ctrlDown = false
 
@@ -171,7 +172,13 @@ class TerminalKeyInput: TextInputBase {
 			key.addGestureRecognizer(gestureRecognizer)
 		}
 
+		moreToolbarBottomConstraint = moreToolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+
 		NSLayoutConstraint.activate([
+			moreToolbar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
+			moreToolbar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
+			moreToolbarBottomConstraint,
+
 			ctrlKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
 			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: ctrlKey.widthAnchor),
 			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor),
@@ -307,14 +314,13 @@ class TerminalKeyInput: TextInputBase {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
-		let moreToolbarHeight = moreToolbar.intrinsicContentSize.height
 		let insets: UIEdgeInsets
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 			insets = textView.verticalScrollIndicatorInsets
 		} else {
 			insets = textView.scrollIndicatorInsets
 		}
-		moreToolbar.frame = CGRect(x: 0, y: textView.frame.size.height - insets.bottom - moreToolbarHeight, width: textView.frame.size.width, height: moreToolbarHeight)
+		moreToolbarBottomConstraint.constant = -insets.bottom
 	}
 
 	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
