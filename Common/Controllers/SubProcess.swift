@@ -87,13 +87,11 @@ class SubProcess: NSObject {
 				let loginArgs = ([ "login", "-fp", NSUserName() ] as NSArray).cStringArray()!
 				let bashArgs = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
 
-				let useGlyphFonts = Preferences.shared.useGlyphFonts
 				let env = ([
 					"TERM=xterm-color",
 					"LANG=\(localeCode)",
 					"TERM_PROGRAM=NewTerm",
-					"LC_TERMINAL=NewTerm",
-					"AWESOME_TERMINAL_FONTS_LOADED=\(useGlyphFonts ? "1" : "0")"
+					"LC_TERMINAL=NewTerm"
 				] as NSArray).cStringArray()!
 
 				#if !targetEnvironment(simulator)
