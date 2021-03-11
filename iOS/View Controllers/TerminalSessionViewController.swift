@@ -131,19 +131,6 @@ class TerminalSessionViewController: UIViewController {
 		updateScreenSize()
 	}
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-
-		if failureError != nil {
-			let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: Bundle(for: UIView.self), comment: "")
-			let title = NSLocalizedString("TERMINAL_LAUNCH_FAILED", comment: "Alert title displayed when a terminal could not be launched.")
-
-			let alertController = UIAlertController(title: title, message: failureError!.localizedDescription, preferredStyle: .alert)
-			alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
-			present(alertController, animated: true, completion: nil)
-		}
-	}
-
 	override func removeFromParent() {
 		if hasStarted {
 			do {
@@ -266,8 +253,14 @@ class TerminalSessionViewController: UIViewController {
 		// we do this to avoid the scroll indicator from appearing as soon as the terminal appears.
 		// we only want to see it after the keyboard has appeared
 		if !hasAppeared {
-			hasAppeared = false
+			hasAppeared = true
 			textView.showsVerticalScrollIndicator = true
+
+			if let error = failureError {
+				// Try to handle the error again now that the UI is ready.
+				didReceiveError(error: error)
+				failureError = nil
+			}
 		}
 
 		// hide toolbar popups if visible
@@ -360,12 +353,10 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			return
 		}
 
+		let alertController = UIAlertController(title: NSLocalizedString("TERMINAL_LAUNCH_FAILED_TITLE", comment: "Alert title displayed when a terminal could not be launched."),
+																						message: NSLocalizedString("TERMINAL_LAUNCH_FAILED_BODY", comment: "Alert body displayed when a terminal could not be launched."),
+																						preferredStyle: .alert)
 		let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: Bundle(for: UIView.self), comment: "")
-		// TODO: this string is wrong!
-		let title = NSLocalizedString("TERMINAL_LAUNCH_FAILED", comment: "Alert title displayed when a terminal could not be launched.")
-
-		let nsError = error as NSError
-		let alertController = UIAlertController(title: title, message: nsError.localizedDescription, preferredStyle: .alert)
 		alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
 	}

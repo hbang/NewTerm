@@ -45,8 +45,7 @@ class SubProcess: NSObject {
 	var screenSize: ScreenSize = ScreenSize() {
 		didSet {
 			if fileDescriptor == nil {
-				// we can’t throw from didSet… shrug?
-				fatalError("Screen size set before subprocess was started")
+				return
 			}
 
 			var windowSize = winsize()
@@ -116,7 +115,7 @@ class SubProcess: NSObject {
 		}
 	}
 
-	func stop() throws {
+	func stop(fromError: Bool = false) throws {
 		if childPID == nil {
 			throw SubProcessIllegalStateError.notStarted
 		}
@@ -132,8 +131,10 @@ class SubProcess: NSObject {
 		fileDescriptor = nil
 		fileHandle = nil
 
-		// nil error means disconnected due to user request
-		delegate!.subProcess(didDisconnectWithError: nil)
+		if !fromError {
+			// nil error means disconnected due to user request
+			delegate!.subProcess(didDisconnectWithError: nil)
+		}
 	}
 
 	@objc private func didReceiveData(_ notification: Notification) {
@@ -143,11 +144,12 @@ class SubProcess: NSObject {
 		}
 
 		if data.isEmpty {
-			// zero-length data is an indicator of EOF. this can happen if the user exits the terminal by
-			// typing `exit`, or if there’s a catastrophic failure (e.g. /bin/login is broken)
+			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
+			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
 			delegate!.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
+			try? stop(fromError: true)
 		} else {
-			// forward to the delegate and queue another read
+			// Forward to the delegate and queue another read.
 			delegate!.subProcess(didReceiveData: data)
 			fileHandle!.readInBackgroundAndNotify()
 		}
@@ -176,7 +178,9 @@ class SubProcess: NSObject {
 	}
 
 	func write(data: Data) {
-		fileHandle!.write(data)
+		if fileDescriptor != nil {
+			fileHandle!.write(data)
+		}
 	}
 
 	private var localeCode: String {

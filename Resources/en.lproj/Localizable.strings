@@ -11,16 +11,17 @@
 	<string>Settings</string>
 
 	<!-- Alert title displayed when a terminal could not be launched. -->
-	<key>TERMINAL_LAUNCH_FAILED</key>
-	<string>Couldn’t start the terminal subprocess because an error occurred.</string>
+	<key>TERMINAL_LAUNCH_FAILED_TITLE</key>
+	<string>Couldn’t start the terminal because the shell process quit unexpectedly.</string>
+
+	<!-- Alert body displayed when a terminal could not be launched. -->
+	<key>TERMINAL_LAUNCH_FAILED_BODY</key>
+	<string>Refer to the error message in the terminal window for more details.
+You may need to review startup scripts or reinstall core packages to fix this issue.</string>
 
 	<!-- Title displayed when the terminal’s process has ended. -->
 	<key>PROCESS_COMPLETED_TITLE</key>
-	<string>Process completed</string>
-
-	<!-- Message indicating the user can press any key to restart the terminal. -->
-	<key>PROCESS_COMPLETED_MESSAGE</key>
-	<string>Press any key to close the tab.</string>
+	<string>Session Ended</string>
 
 	<!-- VoiceOver label for the new tab button. -->
 	<key>NEW_TAB</key>

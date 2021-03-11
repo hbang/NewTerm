@@ -43,6 +43,7 @@ public class TerminalController: VT100 {
 	}
 
 	private var subProcess: SubProcess?
+	private var processLaunchDate: Date?
 
 	override public var screenSize: ScreenSize {
 		get { return super.screenSize }
@@ -82,6 +83,7 @@ public class TerminalController: VT100 {
 	public func startSubProcess() throws {
 		subProcess = SubProcess()
 		subProcess!.delegate = self
+		processLaunchDate = Date()
 		try subProcess!.start()
 	}
 
@@ -163,12 +165,13 @@ extension TerminalController: SubProcessDelegate {
 		if let ioError = error as? SubProcessIOError {
 			switch ioError {
 			case .readFailed:
-				// this can be the user just typing an EOF (^D) to end the terminal session. treat it as
-				// not an error
-				// TODO: this should determine if the terminal terminated too soon, and treat it as an error
-				// just in case it really is
-				delegate?.close()
-				return
+				// This can be the user just typing an EOF (^D) to end the terminal session. However, it
+				// can also happen because the process crashed for some reason. If it seems like the shell
+				// exited gracefully, just close the tab.
+				if (processLaunchDate ?? Date()) < Date(timeIntervalSinceNow: -3) {
+					delegate?.close()
+				}
+				break
 
 			case .writeFailed:
 				break
@@ -176,6 +179,14 @@ extension TerminalController: SubProcessDelegate {
 		}
 
 		delegate?.didReceiveError(error: error!)
+
+		// Write the termination message to the terminal.
+		let processCompleted = NSLocalizedString("PROCESS_COMPLETED_TITLE", comment: "Title displayed when the terminal’s process has ended.")
+		let cols = Int(subProcess?.screenSize.width ?? 0)
+		let messageLength = processCompleted.count + 2
+		let divider = String(repeating: "═", count: max((cols - messageLength) / 2, 0))
+		let message = "\r\n\u{1b}[0;31m\(divider) \u{1b}[1;31m\(processCompleted)\u{1b}[0;31m \(divider)\u{1b}[m\r\n"
+		readInputStream(message.data(using: .utf8)!)
 	}
 
 	func subProcess(didReceiveError error: Error) {
