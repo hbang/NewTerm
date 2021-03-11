@@ -16,7 +16,7 @@ class KeyboardPopupToolbar: UIView {
 	let endKey = KeyboardButton(title: "End", glyph: "End")
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
-	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill", image: #imageLiteral(resourceName: "key-delete-forward"), highlightedImage: #imageLiteral(resourceName: "key-delete-forward-down"))
+	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill", image: UIImage(named: "key-delete-forward"), highlightedImage: UIImage(named: "key-delete-forward-down"))
 
 	var buttons: [KeyboardButton]!
 
@@ -77,7 +77,7 @@ class KeyboardPopupToolbar: UIView {
 		addSubview(stackView)
 
 		let safeArea: String
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			safeArea = "safe"
 		} else {
 			safeArea = "toolbar"
@@ -137,7 +137,7 @@ class KeyboardPopupToolbar: UIView {
 extension KeyboardPopupToolbar: UIToolbarDelegate {
 
 	func position(for bar: UIBarPositioning) -> UIBarPosition {
-		// helps UIToolbar figure out where to place the shadow line
+		// Helps UIToolbar figure out where to place the shadow line
 		return .bottom
 	}
 
@@ -146,7 +146,7 @@ extension KeyboardPopupToolbar: UIToolbarDelegate {
 extension KeyboardPopupToolbar: UIInputViewAudioFeedback {
 
 	var enableInputClicksWhenVisible: Bool {
-		// conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound when tapped
+		// Conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound when tapped
 		return true
 	}
 

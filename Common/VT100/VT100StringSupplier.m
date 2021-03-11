@@ -39,7 +39,7 @@
 	// if the line ends with a space
 	if (rowIndex != self.rowCount - 1 && unicharBuffer[width - 1] == ' ') {
 		if (unicharBuffer[width - 2] == ' ') {
-			// TODO: this is crazy. there has to be a better way to stop spaces from being collapsed
+			// TODO: This is crazy. There has to be a better way to stop spaces from being collapsed
 			unicharBuffer[width - 2] = 0xA0; // non-breaking space
 		}
 		unicharBuffer[width - 1] = '\n';
@@ -100,7 +100,7 @@
 		}
 	}
 
-	// create links in all the locations we found last time we scanned for links
+	// Create links in all the locations we found last time we scanned for links
 	for (NSValue *value in _lastLinkRanges) {
 		NSRange range = value.rangeValue;
 
@@ -108,7 +108,7 @@
 			NSString *urlString = [attributedString.string substringWithRange:range];
 			NSURL *url = [NSURL URLWithString:urlString];
 
-			// if NSURL thinks this is a valid url, it’s good enough for us
+			// If NSURL thinks this is a valid url, it’s good enough for us
 			if (url) {
 				[attributedString addAttribute:NSLinkAttributeName value:url range:range];
 			}
@@ -136,7 +136,7 @@
 	dispatch_once(&onceToken, ^{
 		_lastLinkRanges = [NSMutableSet set];
 
-		// not exactly sure why a data detector would fail to init…
+		// Not exactly sure why a data detector would fail to init…
 		NSError *error = nil;
 		_linkDataDetector = [[NSDataDetector alloc] initWithTypes:NSTextCheckingTypeLink error:&error];
 		NSAssert(!error, @"%@", error.description);
@@ -152,19 +152,19 @@
 	for (NSValue *value in _lastLinkRanges) {
 		NSRange range = value.rangeValue;
 
-		// if it starts after the end of the string, it’s already been removed. don’t worry about it
+		// If it starts after the end of the string, it’s already been removed. Don’t worry about it
 		if (range.location >= attributedString.string.length) {
 			continue;
 		}
 
-		// if it ends further than the end of the string, subtract the difference from the length
+		// If it ends further than the end of the string, subtract the difference from the length
 		if (range.location + range.length >= attributedString.string.length) {
 			range.length -= (range.location + range.length) - attributedString.string.length;
 		}
 
 		NSURL *url = [NSURL URLWithString:[attributedString.string substringWithRange:range]];
 
-		// if this link is now invalid, or wasn’t found in this latest refresh, remove it
+		// If this link is now invalid, or wasn’t found in this latest refresh, remove it
 		if (!url || ![addedLinkRanges containsObject:value]) {
 			[addedLinkRanges removeObject:value];
 			[removedLinkRanges addObject:value];
@@ -174,7 +174,7 @@
 	}
 
 	for (NSValue *value in addedLinkRanges) {
-		// if this link is new, create its attributes
+		// If this link is new, create its attributes
 		if (![_lastLinkRanges containsObject:value]) {
 			NSRange range = value.rangeValue;
 			NSURL *url = [NSURL URLWithString:[attributedString.string substringWithRange:range]];
@@ -182,7 +182,7 @@
 		}
 	}
 
-	// remember these link ranges for the next refresh
+	// Remember these link ranges for the next refresh
 	_lastLinkRanges = addedLinkRanges;
 }
 

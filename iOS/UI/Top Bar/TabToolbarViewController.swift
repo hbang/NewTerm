@@ -55,9 +55,9 @@ class TabToolbarViewController: UIViewController {
 			passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
 			plusImage = UIImage(systemName: "plus", withConfiguration: configuration)
 		} else {
-			gearImage = #imageLiteral(resourceName: "key-settings") // TODO: CHECK THIS
-			passwordImage = #imageLiteral(resourceName: "add-small")
-			plusImage = #imageLiteral(resourceName: "add-small")
+			gearImage = UIImage(named: "key-settings") // TODO: CHECK THIS
+			passwordImage = UIImage(named: "add-small")
+			plusImage = UIImage(named: "add-small")
 		}
 
 		backdropView = UIToolbar()
@@ -165,7 +165,7 @@ class TabToolbarViewController: UIViewController {
 	}
 
 	func didSelectTab(at index: Int) {
-		// if this is what’s already selected, just select it again and return
+		// If this is what’s already selected, just select it again and return
 		let selectedTabIndex = dataSource!.selectedTerminalIndex()
 		if index == selectedTabIndex {
 			tabsCollectionView.selectItem(at: IndexPath(item: selectedTabIndex, section: 0), animated: true, scrollPosition: .centeredHorizontally)
@@ -182,7 +182,7 @@ class TabToolbarViewController: UIViewController {
 																				 animated: true,
 																				 scrollPosition: .centeredHorizontally)
 		}, completion: { _ in
-			// TODO: hack because the previous tab doesn’t deselect for some reason and ugh i hate this
+			// TODO: Hack because the previous tab doesn’t deselect for some reason and ugh I hate this
 			self.tabsCollectionView.reloadData()
 		})
 	}

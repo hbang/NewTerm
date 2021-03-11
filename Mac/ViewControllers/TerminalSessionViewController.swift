@@ -83,7 +83,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			textView.backgroundColor = NSColor.clear
 		}
 
-		// TODO: not sure why this is needed all of a sudden? what did i break?
+		// TODO: Not sure why this is needed all of a sudden? What did I break?
 		DispatchQueue.main.async {
 			self.scrollToBottom()
 		}
@@ -93,7 +93,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let preferences = Preferences.shared
 
 		if preferences.bellHUD {
-			// display the bell HUD, lazily initialising it if it hasn’t been yet
+			// Display the bell HUD, lazily initialising it if it hasn’t been yet
 			#warning("TODO")
 		}
 
@@ -117,7 +117,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	func openSettings() {
-		// stub
+		// Stub
 	}
 
 }

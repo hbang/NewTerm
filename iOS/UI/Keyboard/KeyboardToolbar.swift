@@ -48,7 +48,7 @@ class KeyboardToolbar: UIView {
 		addSubview(stackView)
 
 		let safeArea: String
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			safeArea = "safe"
 		} else {
 			safeArea = "toolbar"
@@ -82,7 +82,7 @@ class KeyboardToolbar: UIView {
 extension KeyboardToolbar: UIToolbarDelegate {
 
 	func position(for bar: UIBarPositioning) -> UIBarPosition {
-		// helps UIToolbar figure out where to place the shadow line
+		// Helps UIToolbar figure out where to place the shadow line
 		return .bottom
 	}
 
@@ -91,7 +91,8 @@ extension KeyboardToolbar: UIToolbarDelegate {
 extension KeyboardToolbar: UIInputViewAudioFeedback {
 
 	var enableInputClicksWhenVisible: Bool {
-		// conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound when tapped
+		// Conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound
+		// when tapped
 		return true
 	}
 

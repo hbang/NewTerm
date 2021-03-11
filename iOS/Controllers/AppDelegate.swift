@@ -17,8 +17,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		let tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
 
-		if #available(iOS 13.0, *) {
-			// no need for any of this. yay!
+		if #available(iOS 13, *) {
+			// No need for any of this. Yay!
 		} else {
 			let textColor = UIColor.white
 			let backgroundColor = UIColor(white: 26 / 255, alpha: 1)
@@ -41,8 +41,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		UIScrollView.appearance().keyboardDismissMode = .interactive
 
-		if #available(iOS 13.0, *) {
-			// handled by UISceneSession lifecycle methods below
+		if #available(iOS 13, *) {
+			// Handled by UISceneSession lifecycle methods below
 		} else {
 			window = UIWindow(frame: UIScreen.main.bounds)
 			window!.tintColor = tintColor

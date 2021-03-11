@@ -41,7 +41,7 @@ class AppDelegate: NSObject, NSApplicationDelegate {
 	}
 
 	@IBAction func newWindowForTab(_ sender: Any?) {
-		// this could only be called while there are no windows in the responder chain, so we create a
+		// This can only be called while there are no windows in the responder chain, so we create a
 		// new window
 		newWindow(sender)
 	}

@@ -117,7 +117,7 @@ extension TerminalController {
 	override public func refresh() {
 		super.refresh()
 
-		// TODO: this is called due to -[VT100 init], and we aren’t ready yet… we’ll be called when we
+		// TODO: This is called due to -[VT100 init], and we aren’t ready yet… We’ll be called when we
 		// are anyway, so don’t worry about it
 		if updateTimer == nil {
 			return
@@ -131,7 +131,7 @@ extension TerminalController {
 			return
 		}
 
-		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
+		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
 		let attributedString = self.stringSupplier.attributedString()!
 		let backgroundColor = self.stringSupplier.colorMap!.background!
 
@@ -158,7 +158,7 @@ extension TerminalController {
 extension TerminalController: SubProcessDelegate {
 
 	func subProcessDidConnect() {
-		// yay
+		// Yay
 	}
 
 	func subProcess(didReceiveData data: Data) {
@@ -169,7 +169,7 @@ extension TerminalController: SubProcessDelegate {
 
 	func subProcess(didDisconnectWithError error: Error?) {
 		if error == nil {
-			// graceful termination
+			// Graceful termination
 			return
 		}
 

@@ -31,7 +31,7 @@ class RootViewController: UIViewController {
 		addKeyCommand(UIKeyCommand(input: "t", modifierFlags: [ .command ], action: #selector(self.addTerminal), discoverabilityTitle: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")))
 		addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command ], action: #selector(self.removeCurrentTerminal), discoverabilityTitle: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")))
 
-		if #available(iOS 13.0, *), UIApplication.shared.supportsMultipleScenes {
+		if #available(iOS 13, *), UIApplication.shared.supportsMultipleScenes {
 			addKeyCommand(UIKeyCommand(input: "n", modifierFlags: [ .command ], action: #selector(self.addWindow), discoverabilityTitle: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button.")))
 			addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command, .shift ], action: #selector(self.closeCurrentWindow), discoverabilityTitle: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button.")))
 
@@ -44,7 +44,7 @@ class RootViewController: UIViewController {
 
 		let topMargin: CGFloat
 
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			topMargin = view.safeAreaInsets.top
 		} else {
 			topMargin = UIApplication.shared.statusBarFrame.size.height
@@ -98,7 +98,7 @@ class RootViewController: UIViewController {
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
 		// select the closest tab we have available
 		if terminals.count == 0 {
-			if #available(iOS 13.0, *), UIApplication.shared.supportsMultipleScenes {
+			if #available(iOS 13, *), UIApplication.shared.supportsMultipleScenes {
 				closeCurrentWindow()
 			} else {
 				addTerminal()
@@ -131,14 +131,14 @@ class RootViewController: UIViewController {
 
 		let oldSelectedTabIndex = selectedTabIndex < terminals.count ? selectedTabIndex : nil
 
-		// if the previous index is now out of bounds, just use nil as our previous. the tab and view
+		// If the previous index is now out of bounds, just use nil as our previous. The tab and view
 		// controller were removed so we don’t need to do anything
 		let previousViewController = oldSelectedTabIndex == nil ? nil : terminals[oldSelectedTabIndex!]
 		let newViewController = terminals[index]
 
 		selectedTabIndex = index
 
-		// call the appropriate view controller lifecycle methods on the previous and new view controllers
+		// Call the appropriate view controller lifecycle methods on the previous and new view controllers
 		previousViewController?.viewWillDisappear(false)
 		previousViewController?.view.isHidden = true
 		previousViewController?.viewDidDisappear(false)

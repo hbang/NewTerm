@@ -21,15 +21,15 @@ class TerminalKeyInput: TextInputBase {
 
 	private var toolbar: KeyboardToolbar?
 
-	private let ctrlKey  = KeyboardButton(title: "Control",   glyph: "Ctrl", systemImage: "control", image: #imageLiteral(resourceName: "key-control"))
-	private let metaKey  = KeyboardButton(title: "Escape",    glyph: "Esc",  systemImage: "escape", image: #imageLiteral(resourceName: "key-escape"))
-	private let tabKey   = KeyboardButton(title: "Tab",       glyph: "Tab",  systemImage: "arrow.right.to.line", image: #imageLiteral(resourceName: "key-tab"))
-	private let moreKey  = KeyboardButton(title: "Functions", systemImage: "ellipsis", image: #imageLiteral(resourceName: "key-more"))
+	private let ctrlKey  = KeyboardButton(title: "Control",   glyph: "Ctrl", systemImage: "control", image: UIImage(named: "key-control"))
+	private let metaKey  = KeyboardButton(title: "Escape",    glyph: "Esc",  systemImage: "escape", image: UIImage(named: "key-escape"))
+	private let tabKey   = KeyboardButton(title: "Tab",       glyph: "Tab",  systemImage: "arrow.right.to.line", image: UIImage(named: "key-tab"))
+	private let moreKey  = KeyboardButton(title: "Functions", systemImage: "ellipsis", image: UIImage(named: "key-more"))
 
-	private let upKey    = KeyboardButton(title: "Up",    systemImage: "arrow.up",    image: #imageLiteral(resourceName: "key-up"))
-	private let downKey  = KeyboardButton(title: "Down",  systemImage: "arrow.down",  image: #imageLiteral(resourceName: "key-down"))
-	private let leftKey  = KeyboardButton(title: "Left",  systemImage: "arrow.left",  image: #imageLiteral(resourceName: "key-left"))
-	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrow.right", image: #imageLiteral(resourceName: "key-right"))
+	private let upKey    = KeyboardButton(title: "Up",    systemImage: "arrow.up",    image: UIImage(named: "key-up"))
+	private let downKey  = KeyboardButton(title: "Down",  systemImage: "arrow.down",  image: UIImage(named: "key-down"))
+	private let leftKey  = KeyboardButton(title: "Left",  systemImage: "arrow.left",  image: UIImage(named: "key-left"))
+	private let rightKey = KeyboardButton(title: "Right", systemImage: "arrow.right", image: UIImage(named: "key-right"))
 
 	private var longPressTimer: Timer?
 	private var buttons: [KeyboardButton]!
@@ -66,15 +66,15 @@ class TerminalKeyInput: TextInputBase {
 		autocorrectionType = .no
 		spellCheckingType = .no
 
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			smartQuotesType = .no
 			smartDashesType = .no
 			smartInsertDeleteType = .no
 		}
 
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 		} else {
-			// TODO: this should be themable
+			// TODO: This should be themable
 			keyboardAppearance = .dark
 		}
 
@@ -210,7 +210,7 @@ class TerminalKeyInput: TextInputBase {
 			button.style = style
 		}
 
-		// enable 1:1 width:height aspect ratio if using icons style
+		// Enable 1:1 width:height aspect ratio if using icons style
 		switch style {
 		case .text:  NSLayoutConstraint.deactivate(squareButtonConstraints)
 		case .icons: NSLayoutConstraint.activate(squareButtonConstraints)
@@ -363,13 +363,13 @@ class TerminalKeyInput: TextInputBase {
 	// MARK: - UITextInput
 
 	override var textInputView: UIView {
-		// if we have the instance of the text view, return it here so stuff like selection hopefully
-		// works. if not, just return self for the moment
+		// If we have the instance of the text view, return it here so stuff like selection hopefully
+		// works. If not, just return self for the moment.
 		return textView ?? self
 	}
 
 	override func hasText() -> Bool {
-		// we always “have text”, even if we don’t
+		// We always “have text”, even if we don’t
 		return true
 	}
 
@@ -381,18 +381,18 @@ class TerminalKeyInput: TextInputBase {
 			var newCharacter = character
 
 			if ctrlDown {
-				// translate capital to lowercase
+				// Translate capital to lowercase
 				if character >= 0x41 && character <= 0x5A { // >= 'A' <= 'Z'
 					newCharacter += 0x61 - 0x41 // 'a' - 'A'
 				}
 
-				// convert to the matching control character
+				// Convert to the matching control character
 				if character >= 0x61 && character <= 0x7A { // >= 'a' <= 'z'
 					newCharacter -= 0x61 - 1 // 'a' - 1
 				}
 			}
 
-			// convert newline to carriage return
+			// Convert newline to carriage return
 			if character == 0x0A {
 				newCharacter = 0x0D
 			}
@@ -434,15 +434,14 @@ class TerminalKeyInput: TextInputBase {
 	override func canPerformAction(_ action: Selector, withSender sender: Any?) -> Bool {
 		switch action {
 		case #selector(self.paste(_:)):
-			// only paste if the pasteboard contains a plaintext type
+			// Only paste if the pasteboard contains a plaintext type
 			return UIPasteboard.general.hasStrings || UIPasteboard.general.hasURLs
 
 		case #selector(self.cut(_:)):
-			// ensure cut is never allowed
+			// Ensure cut is never allowed
 			return false
 
 		default:
-			// the rest are handled by super (which probably just returns false for everything…)
 			return super.canPerformAction(action, withSender: sender)
 		}
 	}

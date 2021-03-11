@@ -42,7 +42,7 @@ public class Preferences: NSObject {
 		FontMetrics.loadFonts()
 
 		let defaultFontName: String
-		if #available(iOS 13.0, macOS 10.15, *) {
+		if #available(iOS 13, macOS 10.15, *) {
 			defaultFontName = "SF Mono"
 		} else {
 			defaultFontName = "Menlo"
@@ -145,7 +145,7 @@ public class Preferences: NSObject {
 		var boldFont: Font?
 
 		if fontName == "SF Mono" {
-			if #available(iOS 13.0, macOS 10.15, *) {
+			if #available(iOS 13, macOS 10.15, *) {
 				regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
 				boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
 			}
@@ -160,7 +160,7 @@ public class Preferences: NSObject {
 
 		if regularFont == nil || boldFont == nil {
 			os_log("Font %{public}@ size %{public}.1f could not be initialised", type: .error, fontName, fontSize)
-			if #available(iOS 13.0, macOS 10.15, *) {
+			if #available(iOS 13, macOS 10.15, *) {
 				fontName = "SF Mono"
 			} else {
 				fontName = "Menlo"
@@ -172,7 +172,7 @@ public class Preferences: NSObject {
 	}
 
 	private func colorMapChanged() {
-		// if the theme doesn’t exist… how did we get here? force it to the default, which will call
+		// If the theme doesn’t exist… how did we get here? Force it to the default, which will call
 		// this method again
 		guard let theme = themesPlist[themeName] as? [String: Any] else {
 			os_log("Theme %{public}@ doesn’t exist", type: .error, themeName)

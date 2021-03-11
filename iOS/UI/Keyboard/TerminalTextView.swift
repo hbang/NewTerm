@@ -37,14 +37,14 @@ class TerminalTextView: UITextView {
 	// MARK: - UIResponder
 
 	override func becomeFirstResponder() -> Bool {
-		// we aren’t meant to ever become first responder. that’s the job of TerminalKeyInput
+		// We aren’t meant to ever become first responder. That’s the job of TerminalKeyInput
 		return false
 	}
 
 	// MARK: - UITextInput
 
 	override func caretRect(for position: UITextPosition) -> CGRect {
-		// TODO: should we take advantage of this?
+		// TODO: Should we take advantage of this?
 		return .zero
 	}
 

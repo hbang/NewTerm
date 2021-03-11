@@ -28,11 +28,11 @@ class TerminalSessionViewController: UIViewController {
 
 	private lazy var bellHUDView: HUDView = {
 		let image: UIImage
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 			let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
 			image = UIImage(systemName: "bell", withConfiguration: configuration)!
 		} else {
-			image = #imageLiteral(resourceName: "bell").withRenderingMode(.alwaysTemplate)
+			image = UIImage(named: "bell")!
 		}
 		let bellHUDView = HUDView(image: image)
 		bellHUDView.translatesAutoresizingMaskIntoConstraints = false
@@ -151,12 +151,12 @@ class TerminalSessionViewController: UIViewController {
 	// MARK: - Screen
 
 	func updateScreenSize() {
-		// update the text view insets. if the keyboard height is non-zero, keyboard is visible and that’s
-		// our bottom inset. else, it’s not and the bottom toolbar height is the bottom inset
+		// Update the text view insets. If the keyboard height is non-zero, keyboard is visible and
+		// that’s our bottom inset. Else, it’s not and the bottom toolbar height is the bottom inset.
 		var newInsets = barInsets
 		newInsets.bottom = keyboardHeight > 0 ? keyboardHeight : barInsets.bottom
 
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			newInsets.top -= view.safeAreaInsets.top
 			newInsets.left = view.safeAreaInsets.left
 			newInsets.right = view.safeAreaInsets.right
@@ -173,7 +173,7 @@ class TerminalSessionViewController: UIViewController {
 
 		let glyphSize = terminalController.fontMetrics.boundingBox
 
-		// make sure the glyph size has been set
+		// Make sure the glyph size has been set
 		if glyphSize.width == 0 || glyphSize.height == 0 {
 			fatalError("failed to get the glyph size")
 		}
@@ -210,16 +210,16 @@ class TerminalSessionViewController: UIViewController {
 	// MARK: - Keyboard
 
 	func scrollToBottom(animated: Bool = false) {
-		// if the user has scrolled up far enough on their own, don’t rudely scroll them back to the
-		// bottom. when they scroll back, the automatic scrolling will continue
-		// TODO: buggy
+		// If the user has scrolled up far enough on their own, don’t rudely scroll them back to the
+		// bottom. When they scroll back, the automatic scrolling will continue
+		// TODO: Buggy
 		// if textView.contentOffset.y < lastAutomaticScrollOffset.y - 20 {
 		// 	return
 		// }
 
-		// if there is no scrollback, use the top of the scroll view. if there is, calculate the bottom
+		// If there is no scrollback, use the top of the scroll view. If there is, calculate the bottom
 		var insets: UIEdgeInsets
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 			insets = textView.verticalScrollIndicatorInsets
 		} else {
 			insets = textView.scrollIndicatorInsets
@@ -227,13 +227,13 @@ class TerminalSessionViewController: UIViewController {
 		var offset = textView.contentOffset
 		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
 
-		if #available(iOS 11.0, *) {
+		if #available(iOS 11, *) {
 			insets.top += view.safeAreaInsets.top
 		}
 
 		offset.y = terminalController.scrollbackLines() == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
 
-		// if the offset has changed, update it and our lastAutomaticScrollOffset
+		// If the offset has changed, update it and our lastAutomaticScrollOffset
 		if textView.contentOffset.y != offset.y {
 			textView.setContentOffset(offset, animated: animated)
 			lastAutomaticScrollOffset = offset
@@ -251,8 +251,8 @@ class TerminalSessionViewController: UIViewController {
 	}
 
 	@objc func keyboardVisibilityChanged(_ notification: Notification) {
-		// we do this to avoid the scroll indicator from appearing as soon as the terminal appears.
-		// we only want to see it after the keyboard has appeared
+		// We do this to avoid the scroll indicator from appearing as soon as the terminal appears.
+		// We only want to see it after the keyboard has appeared
 		if !hasAppeared {
 			hasAppeared = true
 			textView.showsVerticalScrollIndicator = true
@@ -264,19 +264,19 @@ class TerminalSessionViewController: UIViewController {
 			}
 		}
 
-		// hide toolbar popups if visible
+		// Hide toolbar popups if visible
 		keyInput.setMoreRowVisible(false, animated: true)
 
 		// YES when showing, NO when hiding
 		let direction = notification.name == UIResponder.keyboardWillShowNotification
 		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 
-		// determine the final keyboard height. we still get a height if hiding, so force it to 0 if this
+		// Determine the final keyboard height. We still get a height if hiding, so force it to 0 if this
 		// isn’t a show notification
 		let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
 		keyboardHeight = direction ? keyboardFrame.size.height : 0
 
-		// we call updateScreenSize in an animation block to force it to be animated with the exact
+		// We call updateScreenSize in an animation block to force it to be animated with the exact
 		// parameters given to us in the notification
 		UIView.animate(withDuration: animationDuration) {
 			self.updateScreenSize()
@@ -302,7 +302,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			textView.backgroundColor = backgroundColor
 		}
 
-		// TODO: not sure why this is needed all of a sudden? what did i break?
+		// TODO: Not sure why this is needed all of a sudden? What did I break?
 		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 			self.scrollToBottom()
 		}
@@ -312,7 +312,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let preferences = Preferences.shared
 
 		if preferences.bellHUD {
-			// display the bell HUD, lazily initialising it if it hasn’t been yet
+			// Display the bell HUD, lazily initialising it if it hasn’t been yet
 			if bellHUDView.superview == nil {
 				view.addSubview(bellHUDView)
 				view.addCompactConstraints([
@@ -329,9 +329,9 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 		if preferences.bellVibrate {
 			// According to the docs, we should let the feedback generator get deallocated so the
-			// Taptic Engine goes back to sleep afterwards.
-			// Also according to the docs, we should use the most semantic impact generator, which would
-			// be UINotificationFeedbackGenerator, but I think a single tap feels better than two or three
+			// Taptic Engine goes back to sleep afterwards. Also according to the docs, we should use the
+			// most semantic impact generator, which would be UINotificationFeedbackGenerator, but I think
+			// a single tap feels better than two or three. Shrug
 			let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 			feedbackGenerator.impactOccurred()
 		}
@@ -350,7 +350,6 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	@objc func close() {
-		// TODO: i guess this is kind of the wrong spot
 		if let rootViewController = parent as? RootViewController {
 			rootViewController.removeTerminal(terminal: self)
 		}
@@ -383,21 +382,21 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 extension TerminalSessionViewController: UITextViewDelegate {
 
 	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-		// hide toolbar popups if visible
+		// Hide toolbar popups if visible
 		keyInput.setMoreRowVisible(false, animated: true)
 	}
 
 	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
 		let insets: UIEdgeInsets
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 			insets = scrollView.verticalScrollIndicatorInsets
 		} else {
 			insets = scrollView.scrollIndicatorInsets
 		}
 
-		// if we’re at the top of the scroll view, guess that the user wants to go back to the bottom
+		// If we’re at the top of the scroll view, guess that the user wants to go back to the bottom
 		if scrollView.contentOffset.y <= (scrollView.frame.size.height - insets.top - insets.bottom) / 2 {
-			// wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
+			// Wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
 			UIView.animate(withDuration: 0.5) {
 				self.scrollToBottom(animated: true)
 			}
@@ -409,14 +408,13 @@ extension TerminalSessionViewController: UITextViewDelegate {
 	}
 
 	func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-		// since the scroll view is at {0, 0}, it won’t respond to scroll to top events till the next
-		// scroll. trick it by scrolling 1 physical pixel up
+		// Since the scroll view is at {0, 0}, it won’t respond to scroll to top events till the next
+		// scroll. Trick it by scrolling 1 physical pixel up
 		scrollView.contentOffset.y -= CGFloat(1) / UIScreen.main.scale
 	}
 
 }
 
-// yes another delegate extension, sorry
 extension TerminalSessionViewController: UIGestureRecognizerDelegate {
 
 	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {

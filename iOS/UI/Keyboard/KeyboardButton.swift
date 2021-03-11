@@ -21,7 +21,7 @@ class KeyboardButton: UIButton {
 		accessibilityLabel = title
 		self.glyph = glyph
 
-		if #available(iOS 13.0, *), systemImage != nil {
+		if #available(iOS 13, *), systemImage != nil {
 			let configuration = UIImage.SymbolConfiguration(pointSize: titleLabel!.font.pointSize * 1.2, weight: .regular, scale: .default)
 			self.image = UIImage(systemName: systemImage!, withConfiguration: configuration)
 			self.highlightedImage = systemHighlightedImage == nil ? nil : UIImage(systemName: systemHighlightedImage!, withConfiguration: configuration)
@@ -66,8 +66,8 @@ class KeyboardButton: UIButton {
 			let actualNormalImage: UIImage?
 			let actualHighlightedImage: UIImage?
 			if image != nil && (glyph == nil || style == .icons) {
-				actualNormalImage = image!.withRenderingMode(.alwaysTemplate)
-				actualHighlightedImage = highlightedImage?.withRenderingMode(.alwaysTemplate)
+				actualNormalImage = image!
+				actualHighlightedImage = highlightedImage
 				setTitle(nil, for: .normal)
 			} else {
 				actualNormalImage = nil

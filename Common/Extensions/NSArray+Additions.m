@@ -11,7 +11,7 @@
 @implementation NSArray (Additions)
 
 - (char **)cStringArray {
-	// this is in objc because it’s impossibly complex to do this in swift…
+	// This is in objc because it’s impossibly complex to do this in Swift…
 	NSUInteger count = self.count + 1;
 	char **result = malloc(sizeof(char *) * count);
 

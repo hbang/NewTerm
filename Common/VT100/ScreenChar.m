@@ -192,7 +192,7 @@ static BOOL ComplexCharKeyIsReserved(int k) {
 	return k >= iTermBoxDrawingCodeMin && k <= iTermBoxDrawingCodeMax;
 }
 
-// TODO: eventually we might support this
+// TODO: Eventually we might support this
 /*
 static void AllocateImageMapsIfNeeded(void) {
 	if (!gImages) {

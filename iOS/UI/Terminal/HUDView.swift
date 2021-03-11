@@ -13,7 +13,7 @@ class HUDView: UIView {
 	let imageView = UIImageView()
 
 	let backdropView: UIVisualEffectView = {
-		if #available(iOS 13.0, *) {
+		if #available(iOS 13, *) {
 			return UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 		} else {
 			return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
@@ -54,15 +54,15 @@ class HUDView: UIView {
 	}
 
 	func animate() {
-		// if our alpha is non-zero, we’re already visible. maybe we should extend the visible duration
-		// but eh. just do nothing
+		// If our alpha is non-zero, we’re already visible. Just ignore. We don’t extend the display
+		// timer here to avoid the HUD from being too annoying.
 		if alpha != 0 {
 			return
 		}
 
 		alpha = 1
 
-		// display for 1.5 secs, fade out in 0.3 secs, then remove from superview
+		// Display for 1.5 secs, fade out in 0.3 secs.
 		UIView.animate(withDuration: 0.3, delay: 0.75, options: .init(), animations: {
 			self.alpha = 0
 		}, completion: nil)

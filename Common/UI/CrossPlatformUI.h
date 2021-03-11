@@ -5,7 +5,7 @@
 //  Created by Adam Demasi on 20/6/19.
 //
 
-// this is required to get availability headers working
+// This is required to get availability headers working
 @import Foundation;
 
 #if TARGET_OS_IPHONE
