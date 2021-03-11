@@ -96,12 +96,13 @@ class TerminalSessionViewController: UIViewController {
 		super.viewDidLoad()
 
 		addKeyCommand(UIKeyCommand(input: ",", modifierFlags: [ .command ], action: #selector(self.openSettings), discoverabilityTitle: NSLocalizedString("SETTINGS", comment: "Title of Settings page.")))
+		addKeyCommand(UIKeyCommand(input: "f", modifierFlags: [ .command, .alternate ], action: #selector(self.activatePasswordManager), discoverabilityTitle: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button.")))
 
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow, modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow, modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow, modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow,    modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape, modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
+		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape,     modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
 
 		let letters = [
 			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
@@ -337,6 +338,14 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 		if preferences.bellSound {
 			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
+		}
+	}
+
+	@objc func activatePasswordManager() {
+		if #available(iOS 11, *) {
+			keyInput.activatePasswordManager()
+		} else {
+			// TODO: Handle unsupported versions somehow?
 		}
 	}
 

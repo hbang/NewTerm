@@ -10,6 +10,10 @@
 	<key>SETTINGS</key>
 	<string>Settings</string>
 
+	<!-- VoiceOver label for the password manager button. -->
+	<key>PASSWORD_MANAGER</key>
+	<string>Password Manager</string>
+
 	<!-- Alert title displayed when a terminal could not be launched. -->
 	<key>TERMINAL_LAUNCH_FAILED_TITLE</key>
 	<string>Couldn’t start the terminal because the shell process quit unexpectedly.</string>

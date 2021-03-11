@@ -252,7 +252,7 @@ class TerminalKeyInput: TextInputBase {
 			leftKey:  leftKeyAppData,
 			rightKey: rightKeyAppData
 		]
-		let values = terminalInputDelegate!.applicationCursor ? keyValues : keyAppValues
+		let values = terminalInputDelegate!.applicationCursor ? keyAppValues : keyValues
 		if let data = values[sender] {
 			terminalInputDelegate!.receiveKeyboardInput(data: data)
 		}
@@ -280,6 +280,26 @@ class TerminalKeyInput: TextInputBase {
 		default:
 			break
 		}
+	}
+
+	@objc func upKeyPressed() {
+		arrowKeyPressed(upKey)
+	}
+
+	@objc func downKeyPressed() {
+		arrowKeyPressed(downKey)
+	}
+
+	@objc func leftKeyPressed() {
+		arrowKeyPressed(leftKey)
+	}
+
+	@objc func rightKeyPressed() {
+		arrowKeyPressed(rightKey)
+	}
+
+	@objc func metaKeyPressed() {
+		inputKeyPressed(metaKey)
 	}
 
 	// MARK: - More row
