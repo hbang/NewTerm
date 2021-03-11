@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
+		4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */; };
 		CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6B3BA9244C4537000A608B /* LogoHeaderView.swift */; };
 		CF71BC2822BB61E400AFB1E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF71BC2722BB61E400AFB1E1 /* Assets.xcassets */; };
 		CF71BC2B22BB61E400AFB1E1 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CF71BC2922BB61E400AFB1E1 /* Main.storyboard */; };
@@ -136,6 +137,7 @@
 
 /* Begin PBXFileReference section */
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
+		4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		CF22F9AE1FFB97F7003175DE /* prefs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefs; sourceTree = "<group>"; };
 		CF22F9B31FFB97F7003175DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		CF6B3BA9244C4537000A608B /* LogoHeaderView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogoHeaderView.swift; sourceTree = "<group>"; };
@@ -389,6 +391,7 @@
 				CFBB967822B5481B00585BE6 /* Preferences */,
 				CFBB967B22B5481B00585BE6 /* Terminal */,
 				CFBB968122B5481B00585BE6 /* Top Bar */,
+				4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -804,6 +807,7 @@
 				CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */,
 				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
 				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
+				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
 				CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */,
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,

@@ -15,28 +15,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	var window: UIWindow?
 
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
-		let tintColor = UIColor(red: 76 / 255, green: 161 / 255, blue: 1, alpha: 1)
-
 		if #available(iOS 13, *) {
 			// No need for any of this. Yay!
 		} else {
-			let textColor = UIColor.white
-			let backgroundColor = UIColor(white: 26 / 255, alpha: 1)
-			let lightTintColor = UIColor(white: 60 / 255, alpha: 1)
-
 			UINavigationBar.appearance().barStyle = .black
 			UIToolbar.appearance().barStyle = .black
 
-			UITableView.appearance().backgroundColor = backgroundColor
-			UITableViewCell.appearance().backgroundColor = backgroundColor
+			UITableView.appearance().backgroundColor = .legacyBackground
+			UITableViewCell.appearance().backgroundColor = .legacyBackground
 
 			UINavigationBar.appearance().titleTextAttributes = [
-				.foregroundColor: textColor
+				.foregroundColor: UIColor.legacyText
 			]
 
-			UITextField.appearance().textColor = textColor
+			UITextField.appearance().textColor = .legacyText
 			UITextField.appearance().keyboardAppearance = .dark
-			UITableView.appearance().separatorColor = lightTintColor
+			UITableView.appearance().separatorColor = .legacySeparator
 		}
 
 		UIScrollView.appearance().keyboardDismissMode = .interactive
@@ -45,7 +39,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// Handled by UISceneSession lifecycle methods below
 		} else {
 			window = UIWindow(frame: UIScreen.main.bounds)
-			window!.tintColor = tintColor
+			window!.tintColor = .tint
 			window!.rootViewController = UINavigationController(rootViewController: RootViewController())
 			window!.makeKeyAndVisible()
 		}

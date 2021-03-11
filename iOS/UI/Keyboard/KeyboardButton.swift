@@ -41,18 +41,14 @@ class KeyboardButton: UIButton {
 		clipsToBounds = true
 		layer.cornerRadius = isBigDevice ? 6 : 4
 		titleLabel!.font = .systemFont(ofSize: isBigDevice ? 18 : 15)
-		if #available(iOS 13, *) {
-			tintColor = .label
-		} else {
-			tintColor = .white
-		}
+		updateTintColor()
 		adjustsImageWhenHighlighted = false
 		setTitleColor(tintColor, for: .normal)
 		setTitleColor(.black, for: .selected)
-		setBackgroundImage(image(of: UIColor(white: 1, alpha: 69 / 255)), for: .normal)
-		setBackgroundImage(image(of: UIColor(white: 1, alpha: 32 / 255)), for: .highlighted)
-		setBackgroundImage(image(of: UIColor(white: 1, alpha: 182 / 255)), for: .selected)
-		setBackgroundImage(image(of: UIColor(white: 1, alpha: 32 / 255)), for: [ .highlighted, .selected ])
+		setBackgroundImage(image(of: .keyBackgroundNormal), for: .normal)
+		setBackgroundImage(image(of: .keyBackgroundHighlighted), for: .highlighted)
+		setBackgroundImage(image(of: .keyBackgroundSelected), for: .selected)
+		setBackgroundImage(image(of: .keyBackgroundHighlighted), for: [ .highlighted, .selected ])
 
 		addTarget(UIDevice.current, action: #selector(UIDevice.playInputClick), for: .touchUpInside)
 	}
@@ -80,6 +76,21 @@ class KeyboardButton: UIButton {
 		}
 	}
 
+	private func updateTintColor() {
+		if isHighlighted {
+			tintColor = .keyForegroundHighlighted
+		} else if isSelected {
+			tintColor = .keyForegroundSelected
+		} else {
+			tintColor = .keyForegroundNormal
+		}
+//		if #available(iOS 13, *) {
+//			tintColor = isSelected && !isHighlighted ? .keyForegroundNormal : .label
+//		} else {
+//			tintColor = isSelected && !isHighlighted ? .black : .white
+//		}
+	}
+
 	override var intrinsicContentSize: CGSize {
 		var size = super.intrinsicContentSize
 		size.width += 16
@@ -88,23 +99,11 @@ class KeyboardButton: UIButton {
 	}
 
 	override var isSelected: Bool {
-		didSet {
-			if #available(iOS 13, *) {
-				tintColor = isSelected && !isHighlighted ? .label : .systemBackground
-			} else {
-				tintColor = isSelected && !isHighlighted ? .black : .white
-			}
-		}
+		didSet { updateTintColor() }
 	}
 
 	override var isHighlighted: Bool {
-		didSet {
-			if #available(iOS 13, *) {
-				tintColor = isSelected && !isHighlighted ? .label : .systemBackground
-			} else {
-				tintColor = isSelected && !isHighlighted ? .black : .white
-			}
-		}
+		didSet { updateTintColor() }
 	}
 
 	private func image(of color: UIColor) -> UIImage {

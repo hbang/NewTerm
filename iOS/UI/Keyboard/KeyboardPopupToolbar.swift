@@ -10,8 +10,6 @@ import UIKit
 
 class KeyboardPopupToolbar: UIView {
 
-	let backdropView = UIToolbar()
-
 	let homeKey = KeyboardButton(title: "Home", glyph: "Home")
 	let endKey = KeyboardButton(title: "End", glyph: "End")
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
@@ -25,16 +23,29 @@ class KeyboardPopupToolbar: UIView {
 
 		translatesAutoresizingMaskIntoConstraints = false
 
+		let blurEffect: UIBlurEffect
+		if #available(iOS 13, *) {
+			blurEffect = UIBlurEffect(style: .systemChromeMaterial)
+		} else {
+			// TODO: Review this
+			blurEffect = UIBlurEffect(style: .regular)
+		}
+		let backdropView = UIVisualEffectView(effect: blurEffect)
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-		backdropView.delegate = self
 		addSubview(backdropView)
 
-		let height = isSmallDevice ? 37 : 45
+		let backdropColorView = UIView()
+		backdropColorView.frame = backdropView.contentView.bounds
+		backdropColorView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		backdropColorView.backgroundColor = .keyboardToolbarBackground
+		backdropView.contentView.addSubview(backdropColorView)
+
+		let height = isSmallDevice ? 36 : 44
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
-		let topSpacing = CGFloat(isSmallDevice ? 2 : 3)
-		let bottomSpacing = CGFloat(isSmallDevice ? 3 : 4)
+		let topSpacing = CGFloat(isSmallDevice ? 3 : 4)
+		let bottomSpacing = CGFloat(isSmallDevice ? 1 : 2)
 
 		let homeEndSpacerView = UIView()
 		let pageUpDownSpacerView = UIView()

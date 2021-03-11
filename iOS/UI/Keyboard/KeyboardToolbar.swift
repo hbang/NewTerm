@@ -10,8 +10,6 @@ import UIKit
 
 class KeyboardToolbar: UIView {
 
-	let backdropView = UIToolbar()
-
 	var ctrlKey: KeyboardButton!
 	var metaKey: KeyboardButton!
 	var tabKey: KeyboardButton!
@@ -23,16 +21,29 @@ class KeyboardToolbar: UIView {
 	var rightKey: KeyboardButton!
 
 	func setUp() {
+		let blurEffect: UIBlurEffect
+		if #available(iOS 13, *) {
+			blurEffect = UIBlurEffect(style: .systemChromeMaterial)
+		} else {
+			// TODO: Review this
+			blurEffect = UIBlurEffect(style: .regular)
+		}
+		let backdropView = UIVisualEffectView(effect: blurEffect)
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-		backdropView.delegate = self
 		addSubview(backdropView)
 
-		let height = isSmallDevice ? 36 : 44
+		let backdropColorView = UIView()
+		backdropColorView.frame = backdropView.contentView.bounds
+		backdropColorView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		backdropColorView.backgroundColor = .keyboardToolbarBackground
+		backdropView.contentView.addSubview(backdropColorView)
+
+		let height = isSmallDevice ? 35 : 43
 		let outerXSpacing = CGFloat(3)
 		let xSpacing = CGFloat(6)
 		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
-		let bottomSpacing = CGFloat(2)
+		let bottomSpacing = CGFloat(1)
 
 		let spacerView = UIView()
 

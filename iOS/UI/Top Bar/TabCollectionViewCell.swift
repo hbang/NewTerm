@@ -28,7 +28,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		super.init(frame: frame)
 
 		selectedBackgroundView = UIView()
-		selectedBackgroundView!.backgroundColor = UIColor(white: 1, alpha: 69 / 255)
+		selectedBackgroundView!.backgroundColor = .tabSelected
 
 		textLabel.translatesAutoresizingMaskIntoConstraints = false
 		textLabel.font = UIFont.systemFont(ofSize: 12, weight: .semibold)
@@ -54,7 +54,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		contentView.addSubview(closeButton)
 
 		separatorView.translatesAutoresizingMaskIntoConstraints = false
-		separatorView.backgroundColor = UIColor(white: 85 / 255, alpha: 0.4)
+		separatorView.backgroundColor = .tabSeparator
 		contentView.addSubview(separatorView)
 
 		separatorViewWidthConstraint = separatorView.widthAnchor.constraint(equalToConstant: 1)

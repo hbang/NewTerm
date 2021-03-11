@@ -16,7 +16,7 @@ class LogoHeaderView: UIView {
 
 		let containerView = UIView()
 		containerView.translatesAutoresizingMaskIntoConstraints = false
-		containerView.backgroundColor = UIColor(white: 0, alpha: 229 / 255)
+		containerView.backgroundColor = .logoBackground
 		addSubview(containerView)
 
 		let iconImageView = UIImageView(image: UIImage(named: "app-icon-big"))
@@ -31,11 +31,11 @@ class LogoHeaderView: UIView {
 		} else {
 			nameLabel.font = nameFont
 		}
-		nameLabel.textColor = UIColor(white: 0.9, alpha: 1)
+		nameLabel.textColor = .logoName
 		nameLabel.text = "NewTerm"
 
 		let blockView = UIView()
-		blockView.backgroundColor = UIColor(red: 0, green: 217 / 255, blue: 0, alpha: 1)
+		blockView.backgroundColor = .logoCursor
 
 		let nameStackView = UIStackView(arrangedSubviews: [ nameLabel, blockView ])
 		nameStackView.axis = .horizontal
