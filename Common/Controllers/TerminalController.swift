@@ -12,7 +12,7 @@ import AppKit
 import UIKit
 #endif
 
-public protocol TerminalControllerDelegate {
+public protocol TerminalControllerDelegate: AnyObject {
 
 	func refresh(attributedString: NSAttributedString, backgroundColor: Color)
 	func activateBell()
@@ -25,7 +25,7 @@ public protocol TerminalControllerDelegate {
 
 public class TerminalController: VT100 {
 
-	public var delegate: TerminalControllerDelegate?
+	public weak var delegate: TerminalControllerDelegate?
 
 	private var isDirty = false
 	private var updateTimer: Timer?
@@ -88,6 +88,12 @@ public class TerminalController: VT100 {
 
 	public func stopSubProcess() throws {
 		try subProcess!.stop()
+	}
+
+	// MARK: - Object lifecycle
+
+	deinit {
+		updateTimer?.invalidate()
 	}
 
 }
@@ -192,6 +198,9 @@ extension TerminalController: SubProcessDelegate {
 		let divider = String(repeating: "═", count: max((cols - messageLength) / 2, 0))
 		let message = "\r\n\u{1b}[0;31m\(divider) \u{1b}[1;31m\(processCompleted)\u{1b}[0;31m \(divider)\u{1b}[m\r\n"
 		readInputStream(message.data(using: .utf8)!)
+
+		updateTimer?.invalidate()
+		updateTimer = nil
 	}
 
 	func subProcess(didReceiveError error: Error) {
