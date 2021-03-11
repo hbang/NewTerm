@@ -17,7 +17,7 @@
 @property (nonatomic, readonly) BOOL isDark;
 
 #if TARGET_OS_IPHONE
-@property (nonatomic, readonly) UIUserInterfaceStyle userInterfaceStyle;
+@property (nonatomic, readonly) UIUserInterfaceStyle userInterfaceStyle NS_AVAILABLE_IOS(12_0);
 #else
 @property (nonatomic, readonly) NSAppearanceName appearanceStyle;
 #endif

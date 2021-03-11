@@ -165,7 +165,6 @@ class TabToolbarViewController: UIViewController {
 	}
 
 	func didSelectTab(at index: Int) {
-		print("SELECT TAB")
 		// if this is what’s already selected, just select it again and return
 		let selectedTabIndex = dataSource!.selectedTerminalIndex()
 		if index == selectedTabIndex {
@@ -189,13 +188,11 @@ class TabToolbarViewController: UIViewController {
 	}
 
 	func didAddTab(at index: Int) {
-		print("ADD TAB")
 		tabsCollectionView.reloadData()
 		tabsCollectionView.layoutIfNeeded()
 	}
 
 	func didRemoveTab(at index: Int) {
-		print("REMOVE TAB")
 		tabsCollectionView.reloadData()
 		tabsCollectionView.layoutIfNeeded()
 	}
