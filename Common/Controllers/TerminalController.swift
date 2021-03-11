@@ -27,8 +27,8 @@ public class TerminalController: VT100 {
 
 	public var delegate: TerminalControllerDelegate?
 
-	private var updateQueue: DispatchQueue!
-	private var secondaryUpdateQueue: DispatchQueue!
+	private var isDirty = false
+	private var updateTimer: Timer?
 
 	private var stringSupplier = VT100StringSupplier()
 
@@ -61,13 +61,12 @@ public class TerminalController: VT100 {
 	public override init() {
 		super.init()
 
-		updateQueue = DispatchQueue(label: String(format: "au.com.hbang.NewTerm.update-queue-%p", self))
-		secondaryUpdateQueue = DispatchQueue(label: String(format: "au.com.hbang.NewTerm.update-queue-secondary-%p", self))
-
 		stringSupplier.screenBuffer = self
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
+
+		updateTimer = Timer.scheduledTimer(timeInterval: 1 / 60, target: self, selector: #selector(self.updateTimerFired), userInfo: nil, repeats: true)
 	}
 
 	@objc func preferencesUpdated() {
@@ -114,27 +113,33 @@ extension TerminalController {
 
 		// TODO: this is called due to -[VT100 init], and we aren’t ready yet… we’ll be called when we
 		// are anyway, so don’t worry about it
-		if updateQueue == nil {
+		if updateTimer == nil {
+			return
+		}
+
+		isDirty = true
+	}
+
+	@objc private func updateTimerFired() {
+		if !isDirty {
 			return
 		}
 
 		// TODO: we should handle the scrollback separately so it only appears if the user scrolls
-		DispatchQueue.main.async {
-			let attributedString = self.stringSupplier.attributedString()!
-			let backgroundColor = self.stringSupplier.colorMap!.background!
+		let attributedString = self.stringSupplier.attributedString()!
+		let backgroundColor = self.stringSupplier.colorMap!.background!
 
-			// DispatchQueue.main.async {
-				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
+		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 
-				// self.secondaryUpdateQueue.async {
-				// 	self.stringSupplier.detectLinks(for: attributedString)
+//		self.secondaryUpdateQueue.async {
+//			self.stringSupplier.detectLinks(for: attributedString)
+//
+//			DispatchQueue.main.async {
+//				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
+//			}
+//		}
 
-				// 	DispatchQueue.main.async {
-				// 		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-				// 	}
-				// }
-			// }
-		}
+		self.isDirty = false
 	}
 
 	override public func activateBell() {

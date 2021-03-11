@@ -303,7 +303,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		}
 
 		// TODO: not sure why this is needed all of a sudden? what did i break?
-		DispatchQueue.main.async {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
 			self.scrollToBottom()
 		}
 	}
