@@ -8,7 +8,7 @@ Description: Optional extra fonts for NewTerm
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
-Icon: https://cdn.chariz.com/icon/newterm-fonts/icon@3x.png
-Depiction: https://repo.chariz.com/package/ws.hbang.newtermfonts/
+Icon: https://chariz.com/cdn/icon/newterm-fonts/icon@3x.png
+Depiction: https://chariz.com/get/newterm-fonts
 Support: https://hashbang.productions/support/
-Tag: compatible::ios10, compatible::ios11, compatible::ios12, compatible::ios13
+Tag: compatible_min::ios10.0

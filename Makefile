@@ -1,8 +1,8 @@
 ifeq ($(PLATFORM),mac)
 export TARGET = uikitformac:latest:13.0
 else
-export TARGET = iphone:13.2:10.0
-export ARCHS = arm64
+export TARGET = iphone:13.7:10.0
+export ARCHS = armv7 arm64
 LINK_CEPHEI := 1
 endif
 
