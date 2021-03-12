@@ -73,6 +73,11 @@ class TabToolbarViewController: UIViewController {
 		titleLabel.font = titleFont
 		titleLabel.text = "Terminal"
 		titleLabel.textAlignment = .center
+		if #available(iOS 13, *) {
+			titleLabel.textColor = .label
+		} else {
+			titleLabel.textColor = .white
+		}
 
 		passwordButton = UIButton(type: .system)
 		passwordButton.setImage(passwordImage, for: .normal)
@@ -116,25 +121,31 @@ class TabToolbarViewController: UIViewController {
 		mainStackView.axis = .vertical
 		view.addSubview(mainStackView)
 
+		let layoutGuide: LayoutGuide
+		let statusBarMargin: CGFloat
 		if #available(iOS 11, *) {
-			NSLayoutConstraint.activate([
-				mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-				mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-				mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
-				mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
-
-				topStackView.heightAnchor.constraint(equalToConstant: 32),
-				tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
-
-				leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
-				rightSpacer.widthAnchor.constraint(equalToConstant: 0),
-				passwordButton.widthAnchor.constraint(equalTo: passwordButton.heightAnchor),
-				settingsButton.widthAnchor.constraint(equalTo: settingsButton.heightAnchor),
-				addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor),
-			])
+			layoutGuide = view.safeAreaLayoutGuide
+			statusBarMargin = 0
 		} else {
-			// Fallback on earlier versions
+			layoutGuide = view
+			statusBarMargin = UIApplication.shared.statusBarFrame.size.height
 		}
+
+		NSLayoutConstraint.activate([
+			mainStackView.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: statusBarMargin),
+			mainStackView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
+			mainStackView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
+			mainStackView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+
+			topStackView.heightAnchor.constraint(equalToConstant: 32),
+			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
+
+			leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
+			rightSpacer.widthAnchor.constraint(equalToConstant: 0),
+			passwordButton.widthAnchor.constraint(equalTo: passwordButton.heightAnchor),
+			settingsButton.widthAnchor.constraint(equalTo: settingsButton.heightAnchor),
+			addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor),
+		])
 	}
 
 	override func viewDidLayoutSubviews() {

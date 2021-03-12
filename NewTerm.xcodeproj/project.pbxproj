@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
+		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */; };
 		CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6B3BA9244C4537000A608B /* LogoHeaderView.swift */; };
 		CF71BC2822BB61E400AFB1E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF71BC2722BB61E400AFB1E1 /* Assets.xcassets */; };
@@ -137,6 +138,7 @@
 
 /* Begin PBXFileReference section */
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
+		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		CF22F9AE1FFB97F7003175DE /* prefs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefs; sourceTree = "<group>"; };
 		CF22F9B31FFB97F7003175DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -392,6 +394,7 @@
 				CFBB967B22B5481B00585BE6 /* Terminal */,
 				CFBB968122B5481B00585BE6 /* Top Bar */,
 				4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */,
+				4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -801,6 +804,7 @@
 			files = (
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
+				4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */,
 				4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */,
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
