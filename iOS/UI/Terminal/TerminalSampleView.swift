@@ -9,9 +9,9 @@
 @objc(TerminalSampleView)
 class TerminalSampleView: UIView {
 
-	let textView = TerminalTextView(frame: .zero)
-	let buffer = VT100()!
-	let stringSupplier = VT100StringSupplier()
+	private let textView = TerminalTextView(frame: .zero)
+	private let buffer = VT100()!
+	private let stringSupplier = VT100StringSupplier()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -25,8 +25,9 @@ class TerminalSampleView: UIView {
 		textView.isSelectable = false
 		addSubview(textView)
 
-		let colorTest = try? Data(contentsOf: Bundle.main.url(forResource: "colortest", withExtension: "txt")!)
-		buffer.readInputStream(colorTest)
+		if let colorTest = try? Data(contentsOf: Bundle.main.url(forResource: "colortest", withExtension: "txt")!) {
+			buffer.readInputStream(colorTest)
+		}
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()

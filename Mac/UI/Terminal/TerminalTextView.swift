@@ -9,7 +9,7 @@ import AppKit
 
 class TerminalTextView: NSTextView {
 
-	var terminalInputDelegate: TerminalInputProtocol?
+	weak var terminalInputDelegate: TerminalInputProtocol?
 
 	override func keyDown(with event: NSEvent) {
 		super.keyDown(with: event)

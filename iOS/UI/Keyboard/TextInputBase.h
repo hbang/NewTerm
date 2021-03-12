@@ -7,15 +7,6 @@
 
 #import <UIKit/UIKit.h>
 
-#ifndef __IPHONE_11_0
-#define UITextSmartQuotesType NSInteger
-#define UITextSmartDashesType NSInteger
-#define UITextSmartInsertDeleteType NSInteger
-#define UITextSmartQuotesTypeNo 1
-#define UITextSmartDashesTypeNo 1
-#define UITextSmartInsertDeleteTypeNo 1
-#endif
-
 @interface TextPosition : UITextPosition
 
 @property (nonatomic, strong) NSNumber *position;

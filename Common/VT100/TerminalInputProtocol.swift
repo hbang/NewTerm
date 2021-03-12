@@ -5,10 +5,9 @@
 //  Created by Adam Demasi on 20/6/19.
 //
 
-public protocol TerminalInputProtocol {
+public protocol TerminalInputProtocol: AnyObject {
 
 	func receiveKeyboardInput(data: Data)
-	func openSettings()
 
 	var applicationCursor: Bool { get }
 

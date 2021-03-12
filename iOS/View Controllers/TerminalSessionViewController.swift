@@ -315,9 +315,15 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			// Display the bell HUD, lazily initialising it if it hasn’t been yet
 			if bellHUDView.superview == nil {
 				view.addSubview(bellHUDView)
+				let safeArea: String
+				if #available(iOS 11, *) {
+					safeArea = "safe"
+				} else {
+					safeArea = "self"
+				}
 				view.addCompactConstraints([
-					"hudView.centerX = self.centerX",
-					"hudView.centerY = self.centerY / 3"
+					"hudView.centerX = \(safeArea).centerX",
+					"hudView.centerY = \(safeArea).centerY / 3"
 				], metrics: nil, views: [
 					"self": view!,
 					"hudView": bellHUDView

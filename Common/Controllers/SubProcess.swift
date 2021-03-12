@@ -19,7 +19,7 @@ enum SubProcessIOError: Error {
 	case readFailed, writeFailed
 }
 
-protocol SubProcessDelegate: NSObjectProtocol {
+protocol SubProcessDelegate: AnyObject {
 
 	func subProcessDidConnect()
 	func subProcess(didReceiveData data: Data)

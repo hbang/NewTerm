@@ -10,7 +10,7 @@ import UIKit
 
 class TerminalKeyInput: TextInputBase {
 
-	var terminalInputDelegate: TerminalInputProtocol?
+	weak var terminalInputDelegate: TerminalInputProtocol?
 	weak var textView: UITextView! {
 		didSet {
 			textView.frame = bounds
