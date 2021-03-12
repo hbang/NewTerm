@@ -20,6 +20,9 @@
 	<key>SAMPLE</key>
 	<string>Sample</string>
 
+	<key>INPUT</key>
+	<string>Input</string>
+
 	<key>KEYBOARD_STYLE</key>
 	<string>Key Style</string>
 
@@ -34,6 +37,24 @@
 
 	<key>KEYBOARD_STYLE_ICONS_SHORT</key>
 	<string>Icons</string>
+
+	<key>TRACKPAD_SENSITIVITY</key>
+	<string>Trackpad Sensitivity</string>
+
+	<key>TRACKPAD_SENSITIVITY_OFF</key>
+	<string>Off</string>
+
+	<key>TRACKPAD_SENSITIVITY_LOW</key>
+	<string>Low</string>
+
+	<key>TRACKPAD_SENSITIVITY_MEDIUM</key>
+	<string>Medium</string>
+
+	<key>TRACKPAD_SENSITIVITY_HIGH</key>
+	<string>High</string>
+
+	<key>TRACKPAD_EXPLANATION</key>
+	<string>Touch and hold the Space bar, then drag around the keyboard to move the cursor.</string>
 
 	<key>BELL</key>
 	<string>Bell</string>

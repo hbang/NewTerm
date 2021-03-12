@@ -38,6 +38,7 @@ class TerminalKeyInput: TextInputBase {
 	private var moreToolbarBottomConstraint: NSLayoutConstraint!
 
 	private var ctrlDown = false
+	private var previousFloatingCursorPoint: CGPoint? = nil
 
 	private var passwordInputView: TerminalPasswordInputView?
 
@@ -414,6 +415,39 @@ class TerminalKeyInput: TextInputBase {
 
 	override func deleteBackward() {
 		terminalInputDelegate!.receiveKeyboardInput(data: backspaceData)
+	}
+
+	override func beginFloatingCursor(at point: CGPoint) {
+		previousFloatingCursorPoint = point
+	}
+
+	override func updateFloatingCursor(at point: CGPoint) {
+		guard let oldPoint = previousFloatingCursorPoint else {
+			return
+		}
+
+		let threshold: CGFloat
+		switch Preferences.shared.keyboardTrackpadSensitivity {
+		case .off:    return
+		case .low:    threshold = 8
+		case .medium: threshold = 5
+		case .high:   threshold = 2
+		}
+
+		let difference = point.x - oldPoint.x
+		if abs(difference) < threshold {
+			return
+		}
+		if difference < 0 {
+			leftKeyPressed()
+		} else {
+			rightKeyPressed()
+		}
+		previousFloatingCursorPoint = point
+	}
+
+	override func endFloatingCursor() {
+		previousFloatingCursorPoint = nil
 	}
 
 	// MARK: - UIResponder

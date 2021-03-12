@@ -183,6 +183,8 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>INPUT</string>
+			<key>footerText</key>
+			<string>TRACKPAD_EXPLANATION</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -211,6 +213,36 @@
 			<array>
 				<integer>0</integer>
 				<integer>1</integer>
+			</array>
+			<key>PostNotification</key>
+			<string>ws.hbang.Terminal/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSLinkListCell</string>
+			<key>default</key>
+			<integer>2</integer>
+			<key>defaults</key>
+			<string>ws.hbang.Terminal</string>
+			<key>detail</key>
+			<string>HBNTPreferencesListItemsController</string>
+			<key>key</key>
+			<string>keyboardTrackpadSensitivity</string>
+			<key>label</key>
+			<string>TRACKPAD_SENSITIVITY</string>
+			<key>validTitles</key>
+			<array>
+				<string>TRACKPAD_SENSITIVITY_OFF</string>
+				<string>TRACKPAD_SENSITIVITY_LOW</string>
+				<string>TRACKPAD_SENSITIVITY_MEDIUM</string>
+				<string>TRACKPAD_SENSITIVITY_HIGH</string>
+			</array>
+			<key>validValues</key>
+			<array>
+				<integer>0</integer>
+				<integer>1</integer>
+				<integer>2</integer>
+				<integer>3</integer>
 			</array>
 			<key>PostNotification</key>
 			<string>ws.hbang.Terminal/ReloadPrefs</string>

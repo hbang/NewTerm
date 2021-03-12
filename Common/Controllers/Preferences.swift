@@ -18,6 +18,10 @@ public enum KeyboardButtonStyle: Int {
 	case text, icons
 }
 
+public enum KeyboardTrackpadSensitivity: Int {
+	case off, low, medium, high
+}
+
 @objc(Preferences)
 public class Preferences: NSObject {
 
@@ -53,6 +57,8 @@ public class Preferences: NSObject {
 			"fontSizePad": 13,
 			"fontSizeMac": 12,
 			"theme": "kirb",
+			"keyboardAccessoryStyle": KeyboardButtonStyle.text.rawValue,
+			"keyboardTrackpadSensitivity": KeyboardTrackpadSensitivity.medium.rawValue,
 			"bellHUD": true,
 			"bellVibrate": true,
 			"bellSound": true
@@ -91,6 +97,10 @@ public class Preferences: NSObject {
 	#if os(iOS)
 	public var keyboardAccessoryStyle: KeyboardButtonStyle {
 		get { return KeyboardButtonStyle(rawValue: preferences.integer(forKey: "keyboardAccessoryStyle")) ?? .text }
+	}
+
+	public var keyboardTrackpadSensitivity: KeyboardTrackpadSensitivity {
+		get { return KeyboardTrackpadSensitivity(rawValue: preferences.integer(forKey: "keyboardTrackpadSensitivity")) ?? .medium }
 	}
 	#endif
 
