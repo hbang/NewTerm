@@ -9,6 +9,7 @@
 @objc(LogoHeaderView)
 class LogoHeaderView: UIView {
 
+	private var titleTypingTimer: Timer?
 	private var blockBlinkTimer: Timer?
 
 	override init(frame: CGRect) {
@@ -32,7 +33,7 @@ class LogoHeaderView: UIView {
 			nameLabel.font = nameFont
 		}
 		nameLabel.textColor = .logoName
-		nameLabel.text = "NewTerm"
+		nameLabel.text = ""
 
 		let blockView = UIView()
 		blockView.backgroundColor = .logoCursor
@@ -53,6 +54,12 @@ class LogoHeaderView: UIView {
 		containerView.addSubview(stackView)
 
 		let topSuperOffset: CGFloat = 10000
+		let topMargin: CGFloat
+		if #available(iOS 11, *) {
+			topMargin = 0
+		} else {
+			topMargin = 35
+		}
 
 		NSLayoutConstraint.activate([
 			containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: -topSuperOffset),
@@ -60,7 +67,7 @@ class LogoHeaderView: UIView {
 			containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset),
+			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset + topMargin),
 			stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -35),
 			stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
 			stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
@@ -72,6 +79,18 @@ class LogoHeaderView: UIView {
 			blockView.widthAnchor.constraint(equalTo: blockView.heightAnchor, multiplier: 0.5)
 		])
 
+		let titleString = "NewTerm"
+		var i = 0
+
+		titleTypingTimer = Timer.scheduledTimer(withTimeInterval: 0.225, repeats: true) { timer in
+			nameLabel.text! += String(titleString[titleString.index(titleString.startIndex, offsetBy: i)])
+			i += 1
+
+			if i == titleString.count {
+				timer.invalidate()
+			}
+		}
+
 		blockBlinkTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
 			blockView.alpha = blockView.alpha == 1 ? 0 : 1
 		}
@@ -82,6 +101,7 @@ class LogoHeaderView: UIView {
 	}
 
 	deinit {
+		titleTypingTimer?.invalidate()
 		blockBlinkTimer?.invalidate()
 	}
 
