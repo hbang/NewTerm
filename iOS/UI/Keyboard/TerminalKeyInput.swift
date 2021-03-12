@@ -495,7 +495,6 @@ class TerminalKeyInput: TextInputBase {
 extension TerminalKeyInput: TerminalPasswordInputViewDelegate {
 
 	func passwordInputViewDidComplete(password: String?) {
-		NSLog("text field delegate called %@", password ?? "")
 		if let password = password {
 			// User could have typed on the keyboard while it was in password mode, rather than using the
 			// password autofill. Send a return if it seems like a password was actually received,
