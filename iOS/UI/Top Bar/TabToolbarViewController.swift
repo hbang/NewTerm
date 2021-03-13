@@ -52,8 +52,13 @@ class TabToolbarViewController: UIViewController {
 		if #available(iOS 13, *) {
 			let configuration = UIImage.SymbolConfiguration(pointSize: titleFont.pointSize * 0.9, weight: .medium)
 			gearImage = UIImage(systemName: "gear", withConfiguration: configuration)
-			passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
 			plusImage = UIImage(systemName: "plus", withConfiguration: configuration)
+
+			if #available(iOS 14, *) {
+				passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
+			} else {
+				passwordImage = UIImage(named: "key.fill", in: nil, with: configuration)
+			}
 		} else {
 			gearImage = UIImage(named: "key-settings")
 			passwordImage = UIImage()
