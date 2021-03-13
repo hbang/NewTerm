@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 48;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,6 +13,7 @@
 		4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
+		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
 		4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */; };
 		CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6B3BA9244C4537000A608B /* LogoHeaderView.swift */; };
 		CF71BC2822BB61E400AFB1E1 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF71BC2722BB61E400AFB1E1 /* Assets.xcassets */; };
@@ -81,7 +82,6 @@
 		CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */; };
 		CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */; };
 		CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */; };
-		CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; platformFilter = ios; };
 		CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */; };
 		CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C422B5481B00585BE6 /* AppDelegate.swift */; };
 		CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */; };
@@ -145,6 +145,7 @@
 		4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+NewTermAdditions.swift"; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
+		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
 		4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
 		CF22F9AE1FFB97F7003175DE /* prefs */ = {isa = PBXFileReference; lastKnownFileType = folder; path = prefs; sourceTree = "<group>"; };
 		CF22F9B31FFB97F7003175DE /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
@@ -269,6 +270,7 @@
 		CF22F9A81FFB97F7003175DE = {
 			isa = PBXGroup;
 			children = (
+				4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */,
 				CF22F9B31FFB97F7003175DE /* README.md */,
 				CFBB967622B5481A00585BE6 /* iOS */,
 				CF71BC2222BB61E200AFB1E1 /* Mac */,
@@ -698,9 +700,11 @@
 					};
 					CF71BC2022BB61E200AFB1E1 = {
 						CreatedOnToolsVersion = 11.0;
+						ProvisioningStyle = Automatic;
 					};
 					CF71BC8322BB6DBA00AFB1E1 = {
 						CreatedOnToolsVersion = 11.0;
+						ProvisioningStyle = Automatic;
 					};
 					CFBB966022B546DA00585BE6 = {
 						CreatedOnToolsVersion = 11.0;
@@ -815,6 +819,7 @@
 			files = (
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
+				4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */,
 				4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */,
 				4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */,
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
@@ -825,7 +830,6 @@
 				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
 				4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
-				CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */,
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
@@ -916,7 +920,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(SWIFT_OLD_RPATH)";
 				LIBRARY_SEARCH_PATHS = Common/External;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "";
 			};
@@ -958,7 +962,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(SWIFT_OLD_RPATH)";
 				LIBRARY_SEARCH_PATHS = Common/External;
-				MACOSX_DEPLOYMENT_TARGET = 10.15;
+				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_SWIFT_FLAGS = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
 			};
@@ -1014,10 +1018,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
@@ -1059,10 +1060,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
@@ -1095,7 +1093,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1113,17 +1111,14 @@
 				HEADER_SEARCH_PATHS = "Common/**";
 				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
@@ -1153,7 +1148,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
-				DEVELOPMENT_TEAM = Y9Z46WEJ27;
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
@@ -1166,17 +1161,14 @@
 				HEADER_SEARCH_PATHS = "Common/**";
 				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/../Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos macosx";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -1218,12 +1210,13 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_ENTITLEMENTS = NewTerm.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1253,10 +1246,8 @@
 				);
 				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
@@ -1272,12 +1263,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
-				SUPPORTS_UIKITFORMAC = NO;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 			};
 			name = Debug;
 		};
@@ -1315,12 +1306,13 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "-";
+				CODE_SIGN_ENTITLEMENTS = NewTerm.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 10;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = "";
+				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = (
@@ -1344,10 +1336,8 @@
 				);
 				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-				);
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
@@ -1362,12 +1352,11 @@
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
-				SUPPORTS_UIKITFORMAC = NO;
-				SWIFT_COMPILATION_MODE = wholemodule;
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = "1,2,6";
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
