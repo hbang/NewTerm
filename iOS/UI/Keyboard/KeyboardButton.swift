@@ -84,11 +84,6 @@ class KeyboardButton: UIButton {
 		} else {
 			tintColor = .keyForegroundNormal
 		}
-//		if #available(iOS 13, *) {
-//			tintColor = isSelected && !isHighlighted ? .keyForegroundNormal : .label
-//		} else {
-//			tintColor = isSelected && !isHighlighted ? .black : .white
-//		}
 	}
 
 	override var intrinsicContentSize: CGSize {
