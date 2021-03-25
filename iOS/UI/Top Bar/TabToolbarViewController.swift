@@ -71,7 +71,7 @@ class TabToolbarViewController: UIViewController {
 
 		titleLabel = UILabel()
 		titleLabel.font = titleFont
-		titleLabel.text = "Terminal"
+		titleLabel.text = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 		titleLabel.textAlignment = .center
 		if #available(iOS 13, *) {
 			titleLabel.textColor = .label
@@ -87,13 +87,13 @@ class TabToolbarViewController: UIViewController {
 
 		settingsButton = UIButton(type: .system)
 		settingsButton.setImage(gearImage, for: .normal)
-		settingsButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
+		settingsButton.accessibilityLabel = NSLocalizedString("SETTINGS", comment: "Title of Settings page.")
 		settingsButton.contentMode = .center
 		settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchUpInside)
 
 		addButton = UIButton(type: .system)
 		addButton.setImage(plusImage, for: .normal)
-		addButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
+		addButton.accessibilityLabel = NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the button that reveals the password manager.")
 		addButton.contentMode = .center
 		addButton.addTarget(self, action: #selector(self.addTerminal), for: .touchUpInside)
 

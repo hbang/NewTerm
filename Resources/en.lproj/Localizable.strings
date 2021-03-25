@@ -42,5 +42,9 @@ You may need to review startup scripts or reinstall core packages to fix this is
 	<!-- VoiceOver label for the close window button. -->
 	<key>CLOSE_WINDOW</key>
 	<string>Close Window</string>
+
+	<!-- VoiceOver label for the button that reveals the password manager. -->
+	<key>PASSWORD_MANAGER</key>
+	<string>Password Manager</string>
 </dict>
 </plist>
