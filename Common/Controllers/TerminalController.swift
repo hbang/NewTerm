@@ -201,6 +201,7 @@ extension TerminalController: SubProcessDelegate {
 
 		updateTimer?.invalidate()
 		updateTimer = nil
+		updateTimerFired()
 	}
 
 	func subProcess(didReceiveError error: Error) {

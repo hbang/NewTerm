@@ -105,8 +105,9 @@ class SubProcess: NSObject {
 				childPID = pid
 
 				fileHandle = FileHandle(fileDescriptor: fileDescriptor!, closeOnDealloc: true)
-				NotificationCenter.default.addObserver(self, selector: #selector(self.didReceiveData(_:)), name: FileHandle.readCompletionNotification, object: fileHandle)
-				fileHandle!.readInBackgroundAndNotify()
+				fileHandle!.readabilityHandler = { [weak self] fileHandle in
+					self?.didReceiveData(fileHandle.availableData)
+				}
 
 				delegate!.subProcessDidConnect()
 				break
@@ -123,33 +124,32 @@ class SubProcess: NSObject {
 		var stat = Int32() // unused
 		waitpid(childPID!, &stat, WUNTRACED)
 
-		NotificationCenter.default.removeObserver(self, name: FileHandle.readCompletionNotification, object: fileHandle)
-
 		childPID = nil
 		fileDescriptor = nil
 		fileHandle = nil
 
 		if !fromError {
 			// nil error means disconnected due to user request
-			delegate!.subProcess(didDisconnectWithError: nil)
+			DispatchQueue.main.async {
+				self.delegate?.subProcess(didDisconnectWithError: nil)
+			}
 		}
 	}
 
-	@objc private func didReceiveData(_ notification: Notification) {
-		guard let data = notification.userInfo?[NSFileHandleNotificationDataItem] as? Data else {
-			os_log("File handle read callback returned nil data", type: .error)
-			return
-		}
-
+	private func didReceiveData(_ data: Data) {
 		if data.isEmpty {
 			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
 			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
-			delegate!.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
-			try? stop(fromError: true)
-		} else {
-			// Forward to the delegate and queue another read.
-			delegate!.subProcess(didReceiveData: data)
-			fileHandle!.readInBackgroundAndNotify()
+			try? self.stop(fromError: true)
+		}
+
+		DispatchQueue.main.async {
+			// Forward to the delegate.
+			if data.isEmpty {
+				self.delegate?.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
+			} else {
+				self.delegate?.subProcess(didReceiveData: data)
+			}
 		}
 	}
 
@@ -204,6 +204,10 @@ class SubProcess: NSObject {
 		if childPID != nil {
 			os_log("Illegal state - SubProcess deallocated while still running", type: .error)
 		}
+
+		childPID = nil
+		fileDescriptor = nil
+		fileHandle = nil
 	}
 
 }
