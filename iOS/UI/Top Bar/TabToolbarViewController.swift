@@ -97,8 +97,12 @@ class TabToolbarViewController: UIViewController {
 		addButton.contentMode = .center
 		addButton.addTarget(self, action: #selector(self.addTerminal), for: .touchUpInside)
 
-		let topStackView = UIStackView(arrangedSubviews: [ leftSpacer, titleLabel, passwordButton, settingsButton, addButton, rightSpacer ])
-		topStackView.spacing = 6
+		if #available(iOS 14, *) {
+			addButton.menu = addButtonMenu
+			addButton.showsMenuAsPrimaryAction = true
+		} else if #available(iOS 13, *) {
+			addButton.addInteraction(UIContextMenuInteraction(delegate: self))
+		}
 
 		let collectionViewLayout = UICollectionViewFlowLayout()
 		collectionViewLayout.scrollDirection = .horizontal
@@ -115,10 +119,25 @@ class TabToolbarViewController: UIViewController {
 		tabsCollectionView.delegate = self
 		tabsCollectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.reuseIdentifier)
 
-		let mainStackView = UIStackView(arrangedSubviews: [ topStackView, tabsCollectionView ])
+		let mainStackView: UIStackView
+		if isBigDevice {
+			mainStackView = UIStackView(arrangedSubviews: [ tabsCollectionView, passwordButton, settingsButton, addButton, rightSpacer ])
+			mainStackView.spacing = 6
+		} else {
+			let topStackView = UIStackView(arrangedSubviews: [ leftSpacer, titleLabel, passwordButton, settingsButton, addButton, rightSpacer ])
+			topStackView.spacing = 6
+
+			mainStackView = UIStackView(arrangedSubviews: [ topStackView, tabsCollectionView ])
+			mainStackView.spacing = 2
+			mainStackView.axis = .vertical
+
+			NSLayoutConstraint.activate([
+				topStackView.heightAnchor.constraint(equalToConstant: 32),
+				leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
+			])
+		}
+
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
-		mainStackView.spacing = 2
-		mainStackView.axis = .vertical
 		view.addSubview(mainStackView)
 
 		let layoutGuide: LayoutGuide
@@ -137,14 +156,12 @@ class TabToolbarViewController: UIViewController {
 			mainStackView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
 			mainStackView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
 
-			topStackView.heightAnchor.constraint(equalToConstant: 32),
 			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
 
-			leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
 			rightSpacer.widthAnchor.constraint(equalToConstant: 0),
 			passwordButton.widthAnchor.constraint(equalTo: passwordButton.heightAnchor),
 			settingsButton.widthAnchor.constraint(equalTo: settingsButton.heightAnchor),
-			addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor),
+			addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor)
 		])
 	}
 
@@ -241,6 +258,35 @@ extension TabToolbarViewController: UICollectionViewDataSource, UICollectionView
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
 		delegate?.selectTerminal(at: indexPath.item)
+	}
+
+}
+
+@available(iOS 13, *)
+extension TabToolbarViewController: UIContextMenuInteractionDelegate {
+
+	@available(iOS 13, *)
+	var addButtonMenu: UIMenu {
+		var items = [UIMenuElement]()
+		if #available(iOS 14, *) {
+			let tabMenu = UIMenu(title: "", options: .displayInline, children: [
+				UICommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."), image: UIImage(systemName: "plus"), action: #selector(RootViewController.addTerminal))
+			])
+			items.append(tabMenu)
+		}
+
+		var windowMenuItems = [UIMenuElement]()
+		if UIApplication.shared.supportsMultipleScenes {
+			windowMenuItems.append(UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."), image: UIImage(systemName: "plus.rectangle.on.rectangle"), action: #selector(RootViewController.addWindow)))
+		}
+		windowMenuItems.append(UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."), image: UIImage(systemName: "xmark.rectangle"), action: #selector(RootViewController.closeCurrentWindow)))
+
+		items.append(UIMenu(title: "", options: .displayInline, children: windowMenuItems))
+		return UIMenu(children: items)
+	}
+
+	func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
+		return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { _ -> UIMenu? in self.addButtonMenu })
 	}
 
 }

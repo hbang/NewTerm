@@ -34,8 +34,6 @@ class RootViewController: UIViewController {
 		if #available(iOS 13, *), UIApplication.shared.supportsMultipleScenes {
 			addKeyCommand(UIKeyCommand(input: "n", modifierFlags: [ .command ], action: #selector(self.addWindow), discoverabilityTitle: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button.")))
 			addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command, .shift ], action: #selector(self.closeCurrentWindow), discoverabilityTitle: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button.")))
-
-			tabToolbar.addButton.addInteraction(UIContextMenuInteraction(delegate: self))
 		}
 	}
 
@@ -43,14 +41,14 @@ class RootViewController: UIViewController {
 		super.viewWillLayoutSubviews()
 
 		let topMargin: CGFloat
-
 		if #available(iOS 11, *) {
 			topMargin = view.safeAreaInsets.top
 		} else {
 			topMargin = UIApplication.shared.statusBarFrame.size.height
 		}
 
-		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + 66)
+		let topBarHeight: CGFloat = isBigDevice ? 33 : 66
+		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + topBarHeight)
 		tabToolbar.topMargin = topMargin
 
 		let barInsets = UIEdgeInsets(top: tabToolbar.view.frame.size.height, left: 0, bottom: 0, right: 0)
@@ -150,15 +148,34 @@ class RootViewController: UIViewController {
 
 	// MARK: - Window management
 
-	@available(iOS 13.0, *)
-	@IBAction func addWindow() {
+	@available(iOS 13, *)
+	@objc func addWindow() {
 		let options = UIWindowScene.ActivationRequestOptions()
 		options.requestingScene = view.window!.windowScene
 		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
 	}
 
-	@available(iOS 13.0, *)
-	@IBAction func closeCurrentWindow() {
+	@available(iOS 13, *)
+	@objc func closeCurrentWindow() {
+		if terminals.count == 0 {
+			destructScene()
+			return
+		}
+
+		let title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_TITLE", comment: ""), terminals.count)
+		let close = NSLocalizedString("Close", bundle: .uikit, comment: "")
+		let cancel = NSLocalizedString("Cancel", bundle: .uikit, comment: "")
+
+		let alertController = UIAlertController(title: title, message: nil, preferredStyle: isBigDevice ? .alert : .actionSheet)
+		alertController.addAction(UIAlertAction(title: close, style: .default, handler: { _ in
+			self.destructScene()
+		}))
+		alertController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
+		present(alertController, animated: true, completion: nil)
+	}
+
+	@available(iOS 13, *)
+	private func destructScene() {
 		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
 	}
 
@@ -193,23 +210,6 @@ extension RootViewController: TabToolbarDelegate {
 	func openPasswordManager() {
 		let terminal = terminals[selectedTabIndex]
 		terminal.activatePasswordManager()
-	}
-
-}
-
-@available(iOS 13.0, *)
-extension RootViewController: UIContextMenuInteractionDelegate {
-
-	func contextMenuInteraction(_ interaction: UIContextMenuInteraction, configurationForMenuAtLocation location: CGPoint) -> UIContextMenuConfiguration? {
-		if !UIApplication.shared.supportsMultipleScenes {
-			return nil
-		}
-		return UIContextMenuConfiguration(identifier: nil, previewProvider: nil, actionProvider: { _ -> UIMenu? in
-			return UIMenu(title: "", children: [
-				UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."), image: UIImage(systemName: "plus.rectangle.on.rectangle"), action: #selector(self.addWindow)),
-				UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."), image: UIImage(systemName: "xmark.rectangle"), action: #selector(self.closeCurrentWindow))
-			])
-		})
 	}
 
 }

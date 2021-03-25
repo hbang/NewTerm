@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E9B32DB260C65AE006A1FBC /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */; };
+		4E9B32DC260C65AE006A1FBC /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */; };
+		4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
+		4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */; };
@@ -137,6 +141,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
+		4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+NewTermAdditions.swift"; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+AppColors.swift"; sourceTree = "<group>"; };
@@ -382,6 +388,7 @@
 				CFBB969522B5481B00585BE6 /* View Controllers */,
 				CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */,
 				CFBB96BD22B5481B00585BE6 /* Supporting Files */,
+				4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -548,6 +555,7 @@
 			children = (
 				CFBB975922B5499600585BE6 /* Assets.xcassets */,
 				CFBB96F022B548D700585BE6 /* Localizable.strings */,
+				4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */,
 				CFBB96F222B548D700585BE6 /* InfoPlist.strings */,
 				CFBB96FF22B548D700585BE6 /* Fonts.plist */,
 				CFBB972322B548D700585BE6 /* Themes.plist */,
@@ -731,6 +739,7 @@
 				CF71BCE822BB7FBD00AFB1E1 /* Localizable.strings in Resources */,
 				CF71BCE622BB7FBA00AFB1E1 /* Themes.plist in Resources */,
 				CF71BC2822BB61E400AFB1E1 /* Assets.xcassets in Resources */,
+				4E9B32DC260C65AE006A1FBC /* Localizable.stringsdict in Resources */,
 				CF71BCE522BB7FBA00AFB1E1 /* Fonts.plist in Resources */,
 				CF71BC2B22BB61E400AFB1E1 /* Main.storyboard in Resources */,
 			);
@@ -749,6 +758,7 @@
 			files = (
 				CFBB973222B548D700585BE6 /* Fonts.plist in Resources */,
 				CFBB973122B548D700585BE6 /* colortest.txt in Resources */,
+				4E9B32DB260C65AE006A1FBC /* Localizable.stringsdict in Resources */,
 				CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */,
 				CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */,
 				CFBB972522B548D700585BE6 /* Localizable.strings in Resources */,
@@ -767,6 +777,7 @@
 			files = (
 				CF71BCF222BB905000AFB1E1 /* AppDelegate.swift in Sources */,
 				CF71BCE222BB79DD00AFB1E1 /* TerminalSessionViewController.swift in Sources */,
+				4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
 				CF71BCEE22BB862600AFB1E1 /* TerminalTextView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -812,6 +823,7 @@
 				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
 				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
 				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
+				4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
 				CFBB96D922B5481B00585BE6 /* RootViewController.swift in Sources */,
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,

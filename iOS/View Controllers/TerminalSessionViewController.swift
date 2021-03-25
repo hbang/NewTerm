@@ -370,7 +370,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let alertController = UIAlertController(title: NSLocalizedString("TERMINAL_LAUNCH_FAILED_TITLE", comment: "Alert title displayed when a terminal could not be launched."),
 																						message: NSLocalizedString("TERMINAL_LAUNCH_FAILED_BODY", comment: "Alert body displayed when a terminal could not be launched."),
 																						preferredStyle: .alert)
-		let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: Bundle(for: UIView.self), comment: "")
+		let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: .uikit, comment: "")
 		alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
 	}
