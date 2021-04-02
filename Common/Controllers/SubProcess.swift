@@ -32,25 +32,21 @@ class SubProcess: NSObject {
 
 	private static let newlineData = Data(bytes: "\r\n", count: 2)
 
-	// Simply used to initialize the terminal and thrown away after startup.
-	private static let defaultWidth: UInt16 = 80
-	private static let defaultHeight: UInt16 = 25
-
 	var delegate: SubProcessDelegate?
 
 	private var childPID: pid_t?
 	private var fileDescriptor: Int32?
 	public var fileHandle: FileHandle?
 
-	var screenSize: ScreenSize = ScreenSize() {
+	var screenSize: ScreenSize = ScreenSize(width: 80, height: 25) {
 		didSet {
 			if fileDescriptor == nil {
 				return
 			}
 
 			var windowSize = winsize()
-			windowSize.ws_col = screenSize.width
-			windowSize.ws_row = screenSize.height
+			windowSize.ws_col = UInt16(screenSize.width)
+			windowSize.ws_row = UInt16(screenSize.height)
 
 			if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
 				os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
@@ -65,8 +61,8 @@ class SubProcess: NSObject {
 		}
 
 		var windowSize = winsize()
-		windowSize.ws_col = SubProcess.defaultWidth
-		windowSize.ws_row = SubProcess.defaultHeight
+		windowSize.ws_col = UInt16(screenSize.width)
+		windowSize.ws_row = UInt16(screenSize.height)
 
 		fileDescriptor = Int32()
 		let localeCode = self.localeCode

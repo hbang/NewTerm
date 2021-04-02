@@ -1,13 +1,13 @@
 #import "HBNTTerminalSampleTableCell.h"
 
-@interface VT100ColorMap : NSObject
+@interface ColorMap : NSObject
 @property (nonatomic, strong) UIColor *background;
 @end
 
 @interface Preferences : NSObject
 + (instancetype)shared;
 + (NSNotificationName)didChangeNotification;
-- (VT100ColorMap *)colorMap;
+- (ColorMap *)colorMap;
 @end
 
 @interface TerminalSampleView : UIView

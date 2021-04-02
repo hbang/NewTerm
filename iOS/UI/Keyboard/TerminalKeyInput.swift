@@ -363,11 +363,11 @@ class TerminalKeyInput: TextInputBase {
 
 	// MARK: - UITextInput
 
-	override var textInputView: UIView {
-		// If we have the instance of the text view, return it here so stuff like selection hopefully
-		// works. If not, just return self for the moment.
-		return textView ?? self
-	}
+//	override var textInputView: UIView {
+//		// If we have the instance of the text view, return it here so stuff like selection hopefully
+//		// works. If not, just return self for the moment.
+//		return textView ?? self
+//	}
 
 	override func hasText() -> Bool {
 		// We always “have text”, even if we don’t
@@ -448,6 +448,11 @@ class TerminalKeyInput: TextInputBase {
 
 	override func endFloatingCursor() {
 		previousFloatingCursorPoint = nil
+	}
+
+	override func caretRect(for position: UITextPosition!) -> CGRect {
+
+		return CGRect(x: 100, y: 100, width: 10, height: 10)
 	}
 
 	// MARK: - UIResponder

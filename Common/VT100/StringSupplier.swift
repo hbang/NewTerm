@@ -8,11 +8,13 @@
 import Foundation
 import SwiftTerm
 
-open class StringSupplier: AttributedStringSupplier {
+open class StringSupplier {
 
 	open var terminal: Terminal?
 	open var colorMap: ColorMap?
 	open var fontMetrics: FontMetrics?
+
+	public init() {}
 
 	public func attributedString() -> NSAttributedString {
 		guard let terminal = terminal else {

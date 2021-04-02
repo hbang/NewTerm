@@ -182,13 +182,8 @@ class TerminalSessionViewController: UIViewController {
 		let width = textView.frame.size.width
 		let height = textView.frame.size.height - barInsets.top - newInsets.bottom
 
-		let size = ScreenSize(width: UInt16(width / glyphSize.width), height: UInt16(height / glyphSize.height))
-
-		// The font size should not be too small that it overflows the glyph buffers. It is not worth the
-		// effort to fail gracefully (increasing the buffer size would be better).
-		if size.width >= kMaxRowBufferSize {
-			fatalError("screen size is too wide")
-		}
+		let size = ScreenSize(width: UInt(width / glyphSize.width),
+													height: UInt(height / glyphSize.height))
 
 		terminalController.screenSize = size
 	}

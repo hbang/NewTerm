@@ -14,9 +14,10 @@ import AppKit
 import SwiftTerm
 import os.log
 
-open class ColorMap {
+@objc(ColorMap)
+open class ColorMap: NSObject {
 
-	public let background: UIColor
+	@objc public let background: UIColor
 	public let foreground: UIColor
 	public let foregroundBold: UIColor
 	public let foregroundCursor: UIColor
@@ -61,7 +62,7 @@ open class ColorMap {
 			self.isDark = true
 		}
 		if let colorTable = dictionary["ColorTable"] as? [String],
-			 colorTable.count == COLOR_MAP_MAX_COLORS {
+			 colorTable.count == 16 {
 			ansiColors = colorTable.map { item in UIColor(propertyListValue: item) }
 		} else {
 			// System 7.5 colors, why not?

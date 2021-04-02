@@ -35,7 +35,7 @@ public class Preferences: NSObject {
 	let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
 
 	public var fontMetrics: FontMetrics!
-	public var colorMap: ColorMap!
+	@objc public var colorMap: ColorMap!
 
 	private var kvoContext = 0
 

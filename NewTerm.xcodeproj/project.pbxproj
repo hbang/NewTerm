@@ -15,6 +15,7 @@
 		4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97126172079005AFCC8 /* Color+Additions.swift */; };
 		4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97426172293005AFCC8 /* StringSupplier.swift */; };
 		4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB977261724FA005AFCC8 /* ColorMap.swift */; };
+		4E9FB97D26174A78005AFCC8 /* TerminalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -33,33 +34,12 @@
 		CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */; };
 		CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969422B5481B00585BE6 /* NSArray+Additions.m */; };
 		CF71BC9D22BB6E1100AFB1E1 /* UIColor+HBAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */; };
-		CF71BC9F22BB6E1100AFB1E1 /* NSCharacterSet+iTerm.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */; };
-		CF71BCA022BB6E1100AFB1E1 /* NSStringITerm.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969E22B5481B00585BE6 /* NSStringITerm.m */; };
-		CF71BCA122BB6E1100AFB1E1 /* ScreenChar.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96AA22B5481B00585BE6 /* ScreenChar.m */; };
-		CF71BCA222BB6E1100AFB1E1 /* VT100.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A422B5481B00585BE6 /* VT100.m */; };
-		CF71BCA322BB6E1100AFB1E1 /* VT100ColorMap.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */; };
-		CF71BCA422BB6E1100AFB1E1 /* VT100Screen.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969C22B5481B00585BE6 /* VT100Screen.m */; };
-		CF71BCA522BB6E1100AFB1E1 /* VT100Terminal.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969D22B5481B00585BE6 /* VT100Terminal.m */; };
-		CF71BCA622BB6E1100AFB1E1 /* VT100Token.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96A922B5481B00585BE6 /* VT100Token.m */; };
-		CF71BCA722BB6E1100AFB1E1 /* VT100StringSupplier.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */; };
 		CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */; };
 		CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */; };
 		CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */; };
 		CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969322B5481B00585BE6 /* NSArray+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC722BB737200AFB1E1 /* UIColor+HBAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCC922BB737200AFB1E1 /* charmaps.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A722B5481B00585BE6 /* charmaps.h */; };
-		CF71BCCB22BB737200AFB1E1 /* iTermParser.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A322B5481B00585BE6 /* iTermParser.h */; };
-		CF71BCCC22BB737200AFB1E1 /* NSCharacterSet+iTerm.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */; };
-		CF71BCCD22BB737200AFB1E1 /* NSStringITerm.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCCE22BB737200AFB1E1 /* ScreenChar.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A122B5481B00585BE6 /* ScreenChar.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCCF22BB737200AFB1E1 /* VT100.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969922B5481B00585BE6 /* VT100.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD022BB737200AFB1E1 /* VT100ColorMap.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD122BB737200AFB1E1 /* VT100Screen.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A622B5481B00585BE6 /* VT100Screen.h */; };
-		CF71BCD222BB737200AFB1E1 /* VT100Terminal.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96A522B5481B00585BE6 /* VT100Terminal.h */; };
-		CF71BCD322BB737200AFB1E1 /* VT100Token.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969A22B5481B00585BE6 /* VT100Token.h */; };
-		CF71BCD422BB737200AFB1E1 /* VT100StringSupplier.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD522BB737200AFB1E1 /* VT100Types.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96AE22B5481B00585BE6 /* VT100Types.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -150,6 +130,7 @@
 		4E9FB97126172079005AFCC8 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
 		4E9FB97426172293005AFCC8 /* StringSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSupplier.swift; sourceTree = "<group>"; };
 		4E9FB977261724FA005AFCC8 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
+		4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalConstants.swift; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -197,27 +178,6 @@
 		CFBB969422B5481B00585BE6 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
 		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSessionViewController.swift; sourceTree = "<group>"; };
-		CFBB969922B5481B00585BE6 /* VT100.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100.h; sourceTree = "<group>"; };
-		CFBB969A22B5481B00585BE6 /* VT100Token.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Token.h; sourceTree = "<group>"; };
-		CFBB969C22B5481B00585BE6 /* VT100Screen.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Screen.m; sourceTree = "<group>"; };
-		CFBB969D22B5481B00585BE6 /* VT100Terminal.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Terminal.m; sourceTree = "<group>"; };
-		CFBB969E22B5481B00585BE6 /* NSStringITerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSStringITerm.m; sourceTree = "<group>"; };
-		CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100StringSupplier.m; sourceTree = "<group>"; };
-		CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100ColorMap.m; sourceTree = "<group>"; };
-		CFBB96A122B5481B00585BE6 /* ScreenChar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScreenChar.h; sourceTree = "<group>"; };
-		CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSCharacterSet+iTerm.h"; sourceTree = "<group>"; };
-		CFBB96A322B5481B00585BE6 /* iTermParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iTermParser.h; sourceTree = "<group>"; };
-		CFBB96A422B5481B00585BE6 /* VT100.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100.m; sourceTree = "<group>"; };
-		CFBB96A522B5481B00585BE6 /* VT100Terminal.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Terminal.h; sourceTree = "<group>"; };
-		CFBB96A622B5481B00585BE6 /* VT100Screen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Screen.h; sourceTree = "<group>"; };
-		CFBB96A722B5481B00585BE6 /* charmaps.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = charmaps.h; sourceTree = "<group>"; };
-		CFBB96A922B5481B00585BE6 /* VT100Token.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VT100Token.m; sourceTree = "<group>"; };
-		CFBB96AA22B5481B00585BE6 /* ScreenChar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScreenChar.m; sourceTree = "<group>"; };
-		CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100ColorMap.h; sourceTree = "<group>"; };
-		CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSStringITerm.h; sourceTree = "<group>"; };
-		CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100StringSupplier.h; sourceTree = "<group>"; };
-		CFBB96AE22B5481B00585BE6 /* VT100Types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VT100Types.h; sourceTree = "<group>"; };
-		CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSCharacterSet+iTerm.m"; sourceTree = "<group>"; };
 		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
 		CFBB96B822B5481B00585BE6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CompactConstraint.m"; sourceTree = "<group>"; };
@@ -483,31 +443,11 @@
 		CFBB969822B5481B00585BE6 /* VT100 */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB96A722B5481B00585BE6 /* charmaps.h */,
 				CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */,
-				CFBB96A322B5481B00585BE6 /* iTermParser.h */,
-				CFBB96A222B5481B00585BE6 /* NSCharacterSet+iTerm.h */,
-				CFBB96B022B5481B00585BE6 /* NSCharacterSet+iTerm.m */,
-				CFBB96AC22B5481B00585BE6 /* NSStringITerm.h */,
-				CFBB969E22B5481B00585BE6 /* NSStringITerm.m */,
-				CFBB96A122B5481B00585BE6 /* ScreenChar.h */,
-				CFBB96AA22B5481B00585BE6 /* ScreenChar.m */,
-				CFBB969922B5481B00585BE6 /* VT100.h */,
-				CFBB96A422B5481B00585BE6 /* VT100.m */,
-				CFBB96AB22B5481B00585BE6 /* VT100ColorMap.h */,
-				CFBB96A022B5481B00585BE6 /* VT100ColorMap.m */,
-				CFBB96A622B5481B00585BE6 /* VT100Screen.h */,
-				CFBB969C22B5481B00585BE6 /* VT100Screen.m */,
-				CFBB96A522B5481B00585BE6 /* VT100Terminal.h */,
-				CFBB969D22B5481B00585BE6 /* VT100Terminal.m */,
-				CFBB969A22B5481B00585BE6 /* VT100Token.h */,
-				CFBB96A922B5481B00585BE6 /* VT100Token.m */,
-				CFBB96AD22B5481B00585BE6 /* VT100StringSupplier.h */,
-				CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */,
-				CFBB96AE22B5481B00585BE6 /* VT100Types.h */,
 				CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */,
 				4E9FB97426172293005AFCC8 /* StringSupplier.swift */,
 				4E9FB977261724FA005AFCC8 /* ColorMap.swift */,
+				4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */,
 			);
 			path = VT100;
 			sourceTree = "<group>";
@@ -599,22 +539,10 @@
 				CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */,
 				CF71BCC722BB737200AFB1E1 /* UIColor+HBAdditions.h in Headers */,
 				CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */,
-				CF71BCC922BB737200AFB1E1 /* charmaps.h in Headers */,
-				CF71BCCB22BB737200AFB1E1 /* iTermParser.h in Headers */,
-				CF71BCCC22BB737200AFB1E1 /* NSCharacterSet+iTerm.h in Headers */,
-				CF71BCCD22BB737200AFB1E1 /* NSStringITerm.h in Headers */,
-				CF71BCCE22BB737200AFB1E1 /* ScreenChar.h in Headers */,
-				CF71BCCF22BB737200AFB1E1 /* VT100.h in Headers */,
 				CFD553912345E315005805D1 /* ncurses.h in Headers */,
-				CF71BCD022BB737200AFB1E1 /* VT100ColorMap.h in Headers */,
 				CFD553902345E315005805D1 /* ncurses_dll.h in Headers */,
 				CFD5538E2345E315005805D1 /* curses.h in Headers */,
-				CF71BCD122BB737200AFB1E1 /* VT100Screen.h in Headers */,
 				CFD5538F2345E315005805D1 /* term.h in Headers */,
-				CF71BCD222BB737200AFB1E1 /* VT100Terminal.h in Headers */,
-				CF71BCD322BB737200AFB1E1 /* VT100Token.h in Headers */,
-				CF71BCD422BB737200AFB1E1 /* VT100StringSupplier.h in Headers */,
-				CF71BCD522BB737200AFB1E1 /* VT100Types.h in Headers */,
 				CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */,
 				CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */,
 				CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */,
@@ -809,17 +737,8 @@
 			files = (
 				CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */,
 				CF71BC9D22BB6E1100AFB1E1 /* UIColor+HBAdditions.m in Sources */,
-				CF71BC9F22BB6E1100AFB1E1 /* NSCharacterSet+iTerm.m in Sources */,
-				CF71BCA022BB6E1100AFB1E1 /* NSStringITerm.m in Sources */,
-				CF71BCA122BB6E1100AFB1E1 /* ScreenChar.m in Sources */,
-				CF71BCA222BB6E1100AFB1E1 /* VT100.m in Sources */,
-				CF71BCA322BB6E1100AFB1E1 /* VT100ColorMap.m in Sources */,
 				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,
 				CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */,
-				CF71BCA422BB6E1100AFB1E1 /* VT100Screen.m in Sources */,
-				CF71BCA522BB6E1100AFB1E1 /* VT100Terminal.m in Sources */,
-				CF71BCA622BB6E1100AFB1E1 /* VT100Token.m in Sources */,
-				CF71BCA722BB6E1100AFB1E1 /* VT100StringSupplier.m in Sources */,
 				CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
 				CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */,
 				CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */,
@@ -827,6 +746,7 @@
 				CF71BC9822BB6E0300AFB1E1 /* SubProcess.swift in Sources */,
 				4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */,
 				CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */,
+				4E9FB97D26174A78005AFCC8 /* TerminalConstants.swift in Sources */,
 				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
 				CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */,
 				CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */,

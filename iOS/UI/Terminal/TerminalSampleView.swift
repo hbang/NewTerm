@@ -6,18 +6,27 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
+import UIKit
+import SwiftTerm
+import NewTermCommon
+
 @objc(TerminalSampleView)
 class TerminalSampleView: UIView {
 
 	private let textView = TerminalTextView(frame: .zero)
-	private let buffer = VT100()!
-	private let stringSupplier = VT100StringSupplier()
+	private var terminal: Terminal!
+	private let stringSupplier = StringSupplier()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
 
-		stringSupplier.colorMap = VT100ColorMap()
-		stringSupplier.screenBuffer = buffer
+		let options = TerminalOptions(cols: 80,
+																	rows: 25,
+																	termName: "xterm-256color",
+																	scrollback: 100)
+		terminal = Terminal(delegate: self,
+												options: options)
+		stringSupplier.terminal = terminal
 
 		textView.frame = bounds
 		textView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
@@ -26,7 +35,8 @@ class TerminalSampleView: UIView {
 		addSubview(textView)
 
 		if let colorTest = try? Data(contentsOf: Bundle.main.url(forResource: "colortest", withExtension: "txt")!) {
-			buffer.readInputStream(colorTest)
+			let bytes = Array<UInt8>(colorTest)
+			terminal?.feed(byteArray: bytes)
 		}
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
@@ -39,11 +49,26 @@ class TerminalSampleView: UIView {
 
 	@objc func preferencesUpdated() {
 		let preferences = Preferences.shared
-		// TODO
-//		stringSupplier.colorMap = preferences.colorMap
+		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics
-		textView.backgroundColor = stringSupplier.colorMap.background
+		textView.backgroundColor = stringSupplier.colorMap?.background
+		textView.attributedText = stringSupplier.attributedString()
+		setNeedsLayout()
+	}
+
+	override func layoutSubviews() {
+		super.layoutSubviews()
+
+		// Determine the screen size based on the font size
+		// TODO: Calculate the exact number of lines we need from the buffer
+		let glyphSize = stringSupplier.fontMetrics?.boundingBox ?? .zero
+		terminal.resize(cols: Int(textView.frame.size.width / glyphSize.width),
+										rows: 32)
 		textView.attributedText = stringSupplier.attributedString()
 	}
 
+}
+
+extension TerminalSampleView: TerminalDelegate {
+	func send(source: Terminal, data: ArraySlice<UInt8>) {}
 }
