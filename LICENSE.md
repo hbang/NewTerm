@@ -1,12 +1,12 @@
 Licensed under the Apache License, version 2.0.
 
-Code prior to commit a745b49f47 is licensed under the GNU General Public License, version 2.0.
-
 Contains code from MobileTerminal, by Allen Porter, et al.
 
 Contains code from [iTerm2](https://iterm2.com/) and [iTerm](http://iterm.sourceforge.net/), by George Nachman, Fabian & Ujwal Sathyam, et al.
 
 Contains code from [Linux](https://kernel.org/).
+
+Code introduced prior to commit a745b49f47 may be licensed under the GNU General Public License, version 2.0, being derived from one of the above GPL-licensed projects. This code is to be audited and removed soon.
 
 Contains the following fonts:
 
