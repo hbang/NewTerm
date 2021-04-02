@@ -26,19 +26,18 @@ open class StringSupplier {
 
 		let attributedString = NSMutableAttributedString()
 
-		var lines = [String]()
 		var lastAttribute = Attribute.empty
 		for i in 0..<terminal.rows {
 			guard let line = terminal.getLine(row: i) else {
-				lines.append("???")
 				continue
 			}
 
 			var buffer = ""
+			for j in 0..<terminal.cols {
+				let data = line[j]
+				let isCursor = i == cursorPosition.y && j == cursorPosition.x
 
-			for i in 0..<terminal.cols {
-				let data = line[i]
-				if lastAttribute != data.attribute {
+				if isCursor || lastAttribute != data.attribute {
 					// Finish up the last run by appending it to the attributed string, then reset for the
 					// next run.
 					let runAttributeString = NSAttributedString(string: buffer,
@@ -46,11 +45,11 @@ open class StringSupplier {
 					attributedString.append(runAttributeString)
 
 					lastAttribute = data.attribute
-					buffer = ""
+					buffer.removeAll()
 				}
 
 				let character = data.getCharacter()
-				if i == terminal.cols - 1 {
+				if j == terminal.cols - 1 {
 					// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a
 					// newline if the line ends with a space.
 					if buffer.last == " " {
@@ -61,8 +60,21 @@ open class StringSupplier {
 						buffer.append(character)
 					}
 					buffer.append("\n")
-				} else {
+				} else if character != "\0" {
 					buffer.append(character)
+				}
+
+				if isCursor {
+					// We may need to insert a space for the cursor to show up.
+					if buffer.isEmpty {
+						buffer.append("\u{A0}") // Non-breaking space
+					}
+
+					let runAttributeString = NSAttributedString(string: buffer,
+																											attributes: stringAttributes(for: lastAttribute, isCursor: true))
+					attributedString.append(runAttributeString)
+
+					buffer.removeAll()
 				}
 			}
 
@@ -75,7 +87,7 @@ open class StringSupplier {
 		return attributedString
 	}
 
-	private func stringAttributes(for attribute: Attribute) -> [NSAttributedString.Key: Any] {
+	private func stringAttributes(for attribute: Attribute, isCursor: Bool = false) -> [NSAttributedString.Key: Any] {
 		var stringAttributes = [NSAttributedString.Key: Any]()
 		var fgColor = attribute.fg
 		var bgColor = attribute.bg
@@ -92,10 +104,11 @@ open class StringSupplier {
 
 		stringAttributes[.foregroundColor] = colorMap?.color(for: fgColor,
 																												 isForeground: true,
-																												 isBold: attribute.style.contains(.bold))
+																												 isBold: attribute.style.contains(.bold),
+																												 isCursor: isCursor)
 		stringAttributes[.backgroundColor] = colorMap?.color(for: bgColor,
 																												 isForeground: false,
-																												 isBold: false)
+																												 isCursor: isCursor)
 
 		if attribute.style.contains(.underline) {
 			stringAttributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
@@ -122,9 +135,5 @@ open class StringSupplier {
 
 		return stringAttributes
 	}
-
-	// TODO
-	public func rowCount() -> Int32 { 0 }
-	public func string(forLine rowIndex: Int32) -> String! { nil }
 
 }

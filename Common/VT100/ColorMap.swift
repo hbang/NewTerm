@@ -35,26 +35,26 @@ open class ColorMap: NSObject {
 
 	public init(dictionary: [String: Any]) {
 		if let color = dictionary["Background"] as? String {
-			self.background = UIColor(propertyListValue: color)
+			background = UIColor(propertyListValue: color)
 		} else {
-			self.background = .black
+			background = .black
 		}
 		if let color = dictionary["Text"] as? String {
-			self.foreground = UIColor(propertyListValue: color)
+			foreground = UIColor(propertyListValue: color)
 		} else {
-			self.foreground = UIColor(white: 0.95, alpha: 1)
+			foreground = UIColor(white: 0.95, alpha: 1)
 		}
 		if let color = dictionary["BoldText"] as? String {
-			self.foregroundBold = UIColor(propertyListValue: color)
+			foregroundBold = UIColor(propertyListValue: color)
 		} else {
-			self.foregroundBold = .white
+			foregroundBold = .white
 		}
 		if let color = dictionary["Cursor"] as? String {
-			self.foregroundCursor = UIColor(propertyListValue: color)
-			self.backgroundCursor = self.foregroundCursor
+			foregroundCursor = UIColor(propertyListValue: color)
+			backgroundCursor = foregroundCursor
 		} else {
-			self.foregroundCursor = UIColor(white: 0.95, alpha: 1)
-			self.backgroundCursor = UIColor(white: 0.4, alpha: 1)
+			foregroundCursor = UIColor(white: 0.95, alpha: 1)
+			backgroundCursor = UIColor(white: 0.4, alpha: 1)
 		}
 		if let isDark = dictionary["IsDark"] as? Bool {
 			self.isDark = isDark
@@ -87,7 +87,18 @@ open class ColorMap: NSObject {
 		}
 	}
 
-	open func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool) -> UIColor {
+	open func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool = false, isCursor: Bool = false) -> UIColor {
+		if isCursor {
+			if isForeground {
+				switch termColor {
+				case .defaultColor, .defaultInvertedColor: return background
+				default: break
+				}
+			} else {
+				return backgroundCursor
+			}
+		}
+
 		switch termColor {
 		case .defaultColor:
 			return isForeground ? foreground : background
