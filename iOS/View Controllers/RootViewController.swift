@@ -30,41 +30,39 @@ class RootViewController: UIViewController {
 
 		addTerminal()
 
-		addKeyCommand(UIKeyCommand(input: "t", modifierFlags: [ .command ], action: #selector(self.addTerminal), discoverabilityTitle: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")))
-		addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command ], action: #selector(self.removeCurrentTerminal), discoverabilityTitle: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")))
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
+															 action: #selector(self.addTerminal),
+															 input: "t",
+															 modifierFlags: .command))
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
+															 action: #selector(self.removeCurrentTerminal),
+															 input: "w",
+															 modifierFlags: .command))
 
-		if #available(iOS 13, *), UIApplication.shared.supportsMultipleScenes {
-			addKeyCommand(UIKeyCommand(input: "n", modifierFlags: [ .command ], action: #selector(self.addWindow), discoverabilityTitle: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button.")))
-			addKeyCommand(UIKeyCommand(input: "w", modifierFlags: [ .command, .shift ], action: #selector(self.closeCurrentWindow), discoverabilityTitle: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button.")))
+		if UIApplication.shared.supportsMultipleScenes {
+			addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+																 action: #selector(self.addWindow),
+																 input: "n",
+																 modifierFlags: .command))
+			addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+																 action: #selector(self.closeCurrentWindow),
+																 input: "w",
+																 modifierFlags: [ .command, .shift ]))
 		}
 	}
 
 	override func viewWillLayoutSubviews() {
 		super.viewWillLayoutSubviews()
 
-		let topMargin: CGFloat
-		if #available(iOS 11, *) {
-			topMargin = view.safeAreaInsets.top
-		} else {
-			topMargin = UIApplication.shared.statusBarFrame.size.height
-		}
-
+		// TODO: Cleanup
 		let topBarHeight: CGFloat = isBigDevice ? 33 : 66
-		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: topMargin + topBarHeight)
-		tabToolbar.topMargin = topMargin
+		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
+		tabToolbar.topMargin = view.safeAreaInsets.top
 
 		let barInsets = UIEdgeInsets(top: tabToolbar.view.frame.size.height, left: 0, bottom: 0, right: 0)
 
 		for viewController in terminals {
 			viewController.barInsets = barInsets
-		}
-	}
-
-	override var preferredStatusBarStyle: UIStatusBarStyle {
-		if #available(iOS 13, *) {
-			return super.preferredStatusBarStyle
-		} else {
-			return .lightContent
 		}
 	}
 
@@ -104,7 +102,7 @@ class RootViewController: UIViewController {
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
 		// select the closest tab we have available
 		if terminals.count == 0 {
-			if #available(iOS 13, *), UIApplication.shared.supportsMultipleScenes {
+			if UIApplication.shared.supportsMultipleScenes {
 				closeCurrentWindow()
 			} else {
 				addTerminal()
@@ -156,14 +154,12 @@ class RootViewController: UIViewController {
 
 	// MARK: - Window management
 
-	@available(iOS 13, *)
 	@objc func addWindow() {
 		let options = UIWindowScene.ActivationRequestOptions()
 		options.requestingScene = view.window!.windowScene
 		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
 	}
 
-	@available(iOS 13, *)
 	@objc func closeCurrentWindow() {
 		if terminals.count == 0 {
 			destructScene()
@@ -189,7 +185,6 @@ class RootViewController: UIViewController {
 		present(alertController, animated: true, completion: nil)
 	}
 
-	@available(iOS 13, *)
 	private func destructScene() {
 		if UIApplication.shared.supportsMultipleScenes {
 			UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)

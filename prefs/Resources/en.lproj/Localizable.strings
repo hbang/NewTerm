@@ -6,14 +6,6 @@
 	<key>INSTALL_FONTS_TITLE</key>
 	<string>%@ is available in the NewTerm Fonts Add-on package.</string>
 
-	<!-- Message displayed when the SF Mono font is not available due to the iOS version being too old. -->
-	<key>SF_MONO_NOT_AVAILABLE_TITLE</key>
-	<string>SF Mono requires iOS 13.</string>
-
-	<!-- Message showing the device name and iOS version. -->
-	<key>SF_MONO_NOT_AVAILABLE_BODY</key>
-	<string>This %@ is running iOS %@.</string>
-
 	<!-- Button displayed under the above title, to install the font. -->
 	<key>INSTALL</key>
 	<string>Install</string>

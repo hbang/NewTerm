@@ -66,18 +66,9 @@ class TerminalKeyInput: TextInputBase {
 		autocapitalizationType = .none
 		autocorrectionType = .no
 		spellCheckingType = .no
-
-		if #available(iOS 11, *) {
-			smartQuotesType = .no
-			smartDashesType = .no
-			smartInsertDeleteType = .no
-		}
-
-		if #available(iOS 13, *) {
-		} else {
-			// TODO: This should be themable
-			keyboardAppearance = .dark
-		}
+		smartQuotesType = .no
+		smartDashesType = .no
+		smartInsertDeleteType = .no
 
 		buttons = [
 			ctrlKey, metaKey, tabKey, moreKey,
@@ -315,13 +306,7 @@ class TerminalKeyInput: TextInputBase {
 	override func layoutSubviews() {
 		super.layoutSubviews()
 
-		let insets: UIEdgeInsets
-		if #available(iOS 13, *) {
-			insets = textView.verticalScrollIndicatorInsets
-		} else {
-			insets = textView.scrollIndicatorInsets
-		}
-		moreToolbarBottomConstraint.constant = -insets.bottom
+		moreToolbarBottomConstraint.constant = -textView.verticalScrollIndicatorInsets.bottom
 	}
 
 	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
@@ -347,7 +332,6 @@ class TerminalKeyInput: TextInputBase {
 
 	// MARK: - Password manager
 
-	@available(iOS 11, *)
 	func activatePasswordManager() {
 		// Trigger the iOS password manager button, or cancel the operation.
 		if let passwordInputView = passwordInputView {

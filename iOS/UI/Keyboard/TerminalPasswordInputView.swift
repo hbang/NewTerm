@@ -19,9 +19,7 @@ class TerminalPasswordInputView: UITextField {
 		super.init(frame: .zero)
 
 		isSecureTextEntry = true
-		if #available(iOS 11, *) {
-			textContentType = .password
-		}
+		textContentType = .password
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.textDidChange(_:)), name: UITextField.textDidChangeNotification, object: nil)
 	}

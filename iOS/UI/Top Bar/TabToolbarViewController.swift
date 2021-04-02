@@ -46,23 +46,15 @@ class TabToolbarViewController: UIViewController {
 
 		let titleFont = UIFont.systemFont(ofSize: 17, weight: .semibold)
 
-		let gearImage: UIImage?
-		let passwordImage: UIImage?
-		let plusImage: UIImage?
-		if #available(iOS 13, *) {
-			let configuration = UIImage.SymbolConfiguration(pointSize: titleFont.pointSize * 0.9, weight: .medium)
-			gearImage = UIImage(systemName: "gear", withConfiguration: configuration)
-			plusImage = UIImage(systemName: "plus", withConfiguration: configuration)
+		let configuration = UIImage.SymbolConfiguration(pointSize: titleFont.pointSize * 0.9, weight: .medium)
+		let gearImage = UIImage(systemName: "gear", withConfiguration: configuration)
+		let plusImage = UIImage(systemName: "plus", withConfiguration: configuration)
 
-			if #available(iOS 14, *) {
-				passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
-			} else {
-				passwordImage = UIImage(named: "key.fill", in: nil, with: configuration)
-			}
+		let passwordImage: UIImage?
+		if #available(iOS 14, *) {
+			passwordImage = UIImage(systemName: "key.fill", withConfiguration: configuration)
 		} else {
-			gearImage = UIImage(named: "key-settings")
-			passwordImage = UIImage()
-			plusImage = UIImage(named: "add-small")
+			passwordImage = UIImage(named: "key.fill", in: nil, with: configuration)
 		}
 
 		backdropView = UIToolbar()
@@ -78,11 +70,7 @@ class TabToolbarViewController: UIViewController {
 		titleLabel.font = titleFont
 		titleLabel.text = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 		titleLabel.textAlignment = .center
-		if #available(iOS 13, *) {
-			titleLabel.textColor = .label
-		} else {
-			titleLabel.textColor = .white
-		}
+		titleLabel.textColor = .label
 
 		passwordButton = UIButton(type: .system)
 		passwordButton.setImage(passwordImage, for: .normal)
@@ -107,7 +95,7 @@ class TabToolbarViewController: UIViewController {
 			addButton.addAction(UIAction { [weak self] _ in
 				self?.addButton.menu = self?.addButtonMenu
 			}, for: .menuActionTriggered)
-		} else if #available(iOS 13, *) {
+		} else {
 			addButton.addInteraction(UIContextMenuInteraction(delegate: self))
 		}
 
@@ -147,21 +135,11 @@ class TabToolbarViewController: UIViewController {
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
 
-		let layoutGuide: LayoutGuide
-		let statusBarMargin: CGFloat
-		if #available(iOS 11, *) {
-			layoutGuide = view.safeAreaLayoutGuide
-			statusBarMargin = 0
-		} else {
-			layoutGuide = view
-			statusBarMargin = UIApplication.shared.statusBarFrame.size.height
-		}
-
 		NSLayoutConstraint.activate([
-			mainStackView.topAnchor.constraint(equalTo: layoutGuide.topAnchor, constant: statusBarMargin),
-			mainStackView.bottomAnchor.constraint(equalTo: layoutGuide.bottomAnchor),
-			mainStackView.leadingAnchor.constraint(equalTo: layoutGuide.leadingAnchor),
-			mainStackView.trailingAnchor.constraint(equalTo: layoutGuide.trailingAnchor),
+			mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+			mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+			mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
 			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
 
@@ -283,10 +261,8 @@ extension TabToolbarViewController: UICollectionViewDataSource, UICollectionView
 
 }
 
-@available(iOS 13, *)
 extension TabToolbarViewController: UIContextMenuInteractionDelegate {
 
-	@available(iOS 13, *)
 	var addButtonMenu: UIMenu {
 		var items = [UIMenuElement]()
 		if UIApplication.shared.supportsMultipleScenes {

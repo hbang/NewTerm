@@ -10,22 +10,16 @@ import UIKit
 extension UIColor {
 
 	convenience init(lightColor: UIColor, darkColor: UIColor) {
-		if #available(iOS 13, *) {
-			self.init(dynamicProvider: { traitCollection -> UIColor in
-				switch traitCollection.userInterfaceStyle {
-				case .light, .unspecified:
-					return lightColor
-				case .dark:
-					return darkColor
-				@unknown default:
-					return lightColor
-				}
-			})
-		} else {
-			// Since Swift wants us to call self.init(), we need to do this awkward copy dance
-			// Prefer dark as the old app theme is dark-only.
-			self.init(cgColor: darkColor.cgColor)
-		}
+		self.init(dynamicProvider: { traitCollection -> UIColor in
+			switch traitCollection.userInterfaceStyle {
+			case .light, .unspecified:
+				return lightColor
+			case .dark:
+				return darkColor
+			@unknown default:
+				return lightColor
+			}
+		})
 	}
 
 	// TODO: Review moving all of these to asset catalog. Need to test iOS 10-12.

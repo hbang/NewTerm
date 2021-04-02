@@ -31,20 +31,11 @@ import os.log
 		}
 		let fonts = listing.filter { item in item.pathExtension == "ttf" || item.pathExtension == "otf" }
 		if fonts.count > 0 {
-			if #available(iOS 13, *) {
-				for font in fonts {
-					var cfErrorWrapper: Unmanaged<CFError>? = nil
-					CTFontManagerRegisterFontsForURL(font as CFURL, .process, &cfErrorWrapper)
-					if let cfError = cfErrorWrapper?.takeUnretainedValue() {
-						os_log("error loading font %{public}@: %{public}@", type: .error, font.lastPathComponent, String(describing: cfError))
-					}
-				}
-			} else {
-				var cfErrorsWrapper: Unmanaged<CFArray>? = nil
-				CTFontManagerRegisterFontsForURLs(fonts as CFArray, .process, &cfErrorsWrapper)
-				if let cfErrors = cfErrorsWrapper?.takeUnretainedValue(),
-					let errors = cfErrors as? [NSError] {
-					os_log("%{public}li error(s) loading fonts: %{public}@", type: .error, errors.count, errors)
+			for font in fonts {
+				var cfErrorWrapper: Unmanaged<CFError>? = nil
+				CTFontManagerRegisterFontsForURL(font as CFURL, .process, &cfErrorWrapper)
+				if let cfError = cfErrorWrapper?.takeUnretainedValue() {
+					os_log("error loading font %{public}@: %{public}@", type: .error, font.lastPathComponent, String(describing: cfError))
 				}
 			}
 		}

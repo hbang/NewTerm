@@ -8,7 +8,6 @@
 
 import UIKit
 
-@available(iOS 13, *)
 class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	var window: UIWindow?

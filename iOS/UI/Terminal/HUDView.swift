@@ -11,14 +11,7 @@ import UIKit
 class HUDView: UIView {
 
 	let imageView = UIImageView()
-
-	let backdropView: UIVisualEffectView = {
-		if #available(iOS 13, *) {
-			return UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
-		} else {
-			return UIVisualEffectView(effect: UIBlurEffect(style: .dark))
-		}
-	}()
+	let backdropView = UIVisualEffectView(effect: UIBlurEffect(style: .systemMaterial))
 
 	init(image: UIImage) {
 		super.init(frame: .zero)
@@ -27,12 +20,8 @@ class HUDView: UIView {
 		alpha = 0
 		clipsToBounds = true
 		layer.cornerRadius = 16
-		if #available(iOS 13, *) {
-			layer.cornerCurve = .continuous
-			tintColor = .label
-		} else {
-			tintColor = .white
-		}
+		layer.cornerCurve = .continuous
+		tintColor = .label
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]

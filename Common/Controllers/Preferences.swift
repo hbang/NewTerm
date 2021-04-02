@@ -45,14 +45,8 @@ public class Preferences: NSObject {
 		// TODO: Preferences really shouldn’t be responsible for loading fonts!
 		FontMetrics.loadFonts()
 
-		let defaultFontName: String
-		if #available(iOS 13, macOS 10.15, *) {
-			defaultFontName = "SF Mono"
-		} else {
-			defaultFontName = "Menlo"
-		}
 		let defaults: [String: Any] = [
-			"fontName": defaultFontName,
+			"fontName": "SF Mono",
 			"fontSizePhone": 12,
 			"fontSizePad": 13,
 			"fontSizeMac": 12,
@@ -122,7 +116,6 @@ public class Preferences: NSObject {
 	}
 
 	#if os(iOS)
-	@available(iOS 13, *)
 	@objc public var userInterfaceStyle: UIUserInterfaceStyle {
 		return colorMap.userInterfaceStyle
 	}
@@ -157,16 +150,14 @@ public class Preferences: NSObject {
 		var boldItalicFont: Font?
 
 		if fontName == "SF Mono" {
-			if #available(iOS 13, macOS 10.15, *) {
-				regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
-				boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+			regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+			boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
 
-				if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
-					italicFont = Font(descriptor: fontDescriptor, size: fontSize)
-				}
-				if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
-					boldItalicFont = Font(descriptor: fontDescriptor, size: fontSize)
-				}
+			if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+				italicFont = Font(descriptor: fontDescriptor, size: fontSize)
+			}
+			if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+				boldItalicFont = Font(descriptor: fontDescriptor, size: fontSize)
 			}
 		} else {
 			if let family = fontsPlist[fontName] as? [String: String] {
@@ -187,11 +178,7 @@ public class Preferences: NSObject {
 
 		if regularFont == nil || boldFont == nil {
 			os_log("Font %{public}@ size %{public}.1f could not be initialised", type: .error, fontName, fontSize)
-			if #available(iOS 13, macOS 10.15, *) {
-				fontName = "SF Mono"
-			} else {
-				fontName = "Menlo"
-			}
+			fontName = "SF Mono"
 			return
 		}
 

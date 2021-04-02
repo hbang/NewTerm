@@ -27,13 +27,8 @@ class TerminalSessionViewController: UIViewController {
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
 
 	private lazy var bellHUDView: HUDView = {
-		let image: UIImage
-		if #available(iOS 13, *) {
-			let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
-			image = UIImage(systemName: "bell", withConfiguration: configuration)!
-		} else {
-			image = UIImage(named: "bell")!
-		}
+		let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
+		let image = UIImage(systemName: "bell", withConfiguration: configuration)!
 		let bellHUDView = HUDView(image: image)
 		bellHUDView.translatesAutoresizingMaskIntoConstraints = false
 		return bellHUDView
@@ -95,8 +90,23 @@ class TerminalSessionViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		addKeyCommand(UIKeyCommand(input: ",", modifierFlags: [ .command ], action: #selector(self.openSettings), discoverabilityTitle: NSLocalizedString("SETTINGS", comment: "Title of Settings page.")))
-		addKeyCommand(UIKeyCommand(input: "f", modifierFlags: [ .command, .alternate ], action: #selector(self.activatePasswordManager), discoverabilityTitle: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button.")))
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."),
+															 image: UIImage(systemName: "gear"),
+															 action: #selector(self.openSettings),
+															 input: ",",
+															 modifierFlags: .command))
+
+		let passwordImage: UIImage?
+		if #available(iOS 14, *) {
+			passwordImage = UIImage(systemName: "key.fill")
+		} else {
+			passwordImage = UIImage(named: "key.fill", in: nil, with: nil)
+		}
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
+															 image: passwordImage,
+															 action: #selector(self.openSettings),
+															 input: "f",
+															 modifierFlags: [ .command, .alternate ]))
 
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow,    modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
 		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
@@ -154,22 +164,16 @@ class TerminalSessionViewController: UIViewController {
 		// Update the text view insets. If the keyboard height is non-zero, keyboard is visible and
 		// that’s our bottom inset. Else, it’s not and the bottom toolbar height is the bottom inset.
 		var newInsets = barInsets
+		newInsets.top -= view.safeAreaInsets.top
+		newInsets.left = view.safeAreaInsets.left
+		newInsets.right = view.safeAreaInsets.right
 		newInsets.bottom = keyboardHeight > 0 ? keyboardHeight : barInsets.bottom
+		textView.contentInset = newInsets
 
-		if #available(iOS 11, *) {
-			newInsets.top -= view.safeAreaInsets.top
-			newInsets.left = view.safeAreaInsets.left
-			newInsets.right = view.safeAreaInsets.right
-			textView.contentInset = newInsets
-
-			var scrollInsets = newInsets
-			scrollInsets.left = 0
-			scrollInsets.right = 0
-			textView.scrollIndicatorInsets = scrollInsets
-		} else {
-			textView.contentInset = newInsets
-			textView.scrollIndicatorInsets = newInsets
-		}
+		var scrollInsets = newInsets
+		scrollInsets.left = 0
+		scrollInsets.right = 0
+		textView.scrollIndicatorInsets = scrollInsets
 
 		let glyphSize = terminalController.fontMetrics.boundingBox
 
@@ -213,19 +217,11 @@ class TerminalSessionViewController: UIViewController {
 		// }
 
 		// If there is no scrollback, use the top of the scroll view. If there is, calculate the bottom
-		var insets: UIEdgeInsets
-		if #available(iOS 13, *) {
-			insets = textView.verticalScrollIndicatorInsets
-		} else {
-			insets = textView.scrollIndicatorInsets
-		}
+		var insets = textView.verticalScrollIndicatorInsets
 		var offset = textView.contentOffset
 		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
 
-		if #available(iOS 11, *) {
-			insets.top += view.safeAreaInsets.top
-		}
-
+		insets.top += view.safeAreaInsets.top
 		offset.y = terminalController.scrollbackLines == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
 
 		// If the offset has changed, update it and our lastAutomaticScrollOffset
@@ -310,15 +306,9 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			// Display the bell HUD, lazily initialising it if it hasn’t been yet
 			if bellHUDView.superview == nil {
 				view.addSubview(bellHUDView)
-				let safeArea: String
-				if #available(iOS 11, *) {
-					safeArea = "safe"
-				} else {
-					safeArea = "self"
-				}
 				view.addCompactConstraints([
-					"hudView.centerX = \(safeArea).centerX",
-					"hudView.centerY = \(safeArea).centerY / 3"
+					"hudView.centerX = safe.centerX",
+					"hudView.centerY = safe.centerY / 3"
 				], metrics: nil, views: [
 					"self": view!,
 					"hudView": bellHUDView
@@ -347,11 +337,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	@objc func activatePasswordManager() {
-		if #available(iOS 11, *) {
-			keyInput.activatePasswordManager()
-		} else {
-			// TODO: Handle unsupported versions somehow?
-		}
+		keyInput.activatePasswordManager()
 	}
 
 	@objc func close() {
@@ -392,12 +378,7 @@ extension TerminalSessionViewController: UITextViewDelegate {
 	}
 
 	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-		let insets: UIEdgeInsets
-		if #available(iOS 13, *) {
-			insets = scrollView.verticalScrollIndicatorInsets
-		} else {
-			insets = scrollView.scrollIndicatorInsets
-		}
+		let insets = textView.verticalScrollIndicatorInsets
 
 		// If we’re at the top of the scroll view, guess that the user wants to go back to the bottom
 		if scrollView.contentOffset.y <= (scrollView.frame.size.height - insets.top - insets.bottom) / 2 {

@@ -14,10 +14,6 @@ class TerminalTextView: UITextView {
 		super.init(frame: frame, textContainer: textContainer)
 
 		backgroundColor = .black
-		if #available(iOS 13, *) {
-		} else {
-			indicatorStyle = .white
-		}
 		showsHorizontalScrollIndicator = false
 		alwaysBounceVertical = true
 		dataDetectorTypes = [] // none

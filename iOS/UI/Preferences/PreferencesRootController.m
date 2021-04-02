@@ -32,14 +32,6 @@
 #endif
 }
 
-- (UIStatusBarStyle)preferredStatusBarStyle {
-	if (@available(iOS 13, *)) {
-		return [super preferredStatusBarStyle];
-	} else {
-		return UIStatusBarStyleLightContent;
-	}
-}
-
 #pragma mark - PSRootController
 
 #if LINK_CEPHEI

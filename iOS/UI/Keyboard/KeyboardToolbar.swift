@@ -21,14 +21,7 @@ class KeyboardToolbar: UIView {
 	var rightKey: KeyboardButton!
 
 	func setUp() {
-		let blurEffect: UIBlurEffect
-		if #available(iOS 13, *) {
-			blurEffect = UIBlurEffect(style: .systemChromeMaterial)
-		} else {
-			// TODO: Review this
-			blurEffect = UIBlurEffect(style: .regular)
-		}
-		let backdropView = UIVisualEffectView(effect: blurEffect)
+		let backdropView = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterial))
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		addSubview(backdropView)
@@ -58,19 +51,12 @@ class KeyboardToolbar: UIView {
 		stackView.spacing = xSpacing
 		addSubview(stackView)
 
-		let safeArea: String
-		if #available(iOS 11, *) {
-			safeArea = "safe"
-		} else {
-			safeArea = "toolbar"
-		}
-
 		addCompactConstraints([
 			"self.height = height",
 			"stackView.top = toolbar.top + topSpacing",
 			"stackView.bottom = toolbar.bottom - bottomSpacing",
-			"stackView.left = \(safeArea).left + outerXSpacing",
-			"stackView.right = \(safeArea).right - outerXSpacing"
+			"stackView.left = safe.left + outerXSpacing",
+			"stackView.right = safe.right - outerXSpacing"
 		], metrics: [
 			"height": height,
 			"outerXSpacing": outerXSpacing,

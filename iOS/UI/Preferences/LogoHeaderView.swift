@@ -26,12 +26,8 @@ class LogoHeaderView: UIView {
 		let nameLabel = UILabel()
 		nameLabel.setContentCompressionResistancePriority(.defaultLow, for: .horizontal)
 		let nameFont = UIFont.systemFont(ofSize: 40, weight: .semibold)
-		if #available(iOS 13, *) {
-			let fontDescriptor = nameFont.fontDescriptor.withDesign(.rounded)!
-			nameLabel.font = UIFont(descriptor: fontDescriptor, size: 40)
-		} else {
-			nameLabel.font = nameFont
-		}
+		let fontDescriptor = nameFont.fontDescriptor.withDesign(.rounded)!
+		nameLabel.font = UIFont(descriptor: fontDescriptor, size: 40)
 		nameLabel.textColor = .logoName
 		nameLabel.text = ""
 
@@ -54,12 +50,6 @@ class LogoHeaderView: UIView {
 		containerView.addSubview(stackView)
 
 		let topSuperOffset: CGFloat = 10000
-		let topMargin: CGFloat
-		if #available(iOS 11, *) {
-			topMargin = 0
-		} else {
-			topMargin = 35
-		}
 
 		NSLayoutConstraint.activate([
 			containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: -topSuperOffset),
@@ -67,7 +57,7 @@ class LogoHeaderView: UIView {
 			containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
-			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset + topMargin),
+			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset),
 			stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -35),
 			stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
 			stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
