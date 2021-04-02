@@ -1,6 +1,6 @@
 Licensed under the Apache License, version 2.0.
 
-Code prior to commit [PLACEHOLDER] is licensed under the GNU General Public License, version 2.0.
+Code prior to commit a745b49f47 is licensed under the GNU General Public License, version 2.0.
 
 Contains code from MobileTerminal, by Allen Porter, et al.
 
