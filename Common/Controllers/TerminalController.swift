@@ -11,11 +11,14 @@ import AppKit
 #else
 import UIKit
 #endif
+import SwiftTerm
 
 public protocol TerminalControllerDelegate: AnyObject {
 
-	func refresh(attributedString: NSAttributedString, backgroundColor: Color)
+	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor)
 	func activateBell()
+	func titleDidChange(_ title: String?)
+
 	func close()
 	func didReceiveError(error: Error)
 
@@ -23,16 +26,15 @@ public protocol TerminalControllerDelegate: AnyObject {
 
 }
 
-public class TerminalController: VT100 {
+public class TerminalController {
 
 	public weak var delegate: TerminalControllerDelegate?
 
-	private var isDirty = false
 	private var updateTimer: Timer?
 
-	private var stringSupplier = VT100StringSupplier()
+	private var stringSupplier = StringSupplier()
 
-	public var colorMap: VT100ColorMap {
+	public var colorMap: ColorMap {
 		get { return stringSupplier.colorMap! }
 		set { stringSupplier.colorMap = newValue }
 	}
@@ -42,26 +44,31 @@ public class TerminalController: VT100 {
 		set { stringSupplier.fontMetrics = newValue }
 	}
 
+	private var terminal: Terminal?
 	private var subProcess: SubProcess?
 	private var processLaunchDate: Date?
 
-	override public var screenSize: ScreenSize {
-		get { return super.screenSize }
-
-		set {
-			super.screenSize = newValue
-
+	public var screenSize: ScreenSize? {
+		didSet {
 			// Send the terminal the actual size of our vt100 view. This should be called any time we
 			// change the size of the view. This should be a no-op if the size has not changed since the
 			// last time we called it.
-			subProcess?.screenSize = screenSize
+			if let screenSize = screenSize {
+				subProcess?.screenSize = screenSize
+				terminal?.resize(cols: Int(screenSize.width),
+												 rows: Int(screenSize.height))
+			}
 		}
 	}
 
-	public override init() {
-		super.init()
+	public var scrollbackLines: Int { (terminal?.rows ?? 0) - (terminal?.getTopVisibleRow() ?? 0) }
 
-		stringSupplier.screenBuffer = self
+	public init() {
+		let options = TerminalOptions(termName: "xterm-256color",
+																	scrollback: 1000)
+		terminal = Terminal(delegate: self, options: options)
+
+		stringSupplier.terminal = terminal
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
@@ -74,7 +81,7 @@ public class TerminalController: VT100 {
 		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics!
 
-		refresh()
+		terminal?.refresh(startRow: 0, endRow: terminal?.rows ?? 0)
 	}
 
 	// MARK: - Sub Process
@@ -90,50 +97,23 @@ public class TerminalController: VT100 {
 		try subProcess!.stop()
 	}
 
-	// MARK: - Object lifecycle
+	// MARK: - Terminal
 
-	deinit {
-		updateTimer?.invalidate()
-	}
-
-}
-
-extension TerminalController: TerminalInputProtocol {
-
-	public func receiveKeyboardInput(data: Data) {
-		// Forward the data from the keyboard directly to the subprocess
-		subProcess!.write(data: data)
-	}
-
-	public func openSettings() {
-		delegate!.openSettings()
-	}
-
-}
-
-// ScreenBufferRefreshDelegate
-extension TerminalController {
-
-	override public func refresh() {
-		super.refresh()
-
-		// TODO: This is called due to -[VT100 init], and we aren’t ready yet… We’ll be called when we
-		// are anyway, so don’t worry about it
-		if updateTimer == nil {
-			return
-		}
-
-		isDirty = true
+	public func readInputStream(_ data: Data) {
+		let bytes = Array<UInt8>(data)
+		terminal?.feed(byteArray: bytes)
 	}
 
 	@objc private func updateTimerFired() {
-		if !isDirty {
+		if terminal?.getUpdateRange() == nil {
 			return
 		}
 
+		terminal?.clearUpdateRange()
+
 		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
-		let attributedString = self.stringSupplier.attributedString()!
-		let backgroundColor = self.stringSupplier.colorMap!.background!
+		let attributedString = self.stringSupplier.attributedString()
+		let backgroundColor = self.stringSupplier.colorMap!.background
 
 		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 
@@ -144,13 +124,52 @@ extension TerminalController {
 //				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
 //			}
 //		}
-
-		self.isDirty = false
 	}
 
-	override public func activateBell() {
-		super.activateBell()
+	// MARK: - Object lifecycle
+
+	deinit {
+		updateTimer?.invalidate()
+	}
+
+}
+
+extension TerminalController: TerminalDelegate {
+
+	public func send(source: Terminal, data: ArraySlice<UInt8>) {
+		subProcess?.write(data: Data(data))
+	}
+
+	public func bell(source: Terminal) {
 		delegate?.activateBell()
+	}
+
+	public func sizeChanged(source: Terminal) {
+		// TODO
+//		let screenSize = ScreenSize(width: UInt16(source.cols),
+//																height: UInt16(source.rows))
+//		if self.screenSize != screenSize {
+//			self.screenSize = screenSize
+//		}
+	}
+
+	public func setTerminalTitle(source: Terminal, title: String) {
+		delegate?.titleDidChange(title)
+	}
+
+}
+
+extension TerminalController: TerminalInputProtocol {
+
+	public var applicationCursor: Bool { terminal?.applicationCursor ?? false }
+
+	public func receiveKeyboardInput(data: Data) {
+		// Forward the data from the keyboard directly to the subprocess
+		subProcess!.write(data: data)
+	}
+
+	public func openSettings() {
+		delegate!.openSettings()
 	}
 
 }

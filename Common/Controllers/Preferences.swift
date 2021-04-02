@@ -35,7 +35,7 @@ public class Preferences: NSObject {
 	let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
 
 	public var fontMetrics: FontMetrics!
-	@objc public var colorMap: VT100ColorMap!
+	public var colorMap: ColorMap!
 
 	private var kvoContext = 0
 
@@ -153,17 +153,34 @@ public class Preferences: NSObject {
 	private func fontMetricsChanged() {
 		var regularFont: Font?
 		var boldFont: Font?
+		var italicFont: Font?
+		var boldItalicFont: Font?
 
 		if fontName == "SF Mono" {
 			if #available(iOS 13, macOS 10.15, *) {
 				regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
 				boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+
+				if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+					italicFont = Font(descriptor: fontDescriptor, size: fontSize)
+				}
+				if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+					boldItalicFont = Font(descriptor: fontDescriptor, size: fontSize)
+				}
 			}
 		} else {
 			if let family = fontsPlist[fontName] as? [String: String] {
-				if family["Regular"] != nil && family["Bold"] != nil {
-					regularFont = Font(name: family["Regular"]!, size: fontSize)
-					boldFont = Font(name: family["Bold"]!, size: fontSize)
+				if let name = family["Regular"] {
+					regularFont = Font(name: name, size: fontSize)
+				}
+				if let name = family["Bold"] {
+					boldFont = Font(name: name, size: fontSize)
+				}
+				if let name = family["Italic"] {
+					italicFont = Font(name: name, size: fontSize)
+				}
+				if let name = family["BoldItalic"] {
+					boldItalicFont = Font(name: name, size: fontSize)
 				}
 			}
 		}
@@ -178,7 +195,10 @@ public class Preferences: NSObject {
 			return
 		}
 
-		fontMetrics = FontMetrics(regularFont: regularFont!, boldFont: boldFont!)
+		fontMetrics = FontMetrics(regularFont: regularFont!,
+															boldFont: boldFont!,
+															italicFont: italicFont ?? regularFont!,
+															boldItalicFont: boldItalicFont ?? boldFont!)
 	}
 
 	private func colorMapChanged() {
@@ -190,7 +210,7 @@ public class Preferences: NSObject {
 			return
 		}
 
-		colorMap = VT100ColorMap(dictionary: theme)
+		colorMap = ColorMap(dictionary: theme)
 
 		#if os(macOS)
 		NSApp.appearance = NSAppearance(named: colorMap.appearanceStyle)

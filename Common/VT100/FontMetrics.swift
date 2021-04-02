@@ -14,6 +14,8 @@ import os.log
 
 	@objc public let regularFont: Font
 	@objc public let boldFont: Font
+	@objc public let italicFont: Font
+	@objc public let boldItalicFont: Font
 
 	@objc public let ascent: CGFloat
 	@objc public let descent: CGFloat
@@ -48,9 +50,11 @@ import os.log
 		}
 	}
 
-	init(regularFont: Font, boldFont: Font) {
+	init(regularFont: Font, boldFont: Font, italicFont: Font, boldItalicFont: Font) {
 		self.regularFont = regularFont
 		self.boldFont = boldFont
+		self.italicFont = italicFont
+		self.boldItalicFont = boldItalicFont
 
 		let attributedString = NSAttributedString(string: "A", attributes: [
 			.font: regularFont
@@ -69,7 +73,7 @@ import os.log
 	}
 
 	override public var description: String {
-		return "FontMetrics: regularFont = \(regularFont); boldFont = \(boldFont); boundingBox = \(boundingBox)"
+		return "FontMetrics: regularFont = \(regularFont); boldFont = \(boldFont); italicFont = \(italicFont); boldItalicFont = \(boldItalicFont); boundingBox = \(boundingBox)"
 	}
 
 }

@@ -232,6 +232,20 @@ class TabToolbarViewController: UIViewController {
 		tabsCollectionView.layoutIfNeeded()
 	}
 
+	func tabDidUpdate(at index: Int) {
+		tabsCollectionView.reloadData()
+		tabsCollectionView.layoutIfNeeded()
+
+		if dataSource!.selectedTerminalIndex() == index {
+			titleLabel.text = dataSource?.terminalName(at: index)
+		}
+	}
+
+	private func selectTerminal(at index: Int) {
+		delegate?.selectTerminal(at: index)
+		titleLabel.text = dataSource?.terminalName(at: index)
+	}
+
 }
 
 extension TabToolbarViewController: UIToolbarDelegate {
@@ -260,11 +274,11 @@ extension TabToolbarViewController: UICollectionViewDataSource, UICollectionView
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 94, height: tabsCollectionView.frame.size.height)
+		return CGSize(width: 130, height: tabsCollectionView.frame.size.height)
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-		delegate?.selectTerminal(at: indexPath.item)
+		selectTerminal(at: indexPath.item)
 	}
 
 }

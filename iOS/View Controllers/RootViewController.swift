@@ -10,10 +10,12 @@ import UIKit
 
 class RootViewController: UIViewController {
 
-	var terminals: [TerminalSessionViewController] = []
-	var selectedTabIndex = Int(0)
+	private var terminals: [TerminalSessionViewController] = []
+	private var selectedTabIndex = Int(0)
 
-	let tabToolbar = TabToolbarViewController()
+	private let tabToolbar = TabToolbarViewController()
+
+	private var titleObservers = [NSKeyValueObservation]()
 
 	override func loadView() {
 		super.loadView()
@@ -78,8 +80,13 @@ class RootViewController: UIViewController {
 
 		terminals.append(terminalViewController)
 
-		tabToolbar.didAddTab(at: terminals.count - 1)
-		selectTerminal(at: terminals.count - 1)
+		let index = terminals.count - 1
+		tabToolbar.didAddTab(at: index)
+		selectTerminal(at: index)
+
+		titleObservers.append(terminalViewController.observe(\.title, changeHandler: { viewController, _ in
+			self.tabToolbar.tabDidUpdate(at: index)
+		}))
 	}
 
 	func removeTerminal(terminal terminalViewController: TerminalSessionViewController) {
@@ -92,6 +99,7 @@ class RootViewController: UIViewController {
 		terminalViewController.view.removeFromSuperview()
 
 		terminals.remove(at: index)
+		titleObservers.remove(at: index)
 
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
 		// select the closest tab we have available

@@ -39,7 +39,8 @@ class TerminalSampleView: UIView {
 
 	@objc func preferencesUpdated() {
 		let preferences = Preferences.shared
-		stringSupplier.colorMap = preferences.colorMap
+		// TODO
+//		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics
 		textView.backgroundColor = stringSupplier.colorMap.background
 		textView.attributedText = stringSupplier.attributedString()

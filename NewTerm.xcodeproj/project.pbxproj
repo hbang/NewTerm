@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 48;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,10 @@
 		4E9B32DC260C65AE006A1FBC /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */; };
 		4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
+		4E9FB96C26171A01005AFCC8 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 4E9FB96B26171A01005AFCC8 /* SwiftTerm */; };
+		4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97126172079005AFCC8 /* Color+Additions.swift */; };
+		4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97426172293005AFCC8 /* StringSupplier.swift */; };
+		4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB977261724FA005AFCC8 /* ColorMap.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -143,6 +147,9 @@
 /* Begin PBXFileReference section */
 		4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+NewTermAdditions.swift"; sourceTree = "<group>"; };
+		4E9FB97126172079005AFCC8 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
+		4E9FB97426172293005AFCC8 /* StringSupplier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringSupplier.swift; sourceTree = "<group>"; };
+		4E9FB977261724FA005AFCC8 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -252,6 +259,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E9FB96C26171A01005AFCC8 /* SwiftTerm in Frameworks */,
 				CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -458,6 +466,7 @@
 				CFBB969422B5481B00585BE6 /* NSArray+Additions.m */,
 				CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */,
 				CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */,
+				4E9FB97126172079005AFCC8 /* Color+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -497,6 +506,8 @@
 				CFBB969F22B5481B00585BE6 /* VT100StringSupplier.m */,
 				CFBB96AE22B5481B00585BE6 /* VT100Types.h */,
 				CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */,
+				4E9FB97426172293005AFCC8 /* StringSupplier.swift */,
+				4E9FB977261724FA005AFCC8 /* ColorMap.swift */,
 			);
 			path = VT100;
 			sourceTree = "<group>";
@@ -663,6 +674,9 @@
 			dependencies = (
 			);
 			name = "NewTerm Common";
+			packageProductDependencies = (
+				4E9FB96B26171A01005AFCC8 /* SwiftTerm */,
+			);
 			productName = "NewTerm Common";
 			productReference = CF71BC8422BB6DBA00AFB1E1 /* NewTermCommon.framework */;
 			productType = "com.apple.product-type.framework";
@@ -721,6 +735,9 @@
 				Base,
 			);
 			mainGroup = CF22F9A81FFB97F7003175DE;
+			packageReferences = (
+				4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+			);
 			productRefGroup = CF22F9A81FFB97F7003175DE;
 			projectDirPath = "";
 			projectRoot = "";
@@ -797,6 +814,7 @@
 				CF71BCA122BB6E1100AFB1E1 /* ScreenChar.m in Sources */,
 				CF71BCA222BB6E1100AFB1E1 /* VT100.m in Sources */,
 				CF71BCA322BB6E1100AFB1E1 /* VT100ColorMap.m in Sources */,
+				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,
 				CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */,
 				CF71BCA422BB6E1100AFB1E1 /* VT100Screen.m in Sources */,
 				CF71BCA522BB6E1100AFB1E1 /* VT100Terminal.m in Sources */,
@@ -807,7 +825,9 @@
 				CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */,
 				CF71BC9722BB6E0300AFB1E1 /* Preferences.swift in Sources */,
 				CF71BC9822BB6E0300AFB1E1 /* SubProcess.swift in Sources */,
+				4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */,
 				CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */,
+				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
 				CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */,
 				CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */,
 			);
@@ -917,7 +937,7 @@
 					Common/External,
 					Common/External/ncurses,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(SWIFT_OLD_RPATH)";
 				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -959,7 +979,7 @@
 					Common/External,
 					Common/External/ncurses,
 				);
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(SWIFT_OLD_RPATH)";
 				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
@@ -1018,7 +1038,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
@@ -1060,7 +1083,10 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				INFOPLIST_FILE = "Mac/Supporting Files/Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.NewTermMac;
@@ -1111,7 +1137,11 @@
 				HEADER_SEARCH_PATHS = "Common/**";
 				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
@@ -1161,7 +1191,11 @@
 				HEADER_SEARCH_PATHS = "Common/**";
 				INFOPLIST_FILE = "Common/Supporting Files/Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+					"@loader_path/Frameworks",
+				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
@@ -1245,9 +1279,10 @@
 					iOS,
 				);
 				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
@@ -1335,9 +1370,10 @@
 					iOS,
 				);
 				INFOPLIST_FILE = "iOS/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
@@ -1353,8 +1389,9 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
+				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "iOS/Supporting Files/BridgingHeader.h";
-				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2,6";
 				VALIDATE_PRODUCT = YES;
@@ -1410,6 +1447,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		4E9FB96B26171A01005AFCC8 /* SwiftTerm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */;
+			productName = SwiftTerm;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = CF22F9A91FFB97F7003175DE /* Project object */;
 }

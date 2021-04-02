@@ -231,7 +231,7 @@ class TerminalSessionViewController: UIViewController {
 			insets.top += view.safeAreaInsets.top
 		}
 
-		offset.y = terminalController.scrollbackLines() == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
+		offset.y = terminalController.scrollbackLines == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
 
 		// If the offset has changed, update it and our lastAutomaticScrollOffset
 		if textView.contentOffset.y != offset.y {
@@ -345,6 +345,10 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		if preferences.bellSound {
 			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
 		}
+	}
+
+	func titleDidChange(_ title: String?) {
+		self.title = title
 	}
 
 	@objc func activatePasswordManager() {

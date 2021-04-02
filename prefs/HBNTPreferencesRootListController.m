@@ -25,7 +25,6 @@
 	self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemDone target:self action:@selector(dismiss)];
 
 	HBAppearanceSettings *appearance = [[HBAppearanceSettings alloc] init];
-	appearance.tintColor = [UIApplication sharedApplication].keyWindow.tintColor;
 	if (@available(iOS 13.0, *)) {
 	} else {
 		appearance.translucentNavigationBar = YES;
