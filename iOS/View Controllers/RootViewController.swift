@@ -162,12 +162,19 @@ class RootViewController: UIViewController {
 			return
 		}
 
-		let title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_TITLE", comment: ""), terminals.count)
-		let close = NSLocalizedString("Close", bundle: .uikit, comment: "")
+		let title: String?
+		let action: String
 		let cancel = NSLocalizedString("Cancel", bundle: .uikit, comment: "")
+		if isBigDevice {
+			title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_TITLE", comment: ""), terminals.count)
+			action = NSLocalizedString("Close", bundle: .uikit, comment: "")
+		} else {
+			title = nil
+			action = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_ACTION", comment: ""), terminals.count)
+		}
 
 		let alertController = UIAlertController(title: title, message: nil, preferredStyle: isBigDevice ? .alert : .actionSheet)
-		alertController.addAction(UIAlertAction(title: close, style: .default, handler: { _ in
+		alertController.addAction(UIAlertAction(title: action, style: isBigDevice ? .default : .destructive, handler: { _ in
 			self.destructScene()
 		}))
 		alertController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
@@ -176,7 +183,11 @@ class RootViewController: UIViewController {
 
 	@available(iOS 13, *)
 	private func destructScene() {
-		UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
+		if UIApplication.shared.supportsMultipleScenes {
+			UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
+		} else {
+			removeAllTerminals()
+		}
 	}
 
 }
