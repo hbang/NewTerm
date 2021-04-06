@@ -159,7 +159,7 @@
 		CF71BC2722BB61E400AFB1E1 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CF71BC2A22BB61E400AFB1E1 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		CF71BC2C22BB61E400AFB1E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		CF71BC2D22BB61E400AFB1E1 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
+		CF71BC2D22BB61E400AFB1E1 /* iOS/Supporting Files/NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "iOS/Supporting Files/NewTerm.entitlements"; sourceTree = "<group>"; };
 		CF71BC5F22BB657500AFB1E1 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrossPlatformUI.swift; path = Common/UI/CrossPlatformUI.swift; sourceTree = SOURCE_ROOT; };
 		CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalInputProtocol.swift; sourceTree = "<group>"; };
@@ -262,7 +262,6 @@
 		CF22F9A81FFB97F7003175DE = {
 			isa = PBXGroup;
 			children = (
-				4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */,
 				CF22F9B31FFB97F7003175DE /* README.md */,
 				CFBB967622B5481A00585BE6 /* iOS */,
 				CF71BC2222BB61E200AFB1E1 /* Mac */,
@@ -353,7 +352,7 @@
 			children = (
 				CF71BCE322BB7AA600AFB1E1 /* BridgingHeader.h */,
 				CF71BC2C22BB61E400AFB1E1 /* Info.plist */,
-				CF71BC2D22BB61E400AFB1E1 /* NewTerm.entitlements */,
+				CF71BC2D22BB61E400AFB1E1 /* iOS/Supporting Files/NewTerm.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -518,6 +517,7 @@
 			children = (
 				CFBB96BE22B5481B00585BE6 /* BridgingHeader.h */,
 				CFBB96C022B5481B00585BE6 /* Info.plist */,
+				4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */,
 			);
 			path = "Supporting Files";
 			sourceTree = "<group>";
@@ -1206,7 +1206,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "iOS/Supporting Files/NewTerm.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
@@ -1300,7 +1300,7 @@
 				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
-				CODE_SIGN_ENTITLEMENTS = NewTerm.entitlements;
+				CODE_SIGN_ENTITLEMENTS = "iOS/Supporting Files/NewTerm.entitlements";
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
