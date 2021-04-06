@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import SwiftUI
 
 class RootViewController: UIViewController {
+
+	static let settingsViewDoneNotification = Notification.Name(rawValue: "RootViewControllerSettingsViewDoneNotification")
 
 	private var terminals: [TerminalSessionViewController] = []
 	private var selectedTabIndex = Int(0)
@@ -17,8 +20,8 @@ class RootViewController: UIViewController {
 
 	private var titleObservers = [NSKeyValueObservation]()
 
-	override func loadView() {
-		super.loadView()
+	override func viewDidLoad() {
+		super.viewDidLoad()
 
 		navigationController!.isNavigationBarHidden = true
 
@@ -29,6 +32,12 @@ class RootViewController: UIViewController {
 		view.addSubview(tabToolbar.view)
 
 		addTerminal()
+
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."),
+															 image: UIImage(systemName: "gear"),
+															 action: #selector(self.openSettings),
+															 input: ",",
+															 modifierFlags: .command))
 
 		addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
 															 action: #selector(self.addTerminal),
@@ -49,6 +58,8 @@ class RootViewController: UIViewController {
 																 input: "w",
 																 modifierFlags: [ .command, .shift ]))
 		}
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.dismissSettings), name: Self.settingsViewDoneNotification, object: nil)
 	}
 
 	override func viewWillLayoutSubviews() {
@@ -213,12 +224,16 @@ extension RootViewController: TabToolbarDataSource {
 
 extension RootViewController: TabToolbarDelegate {
 
-	func openSettings() {
+	@objc func openSettings() {
 		if presentedViewController == nil {
-			let rootController = PreferencesRootController()
-			rootController.modalPresentationStyle = .formSheet
-			navigationController!.present(rootController, animated: true, completion: nil)
+			let viewController = UIHostingController(rootView: SettingsView())
+			viewController.modalPresentationStyle = .formSheet
+			navigationController?.present(viewController, animated: true, completion: nil)
 		}
+	}
+
+	@objc private func dismissSettings() {
+		presentedViewController?.dismiss(animated: true, completion: nil)
 	}
 
 	func openPasswordManager() {

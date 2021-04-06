@@ -90,12 +90,6 @@ class TerminalSessionViewController: UIViewController {
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."),
-															 image: UIImage(systemName: "gear"),
-															 action: #selector(self.openSettings),
-															 input: ",",
-															 modifierFlags: .command))
-
 		let passwordImage: UIImage?
 		if #available(iOS 14, *) {
 			passwordImage = UIImage(systemName: "key.fill")
@@ -104,7 +98,7 @@ class TerminalSessionViewController: UIViewController {
 		}
 		addKeyCommand(UIKeyCommand(title: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
 															 image: passwordImage,
-															 action: #selector(self.openSettings),
+															 action: #selector(self.activatePasswordManager),
 															 input: "f",
 															 modifierFlags: [ .command, .alternate ]))
 
@@ -361,10 +355,8 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	@objc func openSettings() {
-		if presentedViewController == nil {
-			let rootController = PreferencesRootController()
-			rootController.modalPresentationStyle = .formSheet
-			navigationController!.present(rootController, animated: true, completion: nil)
+		if let rootViewController = parent as? RootViewController {
+			rootViewController.openSettings()
 		}
 	}
 

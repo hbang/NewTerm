@@ -6,12 +6,6 @@
 @import NewTermCommon;
 
 #import "UI/Keyboard/TextInputBase.h"
-#import "UI/Preferences/PreferencesRootController.h"
-
-#ifdef LINK_CEPHEI
-#import <Cephei/HBPreferences.h>
-#else
-#endif
 
 // “The UIKit module currently doesn’t import the newly added NSToolbar and NSTouchBar headers,
 // NSToolbar+UIKitAdditions.h and NSTouchBar+UIKitAdditions.h. You can import these headers directly

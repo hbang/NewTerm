@@ -56,11 +56,13 @@ open class StringSupplier {
 						// TODO: This is crazy. There has to be a better way to stop spaces from being collapsed
 						buffer.removeLast()
 						buffer.append("\u{A0}") // Non-breaking space
-					} else {
+					} else if character != "\0" {
 						buffer.append(character)
 					}
 					buffer.append("\n")
-				} else if character != "\0" {
+				} else if character == "\0" {
+					buffer.append(" ")
+				} else {
 					buffer.append(character)
 				}
 

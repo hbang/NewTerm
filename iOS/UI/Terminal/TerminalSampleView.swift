@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import SwiftUI
 import SwiftTerm
 import NewTermCommon
 
@@ -38,19 +39,15 @@ class TerminalSampleView: UIView {
 			let bytes = Array<UInt8>(colorTest)
 			terminal?.feed(byteArray: bytes)
 		}
-
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
-		preferencesUpdated()
 	}
 
 	required init?(coder aDecoder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	@objc func preferencesUpdated() {
-		let preferences = Preferences.shared
-		stringSupplier.colorMap = preferences.colorMap
-		stringSupplier.fontMetrics = preferences.fontMetrics
+	func update(fontMetrics: FontMetrics, colorMap: ColorMap) {
+		stringSupplier.colorMap = colorMap
+		stringSupplier.fontMetrics = fontMetrics
 		textView.backgroundColor = stringSupplier.colorMap?.background
 		textView.attributedText = stringSupplier.attributedString()
 		setNeedsLayout()
@@ -71,4 +68,28 @@ class TerminalSampleView: UIView {
 
 extension TerminalSampleView: TerminalDelegate {
 	func send(source: Terminal, data: ArraySlice<UInt8>) {}
+}
+
+struct TerminalSampleViewRepresentable: UIViewRepresentable {
+
+	var fontMetrics: FontMetrics
+	var colorMap: ColorMap
+
+	func makeUIView(context: Context) -> TerminalSampleView {
+		TerminalSampleView(frame: .zero)
+	}
+
+	func updateUIView(_ uiView: UIViewType, context: Context) {
+		uiView.update(fontMetrics: fontMetrics, colorMap: colorMap)
+	}
+
+}
+
+struct TerminalSampleViewRepresentable_Previews: PreviewProvider {
+	static var previews: some View {
+		TerminalSampleViewRepresentable(
+			fontMetrics: FontMetrics(font: AppFont(), fontSize: 13),
+			colorMap: ColorMap(theme: AppTheme())
+		)
+	}
 }

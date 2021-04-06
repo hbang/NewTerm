@@ -41,10 +41,7 @@ class TerminalTextView: UITextView {
 
 	override func caretRect(for position: UITextPosition) -> CGRect {
 		// TODO: Should we take advantage of this?
-		let x = super.caretRect(for: position)
-		print("XXX CARET \(x)")
-		return x
-//		return CGRect(x: 100, y: 100, width: 10, height: 10)
+		return .zero
 	}
 
 //	override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {

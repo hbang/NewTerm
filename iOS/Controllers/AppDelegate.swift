@@ -17,6 +17,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		UIScrollView.appearance().keyboardDismissMode = .interactive
 
+		FontMetrics.loadFonts()
 		_ = Preferences.shared
 
 		return true

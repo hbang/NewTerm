@@ -14,10 +14,9 @@ import AppKit
 import SwiftTerm
 import os.log
 
-@objc(ColorMap)
-open class ColorMap: NSObject {
+public struct ColorMap {
 
-	@objc public let background: UIColor
+	public let background: UIColor
 	public let foreground: UIColor
 	public let foregroundBold: UIColor
 	public let foregroundCursor: UIColor
@@ -28,40 +27,20 @@ open class ColorMap: NSObject {
 	public let isDark: Bool
 
 	#if os(iOS)
-	open var userInterfaceStyle: UIUserInterfaceStyle { isDark ? .dark : .light }
+	public var userInterfaceStyle: UIUserInterfaceStyle { isDark ? .dark : .light }
 	#else
-	open var appearanceStyle: NSAppearanceName { isDark ? .darkAqua : .aqua }
+	public var appearanceStyle: NSAppearanceName { isDark ? .darkAqua : .aqua }
 	#endif
 
-	public init(dictionary: [String: Any]) {
-		if let color = dictionary["Background"] as? String {
-			background = UIColor(propertyListValue: color)
-		} else {
-			background = .black
-		}
-		if let color = dictionary["Text"] as? String {
-			foreground = UIColor(propertyListValue: color)
-		} else {
-			foreground = UIColor(white: 0.95, alpha: 1)
-		}
-		if let color = dictionary["BoldText"] as? String {
-			foregroundBold = UIColor(propertyListValue: color)
-		} else {
-			foregroundBold = .white
-		}
-		if let color = dictionary["Cursor"] as? String {
-			foregroundCursor = UIColor(propertyListValue: color)
-			backgroundCursor = foregroundCursor
-		} else {
-			foregroundCursor = UIColor(white: 0.95, alpha: 1)
-			backgroundCursor = UIColor(white: 0.4, alpha: 1)
-		}
-		if let isDark = dictionary["IsDark"] as? Bool {
-			self.isDark = isDark
-		} else {
-			self.isDark = true
-		}
-		if let colorTable = dictionary["ColorTable"] as? [String],
+	public init(theme: AppTheme) {
+		background = UIColor(propertyListValue: theme.background)
+		foreground = UIColor(propertyListValue: theme.text)
+		foregroundBold = UIColor(propertyListValue: theme.boldText)
+		foregroundCursor = UIColor(propertyListValue: theme.cursor)
+		backgroundCursor = foregroundCursor
+		isDark = theme.isDark
+
+		if let colorTable = theme.colorTable,
 			 colorTable.count == 16 {
 			ansiColors = colorTable.map { item in UIColor(propertyListValue: item) }
 		} else {
@@ -87,7 +66,7 @@ open class ColorMap: NSObject {
 		}
 	}
 
-	open func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool = false, isCursor: Bool = false) -> UIColor {
+	public func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool = false, isCursor: Bool = false) -> UIColor {
 		if isCursor {
 			if isForeground {
 				switch termColor {

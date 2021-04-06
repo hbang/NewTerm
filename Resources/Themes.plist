@@ -4,63 +4,63 @@
 <dict>
 	<key>Basic</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#ffffff</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#000000</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#7f7f7f</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<false/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#000000</string>
 	</dict>
 	<key>Basic (Dark)</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#1e1e1e</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffffff</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#9d9d9d</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#ffffff</string>
 	</dict>
 	<key>Grass</key> <!-- tastes badddd -->
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#13773d</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffb03b</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#8e2800</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<false/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#fff0a5</string>
 	</dict>
 	<key>Homebrew</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#000000</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#00ff00</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#38fe27</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#13773d</string>
 	</dict>
 	<key>kirb</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#0f0f0f</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffffff</string>
-		<key>ColorTable</key>
+		<key>colorTable</key>
 		<array>
 			<string>#000000</string>
 			<string>#ea2305</string>
@@ -79,98 +79,98 @@
 			<string>#00e8ea</string>
 			<string>#eaeaea</string>
 		</array>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#00d900</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#f2f2f2</string>
 	</dict>
 	<key>Man Page</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#fef49c</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#000000</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#7f7f7f</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<false/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#000000</string>
 	</dict>
 	<key>Novel</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#dfdbc3</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#7f2a19</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#3a2322</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<false/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#3b2322</string>
 	</dict>
 	<key>Ocean</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#224fbc</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffffff</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#7f7f7f</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#ffffff</string>
 	</dict>
 	<key>Pro</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#000000</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffffff</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#4d4d4d</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#f2f2f2</string>
 	</dict>
 	<key>Red Sands</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#7a251e</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#dfbd22</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#ffffff</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#d7c9a7</string>
 	</dict>
 	<key>Silver Aerogel</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#808080</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#ffffff</string>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#d9d9d9</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<false/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#000000</string>
 	</dict>
 	<key>VSCode</key>
 	<dict>
-		<key>Background</key>
+		<key>background</key>
 		<string>#1e1e1e</string>
-		<key>BoldText</key>
+		<key>boldText</key>
 		<string>#cccccc</string>
-		<key>ColorTable</key>
+		<key>colorTable</key>
 		<array>
 			<string>#000000</string>
 			<string>#cd3131</string>
@@ -189,11 +189,11 @@
 			<string>#29b8db</string>
 			<string>#e5e5e5</string>
 		</array>
-		<key>Cursor</key>
+		<key>cursor</key>
 		<string>#0dbc79</string>
-		<key>IsDark</key>
+		<key>isDark</key>
 		<true/>
-		<key>Text</key>
+		<key>text</key>
 		<string>#ffffff</string>
 	</dict>
 </dict>

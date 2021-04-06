@@ -6,8 +6,13 @@
 //  Copyright © 2020 HASHBANG Productions. All rights reserved.
 //
 
-@objc(LogoHeaderView)
+import UIKit
+import SwiftUI
+
 class LogoHeaderView: UIView {
+
+	private var iconWidthConstraint: NSLayoutConstraint!
+	private var nameAttributedString: NSAttributedString!
 
 	private var titleTypingTimer: Timer?
 	private var blockBlinkTimer: Timer?
@@ -49,7 +54,15 @@ class LogoHeaderView: UIView {
 		stackView.spacing = 20
 		containerView.addSubview(stackView)
 
+		let titleString = "NewTerm"
+		nameAttributedString = NSAttributedString(string: titleString,
+																							attributes: [
+																								.font: nameLabel.font!
+																							])
+		iconWidthConstraint = iconImageView.widthAnchor.constraint(lessThanOrEqualToConstant: 0)
+
 		let topSuperOffset: CGFloat = 10000
+		let outerMargins: CGFloat = self.hasOuterMargins ? 15 : 0
 
 		NSLayoutConstraint.activate([
 			containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: -topSuperOffset),
@@ -59,30 +72,32 @@ class LogoHeaderView: UIView {
 
 			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset),
 			stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -35),
-			stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: 15),
-			stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -15),
+			stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: outerMargins),
+			stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -outerMargins),
 
 			leftSpacer.widthAnchor.constraint(equalTo: rightSpacer.widthAnchor),
 
-			iconImageView.widthAnchor.constraint(equalTo: iconImageView.heightAnchor),
+			iconWidthConstraint,
+			iconImageView.heightAnchor.constraint(equalTo: iconImageView.widthAnchor),
 
 			blockView.widthAnchor.constraint(equalTo: blockView.heightAnchor, multiplier: 0.5)
 		])
 
-		let titleString = "NewTerm"
-		var i = 0
+		Timer.scheduledTimer(withTimeInterval: 0.1, repeats: false) { _ in
+			var i = 0
 
-		titleTypingTimer = Timer.scheduledTimer(withTimeInterval: 0.225, repeats: true) { timer in
-			nameLabel.text! += String(titleString[titleString.index(titleString.startIndex, offsetBy: i)])
-			i += 1
+			self.titleTypingTimer = Timer.scheduledTimer(withTimeInterval: 0.225, repeats: true) { timer in
+				nameLabel.text! += String(titleString[titleString.index(titleString.startIndex, offsetBy: i)])
+				i += 1
 
-			if i == titleString.count {
-				timer.invalidate()
+				if i == titleString.count {
+					timer.invalidate()
+				}
 			}
-		}
 
-		blockBlinkTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
-			blockView.alpha = blockView.alpha == 1 ? 0 : 1
+			self.blockBlinkTimer = Timer.scheduledTimer(withTimeInterval: 0.8, repeats: true) { _ in
+				blockView.alpha = blockView.alpha == 1 ? 0 : 1
+			}
 		}
 	}
 
@@ -90,9 +105,40 @@ class LogoHeaderView: UIView {
 		fatalError("init(coder:) has not been implemented")
 	}
 
+	override func layoutSubviews() {
+		super.layoutSubviews()
+
+		let nameFrame = nameAttributedString.boundingRect(with: CGSize(width: CGFloat.greatestFiniteMagnitude, height: CGFloat.greatestFiniteMagnitude),
+																											options: [],
+																											context: nil)
+		let nameWidth = abs(nameFrame.origin.x) + nameFrame.size.width.rounded(.up)
+		iconWidthConstraint.constant = min(96, frame.size.width - nameWidth - (nameFrame.size.height * 0.5) - 4 - (20 * 3) - (self.hasOuterMargins ? 15 * 2 : 0))
+	}
+
+	private var hasOuterMargins: Bool { (window?.screen ?? UIScreen.main).bounds.size.width > 400 }
+
 	deinit {
 		titleTypingTimer?.invalidate()
 		blockBlinkTimer?.invalidate()
 	}
 
+}
+
+struct LogoHeaderViewRepresentable: UIViewRepresentable {
+	func makeUIView(context: Context) -> LogoHeaderView {
+		LogoHeaderView()
+	}
+
+	func updateUIView(_ uiView: UIViewType, context: Context) {}
+}
+
+struct LogoHeaderViewRepresentable_Previews: PreviewProvider {
+	static var previews: some View {
+		VStack {
+			LogoHeaderViewRepresentable()
+				.frame(height: 200)
+			Spacer()
+		}
+		.previewDevice("iPod touch (7th generation)")
+	}
 }

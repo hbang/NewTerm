@@ -10,20 +10,20 @@ import CoreGraphics
 import CoreText
 import os.log
 
-@objc public class FontMetrics: NSObject {
+public struct FontMetrics {
 
-	@objc public let regularFont: Font
-	@objc public let boldFont: Font
-	@objc public let italicFont: Font
-	@objc public let boldItalicFont: Font
+	public let regularFont: Font
+	public let boldFont: Font
+	public let italicFont: Font
+	public let boldItalicFont: Font
 
-	@objc public let ascent: CGFloat
-	@objc public let descent: CGFloat
-	@objc public let leading: CGFloat
+	public let ascent: CGFloat
+	public let descent: CGFloat
+	public let leading: CGFloat
 
-	@objc public let boundingBox: CGSize
+	public let boundingBox: CGSize
 
-	class func loadFonts() {
+	public static func loadFonts() {
 		// Runtime load all fonts we’re interested in.
 		// TODO: This should only load the fonts the user wants.
 		guard let listing = try? FileManager.default.contentsOfDirectory(at: Bundle.main.resourceURL!, includingPropertiesForKeys: nil, options: [ .skipsSubdirectoryDescendants, .skipsHiddenFiles ]) else {
@@ -41,30 +41,74 @@ import os.log
 		}
 	}
 
-	init(regularFont: Font, boldFont: Font, italicFont: Font, boldItalicFont: Font) {
+	public init(font: AppFont, fontSize: CGFloat) {
+		var regularFont: Font?
+		var boldFont: Font?
+		var italicFont: Font?
+		var boldItalicFont: Font?
+
+		if font.systemMonospaceFont != true {
+			if let name = font.regular {
+				regularFont = Font(name: name, size: fontSize)
+			}
+			if let name = font.bold {
+				boldFont = Font(name: name, size: fontSize)
+			}
+			if let name = font.italic {
+				italicFont = Font(name: name, size: fontSize)
+			}
+			if let name = font.boldItalic {
+				boldItalicFont = Font(name: name, size: fontSize)
+			}
+		}
+
+		if regularFont == nil || boldFont == nil {
+			if font.systemMonospaceFont != true {
+				os_log("Font %{public}@ size %{public}.1f could not be initialised", type: .error, font.regular ?? "?", fontSize)
+			}
+
+			regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
+			boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+
+			if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+				italicFont = Font(descriptor: fontDescriptor, size: fontSize)
+			}
+			if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+				boldItalicFont = Font(descriptor: fontDescriptor, size: fontSize)
+			}
+		}
+
+		self.init(regularFont: regularFont!,
+							boldFont: boldFont!,
+							italicFont: italicFont ?? regularFont!,
+							boldItalicFont: boldItalicFont ?? boldFont!)
+	}
+
+	public init(regularFont: Font, boldFont: Font, italicFont: Font, boldItalicFont: Font) {
 		self.regularFont = regularFont
 		self.boldFont = boldFont
 		self.italicFont = italicFont
 		self.boldItalicFont = boldItalicFont
 
-		let attributedString = NSAttributedString(string: "A", attributes: [
-			.font: regularFont
-		])
+		// Determine the bounding box of a single letter in this font. This, of course, assumes all
+		// characters in this font (and its variants) are the same width, but that’s an assumption most
+		// terminals/text editors make anyway.
+		let attributedString = NSAttributedString(string: "A",
+																							attributes: [
+																								.font: regularFont
+																							])
 		let line = CTLineCreateWithAttributedString(attributedString)
 
-		var ascent = CGFloat(0)
-		var descent = CGFloat(0)
-		var leading = CGFloat(0)
+		var ascent: CGFloat = 0
+		var descent: CGFloat = 0
+		var leading: CGFloat = 0
 		let width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
 		self.ascent = ascent
 		self.descent = descent
 		self.leading = leading
 
-		boundingBox = CGSize(width: width, height: ascent + descent + leading)
-	}
-
-	override public var description: String {
-		return "FontMetrics: regularFont = \(regularFont); boldFont = \(boldFont); italicFont = \(italicFont); boldItalicFont = \(boldItalicFont); boundingBox = \(boundingBox)"
+		boundingBox = CGSize(width: width,
+												 height: ascent + descent + leading)
 	}
 
 }

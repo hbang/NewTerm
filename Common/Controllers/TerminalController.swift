@@ -47,6 +47,7 @@ public class TerminalController {
 	private var terminal: Terminal?
 	private var subProcess: SubProcess?
 	private var processLaunchDate: Date?
+	private var cursorDirty = false
 
 	public var screenSize: ScreenSize? {
 		didSet {
@@ -79,7 +80,7 @@ public class TerminalController {
 	@objc func preferencesUpdated() {
 		let preferences = Preferences.shared
 		stringSupplier.colorMap = preferences.colorMap
-		stringSupplier.fontMetrics = preferences.fontMetrics!
+		stringSupplier.fontMetrics = preferences.fontMetrics
 
 		terminal?.refresh(startRow: 0, endRow: terminal?.rows ?? 0)
 	}
@@ -102,28 +103,18 @@ public class TerminalController {
 	public func readInputStream(_ data: Data) {
 		let bytes = Array<UInt8>(data)
 		terminal?.feed(byteArray: bytes)
+		cursorDirty = true
 	}
 
 	@objc private func updateTimerFired() {
-		if terminal?.getUpdateRange() == nil {
+		if terminal?.getUpdateRange() == nil || cursorDirty {
 			return
 		}
-
 		terminal?.clearUpdateRange()
 
 		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
-		let attributedString = self.stringSupplier.attributedString()
-		let backgroundColor = self.stringSupplier.colorMap!.background
-
-		self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-
-//		self.secondaryUpdateQueue.async {
-//			self.stringSupplier.detectLinks(for: attributedString)
-//
-//			DispatchQueue.main.async {
-//				self.delegate?.refresh(attributedString: attributedString, backgroundColor: backgroundColor)
-//			}
-//		}
+		self.delegate?.refresh(attributedString: stringSupplier.attributedString(),
+													 backgroundColor: stringSupplier.colorMap!.background)
 	}
 
 	// MARK: - Object lifecycle
