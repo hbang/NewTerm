@@ -353,10 +353,7 @@ class TerminalKeyInput: TextInputBase {
 //		return textView ?? self
 //	}
 
-	override func hasText() -> Bool {
-		// We always “have text”, even if we don’t
-		return true
-	}
+	override var hasText: Bool { true }
 
 	override func insertText(_ text: String) {
 		let input = text.data(using: .utf8)!
@@ -401,11 +398,11 @@ class TerminalKeyInput: TextInputBase {
 		terminalInputDelegate!.receiveKeyboardInput(data: backspaceData)
 	}
 
-	override func beginFloatingCursor(at point: CGPoint) {
+	func beginFloatingCursor(at point: CGPoint) {
 		previousFloatingCursorPoint = point
 	}
 
-	override func updateFloatingCursor(at point: CGPoint) {
+	func updateFloatingCursor(at point: CGPoint) {
 		guard let oldPoint = previousFloatingCursorPoint else {
 			return
 		}
@@ -430,13 +427,8 @@ class TerminalKeyInput: TextInputBase {
 		previousFloatingCursorPoint = point
 	}
 
-	override func endFloatingCursor() {
+	func endFloatingCursor() {
 		previousFloatingCursorPoint = nil
-	}
-
-	override func caretRect(for position: UITextPosition!) -> CGRect {
-
-		return CGRect(x: 100, y: 100, width: 10, height: 10)
 	}
 
 	// MARK: - UIResponder
