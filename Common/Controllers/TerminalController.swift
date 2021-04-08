@@ -47,6 +47,9 @@ public class TerminalController {
 	private var terminal: Terminal?
 	private var subProcess: SubProcess?
 	private var processLaunchDate: Date?
+	private var readBuffer = Data()
+
+	private var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
 	public var screenSize: ScreenSize? {
 		didSet {
@@ -61,14 +64,13 @@ public class TerminalController {
 		}
 	}
 
-	// TODO: Implement scrollback
-	public var scrollbackLines: Int { 0 }
+	public var scrollbackLines: Int { terminal?.getTopVisibleRow() ?? 0 }
 
 	private var lastCursorLocation: (x: Int, y: Int) = (-1, -1)
 
 	public init() {
 		let options = TerminalOptions(termName: "xterm-256color",
-																	scrollback: 0)
+																	scrollback: 10000)
 		terminal = Terminal(delegate: self, options: options)
 
 		stringSupplier.terminal = terminal
@@ -153,11 +155,18 @@ public class TerminalController {
 	// MARK: - Terminal
 
 	public func readInputStream(_ data: Data) {
-		let bytes = Array<UInt8>(data)
-		terminal?.feed(byteArray: bytes)
+		readBuffer.append(data)
 	}
 
 	@objc private func updateTimerFired() {
+		if !readBuffer.isEmpty {
+			let bytes = Array<UInt8>(readBuffer)
+			terminalQueue.async {
+				self.terminal?.feed(byteArray: bytes)
+			}
+			readBuffer.removeAll()
+		}
+
 		guard let cursorLocation = terminal?.getCursorLocation() else {
 			return
 		}
@@ -183,24 +192,22 @@ public class TerminalController {
 extension TerminalController: TerminalDelegate {
 
 	public func send(source: Terminal, data: ArraySlice<UInt8>) {
-		subProcess?.write(data: Data(data))
+		let actualData = Data(data)
+		DispatchQueue.main.async {
+			self.subProcess?.write(data: actualData)
+		}
 	}
 
 	public func bell(source: Terminal) {
-		delegate?.activateBell()
-	}
-
-	public func sizeChanged(source: Terminal) {
-		// TODO
-//		let screenSize = ScreenSize(width: UInt16(source.cols),
-//																height: UInt16(source.rows))
-//		if self.screenSize != screenSize {
-//			self.screenSize = screenSize
-//		}
+		DispatchQueue.main.async {
+			self.delegate?.activateBell()
+		}
 	}
 
 	public func setTerminalTitle(source: Terminal, title: String) {
-		delegate?.titleDidChange(title)
+		DispatchQueue.main.async {
+			self.delegate?.titleDidChange(title)
+		}
 	}
 
 }

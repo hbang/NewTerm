@@ -21,21 +21,22 @@ open class StringSupplier {
 			fatalError()
 		}
 
-		// TODO
 		let cursorPosition = terminal.getCursorLocation()
 
 		let attributedString = NSMutableAttributedString()
-
 		var lastAttribute = Attribute.empty
-		for i in 0..<terminal.rows {
-			guard let line = terminal.getLine(row: i) else {
+
+		let scrollbackRows = terminal.getTopVisibleRow()
+		let totalRows = terminal.rows + scrollbackRows
+		for i in 0..<totalRows {
+			guard let line = terminal.getScrollInvariantLine(row: i) else {
 				continue
 			}
 
 			var buffer = ""
 			for j in 0..<terminal.cols {
 				let data = line[j]
-				let isCursor = i == cursorPosition.y && j == cursorPosition.x
+				let isCursor = i - scrollbackRows == cursorPosition.y && j == cursorPosition.x
 
 				if isCursor || lastAttribute != data.attribute {
 					// Finish up the last run by appending it to the attributed string, then reset for the
@@ -59,7 +60,7 @@ open class StringSupplier {
 					} else if character != "\0" {
 						buffer.append(character)
 					}
-					if i != terminal.rows - 1 {
+					if i != totalRows - 1 {
 						buffer.append("\n")
 					}
 				} else if character == "\0" {
