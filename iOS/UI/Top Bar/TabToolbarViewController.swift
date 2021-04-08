@@ -88,6 +88,7 @@ class TabToolbarViewController: UIViewController {
 		addButton.contentMode = .center
 		addButton.addTarget(self, action: #selector(self.addTerminal), for: .touchUpInside)
 
+		#if !targetEnvironment(macCatalyst)
 		if #available(iOS 14, *) {
 			addButton.menu = addButtonMenu
 			addButton.addAction(UIAction { [weak self] _ in
@@ -96,6 +97,7 @@ class TabToolbarViewController: UIViewController {
 		} else {
 			addButton.addInteraction(UIContextMenuInteraction(delegate: self))
 		}
+		#endif
 
 		let collectionViewLayout = UICollectionViewFlowLayout()
 		collectionViewLayout.scrollDirection = .horizontal
