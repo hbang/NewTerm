@@ -114,6 +114,7 @@ class TabToolbarViewController: UIViewController {
 
 		#if targetEnvironment(macCatalyst)
 		passwordButton.isHidden = true
+		settingsButton.isHidden = true
 		#endif
 
 		topStackView = UIStackView(arrangedSubviews: [ leftSpacer, titleLabel, passwordButton, settingsButton, addButton, rightSpacer ])
