@@ -62,11 +62,12 @@ public class TerminalController {
 		}
 	}
 
-	public var scrollbackLines: Int { (terminal?.rows ?? 0) - (terminal?.getTopVisibleRow() ?? 0) }
+	// TODO: Implement scrollback
+	public var scrollbackLines: Int { 0 }
 
 	public init() {
 		let options = TerminalOptions(termName: "xterm-256color",
-																	scrollback: 1000)
+																	scrollback: 0)
 		terminal = Terminal(delegate: self, options: options)
 
 		stringSupplier.terminal = terminal
