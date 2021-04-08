@@ -59,7 +59,9 @@ open class StringSupplier {
 					} else if character != "\0" {
 						buffer.append(character)
 					}
-					buffer.append("\n")
+					if i != terminal.rows - 1 {
+						buffer.append("\n")
+					}
 				} else if character == "\0" {
 					buffer.append(" ")
 				} else {
