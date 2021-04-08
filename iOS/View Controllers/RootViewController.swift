@@ -67,8 +67,8 @@ class RootViewController: UIViewController {
 
 		// TODO: Cleanup
 		#if targetEnvironment(macCatalyst)
-		let topBarHeight: CGFloat = 4
-		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 33)
+		let topBarHeight: CGFloat = 0
+		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 26)
 		tabToolbar.topMargin = 0
 		#else
 		let isWide = isBigDevice || view.frame.size.width > 450

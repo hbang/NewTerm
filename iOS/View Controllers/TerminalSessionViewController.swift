@@ -190,7 +190,12 @@ class TerminalSessionViewController: UIViewController {
 
 		// Determine the screen size based on the font size
 		let width = textView.frame.size.width - view.safeAreaInsets.left - view.safeAreaInsets.right
-		let height = textView.frame.size.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom
+		#if targetEnvironment(macCatalyst)
+		let extraHeight: CGFloat = 26
+		#else
+		let extraHeight: CGFloat = 0
+		#endif
+		let height = textView.frame.size.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - extraHeight
 
 		if width < 0 || height < 0 {
 			// Huh? Let’s just ignore it.

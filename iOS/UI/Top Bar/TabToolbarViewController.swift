@@ -126,13 +126,19 @@ class TabToolbarViewController: UIViewController {
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
 
+		#if targetEnvironment(macCatalyst)
+		let barHeight: CGFloat = 26
+		#else
+		let barHeight: CGFloat = 32
+		#endif
+
 		NSLayoutConstraint.activate([
 			mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
 			mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
-			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
+			tabsCollectionView.heightAnchor.constraint(equalToConstant: barHeight),
 
-			topStackView.heightAnchor.constraint(equalToConstant: 32),
+			topStackView.heightAnchor.constraint(equalToConstant: barHeight),
 			leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
 			rightSpacer.widthAnchor.constraint(equalToConstant: 0),
 			passwordButton.widthAnchor.constraint(equalTo: passwordButton.heightAnchor),
@@ -143,7 +149,7 @@ class TabToolbarViewController: UIViewController {
 		#if targetEnvironment(macCatalyst)
 		NSLayoutConstraint.activate([
 			mainStackView.topAnchor.constraint(equalTo: view.topAnchor),
-			mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 66)
+			mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 67)
 		])
 		#else
 		NSLayoutConstraint.activate([
@@ -161,18 +167,14 @@ class TabToolbarViewController: UIViewController {
 
 			let isWide = isBigDevice || view.frame.size.width > 450
 			mainStackView.axis = isWide ? .horizontal : .vertical
+			mainStackView.spacing = isWide ? 6 : 2
 			leftSpacer.isHidden = isWide
 			titleLabel.isHidden = isWide
 
-			mainStackView.removeArrangedSubview(topStackView)
-			mainStackView.removeArrangedSubview(tabsCollectionView)
-
 			if isWide {
-				mainStackView.addArrangedSubview(tabsCollectionView)
-				mainStackView.addArrangedSubview(topStackView)
+				mainStackView.insertArrangedSubview(tabsCollectionView, at: 0)
 			} else {
-				mainStackView.addArrangedSubview(topStackView)
-				mainStackView.addArrangedSubview(tabsCollectionView)
+				mainStackView.insertArrangedSubview(topStackView, at: 0)
 			}
 
 			DispatchQueue.main.async {
