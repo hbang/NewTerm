@@ -29,16 +29,14 @@ class TabToolbarViewController: UIViewController {
 	weak var delegate: TabToolbarDelegate?
 
 	private var backdropView: UIToolbar!
+	private var mainStackView: UIStackView!
+	private var topStackView: UIStackView!
+	private var leftSpacer: UIView!
 	private var titleLabel: UILabel!
-	private var settingsButton: UIButton!
-	private var passwordButton: UIButton!
 
-	private(set) var tabsCollectionView: UICollectionView!
-	private(set) var addButton: UIButton!
+	private var tabsCollectionView: UICollectionView!
 
 	var topMargin: CGFloat = 0
-
-	private var maximumTabsToFit = 0
 	private var previousWidth: CGFloat = 0
 
 	override func viewDidLoad() {
@@ -63,7 +61,7 @@ class TabToolbarViewController: UIViewController {
 		backdropView.delegate = self
 		view.addSubview(backdropView)
 
-		let leftSpacer = UIView()
+		leftSpacer = UIView()
 		let rightSpacer = UIView()
 
 		titleLabel = UILabel()
@@ -72,19 +70,19 @@ class TabToolbarViewController: UIViewController {
 		titleLabel.textAlignment = .center
 		titleLabel.textColor = .label
 
-		passwordButton = UIButton(type: .system)
+		let passwordButton = UIButton(type: .system)
 		passwordButton.setImage(passwordImage, for: .normal)
 		passwordButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
 		passwordButton.contentMode = .center
 		passwordButton.addTarget(self, action: #selector(self.openPasswordManager), for: .touchUpInside)
 
-		settingsButton = UIButton(type: .system)
+		let settingsButton = UIButton(type: .system)
 		settingsButton.setImage(gearImage, for: .normal)
 		settingsButton.accessibilityLabel = NSLocalizedString("SETTINGS", comment: "Title of Settings page.")
 		settingsButton.contentMode = .center
 		settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchUpInside)
 
-		addButton = UIButton(type: .system)
+		let addButton = UIButton(type: .system)
 		addButton.setImage(plusImage, for: .normal)
 		addButton.accessibilityLabel = NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the button that reveals the password manager.")
 		addButton.contentMode = .center
@@ -93,7 +91,7 @@ class TabToolbarViewController: UIViewController {
 		if #available(iOS 14, *) {
 			addButton.menu = addButtonMenu
 			addButton.addAction(UIAction { [weak self] _ in
-				self?.addButton.menu = self?.addButtonMenu
+				addButton.menu = self?.addButtonMenu
 			}, for: .menuActionTriggered)
 		} else {
 			addButton.addInteraction(UIContextMenuInteraction(delegate: self))
@@ -118,23 +116,12 @@ class TabToolbarViewController: UIViewController {
 		passwordButton.isHidden = true
 		#endif
 
-		let mainStackView: UIStackView
-		if isBigDevice {
-			mainStackView = UIStackView(arrangedSubviews: [ tabsCollectionView, passwordButton, settingsButton, addButton, rightSpacer ])
-			mainStackView.spacing = 6
-		} else {
-			let topStackView = UIStackView(arrangedSubviews: [ leftSpacer, titleLabel, passwordButton, settingsButton, addButton, rightSpacer ])
-			topStackView.spacing = 6
+		topStackView = UIStackView(arrangedSubviews: [ leftSpacer, titleLabel, passwordButton, settingsButton, addButton, rightSpacer ])
+		topStackView.spacing = 6
 
-			mainStackView = UIStackView(arrangedSubviews: [ topStackView, tabsCollectionView ])
-			mainStackView.spacing = 2
-			mainStackView.axis = .vertical
-
-			NSLayoutConstraint.activate([
-				topStackView.heightAnchor.constraint(equalToConstant: 32),
-				leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
-			])
-		}
+		mainStackView = UIStackView(arrangedSubviews: [ topStackView, tabsCollectionView ])
+		mainStackView.spacing = 2
+		mainStackView.axis = .vertical
 
 		mainStackView.translatesAutoresizingMaskIntoConstraints = false
 		view.addSubview(mainStackView)
@@ -145,6 +132,8 @@ class TabToolbarViewController: UIViewController {
 
 			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
 
+			topStackView.heightAnchor.constraint(equalToConstant: 32),
+			leftSpacer.widthAnchor.constraint(equalTo: leftSpacer.heightAnchor, multiplier: 3, constant: 6 * 3),
 			rightSpacer.widthAnchor.constraint(equalToConstant: 0),
 			passwordButton.widthAnchor.constraint(equalTo: passwordButton.heightAnchor),
 			settingsButton.widthAnchor.constraint(equalTo: settingsButton.heightAnchor),
@@ -170,8 +159,25 @@ class TabToolbarViewController: UIViewController {
 		if previousWidth != view.frame.size.width {
 			previousWidth = view.frame.size.width
 
-//			let layout = tabsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
-//			layout.width
+			let isWide = isBigDevice || view.frame.size.width > 450
+			mainStackView.axis = isWide ? .horizontal : .vertical
+			leftSpacer.isHidden = isWide
+			titleLabel.isHidden = isWide
+
+			mainStackView.removeArrangedSubview(topStackView)
+			mainStackView.removeArrangedSubview(tabsCollectionView)
+
+			if isWide {
+				mainStackView.addArrangedSubview(tabsCollectionView)
+				mainStackView.addArrangedSubview(topStackView)
+			} else {
+				mainStackView.addArrangedSubview(topStackView)
+				mainStackView.addArrangedSubview(tabsCollectionView)
+			}
+
+			DispatchQueue.main.async {
+				self.updateTabWidth()
+			}
 		}
 	}
 
@@ -215,18 +221,26 @@ class TabToolbarViewController: UIViewController {
 	}
 
 	func didAddTab(at index: Int) {
-		tabsCollectionView.reloadData()
-		tabsCollectionView.layoutIfNeeded()
+		UIView.performWithoutAnimation {
+			self.tabsCollectionView.insertItems(at: [ IndexPath(item: index, section: 0) ])
+			self.tabsCollectionView.reloadItems(at: self.tabsCollectionView.indexPathsForVisibleItems)
+		}
+		updateTabWidth()
 	}
 
 	func didRemoveTab(at index: Int) {
-		tabsCollectionView.reloadData()
-		tabsCollectionView.layoutIfNeeded()
+		UIView.performWithoutAnimation {
+			self.tabsCollectionView.deleteItems(at: [ IndexPath(item: index, section: 0) ])
+			self.tabsCollectionView.reloadItems(at: self.tabsCollectionView.indexPathsForVisibleItems)
+		}
+		updateTabWidth()
 	}
 
 	func tabDidUpdate(at index: Int) {
-		tabsCollectionView.reloadData()
-		tabsCollectionView.layoutIfNeeded()
+		UIView.performWithoutAnimation {
+			self.tabsCollectionView.reloadItems(at: [ IndexPath(item: index, section: 0) ])
+		}
+		updateTabWidth()
 
 		if dataSource!.selectedTerminalIndex() == index {
 			titleLabel.text = dataSource?.terminalName(at: index)
@@ -236,6 +250,47 @@ class TabToolbarViewController: UIViewController {
 	private func selectTerminal(at index: Int) {
 		delegate?.selectTerminal(at: index)
 		titleLabel.text = dataSource?.terminalName(at: index)
+	}
+
+	private func updateTabWidth() {
+		let numberOfTerminals = dataSource?.numberOfTerminals() ?? 0
+		if numberOfTerminals == 0 {
+			// Happens when the last tab is closed. We don’t need to do anything in that case. When the
+			// window will be reused (on iPhone), we’ll get called again after a new terminal is created.
+			return
+		}
+
+		let maxTerminals: Int
+		if tabsCollectionView.frame.size.width < 400 {
+			maxTerminals = 2
+		} else if tabsCollectionView.frame.size.width < 900 {
+			maxTerminals = 4
+		} else {
+			maxTerminals = 6
+		}
+
+		let width: CGFloat
+		if numberOfTerminals <= maxTerminals {
+			width = tabsCollectionView.frame.size.width / CGFloat(numberOfTerminals)
+		} else {
+			width = (tabsCollectionView.frame.size.width / (CGFloat(maxTerminals) + 1)) * 0.9
+		}
+
+		let itemSize = CGSize(width: width, height: tabsCollectionView.frame.size.height)
+
+		// TODO: This works, but the animations are unpleasant. Why do the cells not animate their
+		// contents when I do this?
+		UIView.animate(withDuration: 0.2, delay: 0, options: .beginFromCurrentState, animations: {
+			let layout = self.tabsCollectionView.collectionViewLayout as! UICollectionViewFlowLayout
+			layout.itemSize = itemSize
+			self.tabsCollectionView.performBatchUpdates(nil, completion: nil)
+		}, completion: { _ in
+			// Have the collection view scroll to the new location of the selected tab, in case it’s now
+			// off-screen.
+			if let index = self.dataSource?.selectedTerminalIndex() {
+				self.didSelectTab(at: index)
+			}
+		})
 	}
 
 }
@@ -263,25 +318,6 @@ extension TabToolbarViewController: UICollectionViewDataSource, UICollectionView
 		cell.closeButton.addTarget(self, action: #selector(self.removeTerminalButtonTapped(_:)), for: .touchUpInside)
 		cell.isLastItem = indexPath.row == (dataSource?.numberOfTerminals() ?? 0) - 1
 		return cell
-	}
-
-	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		let numberOfTerminals = dataSource?.numberOfTerminals() ?? 0
-		let maxTerminals: Int
-		if tabsCollectionView.frame.size.width < 400 {
-			maxTerminals = 2
-		} else if tabsCollectionView.frame.size.width < 900 {
-			maxTerminals = 4
-		} else {
-			maxTerminals = 6
-		}
-		let width: CGFloat
-		if numberOfTerminals < maxTerminals {
-			width = tabsCollectionView.frame.size.width / CGFloat(numberOfTerminals)
-		} else {
-			width = (tabsCollectionView.frame.size.width / (CGFloat(maxTerminals) + 1)) * 0.9
-		}
-		return CGSize(width: width, height: tabsCollectionView.frame.size.height)
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

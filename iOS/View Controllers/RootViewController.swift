@@ -71,7 +71,8 @@ class RootViewController: UIViewController {
 		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 33)
 		tabToolbar.topMargin = 0
 		#else
-		let topBarHeight: CGFloat = isBigDevice ? 33 : 66
+		let isWide = isBigDevice || view.frame.size.width > 450
+		let topBarHeight: CGFloat = isWide ? 33 : 66
 		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
 		tabToolbar.topMargin = view.safeAreaInsets.top
 		#endif
@@ -113,6 +114,7 @@ class RootViewController: UIViewController {
 
 		terminals.remove(at: index)
 		titleObservers.remove(at: index)
+		tabToolbar.didRemoveTab(at: index)
 
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
 		// select the closest tab we have available
@@ -221,7 +223,10 @@ extension RootViewController: TabToolbarDataSource {
 	}
 
 	func terminalName(at index: Int) -> String {
-		return terminals[index].title ?? ""
+		let title = terminals[index].title
+		return title == nil || title!.isEmpty
+			? NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+			: title!
 	}
 
 }
