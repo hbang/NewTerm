@@ -66,12 +66,12 @@ class LogoHeaderView: UIView {
 
 		NSLayoutConstraint.activate([
 			containerView.topAnchor.constraint(equalTo: self.topAnchor, constant: -topSuperOffset),
-			containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -35),
+			containerView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
 			containerView.leadingAnchor.constraint(equalTo: self.leadingAnchor),
 			containerView.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 
 			stackView.topAnchor.constraint(equalTo: containerView.topAnchor, constant: topSuperOffset),
-			stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor, constant: -35),
+			stackView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor),
 			stackView.leadingAnchor.constraint(equalTo: containerView.leadingAnchor, constant: outerMargins),
 			stackView.trailingAnchor.constraint(equalTo: containerView.trailingAnchor, constant: -outerMargins),
 
@@ -134,10 +134,11 @@ struct LogoHeaderViewRepresentable: UIViewRepresentable {
 
 struct LogoHeaderViewRepresentable_Previews: PreviewProvider {
 	static var previews: some View {
-		VStack {
-			LogoHeaderViewRepresentable()
-				.frame(height: 200)
-			Spacer()
+		ScrollView {
+			VStack {
+				LogoHeaderViewRepresentable()
+					.frame(height: 200)
+			}
 		}
 		.previewDevice("iPod touch (7th generation)")
 	}
