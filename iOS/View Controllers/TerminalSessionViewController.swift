@@ -17,12 +17,13 @@ class TerminalSessionViewController: UIViewController {
 		if AudioServicesCreateSystemSoundID(Bundle.main.url(forResource: "bell", withExtension: "m4a")! as CFURL, &soundID) == kAudioServicesNoError {
 			return soundID
 		}
-		fatalError("couldn’t initialise bell sound")
+		fatalError("Couldn’t initialise bell sound")
 	}()
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
+	private var textViewTapGestureRecognizer: UITapGestureRecognizer!
 
 	private lazy var bellHUDView: HUDView = {
 		let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
@@ -69,14 +70,9 @@ class TerminalSessionViewController: UIViewController {
 		textView.showsVerticalScrollIndicator = false
 		textView.delegate = self
 
-		let gestureRecognizers = [
-			UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
-		]
-
-		for gestureRecognizer in gestureRecognizers {
-			gestureRecognizer.delegate = self
-			textView.addGestureRecognizer(gestureRecognizer)
-		}
+		textViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
+		textViewTapGestureRecognizer.delegate = self
+		textView.addGestureRecognizer(textViewTapGestureRecognizer)
 
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
@@ -147,6 +143,11 @@ class TerminalSessionViewController: UIViewController {
 
 	override func viewSafeAreaInsetsDidChange() {
 		super.viewSafeAreaInsetsDidChange()
+		updateScreenSize()
+	}
+
+	override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+		super.traitCollectionDidChange(previousTraitCollection)
 		updateScreenSize()
 	}
 
@@ -399,8 +400,11 @@ extension TerminalSessionViewController: UITextViewDelegate {
 
 extension TerminalSessionViewController: UIGestureRecognizerDelegate {
 
-	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-		return true
+	func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRequireFailureOf otherGestureRecognizer: UIGestureRecognizer) -> Bool {
+		// This allows the tap-to-activate-keyboard gesture to work without conflicting with UIKit’s
+		// internal text view/scroll view gestures… as much as we can avoid conflicting, at least.
+		return gestureRecognizer == textViewTapGestureRecognizer
+			&& (!(otherGestureRecognizer is UITapGestureRecognizer) || isFirstResponder)
 	}
 
 }
