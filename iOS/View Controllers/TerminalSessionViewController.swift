@@ -122,6 +122,7 @@ class TerminalSessionViewController: UIViewController {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
 		becomeFirstResponder()
+		terminalController.terminalWillAppear()
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {
@@ -134,6 +135,7 @@ class TerminalSessionViewController: UIViewController {
 		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
 		resignFirstResponder()
+		terminalController.terminalWillDisappear()
 	}
 
 	override func viewWillLayoutSubviews() {

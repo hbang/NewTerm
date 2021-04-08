@@ -76,15 +76,65 @@ public class TerminalController {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
 
-		updateTimer = Timer.scheduledTimer(timeInterval: 1 / 60, target: self, selector: #selector(self.updateTimerFired), userInfo: nil, repeats: true)
+		startUpdateTimer(fps: 60)
+
+		if UIApplication.shared.supportsMultipleScenes {
+			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneDidEnterBackground), name: UIWindowScene.didEnterBackgroundNotification, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneWillEnterForeground), name: UIWindowScene.willEnterForegroundNotification, object: nil)
+		}
+		NotificationCenter.default.addObserver(self, selector: #selector(self.appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 	}
 
-	@objc func preferencesUpdated() {
+	@objc private func preferencesUpdated() {
 		let preferences = Preferences.shared
 		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics
 
 		terminal?.refresh(startRow: 0, endRow: terminal?.rows ?? 0)
+	}
+
+	@objc private func sceneDidEnterBackground() {
+		// Throttle the update timer to save battery. On iPhone, we shouldn’t be visible at all in this
+		// case, so stop updating entirely.
+		if UIApplication.shared.supportsMultipleScenes {
+			startUpdateTimer(fps: 10)
+		} else {
+			stopUpdatingTimer()
+		}
+	}
+
+	@objc private func sceneWillEnterForeground() {
+		// Go back to full speed.
+		startUpdateTimer(fps: 60)
+	}
+
+	@objc private func appWillResignActive() {
+		stopUpdatingTimer()
+	}
+
+	@objc private func appDidBecomeActive() {
+		startUpdateTimer(fps: 60)
+	}
+
+	public func terminalWillAppear() {
+		// Start updating again.
+		startUpdateTimer(fps: 60)
+	}
+
+	public func terminalWillDisappear() {
+		// Stop updating entirely. We don’t need to if we’re not visible.
+		stopUpdatingTimer()
+	}
+
+	private func startUpdateTimer(fps: TimeInterval) {
+		updateTimer?.invalidate()
+		updateTimer = Timer.scheduledTimer(timeInterval: 1 / fps, target: self, selector: #selector(self.updateTimerFired), userInfo: nil, repeats: true)
+	}
+
+	private func stopUpdatingTimer() {
+		updateTimer?.invalidate()
+		updateTimer = nil
 	}
 
 	// MARK: - Sub Process
