@@ -47,7 +47,6 @@ public class TerminalController {
 	private var terminal: Terminal?
 	private var subProcess: SubProcess?
 	private var processLaunchDate: Date?
-	private var cursorDirty = false
 
 	public var screenSize: ScreenSize? {
 		didSet {
@@ -64,6 +63,8 @@ public class TerminalController {
 
 	// TODO: Implement scrollback
 	public var scrollbackLines: Int { 0 }
+
+	private var lastCursorLocation: (x: Int, y: Int) = (-1, -1)
 
 	public init() {
 		let options = TerminalOptions(termName: "xterm-256color",
@@ -104,14 +105,17 @@ public class TerminalController {
 	public func readInputStream(_ data: Data) {
 		let bytes = Array<UInt8>(data)
 		terminal?.feed(byteArray: bytes)
-		cursorDirty = true
 	}
 
 	@objc private func updateTimerFired() {
-		if terminal?.getUpdateRange() == nil || !cursorDirty {
+		guard let cursorLocation = terminal?.getCursorLocation() else {
+			return
+		}
+		if terminal?.getUpdateRange() == nil && cursorLocation == lastCursorLocation {
 			return
 		}
 		terminal?.clearUpdateRange()
+		lastCursorLocation = cursorLocation
 
 		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
 		self.delegate?.refresh(attributedString: stringSupplier.attributedString(),
