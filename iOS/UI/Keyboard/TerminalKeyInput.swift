@@ -141,9 +141,6 @@ class TerminalKeyInput: TextInputBase {
 			toolbar!.setUp()
 		}
 
-		setMoreRowVisible(false, animated: false)
-		addSubview(moreToolbar)
-
 		ctrlKey.addTarget(self,  action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
 		metaKey.addTarget(self,  action: #selector(self.inputKeyPressed), for: .touchUpInside)
 		tabKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
@@ -165,6 +162,9 @@ class TerminalKeyInput: TextInputBase {
 		}
 
 		moreToolbarBottomConstraint = moreToolbar.bottomAnchor.constraint(equalTo: self.bottomAnchor)
+
+		setMoreRowVisible(false, animated: false)
+		addSubview(moreToolbar)
 
 		NSLayoutConstraint.activate([
 			moreToolbar.leadingAnchor.constraint(equalTo: self.leadingAnchor),
@@ -303,12 +303,6 @@ class TerminalKeyInput: TextInputBase {
 
 	// MARK: - More row
 
-	override func layoutSubviews() {
-		super.layoutSubviews()
-
-		moreToolbarBottomConstraint.constant = -textView.verticalScrollIndicatorInsets.bottom
-	}
-
 	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
 		// if we’re already in the specified state, return
 		if visible == !moreToolbar.isHidden {
@@ -327,6 +321,7 @@ class TerminalKeyInput: TextInputBase {
 		} else {
 			moreToolbar.alpha = visible ? 1 : 0
 			moreToolbar.isHidden = !visible
+			moreToolbarBottomConstraint.constant = -(textView?.safeAreaInsets.bottom ?? 0)
 		}
 	}
 
