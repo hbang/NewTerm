@@ -43,7 +43,8 @@ struct SettingsThemeView: View {
 		}
 
 		let list = List {
-			Section(header: Spacer()) {
+			Section(footer: Text("Note: You currently need to restart the app to have theme updates apply.")) {}
+			Section() {
 				themesList
 			}
 		}
