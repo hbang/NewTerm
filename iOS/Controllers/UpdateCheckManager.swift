@@ -20,7 +20,7 @@ class UpdateCheckManager {
 	static let updateAvailableNotification = Notification.Name(rawValue: "UpdateCheckManagerUpdateAvailableNotification")
 
 	static func check(updateAvailableCompletion: @escaping (_ repsonse: UpdateCheckResponse) -> ()) {
-		#if !DEBUG
+		#if targetEnvironment(macCatalyst) && !DEBUG
 		URLSession.shared.dataTask(with: URL(string: "https://cdn.hbang.ws/updates/newterm-mac-beta.json")!) { data, _, error in
 			if let error = error {
 				os_log("Update checker error: %@", String(describing: error))
