@@ -30,11 +30,16 @@ class SafariContainerViewController: UIViewController {
 			return
 		}
 
+		#if targetEnvironment(macCatalyst)
+		UIApplication.shared.open(url, options: [:], completionHandler: nil)
+		navigationController?.popViewController(animated: true)
+		#else
 		viewController = SFSafariViewController(url: url)
 		addChild(viewController!)
 		viewController!.view.frame = view.bounds
 		viewController!.view.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		view.addSubview(viewController!.view)
+		#endif
 	}
 
 }
@@ -45,6 +50,9 @@ struct SafariViewControllerRepresentable: UIViewControllerRepresentable {
 
 	var url: URL?
 
+	@Environment(\.presentationMode)
+	var presentationMode
+
 	func makeUIViewController(context: Context) -> SafariContainerViewController {
 		return SafariContainerViewController()
 	}
@@ -52,6 +60,12 @@ struct SafariViewControllerRepresentable: UIViewControllerRepresentable {
 	func updateUIViewController(_ viewController: SafariContainerViewController, context: Context) {
 		// Sigh. The things you take for granted in a mature UI framework.
 		viewController.url = url
+
+		#if targetEnvironment(macCatalyst)
+		UIView.performWithoutAnimation {
+			presentationMode.wrappedValue.dismiss()
+		}
+		#endif
 	}
 
 }
