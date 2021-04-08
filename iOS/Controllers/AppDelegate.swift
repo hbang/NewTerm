@@ -46,15 +46,40 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		builder.remove(menu: .toolbar)
 
 		// Add Preferences item
-		let preferences = NSLocalizedString("MACMENUITEM_APP_PREFS", bundle: .uikit, comment: "")
 		builder.insertSibling(UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: preferences,
+																	UIKeyCommand(title: NSLocalizedString("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
 																							 action: #selector(RootViewController.openSettings),
 																							 input: ",",
 																							 modifierFlags: .command)
 																 ]),
 													afterMenu: .about)
+
+		builder.replace(menu: .newScene,
+										with: UIMenu(options: .displayInline,
+																 children: [
+																	UIKeyCommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+																							 action: #selector(RootViewController.addWindow),
+																							 input: "n",
+																							 modifierFlags: .command),
+																	UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
+																							 action: #selector(RootViewController.addTerminal),
+																							 input: "t",
+																							 modifierFlags: .command)
+																 ]))
+
+		builder.replace(menu: .close,
+										with: UIMenu(options: .displayInline,
+																 children: [
+																	UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+																							 action: #selector(RootViewController.closeCurrentWindow),
+																							 input: "w",
+																							 modifierFlags: [ .command, .shift ]),
+																	UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
+																							 action: #selector(RootViewController.removeCurrentTerminal),
+																							 input: "w",
+																							 modifierFlags: .command)
+																 ]))
 	}
 
 }

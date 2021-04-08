@@ -15,6 +15,12 @@ struct SettingsView: View {
 	@ObservedObject var preferences = Preferences.shared
 
 	var body: some View {
+		#if targetEnvironment(macCatalyst)
+		let title = "SETTINGS_MAC"
+		#else
+		let title = "SETTINGS"
+		#endif
+
 		return NavigationView {
 			List() {
 				Section(header: Text("Interface")) {
@@ -46,7 +52,7 @@ struct SettingsView: View {
 				}
 			}
 			.listStyle(GroupedListStyle())
-			.navigationBarTitle("SETTINGS", displayMode: .large)
+			.navigationBarTitle(LocalizedStringKey(title), displayMode: .large)
 			.navigationBarItems(trailing:
 														Button(
 															action: {
