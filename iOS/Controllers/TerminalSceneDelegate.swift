@@ -19,14 +19,21 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 	}
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		if let windowScene = scene as? UIWindowScene {
-			window = UIWindow(windowScene: windowScene)
-			window!.tintColor = .tint
-			window!.rootViewController = UINavigationController(rootViewController: RootViewController())
-			window!.makeKeyAndVisible()
-
-			preferencesUpdated()
+		guard let windowScene = scene as? UIWindowScene else {
+			return
 		}
+
+		window = UIWindow(windowScene: windowScene)
+		window!.tintColor = .tint
+		window!.rootViewController = UINavigationController(rootViewController: RootViewController())
+		window!.makeKeyAndVisible()
+
+		#if targetEnvironment(macCatalyst)
+		windowScene.titlebar?.titleVisibility = .hidden
+		windowScene.titlebar?.toolbar = nil
+		#endif
+
+		preferencesUpdated()
 	}
 
 	// MARK: - Window management

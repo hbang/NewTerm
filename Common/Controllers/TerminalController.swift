@@ -107,7 +107,7 @@ public class TerminalController {
 	}
 
 	@objc private func updateTimerFired() {
-		if terminal?.getUpdateRange() == nil || cursorDirty {
+		if terminal?.getUpdateRange() == nil || !cursorDirty {
 			return
 		}
 		terminal?.clearUpdateRange()

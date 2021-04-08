@@ -114,6 +114,10 @@ class TabToolbarViewController: UIViewController {
 		tabsCollectionView.delegate = self
 		tabsCollectionView.register(TabCollectionViewCell.self, forCellWithReuseIdentifier: TabCollectionViewCell.reuseIdentifier)
 
+		#if targetEnvironment(macCatalyst)
+		passwordButton.isHidden = true
+		#endif
+
 		let mainStackView: UIStackView
 		if isBigDevice {
 			mainStackView = UIStackView(arrangedSubviews: [ tabsCollectionView, passwordButton, settingsButton, addButton, rightSpacer ])
@@ -136,9 +140,7 @@ class TabToolbarViewController: UIViewController {
 		view.addSubview(mainStackView)
 
 		NSLayoutConstraint.activate([
-			mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
 			mainStackView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-			mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
 			mainStackView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
 			tabsCollectionView.heightAnchor.constraint(equalToConstant: 32),
@@ -148,6 +150,18 @@ class TabToolbarViewController: UIViewController {
 			settingsButton.widthAnchor.constraint(equalTo: settingsButton.heightAnchor),
 			addButton.widthAnchor.constraint(equalTo: addButton.heightAnchor)
 		])
+
+		#if targetEnvironment(macCatalyst)
+		NSLayoutConstraint.activate([
+			mainStackView.topAnchor.constraint(equalTo: view.topAnchor),
+			mainStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 66)
+		])
+		#else
+		NSLayoutConstraint.activate([
+			mainStackView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+			mainStackView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor)
+		])
+		#endif
 	}
 
 	override func viewDidLayoutSubviews() {
@@ -252,7 +266,22 @@ extension TabToolbarViewController: UICollectionViewDataSource, UICollectionView
 	}
 
 	func collectionView(_ collectionView: UICollectionView, layout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-		return CGSize(width: 130, height: tabsCollectionView.frame.size.height)
+		let numberOfTerminals = dataSource?.numberOfTerminals() ?? 0
+		let maxTerminals: Int
+		if tabsCollectionView.frame.size.width < 400 {
+			maxTerminals = 2
+		} else if tabsCollectionView.frame.size.width < 900 {
+			maxTerminals = 4
+		} else {
+			maxTerminals = 6
+		}
+		let width: CGFloat
+		if numberOfTerminals < maxTerminals {
+			width = tabsCollectionView.frame.size.width / CGFloat(numberOfTerminals)
+		} else {
+			width = (tabsCollectionView.frame.size.width / (CGFloat(maxTerminals) + 1)) * 0.9
+		}
+		return CGSize(width: width, height: tabsCollectionView.frame.size.height)
 	}
 
 	func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

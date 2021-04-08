@@ -29,5 +29,33 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
 	}
 
+	// MARK: - Catalyst
+
+	override func buildMenu(with builder: UIMenuBuilder) {
+		super.buildMenu(with: builder)
+
+		// Remove Edit menu text editing items
+		builder.remove(menu: .spelling)
+		builder.remove(menu: .substitutions)
+		builder.remove(menu: .transformations)
+
+		// Remove Format menu
+		builder.remove(menu: .format)
+
+		// Remove View menu toolbar items
+		builder.remove(menu: .toolbar)
+
+		// Add Preferences item
+		let preferences = NSLocalizedString("MACMENUITEM_APP_PREFS", bundle: .uikit, comment: "")
+		builder.insertSibling(UIMenu(options: .displayInline,
+																 children: [
+																	UIKeyCommand(title: preferences,
+																							 action: #selector(RootViewController.openSettings),
+																							 input: ",",
+																							 modifierFlags: .command)
+																 ]),
+													afterMenu: .about)
+	}
+
 }
 

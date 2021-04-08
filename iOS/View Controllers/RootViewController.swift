@@ -66,14 +66,18 @@ class RootViewController: UIViewController {
 		super.viewWillLayoutSubviews()
 
 		// TODO: Cleanup
+		#if targetEnvironment(macCatalyst)
+		let topBarHeight: CGFloat = 4
+		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 33)
+		tabToolbar.topMargin = 0
+		#else
 		let topBarHeight: CGFloat = isBigDevice ? 33 : 66
 		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
 		tabToolbar.topMargin = view.safeAreaInsets.top
-
-		let barInsets = UIEdgeInsets(top: tabToolbar.view.frame.size.height, left: 0, bottom: 0, right: 0)
+		#endif
 
 		for viewController in terminals {
-			viewController.barInsets = barInsets
+			viewController.additionalSafeAreaInsets.top = topBarHeight
 		}
 	}
 
