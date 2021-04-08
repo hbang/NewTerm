@@ -20,6 +20,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		FontMetrics.loadFonts()
 		_ = Preferences.shared
 
+		UpdateCheckManager.check(updateAvailableCompletion: { response in
+			if let scene = application.connectedScenes.first {
+				let delegate = scene.delegate as! TerminalSceneDelegate
+				delegate.handleUpdateAvailable(response)
+			}
+		})
+
 		return true
 	}
 

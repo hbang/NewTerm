@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E8795AB261C8CC000883135 /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8795AA261C8CC000883135 /* SafariViewController.swift */; };
 		4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
@@ -134,6 +135,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
 		4E8795AA261C8CC000883135 /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
 		4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalizedStringKey+Additions.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
@@ -528,6 +530,7 @@
 			children = (
 				CFBB96C422B5481B00585BE6 /* AppDelegate.swift */,
 				CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */,
+				4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -813,6 +816,7 @@
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
+				4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */,
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 			);

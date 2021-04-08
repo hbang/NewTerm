@@ -55,4 +55,24 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window?.overrideUserInterfaceStyle = preferences.userInterfaceStyle
 	}
 
+	// MARK: - Updates
+
+	func handleUpdateAvailable(_ response: UpdateCheckResponse) {
+		guard let viewController = window?.rootViewController else {
+			return
+		}
+
+		let infoPlist = Bundle.main.infoDictionary!
+		let appVersion = infoPlist["CFBundleShortVersionString"] as! String
+
+		let alertController = UIAlertController(title: "Update Available",
+																						message: "Version \(response.versionString) is available to install. You’re currently using version \(appVersion).",
+																						preferredStyle: .alert)
+		alertController.addAction(UIAlertAction(title: "Dismiss", style: .cancel, handler: nil))
+		alertController.addAction(UIAlertAction(title: "Download", style: .default, handler: { _ in
+			UIApplication.shared.open(URL(string: response.url)!, options: [:], completionHandler: nil)
+		}))
+		viewController.present(alertController, animated: true, completion: nil)
+	}
+
 }
