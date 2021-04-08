@@ -111,16 +111,16 @@ class SubProcess: NSObject {
 	}
 
 	func stop(fromError: Bool = false) throws {
-		if childPID == nil {
+		guard let childPID = childPID else {
 			throw SubProcessIllegalStateError.notStarted
 		}
 
-		kill(childPID!, SIGKILL)
+		kill(childPID, SIGKILL)
 
 		var stat = Int32() // unused
-		waitpid(childPID!, &stat, WUNTRACED)
+		waitpid(childPID, &stat, WUNTRACED)
 
-		childPID = nil
+		self.childPID = nil
 		fileDescriptor = nil
 		fileHandle = nil
 
