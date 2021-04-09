@@ -11,7 +11,7 @@ import os.log
 
 enum SubProcessIllegalStateError: Error {
 	case alreadyStarted, notStarted
-	case forkFailed, inSandbox
+	case openPtyFailed, forkFailed, inSandbox
 	case deallocatedWhileRunning
 }
 
@@ -30,29 +30,14 @@ protocol SubProcessDelegate: AnyObject {
 
 class SubProcess: NSObject {
 
-	private static let newlineData = Data(bytes: "\r\n", count: 2)
-
-	var delegate: SubProcessDelegate?
+	weak var delegate: SubProcessDelegate?
 
 	private var childPID: pid_t?
 	private var fileDescriptor: Int32?
-	public var fileHandle: FileHandle?
+	private var fileHandle: FileHandle?
 
 	var screenSize: ScreenSize = ScreenSize(width: 80, height: 25) {
-		didSet {
-			if fileDescriptor == nil {
-				return
-			}
-
-			var windowSize = winsize()
-			windowSize.ws_col = UInt16(screenSize.width)
-			windowSize.ws_row = UInt16(screenSize.height)
-
-			if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
-				os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
-				delegate!.subProcess(didReceiveError: SubProcessIOError.writeFailed)
-			}
-		}
+		didSet { updateWindowSize() }
 	}
 
 	func start() throws {
@@ -60,14 +45,18 @@ class SubProcess: NSObject {
 			throw SubProcessIllegalStateError.alreadyStarted
 		}
 
+		// Initialise the pty
 		var windowSize = winsize()
 		windowSize.ws_col = UInt16(screenSize.width)
 		windowSize.ws_row = UInt16(screenSize.height)
 
 		fileDescriptor = Int32()
-		let localeCode = self.localeCode
-		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 
+		// This must be retrieved before we fork.
+		let localeCode = self.localeCode
+
+		
+		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 		switch pid {
 			case -1:
 				if errno == EPERM {
@@ -80,8 +69,14 @@ class SubProcess: NSObject {
 			case 0:
 				// Handle the child subprocess. First try to use /bin/login since it’s a little nicer. Fall
 				// back to /bin/bash if that is available.
-				let loginArgs = ([ "login", "-fp", NSUserName() ] as NSArray).cStringArray()!
-				let bashArgs = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
+
+				#if targetEnvironment(simulator)
+				let path = "/bin/bash"
+				let args = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
+				#else
+				let path = "/usr/bin/login"
+				let args = ([ "login", "-fp", NSUserName() ] as NSArray).cStringArray()!
+				#endif
 
 				let env = ([
 					"TERM=xterm-256color",
@@ -90,10 +85,15 @@ class SubProcess: NSObject {
 					"LC_TERMINAL=NewTerm"
 				] as NSArray).cStringArray()!
 
-				#if !targetEnvironment(simulator)
-				_ = attemptStartProcess(path: "/usr/bin/login", arguments: loginArgs, environment: env)
-				#endif
-				_ = attemptStartProcess(path: "/bin/bash", arguments: bashArgs, environment: env)
+				defer {
+					free(args)
+					free(env)
+				}
+
+				if execve(path, args, env) == -1 {
+					os_log("%{public}@: exec failed: %{public}d: %{public}s", type: .error, path, errno, strerror(errno))
+					throw SubProcessIllegalStateError.forkFailed
+				}
 				break
 
 			default:
@@ -132,49 +132,8 @@ class SubProcess: NSObject {
 		}
 	}
 
-	private func didReceiveData(_ data: Data) {
-		if data.isEmpty {
-			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
-			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
-			try? self.stop(fromError: true)
-		}
-
-		DispatchQueue.main.async {
-			// Forward to the delegate.
-			if data.isEmpty {
-				self.delegate?.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
-			} else {
-				self.delegate?.subProcess(didReceiveData: data)
-			}
-		}
-	}
-
-	private func attemptStartProcess(path: String, arguments: UnsafePointer<UnsafeMutablePointer<Int8>?>, environment: UnsafePointer<UnsafeMutablePointer<Int8>?>) -> Int {
-		let fileManager = FileManager.default
-
-		if !fileManager.fileExists(atPath: path) {
-			return -1
-		}
-
-		// Notably, we don't test group or other bits so this still might not always
-		// notice if the binary is not executable by us.
-		if !fileManager.isExecutableFile(atPath: path) {
-			return -1
-		}
-
-		if execve(path, arguments, environment) == -1 {
-			os_log("%{public}@: exec failed: %{public}d: %{public}s", type: .error, path, errno, strerror(errno))
-			return -1
-		}
-
-		// execve never returns if successful
-		return 0
-	}
-
 	func write(data: Data) {
-		if fileDescriptor != nil {
-			fileHandle!.write(data)
-		}
+		fileHandle?.write(data)
 	}
 
 	private var localeCode: String {
@@ -196,13 +155,44 @@ class SubProcess: NSObject {
 		return "en_US.UTF-8"
 	}
 
+	private func didReceiveData(_ data: Data) {
+		if data.isEmpty {
+			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
+			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
+			try? self.stop(fromError: true)
+		}
+
+		DispatchQueue.main.async {
+			// Forward to the delegate.
+			if data.isEmpty {
+				self.delegate?.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
+			} else {
+				self.delegate?.subProcess(didReceiveData: data)
+			}
+		}
+	}
+
+	private func updateWindowSize() {
+		if fileDescriptor == nil {
+			return
+		}
+
+		var windowSize = winsize()
+		windowSize.ws_col = UInt16(screenSize.width)
+		windowSize.ws_row = UInt16(screenSize.height)
+
+		if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
+			os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
+			delegate!.subProcess(didReceiveError: SubProcessIOError.writeFailed)
+		}
+	}
+
 	deinit {
 		if childPID != nil {
 			os_log("Illegal state - SubProcess deallocated while still running", type: .error)
 		}
 
 		childPID = nil
-		fileDescriptor = nil
 		fileHandle = nil
 	}
 
