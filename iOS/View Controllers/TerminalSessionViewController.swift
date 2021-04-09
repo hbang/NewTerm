@@ -10,6 +10,8 @@ import UIKit
 import AudioToolbox
 import os.log
 
+fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
+
 class TerminalSessionViewController: UIViewController {
 
 	static let bellSoundID: SystemSoundID = {
@@ -334,7 +336,11 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		}
 
 		if preferences.bellSound {
+			#if targetEnvironment(macCatalyst)
+			AudioServicesPlayAlertSound(kSystemSoundID_UserPreferredAlert)
+			#else
 			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
+			#endif
 		}
 	}
 
