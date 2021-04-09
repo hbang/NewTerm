@@ -1,5 +1,9 @@
-# NewTerm
-This is a rewrite of the original NewTerm project, which was forked from [Mobile Terminal](http://cydia.saurik.com/package/mobileterminal-applesdk). Mobile Terminal’s codebase dates from the iPhone OS 2.0 – 3.0 era, and prior to this it was written for iPhone OS 1.0 (before an official SDK existed). The newer Mobile Terminal that most people know and love is actually a very unfinished rewrite of [the old Mobile Terminal](https://www.youtube.com/watch?v=YykPoy83Jrg), which had substantially more features. There have been many significant improvements to iOS frameworks since then, so it was decided the best way to go from here was to rewrite the majority of the app.
+<p align="center"><img src="https://github.com/hbang/NewTerm/raw/newterm-3/Resources/Assets.xcassets/app-icon-big.imageset/app-icon-big%402x.png" width="96" height="96" alt=""></p>
+<h1 align="center">NewTerm</h1>
+
+NewTerm is a continuation of the Mobile Terminal project, a versatile terminal emulator for iOS. It includes many improvements over Mobile Terminal, such as a tab-based interface, a selection of themes and fonts, copy and paste, and various bug fixes. It’s the perfect companion for running quick commands directly on your iPhone, or working on projects on your iPad side-by-side with other apps, or SSHing to a server that crashed while you’re on vacation.
+
+**[Download on Chariz](https://chariz.com/get/newterm)**
 
 ## License
-Licensed under the GNU General Public License, version 2.0. Refer to [LICENSE.md](LICENSE.md).
+Licensed under the Apache License, version 2.0. Refer to [LICENSE.md](LICENSE.md).
