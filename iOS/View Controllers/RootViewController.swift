@@ -16,7 +16,7 @@ class RootViewController: UIViewController {
 	private var terminals: [TerminalSessionViewController] = []
 	private var selectedTabIndex = Int(0)
 
-	private let tabToolbar = TabToolbarViewController()
+	private var tabToolbar: TabToolbarViewController?
 
 	private var titleObservers = [NSKeyValueObservation]()
 
@@ -25,11 +25,14 @@ class RootViewController: UIViewController {
 
 		navigationController!.isNavigationBarHidden = true
 
-		tabToolbar.view.autoresizingMask = [ .flexibleWidth ]
-		tabToolbar.delegate = self
-		tabToolbar.dataSource = self
-		addChild(tabToolbar)
-		view.addSubview(tabToolbar.view)
+		#if !targetEnvironment(macCatalyst)
+		tabToolbar = TabToolbarViewController()
+		tabToolbar!.view.autoresizingMask = [ .flexibleWidth ]
+		tabToolbar!.delegate = self
+		tabToolbar!.dataSource = self
+		addChild(tabToolbar!)
+		view.addSubview(tabToolbar!.view)
+		#endif
 
 		addTerminal()
 
@@ -40,7 +43,7 @@ class RootViewController: UIViewController {
 															 modifierFlags: .command))
 
 		addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
-															 action: #selector(self.addTerminal),
+															 action: #selector(self.newTab),
 															 input: "t",
 															 modifierFlags: .command))
 		addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
@@ -66,40 +69,51 @@ class RootViewController: UIViewController {
 		super.viewWillLayoutSubviews()
 
 		// TODO: Cleanup
-		#if targetEnvironment(macCatalyst)
-		let topBarHeight: CGFloat = 0
-		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: 26)
-		tabToolbar.topMargin = 0
-		#else
+		#if !targetEnvironment(macCatalyst)
 		let isWide = isBigDevice || view.frame.size.width > 450
 		let topBarHeight: CGFloat = isWide ? 33 : 66
-		tabToolbar.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
-		tabToolbar.topMargin = view.safeAreaInsets.top
-		#endif
+		tabToolbar?.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
+		tabToolbar?.topMargin = view.safeAreaInsets.top
 
 		for viewController in terminals {
 			viewController.additionalSafeAreaInsets.top = topBarHeight
 		}
+		#endif
 	}
 
 	// MARK: - Tab management
 
-	@IBAction func addTerminal() {
+	@objc func newTab() {
+		#if targetEnvironment(macCatalyst)
+		if let sceneDelegate = view.window?.windowScene?.delegate as? TerminalSceneDelegate {
+			sceneDelegate.createWindow(asTab: true)
+		}
+		#else
+		addTerminal()
+		#endif
+	}
+
+	func addTerminal() {
 		let terminalViewController = TerminalSessionViewController()
 
 		addChild(terminalViewController)
 		terminalViewController.willMove(toParent: self)
-		view.insertSubview(terminalViewController.view, belowSubview: tabToolbar.view)
+		if let tabToolbar = tabToolbar {
+			view.insertSubview(terminalViewController.view, belowSubview: tabToolbar.view)
+		} else {
+			view.addSubview(terminalViewController.view)
+		}
 		terminalViewController.didMove(toParent: self)
 
 		terminals.append(terminalViewController)
 
 		let index = terminals.count - 1
-		tabToolbar.didAddTab(at: index)
+		tabToolbar?.didAddTab(at: index)
 		selectTerminal(at: index)
 
 		titleObservers.append(terminalViewController.observe(\.title, changeHandler: { viewController, _ in
-			self.tabToolbar.tabDidUpdate(at: index)
+			self.handleTitleChange(at: index)
+			self.tabToolbar?.tabDidUpdate(at: index)
 		}))
 	}
 
@@ -114,7 +128,7 @@ class RootViewController: UIViewController {
 
 		terminals.remove(at: index)
 		titleObservers.remove(at: index)
-		tabToolbar.didRemoveTab(at: index)
+		tabToolbar?.didRemoveTab(at: index)
 
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
 		// select the closest tab we have available
@@ -148,8 +162,6 @@ class RootViewController: UIViewController {
 	}
 
 	func selectTerminal(at index: Int) {
-		tabToolbar.didSelectTab(at: index)
-
 		let oldSelectedTabIndex = selectedTabIndex < terminals.count ? selectedTabIndex : nil
 
 		// If the previous index is now out of bounds, just use nil as our previous. The tab and view
@@ -158,6 +170,8 @@ class RootViewController: UIViewController {
 		let newViewController = terminals[index]
 
 		selectedTabIndex = index
+		tabToolbar?.didSelectTab(at: index)
+		handleTitleChange(at: index)
 
 		// Call the appropriate view controller lifecycle methods on the previous and new view controllers
 		previousViewController?.viewWillDisappear(false)
@@ -169,12 +183,18 @@ class RootViewController: UIViewController {
 		newViewController.viewDidAppear(false)
 	}
 
+	private func handleTitleChange(at index: Int) {
+		if selectedTabIndex == index {
+			view.window?.windowScene?.title = terminalName(at: index)
+		}
+	}
+
 	// MARK: - Window management
 
 	@objc func addWindow() {
-		let options = UIWindowScene.ActivationRequestOptions()
-		options.requestingScene = view.window!.windowScene
-		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
+		if let sceneDelegate = view.window?.windowScene?.delegate as? TerminalSceneDelegate {
+			sceneDelegate.createWindow(asTab: false)
+		}
 	}
 
 	@objc func closeCurrentWindow() {
@@ -204,6 +224,8 @@ class RootViewController: UIViewController {
 
 	private func destructScene() {
 		if UIApplication.shared.supportsMultipleScenes {
+			// TODO: Probably need to directly use NSWindow APIs for this on Catalyst.
+			// https://developer.apple.com/forums/thread/127382
 			UIApplication.shared.requestSceneSessionDestruction(view.window!.windowScene!.session, options: nil, errorHandler: nil)
 		} else {
 			removeAllTerminals()
@@ -234,10 +256,17 @@ extension RootViewController: TabToolbarDataSource {
 extension RootViewController: TabToolbarDelegate {
 
 	@objc func openSettings() {
-		if presentedViewController == nil {
-			let viewController = UIHostingController(rootView: SettingsView())
-			viewController.modalPresentationStyle = .formSheet
-			navigationController?.present(viewController, animated: true, completion: nil)
+		if UIApplication.shared.supportsMultipleScenes {
+			let options = UIWindowScene.ActivationRequestOptions()
+			options.requestingScene = view.window?.windowScene
+			let userActivity = NSUserActivity(activityType: SettingsSceneDelegate.activityType)
+			UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: options, errorHandler: nil)
+		} else {
+			if presentedViewController == nil {
+				let viewController = UIHostingController(rootView: SettingsView())
+				viewController.modalPresentationStyle = .formSheet
+				navigationController?.present(viewController, animated: true, completion: nil)
+			}
 		}
 	}
 

@@ -55,7 +55,6 @@ class SubProcess: NSObject {
 		// This must be retrieved before we fork.
 		let localeCode = self.localeCode
 
-		
 		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 		switch pid {
 			case -1:

@@ -20,6 +20,8 @@
 	<string>$(MARKETING_VERSION)</string>
 	<key>CFBundleVersion</key>
 	<string>$(CURRENT_PROJECT_VERSION)</string>
+	<key>LSApplicationCategoryType</key>
+	<string>public.app-category.developer-tools</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>UIApplicationSceneManifest</key>
@@ -37,6 +39,14 @@
 					<string>Terminal</string>
 					<key>UISceneDelegateClassName</key>
 					<string>$(PRODUCT_MODULE_NAME).TerminalSceneDelegate</string>
+				</dict>
+				<dict>
+					<key>UILaunchStoryboardName</key>
+					<string>LaunchScreen</string>
+					<key>UISceneConfigurationName</key>
+					<string>Settings</string>
+					<key>UISceneDelegateClassName</key>
+					<string>$(PRODUCT_MODULE_NAME).SettingsSceneDelegate</string>
 				</dict>
 			</array>
 		</dict>

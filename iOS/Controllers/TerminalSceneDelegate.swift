@@ -28,9 +28,10 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window!.rootViewController = UINavigationController(rootViewController: RootViewController())
 		window!.makeKeyAndVisible()
 
+		scene.title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+
 		#if targetEnvironment(macCatalyst)
-		windowScene.titlebar?.titleVisibility = .hidden
-		windowScene.titlebar?.toolbar = nil
+		windowScene.titlebar?.separatorStyle = .none
 		#endif
 
 		preferencesUpdated()
@@ -38,13 +39,20 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
 	// MARK: - Window management
 
-	@IBAction func addWindow() {
+	func createWindow(asTab: Bool) {
 		let options = UIWindowScene.ActivationRequestOptions()
+		#if targetEnvironment(macCatalyst)
+		if asTab {
+			options.requestingScene = window!.windowScene
+		}
+		options.collectionJoinBehavior = asTab ? .preferred : .disallowed
+		#else
 		options.requestingScene = window!.windowScene
+		#endif
 		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
 	}
 
-	@IBAction func removeWindow() {
+	@objc func removeWindow() {
 		UIApplication.shared.requestSceneSessionDestruction(window!.windowScene!.session, options: nil, errorHandler: nil)
 	}
 

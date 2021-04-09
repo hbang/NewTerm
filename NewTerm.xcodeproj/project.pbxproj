@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
+		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E8795AB261C8CC000883135 /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8795AA261C8CC000883135 /* SafariViewController.swift */; };
 		4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
@@ -136,6 +137,7 @@
 
 /* Begin PBXFileReference section */
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
+		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		4E8795AA261C8CC000883135 /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
 		4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalizedStringKey+Additions.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
@@ -530,6 +532,7 @@
 			children = (
 				CFBB96C422B5481B00585BE6 /* AppDelegate.swift */,
 				CFBB96C622B5481B00585BE6 /* TerminalSceneDelegate.swift */,
+				4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */,
 				4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */,
 			);
 			path = Controllers;
@@ -812,6 +815,7 @@
 				4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
 				4E9FB99426184356005AFCC8 /* SettingsView.swift in Sources */,
+				4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */,
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
@@ -1214,7 +1218,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1256,7 +1260,7 @@
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
 				);
-				MARKETING_VERSION = 2.5;
+				MARKETING_VERSION = 3.0b1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;
@@ -1310,7 +1314,7 @@
 				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
-				CURRENT_PROJECT_VERSION = 10;
+				CURRENT_PROJECT_VERSION = 11;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_NS_ASSERTIONS = NO;
@@ -1346,7 +1350,7 @@
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
 				);
-				MARKETING_VERSION = 2.5;
+				MARKETING_VERSION = 3.0b1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = ws.hbang.Terminal;

@@ -12,8 +12,6 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-	var window: UIWindow?
-
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		UIScrollView.appearance().keyboardDismissMode = .interactive
 
@@ -33,6 +31,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	// MARK: - UISceneSession Lifecycle
 
 	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
+		if let userActivity = options.userActivities.first {
+			if userActivity.activityType == SettingsSceneDelegate.activityType {
+				return UISceneConfiguration(name: "Settings", sessionRole: connectingSceneSession.role)
+			}
+		}
 		return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
 	}
 
@@ -70,7 +73,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																							 input: "n",
 																							 modifierFlags: .command),
 																	UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
-																							 action: #selector(RootViewController.addTerminal),
+																							 action: #selector(RootViewController.newTab),
 																							 input: "t",
 																							 modifierFlags: .command)
 																 ]))
@@ -78,10 +81,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		builder.replace(menu: .close,
 										with: UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
-																							 action: #selector(RootViewController.closeCurrentWindow),
-																							 input: "w",
-																							 modifierFlags: [ .command, .shift ]),
+																	// TODO: Disabling for now, needs research.
+																	// Probably need to directly access the NSWindow to do this.
+//																	UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+//																							 action: #selector(RootViewController.closeCurrentWindow),
+//																							 input: "w",
+//																							 modifierFlags: [ .command, .shift ]),
 																	UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
 																							 action: #selector(RootViewController.removeCurrentTerminal),
 																							 input: "w",
