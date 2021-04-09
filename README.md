@@ -1,6 +1,5 @@
 <h1 align="center">
-  <img src="https://github.com/hbang/NewTerm/raw/newterm-3/Resources/Assets.xcassets/app-icon-big.imageset/app-icon-big%402x.png" width="96" height="96" alt="">
-  <br>
+  <img src="https://github.com/hbang/NewTerm/raw/newterm-3/Resources/Assets.xcassets/app-icon-big.imageset/app-icon-big%402x.png" width="96" height="96" alt=""><br>
   NewTerm
 </h1>
 
