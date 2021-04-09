@@ -55,9 +55,15 @@ class SubProcess: NSObject {
 		// This must be retrieved before we fork.
 		let localeCode = self.localeCode
 
+		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
+		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
+		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent(".hushlogin")
+		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
+
 		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 		switch pid {
 			case -1:
+				// Fork failed.
 				if errno == EPERM {
 					throw SubProcessIllegalStateError.inSandbox
 				} else {
@@ -66,15 +72,17 @@ class SubProcess: NSObject {
 				}
 
 			case 0:
-				// Handle the child subprocess. First try to use /bin/login since it’s a little nicer. Fall
-				// back to /bin/bash if that is available.
+				// We’re in the fork. Execute the login shell.
+				// TODO: At some point, come up with some way to keep track of working directory changes.
+				// When opening a new tab, we can switch straight to the previous tab’s working directory.
+				chdir(NSHomeDirectory())
 
 				#if targetEnvironment(simulator)
 				let path = "/bin/bash"
 				let args = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
 				#else
 				let path = "/usr/bin/login"
-				let args = ([ "login", "-fp", NSUserName() ] as NSArray).cStringArray()!
+				let args = ([ "login", "-fpl\(hushLogin ? "q" : "")", NSUserName() ] as NSArray).cStringArray()!
 				#endif
 
 				let env = ([
@@ -96,6 +104,7 @@ class SubProcess: NSObject {
 				break
 
 			default:
+				// We’re in the parent process. We can go ahead and plug a file handle into the child tty.
 				os_log("Process forked: %d", type: .debug, pid)
 				childPID = pid
 
