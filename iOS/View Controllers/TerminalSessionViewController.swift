@@ -37,6 +37,7 @@ class TerminalSessionViewController: UIViewController {
 
 	private var hasAppeared = false
 	private var hasStarted = false
+	private var keyboardVisible = false
 	private var failureError: Error?
 
 	private var keyboardHeight: CGFloat = 0
@@ -120,7 +121,9 @@ class TerminalSessionViewController: UIViewController {
 		super.viewWillAppear(animated)
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
 		becomeFirstResponder()
@@ -133,7 +136,9 @@ class TerminalSessionViewController: UIViewController {
 		// Removing keyboard notification observers should come first so we don’t trigger a bunch of
 		// probably unnecessary screen size changes.
 		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
 		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
 		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
 		resignFirstResponder()
@@ -263,20 +268,27 @@ class TerminalSessionViewController: UIViewController {
 			}
 		}
 
+		if notification.name == UIResponder.keyboardWillShowNotification {
+			keyboardVisible = true
+		} else if notification.name == UIResponder.keyboardDidHideNotification {
+			keyboardVisible = false
+		}
+
 		// Hide toolbar popups if visible
 		keyInput.setMoreRowVisible(false, animated: true)
-
-		// YES when showing, NO when hiding
-		let direction = notification.name != UIResponder.keyboardWillHideNotification
-		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 
 		// Determine the final keyboard height. We still get a height if hiding, so force it to 0 if
 		// this isn’t a show notification.
 		let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-		keyboardHeight = direction ? keyboardFrame.size.height : 0
+		if keyboardVisible && notification.name != UIResponder.keyboardWillHideNotification && notification.name != UIResponder.keyboardDidHideNotification {
+			keyboardHeight = keyboardFrame.size.height
+		} else {
+			keyboardHeight = 0
+		}
 
-		// We call updateScreenSize in an animation block to force it to be animated with the exact
+		// We update the safe areas in an animation block to force it to be animated with the exact
 		// parameters given to us in the notification.
+		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 		UIView.animate(withDuration: animationDuration) {
 			self.additionalSafeAreaInsets.bottom = self.keyboardHeight - (self.parent?.view.safeAreaInsets.bottom ?? 0)
 		}
