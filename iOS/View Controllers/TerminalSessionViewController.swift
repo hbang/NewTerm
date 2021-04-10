@@ -94,6 +94,12 @@ class TerminalSessionViewController: UIViewController {
 			passwordImage = UIImage(named: "key.fill", in: nil, with: nil)
 		}
 
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+															 image: UIImage(systemName: "text.badge.xmark"),
+															 action: #selector(self.clearTerminal),
+															 input: "k",
+															 modifierFlags: .command))
+
 		#if !targetEnvironment(macCatalyst)
 		addKeyCommand(UIKeyCommand(title: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
 															 image: passwordImage,
@@ -213,6 +219,10 @@ class TerminalSessionViewController: UIViewController {
 													height: UInt(height / glyphSize.height))
 
 		terminalController.screenSize = size
+	}
+
+	@objc func clearTerminal() {
+		terminalController.clearTerminal()
 	}
 
 	// MARK: - UIResponder

@@ -48,6 +48,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		builder.remove(menu: .spelling)
 		builder.remove(menu: .substitutions)
 		builder.remove(menu: .transformations)
+		builder.remove(menu: .speech)
 
 		// Remove Format menu
 		builder.remove(menu: .format)
@@ -92,6 +93,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																							 input: "w",
 																							 modifierFlags: .command)
 																 ]))
+
+		builder.insertSibling(UIMenu(options: .displayInline,
+																 children: [
+																	UIKeyCommand(title: NSLocalizedString("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+																							 action: #selector(TerminalSessionViewController.clearTerminal),
+																							 input: "k",
+																							 modifierFlags: .command)
+																 ]),
+													afterMenu: .standardEdit)
 	}
 
 }

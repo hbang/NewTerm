@@ -47,6 +47,10 @@ You may need to review startup scripts or reinstall core packages to fix this is
 	<key>CLOSE_WINDOW</key>
 	<string>Close Window</string>
 
+	<!-- VoiceOver label for a button that clears the terminal. -->
+	<key>CLEAR_TERMINAL</key>
+	<string>Clear Terminal</string>
+
 	<!-- VoiceOver label for the button that reveals the password manager. -->
 	<key>PASSWORD_MANAGER</key>
 	<string>Password Manager</string>

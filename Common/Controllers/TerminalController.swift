@@ -177,8 +177,12 @@ public class TerminalController {
 		lastCursorLocation = cursorLocation
 
 		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
-		self.delegate?.refresh(attributedString: stringSupplier.attributedString(),
-													 backgroundColor: stringSupplier.colorMap!.background)
+		delegate?.refresh(attributedString: stringSupplier.attributedString(),
+											backgroundColor: stringSupplier.colorMap!.background)
+	}
+
+	public func clearTerminal() {
+		terminal?.resetToInitialState()
 	}
 
 	// MARK: - Object lifecycle
