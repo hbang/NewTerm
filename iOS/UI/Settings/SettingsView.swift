@@ -47,12 +47,13 @@ struct SettingsView: View {
 			}
 		}
 		.listStyle(GroupedListStyle())
-		.navigationBarTitle("SETTINGS", displayMode: .large)
 
 		#if targetEnvironment(macCatalyst)
 		let finalList = list
+			.navigationBarTitle("SETTINGS_MAC", displayMode: .large)
 		#else
 		let finalList = list
+			.navigationBarTitle("SETTINGS", displayMode: .large)
 			.navigationBarItems(trailing:
 														Button(
 															action: {
