@@ -80,12 +80,10 @@ public class TerminalController {
 
 		startUpdateTimer(fps: 60)
 
-		if UIApplication.shared.supportsMultipleScenes {
-			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneDidEnterBackground), name: UIWindowScene.didEnterBackgroundNotification, object: nil)
-			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneWillEnterForeground), name: UIWindowScene.willEnterForegroundNotification, object: nil)
-		}
+		#if os(iOS)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
+		#endif
 	}
 
 	@objc private func preferencesUpdated() {
@@ -96,7 +94,7 @@ public class TerminalController {
 		terminal?.refresh(startRow: 0, endRow: terminal?.rows ?? 0)
 	}
 
-	@objc private func sceneDidEnterBackground() {
+	public func windowDidEnterBackground() {
 		// Throttle the update timer to save battery. On iPhone, we shouldn’t be visible at all in this
 		// case, so stop updating entirely.
 		if UIApplication.shared.supportsMultipleScenes {
@@ -106,7 +104,7 @@ public class TerminalController {
 		}
 	}
 
-	@objc private func sceneWillEnterForeground() {
+	public func windowWillEnterForeground() {
 		// Go back to full speed.
 		startUpdateTimer(fps: 60)
 	}

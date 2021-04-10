@@ -127,6 +127,11 @@ class TerminalSessionViewController: UIViewController {
 				addKeyCommand(UIKeyCommand(input: key, modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
 			}
 		}
+
+		if UIApplication.shared.supportsMultipleScenes {
+			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneDidEnterBackground), name: UIWindowScene.didEnterBackgroundNotification, object: nil)
+			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneWillEnterForeground), name: UIWindowScene.willEnterForegroundNotification, object: nil)
+		}
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -318,6 +323,20 @@ class TerminalSessionViewController: UIViewController {
 			becomeFirstResponder()
 		}
 	}
+	// MARK: - Lifecycle
+
+
+	@objc private func sceneDidEnterBackground(_ notification: Notification) {
+		if notification.object as? UIWindowScene == view.window?.windowScene {
+			terminalController.windowDidEnterBackground()
+		}
+	}
+
+	@objc private func sceneWillEnterForeground(_ notification: Notification) {
+		if notification.object as? UIWindowScene == view.window?.windowScene {
+			terminalController.windowWillEnterForeground()
+		}
+	}
 
 }
 
@@ -430,7 +449,7 @@ extension TerminalSessionViewController: UITextViewDelegate {
 
 	func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
 		// Since the scroll view is at {0, 0}, it won’t respond to scroll to top events till the next
-		// scroll. Trick it by scrolling 1 physical pixel up
+		// scroll. Trick it by scrolling 1 physical pixel up.
 		scrollView.contentOffset.y -= CGFloat(1) / UIScreen.main.scale
 	}
 
