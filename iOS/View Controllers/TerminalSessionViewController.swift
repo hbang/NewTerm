@@ -73,9 +73,11 @@ class TerminalSessionViewController: UIViewController {
 		textView.showsVerticalScrollIndicator = false
 		textView.delegate = self
 
+		#if !targetEnvironment(macCatalyst)
 		textViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
 		textViewTapGestureRecognizer.delegate = self
 		textView.addGestureRecognizer(textViewTapGestureRecognizer)
+		#endif
 
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
@@ -108,18 +110,22 @@ class TerminalSessionViewController: UIViewController {
 															 modifierFlags: [ .command, .alternate ]))
 		#endif
 
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow,    modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
-		addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape,     modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
+		if #available(iOS 13.4, *) {
+			// Handled by TerminalKeyInput
+		} else {
+			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow,    modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
+			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
+			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
+			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
+			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape,     modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
 
-		let letters = [
-			"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-			"s", "t", "u", "v", "w", "x", "y", "z"
-		]
-		for key in letters {
-			addKeyCommand(UIKeyCommand(input: key, modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
+			let letters = [
+				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
+				"s", "t", "u", "v", "w", "x", "y", "z"
+			]
+			for key in letters {
+				addKeyCommand(UIKeyCommand(input: key, modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
+			}
 		}
 	}
 
@@ -300,7 +306,8 @@ class TerminalSessionViewController: UIViewController {
 		// parameters given to us in the notification.
 		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
 		UIView.animate(withDuration: animationDuration) {
-			self.additionalSafeAreaInsets.bottom = self.keyboardHeight - (self.parent?.view.safeAreaInsets.bottom ?? 0)
+			let bottomInset = self.parent?.view.safeAreaInsets.bottom ?? 0
+			self.additionalSafeAreaInsets.bottom = max(bottomInset, self.keyboardHeight - bottomInset)
 		}
 	}
 
@@ -410,18 +417,14 @@ extension TerminalSessionViewController: UITextViewDelegate {
 	}
 
 	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-		let insets = textView.verticalScrollIndicatorInsets
-
 		// If we’re at the top of the scroll view, guess that the user wants to go back to the bottom
-		if scrollView.contentOffset.y <= (scrollView.frame.size.height - insets.top - insets.bottom) / 2 {
+		if scrollView.contentOffset.y <= (scrollView.frame.size.height - textView.safeAreaInsets.top - textView.safeAreaInsets.bottom) / 2 {
 			// Wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
 			UIView.animate(withDuration: 0.5) {
 				self.scrollToBottom(animated: true)
 			}
-
 			return false
 		}
-
 		return true
 	}
 
