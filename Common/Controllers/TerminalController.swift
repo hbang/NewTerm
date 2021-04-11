@@ -20,6 +20,9 @@ public protocol TerminalControllerDelegate: AnyObject {
 	func titleDidChange(_ title: String?)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
 
+	func saveFile(url: URL)
+	func fileUploadRequested()
+
 	func close()
 	func didReceiveError(error: Error)
 
@@ -48,7 +51,7 @@ public class TerminalController {
 	private var updateTimer: Timer?
 	private var readBuffer = Data()
 
-	private var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
+	internal var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
 	public var screenSize: ScreenSize? {
 		didSet { updateScreenSize() }
@@ -151,6 +154,10 @@ public class TerminalController {
 		try subProcess!.stop()
 	}
 
+	internal func write(_ data: Data) {
+		subProcess?.write(data: data)
+	}
+
 	// MARK: - Terminal
 
 	public func readInputStream(_ data: Data) {
@@ -231,7 +238,7 @@ extension TerminalController: TerminalDelegate {
 	public func send(source: Terminal, data: ArraySlice<UInt8>) {
 		let actualData = Data(data)
 		DispatchQueue.main.async {
-			self.subProcess?.write(data: actualData)
+			self.write(actualData)
 		}
 	}
 

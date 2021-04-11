@@ -9,6 +9,7 @@
 import UIKit
 import AudioToolbox
 import os.log
+import CoreServices
 
 fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
 
@@ -42,6 +43,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 	private var lastAutomaticScrollOffset = CGPoint.zero
 	private var invertScrollToTop = false
+
+	private var isPickingFileForUpload = false
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
@@ -364,6 +367,30 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		#endif
 	}
 
+	func saveFile(url: URL) {
+		let viewController: UIDocumentPickerViewController
+		if #available(iOS 14, *) {
+			viewController = UIDocumentPickerViewController(forExporting: [ url ], asCopy: false)
+		} else {
+			viewController = UIDocumentPickerViewController(url: url, in: .moveToService)
+		}
+		viewController.delegate = self
+		present(viewController, animated: true, completion: nil)
+	}
+
+	func fileUploadRequested() {
+		isPickingFileForUpload = true
+
+		let viewController: UIDocumentPickerViewController
+		if #available(iOS 14, *) {
+			viewController = UIDocumentPickerViewController(forOpeningContentTypes: [ .data, .directory ])
+		} else {
+			viewController = UIDocumentPickerViewController(documentTypes: [ kUTTypeData as String, kUTTypeDirectory as String ], in: .import)
+		}
+		viewController.delegate = self
+		present(viewController, animated: true, completion: nil)
+	}
+
 	@objc func activatePasswordManager() {
 		keyInput.activatePasswordManager()
 	}
@@ -430,6 +457,30 @@ extension TerminalSessionViewController: UIGestureRecognizerDelegate {
 		// internal text view/scroll view gestures… as much as we can avoid conflicting, at least.
 		return gestureRecognizer == textViewTapGestureRecognizer
 			&& (!(otherGestureRecognizer is UITapGestureRecognizer) || isFirstResponder)
+	}
+
+}
+
+extension TerminalSessionViewController: UIDocumentPickerDelegate {
+
+	func documentPicker(_ controller: UIDocumentPickerViewController, didPickDocumentsAt urls: [URL]) {
+		guard isPickingFileForUpload,
+					let url = urls.first else {
+			return
+		}
+		terminalController.uploadFile(url: url)
+		isPickingFileForUpload = false
+	}
+
+	func documentPickerWasCancelled(_ controller: UIDocumentPickerViewController) {
+		if isPickingFileForUpload {
+			isPickingFileForUpload = false
+			terminalController.cancelUploadRequest()
+		} else {
+			// The system will clean up the temp directory for us eventually anyway, but still delete the
+			// downloads temp directory now so the file doesn’t linger around till then.
+			terminalController.deleteDownloadCache()
+		}
 	}
 
 }
