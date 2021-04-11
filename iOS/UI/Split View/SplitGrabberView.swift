@@ -7,9 +7,17 @@
 
 import UIKit
 
+protocol SplitGrabberViewDelegate: AnyObject {
+	func splitGrabberViewDidBeginDragging(_ splitGrabberView: SplitGrabberView)
+	func splitGrabberView(_ splitGrabberView: SplitGrabberView, splitDidChange delta: CGFloat)
+	func splitGrabberViewDidCommit(_ splitGrabberView: SplitGrabberView)
+	func splitGrabberViewDidCancel(_ splitGrabberView: SplitGrabberView)
+}
+
 class SplitGrabberView: UIView {
 
 	private(set) var axis: NSLayoutConstraint.Axis
+	weak var delegate: SplitGrabberViewDelegate?
 
 	private var pillView: UIView!
 
@@ -64,7 +72,12 @@ class SplitGrabberView: UIView {
 		// Mac: Entire bar is a grabber.
 		// iOS: Just the pill is a grabber.
 		// Matches expected behaviour of split views on each platform.
-		addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureRecognizerFired)))
+		#if targetEnvironment(macCatalyst)
+		let grabbyView = self
+		#else
+		let grabbyView = pillContainerView
+		#endif
+		grabbyView.addGestureRecognizer(UIPanGestureRecognizer(target: self, action: #selector(self.panGestureRecognizerFired)))
 
 		#if targetEnvironment(macCatalyst)
 		addGestureRecognizer(UIHoverGestureRecognizer(target: self, action: #selector(self.hoverGestureRecognizerFired)))
@@ -81,22 +94,36 @@ class SplitGrabberView: UIView {
 
 	@objc private func panGestureRecognizerFired(_ gestureRecognizer: UIPanGestureRecognizer) {
 		switch gestureRecognizer.state {
+		case .began:
+			delegate?.splitGrabberViewDidBeginDragging(self)
+			
 		case .changed:
+			let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
+			let value: CGFloat
+			switch axis {
+			case .horizontal: value = translation.x
+			case .vertical:   value = translation.y
+			@unknown default: fatalError()
+			}
+			delegate?.splitGrabberView(self, splitDidChange: value)
 			break
 
 		case .ended:
+			delegate?.splitGrabberViewDidCommit(self)
 			break
 
 		case .failed, .cancelled:
+			delegate?.splitGrabberViewDidCancel(self)
 			break
 
-		case .began, .possible: break
+		case .possible: break
 		@unknown default: break
 		}
 	}
 
 	#if targetEnvironment(macCatalyst)
 	@objc private func hoverGestureRecognizerFired(_ gestureRecognizer: UIHoverGestureRecognizer) {
+		// Handles hover state and cursor.
 		switch gestureRecognizer.state {
 		case .began, .changed:
 			UIView.animate(withDuration: 0.2) {

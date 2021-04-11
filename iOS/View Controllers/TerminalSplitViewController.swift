@@ -7,17 +7,32 @@
 
 import UIKit
 
-class TerminalSplitViewController: UIViewController {
+protocol TerminalSplitViewControllerChild: AnyObject {
+	var isSplitViewResizing: Bool { get set }
+	var showsTitleView: Bool { get set }
+}
 
-	var viewControllers: [UIViewController]! {
+class TerminalSplitViewController: UIViewController, TerminalSplitViewControllerChild {
+
+	typealias ChildViewController = TerminalSplitViewControllerChild & UIViewController
+
+	var viewControllers: [ChildViewController]! {
 		didSet { updateViewControllers() }
 	}
 	var axis: NSLayoutConstraint.Axis = .horizontal {
 		didSet { stackView.axis = axis }
 	}
 
+	var isSplitViewResizing = false {
+		didSet { updateIsSplitViewResizing() }
+	}
+	var showsTitleView = false {
+		didSet { updateShowsTitleView() }
+	}
+
 	private let stackView = UIStackView()
 	private var splitPercentages = [Double]()
+	private var oldSplitPercentages = [Double]()
 	private var constraints = [NSLayoutConstraint]()
 
 	private var keyboardVisible = false
@@ -63,19 +78,6 @@ class TerminalSplitViewController: UIViewController {
 		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 	}
 
-	private func updateConstraints() {
-		let totalSpace: CGFloat
-		switch axis {
-		case .horizontal: totalSpace = stackView.frame.size.width - 10
-		case .vertical:   totalSpace = stackView.frame.size.height - 10
-		@unknown default: fatalError()
-		}
-
-		for (i, constraint) in constraints.enumerated() {
-			constraint.constant = totalSpace * CGFloat(splitPercentages[i])
-		}
-	}
-
 	override func updateViewConstraints() {
 		super.updateViewConstraints()
 		updateConstraints()
@@ -119,6 +121,7 @@ class TerminalSplitViewController: UIViewController {
 			if i != viewControllers.count - 1 {
 				let splitGrabberView = SplitGrabberView(axis: axis)
 				splitGrabberView.translatesAutoresizingMaskIntoConstraints = false
+				splitGrabberView.delegate = self
 				stackView.addArrangedSubview(splitGrabberView)
 			}
 		}
@@ -130,7 +133,7 @@ class TerminalSplitViewController: UIViewController {
 
 		if titleObservers.count != viewControllers.count {
 			titleObservers = viewControllers.map { viewController in
-				viewController.observe(\.title, changeHandler: { viewController, _ in
+				(viewController as UIViewController).observe(\.title, changeHandler: { viewController, _ in
 					// TODO
 					self.title = viewController.title
 				})
@@ -176,7 +179,8 @@ class TerminalSplitViewController: UIViewController {
 	}
 
 	func remove(viewController: UIViewController) {
-		guard let index = viewControllers.firstIndex(of: viewController) else {
+		guard let viewController = viewController as? ChildViewController,
+					let index = viewControllers.firstIndex(where: { item in viewController == item }) else {
 			return
 		}
 
@@ -191,6 +195,33 @@ class TerminalSplitViewController: UIViewController {
 			}
 		}
 		updateViewControllers()
+	}
+
+	private func updateConstraints() {
+		let totalSpace: CGFloat
+		switch axis {
+		case .horizontal: totalSpace = stackView.frame.size.width - 10
+		case .vertical:   totalSpace = stackView.frame.size.height - 10
+		@unknown default: fatalError()
+		}
+
+		for (i, constraint) in constraints.enumerated() {
+			constraint.constant = totalSpace * CGFloat(splitPercentages[i])
+		}
+	}
+
+	private func updateIsSplitViewResizing() {
+		// A parent split view is resizing. Let our children know.
+		for viewController in viewControllers {
+			viewController.isSplitViewResizing = isSplitViewResizing
+		}
+	}
+
+	private func updateShowsTitleView() {
+		// A parent split view wants title views. Let our children know.
+		for viewController in viewControllers {
+			viewController.showsTitleView = showsTitleView
+		}
 	}
 
 	// MARK: - Keyboard
@@ -233,6 +264,69 @@ class TerminalSplitViewController: UIViewController {
 		UIView.animate(withDuration: animationDuration) {
 			let bottomInset = self.parent?.view.safeAreaInsets.bottom ?? 0
 			self.additionalSafeAreaInsets.bottom = max(bottomInset, self.keyboardHeight - bottomInset)
+		}
+	}
+
+}
+
+extension TerminalSplitViewController: SplitGrabberViewDelegate {
+
+	func splitGrabberViewDidBeginDragging(_ splitGrabberView: SplitGrabberView) {
+		oldSplitPercentages = splitPercentages
+
+		for viewController in viewControllers {
+			viewController.isSplitViewResizing = true
+		}
+	}
+
+	func splitGrabberView(_ splitGrabberView: SplitGrabberView, splitDidChange delta: CGFloat) {
+		let totalSpace: CGFloat
+		switch axis {
+		case .horizontal: totalSpace = stackView.frame.size.width
+		case .vertical:   totalSpace = stackView.frame.size.height
+		@unknown default: fatalError()
+		}
+
+		let percentage = Double(delta / totalSpace)
+		let firstSplit = max(0.15, min(0.85, oldSplitPercentages[0] + percentage))
+		let secondSplit = 1 - firstSplit
+		if firstSplit > (1 / 2) - 0.02 && firstSplit < (1 / 2) + 0.02 {
+			// Snap to 50%
+			splitPercentages[0] = 1 / 2
+			splitPercentages[1] = 1 / 2
+		} else if firstSplit > (1 / 3) - 0.02 && firstSplit < (1 / 3) + 0.02 {
+			// Snap to 33%
+			splitPercentages[0] = 1 / 3
+			splitPercentages[1] = 2 / 3
+		} else if firstSplit > (2 / 3) - 0.02 && firstSplit < (2 / 3) + 0.02 {
+			// Snap to 66%
+			splitPercentages[0] = 2 / 3
+			splitPercentages[1] = 1 / 3
+		} else {
+			splitPercentages[0] = firstSplit
+			splitPercentages[1] = secondSplit
+		}
+
+
+		UIView.animate(withDuration: 0.2) {
+			self.updateConstraints()
+		}
+	}
+
+	func splitGrabberViewDidCommit(_ splitGrabberView: SplitGrabberView) {
+		oldSplitPercentages.removeAll()
+
+		for viewController in viewControllers {
+			viewController.isSplitViewResizing = false
+		}
+	}
+
+	func splitGrabberViewDidCancel(_ splitGrabberView: SplitGrabberView) {
+		splitPercentages = oldSplitPercentages
+		updateConstraints()
+
+		for viewController in viewControllers {
+			viewController.isSplitViewResizing = false
 		}
 	}
 

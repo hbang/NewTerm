@@ -147,7 +147,7 @@ class RootViewController: UIViewController {
 			titleObservers.append(observer)
 		} else {
 			if let axis = axis {
-				let firstViewController = terminals[index]
+				let firstViewController = terminals[index] as! (UIViewController & TerminalSplitViewControllerChild)
 				let secondViewController = newTerminal
 				splitViewController.axis = axis
 				splitViewController.viewControllers = [ firstViewController, secondViewController ]

@@ -12,7 +12,7 @@ import os.log
 
 fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
 
-class TerminalSessionViewController: UIViewController {
+class TerminalSessionViewController: UIViewController, TerminalSplitViewControllerChild {
 
 	static let bellSoundID: SystemSoundID = {
 		var soundID: SystemSoundID = 0
@@ -21,6 +21,13 @@ class TerminalSessionViewController: UIViewController {
 		}
 		fatalError("Couldn’t initialise bell sound")
 	}()
+
+	var isSplitViewResizing = false {
+		didSet { updateIsSplitViewResizing() }
+	}
+	var showsTitleView = false {
+		didSet { updateShowsTitleView() }
+	}
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)
@@ -171,14 +178,10 @@ class TerminalSessionViewController: UIViewController {
 		super.removeFromParent()
 	}
 
-	func inputText(_ text: String) {
-		terminalController.receiveKeyboardInput(data: text.data(using: .utf8)!)
-	}
-
 	// MARK: - Screen
 
 	func updateScreenSize() {
-		if view.frame.size == .zero {
+		if view.frame.size == .zero || isSplitViewResizing {
 			// Not laid out yet. Wait till we are.
 			return
 		}
@@ -221,6 +224,16 @@ class TerminalSessionViewController: UIViewController {
 
 	@objc func clearTerminal() {
 		terminalController.clearTerminal()
+	}
+
+	private func updateIsSplitViewResizing() {
+		if !isSplitViewResizing {
+			updateScreenSize()
+		}
+	}
+
+	private func updateShowsTitleView() {
+		updateScreenSize()
 	}
 
 	// MARK: - UIResponder
