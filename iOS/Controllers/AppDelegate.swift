@@ -56,7 +56,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Remove View menu toolbar items
 		builder.remove(menu: .toolbar)
 
-		// Add Preferences item
+		// Application menu
 		builder.insertSibling(UIMenu(options: .displayInline,
 																 children: [
 																	UIKeyCommand(title: NSLocalizedString("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
@@ -66,6 +66,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																 ]),
 													afterMenu: .about)
 
+		// File menu
 		builder.replace(menu: .newScene,
 										with: UIMenu(options: .displayInline,
 																 children: [
@@ -94,6 +95,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																							 modifierFlags: .command)
 																 ]))
 
+		builder.insertChild(UIMenu(options: .displayInline,
+															 children: [
+																UIKeyCommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+																						 action: #selector(RootViewController.splitHorizontally),
+																						 input: "d",
+																						 modifierFlags: [.command, .shift]),
+																UIKeyCommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+																						 action: #selector(RootViewController.splitVertically),
+																						 input: "d",
+																						 modifierFlags: .command)
+															 ]),
+												atEndOfMenu: .file)
+
+		// Edit menu
 		builder.insertSibling(UIMenu(options: .displayInline,
 																 children: [
 																	UIKeyCommand(title: NSLocalizedString("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),

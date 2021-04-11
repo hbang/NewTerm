@@ -336,11 +336,30 @@ extension TabToolbarViewController: UIContextMenuInteractionDelegate {
 	var addButtonMenu: UIMenu {
 		var items = [UIMenuElement]()
 		if UIApplication.shared.supportsMultipleScenes {
-			items.append(UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."), image: UIImage(systemName: "plus.rectangle.on.rectangle"), action: #selector(RootViewController.addWindow)))
-			items.append(UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."), image: UIImage(systemName: "xmark.rectangle"), action: #selector(RootViewController.closeCurrentWindow), attributes: .destructive))
+			items.append(UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+														 image: UIImage(systemName: "plus.rectangle.on.rectangle"),
+														 action: #selector(RootViewController.addWindow)))
+			items.append(UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+														 image: UIImage(systemName: "xmark.rectangle"),
+														 action: #selector(RootViewController.closeCurrentWindow),
+														 attributes: .destructive))
+
+			let splitMenu = UIMenu(options: .displayInline,
+														 children: [
+															UICommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+																				image: UIImage(systemName: "rectangle.split.1x2"),
+																				action: #selector(RootViewController.splitHorizontally)),
+															UICommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+																				image: UIImage(systemName: "rectangle.split.2x1"),
+																				action: #selector(RootViewController.splitVertically))
+														 ])
+			items.append(splitMenu)
 		} else {
 			let title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_ACTION", comment: ""), dataSource?.numberOfTerminals() ?? 0)
-			items.append(UICommand(title: title, image: UIImage(systemName: "xmark"), action: #selector(RootViewController.closeCurrentWindow), attributes: .destructive))
+			items.append(UICommand(title: title,
+														 image: UIImage(systemName: "xmark"),
+														 action: #selector(RootViewController.closeCurrentWindow),
+														 attributes: .destructive))
 		}
 		return UIMenu(children: items)
 	}

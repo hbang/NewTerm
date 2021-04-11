@@ -13,7 +13,7 @@ class RootViewController: UIViewController {
 
 	static let settingsViewDoneNotification = Notification.Name(rawValue: "RootViewControllerSettingsViewDoneNotification")
 
-	private var terminals: [TerminalSessionViewController] = []
+	private var terminals: [UIViewController] = []
 	private var selectedTabIndex = Int(0)
 
 	private var tabToolbar: TabToolbarViewController?
@@ -62,7 +62,20 @@ class RootViewController: UIViewController {
 																 modifierFlags: [ .command, .shift ]))
 		}
 
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+															 action: #selector(self.splitHorizontally),
+															 input: "d",
+															 modifierFlags: [.command, .shift]))
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+															 action: #selector(self.splitVertically),
+															 input: "d",
+															 modifierFlags: .command))
+
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.dismissSettings), name: Self.settingsViewDoneNotification, object: nil)
+
+		preferencesUpdated()
 	}
 
 	override func viewWillLayoutSubviews() {
@@ -81,6 +94,13 @@ class RootViewController: UIViewController {
 		#endif
 	}
 
+	// MARK: - Preferences
+
+	@objc private func preferencesUpdated() {
+		let preferences = Preferences.shared
+		view.backgroundColor = preferences.colorMap.background
+	}
+
 	// MARK: - Tab management
 
 	@objc func newTab() {
@@ -94,44 +114,68 @@ class RootViewController: UIViewController {
 	}
 
 	func addTerminal() {
-		let terminalViewController = TerminalSessionViewController()
-
-		addChild(terminalViewController)
-		terminalViewController.willMove(toParent: self)
-		if let tabToolbar = tabToolbar {
-			view.insertSubview(terminalViewController.view, belowSubview: tabToolbar.view)
-		} else {
-			view.addSubview(terminalViewController.view)
-		}
-		terminalViewController.didMove(toParent: self)
-
-		terminals.append(terminalViewController)
-
-		let index = terminals.count - 1
-		tabToolbar?.didAddTab(at: index)
+		let index = min(selectedTabIndex + 1, terminals.count)
+		addTerminal(at: index)
 		selectTerminal(at: index)
-
-		titleObservers.append(terminalViewController.observe(\.title, changeHandler: { viewController, _ in
-			self.handleTitleChange(at: index)
-			self.tabToolbar?.tabDidUpdate(at: index)
-		}))
 	}
 
-	func removeTerminal(terminal terminalViewController: TerminalSessionViewController) {
-		guard let index = terminals.firstIndex(of: terminalViewController) else {
-			NSLog("asked to remove terminal that doesn’t exist? %@", terminalViewController)
+	private func addTerminal(at index: Int, axis: NSLayoutConstraint.Axis? = nil) {
+		let splitViewController = TerminalSplitViewController()
+		splitViewController.view.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		splitViewController.view.frame = view.bounds
+
+		let newTerminal = TerminalSessionViewController()
+
+		addChild(splitViewController)
+		splitViewController.willMove(toParent: self)
+		if let tabToolbar = tabToolbar {
+			view.insertSubview(splitViewController.view, belowSubview: tabToolbar.view)
+		} else {
+			view.addSubview(splitViewController.view)
+		}
+		splitViewController.didMove(toParent: self)
+
+		let observer = splitViewController.observe(\.title, changeHandler: { viewController, _ in
+			self.handleTitleChange(at: index)
+			self.tabToolbar?.tabDidUpdate(at: index)
+		})
+
+		if index == terminals.count {
+			splitViewController.viewControllers = [ newTerminal ]
+			terminals.append(splitViewController)
+			tabToolbar?.didAddTab(at: index)
+			titleObservers.append(observer)
+		} else {
+			if let axis = axis {
+				let firstViewController = terminals[index]
+				let secondViewController = newTerminal
+				splitViewController.axis = axis
+				splitViewController.viewControllers = [ firstViewController, secondViewController ]
+			} else {
+				splitViewController.viewControllers = [ newTerminal ]
+			}
+
+			terminals[index] = splitViewController
+			tabToolbar?.tabDidUpdate(at: index)
+			titleObservers[index] = observer
+		}
+	}
+
+	func removeTerminal(viewController: UIViewController) {
+		guard let index = terminals.firstIndex(of: viewController) else {
+			NSLog("asked to remove terminal that doesn’t exist? %@", viewController)
 			return
 		}
 
-		terminalViewController.removeFromParent()
-		terminalViewController.view.removeFromSuperview()
+		viewController.removeFromParent()
+		viewController.view.removeFromSuperview()
 
 		terminals.remove(at: index)
 		titleObservers.remove(at: index)
 		tabToolbar?.didRemoveTab(at: index)
 
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
-		// select the closest tab we have available
+		// select the closest tab we have available.
 		if terminals.count == 0 {
 			if UIApplication.shared.supportsMultipleScenes {
 				closeCurrentWindow()
@@ -144,7 +188,7 @@ class RootViewController: UIViewController {
 	}
 
 	func removeTerminal(at index: Int) {
-		removeTerminal(terminal: terminals[index])
+		removeTerminal(viewController: terminals[index])
 	}
 
 	@IBAction func removeCurrentTerminal() {
@@ -232,6 +276,16 @@ class RootViewController: UIViewController {
 		}
 	}
 
+	// MARK: - Split views
+
+	@objc func splitHorizontally() {
+		addTerminal(at: selectedTabIndex, axis: .vertical)
+	}
+
+	@objc func splitVertically() {
+		addTerminal(at: selectedTabIndex, axis: .horizontal)
+	}
+
 }
 
 extension RootViewController: TabToolbarDataSource {
@@ -275,8 +329,9 @@ extension RootViewController: TabToolbarDelegate {
 	}
 
 	func openPasswordManager() {
-		let terminal = terminals[selectedTabIndex]
-		terminal.activatePasswordManager()
+		// TODO
+//		let terminal = terminals[selectedTabIndex]
+//		terminal.activatePasswordManager()
 	}
 
 }

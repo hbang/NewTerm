@@ -37,24 +37,14 @@ class TerminalSessionViewController: UIViewController {
 
 	private var hasAppeared = false
 	private var hasStarted = false
-	private var keyboardVisible = false
 	private var failureError: Error?
 
-	private var keyboardHeight: CGFloat = 0
 	private var lastAutomaticScrollOffset = CGPoint.zero
 	private var invertScrollToTop = false
 
 	override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
 		super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
-		setUp()
-	}
 
-	required init?(coder aDecoder: NSCoder) {
-		super.init(coder: aDecoder)
-		setUp()
-	}
-
-	func setUp() {
 		terminalController.delegate = self
 
 		do {
@@ -65,12 +55,18 @@ class TerminalSessionViewController: UIViewController {
 		}
 	}
 
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
+	}
+
 	override func loadView() {
 		super.loadView()
 
 		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
+		#if !targetEnvironment(macCatalyst)
 		textView.showsVerticalScrollIndicator = false
+		#endif
 		textView.delegate = self
 
 		#if !targetEnvironment(macCatalyst)
@@ -137,26 +133,12 @@ class TerminalSessionViewController: UIViewController {
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillShowNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardDidShowNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillHideNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardDidHideNotification, object: nil)
-		NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardVisibilityChanged(_:)), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
-
 		becomeFirstResponder()
 		terminalController.terminalWillAppear()
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
-
-		// Removing keyboard notification observers should come first so we don’t trigger a bunch of
-		// probably unnecessary screen size changes.
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidShowNotification, object: nil)
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardDidHideNotification, object: nil)
-		NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
 
 		resignFirstResponder()
 		terminalController.terminalWillDisappear()
@@ -196,6 +178,11 @@ class TerminalSessionViewController: UIViewController {
 	// MARK: - Screen
 
 	func updateScreenSize() {
+		if view.frame.size == .zero {
+			// Not laid out yet. Wait till we are.
+			return
+		}
+
 		textView.contentInset = UIEdgeInsets(top: 0,
 																				 left: view.safeAreaInsets.left,
 																				 bottom: 0,
@@ -261,58 +248,15 @@ class TerminalSessionViewController: UIViewController {
 		// }
 
 		// If there is no scrollback, use the top of the scroll view. If there is, calculate the bottom
-		var insets = textView.verticalScrollIndicatorInsets
 		var offset = textView.contentOffset
-		let bottom = keyboardHeight > 0 ? keyboardHeight : insets.bottom
+		let bottom = textView.safeAreaInsets.bottom
 
-		insets.top += view.safeAreaInsets.top
-		offset.y = terminalController.scrollbackLines == 0 ? -insets.top : bottom + textView.contentSize.height - textView.frame.size.height
+		offset.y = terminalController.scrollbackLines == 0 ? -textView.safeAreaInsets.top : bottom + textView.contentSize.height - textView.frame.size.height
 
 		// If the offset has changed, update it and our lastAutomaticScrollOffset
 		if textView.contentOffset.y != offset.y {
 			textView.setContentOffset(offset, animated: animated)
 			lastAutomaticScrollOffset = offset
-		}
-	}
-
-	@objc func keyboardVisibilityChanged(_ notification: Notification) {
-		// We do this to avoid the scroll indicator from appearing as soon as the terminal appears.
-		// We only want to see it after the keyboard has appeared.
-		if !hasAppeared {
-			hasAppeared = true
-			textView.showsVerticalScrollIndicator = true
-
-			if let error = failureError {
-				// Try to handle the error again now that the UI is ready.
-				didReceiveError(error: error)
-				failureError = nil
-			}
-		}
-
-		if notification.name == UIResponder.keyboardWillShowNotification {
-			keyboardVisible = true
-		} else if notification.name == UIResponder.keyboardDidHideNotification {
-			keyboardVisible = false
-		}
-
-		// Hide toolbar popups if visible
-		keyInput.setMoreRowVisible(false, animated: true)
-
-		// Determine the final keyboard height. We still get a height if hiding, so force it to 0 if
-		// this isn’t a show notification.
-		let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-		if keyboardVisible && notification.name != UIResponder.keyboardWillHideNotification && notification.name != UIResponder.keyboardDidHideNotification {
-			keyboardHeight = keyboardFrame.size.height
-		} else {
-			keyboardHeight = 0
-		}
-
-		// We update the safe areas in an animation block to force it to be animated with the exact
-		// parameters given to us in the notification.
-		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
-		UIView.animate(withDuration: animationDuration) {
-			let bottomInset = self.parent?.view.safeAreaInsets.bottom ?? 0
-			self.additionalSafeAreaInsets.bottom = max(bottomInset, self.keyboardHeight - bottomInset)
 		}
 	}
 
@@ -323,8 +267,8 @@ class TerminalSessionViewController: UIViewController {
 			becomeFirstResponder()
 		}
 	}
-	// MARK: - Lifecycle
 
+	// MARK: - Lifecycle
 
 	@objc private func sceneDidEnterBackground(_ notification: Notification) {
 		if notification.object as? UIWindowScene == view.window?.windowScene {
@@ -401,8 +345,8 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	@objc func close() {
-		if let rootViewController = parent as? RootViewController {
-			rootViewController.removeTerminal(terminal: self)
+		if let splitViewController = parent as? TerminalSplitViewController {
+			splitViewController.remove(viewController: self)
 		}
 	}
 

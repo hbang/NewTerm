@@ -29,6 +29,8 @@
 		4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB977261724FA005AFCC8 /* ColorMap.swift */; };
 		4E9FB97D26174A78005AFCC8 /* TerminalConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */; };
 		4E9FB99426184356005AFCC8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB99326184356005AFCC8 /* SettingsView.swift */; };
+		4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB057662621A91400766B8A /* TerminalSplitViewController.swift */; };
+		4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0576A2622A16300766B8A /* SplitGrabberView.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -155,6 +157,8 @@
 		4E9FB977261724FA005AFCC8 /* ColorMap.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorMap.swift; sourceTree = "<group>"; };
 		4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalConstants.swift; sourceTree = "<group>"; };
 		4E9FB99326184356005AFCC8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		4EB057662621A91400766B8A /* TerminalSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSplitViewController.swift; sourceTree = "<group>"; };
+		4EB0576A2622A16300766B8A /* SplitGrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGrabberView.swift; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -262,6 +266,14 @@
 				4E98082E261AA9DC00E41883 /* AppStorage.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4EB057692622A15300766B8A /* Split View */ = {
+			isa = PBXGroup;
+			children = (
+				4EB0576A2622A16300766B8A /* SplitGrabberView.swift */,
+			);
+			path = "Split View";
 			sourceTree = "<group>";
 		};
 		CF22F9A81FFB97F7003175DE = {
@@ -397,6 +409,7 @@
 			children = (
 				CFBB968422B5481B00585BE6 /* Keyboard */,
 				CFBB967822B5481B00585BE6 /* Settings */,
+				4EB057692622A15300766B8A /* Split View */,
 				CFBB967B22B5481B00585BE6 /* Terminal */,
 				CFBB968122B5481B00585BE6 /* Top Bar */,
 				4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */,
@@ -468,6 +481,7 @@
 			children = (
 				CFBB969622B5481B00585BE6 /* RootViewController.swift */,
 				CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */,
+				4EB057662621A91400766B8A /* TerminalSplitViewController.swift */,
 			);
 			path = "View Controllers";
 			sourceTree = "<group>";
@@ -799,6 +813,7 @@
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
 				4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */,
+				4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */,
 				4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */,
 				4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */,
 				4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */,
@@ -811,6 +826,7 @@
 				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
 				4E980828261879D200E41883 /* SettingsAboutView.swift in Sources */,
 				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
+				4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */,
 				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
 				4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
