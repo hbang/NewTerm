@@ -546,11 +546,31 @@ class TerminalKeyInput: TextInputBase {
 			}
 
 			if !pressedKeys.isEmpty && hardwareRepeatTimer == nil {
-				hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: 1,
-																									 target: self,
-																									 selector: #selector(self.handleHardwareKeyRepeat),
-																									 userInfo: true,
-																									 repeats: false)
+				#if targetEnvironment(macCatalyst)
+				// If key repeat is disabled by the user, the initial repeat value will be set to a crazy
+				// high sentinel number.
+				let defaults = UserDefaults.standard
+				let keyRepeatEnabled = defaults.object(forKey: "InitialKeyRepeat") as? TimeInterval != 300000
+				#else
+				let defaults = UserDefaults(suiteName: "com.apple.Accessibility")
+				let keyRepeatEnabled = defaults?.object(forKey: "KeyRepeatEnabled") as? Bool ?? true
+				#endif
+
+				if keyRepeatEnabled {
+					#if targetEnvironment(macCatalyst)
+					// No idea what these key repeat preference values are meant to calculate out to, but
+					// this seems about right. Tested by counting frames in a screen recording.
+					let initialKeyRepeat = (UserDefaults.standard.object(forKey: "InitialKeyRepeat") as? TimeInterval ?? 84) * 0.012
+					#else
+					let initialKeyRepeat = defaults?.object(forKey: "KeyRepeatDelay") as? TimeInterval ?? 0.4
+					#endif
+
+					hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: initialKeyRepeat,
+																										 target: self,
+																										 selector: #selector(self.handleHardwareKeyRepeat),
+																										 userInfo: true,
+																										 repeats: false)
+				}
 			}
 		}
 
@@ -589,7 +609,12 @@ class TerminalKeyInput: TextInputBase {
 			handleKey(key as! UIKey)
 		}
 		if timer.userInfo as? Bool ?? false {
-			hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: 0.1,
+			#if targetEnvironment(macCatalyst)
+			let keyRepeat = (UserDefaults.standard.object(forKey: "KeyRepeat") as? TimeInterval ?? 8) * 0.012
+			#else
+			let keyRepeat = UserDefaults(suiteName: "com.apple.Accessibility")?.object(forKey: "KeyRepeatInterval") as? TimeInterval ?? 0.1
+			#endif
+			hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: keyRepeat,
 																								 target: self,
 																								 selector: #selector(self.handleHardwareKeyRepeat),
 																								 userInfo: nil,
