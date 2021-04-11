@@ -1,6 +1,7 @@
 Package: ws.hbang.newterm2
 Name: NewTerm 2
 Depends: firmware (>= 10.0), firmware (>= 12.2) | org.swift.libswift, bash, coreutils, ncurses, system-cmds, gettext-localizations | com.linusyang.localeutf8
+Recommends: iterm2-shell-integration
 Conflicts: ws.hbang.newterm, com.lint.ntarrows
 Replaces: ws.hbang.newterm, com.lint.ntarrows
 Version: 2.5
