@@ -18,6 +18,7 @@ public protocol TerminalControllerDelegate: AnyObject {
 	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor)
 	func activateBell()
 	func titleDidChange(_ title: String?)
+	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
 
 	func close()
 	func didReceiveError(error: Error)
@@ -30,44 +31,43 @@ public class TerminalController {
 
 	public weak var delegate: TerminalControllerDelegate?
 
-	private var updateTimer: Timer?
-
-	private var stringSupplier = StringSupplier()
-
 	public var colorMap: ColorMap {
 		get { return stringSupplier.colorMap! }
 		set { stringSupplier.colorMap = newValue }
 	}
-
 	public var fontMetrics: FontMetrics {
 		get { return stringSupplier.fontMetrics! }
 		set { stringSupplier.fontMetrics = newValue }
 	}
 
-	private var terminal: Terminal?
+	internal var terminal: Terminal?
 	private var subProcess: SubProcess?
+	private let stringSupplier = StringSupplier()
+
 	private var processLaunchDate: Date?
+	private var updateTimer: Timer?
 	private var readBuffer = Data()
-	private var lastBellDate: Date?
 
 	private var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
 	public var screenSize: ScreenSize? {
-		didSet {
-			// Send the terminal the actual size of our vt100 view. This should be called any time we
-			// change the size of the view. This should be a no-op if the size has not changed since the
-			// last time we called it.
-			if let screenSize = screenSize {
-				subProcess?.screenSize = screenSize
-				terminal?.resize(cols: Int(screenSize.width),
-												 rows: Int(screenSize.height))
-			}
-		}
+		didSet { updateScreenSize() }
 	}
-
 	public var scrollbackLines: Int { terminal?.getTopVisibleRow() ?? 0 }
 
 	private var lastCursorLocation: (x: Int, y: Int) = (-1, -1)
+	private var lastBellDate: Date?
+
+	internal var title: String?
+	internal var userAndHostname: String?
+	internal var user: String?
+	internal var hostname: String?
+	internal var isLocalhost: Bool { hostname == nil || hostname == ProcessInfo.processInfo.hostName }
+	internal var currentWorkingDirectory: URL?
+	internal var currentFile: URL?
+
+	internal var iTermIntegrationVersion: String?
+	internal var shell: String?
 
 	public init() {
 		let options = TerminalOptions(termName: "xterm-256color",
@@ -184,6 +184,38 @@ public class TerminalController {
 		terminal?.resetToInitialState()
 	}
 
+	private func updateScreenSize() {
+		if let screenSize = screenSize,
+			 let terminal = terminal,
+			 screenSize.width != terminal.cols || screenSize.height != terminal.rows {
+			subProcess?.screenSize = screenSize
+			terminal.resize(cols: Int(screenSize.width),
+											rows: Int(screenSize.height))
+		}
+	}
+
+	private func updateTitle() {
+		var newTitle: String? = nil
+		if let title = title,
+			 !title.isEmpty {
+			newTitle = title
+		}
+		if let hostname = hostname {
+			let user = self.user == NSUserName() ? nil : self.user
+			let cleanedHostname = hostname.replacingOccurrences(of: "\\.local$", with: "", options: .regularExpression, range: hostname.startIndex..<hostname.endIndex)
+			let hostString: String
+			if isLocalhost {
+				hostString = user ?? ""
+			} else {
+				hostString = "\(user ?? "")\(user == nil ? "" : "@")\(cleanedHostname)"
+			}
+			if !hostString.isEmpty {
+				newTitle = "[\(hostString)] \(newTitle ?? "")"
+			}
+		}
+		self.delegate?.titleDidChange(newTitle)
+	}
+
 	// MARK: - Object lifecycle
 
 	deinit {
@@ -193,6 +225,8 @@ public class TerminalController {
 }
 
 extension TerminalController: TerminalDelegate {
+
+	public func isProcessTrusted(source: Terminal) -> Bool { isLocalhost }
 
 	public func send(source: Terminal, data: ArraySlice<UInt8>) {
 		let actualData = Data(data)
@@ -212,8 +246,43 @@ extension TerminalController: TerminalDelegate {
 	}
 
 	public func setTerminalTitle(source: Terminal, title: String) {
+		self.title = title
 		DispatchQueue.main.async {
-			self.delegate?.titleDidChange(title)
+			self.updateTitle()
+		}
+	}
+
+	public func hostCurrentDirectoryUpdated(source: Terminal) {
+		hostCurrentDocumentUpdated(source: source)
+	}
+
+	public func hostCurrentDocumentUpdated(source: Terminal) {
+		let workingDirectory = source.hostCurrentDirectory
+		let filePath = source.hostCurrentDocument ?? workingDirectory
+		currentWorkingDirectory = nil
+		currentFile = nil
+
+		if let workingDirectory = workingDirectory,
+			 let url = URL(string: workingDirectory),
+			 url.isFileURL {
+			hostname = url.host
+			if isLocalhost {
+				currentWorkingDirectory = url
+			}
+		}
+
+		if let filePath = filePath,
+			 let url = URL(string: filePath),
+			 url.isFileURL {
+			hostname = url.host
+			if isLocalhost {
+				currentFile = url
+			}
+		}
+
+		DispatchQueue.main.async {
+			self.delegate?.currentFileDidChange(self.currentFile ?? self.currentWorkingDirectory,
+																					inWorkingDirectory: self.currentWorkingDirectory)
 		}
 	}
 

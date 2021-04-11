@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E8795AB261C8CC000883135 /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8795AA261C8CC000883135 /* SafariViewController.swift */; };
@@ -138,6 +139,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
 		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		4E8795AA261C8CC000883135 /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
@@ -325,6 +327,7 @@
 				CFBB96C322B5481B00585BE6 /* Preferences.swift */,
 				CFBB96C222B5481B00585BE6 /* SubProcess.swift */,
 				CFBB96C522B5481B00585BE6 /* TerminalController.swift */,
+				4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				4E980826261873CE00E41883 /* AppFont.swift in Sources */,
 				4E980830261AA9E100E41883 /* AppStorage.swift in Sources */,
 				CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */,
+				4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */,
 				4E980833261ACA0400E41883 /* AppTheme.swift in Sources */,
 				CF71BC9D22BB6E1100AFB1E1 /* UIColor+HBAdditions.m in Sources */,
 				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,

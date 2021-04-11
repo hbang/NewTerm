@@ -356,6 +356,14 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		self.title = title
 	}
 
+	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?) {
+		#if targetEnvironment(macCatalyst)
+		if let windowScene = view.window?.windowScene {
+			windowScene.titlebar?.representedURL = url
+		}
+		#endif
+	}
+
 	@objc func activatePasswordManager() {
 		keyInput.activatePasswordManager()
 	}
