@@ -22,16 +22,21 @@ class HUDView: UIView {
 		layer.cornerRadius = 16
 		layer.cornerCurve = .continuous
 		tintColor = .label
+		isUserInteractionEnabled = false
 
 		backdropView.frame = bounds
 		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		addSubview(backdropView)
 
+		imageView.translatesAutoresizingMaskIntoConstraints = false
 		imageView.image = image
 		imageView.sizeToFit()
-		imageView.center = CGPoint(x: frame.size.width / 2, y: frame.size.height / 2)
-		imageView.autoresizingMask = [ .flexibleTopMargin, .flexibleRightMargin, .flexibleBottomMargin, .flexibleLeftMargin ]
 		addSubview(imageView)
+
+		NSLayoutConstraint.activate([
+			imageView.centerXAnchor.constraint(equalTo: self.centerXAnchor),
+			imageView.centerYAnchor.constraint(equalTo: self.centerYAnchor)
+		])
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -48,13 +53,16 @@ class HUDView: UIView {
 		if alpha != 0 {
 			return
 		}
-
 		alpha = 1
 
 		// Display for 1.5 secs, fade out in 0.3 secs.
-		UIView.animate(withDuration: 0.3, delay: 0.75, options: .init(), animations: {
-			self.alpha = 0
-		}, completion: nil)
+		UIView.animate(withDuration: 0.3,
+									 delay: 0.75,
+									 options: [],
+									 animations: {
+										self.alpha = 0
+									 },
+									 completion: nil)
 	}
 
 }

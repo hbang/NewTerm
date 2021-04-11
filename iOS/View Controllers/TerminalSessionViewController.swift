@@ -34,13 +34,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
 	private var textViewTapGestureRecognizer: UITapGestureRecognizer!
 
-	private lazy var bellHUDView: HUDView = {
-		let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
-		let image = UIImage(systemName: "bell", withConfiguration: configuration)!
-		let bellHUDView = HUDView(image: image)
-		bellHUDView.translatesAutoresizingMaskIntoConstraints = false
-		return bellHUDView
-	}()
+	private var bellHUDView: HUDView?
 
 	private var hasAppeared = false
 	private var hasStarted = false
@@ -314,21 +308,29 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 	func activateBell() {
 		let preferences = Preferences.shared
-
 		if preferences.bellHUD {
-			// Display the bell HUD, lazily initialising it if it hasn’t been yet
-			if bellHUDView.superview == nil {
-				view.addSubview(bellHUDView)
-				view.addCompactConstraints([
-					"hudView.centerX = safe.centerX",
-					"hudView.centerY = safe.centerY / 3"
-				], metrics: nil, views: [
-					"self": view!,
-					"hudView": bellHUDView
+			// Display the bell HUD, lazily initialising if it hasn’t been yet.
+			if bellHUDView == nil {
+				let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
+				let image = UIImage(systemName: "bell", withConfiguration: configuration)!
+				bellHUDView = HUDView(image: image)
+				bellHUDView!.translatesAutoresizingMaskIntoConstraints = false
+			}
+			if bellHUDView!.superview == nil {
+				view.addSubview(bellHUDView!)
+				NSLayoutConstraint.activate([
+					bellHUDView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+					NSLayoutConstraint(item: bellHUDView!,
+														 attribute: .centerYWithinMargins,
+														 relatedBy: .equal,
+														 toItem: view,
+														 attribute: .centerYWithinMargins,
+														 multiplier: 1 / 3,
+														 constant: 0)
 				])
 			}
 
-			bellHUDView.animate()
+			bellHUDView!.animate()
 		}
 
 		if preferences.bellVibrate {
@@ -336,6 +338,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			// Taptic Engine goes back to sleep afterwards. Also according to the docs, we should use the
 			// most semantic impact generator, which would be UINotificationFeedbackGenerator, but I think
 			// a single tap feels better than two or three. Shrug
+			// TODO: Use CoreHaptics for this + the bell sound
 			let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
 			feedbackGenerator.impactOccurred()
 		}

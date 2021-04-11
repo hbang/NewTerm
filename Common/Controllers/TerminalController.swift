@@ -48,6 +48,7 @@ public class TerminalController {
 	private var subProcess: SubProcess?
 	private var processLaunchDate: Date?
 	private var readBuffer = Data()
+	private var lastBellDate: Date?
 
 	private var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
@@ -202,7 +203,11 @@ extension TerminalController: TerminalDelegate {
 
 	public func bell(source: Terminal) {
 		DispatchQueue.main.async {
-			self.delegate?.activateBell()
+			// Throttle bell so it only rings a maximum of once a second.
+			if self.lastBellDate == nil || self.lastBellDate! < Date(timeIntervalSinceNow: -1) {
+				self.lastBellDate = Date()
+				self.delegate?.activateBell()
+			}
 		}
 	}
 
