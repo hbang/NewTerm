@@ -463,10 +463,11 @@ class TerminalKeyInput: TextInputBase {
 		case .keyboardDeleteOrBackspace: keyData = EscapeSequences.backspace
 		case .keyboardDeleteForward: keyData = EscapeSequences.delete
 
-		case .keyboardHome:       keyData = EscapeSequences.home
-		case .keyboardEnd:        keyData = EscapeSequences.end
-		case .keyboardPageUp:     keyData = EscapeSequences.pageUp
-		case .keyboardPageDown:   keyData = EscapeSequences.pageDown
+		case .keyboardHome:
+			keyData = terminalInputDelegate!.applicationCursor ? EscapeSequences.homeApp : EscapeSequences.home
+
+		case .keyboardEnd:
+			keyData = terminalInputDelegate!.applicationCursor ? EscapeSequences.endApp : EscapeSequences.end
 
 		case .keyboardUpArrow:
 			keyData = terminalInputDelegate!.applicationCursor ? EscapeSequences.upApp : EscapeSequences.up
@@ -491,6 +492,9 @@ class TerminalKeyInput: TextInputBase {
 			} else {
 				keyData = EscapeSequences.right
 			}
+
+		case .keyboardPageUp:     keyData = EscapeSequences.pageUp
+		case .keyboardPageDown:   keyData = EscapeSequences.pageDown
 
 		case .keyboardF1:  keyData = EscapeSequences.fn[0]
 		case .keyboardF2:  keyData = EscapeSequences.fn[1]

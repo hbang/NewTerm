@@ -19,6 +19,8 @@ public struct ScreenSize {
 
 public struct EscapeSequences {
 
+	// https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-PC-Style-Function-Keys
+
 	public static let backspace = Data([ 0x7F ]) // \x7F
 	public static let meta      = Data([ 0x1B ]) // \e
 	public static let tab       = Data([ 0x09 ]) // \t
@@ -36,7 +38,9 @@ public struct EscapeSequences {
 	public static let rightMeta = Data([ 0x66 ]) // \ef (removed \e)
 
 	public static let home      = Data([ 0x1B, 0x5B, 0x48 ]) // \e[H
+	public static let homeApp   = Data([ 0x1B, 0x4F, 0x48 ]) // \eOH
 	public static let end       = Data([ 0x1B, 0x5B, 0x46 ]) // \e[F
+	public static let endApp    = Data([ 0x1B, 0x4F, 0x46 ]) // \eOF
 	public static let pageUp    = Data([ 0x1B, 0x5B, 0x35, 0x7E ]) // \e[5~
 	public static let pageDown  = Data([ 0x1B, 0x5B, 0x36, 0x7E ]) // \e[6~
 	public static let delete    = Data([ 0x1B, 0x5B, 0x33, 0x7E ]) // \e[3~
