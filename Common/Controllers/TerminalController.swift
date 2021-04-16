@@ -194,10 +194,10 @@ public class TerminalController {
 	private func updateScreenSize() {
 		if let screenSize = screenSize,
 			 let terminal = terminal,
-			 screenSize.width != terminal.cols || screenSize.height != terminal.rows {
+			 screenSize.cols != terminal.cols || screenSize.rows != terminal.rows {
 			subProcess?.screenSize = screenSize
-			terminal.resize(cols: Int(screenSize.width),
-											rows: Int(screenSize.height))
+			terminal.resize(cols: Int(screenSize.cols),
+											rows: Int(screenSize.rows))
 		}
 	}
 
@@ -348,7 +348,7 @@ extension TerminalController: SubProcessDelegate {
 
 		// Write the termination message to the terminal.
 		let processCompleted = NSLocalizedString("PROCESS_COMPLETED_TITLE", comment: "Title displayed when the terminal’s process has ended.")
-		let cols = Int(subProcess?.screenSize.width ?? 0)
+		let cols = Int(subProcess?.screenSize.cols ?? 0)
 		let messageLength = processCompleted.count + 2
 		let divider = String(repeating: "═", count: max((cols - messageLength) / 2, 0))
 		let message = "\r\n\u{1b}[0;31m\(divider) \u{1b}[1;31m\(processCompleted)\u{1b}[0;31m \(divider)\u{1b}[m\r\n"
