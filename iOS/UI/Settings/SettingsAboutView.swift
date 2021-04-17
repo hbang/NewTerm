@@ -34,7 +34,8 @@ struct SettingsAboutView: View {
 
 				NavigationLink(
 					destination: SafariViewControllerRepresentable(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!)
-						.navigationBarHidden(true),
+						.navigationBarHidden(true)
+                        .edgesIgnoringSafeArea(.bottom),
 					label: {
 						Text("Acknowledgements")
 							.frame(width: 300)
@@ -51,7 +52,8 @@ struct SettingsAboutView: View {
 
 				NavigationLink(
 					destination: SafariViewControllerRepresentable(url: URL(string: "https://hashbang.productions/donate/")!)
-						.navigationBarHidden(true),
+						.navigationBarHidden(true)
+                        .edgesIgnoringSafeArea(.bottom),
 					label: {
 						Text("Tip Jar")
 							.frame(width: 300)
