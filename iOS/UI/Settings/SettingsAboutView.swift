@@ -13,6 +13,10 @@ struct SettingsAboutView: View {
 		let info = Bundle.main.infoDictionary!
 		return "\(info["CFBundleShortVersionString"] as! String) (\(info["CFBundleVersion"] as! String))"
 	}()
+    
+    @State var showingAcknowledgements = false
+    @State var showingTipJar = false
+    @State var showingHashbangProductions = false
 
 	var body: some View {
 		ScrollView {
@@ -32,16 +36,15 @@ struct SettingsAboutView: View {
 					.multilineTextAlignment(.center)
 					.font(.system(size: 12, weight: .regular))
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!)
-						.navigationBarHidden(true),
-					label: {
-						Text("Acknowledgements")
-							.frame(width: 300)
-					}
-				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+                Button(action: {
+                    showingAcknowledgements.toggle()
+                }, label: {
+                    Text("Acknowledgements")
+                })
+                .sheet(isPresented: $showingAcknowledgements){
+                    SafariView(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!, configuration: SafariView.Configuration(entersReaderIfAvailable: false, barCollapsingEnabled: false))
+                }
+                .padding()
 
 				Text("If you like our work, please consider showing your appreciation with a small donation to the tip jar.")
 					.fixedSize(horizontal: false, vertical: true)
@@ -49,38 +52,38 @@ struct SettingsAboutView: View {
 					.multilineTextAlignment(.center)
 					.font(.system(size: 12, weight: .regular))
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://hashbang.productions/donate/")!)
-						.navigationBarHidden(true),
-					label: {
-						Text("Tip Jar")
-							.frame(width: 300)
-					}
-				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+                Button(action: {
+                    showingTipJar.toggle()
+                }, label: {
+                    Text("Tip Jar")
+                })
+                .sheet(isPresented: $showingTipJar){
+                    SafariView(url: URL(string: "https://hashbang.productions/donate/")!, configuration: SafariView.Configuration(entersReaderIfAvailable: false, barCollapsingEnabled: false))
+                }
+                .padding()
 
 				Divider()
 					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
 					.fixedSize(horizontal: false, vertical: true)
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://hashbang.productions/")!)
-						.navigationBarHidden(true),
-					label: {
-						VStack {
-							Image("hashbang")
-							Text("© HASHBANG Productions")
-								.foregroundColor(.secondary)
-								.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
-								.multilineTextAlignment(.center)
-								.font(.system(size: 12, weight: .regular))
-						}
-					}
-				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
-
+                Button(action: {
+                    showingHashbangProductions.toggle()
+                }, label: {
+                    VStack {
+                        Image("hashbang")
+                        Text("© HASHBANG Productions")
+                            .foregroundColor(.secondary)
+                            .padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+                            .multilineTextAlignment(.center)
+                            .font(.system(size: 12, weight: .regular))
+                    }
+                })
+                .buttonStyle(PlainButtonStyle())
+                .sheet(isPresented: $showingHashbangProductions){
+                    SafariView(url: URL(string: "https://hashbang.productions")!, configuration: SafariView.Configuration(entersReaderIfAvailable: false, barCollapsingEnabled: false))
+                }
+                .padding()
+                
 				Text("Dedicated to Dennis Bednarz (2000 — 2019), a friend and visionary of the iOS community taken from us too soon.")
 					.fixedSize(horizontal: false, vertical: true)
 					.frame(width: 260)
