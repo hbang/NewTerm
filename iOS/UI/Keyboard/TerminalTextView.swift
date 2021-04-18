@@ -20,7 +20,7 @@ class TerminalTextView: UITextView {
 		isEditable = false
 		textContainerInset = UIEdgeInsets()
 		self.textContainer.lineFragmentPadding = 0
-		self.textContainer.lineBreakMode = .byCharWrapping
+		self.textContainer.lineBreakMode = .byClipping
 
 		linkTextAttributes = [
 			.underlineStyle: NSUnderlineStyle.single

@@ -68,9 +68,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
-		#if !targetEnvironment(macCatalyst)
-		textView.showsVerticalScrollIndicator = false
-		#endif
 		textView.delegate = self
 
 		#if !targetEnvironment(macCatalyst)
@@ -183,30 +180,19 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 			return
 		}
 
-		textView.contentInset = UIEdgeInsets(top: 0,
-																				 left: view.safeAreaInsets.left,
-																				 bottom: 0,
-																				 right: view.safeAreaInsets.right)
-		textView.scrollIndicatorInsets = UIEdgeInsets(top: textView.contentInset.top,
-																									left: 0,
-																									bottom: textView.contentInset.bottom,
-																									right: 0)
-
 		let glyphSize = terminalController.fontMetrics.boundingBox
-
-		// Make sure the glyph size has been set
 		if glyphSize.width == 0 || glyphSize.height == 0 {
 			fatalError("Failed to get glyph size")
 		}
 
 		// Determine the screen size based on the font size
-		let width = textView.frame.size.width - view.safeAreaInsets.left - view.safeAreaInsets.right
+		let width = textView.frame.size.width - textView.safeAreaInsets.left - textView.safeAreaInsets.right
 		#if targetEnvironment(macCatalyst)
 		let extraHeight: CGFloat = 26
 		#else
 		let extraHeight: CGFloat = 0
 		#endif
-		let height = textView.frame.size.height - view.safeAreaInsets.top - view.safeAreaInsets.bottom - extraHeight
+		let height = textView.frame.size.height - textView.safeAreaInsets.top - textView.safeAreaInsets.bottom - extraHeight
 
 		if width < 0 || height < 0 {
 			// Huh? Let’s just ignore it.
@@ -215,8 +201,17 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		let size = ScreenSize(cols: UInt(width / glyphSize.width),
 													rows: UInt(height / glyphSize.height))
+		if terminalController.screenSize != size {
+			terminalController.screenSize = size
+		}
 
-		terminalController.screenSize = size
+		let widthRemainder = abs(width.remainder(dividingBy: glyphSize.width))
+		let heightRemainder = abs(height.remainder(dividingBy: glyphSize.height))
+		textView.contentInset = UIEdgeInsets(top: 0,
+																				 left: view.safeAreaInsets.left,
+																				 bottom: heightRemainder,
+																				 right: view.safeAreaInsets.right + widthRemainder)
+		textView.scrollIndicatorInsets = .zero
 	}
 
 	@objc func clearTerminal() {
@@ -304,7 +299,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		}
 
 		// TODO: Not sure why this is needed all of a sudden? What did I break?
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+		DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
 			self.scrollToBottom()
 		}
 	}
@@ -318,9 +313,8 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 				let image = UIImage(systemName: "bell", withConfiguration: configuration)!
 				bellHUDView = HUDView(image: image)
 				bellHUDView!.translatesAutoresizingMaskIntoConstraints = false
-			}
-			if bellHUDView!.superview == nil {
 				view.addSubview(bellHUDView!)
+
 				NSLayoutConstraint.activate([
 					bellHUDView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 					NSLayoutConstraint(item: bellHUDView!,
@@ -350,7 +344,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			#if targetEnvironment(macCatalyst)
 			AudioServicesPlayAlertSound(kSystemSoundID_UserPreferredAlert)
 			#else
-			AudioServicesPlaySystemSound(TerminalSessionViewController.bellSoundID)
+			AudioServicesPlaySystemSound(Self.bellSoundID)
 			#endif
 		}
 	}
@@ -426,7 +420,7 @@ extension TerminalSessionViewController: UITextViewDelegate {
 
 	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
 		// If we’re at the top of the scroll view, guess that the user wants to go back to the bottom
-		if scrollView.contentOffset.y <= (scrollView.frame.size.height - textView.safeAreaInsets.top - textView.safeAreaInsets.bottom) / 2 {
+		if scrollView.contentOffset.y <= (scrollView.frame.size.height - scrollView.safeAreaInsets.top - scrollView.safeAreaInsets.bottom) / 2 {
 			// Wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
 			UIView.animate(withDuration: 0.5) {
 				self.scrollToBottom(animated: true)
