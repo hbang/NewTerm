@@ -135,11 +135,9 @@ class TerminalKeyInput: TextInputBase {
 		leftKey.addTarget(self,  action: #selector(self.arrowKeyPressed), for: .touchUpInside)
 		rightKey.addTarget(self, action: #selector(self.arrowKeyPressed), for: .touchUpInside)
 
-		moreToolbar.homeKey.addTarget(self,     action: #selector(self.inputKeyPressed), for: .touchUpInside)
-		moreToolbar.endKey.addTarget(self,      action: #selector(self.inputKeyPressed), for: .touchUpInside)
-		moreToolbar.pageUpKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
-		moreToolbar.pageDownKey.addTarget(self, action: #selector(self.inputKeyPressed), for: .touchUpInside)
-		moreToolbar.deleteKey.addTarget(self,   action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		for key in moreToolbar.buttons {
+			key.addTarget(self, action: #selector(self.inputKeyPressed), for: .touchUpInside)
+		}
 
 		for key in [ upKey, downKey, leftKey, rightKey ] {
 			let gestureRecognizer = UILongPressGestureRecognizer(target: self, action: #selector(self.arrowKeyLongPressed(_:)))
@@ -209,6 +207,11 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	@objc private func inputKeyPressed(_ sender: KeyboardButton) {
+		if let index = moreToolbar.fnKeys.firstIndex(of: sender) {
+			terminalInputDelegate!.receiveKeyboardInput(data: EscapeSequences.fn[index])
+			return
+		}
+
 		let keyValues: [KeyboardButton: Data] = [
 			metaKey:  EscapeSequences.meta,
 			tabKey:   EscapeSequences.tab,

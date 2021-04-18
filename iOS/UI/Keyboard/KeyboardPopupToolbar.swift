@@ -10,15 +10,19 @@ import UIKit
 
 class KeyboardPopupToolbar: UIView {
 
+	// TODO: Localise
 	let homeKey = KeyboardButton(title: "Home", glyph: "Home")
 	let endKey = KeyboardButton(title: "End", glyph: "End")
 	let pageUpKey = KeyboardButton(title: "Page Up", glyph: "PgUp")
 	let pageDownKey = KeyboardButton(title: "Page Down", glyph: "PgDn")
-	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill", image: UIImage(named: "key-delete-forward"), highlightedImage: UIImage(named: "key-delete-forward-down"))
+	let deleteKey = KeyboardButton(title: "Delete Forward", systemImage: "delete.right", systemHighlightedImage: "delete.right.fill")
+	let fnKeys: [KeyboardButton]!
 
-	var buttons: [KeyboardButton]!
+	private(set) var buttons: [KeyboardButton]!
 
 	override init(frame: CGRect) {
+		fnKeys = Array(1...12).map { i in KeyboardButton(title: "F\(i)") }
+
 		super.init(frame: frame)
 
 		translatesAutoresizingMaskIntoConstraints = false
@@ -34,77 +38,82 @@ class KeyboardPopupToolbar: UIView {
 		backdropColorView.backgroundColor = .keyboardToolbarBackground
 		backdropView.contentView.addSubview(backdropColorView)
 
-		let height = isSmallDevice ? 36 : 44
-		let outerXSpacing = CGFloat(3)
-		let xSpacing = CGFloat(6)
-		let topSpacing = CGFloat(isSmallDevice ? 3 : 4)
-		let bottomSpacing = CGFloat(isSmallDevice ? 1 : 2)
+		let buttonSpacing: CGFloat = 6
+		let topSpacing: CGFloat = isSmallDevice ? 3 : 4
+		let rowSpacing: CGFloat = isSmallDevice ? 1 : 2
+
+		let fnStackView = UIStackView(arrangedSubviews: fnKeys + [ UIView() ])
+		fnStackView.translatesAutoresizingMaskIntoConstraints = false
+		fnStackView.axis = .horizontal
+		fnStackView.spacing = buttonSpacing
 
 		let homeEndSpacerView = UIView()
 		let pageUpDownSpacerView = UIView()
-		let deleteSpacerView = UIView()
 
-		homeEndSpacerView.translatesAutoresizingMaskIntoConstraints = false
-		pageUpDownSpacerView.translatesAutoresizingMaskIntoConstraints = false
-		deleteSpacerView.translatesAutoresizingMaskIntoConstraints = false
-
-		homeEndSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
-		pageUpDownSpacerView.addCompactConstraint("self.width = 0", metrics: nil, views: nil)
+		let sortedViews = [
+			homeKey, endKey, homeEndSpacerView,
+			pageUpKey, pageDownKey, pageUpDownSpacerView,
+			deleteKey
+		]
 
 		buttons = [
 			homeKey, endKey,
 			pageUpKey, pageDownKey,
 			deleteKey
-		]
+		] + fnKeys
 
-		let views = [
-			"homeKey": homeKey,
-			"endKey": endKey,
-			"homeEndSpacerView": homeEndSpacerView,
-			"pageUpKey": pageUpKey,
-			"pageDownKey": pageDownKey,
-			"pageUpDownSpacerView": pageUpDownSpacerView,
-			"deleteKey": deleteKey,
-			"deleteSpacerView": deleteSpacerView
-		]
+		let bottomStackView = UIStackView(arrangedSubviews: sortedViews)
+		bottomStackView.translatesAutoresizingMaskIntoConstraints = false
+		bottomStackView.axis = .horizontal
+		bottomStackView.spacing = buttonSpacing
 
-		let sortedViews = [
-			homeKey, endKey, pageUpDownSpacerView,
-			pageUpKey, pageDownKey, homeEndSpacerView,
-			deleteKey, deleteSpacerView
-		]
+		let scrollViews = [ fnStackView, bottomStackView ].map { stackView -> UIScrollView in
+			let scrollView = UIScrollView()
+			scrollView.translatesAutoresizingMaskIntoConstraints = false
+			scrollView.showsHorizontalScrollIndicator = false
+			scrollView.showsVerticalScrollIndicator = false
+			scrollView.addSubview(stackView)
 
-		let stackView = UIStackView(arrangedSubviews: sortedViews)
+			NSLayoutConstraint.activate([
+				stackView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: topSpacing),
+				stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -rowSpacing),
+				stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: 3),
+				stackView.trailingAnchor.constraint(lessThanOrEqualTo: scrollView.trailingAnchor, constant: -3),
+				stackView.widthAnchor.constraint(greaterThanOrEqualTo: scrollView.widthAnchor, constant: -6),
+				stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor, constant: -topSpacing - rowSpacing)
+			])
+
+			return scrollView
+		}
+
+		let stackView = UIStackView(arrangedSubviews: scrollViews)
 		stackView.translatesAutoresizingMaskIntoConstraints = false
-		stackView.axis = .horizontal
-		stackView.spacing = xSpacing
+		stackView.axis = .vertical
+		stackView.spacing = 0
 		addSubview(stackView)
 
-		addCompactConstraints([
-			"self.height = height",
-			"stackView.top = toolbar.top + topSpacing",
-			"stackView.bottom = toolbar.bottom - bottomSpacing",
-			"stackView.left = safe.left + outerXSpacing",
-			"stackView.right <= safe.right - outerXSpacing"
-		], metrics: [
-			"height": height,
-			"outerXSpacing": outerXSpacing,
-			"topSpacing": topSpacing,
-			"bottomSpacing": bottomSpacing
-		], views: [
-			"toolbar": self,
-			"stackView": stackView
+		NSLayoutConstraint.activate([
+			self.heightAnchor.constraint(equalToConstant: isSmallDevice ? 72 : 88),
+
+			stackView.topAnchor.constraint(equalTo: self.topAnchor),
+			stackView.bottomAnchor.constraint(equalTo: self.bottomAnchor),
+			stackView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+			stackView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+
+			homeEndSpacerView.widthAnchor.constraint(equalToConstant: 0),
+			pageUpDownSpacerView.widthAnchor.constraint(greaterThanOrEqualToConstant: 0),
+
+			endKey.widthAnchor.constraint(equalTo: homeKey.widthAnchor),
+			pageUpKey.widthAnchor.constraint(equalTo: homeKey.widthAnchor),
+			pageDownKey.widthAnchor.constraint(equalTo: homeKey.widthAnchor),
+			deleteKey.widthAnchor.constraint(equalTo: deleteKey.heightAnchor)
 		])
 
-		stackView.addCompactConstraints([
-			"homeKey.width >= endKey.width",
-			"endKey.width >= homeKey.width",
-			"endKey.width >= pageUpKey.width",
-			"pageUpKey.width >= endKey.width",
-			"pageUpKey.width >= pageDownKey.width",
-			"pageDownKey.width >= pageUpKey.width",
-			"deleteKey.width >= deleteKey.height"
-		], metrics: nil, views: views)
+		// Size the scroll views and F# keys to match each other.
+		NSLayoutConstraint.activate(
+			scrollViews.map { view in view.heightAnchor.constraint(equalTo: scrollViews.first!.heightAnchor) } +
+			fnKeys.map { view in view.widthAnchor.constraint(equalTo: fnKeys.first!.widthAnchor) }
+		)
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
