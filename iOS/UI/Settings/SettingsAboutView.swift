@@ -14,7 +14,14 @@ struct SettingsAboutView: View {
 		return "\(info["CFBundleShortVersionString"] as! String) (\(info["CFBundleVersion"] as! String))"
 	}()
 
+	@State var showingAcknowledgements = false
+	@State var showingTipJar = false
+	@State var showingHashbangProductions = false
+
 	var body: some View {
+		let safariConfig = SafariView.Configuration(entersReaderIfAvailable: false,
+																								barCollapsingEnabled: false)
+
 		ScrollView {
 			VStack(spacing: 15) {
 				LogoHeaderViewRepresentable()
@@ -32,16 +39,19 @@ struct SettingsAboutView: View {
 					.multilineTextAlignment(.center)
 					.font(.system(size: 12, weight: .regular))
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!)
-						.navigationBarHidden(true),
+				Button(
+					action: {
+						showingAcknowledgements.toggle()
+					},
 					label: {
 						Text("Acknowledgements")
-							.frame(width: 300)
 					}
 				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+					.sheet(isPresented: $showingAcknowledgements) {
+						SafariView(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!,
+											 configuration: safariConfig)
+					}
+					.padding()
 
 				Text("If you like our work, please consider showing your appreciation with a small donation to the tip jar.")
 					.fixedSize(horizontal: false, vertical: true)
@@ -49,24 +59,28 @@ struct SettingsAboutView: View {
 					.multilineTextAlignment(.center)
 					.font(.system(size: 12, weight: .regular))
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://hashbang.productions/donate/")!)
-						.navigationBarHidden(true),
+				Button(
+					action: {
+						showingTipJar.toggle()
+					},
 					label: {
 						Text("Tip Jar")
-							.frame(width: 300)
 					}
 				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+					.sheet(isPresented: $showingTipJar) {
+						SafariView(url: URL(string: "https://hashbang.productions/donate/")!,
+											 configuration: safariConfig)
+					}
+					.padding()
 
 				Divider()
 					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
 					.fixedSize(horizontal: false, vertical: true)
 
-				NavigationLink(
-					destination: SafariViewControllerRepresentable(url: URL(string: "https://hashbang.productions/")!)
-						.navigationBarHidden(true),
+				Button(
+					action: {
+						showingHashbangProductions.toggle()
+					},
 					label: {
 						VStack {
 							Image("hashbang")
@@ -78,8 +92,12 @@ struct SettingsAboutView: View {
 						}
 					}
 				)
-					.fixedSize(horizontal: false, vertical: true)
-					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
+					.buttonStyle(PlainButtonStyle())
+					.sheet(isPresented: $showingHashbangProductions) {
+						SafariView(url: URL(string: "https://hashbang.productions")!,
+											 configuration: safariConfig)
+					}
+					.padding()
 
 				Text("Dedicated to Dennis Bednarz (2000 — 2019), a friend and visionary of the iOS community taken from us too soon.")
 					.fixedSize(horizontal: false, vertical: true)
@@ -102,4 +120,3 @@ struct SettingsAboutView_Previews: PreviewProvider {
 			.previewDevice("iPod touch (7th generation)")
 	}
 }
-
