@@ -26,8 +26,6 @@ public protocol TerminalControllerDelegate: AnyObject {
 	func close()
 	func didReceiveError(error: Error)
 
-	func openSettings()
-
 }
 
 public class TerminalController {
@@ -302,10 +300,6 @@ extension TerminalController: TerminalInputProtocol {
 	public func receiveKeyboardInput(data: Data) {
 		// Forward the data from the keyboard directly to the subprocess
 		subProcess!.write(data: data)
-	}
-
-	public func openSettings() {
-		delegate!.openSettings()
 	}
 
 }

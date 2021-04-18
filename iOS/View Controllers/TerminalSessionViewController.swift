@@ -415,12 +415,6 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		present(alertController, animated: true, completion: nil)
 	}
 
-	@objc func openSettings() {
-		if let rootViewController = parent as? RootViewController {
-			rootViewController.openSettings()
-		}
-	}
-
 }
 
 extension TerminalSessionViewController: UITextViewDelegate {
