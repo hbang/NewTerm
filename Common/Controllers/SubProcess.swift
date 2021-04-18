@@ -36,7 +36,7 @@ class SubProcess: NSObject {
 	private var fileDescriptor: Int32?
 	private var fileHandle: FileHandle?
 
-	var screenSize: ScreenSize = ScreenSize(width: 80, height: 25) {
+	var screenSize: ScreenSize = ScreenSize(cols: 80, rows: 25) {
 		didSet { updateWindowSize() }
 	}
 
@@ -47,8 +47,8 @@ class SubProcess: NSObject {
 
 		// Initialise the pty
 		var windowSize = winsize()
-		windowSize.ws_col = UInt16(screenSize.width)
-		windowSize.ws_row = UInt16(screenSize.height)
+		windowSize.ws_col = UInt16(screenSize.cols)
+		windowSize.ws_row = UInt16(screenSize.rows)
 
 		fileDescriptor = Int32()
 
@@ -186,8 +186,8 @@ class SubProcess: NSObject {
 		}
 
 		var windowSize = winsize()
-		windowSize.ws_col = UInt16(screenSize.width)
-		windowSize.ws_row = UInt16(screenSize.height)
+		windowSize.ws_col = UInt16(screenSize.cols)
+		windowSize.ws_row = UInt16(screenSize.rows)
 
 		if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
 			os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))

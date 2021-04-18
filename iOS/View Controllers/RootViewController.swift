@@ -51,6 +51,24 @@ class RootViewController: UIViewController {
 															 input: "w",
 															 modifierFlags: .command))
 
+		#if !targetEnvironment(macCatalyst)
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SHOW_PREVIOUS_TAB", comment: ""),
+															 action: #selector(self.selectPreviousTab),
+															 input: "{",
+															 modifierFlags: .command))
+		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SHOW_NEXT_TAB", comment: ""),
+															 action: #selector(self.selectNextTab),
+															 input: "}",
+															 modifierFlags: .command))
+		#endif
+
+		let digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+		for digit in digits {
+			addKeyCommand(UIKeyCommand(action: #selector(self.selectTabFromKeyCommand),
+																 input: digit,
+																 modifierFlags: .command))
+		}
+
 		if UIApplication.shared.supportsMultipleScenes {
 			addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
 																 action: #selector(self.addWindow),
@@ -230,6 +248,38 @@ class RootViewController: UIViewController {
 	private func handleTitleChange(at index: Int) {
 		if selectedTabIndex == index {
 			view.window?.windowScene?.title = terminalName(at: index)
+		}
+	}
+
+	@objc private func selectPreviousTab() {
+		if selectedTabIndex == 0 {
+			selectTerminal(at: terminals.count - 1)
+		} else {
+			selectTerminal(at: selectedTabIndex - 1)
+		}
+	}
+
+	@objc private func selectNextTab() {
+		if selectedTabIndex == terminals.count - 1 {
+			selectTerminal(at: 0)
+		} else {
+			selectTerminal(at: selectedTabIndex + 1)
+		}
+	}
+
+	@objc private func selectTabFromKeyCommand(_ keyCommand: UIKeyCommand) {
+		guard var digit = Int(keyCommand.input ?? ""),
+					digit >= 0 && digit <= 9 else {
+			return
+		}
+
+		if digit == 0 {
+			digit = 10
+		}
+		digit -= 1
+
+		if terminals.count > digit {
+			selectTerminal(at: digit)
 		}
 	}
 

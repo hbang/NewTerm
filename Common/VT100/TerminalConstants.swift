@@ -7,13 +7,13 @@
 
 import Foundation
 
-public struct ScreenSize {
-	public var width: UInt
-	public var height: UInt
+public struct ScreenSize: Equatable {
+	public var cols: UInt
+	public var rows: UInt
 
-	public init(width: UInt, height: UInt) {
-		self.width = width
-		self.height = height
+	public init(cols: UInt, rows: UInt) {
+		self.cols = cols
+		self.rows = rows
 	}
 }
 

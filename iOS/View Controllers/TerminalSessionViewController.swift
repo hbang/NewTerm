@@ -213,8 +213,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 			return
 		}
 
-		let size = ScreenSize(width: UInt(width / glyphSize.width),
-													height: UInt(height / glyphSize.height))
+		let size = ScreenSize(cols: UInt(width / glyphSize.width),
+													rows: UInt(height / glyphSize.height))
 
 		terminalController.screenSize = size
 	}
@@ -413,12 +413,6 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: .uikit, comment: "")
 		alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
-	}
-
-	@objc func openSettings() {
-		if let rootViewController = parent as? RootViewController {
-			rootViewController.openSettings()
-		}
 	}
 
 }

@@ -55,6 +55,14 @@ You may need to review startup scripts or reinstall core packages to fix this is
 	<key>PASSWORD_MANAGER</key>
 	<string>Password Manager</string>
 
+	<!-- Label for a keyboard shortcut that selects the previous tab. -->
+	<key>SHOW_PREVIOUS_TAB</key>
+	<string>Show Previous Tab</string>
+
+	<!-- Label for a keyboard shortcut that selects the next tab. -->
+	<key>SHOW_NEXT_TAB</key>
+	<string>Show Next Tab</string>
+
 	<!-- VoiceOver label for a button that splits the tab horizontally and adds a new terminal below. -->
 	<key>SPLIT_HORIZONTALLY</key>
 	<string>Split Horizontally</string>
