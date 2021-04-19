@@ -87,6 +87,7 @@ class SubProcess: NSObject {
 
 				let env = ([
 					"TERM=xterm-256color",
+					"COLORTERM=truecolor",
 					"LANG=\(localeCode)",
 					"TERM_PROGRAM=NewTerm",
 					"LC_TERMINAL=NewTerm"
