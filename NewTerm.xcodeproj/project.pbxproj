@@ -867,8 +867,11 @@
 			children = (
 				4E479712262D44D8003CF48C /* en */,
 			);
+			indentWidth = 2;
 			name = Localizable.stringsdict;
 			sourceTree = "<group>";
+			tabWidth = 2;
+			usesTabs = 1;
 		};
 		CF71BC2922BB61E400AFB1E1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
