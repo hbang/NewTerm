@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E6EF123262D397C0014B50A /* KeyboardPopupToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E6EF122262D397C0014B50A /* KeyboardPopupToolbarView.swift */; };
+		1E778F90262D289D00372190 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 1E778F8F262D289D00372190 /* SwiftTerm */; };
+		1E778F96262D297900372190 /* KeyboardToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E778F95262D297900372190 /* KeyboardToolbarView.swift */; };
+		1E778F99262D2B6B00372190 /* KeyboardToolbarButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E778F98262D2B6B00372190 /* KeyboardToolbarButtonStyle.swift */; };
 		1EEB4F66262CF591005E5B79 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB4F65262CF591005E5B79 /* SafariView.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
@@ -24,7 +28,6 @@
 		4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */; };
-		4E9FB96C26171A01005AFCC8 /* SwiftTerm in Frameworks */ = {isa = PBXBuildFile; productRef = 4E9FB96B26171A01005AFCC8 /* SwiftTerm */; };
 		4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97126172079005AFCC8 /* Color+Additions.swift */; };
 		4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB97426172293005AFCC8 /* StringSupplier.swift */; };
 		4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB977261724FA005AFCC8 /* ColorMap.swift */; };
@@ -139,6 +142,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E6EF122262D397C0014B50A /* KeyboardPopupToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPopupToolbarView.swift; sourceTree = "<group>"; };
+		1E778F95262D297900372190 /* KeyboardToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarView.swift; sourceTree = "<group>"; };
+		1E778F98262D2B6B00372190 /* KeyboardToolbarButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarButtonStyle.swift; sourceTree = "<group>"; };
 		1EEB4F65262CF591005E5B79 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
@@ -244,7 +250,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4E9FB96C26171A01005AFCC8 /* SwiftTerm in Frameworks */,
+				1E778F90262D289D00372190 /* SwiftTerm in Frameworks */,
 				CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -260,6 +266,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1E778F8C262D283F00372190 /* Keyboard_SUI */ = {
+			isa = PBXGroup;
+			children = (
+				1E778F95262D297900372190 /* KeyboardToolbarView.swift */,
+				1E778F98262D2B6B00372190 /* KeyboardToolbarButtonStyle.swift */,
+				1E6EF122262D397C0014B50A /* KeyboardPopupToolbarView.swift */,
+			);
+			path = Keyboard_SUI;
+			sourceTree = "<group>";
+		};
 		4E980823261860A900E41883 /* Models */ = {
 			isa = PBXGroup;
 			children = (
@@ -410,6 +426,7 @@
 		CFBB967722B5481A00585BE6 /* UI */ = {
 			isa = PBXGroup;
 			children = (
+				1E778F8C262D283F00372190 /* Keyboard_SUI */,
 				CFBB968422B5481B00585BE6 /* Keyboard */,
 				CFBB967822B5481B00585BE6 /* Settings */,
 				4EB057692622A15300766B8A /* Split View */,
@@ -655,7 +672,7 @@
 			);
 			name = "NewTerm Common";
 			packageProductDependencies = (
-				4E9FB96B26171A01005AFCC8 /* SwiftTerm */,
+				1E778F8F262D289D00372190 /* SwiftTerm */,
 			);
 			productName = "NewTerm Common";
 			productReference = CF71BC8422BB6DBA00AFB1E1 /* NewTermCommon.framework */;
@@ -716,7 +733,7 @@
 			);
 			mainGroup = CF22F9A81FFB97F7003175DE;
 			packageReferences = (
-				4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+				1E778F8E262D289D00372190 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
 			);
 			productRefGroup = CF22F9A81FFB97F7003175DE;
 			projectDirPath = "";
@@ -825,14 +842,17 @@
 				4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */,
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
+				1E6EF123262D397C0014B50A /* KeyboardPopupToolbarView.swift in Sources */,
 				CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */,
 				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
 				4E980828261879D200E41883 /* SettingsAboutView.swift in Sources */,
 				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
 				4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */,
 				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
+				1E778F96262D297900372190 /* KeyboardToolbarView.swift in Sources */,
 				1EEB4F66262CF591005E5B79 /* SafariView.swift in Sources */,
 				4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */,
+				1E778F99262D2B6B00372190 /* KeyboardToolbarButtonStyle.swift in Sources */,
 				CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */,
 				4E9FB99426184356005AFCC8 /* SettingsView.swift in Sources */,
 				4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */,
@@ -1438,20 +1458,20 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
+		1E778F8E262D289D00372190 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm.git";
 			requirement = {
-				branch = master;
+				branch = main;
 				kind = branch;
 			};
 		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4E9FB96B26171A01005AFCC8 /* SwiftTerm */ = {
+		1E778F8F262D289D00372190 /* SwiftTerm */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */;
+			package = 1E778F8E262D289D00372190 /* XCRemoteSwiftPackageReference "SwiftTerm" */;
 			productName = SwiftTerm;
 		};
 /* End XCSwiftPackageProductDependency section */
