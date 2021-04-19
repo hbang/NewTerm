@@ -10,6 +10,8 @@
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
+		4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
+		4E479711262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
 		4E8795AB261C8CC000883135 /* SafariViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E8795AA261C8CC000883135 /* SafariViewController.swift */; };
 		4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
@@ -19,8 +21,6 @@
 		4E980828261879D200E41883 /* SettingsAboutView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E980827261879D200E41883 /* SettingsAboutView.swift */; };
 		4E980830261AA9E100E41883 /* AppStorage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98082E261AA9DC00E41883 /* AppStorage.swift */; };
 		4E980833261ACA0400E41883 /* AppTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E980831261AC9FA00E41883 /* AppTheme.swift */; };
-		4E9B32DB260C65AE006A1FBC /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */; };
-		4E9B32DC260C65AE006A1FBC /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */; };
 		4E9B32E0260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4E9B32E1260C66B5006A1FBC /* Bundle+NewTermAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */; };
 		4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */; };
@@ -142,6 +142,7 @@
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
 		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
+		4E479712262D44D8003CF48C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		4E8795AA261C8CC000883135 /* SafariViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariViewController.swift; sourceTree = "<group>"; };
 		4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalizedStringKey+Additions.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
@@ -151,7 +152,6 @@
 		4E980827261879D200E41883 /* SettingsAboutView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAboutView.swift; sourceTree = "<group>"; };
 		4E98082E261AA9DC00E41883 /* AppStorage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppStorage.swift; sourceTree = "<group>"; };
 		4E980831261AC9FA00E41883 /* AppTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppTheme.swift; sourceTree = "<group>"; };
-		4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; path = Localizable.stringsdict; sourceTree = "<group>"; };
 		4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Bundle+NewTermAdditions.swift"; sourceTree = "<group>"; };
 		4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextInputBase.swift; sourceTree = "<group>"; };
 		4E9FB97126172079005AFCC8 /* Color+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Color+Additions.swift"; sourceTree = "<group>"; };
@@ -560,7 +560,7 @@
 			children = (
 				CFBB975922B5499600585BE6 /* Assets.xcassets */,
 				CFBB96F022B548D700585BE6 /* Localizable.strings */,
-				4E9B32DA260C65AE006A1FBC /* Localizable.stringsdict */,
+				4E479713262D44D8003CF48C /* Localizable.stringsdict */,
 				CFBB96F222B548D700585BE6 /* InfoPlist.strings */,
 				CFBB96FF22B548D700585BE6 /* Fonts.plist */,
 				CFBB972322B548D700585BE6 /* Themes.plist */,
@@ -740,7 +740,7 @@
 				CF71BCE822BB7FBD00AFB1E1 /* Localizable.strings in Resources */,
 				CF71BCE622BB7FBA00AFB1E1 /* Themes.plist in Resources */,
 				CF71BC2822BB61E400AFB1E1 /* Assets.xcassets in Resources */,
-				4E9B32DC260C65AE006A1FBC /* Localizable.stringsdict in Resources */,
+				4E479711262D44D8003CF48C /* Localizable.stringsdict in Resources */,
 				CF71BCE522BB7FBA00AFB1E1 /* Fonts.plist in Resources */,
 				CF71BC2B22BB61E400AFB1E1 /* Main.storyboard in Resources */,
 			);
@@ -759,7 +759,7 @@
 			files = (
 				CFBB973222B548D700585BE6 /* Fonts.plist in Resources */,
 				CFBB973122B548D700585BE6 /* colortest.txt in Resources */,
-				4E9B32DB260C65AE006A1FBC /* Localizable.stringsdict in Resources */,
+				4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */,
 				CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */,
 				CFBB972622B548D700585BE6 /* InfoPlist.strings in Resources */,
 				CFBB972522B548D700585BE6 /* Localizable.strings in Resources */,
@@ -862,6 +862,14 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		4E479713262D44D8003CF48C /* Localizable.stringsdict */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4E479712262D44D8003CF48C /* en */,
+			);
+			name = Localizable.stringsdict;
+			sourceTree = "<group>";
+		};
 		CF71BC2922BB61E400AFB1E1 /* Main.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
