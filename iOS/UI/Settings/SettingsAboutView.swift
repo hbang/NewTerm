@@ -48,7 +48,7 @@ struct SettingsAboutView: View {
 					}
 				)
 					.sheet(isPresented: $showingAcknowledgements) {
-						SafariView(url: URL(string: "https://github.com/hbang/NewTerm/blob/master/LICENSE.md")!,
+						SafariView(url: URL(string: "https://github.com/hbang/NewTerm/blob/main/LICENSE.md")!,
 											 configuration: safariConfig)
 					}
 					.padding()
