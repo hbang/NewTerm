@@ -39,18 +39,12 @@ struct SettingsAboutView: View {
 					.multilineTextAlignment(.center)
 					.font(.system(size: 12, weight: .regular))
 
-				Button(
-					action: {
-						showingAcknowledgements.toggle()
-					},
+				NavigationLink(
+					destination: SettingsAcknowledgementsView(),
 					label: {
 						Text("Acknowledgements")
 					}
 				)
-					.sheet(isPresented: $showingAcknowledgements) {
-						SafariView(url: URL(string: "https://github.com/hbang/NewTerm/blob/main/LICENSE.md")!,
-											 configuration: safariConfig)
-					}
 					.padding()
 
 				Text("If you like our work, please consider showing your appreciation with a small donation to the tip jar.")
@@ -99,7 +93,7 @@ struct SettingsAboutView: View {
 					}
 					.padding()
 
-				Text("Dedicated to Dennis Bednarz (2000 — 2019), a friend and visionary of the iOS community taken from us too soon.")
+				Text("Dedicated to Dennis Bednarz (2000 – 2019), a friend and visionary of the iOS community taken from us too soon.")
 					.fixedSize(horizontal: false, vertical: true)
 					.frame(width: 260)
 					.foregroundColor(.secondary)
