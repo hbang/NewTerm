@@ -361,7 +361,7 @@ extension RootViewController: TabToolbarDelegate {
 
 	@objc func openSettings() {
 		if UIApplication.shared.supportsMultipleScenes {
-			let options = UIWindowScene.ActivationRequestOptions()
+			let options = UIScene.ActivationRequestOptions()
 			options.requestingScene = view.window?.windowScene
 			let userActivity = NSUserActivity(activityType: SettingsSceneDelegate.activityType)
 			UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: options, errorHandler: nil)

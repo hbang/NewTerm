@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NewTermCommon
 
 class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 
@@ -40,7 +41,7 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 	// MARK: - Window management
 
 	func createWindow(asTab: Bool) {
-		let options = UIWindowScene.ActivationRequestOptions()
+		let options = UIScene.ActivationRequestOptions()
 		#if targetEnvironment(macCatalyst)
 		if asTab {
 			options.requestingScene = window!.windowScene
