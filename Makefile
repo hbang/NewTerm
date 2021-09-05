@@ -13,6 +13,8 @@ XCODEPROJ_NAME = NewTerm
 
 NewTerm_XCODEFLAGS = SWIFT_OLD_RPATH=/usr/lib/libswift/stable
 NewTerm_XCODE_SCHEME = NewTerm (iOS)
+# Prevent bitcode from being embedded in archive builds.
+NewTerm_XCODEFLAGS = ENABLE_BITCODE=NO
 NewTerm_CODESIGN_FLAGS = -SiOS/entitlements.plist
 
 include $(THEOS_MAKE_PATH)/xcodeproj.mk
