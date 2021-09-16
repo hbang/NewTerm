@@ -41,6 +41,13 @@ struct SettingsView: View {
 
 			Section {
 				NavigationLink(
+					destination: SettingsPerformanceView(),
+					label: { Text("Performance") }
+				)
+			}
+
+			Section {
+				NavigationLink(
 					destination: SettingsAboutView(),
 					label: { Text("About") }
 				)

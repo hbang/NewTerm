@@ -47,6 +47,8 @@ public class TerminalController {
 
 	private var processLaunchDate: Date?
 	private var updateTimer: Timer?
+	private var refreshRate: TimeInterval = 60
+	private var isVisible = true
 	private var readBuffer = Data()
 
 	internal var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
@@ -80,12 +82,16 @@ public class TerminalController {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
 
-		startUpdateTimer(fps: 60)
+		startUpdateTimer(fps: refreshRate)
 
 		#if os(iOS)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 		#endif
+
+		if #available(macOS 12, *) {
+			NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateChanged), name: .NSProcessInfoPowerStateDidChange, object: nil)
+		}
 	}
 
 	@objc private func preferencesUpdated() {
@@ -93,7 +99,21 @@ public class TerminalController {
 		stringSupplier.colorMap = preferences.colorMap
 		stringSupplier.fontMetrics = preferences.fontMetrics
 
+		powerStateChanged()
 		terminal?.refresh(startRow: 0, endRow: terminal?.rows ?? 0)
+	}
+
+	@objc private func powerStateChanged() {
+		let preferences = Preferences.shared
+		if #available(macOS 12, *),
+			 ProcessInfo.processInfo.isLowPowerModeEnabled && preferences.reduceRefreshRateInLPM {
+			refreshRate = 15
+		} else {
+			refreshRate = TimeInterval(min(preferences.refreshRate, UIScreen.main.maximumFramesPerSecond))
+		}
+		if isVisible {
+			startUpdateTimer(fps: refreshRate)
+		}
 	}
 
 	public func windowDidEnterBackground() {
@@ -104,29 +124,35 @@ public class TerminalController {
 		} else {
 			stopUpdatingTimer()
 		}
+		isVisible = false
 	}
 
 	public func windowWillEnterForeground() {
 		// Go back to full speed.
-		startUpdateTimer(fps: 60)
+		startUpdateTimer(fps: refreshRate)
+		isVisible = true
 	}
 
 	@objc private func appWillResignActive() {
 		stopUpdatingTimer()
+		isVisible = false
 	}
 
 	@objc private func appDidBecomeActive() {
-		startUpdateTimer(fps: 60)
+		startUpdateTimer(fps: refreshRate)
+		isVisible = true
 	}
 
 	public func terminalWillAppear() {
 		// Start updating again.
-		startUpdateTimer(fps: 60)
+		startUpdateTimer(fps: refreshRate)
+		isVisible = true
 	}
 
 	public func terminalWillDisappear() {
 		// Stop updating entirely. We don’t need to if we’re not visible.
 		stopUpdatingTimer()
+		isVisible = false
 	}
 
 	private func startUpdateTimer(fps: TimeInterval) {

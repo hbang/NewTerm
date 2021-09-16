@@ -74,5 +74,7 @@
 	</array>
 	<key>UIUserInterfaceStyle</key>
 	<string>Dark</string>
+	<key>CADisableMinimumFrameDuration</key>
+	<true/>
 </dict>
 </plist>

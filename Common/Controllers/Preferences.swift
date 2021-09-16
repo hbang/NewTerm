@@ -128,6 +128,16 @@ public class Preferences: NSObject, ObservableObject {
 		willSet { objectWillChange.send() }
 	}
 
+	@AppStorage("refreshRate")
+	public var refreshRate: Int = 60 {
+		willSet { objectWillChange.send() }
+	}
+
+	@AppStorage("reduceRefreshRateInLPM")
+	public var reduceRefreshRateInLPM: Bool = true {
+		willSet { objectWillChange.send() }
+	}
+
 	@AppStorage("lastVersion")
 	public var lastVersion: Int = 0 {
 		willSet { objectWillChange.send() }
