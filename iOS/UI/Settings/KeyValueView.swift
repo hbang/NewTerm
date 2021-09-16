@@ -13,6 +13,18 @@ struct KeyValueView<Title: View, Value: View>: View {
 	var title: Title
 	var value: Value
 
+	init(icon: Image? = nil, title: Title, value: Value) {
+		self.icon = icon
+		self.title = title
+		self.value = value
+	}
+
+	init(icon: Image? = nil, title: Title, @ViewBuilder value: () -> (Value)) {
+		self.icon = icon
+		self.title = title
+		self.value = value()
+	}
+
 	var body: some View {
 		HStack {
 			icon

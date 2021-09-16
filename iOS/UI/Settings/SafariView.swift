@@ -252,3 +252,22 @@ extension SafariViewPresenter {
 
 	}
 }
+
+extension View {
+
+	func safariView(isPresented: Binding<Bool>, url: URL, configuration: SafariView.Configuration) -> some View {
+		#if targetEnvironment(macCatalyst)
+		return self.onTapGesture {
+			UIApplication.shared.open(url,
+																options: [:],
+																completionHandler: nil)
+		}
+		#else
+		return self.sheet(isPresented: isPresented) {
+			SafariView(url: url,
+								 configuration: configuration)
+		}
+		#endif
+	}
+
+}

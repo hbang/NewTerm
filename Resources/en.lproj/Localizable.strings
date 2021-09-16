@@ -14,6 +14,10 @@
 	<key>SETTINGS_MAC</key>
 	<string>Preferences</string>
 
+	<!-- Title of About page. -->
+	<key>ABOUT</key>
+	<string>About NewTerm</string>
+
 	<!-- VoiceOver label for the password manager button. -->
 	<key>PASSWORD_MANAGER</key>
 	<string>Password Manager</string>

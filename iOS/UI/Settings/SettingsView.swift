@@ -39,6 +39,7 @@ struct SettingsView: View {
 				)
 			}
 
+			#if !targetEnvironment(macCatalyst)
 			Section {
 				NavigationLink(
 					destination: SettingsPerformanceView(),
@@ -52,13 +53,15 @@ struct SettingsView: View {
 					label: { Text("About") }
 				)
 			}
+			#endif
 		}
-		.listStyle(GroupedListStyle())
+			.listStyle(GroupedListStyle())
 
-		#if targetEnvironment(macCatalyst)
+#if targetEnvironment(macCatalyst)
 		let finalList = list
-			.navigationBarTitle("SETTINGS_MAC", displayMode: .large)
-		#else
+			.navigationBarTitle("SETTINGS_MAC", displayMode: .inline)
+			.navigationBarHidden(true)
+#else
 		let finalList = list
 			.navigationBarTitle("SETTINGS", displayMode: .large)
 			.navigationBarItems(trailing:
@@ -69,14 +72,14 @@ struct SettingsView: View {
 																} else {
 																	// TODO: presentationMode seems useless when UIKit is presenting
 																	// the view controller rather than SwiftUI? Ugh
-//																	presentationMode.wrappedValue.dismiss()
+																	//																	presentationMode.wrappedValue.dismiss()
 																	NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
 																}
 															},
-															label: { Text(uikitKey: "Done") }
+															label: { Text(uikitKey: "Done").bold() }
 														)
-		)
-		#endif
+			)
+#endif
 
 		return NavigationView {
 			finalList
@@ -90,4 +93,3 @@ struct SettingsView_Previews: PreviewProvider {
 		SettingsView()
 	}
 }
-

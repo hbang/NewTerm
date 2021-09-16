@@ -374,6 +374,13 @@ extension RootViewController: TabToolbarDelegate {
 		}
 	}
 
+	@objc func openAbout() {
+		let options = UIScene.ActivationRequestOptions()
+		options.requestingScene = view.window?.windowScene
+		let userActivity = NSUserActivity(activityType: AboutSceneDelegate.activityType)
+		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: options, errorHandler: nil)
+	}
+
 	@objc private func dismissSettings() {
 		presentedViewController?.dismiss(animated: true, completion: nil)
 	}

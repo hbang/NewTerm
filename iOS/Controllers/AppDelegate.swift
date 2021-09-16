@@ -34,6 +34,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		if let userActivity = options.userActivities.first {
 			if userActivity.activityType == SettingsSceneDelegate.activityType {
 				return UISceneConfiguration(name: "Settings", sessionRole: connectingSceneSession.role)
+			} else if userActivity.activityType == AboutSceneDelegate.activityType {
+				return UISceneConfiguration(name: "About", sessionRole: connectingSceneSession.role)
 			}
 		}
 		return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
@@ -65,6 +67,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																							 modifierFlags: .command)
 																 ]),
 													afterMenu: .about)
+		builder.replace(menu: .about,
+										with: UIMenu(options: .displayInline,
+																 children: [
+																	UICommand(title: NSLocalizedString("ABOUT", comment: "Title of About page."),
+																						action: #selector(RootViewController.openAbout))
+																 ]))
 
 		// File menu
 		builder.replace(menu: .newScene,

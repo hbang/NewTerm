@@ -26,9 +26,16 @@ struct SettingsAcknowledgementsTextViewRepresentable: UIViewRepresentable {
 			<style>
 			html { font: -apple-system-body; -webkit-text-size-adjust: none; }
 			body { font-size: 0.9em; }
+			.preamble { font-size: 0.92em; text-align: center; }
 			</style>
 		</head>
 		<body>
+			<p class="preamble">
+				<a href="https://newterm.app/">newterm.app</a>
+				<br>
+				<a href="https://github.com/hbang/NewTerm">github.com/hbang/NewTerm</a>
+			</p>
+			<p class="preamble"></p>
 		"""
 			.data(using: .utf8)!
 		let postamble = "</body></html>".data(using: .utf8)!

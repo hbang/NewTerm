@@ -10,7 +10,7 @@ import SwiftUI
 struct SettingsAcknowledgementsView: View {
 	var body: some View {
 		SettingsAcknowledgementsTextViewRepresentable()
-			.navigationBarTitle("Acknowledgements", displayMode: .inline)
+			.navigationBarTitle("License & Acknowledgements", displayMode: .inline)
 	}
 }
 
