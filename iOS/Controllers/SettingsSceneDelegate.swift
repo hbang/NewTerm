@@ -48,17 +48,18 @@ class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		toolbar.displayMode = .iconAndLabel
 		toolbar.selectedItemIdentifier = .general
 		windowScene.titlebar?.toolbar = toolbar
-		#endif
 
 		UIView.performWithoutAnimation {
 			selectGeneralTab()
 		}
+		#endif
 
 		window!.makeKeyAndVisible()
 	}
 
 }
 
+#if targetEnvironment(macCatalyst)
 private extension NSToolbarItem.Identifier {
 	static let general     = NSToolbarItem.Identifier("general")
 	static let interface   = NSToolbarItem.Identifier("interface")
@@ -142,3 +143,4 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 	}
 
 }
+#endif
