@@ -35,7 +35,7 @@
 		4E9FB99426184356005AFCC8 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9FB99326184356005AFCC8 /* SettingsView.swift */; };
 		4EA7D40926F3109A0031F078 /* IconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40826F3109A0031F078 /* IconView.swift */; };
 		4EA7D40B26F35A1D0031F078 /* GroupedButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40A26F35A1D0031F078 /* GroupedButtonStyle.swift */; };
-		4EA7D40D26F366820031F078 /* ActivityViewControllerRepresentable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40C26F366820031F078 /* ActivityViewControllerRepresentable.swift */; };
+		4EA7D40D26F366820031F078 /* ActivityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40C26F366820031F078 /* ActivityView.swift */; };
 		4EA7D40F26F37D480031F078 /* AboutSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40E26F37D480031F078 /* AboutSceneDelegate.swift */; };
 		4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB057662621A91400766B8A /* TerminalSplitViewController.swift */; };
 		4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0576A2622A16300766B8A /* SplitGrabberView.swift */; };
@@ -171,7 +171,7 @@
 		4E9FB99326184356005AFCC8 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		4EA7D40826F3109A0031F078 /* IconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IconView.swift; sourceTree = "<group>"; };
 		4EA7D40A26F35A1D0031F078 /* GroupedButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupedButtonStyle.swift; sourceTree = "<group>"; };
-		4EA7D40C26F366820031F078 /* ActivityViewControllerRepresentable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityViewControllerRepresentable.swift; sourceTree = "<group>"; };
+		4EA7D40C26F366820031F078 /* ActivityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActivityView.swift; sourceTree = "<group>"; };
 		4EA7D40E26F37D480031F078 /* AboutSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSceneDelegate.swift; sourceTree = "<group>"; };
 		4EB057662621A91400766B8A /* TerminalSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSplitViewController.swift; sourceTree = "<group>"; };
 		4EB0576A2622A16300766B8A /* SplitGrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGrabberView.swift; sourceTree = "<group>"; };
@@ -282,6 +282,15 @@
 				4E98082E261AA9DC00E41883 /* AppStorage.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		4EA7D41026F425B00031F078 /* SwiftUI Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				1EEB4F65262CF591005E5B79 /* SafariView.swift */,
+				4EA7D40C26F366820031F078 /* ActivityView.swift */,
+			);
+			path = "SwiftUI Helpers";
 			sourceTree = "<group>";
 		};
 		4EB057692622A15300766B8A /* Split View */ = {
@@ -429,6 +438,7 @@
 				4EB057692622A15300766B8A /* Split View */,
 				CFBB967B22B5481B00585BE6 /* Terminal */,
 				CFBB968122B5481B00585BE6 /* Top Bar */,
+				4EA7D41026F425B00031F078 /* SwiftUI Helpers */,
 				4ED1273025F9E8F60049F59B /* UIColor+AppColors.swift */,
 				4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */,
 			);
@@ -447,10 +457,8 @@
 				4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */,
 				CF6B3BA9244C4537000A608B /* LogoHeaderView.swift */,
 				4E98081B261850E600E41883 /* KeyValueView.swift */,
-				1EEB4F65262CF591005E5B79 /* SafariView.swift */,
 				4EA7D40826F3109A0031F078 /* IconView.swift */,
 				4EA7D40A26F35A1D0031F078 /* GroupedButtonStyle.swift */,
-				4EA7D40C26F366820031F078 /* ActivityViewControllerRepresentable.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -859,7 +867,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				4EA7D40F26F37D480031F078 /* AboutSceneDelegate.swift in Sources */,
-				4EA7D40D26F366820031F078 /* ActivityViewControllerRepresentable.swift in Sources */,
+				4EA7D40D26F366820031F078 /* ActivityView.swift in Sources */,
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
 				4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */,

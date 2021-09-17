@@ -122,12 +122,11 @@ struct SettingsAboutView: View {
 						}
 					)
 						.buttonStyle(GroupedButtonStyle())
-						.fullScreenCover(isPresented: $showingShare) {
-							ActivityViewControllerRepresentable(activityItems: [
-								"Check out NewTerm! 🧑‍💻",
-								URL(string: "https://newterm.app/")!
-							])
-						}
+						.activityView(isPresented: $showingShare,
+													activityItems: [
+														"Check out NewTerm! 🧑‍💻",
+														URL(string: "https://newterm.app/")!
+													])
 				}
 				
 				NavigationLink(
