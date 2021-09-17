@@ -68,7 +68,7 @@ public class Preferences: NSObject, ObservableObject {
 	}
 
 	@AppStorage("fontSizeMac")
-	private var fontSizeMac: Double = 13 {
+	public var fontSizeMac: Double = 13 {
 		willSet { objectWillChange.send() }
 		didSet { fontMetricsChanged() }
 	}

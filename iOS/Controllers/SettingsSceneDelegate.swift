@@ -93,7 +93,7 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 			return makeToolbarItem(itemIdentifier: itemIdentifier,
 														 label: "Interface",
 														 icon: "macwindow",
-														 action: #selector(selectGeneralTab))
+														 action: #selector(selectInterfaceTab))
 
 		case .performance:
 			return makeToolbarItem(itemIdentifier: itemIdentifier,
@@ -136,6 +136,10 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 
 	@objc private func selectGeneralTab() {
 		switchTab(rootView: SettingsView(), size: CGSize(width: 600, height: 500))
+	}
+
+	@objc private func selectInterfaceTab() {
+		switchTab(rootView: SettingsInterfaceView(), size: CGSize(width: 600, height: 500))
 	}
 
 	@objc private func selectPerformanceTab() {

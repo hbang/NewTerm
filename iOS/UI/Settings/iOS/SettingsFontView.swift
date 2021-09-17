@@ -36,7 +36,7 @@ struct SettingsFontView: View {
 
 						if value.previewFont == nil {
 							Image(systemName: "arrow.down.circle")
-								.accessibility(label: Text("Download"))
+								.accessibility(label: Text("Not installed. Tap to download."))
 						}
 
 						if key == preferences.$fontName.wrappedValue {
