@@ -66,25 +66,25 @@ class TabToolbarViewController: UIViewController {
 
 		titleLabel = UILabel()
 		titleLabel.font = titleFont
-		titleLabel.text = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+		titleLabel.text = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 		titleLabel.textAlignment = .center
 		titleLabel.textColor = .label
 
 		let passwordButton = UIButton(type: .system)
 		passwordButton.setImage(passwordImage, for: .normal)
-		passwordButton.accessibilityLabel = NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button.")
+		passwordButton.accessibilityLabel = .localize("NEW_TAB", comment: "VoiceOver label for the new tab button.")
 		passwordButton.contentMode = .center
 		passwordButton.addTarget(self, action: #selector(self.openPasswordManager), for: .touchUpInside)
 
 		let settingsButton = UIButton(type: .system)
 		settingsButton.setImage(gearImage, for: .normal)
-		settingsButton.accessibilityLabel = NSLocalizedString("SETTINGS", comment: "Title of Settings page.")
+		settingsButton.accessibilityLabel = .localize("SETTINGS", comment: "Title of Settings page.")
 		settingsButton.contentMode = .center
 		settingsButton.addTarget(self, action: #selector(self.openSettings), for: .touchUpInside)
 
 		let addButton = UIButton(type: .system)
 		addButton.setImage(plusImage, for: .normal)
-		addButton.accessibilityLabel = NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the button that reveals the password manager.")
+		addButton.accessibilityLabel = .localize("PASSWORD_MANAGER", comment: "VoiceOver label for the button that reveals the password manager.")
 		addButton.contentMode = .center
 		addButton.addTarget(self, action: #selector(self.addTerminal), for: .touchUpInside)
 
@@ -336,26 +336,26 @@ extension TabToolbarViewController: UIContextMenuInteractionDelegate {
 	var addButtonMenu: UIMenu {
 		var items = [UIMenuElement]()
 		if UIApplication.shared.supportsMultipleScenes {
-			items.append(UICommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+			items.append(UICommand(title: .localize("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
 														 image: UIImage(systemName: "plus.rectangle.on.rectangle"),
 														 action: #selector(RootViewController.addWindow)))
-			items.append(UICommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+			items.append(UICommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
 														 image: UIImage(systemName: "xmark.rectangle"),
 														 action: #selector(RootViewController.closeCurrentWindow),
 														 attributes: .destructive))
 
 			let splitMenu = UIMenu(options: .displayInline,
 														 children: [
-															UICommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+															UICommand(title: .localize("SPLIT_HORIZONTALLY"),
 																				image: UIImage(systemName: "rectangle.split.1x2"),
 																				action: #selector(RootViewController.splitHorizontally)),
-															UICommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+															UICommand(title: .localize("SPLIT_VERTICALLY"),
 																				image: UIImage(systemName: "rectangle.split.2x1"),
 																				action: #selector(RootViewController.splitVertically))
 														 ])
 			items.append(splitMenu)
 		} else {
-			let title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_ACTION", comment: ""), dataSource?.numberOfTerminals() ?? 0)
+			let title = String.localizedStringWithFormat(.localize("CLOSE_WINDOW_ACTION"), dataSource?.numberOfTerminals() ?? 0)
 			items.append(UICommand(title: title,
 														 image: UIImage(systemName: "xmark"),
 														 action: #selector(RootViewController.closeCurrentWindow),

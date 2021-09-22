@@ -12,12 +12,12 @@
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E32378F26FB2D4400AEDA06 /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */; };
+		4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* String+Localization.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
 		4E479711262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
 		4E5E817526F2EBE000C4DB6D /* SettingsPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */; };
-		4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
 		4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081D2618551D00E41883 /* SettingsFontView.swift */; };
 		4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9808212618601F00E41883 /* SettingsThemeView.swift */; };
@@ -157,7 +157,7 @@
 		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		4E479712262D44D8003CF48C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
 		4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPerformanceView.swift; sourceTree = "<group>"; };
-		4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "LocalizedStringKey+Additions.swift"; sourceTree = "<group>"; };
+		4E98081926184A2500E41883 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
 		4E98081D2618551D00E41883 /* SettingsFontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFontView.swift; sourceTree = "<group>"; };
 		4E9808212618601F00E41883 /* SettingsThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsThemeView.swift; sourceTree = "<group>"; };
@@ -447,7 +447,6 @@
 				CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */,
 				CFBB96BD22B5481B00585BE6 /* Supporting Files */,
 				4E9B32DF260C66B5006A1FBC /* Bundle+NewTermAdditions.swift */,
-				4E98081926184A2500E41883 /* LocalizedStringKey+Additions.swift */,
 			);
 			path = iOS;
 			sourceTree = "<group>";
@@ -525,6 +524,7 @@
 				CFBB967F22B5481B00585BE6 /* UIColor+HBAdditions.h */,
 				CFBB968022B5481B00585BE6 /* UIColor+HBAdditions.m */,
 				4E9FB97126172079005AFCC8 /* Color+Additions.swift */,
+				4E98081926184A2500E41883 /* String+Localization.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -881,6 +881,7 @@
 				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
 				CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */,
 				CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */,
+				4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -892,7 +893,6 @@
 				4EA7D40D26F366820031F078 /* ActivityView.swift in Sources */,
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
-				4E98081A26184A2500E41883 /* LocalizedStringKey+Additions.swift in Sources */,
 				4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */,
 				4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */,
 				4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */,

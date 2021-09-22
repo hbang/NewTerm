@@ -75,7 +75,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Application menu
 		builder.insertSibling(UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: NSLocalizedString("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
+																	UIKeyCommand(title: .localize("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
 																							 action: #selector(RootViewController.openSettings),
 																							 input: ",",
 																							 modifierFlags: .command)
@@ -84,7 +84,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		builder.replace(menu: .about,
 										with: UIMenu(options: .displayInline,
 																 children: [
-																	UICommand(title: NSLocalizedString("ABOUT", comment: "Title of About page."),
+																	UICommand(title: .localize("ABOUT", comment: "Title of About page."),
 																						action: #selector(self.openAbout))
 																 ]))
 
@@ -92,11 +92,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		builder.replace(menu: .newScene,
 										with: UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+																	UIKeyCommand(title: .localize("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
 																							 action: #selector(RootViewController.addWindow),
 																							 input: "n",
 																							 modifierFlags: .command),
-																	UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
+																	UIKeyCommand(title: .localize("NEW_TAB", comment: "VoiceOver label for the new tab button."),
 																							 action: #selector(RootViewController.newTab),
 																							 input: "t",
 																							 modifierFlags: .command)
@@ -107,11 +107,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 																 children: [
 																	// TODO: Disabling for now, needs research.
 																	// Probably need to directly access the NSWindow to do this.
-//																	UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+//																	UIKeyCommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
 //																							 action: #selector(RootViewController.closeCurrentWindow),
 //																							 input: "w",
 //																							 modifierFlags: [ .command, .shift ]),
-																	UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
+																	UIKeyCommand(title: .localize("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
 																							 action: #selector(RootViewController.removeCurrentTerminal),
 																							 input: "w",
 																							 modifierFlags: .command)
@@ -119,11 +119,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 		builder.insertChild(UIMenu(options: .displayInline,
 															 children: [
-																UIKeyCommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+																UIKeyCommand(title: .localize("SPLIT_HORIZONTALLY"),
 																						 action: #selector(RootViewController.splitHorizontally),
 																						 input: "d",
 																						 modifierFlags: [.command, .shift]),
-																UIKeyCommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+																UIKeyCommand(title: .localize("SPLIT_VERTICALLY"),
 																						 action: #selector(RootViewController.splitVertically),
 																						 input: "d",
 																						 modifierFlags: .command)
@@ -133,7 +133,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		// Edit menu
 		builder.insertSibling(UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: NSLocalizedString("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+																	UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
 																							 action: #selector(TerminalSessionViewController.clearTerminal),
 																							 input: "k",
 																							 modifierFlags: .command)

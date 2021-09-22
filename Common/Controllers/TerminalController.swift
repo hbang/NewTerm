@@ -367,7 +367,7 @@ extension TerminalController: SubProcessDelegate {
 		delegate?.didReceiveError(error: error!)
 
 		// Write the termination message to the terminal.
-		let processCompleted = NSLocalizedString("PROCESS_COMPLETED_TITLE", comment: "Title displayed when the terminal’s process has ended.")
+		let processCompleted = String.localize("PROCESS_COMPLETED_TITLE", comment: "Title displayed when the terminal’s process has ended.")
 		let cols = Int(subProcess?.screenSize.cols ?? 0)
 		let messageLength = processCompleted.count + 2
 		let divider = String(repeating: "═", count: max((cols - messageLength) / 2, 0))

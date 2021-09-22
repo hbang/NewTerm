@@ -66,7 +66,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	override func loadView() {
 		super.loadView()
 
-		title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+		title = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
 		textView.delegate = self
 
@@ -93,14 +93,14 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 			passwordImage = UIImage(named: "key.fill", in: nil, with: nil)
 		}
 
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+		addKeyCommand(UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
 															 image: UIImage(systemName: "text.badge.xmark"),
 															 action: #selector(self.clearTerminal),
 															 input: "k",
 															 modifierFlags: .command))
 
 		#if !targetEnvironment(macCatalyst)
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
+		addKeyCommand(UIKeyCommand(title: .localize("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
 															 image: passwordImage,
 															 action: #selector(self.activatePasswordManager),
 															 input: "f",
@@ -418,11 +418,10 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		}
 		failureError = nil
 
-		let alertController = UIAlertController(title: NSLocalizedString("TERMINAL_LAUNCH_FAILED_TITLE", comment: "Alert title displayed when a terminal could not be launched."),
-																						message: NSLocalizedString("TERMINAL_LAUNCH_FAILED_BODY", comment: "Alert body displayed when a terminal could not be launched."),
+		let alertController = UIAlertController(title: .localize("TERMINAL_LAUNCH_FAILED_TITLE", comment: "Alert title displayed when a terminal could not be launched."),
+																						message: .localize("TERMINAL_LAUNCH_FAILED_BODY", comment: "Alert body displayed when a terminal could not be launched."),
 																						preferredStyle: .alert)
-		let ok = NSLocalizedString("OK", tableName: "Localizable", bundle: .uikit, comment: "")
-		alertController.addAction(UIAlertAction(title: ok, style: .cancel, handler: nil))
+		alertController.addAction(UIAlertAction(title: .ok, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
 	}
 

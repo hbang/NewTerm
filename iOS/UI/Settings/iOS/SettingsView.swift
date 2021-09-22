@@ -55,7 +55,7 @@ struct SettingsView: View {
 			}
 			#endif
 		}
-			.listStyle(GroupedListStyle())
+			.listStyle(InsetGroupedListStyle())
 
 #if targetEnvironment(macCatalyst)
 		let finalList = list
@@ -76,7 +76,7 @@ struct SettingsView: View {
 																	NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
 																}
 															},
-															label: { Text(uikitKey: "Done").bold() }
+															label: { Text(.done).bold() }
 														)
 			)
 #endif

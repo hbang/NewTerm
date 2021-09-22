@@ -40,7 +40,7 @@ class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSce
 #if targetEnvironment(macCatalyst)
 		windowScene.title = "General"
 #else
-		windowScene.title = NSLocalizedString("SETTINGS", comment: "Title of Settings page.")
+		windowScene.title = .localize("SETTINGS", comment: "Title of Settings page.")
 #endif
 
 #if targetEnvironment(macCatalyst)

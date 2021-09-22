@@ -27,7 +27,7 @@ class AboutSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSceneD
 		window!.tintColor = .tint
 		window!.rootViewController = UIHostingController(rootView: SettingsAboutView(windowScene: windowScene))
 
-		windowScene.title = NSLocalizedString("ABOUT", comment: "Title of About page.")
+		windowScene.title = .localize("ABOUT", comment: "Title of About page.")
 		windowScene.sizeRestrictions?.minimumSize = CGSize(width: 450, height: 600)
 		windowScene.sizeRestrictions?.maximumSize = CGSize(width: 450, height: 600)
 

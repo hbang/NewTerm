@@ -29,7 +29,7 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		window!.rootViewController = UINavigationController(rootViewController: RootViewController())
 		window!.makeKeyAndVisible()
 
-		scene.title = NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+		scene.title = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
 		#if targetEnvironment(macCatalyst)
 		windowScene.titlebar?.separatorStyle = .none

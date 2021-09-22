@@ -36,27 +36,27 @@ class RootViewController: UIViewController {
 
 		addTerminal()
 
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SETTINGS", comment: "Title of Settings page."),
+		addKeyCommand(UIKeyCommand(title: .localize("SETTINGS", comment: "Title of Settings page."),
 															 image: UIImage(systemName: "gear"),
 															 action: #selector(self.openSettings),
 															 input: ",",
 															 modifierFlags: .command))
 
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_TAB", comment: "VoiceOver label for the new tab button."),
+		addKeyCommand(UIKeyCommand(title: .localize("NEW_TAB", comment: "VoiceOver label for the new tab button."),
 															 action: #selector(self.newTab),
 															 input: "t",
 															 modifierFlags: .command))
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
+		addKeyCommand(UIKeyCommand(title: .localize("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
 															 action: #selector(self.removeCurrentTerminal),
 															 input: "w",
 															 modifierFlags: .command))
 
 		#if !targetEnvironment(macCatalyst)
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SHOW_PREVIOUS_TAB", comment: ""),
+		addKeyCommand(UIKeyCommand(title: .localize("SHOW_PREVIOUS_TAB"),
 															 action: #selector(self.selectPreviousTab),
 															 input: "{",
 															 modifierFlags: .command))
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SHOW_NEXT_TAB", comment: ""),
+		addKeyCommand(UIKeyCommand(title: .localize("SHOW_NEXT_TAB"),
 															 action: #selector(self.selectNextTab),
 															 input: "}",
 															 modifierFlags: .command))
@@ -70,21 +70,21 @@ class RootViewController: UIViewController {
 		}
 
 		if UIApplication.shared.supportsMultipleScenes {
-			addKeyCommand(UIKeyCommand(title: NSLocalizedString("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+			addKeyCommand(UIKeyCommand(title: .localize("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
 																 action: #selector(self.addWindow),
 																 input: "n",
 																 modifierFlags: .command))
-			addKeyCommand(UIKeyCommand(title: NSLocalizedString("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+			addKeyCommand(UIKeyCommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
 																 action: #selector(self.closeCurrentWindow),
 																 input: "w",
 																 modifierFlags: [ .command, .shift ]))
 		}
 
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SPLIT_HORIZONTALLY", comment: ""),
+		addKeyCommand(UIKeyCommand(title: .localize("SPLIT_HORIZONTALLY"),
 															 action: #selector(self.splitHorizontally),
 															 input: "d",
 															 modifierFlags: [.command, .shift]))
-		addKeyCommand(UIKeyCommand(title: NSLocalizedString("SPLIT_VERTICALLY", comment: ""),
+		addKeyCommand(UIKeyCommand(title: .localize("SPLIT_VERTICALLY"),
 															 action: #selector(self.splitVertically),
 															 input: "d",
 															 modifierFlags: .command))
@@ -299,20 +299,19 @@ class RootViewController: UIViewController {
 
 		let title: String?
 		let action: String
-		let cancel = NSLocalizedString("Cancel", bundle: .uikit, comment: "")
 		if isBigDevice {
-			title = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_TITLE", comment: ""), terminals.count)
-			action = NSLocalizedString("Close", bundle: .uikit, comment: "")
+			title = String.localizedStringWithFormat(.localize("CLOSE_WINDOW_TITLE"), terminals.count)
+			action = .close
 		} else {
 			title = nil
-			action = String.localizedStringWithFormat(NSLocalizedString("CLOSE_WINDOW_ACTION", comment: ""), terminals.count)
+			action = String.localizedStringWithFormat(.localize("CLOSE_WINDOW_ACTION"), terminals.count)
 		}
 
 		let alertController = UIAlertController(title: title, message: nil, preferredStyle: isBigDevice ? .alert : .actionSheet)
 		alertController.addAction(UIAlertAction(title: action, style: isBigDevice ? .default : .destructive, handler: { _ in
 			self.destructScene()
 		}))
-		alertController.addAction(UIAlertAction(title: cancel, style: .cancel, handler: nil))
+		alertController.addAction(UIAlertAction(title: .cancel, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
 	}
 
@@ -351,7 +350,7 @@ extension RootViewController: TabToolbarDataSource {
 	func terminalName(at index: Int) -> String {
 		let title = terminals[index].title
 		return title == nil || title!.isEmpty
-			? NSLocalizedString("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+			? .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 			: title!
 	}
 

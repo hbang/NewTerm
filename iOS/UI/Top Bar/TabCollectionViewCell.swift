@@ -39,7 +39,7 @@ class TabCollectionViewCell: UICollectionViewCell {
 		closeButton.translatesAutoresizingMaskIntoConstraints = false
 		let configuration = UIImage.SymbolConfiguration(pointSize: textLabel.font.pointSize * 1.12, weight: .unspecified, scale: .unspecified)
 		closeButton.setImage(UIImage(systemName: "xmark.square.fill", withConfiguration: configuration), for: .normal)
-		closeButton.accessibilityLabel = NSLocalizedString("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")
+		closeButton.accessibilityLabel = .localize("CLOSE_TAB", comment: "VoiceOver label for the close tab button.")
 		closeButton.contentMode = .center
 		closeButton.tintColor = textLabel.textColor
 		closeButton.alpha = 0.5
