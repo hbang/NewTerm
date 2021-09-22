@@ -138,11 +138,27 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		terminalController.terminalWillAppear()
 	}
 
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+
+		hasAppeared = true
+
+		if let error = failureError {
+			didReceiveError(error: error)
+		}
+	}
+
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 
 		resignFirstResponder()
 		terminalController.terminalWillDisappear()
+	}
+
+	override func viewDidDisappear(_ animated: Bool) {
+		super.viewDidDisappear(animated)
+
+		hasAppeared = false
 	}
 
 	override func viewWillLayoutSubviews() {
@@ -400,6 +416,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			failureError = error
 			return
 		}
+		failureError = nil
 
 		let alertController = UIAlertController(title: NSLocalizedString("TERMINAL_LAUNCH_FAILED_TITLE", comment: "Alert title displayed when a terminal could not be launched."),
 																						message: NSLocalizedString("TERMINAL_LAUNCH_FAILED_BODY", comment: "Alert body displayed when a terminal could not be launched."),
