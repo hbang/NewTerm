@@ -36,9 +36,9 @@ class ActivityWrapperViewController: UIViewController {
 			activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
 			activityViewController!.popoverPresentationController?.sourceView = view
 			activityViewController!.popoverPresentationController?.sourceRect = CGRect(x: view.center.x,
-																																								 y: view.frame.size.height,
+																																								 y: 0,
 																																								 width: 0,
-																																								 height: 0)
+																																								 height: view.frame.size.height)
 			activityViewController!.completionWithItemsHandler = { _, _, _, _ in
 				self.completion()
 			}
