@@ -62,60 +62,60 @@ class SubProcess: NSObject {
 
 		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
 		switch pid {
-			case -1:
-				// Fork failed.
-				if errno == EPERM {
-					throw SubProcessIllegalStateError.inSandbox
-				} else {
-					os_log("Fork failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
-					throw SubProcessIllegalStateError.forkFailed
-				}
+		case -1:
+			// Fork failed.
+			os_log("Fork failed: %{public errno}d", type: .error, errno)
+			if errno == EPERM {
+				throw SubProcessIllegalStateError.inSandbox
+			} else {
+				throw SubProcessIllegalStateError.forkFailed
+			}
 
-			case 0:
-				// We’re in the fork. Execute the login shell.
-				// TODO: At some point, come up with some way to keep track of working directory changes.
-				// When opening a new tab, we can switch straight to the previous tab’s working directory.
-				chdir(NSHomeDirectory())
+		case 0:
+			// We’re in the fork. Execute the login shell.
+			// TODO: At some point, come up with some way to keep track of working directory changes.
+			// When opening a new tab, we can switch straight to the previous tab’s working directory.
+			chdir(NSHomeDirectory())
 
-				#if targetEnvironment(simulator)
-				let path = "/bin/bash"
-				let args = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
-				#else
-				let path = "/usr/bin/login"
-				let args = ([ "login", "-fpl\(hushLogin ? "q" : "")", NSUserName() ] as NSArray).cStringArray()!
-				#endif
+#if targetEnvironment(simulator)
+			let path = "/bin/bash"
+			let args = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
+#else
+			let path = "/usr/bin/login"
+			let args = ([ "login", "-fpl\(hushLogin ? "q" : "")", NSUserName() ] as NSArray).cStringArray()!
+#endif
 
-				let env = ([
-					"TERM=xterm-256color",
-					"COLORTERM=truecolor",
-					"LANG=\(localeCode)",
-					"TERM_PROGRAM=NewTerm",
-					"LC_TERMINAL=NewTerm"
-				] as NSArray).cStringArray()!
+			let env = ([
+				"TERM=xterm-256color",
+				"COLORTERM=truecolor",
+				"LANG=\(localeCode)",
+				"TERM_PROGRAM=NewTerm",
+				"LC_TERMINAL=NewTerm"
+			] as NSArray).cStringArray()!
 
-				defer {
-					free(args)
-					free(env)
-				}
+			defer {
+				free(args)
+				free(env)
+			}
 
-				if execve(path, args, env) == -1 {
-					os_log("%{public}@: exec failed: %{public}d: %{public}s", type: .error, path, errno, strerror(errno))
-					throw SubProcessIllegalStateError.forkFailed
-				}
-				break
+			if execve(path, args, env) == -1 {
+				os_log("%{public}@: exec failed: %{public errno}d", type: .error, path, errno)
+				throw SubProcessIllegalStateError.forkFailed
+			}
+			break
 
-			default:
-				// We’re in the parent process. We can go ahead and plug a file handle into the child tty.
-				os_log("Process forked: %d", type: .debug, pid)
-				childPID = pid
+		default:
+			// We’re in the parent process. We can go ahead and plug a file handle into the child tty.
+			os_log("Process forked: %d", type: .debug, pid)
+			childPID = pid
 
-				fileHandle = FileHandle(fileDescriptor: fileDescriptor!, closeOnDealloc: true)
-				fileHandle!.readabilityHandler = { [weak self] fileHandle in
-					self?.didReceiveData(fileHandle.availableData)
-				}
+			fileHandle = FileHandle(fileDescriptor: fileDescriptor!, closeOnDealloc: true)
+			fileHandle!.readabilityHandler = { [weak self] fileHandle in
+				self?.didReceiveData(fileHandle.availableData)
+			}
 
-				delegate!.subProcessDidConnect()
-				break
+			delegate!.subProcessDidConnect()
+			break
 		}
 	}
 
@@ -191,8 +191,7 @@ class SubProcess: NSObject {
 		windowSize.ws_row = UInt16(screenSize.rows)
 
 		if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
-			os_log("Setting screen size failed: %{public}d: %{public}s", type: .error, errno, strerror(errno))
-			delegate!.subProcess(didReceiveError: SubProcessIOError.writeFailed)
+			os_log("Setting screen size failed: %{public errno}d", type: .error, errno)
 		}
 	}
 
