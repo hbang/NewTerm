@@ -7,7 +7,7 @@
 
 import SwiftTerm
 
-extension Color {
+extension SwiftTerm.Color {
 
 	convenience init(_ uiColor: UIColor) {
 		var r: CGFloat = 0
