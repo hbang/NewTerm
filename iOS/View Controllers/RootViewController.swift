@@ -361,10 +361,9 @@ extension RootViewController: TabToolbarDelegate {
 
 	@objc func openSettings() {
 		if UIApplication.shared.supportsMultipleScenes {
-			let options = UIScene.ActivationRequestOptions()
-			options.requestingScene = view.window?.windowScene
-			let userActivity = NSUserActivity(activityType: SettingsSceneDelegate.activityType)
-			UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: options, errorHandler: nil)
+			UIApplication.shared.activateScene(userActivity: .settingsScene,
+																				 requestedByScene: view.window?.windowScene,
+																				 withProminentPresentation: true)
 		} else {
 			if presentedViewController == nil {
 				let viewController = UIHostingController(rootView: SettingsView())
@@ -372,13 +371,6 @@ extension RootViewController: TabToolbarDelegate {
 				navigationController?.present(viewController, animated: true, completion: nil)
 			}
 		}
-	}
-
-	@objc func openAbout() {
-		let options = UIScene.ActivationRequestOptions()
-		options.requestingScene = view.window?.windowScene
-		let userActivity = NSUserActivity(activityType: AboutSceneDelegate.activityType)
-		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: userActivity, options: options, errorHandler: nil)
 	}
 
 	@objc private func dismissSettings() {

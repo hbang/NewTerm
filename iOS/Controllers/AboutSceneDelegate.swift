@@ -8,7 +8,11 @@
 import UIKit
 import SwiftUI
 
-class AboutSceneDelegate: UIResponder, UIWindowSceneDelegate {
+extension NSUserActivity {
+	static let aboutScene = NSUserActivity(activityType: AboutSceneDelegate.activityType)
+}
+
+class AboutSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSceneDelegate {
 
 	static let activityType = "ws.hbang.Terminal.AboutSceneActivity"
 

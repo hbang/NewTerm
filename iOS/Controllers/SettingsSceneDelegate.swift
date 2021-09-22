@@ -8,7 +8,11 @@
 import UIKit
 import SwiftUI
 
-class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate {
+extension NSUserActivity {
+	static let settingsScene = NSUserActivity(activityType: SettingsSceneDelegate.activityType)
+}
+
+class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSceneDelegate {
 
 	static let activityType = "ws.hbang.Terminal.SettingsSceneActivity"
 
@@ -39,7 +43,7 @@ class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		windowScene.title = NSLocalizedString("SETTINGS", comment: "Title of Settings page.")
 #endif
 
-		#if targetEnvironment(macCatalyst)
+#if targetEnvironment(macCatalyst)
 		windowScene.titlebar?.toolbarStyle = .preference
 		windowScene.titlebar?.separatorStyle = .line
 
@@ -52,7 +56,9 @@ class SettingsSceneDelegate: UIResponder, UIWindowSceneDelegate {
 		UIView.performWithoutAnimation {
 			selectGeneralTab()
 		}
-		#endif
+#else
+		window!.rootViewController = UIHostingController(rootView: SettingsView(windowScene: windowScene))
+#endif
 
 		window!.makeKeyAndVisible()
 	}

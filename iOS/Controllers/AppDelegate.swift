@@ -12,6 +12,8 @@ import UIKit
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
+	private lazy var app = UIApplication.shared
+
 	func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]? = nil) -> Bool {
 		UIScrollView.appearance().keyboardDismissMode = .interactive
 
@@ -19,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		_ = Preferences.shared
 
 		UpdateCheckManager.check(updateAvailableCompletion: { response in
-			if let scene = application.connectedScenes.first {
+			if let scene = application.connectedScenes.first(where: { scene in scene.delegate is TerminalSceneDelegate }) {
 				let delegate = scene.delegate as! TerminalSceneDelegate
 				delegate.handleUpdateAvailable(response)
 			}
@@ -28,17 +30,29 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		return true
 	}
 
+	@objc func openSettings() {
+		if app.supportsMultipleScenes {
+			app.activateScene(userActivity: .settingsScene)
+		}
+	}
+
+	@objc func openAbout() {
+		if app.supportsMultipleScenes {
+			app.activateScene(userActivity: .aboutScene)
+		}
+	}
+
 	// MARK: - UISceneSession Lifecycle
 
 	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
 		if let userActivity = options.userActivities.first {
 			if userActivity.activityType == SettingsSceneDelegate.activityType {
-				return UISceneConfiguration(name: "Settings", sessionRole: connectingSceneSession.role)
+				return UISceneConfiguration(name: "Settings", sessionRole: .windowApplication)
 			} else if userActivity.activityType == AboutSceneDelegate.activityType {
-				return UISceneConfiguration(name: "About", sessionRole: connectingSceneSession.role)
+				return UISceneConfiguration(name: "About", sessionRole: .windowApplication)
 			}
 		}
-		return UISceneConfiguration(name: "Terminal", sessionRole: connectingSceneSession.role)
+		return UISceneConfiguration(name: "Terminal", sessionRole: .windowApplication)
 	}
 
 	// MARK: - Catalyst
@@ -71,7 +85,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 										with: UIMenu(options: .displayInline,
 																 children: [
 																	UICommand(title: NSLocalizedString("ABOUT", comment: "Title of About page."),
-																						action: #selector(RootViewController.openAbout))
+																						action: #selector(self.openAbout))
 																 ]))
 
 		// File menu
