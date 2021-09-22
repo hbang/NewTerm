@@ -85,10 +85,9 @@ struct SettingsInterfaceView: View {
 					action: {},
 					label: {
 						Label("Choose Font…", systemImage: "textformat")
-							.labelStyle(IconOnlyLabelStyle())
+							.labelStyle(TitleOnlyLabelStyle())
 					}
 				)
-					.buttonStyle(DefaultButtonStyle())
 			}
 		}
 			.pickerStyle(InlinePickerStyle())

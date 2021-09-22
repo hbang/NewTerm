@@ -50,7 +50,7 @@ struct SettingsPerformanceView: View {
 
 			if #available(macOS 12, *) {
 				Section(
-					footer: Text("Preserve battery life by reducing refresh rate to 15 fps when Low Power Mode is enabled.")
+					footer: Text("Preserve battery life by reducing refresh rate to 15 updates per second when Low Power Mode is enabled.")
 				) {
 					Toggle(
 						"Reduce Performance in Low Power Mode",
@@ -59,7 +59,7 @@ struct SettingsPerformanceView: View {
 				}
 			}
 		}
-		.listStyle(GroupedListStyle())
+		.listStyle(InsetGroupedListStyle())
 		.navigationBarTitle("Performance", displayMode: .inline)
 	}
 

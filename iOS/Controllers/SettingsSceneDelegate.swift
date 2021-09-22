@@ -141,7 +141,7 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 	}
 
 	@objc private func selectGeneralTab() {
-		switchTab(rootView: SettingsView(), size: CGSize(width: 600, height: 500))
+		switchTab(rootView: SettingsGeneralView(), size: CGSize(width: 600, height: 500))
 	}
 
 	@objc private func selectInterfaceTab() {

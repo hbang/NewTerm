@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1EEB4F66262CF591005E5B79 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB4F65262CF591005E5B79 /* SafariView.swift */; };
+		4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */; };
 		4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */; };
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
@@ -149,6 +150,7 @@
 
 /* Begin PBXFileReference section */
 		1EEB4F65262CF591005E5B79 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
+		4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralView.swift; sourceTree = "<group>"; };
 		4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsView.swift; sourceTree = "<group>"; };
 		4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsTextView.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
@@ -308,6 +310,7 @@
 		4EDC998C26F440090030C1F9 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
+				4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */,
 				4EDC998D26F4401B0030C1F9 /* SettingsInterfaceView.swift */,
 			);
 			path = Mac;
@@ -926,6 +929,7 @@
 				4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */,
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				4EA7D40B26F35A1D0031F078 /* GroupedButtonStyle.swift in Sources */,
+				4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

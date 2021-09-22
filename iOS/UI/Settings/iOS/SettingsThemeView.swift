@@ -48,7 +48,7 @@ struct SettingsThemeView: View {
 				themesList
 			}
 		}
-		.listStyle(GroupedListStyle())
+		.listStyle(InsetGroupedListStyle())
 
 		return VStack {
 			sampleView

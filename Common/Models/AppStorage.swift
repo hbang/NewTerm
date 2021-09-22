@@ -20,6 +20,7 @@ extension Date: PropertyListValue {}
 extension Bool: PropertyListValue {}
 extension Int: PropertyListValue {}
 extension Double: PropertyListValue {}
+extension Optional: PropertyListValue where Wrapped: PropertyListValue {}
 
 @propertyWrapper
 public struct AppStorage<Value: PropertyListValue>: DynamicProperty {
@@ -50,3 +51,18 @@ public struct AppStorage<Value: PropertyListValue>: DynamicProperty {
 	}
 
 }
+
+//extension AppStorage where Value: EnumPropertyListValue {
+//	public var wrappedValue: Value {
+//		get {
+//			if let rawValue = store.object(forKey: key) as? Int {
+//				return Value(rawValue: rawValue) ?? defaultValue
+//			}
+//			return defaultValue
+//		}
+//		nonmutating set {
+//			store.set(newValue.rawValue, forKey: key)
+//			NotificationCenter.default.post(name: Preferences.didChangeNotification, object: nil)
+//		}
+//	}
+//}

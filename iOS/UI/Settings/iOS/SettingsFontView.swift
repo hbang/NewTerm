@@ -69,7 +69,7 @@ struct SettingsFontView: View {
 			}
 			#endif
 		}
-		.listStyle(GroupedListStyle())
+		.listStyle(InsetGroupedListStyle())
 
 		return VStack {
 			sampleView

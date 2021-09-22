@@ -24,6 +24,12 @@ public enum KeyboardTrackpadSensitivity: Int, PropertyListValue {
 	case off, low, medium, high
 }
 
+public enum PreferencesSyncService: Int, PropertyListValue, Identifiable {
+	case none, icloud, folder
+
+	public var id: Self { self }
+}
+
 public class Preferences: NSObject, ObservableObject {
 
 	public static let didChangeNotification = Notification.Name(rawValue: "NewTermPreferencesDidChangeNotification")
@@ -135,6 +141,16 @@ public class Preferences: NSObject, ObservableObject {
 
 	@AppStorage("reduceRefreshRateInLPM")
 	public var reduceRefreshRateInLPM: Bool = true {
+		willSet { objectWillChange.send() }
+	}
+
+	@AppStorage("preferencesSyncService")
+	public var preferencesSyncService: PreferencesSyncService = .icloud {
+		willSet { objectWillChange.send() }
+	}
+
+	@AppStorage("preferencesSyncPath")
+	public var preferencesSyncPath: String? = nil {
 		willSet { objectWillChange.send() }
 	}
 

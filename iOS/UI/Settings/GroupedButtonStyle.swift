@@ -16,54 +16,70 @@ fileprivate typealias ButtonStyleSuperclass = ButtonStyle
 struct GroupedButtonStyle: ButtonStyleSuperclass {
 
 	func makeBody(configuration: Configuration) -> some View {
-		#if targetEnvironment(macCatalyst)
+#if targetEnvironment(macCatalyst)
 		HStack {
 			Spacer()
 			Button(configuration)
 			Spacer()
 		}
-		#else
+#else
 		HStack {
 			configuration.label
 			Spacer()
-			Image(systemName: "chevron.right")
-				.foregroundColor(Color(UIColor.separator))
+			Text(Image(systemName: "chevron.right"))
+				.foregroundColor(Color(UIColor.systemGray2))
+				.fontWeight(.semibold)
 				.imageScale(.small)
 		}
-		.padding(EdgeInsets(top: 7, leading: 15, bottom: 7, trailing: 15))
+		.padding([.top, .bottom], 7)
+		.padding([.leading, .trailing], 15)
 		.frame(minHeight: 44, alignment: .center)
-		.background(
-			VStack(spacing: 0) {
-				Divider()
-				Spacer()
-				Divider()
-			}
-				.background(Color(configuration.isPressed ? UIColor.tertiarySystemGroupedBackground : UIColor.secondarySystemGroupedBackground))
-		)
-		#endif
+		.background(Color(configuration.isPressed ? UIColor.tertiarySystemGroupedBackground : UIColor.secondarySystemGroupedBackground))
+		.clipShape(RoundedRectangle(cornerRadius: 10, style: .continuous))
+		.padding([.leading, .trailing], 15)
+#endif
 	}
 
 }
 
 struct GroupedButtonStyle_Previews: PreviewProvider {
 	static var previews: some View {
-		Button(
-			action: {},
-			label: {
-				HStack {
-					IconView(
-						icon: Image(systemName: "sparkles")
-							.resizable(),
-						backgroundColor: Color(UIColor.systemIndigo)
+		NavigationView {
+			VStack(spacing: 0) {
+				Button(
+					action: {},
+					label: {
+						HStack {
+							IconView(
+								icon: Image(systemName: "sparkles")
+									.resizable(),
+								backgroundColor: Color(UIColor.systemIndigo)
+							)
+							Text("Do stuff")
+						}
+					}
+				)
+					.buttonStyle(GroupedButtonStyle())
+
+				List {
+					NavigationLink(
+						destination: EmptyView(),
+						label: {
+							HStack {
+								IconView(
+									icon: Image(systemName: "sparkles")
+										.resizable(),
+									backgroundColor: Color(UIColor.systemGreen)
+								)
+								Text("List button comparison")
+							}
+						}
 					)
-					Text("Do stuff")
 				}
+				.listStyle(InsetGroupedListStyle())
 			}
-		)
-			.buttonStyle(GroupedButtonStyle())
+		}
+		.navigationViewStyle(StackNavigationViewStyle())
 	}
 }
-
-
-
 
