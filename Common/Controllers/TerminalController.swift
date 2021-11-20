@@ -43,6 +43,7 @@ public class TerminalController {
 
 	internal var terminal: Terminal?
 	private var subProcess: SubProcess?
+	private var subProcessFailureErrno: Int32?
 	private let stringSupplier = StringSupplier()
 
 	private var processLaunchDate: Date?
@@ -171,7 +172,16 @@ public class TerminalController {
 		subProcess = SubProcess()
 		subProcess!.delegate = self
 		processLaunchDate = Date()
-		try subProcess!.start()
+		do {
+			try subProcess!.start()
+		} catch {
+			if case SubProcessIllegalStateError.forkFailed(let forkError) = error {
+				subProcessFailureErrno = forkError
+			} else {
+				subProcessFailureErrno = -1
+			}
+			throw error
+		}
 	}
 
 	public func stopSubProcess() throws {
@@ -222,6 +232,11 @@ public class TerminalController {
 			subProcess?.screenSize = screenSize
 			terminal.resize(cols: Int(screenSize.cols),
 											rows: Int(screenSize.rows))
+
+			if let error = subProcessFailureErrno {
+				let message = String(utf8String: strerror(error)) ?? "Error"
+				readInputStream(ColorBars.render(screenSize: screenSize, message: message))
+			}
 		}
 	}
 

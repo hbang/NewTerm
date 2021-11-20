@@ -11,7 +11,7 @@ import os.log
 
 enum SubProcessIllegalStateError: Error {
 	case alreadyStarted, notStarted
-	case openPtyFailed, forkFailed, inSandbox
+	case openPtyFailed, forkFailed(errno: Int32)
 	case deallocatedWhileRunning
 }
 
@@ -64,12 +64,9 @@ class SubProcess: NSObject {
 		switch pid {
 		case -1:
 			// Fork failed.
-			os_log("Fork failed: %{public errno}d", type: .error, errno)
-			if errno == EPERM {
-				throw SubProcessIllegalStateError.inSandbox
-			} else {
-				throw SubProcessIllegalStateError.forkFailed
-			}
+			let error = errno
+			os_log("Fork failed: %{public errno}d", type: .error, error)
+			throw SubProcessIllegalStateError.forkFailed(errno: error)
 
 		case 0:
 			// We’re in the fork. Execute the login shell.
@@ -99,8 +96,9 @@ class SubProcess: NSObject {
 			}
 
 			if execve(path, args, env) == -1 {
-				os_log("%{public}@: exec failed: %{public errno}d", type: .error, path, errno)
-				throw SubProcessIllegalStateError.forkFailed
+				let error = errno
+				os_log("%{public}@: exec failed: %{public errno}d", type: .error, path, error)
+				throw SubProcessIllegalStateError.forkFailed(errno: error)
 			}
 			break
 
