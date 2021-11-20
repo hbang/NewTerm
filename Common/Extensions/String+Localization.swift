@@ -7,6 +7,10 @@
 
 import Foundation
 
+#if os(iOS)
+import UIKit
+#endif
+
 public extension String {
 	static func localize(_ key: String, bundle: Bundle? = nil, tableName: String? = nil, comment: String = "") -> String {
 		NSLocalizedString(key, tableName: tableName, bundle: bundle ?? .main, comment: comment)

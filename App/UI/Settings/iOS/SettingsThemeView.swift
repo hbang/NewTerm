@@ -16,45 +16,21 @@ struct SettingsThemeView: View {
 	@ObservedObject var preferences = Preferences.shared
 
 	var body: some View {
-		let sampleView = TerminalSampleViewRepresentable(
-			fontMetrics: preferences.fontMetrics,
-			colorMap: preferences.colorMap
-		)
+		VStack(spacing: 0) {
+			TerminalSampleViewRepresentable(
+				fontMetrics: preferences.fontMetrics,
+				colorMap: preferences.colorMap
+			)
 
-		let themesList = ForEach(sortedThemes, id: \.key) { key, value in
-			Button(
-				action: {
-					preferences.themeName = key
-				},
-				label: {
-					HStack {
-						Text(key)
-							.foregroundColor(.primary)
-						Spacer()
-
-						if key == preferences.themeName {
-							Image(systemName: "checkmark")
-								.accessibility(label: Text("Selected"))
-						}
+			PreferencesList {
+				PreferencesGroup(header: Text("Built in Themes")) {
+					Picker(selection: preferences.$themeName, label: EmptyView()) {
+						ForEach(sortedThemes, id: \.key) { item in Text(item.key) }
 					}
 				}
-			)
-			.animation(.default)
-		}
-
-		let list = List {
-			Section(footer: Text("Note: You currently need to restart the app to have theme updates apply.")) {}
-			Section() {
-				themesList
 			}
 		}
-		.listStyle(InsetGroupedListStyle())
-
-		return VStack {
-			sampleView
-			list
-		}
-		.navigationBarTitle("Theme", displayMode: .inline)
+			.navigationBarTitle("Theme")
 	}
 
 }

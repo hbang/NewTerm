@@ -47,7 +47,7 @@ public class TerminalController {
 	private let stringSupplier = StringSupplier()
 
 	private var processLaunchDate: Date?
-	private var updateTimer: Timer?
+	private var updateTimer: CADisplayLink?
 	private var refreshRate: TimeInterval = 60
 	private var isVisible = true
 	private var readBuffer = Data()
@@ -74,8 +74,9 @@ public class TerminalController {
 	internal var shell: String?
 
 	public init() {
+		// TODO: Scrollback overflows and throws an error on dirtyLines.insert() Terminal.swift:4117
 		let options = TerminalOptions(termName: "xterm-256color",
-																	scrollback: 10000)
+																	scrollback: 1000)
 		terminal = Terminal(delegate: self, options: options)
 
 		stringSupplier.terminal = terminal
@@ -89,6 +90,9 @@ public class TerminalController {
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
 		#endif
+
+		UIDevice.current.isBatteryMonitoringEnabled = true
+		NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateChanged), name: UIDevice.batteryStateDidChangeNotification, object: nil)
 
 		if #available(macOS 12, *) {
 			NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateChanged), name: .NSProcessInfoPowerStateDidChange, object: nil)
@@ -110,7 +114,8 @@ public class TerminalController {
 			 ProcessInfo.processInfo.isLowPowerModeEnabled && preferences.reduceRefreshRateInLPM {
 			refreshRate = 15
 		} else {
-			refreshRate = TimeInterval(min(preferences.refreshRate, UIScreen.main.maximumFramesPerSecond))
+			let currentRate = UIDevice.current.batteryState == .unplugged ? preferences.refreshRateOnBattery : preferences.refreshRateOnAC
+			refreshRate = TimeInterval(min(currentRate, UIScreen.main.maximumFramesPerSecond))
 		}
 		if isVisible {
 			startUpdateTimer(fps: refreshRate)
@@ -158,7 +163,9 @@ public class TerminalController {
 
 	private func startUpdateTimer(fps: TimeInterval) {
 		updateTimer?.invalidate()
-		updateTimer = Timer.scheduledTimer(timeInterval: 1 / fps, target: self, selector: #selector(self.updateTimerFired), userInfo: nil, repeats: true)
+		updateTimer = CADisplayLink(target: self, selector: #selector(self.updateTimerFired))
+		updateTimer?.preferredFramesPerSecond = Int(fps)
+		updateTimer?.add(to: .main, forMode: .default)
 	}
 
 	private func stopUpdatingTimer() {

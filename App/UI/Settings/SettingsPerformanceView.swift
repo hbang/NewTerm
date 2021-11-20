@@ -9,58 +9,106 @@ import SwiftUI
 
 struct SettingsPerformanceView: View {
 
+	private struct RefreshRate: Hashable {
+		var rate: Int
+		var name: String
+
+		func hash(into hasher: inout Hasher) {
+			hasher.combine(rate)
+		}
+	}
+
 	private let refreshRates = [
-		15,
-		30,
-		60,
-		120
-	].filter { item in item <= UIScreen.main.maximumFramesPerSecond }
+		RefreshRate(rate:  15, name: "Power Saver"),
+		RefreshRate(rate:  30, name: "Balanced"),
+		RefreshRate(rate:  60, name: "Performance"),
+		RefreshRate(rate: 120, name: "Speed Demon")
+	].filter { item in item.rate <= UIScreen.main.maximumFramesPerSecond }
 
 	@ObservedObject var preferences = Preferences.shared
 
-	var body: some View {
-		let list = ForEach(refreshRates, id: \.self) { key in
-			Button(
-				action: {
-					preferences.refreshRate = key
-				},
-				label: {
-					HStack {
-						Text("\(key) updates per second")
-							.foregroundColor(Color(.label))
-						Spacer()
+	private var batteryImageName: String {
+		let device = UIDevice.current
+		device.isBatteryMonitoringEnabled = true
+		let percent = device.batteryLevel
+		let state = device.batteryState
+		device.isBatteryMonitoringEnabled = false
+		if state != .unknown {
+			if percent < 0.2 {
+				return "battery.0"
+			} else if percent < 0.4 {
+				return "battery.25"
+			} else if percent < 0.6 {
+				return "battery.50"
+			} else if percent < 0.8 {
+				return "battery.75"
+			}
+		}
+		return "battery.100"
+	}
 
-						if key == preferences.$refreshRate.wrappedValue {
-							Image(systemName: "checkmark")
-								.accessibility(label: Text("Selected"))
+	var body: some View {
+		let list = ForEach(refreshRates, id: \.rate) { item in
+			Text("\(item.rate) fps: \(String.localize(item.name))")
+				.font(.body.monospacedDigit())
+		}
+
+		return PreferencesList {
+			PreferencesGroup(
+				header: Label(
+					title: { Text(UIDevice.current.isPortable ? "On AC Power" : "Refresh Rate") },
+					icon: {
+						UIDevice.current.isPortable
+							? Image(systemName: "bolt.fill")
+								.imageScale(.medium)
+							: nil
+					}
+				),
+				footer: UIDevice.current.isPortable
+					? AnyView(EmptyView())
+					: AnyView(Text("The Performance setting is recommended."))
+			) {
+				Picker(
+					selection: preferences.$refreshRateOnAC,
+					label: EmptyView()
+				) {
+					list
+				}
+			}
+
+			if UIDevice.current.isPortable {
+				PreferencesGroup(
+					header: Label(
+						title: { Text("On Battery") },
+						icon: {
+							Image(systemName: batteryImageName)
+								.imageScale(.medium)
 						}
+					),
+					footer: Text("A lower refresh rate improves \(UIDevice.current.deviceModel) battery life, but may cause the terminal display to feel sluggish.\nThe Performance setting is recommended.")
+						.fixedSize(horizontal: false, vertical: true)
+				) {
+					Picker(
+						selection: preferences.$refreshRateOnBattery,
+						label: EmptyView()
+					) {
+						list
 					}
 				}
-			)
-				.animation(.default)
-		}
 
-		return List {
-			Section(
-				header: Text("Refresh Rate"),
-				footer: Text("Reducing the refresh rate can improve \(UIDevice.current.localizedModel) energy usage, but will cause the terminal display to feel sluggish.\nThe default setting of 60 updates per second is recommended.")
-			) {
-				list
-			}
-
-			if #available(macOS 12, *) {
-				Section(
-					footer: Text("Preserve battery life by reducing refresh rate to 15 updates per second when Low Power Mode is enabled.")
-				) {
-					Toggle(
-						"Reduce Performance in Low Power Mode",
-						isOn: preferences.$reduceRefreshRateInLPM
-					)
+				if #available(macOS 12, *) {
+					PreferencesGroup(
+						footer: Text("Preserve battery life by switching to Power Saver when Low Power Mode is enabled.")
+					) {
+						Toggle(
+							"Reduce Performance in Low Power Mode",
+							isOn: preferences.$reduceRefreshRateInLPM
+						)
+					}
 				}
 			}
 		}
-		.listStyle(InsetGroupedListStyle())
-		.navigationBarTitle("Performance", displayMode: .inline)
+		.navigationBarTitle("Performance")
 	}
 
 }
@@ -70,12 +118,13 @@ struct SettingsPerformanceView_Previews: PreviewProvider {
 		NavigationView {
 			SettingsPerformanceView()
 		}
-		.previewDevice("iPhone 13 Pro")
+		.previewDevice("iPhone 12 Pro")
 
 		NavigationView {
 			SettingsPerformanceView()
 		}
-		.previewDevice("iPhone 12 Pro")
+		.navigationViewStyle(StackNavigationViewStyle())
+		.previewDevice("iPad Pro (11-inch) (3rd generation)")
 	}
 }
 

@@ -76,7 +76,7 @@ struct SettingsView: View {
 																	NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
 																}
 															},
-															label: { Text(.done).bold() }
+															label: { Text(verbatim: .done).bold() }
 														)
 			)
 #endif

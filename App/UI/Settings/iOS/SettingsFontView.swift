@@ -17,65 +17,42 @@ struct SettingsFontView: View {
 	@ObservedObject var preferences = Preferences.shared
 
 	var body: some View {
-		let sampleView = TerminalSampleViewRepresentable(
-			fontMetrics: preferences.fontMetrics,
-			colorMap: preferences.colorMap
-		)
+		VStack(spacing: 0) {
+			TerminalSampleViewRepresentable(
+				fontMetrics: preferences.fontMetrics,
+				colorMap: preferences.colorMap
+			)
 
-		let fontsList = ForEach(sortedFonts, id: \.key) { key, value in
-			Button(
-				action: {
-					preferences.fontName = key
-				},
-				label: {
-					HStack {
-						Text(key)
-							.foregroundColor(.primary)
-							.font(Font(value.previewFont ?? UIFont.preferredFont(forTextStyle: .body)))
-						Spacer()
+			PreferencesList {
+				PreferencesGroup(header: Text("Font")) {
+					Picker(selection: preferences.$fontName, label: EmptyView()) {
+						ForEach(sortedFonts, id: \.key) { key, value in
+							HStack(alignment: .center) {
+								if value.previewFont == nil {
+									Image(systemName: "arrow.down.circle")
+										.font(.body.weight(.medium))
+										.foregroundColor(.accentColor)
+										.accessibility(label: Text("Not installed. Tap to download."))
+								}
 
-						if value.previewFont == nil {
-							Image(systemName: "arrow.down.circle")
-								.accessibility(label: Text("Not installed. Tap to download."))
-						}
-
-						if key == preferences.$fontName.wrappedValue {
-							Image(systemName: "checkmark")
-								.accessibility(label: Text("Selected"))
+								Text(key)
+									.font(Font(value.previewFont ?? UIFont.preferredFont(forTextStyle: .body)))
+								Spacer()
+							}
 						}
 					}
 				}
-			)
-			.animation(.default)
-		}
 
-		let list = List {
-			Section(header: Spacer()) {
-				fontsList
-			}
-
-			#if os(iOS) && !targetEnvironment(macCatalyst)
-			Section() {
-				Stepper(
-					value: Binding(
-						get: { preferences.fontSizePhone },
-						set: { value in preferences.fontSizePhone = value }
-					),
-					in: 10...20,
-					step: 1
-				) {
-					Text("Font Size: \(Int(preferences.fontSizePhone))")
+#if !targetEnvironment(macCatalyst)
+				PreferencesGroup {
+					Stepper(value: preferences.$fontSizePhone, in: 10...20, step: 1) {
+						Text("Font Size: \(Int(preferences.fontSizePhone))")
+					}
 				}
+#endif
 			}
-			#endif
 		}
-		.listStyle(InsetGroupedListStyle())
-
-		return VStack {
-			sampleView
-			list
-		}
-		.navigationBarTitle("Font", displayMode: .inline)
+		.navigationBarTitle("Font")
 	}
 
 }

@@ -16,15 +16,15 @@ import SwiftUI
 import Combine
 import os.log
 
-public enum KeyboardButtonStyle: Int, PropertyListValue {
+public enum KeyboardButtonStyle: Int {
 	case text, icons
 }
 
-public enum KeyboardTrackpadSensitivity: Int, PropertyListValue {
+public enum KeyboardTrackpadSensitivity: Int {
 	case off, low, medium, high
 }
 
-public enum PreferencesSyncService: Int, PropertyListValue, Identifiable {
+public enum PreferencesSyncService: Int, Identifiable {
 	case none, icloud, folder
 
 	public var id: Self { self }
@@ -36,12 +36,12 @@ public class Preferences: NSObject, ObservableObject {
 
 	public static let shared = Preferences()
 
-	public let objectWillChange = ObservableObjectPublisher()
-
-	private let themesPlist = NSDictionary(contentsOf: Bundle.main.url(forResource: "Themes", withExtension: "plist")!)!
-
-	@Published public var fontMetrics = FontMetrics(font: AppFont(), fontSize: 12)
-	@Published public var colorMap = ColorMap(theme: AppTheme())
+	@Published public private(set) var fontMetrics = FontMetrics(font: AppFont(), fontSize: 12) {
+		willSet { objectWillChange.send() }
+	}
+	@Published public private(set) var colorMap = ColorMap(theme: AppTheme()) {
+		willSet { objectWillChange.send() }
+	}
 
 	override init() {
 		super.init()
@@ -102,9 +102,9 @@ public class Preferences: NSObject, ObservableObject {
 	}
 
 	@AppStorage("themeName")
-	public var themeName: String = "kirb" {
+	public var themeName: String = "Basic (Dark)" {
 		willSet { objectWillChange.send() }
-		didSet { fontMetricsChanged() }
+		didSet { colorMapChanged() }
 	}
 
 	#if os(iOS)
@@ -134,8 +134,13 @@ public class Preferences: NSObject, ObservableObject {
 		willSet { objectWillChange.send() }
 	}
 
-	@AppStorage("refreshRate")
-	public var refreshRate: Int = 60 {
+	@AppStorage("refreshRateOnAC")
+	public var refreshRateOnAC: Int = 60 {
+		willSet { objectWillChange.send() }
+	}
+
+	@AppStorage("refreshRateOnBattery")
+	public var refreshRateOnBattery: Int = 60 {
 		willSet { objectWillChange.send() }
 	}
 
@@ -150,7 +155,7 @@ public class Preferences: NSObject, ObservableObject {
 	}
 
 	@AppStorage("preferencesSyncPath")
-	public var preferencesSyncPath: String? = nil {
+	public var preferencesSyncPath: String = "" {
 		willSet { objectWillChange.send() }
 	}
 
@@ -169,11 +174,13 @@ public class Preferences: NSObject, ObservableObject {
 
 	private func fontMetricsChanged() {
 		let font = AppFont.predefined[fontName] ?? AppFont()
+		objectWillChange.send()
 		fontMetrics = FontMetrics(font: font, fontSize: CGFloat(fontSize))
 	}
 
 	private func colorMapChanged() {
 		let theme = AppTheme.predefined[themeName] ?? AppTheme()
+		objectWillChange.send()
 		colorMap = ColorMap(theme: theme)
 
 		#if os(macOS)

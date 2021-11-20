@@ -5,6 +5,8 @@
 //  Created by Adam Demasi on 3/4/21.
 //
 
+import UIKit
+
 public struct AppFont: Codable {
 
 	public static let predefined: [String: AppFont] = {

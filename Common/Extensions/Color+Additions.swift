@@ -7,6 +7,10 @@
 
 import SwiftTerm
 
+#if os(iOS)
+import UIKit
+#endif
+
 extension SwiftTerm.Color {
 
 	convenience init(_ uiColor: UIColor) {

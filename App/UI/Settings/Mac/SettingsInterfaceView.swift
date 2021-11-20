@@ -50,19 +50,22 @@ struct SettingsInterfaceView: View {
 					}
 						.padding([.leading, .trailing], 7)
 				)
+				.padding([.top, .leading, .trailing], 1 / UIScreen.main.scale)
 			Divider()
+				.padding([.leading, .trailing], 1 / UIScreen.main.scale)
 			TerminalSampleViewRepresentable(
 				fontMetrics: preferences.fontMetrics,
 				colorMap: preferences.colorMap
 			)
 		}
 			.frame(width: 320)
-			.clipShape(RoundedRectangle(cornerRadius: 8, style: .continuous))
+			.clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
 			.overlay(
 				RoundedRectangle(cornerRadius: 8, style: .continuous)
-					.stroke(Color(UIColor.tertiarySystemBackground), lineWidth: 1 / UIScreen.main.scale)
+					.strokeBorder(Color(UIColor.tertiarySystemBackground), lineWidth: 1 / UIScreen.main.scale)
 					.foregroundColor(.clear)
 			)
+			.padding([.top, .bottom, .leading], 20)
 
 		let themes = Picker("Theme", selection: preferences.$themeName) {
 			ForEach(sortedThemes, id: \.key) { key, value in
@@ -90,7 +93,6 @@ struct SettingsInterfaceView: View {
 				)
 			}
 		}
-			.pickerStyle(InlinePickerStyle())
 
 		let fontSize = TextField(
 			"Font Size",
@@ -111,18 +113,15 @@ struct SettingsInterfaceView: View {
 		)
 			.keyboardType(.decimalPad)
 
-		return HStack(spacing: 20) {
+		return HStack(spacing: 0) {
 			sampleView
-			ScrollView {
-				VStack(alignment: .leading, spacing: 10) {
-					Text("Note: You currently need to restart the app to have theme updates apply.")
-					themes
-					fonts
-					fontSize
-				}
+			PreferencesList {
+				Text("Note: You currently need to restart the app to have theme updates apply.")
+				themes
+				fonts
+				fontSize
 			}
 		}
-		.padding(20)
 		.navigationBarTitle("Interface", displayMode: .inline)
 	}
 

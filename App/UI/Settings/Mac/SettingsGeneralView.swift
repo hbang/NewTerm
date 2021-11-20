@@ -29,55 +29,42 @@ struct SettingsGeneralView: View {
 	@State private var syncPathBrowsePresented = false
 
 	var body: some View {
-		return ScrollView {
-			VStack(alignment: .leading, spacing: 10) {
-				GroupBox(label: Text("Bell")) {
-					VStack(alignment: .leading) {
-						Toggle("Make beep sound", isOn: preferences.$bellSound)
-						Toggle("Show heads-up display", isOn: preferences.$bellHUD)
-					}
-					.padding(10)
-				}
-
-				FooterText(text: Text("When a terminal application needs to notify you of something, it rings the bell."))
-
-				GroupBox(label: Text("Settings Sync")) {
-					VStack(alignment: .leading) {
-						Picker("Sync app settings:", selection: preferences.$preferencesSyncService) {
-							Text("Don’t sync")
-								.tag(PreferencesSyncService.none)
-							Text("via iCloud")
-								.tag(PreferencesSyncService.icloud)
-							Text("via custom folder")
-								.tag(PreferencesSyncService.folder)
-						}
-						.pickerStyle(InlinePickerStyle())
-
-						HStack {
-							TextField("Sync path:",
-												text: Binding(
-													get: { preferences.preferencesSyncPath ?? "" },
-													set: { value in preferences.preferencesSyncPath = value }
-												)
-							)
-							Button("Browse") {
-								syncPathBrowsePresented.toggle()
-							}
-							.fileImporter(isPresented: $syncPathBrowsePresented,
-														allowedContentTypes: [.folder]) { result in
-								preferences.preferencesSyncPath = (try? result.get())?.path
-							}
-						}
-						.disabled(preferences.preferencesSyncService != .folder)
-					}
-					.padding(10)
-				}
-
-				FooterText(text: Text("Keep your NewTerm settings in sync between your Mac, iPhone, and iPad by selecting iCloud sync. If you just want to keep a backup with a service such as Dropbox, select custom folder sync."))
+		PreferencesList {
+			PreferencesGroup(
+				header: Text("Bell"),
+				footer: Text("When a terminal application needs to notify you of something, it rings the bell.")
+			) {
+				Toggle("Make beep sound", isOn: preferences.$bellSound)
+				Toggle("Show heads-up display", isOn: preferences.$bellHUD)
 			}
-			.padding(20)
+
+			PreferencesGroup(
+				header: Text("Settings Sync"),
+				footer: Text("Keep your NewTerm settings in sync between your Mac, iPhone, and iPad by selecting iCloud sync. If you just want to keep a backup with a service such as Dropbox, select custom folder sync.")
+			) {
+				Picker("Sync app settings:", selection: preferences.$preferencesSyncService) {
+					Text("Don’t sync")
+						.tag(PreferencesSyncService.none)
+					Text("via iCloud")
+						.tag(PreferencesSyncService.icloud)
+					Text("via custom folder")
+						.tag(PreferencesSyncService.folder)
+				}
+
+				HStack {
+					TextField("Sync path:", text: preferences.$preferencesSyncPath)
+					Button("Browse") {
+						syncPathBrowsePresented.toggle()
+					}
+					.fileImporter(isPresented: $syncPathBrowsePresented,
+												allowedContentTypes: [.folder]) { result in
+						preferences.preferencesSyncPath = (try? result.get())?.path ?? ""
+					}
+				}
+				.disabled(preferences.preferencesSyncService != .folder)
+			}
 		}
-		.navigationBarTitle("General", displayMode: .inline)
+		.navigationBarTitle("General")
 	}
 
 }

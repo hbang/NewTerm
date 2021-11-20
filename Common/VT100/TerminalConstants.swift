@@ -15,6 +15,8 @@ public struct ScreenSize: Equatable {
 		self.cols = cols
 		self.rows = rows
 	}
+
+	public static let `default` = ScreenSize(cols: 80, rows: 25)
 }
 
 public struct EscapeSequences {

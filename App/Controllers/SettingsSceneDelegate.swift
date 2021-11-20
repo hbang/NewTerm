@@ -149,7 +149,7 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 	}
 
 	@objc private func selectPerformanceTab() {
-		switchTab(rootView: SettingsPerformanceView(), size: CGSize(width: 600, height: 350))
+		switchTab(rootView: SettingsPerformanceView(), size: CGSize(width: 600, height: 500))
 	}
 
 }

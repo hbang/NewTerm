@@ -8,6 +8,10 @@
 import Foundation
 import SwiftTerm
 
+#if os(iOS)
+import UIKit
+#endif
+
 open class StringSupplier {
 
 	open var terminal: Terminal?

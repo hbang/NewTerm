@@ -5,6 +5,5 @@
 //  Created by Adam Demasi on 20/6/19.
 //
 
-@import Foundation;
-
 #import <UI/CrossPlatformUI.h>
+#import <Extensions/NSArray+Additions.h>

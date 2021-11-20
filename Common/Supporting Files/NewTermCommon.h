@@ -6,6 +6,5 @@
 //
 
 #import "NSArray+Additions.h"
-#import "UIColor+HBAdditions.h"
 #import "CrossPlatformUI.h"
 #import "CompactConstraint.h"
