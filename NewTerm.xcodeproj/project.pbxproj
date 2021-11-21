@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E1B78AF274A1D4300F885CC /* KeyboardPopupToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E1B78AE274A1D4300F885CC /* KeyboardPopupToolbarView.swift */; };
+		1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */; };
+		1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */; };
 		1EEB4F66262CF591005E5B79 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB4F65262CF591005E5B79 /* SafariView.swift */; };
 		4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */; };
 		4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */; };
@@ -121,6 +124,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E1B78AE274A1D4300F885CC /* KeyboardPopupToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPopupToolbarView.swift; sourceTree = "<group>"; };
+		1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarView.swift; sourceTree = "<group>"; };
+		1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardKeyButtonStyle.swift; sourceTree = "<group>"; };
 		1EEB4F65262CF591005E5B79 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralView.swift; sourceTree = "<group>"; };
 		4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsView.swift; sourceTree = "<group>"; };
@@ -422,6 +428,9 @@
 				CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */,
 				4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */,
 				4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */,
+				1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */,
+				1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */,
+				1E1B78AE274A1D4300F885CC /* KeyboardPopupToolbarView.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -761,6 +770,7 @@
 				4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */,
 				4E98081C261850E600E41883 /* KeyValueView.swift in Sources */,
 				4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */,
+				1E1B78AF274A1D4300F885CC /* KeyboardPopupToolbarView.swift in Sources */,
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
 				CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */,
@@ -783,6 +793,8 @@
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
+				1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */,
+				1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */,
 				4EDC998E26F4401B0030C1F9 /* SettingsInterfaceView.swift in Sources */,
 				4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */,
 				4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */,
