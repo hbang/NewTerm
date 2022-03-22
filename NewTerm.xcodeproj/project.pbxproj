@@ -27,6 +27,7 @@
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
+		4E4CB12027E9B33C001F07B6 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 4E4CB11F27E9B33C001F07B6 /* SwiftUIX */; };
 		4E57499826FEE90700D94DF5 /* PreferencesGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */; };
 		4E57499A26FEED9800D94DF5 /* PreferencesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499926FEED9800D94DF5 /* PreferencesList.swift */; };
 		4E5E817526F2EBE000C4DB6D /* SettingsPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */; };
@@ -239,6 +240,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF71BC9322BB6DEA00AFB1E1 /* NewTermCommon.framework in Frameworks */,
+				4E4CB12027E9B33C001F07B6 /* SwiftUIX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -582,6 +584,9 @@
 			dependencies = (
 			);
 			name = "NewTerm (Theos)";
+			packageProductDependencies = (
+				4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */,
+			);
 			passBuildSettingsInEnvironment = 0;
 			productName = NewTerm;
 		};
@@ -625,6 +630,9 @@
 				CF71BC9622BB6DEA00AFB1E1 /* PBXTargetDependency */,
 			);
 			name = "NewTerm (iOS)";
+			packageProductDependencies = (
+				4E4CB11F27E9B33C001F07B6 /* SwiftUIX */,
+			);
 			productName = "NewTerm (macOS)";
 			productReference = CFBB966122B546DA00585BE6 /* NewTerm.app */;
 			productType = "com.apple.product-type.application";
@@ -663,13 +671,14 @@
 			mainGroup = CF22F9A81FFB97F7003175DE;
 			packageReferences = (
 				4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+				4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = CF22F9A81FFB97F7003175DE;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CFBB966022B546DA00585BE6 /* NewTerm (iOS) */,
+				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */,
 			);
 		};
@@ -1293,6 +1302,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
 		4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm.git";
@@ -1304,6 +1321,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+		4E4CB11F27E9B33C001F07B6 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
 		4E9FB96B26171A01005AFCC8 /* SwiftTerm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */;

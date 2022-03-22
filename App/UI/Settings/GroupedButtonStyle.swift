@@ -26,7 +26,7 @@ struct GroupedButtonStyle: ButtonStyleSuperclass {
 		HStack {
 			configuration.label
 			Spacer()
-			Text(Image(systemName: "chevron.right"))
+			Text(Image(systemName: .chevronRight))
 				.foregroundColor(Color(UIColor.systemGray2))
 				.fontWeight(.semibold)
 				.imageScale(.small)
@@ -51,7 +51,7 @@ struct GroupedButtonStyle_Previews: PreviewProvider {
 					label: {
 						HStack {
 							IconView(
-								icon: Image(systemName: "sparkles")
+								icon: Image(systemName: .sparkles)
 									.resizable(),
 								backgroundColor: Color(UIColor.systemIndigo)
 							)
@@ -67,7 +67,7 @@ struct GroupedButtonStyle_Previews: PreviewProvider {
 						label: {
 							HStack {
 								IconView(
-									icon: Image(systemName: "sparkles")
+									icon: Image(systemName: .sparkles)
 										.resizable(),
 									backgroundColor: Color(UIColor.systemGreen)
 								)

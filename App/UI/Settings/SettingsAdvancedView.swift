@@ -78,7 +78,7 @@ struct SettingsAdvancedView: View {
 				#if targetEnvironment(macCatalyst)
 				.pickerStyle(MenuPickerStyle())
 				#else
-				.pickerStyle(RadioGroupPickerStyle())
+//				.pickerStyle(RadioGroupPickerStyle())
 				#endif
 			}
 		}

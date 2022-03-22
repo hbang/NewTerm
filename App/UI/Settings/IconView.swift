@@ -44,7 +44,7 @@ struct IconView_Previews: PreviewProvider {
 					label: {
 						HStack {
 							IconView(
-								icon: Image(systemName: "envelope")
+								icon: Image(systemName: .envelope)
 									.resizable(),
 								backgroundColor: .blue
 							)
@@ -57,7 +57,7 @@ struct IconView_Previews: PreviewProvider {
 					label: {
 						HStack {
 							IconView(
-								icon: Image(systemName: "heart")
+								icon: Image(systemName: .heart)
 									.resizable(),
 								backgroundColor: .red
 							)
@@ -70,7 +70,7 @@ struct IconView_Previews: PreviewProvider {
 					label: {
 						HStack {
 							IconView(
-								icon: Image(systemName: "doc")
+								icon: Image(systemName: .doc)
 									.resizable(),
 								backgroundColor: .gray
 							)
@@ -84,7 +84,7 @@ struct IconView_Previews: PreviewProvider {
 						HStack {
 							IconView(
 								size: .medium,
-								icon: Image(systemName: "star")
+								icon: Image(systemName: .star)
 									.resizable(),
 								backgroundColor: .yellow
 							)
@@ -103,7 +103,7 @@ struct IconView_Previews: PreviewProvider {
 						HStack {
 							IconView(
 								size: .large,
-								icon: Image(systemName: "sparkles")
+								icon: Image(systemName: .sparkles)
 									.resizable(),
 								backgroundColor: Color(UIColor.systemIndigo)
 							)
