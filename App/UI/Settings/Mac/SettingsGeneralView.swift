@@ -42,7 +42,7 @@ struct SettingsGeneralView: View {
 				header: Text("Settings Sync"),
 				footer: Text("Keep your NewTerm settings in sync between your Mac, iPhone, and iPad by selecting iCloud sync. If you just want to keep a backup with a service such as Dropbox, select custom folder sync.")
 			) {
-				Picker("Sync app settings:", selection: preferences.$preferencesSyncService) {
+				PreferencesPicker(selection: preferences.$preferencesSyncService, label: "Sync app settings:") {
 					Text("Don’t sync")
 						.tag(PreferencesSyncService.none)
 					Text("via iCloud")

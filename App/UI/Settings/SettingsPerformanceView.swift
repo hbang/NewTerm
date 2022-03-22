@@ -68,7 +68,7 @@ struct SettingsPerformanceView: View {
 					? AnyView(EmptyView())
 					: AnyView(Text("The Performance setting is recommended."))
 			) {
-				Picker(
+				PreferencesPicker(
 					selection: preferences.$refreshRateOnAC,
 					label: EmptyView()
 				) {
@@ -88,7 +88,7 @@ struct SettingsPerformanceView: View {
 					footer: Text("A lower refresh rate improves \(UIDevice.current.deviceModel) battery life, but may cause the terminal display to feel sluggish.\nThe Performance setting is recommended.")
 						.fixedSize(horizontal: false, vertical: true)
 				) {
-					Picker(
+					PreferencesPicker(
 						selection: preferences.$refreshRateOnBattery,
 						label: EmptyView()
 					) {

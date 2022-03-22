@@ -149,9 +149,17 @@ class SubProcess: NSObject {
 		// instance, a phone set to Simplified Chinese but a region of Australia will only have the
 		// language zh_AU… which isn’t a thing. But gettext only has languages in country pairs, no
 		// safe generic fallbacks exist, like zh-Hans in this case.
-		for language in Locale.preferredLanguages {
+		var languages = Locale.preferredLanguages
+		let preferredLocale = Preferences.shared.preferredLocale
+		if preferredLocale != "",
+			 Locale(identifier: preferredLocale).languageCode != nil {
+			languages.insert(preferredLocale, at: 0)
+		}
+
+		for language in languages {
 			let locale = Locale(identifier: language)
-			if let languageCode = locale.languageCode, let regionCode = locale.regionCode {
+			if let languageCode = locale.languageCode,
+				 let regionCode = locale.regionCode {
 				let identifier = "\(languageCode)_\(regionCode).UTF-8"
 				let url = URL(fileURLWithPath: "/usr/share/locale").appendingPathComponent(identifier)
 				if (try? url.checkResourceIsReachable()) == true {

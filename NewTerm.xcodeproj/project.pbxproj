@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -11,6 +11,8 @@
 		4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */; };
 		4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */; };
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
+		4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */; };
+		4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D2275CD933001A34AB /* PreferencesPicker.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E32378F26FB2D4400AEDA06 /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */; };
 		4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* String+Localization.swift */; };
@@ -123,6 +125,8 @@
 		4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralView.swift; sourceTree = "<group>"; };
 		4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsView.swift; sourceTree = "<group>"; };
 		4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsTextView.swift; sourceTree = "<group>"; };
+		4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdvancedView.swift; sourceTree = "<group>"; };
+		4E1028D2275CD933001A34AB /* PreferencesPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPicker.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
@@ -375,6 +379,7 @@
 				4EDC998F26F440650030C1F9 /* iOS */,
 				4EDC998C26F440090030C1F9 /* Mac */,
 				4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */,
+				4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */,
 				4E980827261879D200E41883 /* SettingsAboutView.swift */,
 				4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */,
 				4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */,
@@ -384,6 +389,7 @@
 				4EA7D40A26F35A1D0031F078 /* GroupedButtonStyle.swift */,
 				4E57499926FEED9800D94DF5 /* PreferencesList.swift */,
 				4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */,
+				4E1028D2275CD933001A34AB /* PreferencesPicker.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -621,8 +627,9 @@
 		CF22F9A91FFB97F7003175DE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					CF22F9C01FFB98A5003175DE = {
 						CreatedOnToolsVersion = 9.1;
@@ -747,6 +754,7 @@
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
 				4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */,
+				4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */,
 				4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */,
 				4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */,
 				4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */,
@@ -782,6 +790,7 @@
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				4EA7D40B26F35A1D0031F078 /* GroupedButtonStyle.swift in Sources */,
 				4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */,
+				4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1084,17 +1093,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 11;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1180,7 +1186,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 11;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1191,6 +1196,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;

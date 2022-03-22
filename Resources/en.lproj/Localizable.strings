@@ -78,5 +78,9 @@ You may need to review startup scripts or reinstall core packages to fix this is
 	<!-- VoiceOver label for a button that splits the tab vertically and adds a new terminal to the right. -->
 	<key>SPLIT_VERTICALLY</key>
 	<string>Split Vertically</string>
+
+	<!-- Settings option to use the operating system’s locale. %@ is the user’s operating system language. -->
+	<key>LOCALE_SYSTEM</key>
+	<string>System Language: %@</string>
 </dict>
 </plist>
