@@ -9,7 +9,13 @@
 import UIKit
 import NewTermCommon
 
-class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate {
+extension NSUserActivity {
+	static let terminalScene = NSUserActivity(activityType: TerminalSceneDelegate.activityType)
+}
+
+class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSceneDelegate {
+
+	static let activityType = "ws.hbang.Terminal.TerminalSceneActivity"
 
 	var window: UIWindow?
 

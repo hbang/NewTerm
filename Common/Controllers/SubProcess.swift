@@ -16,27 +16,29 @@ enum SubProcessIllegalStateError: Error {
 }
 
 enum SubProcessIOError: Error {
-	case readFailed, writeFailed
+	case readFailed(errno: errno_t?)
+	case writeFailed(errno: errno_t?)
 }
 
 protocol SubProcessDelegate: AnyObject {
-
 	func subProcessDidConnect()
-	func subProcess(didReceiveData data: Data)
+	func subProcess(didReceiveData data: [UInt8])
 	func subProcess(didDisconnectWithError error: Error?)
 	func subProcess(didReceiveError error: Error)
-
 }
 
-class SubProcess: NSObject {
+class SubProcess {
 
 	weak var delegate: SubProcessDelegate?
 
 	private var childPID: pid_t?
 	private var fileDescriptor: Int32?
-	private var fileHandle: FileHandle?
 
-	var screenSize: ScreenSize = ScreenSize(cols: 80, rows: 25) {
+	private let queue = DispatchQueue(label: "ws.hbang.Terminal.io-queue")
+	private var readSource: DispatchSourceRead?
+	private var signalSource: DispatchSourceProcess?
+
+	var screenSize = ScreenSize.default {
 		didSet { updateWindowSize() }
 	}
 
@@ -74,25 +76,25 @@ class SubProcess: NSObject {
 			// When opening a new tab, we can switch straight to the previous tab’s working directory.
 			chdir(NSHomeDirectory())
 
-#if targetEnvironment(simulator)
+			#if targetEnvironment(simulator)
 			let path = "/bin/bash"
-			let args = ([ "bash", "--login", "-i" ] as NSArray).cStringArray()!
-#else
+			let args = ["bash", "--login", "-i"].cStringArray
+			#else
 			let path = "/usr/bin/login"
-			let args = ([ "login", "-fpl\(hushLogin ? "q" : "")", NSUserName() ] as NSArray).cStringArray()!
-#endif
+			let args = ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()].cStringArray
+			#endif
 
-			let env = ([
+			let env = [
 				"TERM=xterm-256color",
 				"COLORTERM=truecolor",
 				"LANG=\(localeCode)",
 				"TERM_PROGRAM=NewTerm",
 				"LC_TERMINAL=NewTerm"
-			] as NSArray).cStringArray()!
+			].cStringArray
 
 			defer {
-				free(args)
-				free(env)
+				args.deallocate()
+				env.deallocate()
 			}
 
 			if execve(path, args, env) == -1 {
@@ -107,11 +109,17 @@ class SubProcess: NSObject {
 			os_log("Process forked: %d", type: .debug, pid)
 			childPID = pid
 
-			fileHandle = FileHandle(fileDescriptor: fileDescriptor!, closeOnDealloc: true)
-			fileHandle!.readabilityHandler = { [weak self] fileHandle in
-				self?.didReceiveData(fileHandle.availableData)
+			readSource = DispatchSource.makeReadSource(fileDescriptor: fileDescriptor!, queue: queue)
+			readSource?.setEventHandler { [weak self] in
+				self?.handleRead()
+			}
+			signalSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .signal, queue: queue)
+			signalSource?.setEventHandler {
+				os_log("received signal")
 			}
 
+			readSource?.activate()
+			signalSource?.activate()
 			delegate!.subProcessDidConnect()
 			break
 		}
@@ -129,7 +137,10 @@ class SubProcess: NSObject {
 
 		self.childPID = nil
 		fileDescriptor = nil
-		fileHandle = nil
+		readSource?.cancel()
+		readSource = nil
+		signalSource?.cancel()
+		signalSource = nil
 
 		if !fromError {
 			// nil error means disconnected due to user request
@@ -139,8 +150,51 @@ class SubProcess: NSObject {
 		}
 	}
 
-	func write(data: Data) {
-		fileHandle?.write(data)
+	private func handleRead() {
+		guard let fileDescriptor = fileDescriptor else {
+			return
+		}
+
+		let buffer = UnsafeMutableRawPointer.allocate(byteCount: Int(BUFSIZ), alignment: MemoryLayout<CChar>.alignment)
+		let bytesRead = read(fileDescriptor, buffer, Int(BUFSIZ))
+		switch bytesRead {
+		case -1:
+			let code = errno
+			switch code {
+			case EAGAIN, EINTR:
+				// Ignore, we’ll be called again when the source is ready.
+				break
+
+			default:
+				// Something is wrong.
+				DispatchQueue.main.async {
+					self.delegate?.subProcess(didDisconnectWithError: SubProcessIOError.readFailed(errno: code))
+				}
+			}
+
+		case 0:
+			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
+			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
+			try? stop(fromError: false)
+
+		default:
+			// Read from output and notify delegate.
+			let bytes = buffer.bindMemory(to: UInt8.self, capacity: bytesRead)
+			let data = Array(UnsafeBufferPointer(start: bytes, count: bytesRead))
+			delegate?.subProcess(didReceiveData: data)
+		}
+		buffer.deallocate()
+	}
+
+	func write(data: [UInt8]) {
+		queue.async {
+			guard let fileDescriptor = self.fileDescriptor else {
+				return
+			}
+			_ = data.withUnsafeBytes { (buffer: UnsafeRawBufferPointer) in
+				Darwin.write(fileDescriptor, buffer.baseAddress!, buffer.count)
+			}
+		}
 	}
 
 	private var localeCode: String {
@@ -170,25 +224,8 @@ class SubProcess: NSObject {
 		return "en_US.UTF-8"
 	}
 
-	private func didReceiveData(_ data: Data) {
-		if data.isEmpty {
-			// Zero-length data is an indicator of EOF. This can happen if the user exits the terminal by
-			// typing `exit` or ^D, or if there’s a catastrophic failure (e.g. /bin/login is broken).
-			try? self.stop(fromError: true)
-		}
-
-		DispatchQueue.main.async {
-			// Forward to the delegate.
-			if data.isEmpty {
-				self.delegate?.subProcess(didDisconnectWithError: SubProcessIOError.readFailed)
-			} else {
-				self.delegate?.subProcess(didReceiveData: data)
-			}
-		}
-	}
-
 	private func updateWindowSize() {
-		if fileDescriptor == nil {
+		guard let fileDescriptor = fileDescriptor else {
 			return
 		}
 
@@ -196,7 +233,7 @@ class SubProcess: NSObject {
 		windowSize.ws_col = UInt16(screenSize.cols)
 		windowSize.ws_row = UInt16(screenSize.rows)
 
-		if ioctl(fileDescriptor!, TIOCSWINSZ, &windowSize) == -1 {
+		if ioctl(fileDescriptor, TIOCSWINSZ, &windowSize) == -1 {
 			os_log("Setting screen size failed: %{public errno}d", type: .error, errno)
 		}
 	}
@@ -206,8 +243,7 @@ class SubProcess: NSObject {
 			os_log("Illegal state - SubProcess deallocated while still running", type: .error)
 		}
 
-		childPID = nil
-		fileHandle = nil
+		try? stop(fromError: true)
 	}
 
 }

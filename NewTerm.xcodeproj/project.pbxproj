@@ -19,6 +19,8 @@
 		4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */; };
 		4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237FA26FC5FC300AEDA06 /* ColorBars.swift */; };
 		4E3237FE26FEB0D800AEDA06 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237FC26FEB0D600AEDA06 /* UIDevice+Additions.swift */; };
+		4E3441D327E96EA60022C957 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3441D227E96EA60022C957 /* String+Additions.swift */; };
+		4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3441D427E96ED30022C957 /* Array+Additions.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
@@ -58,11 +60,9 @@
 		CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C522B5481B00585BE6 /* TerminalController.swift */; };
 		CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */; };
 		CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */; };
-		CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969422B5481B00585BE6 /* NSArray+Additions.m */; };
 		CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */; };
 		CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */; };
 		CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */; };
-		CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969322B5481B00585BE6 /* NSArray+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -132,6 +132,8 @@
 		4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
 		4E3237FA26FC5FC300AEDA06 /* ColorBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBars.swift; sourceTree = "<group>"; };
 		4E3237FC26FEB0D600AEDA06 /* UIDevice+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Additions.swift"; sourceTree = "<group>"; };
+		4E3441D227E96EA60022C957 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		4E3441D427E96ED30022C957 /* Array+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
 		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		4E479712262D44D8003CF48C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -186,8 +188,6 @@
 		CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		CFBB968D22B5481B00585BE6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CFBB969322B5481B00585BE6 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
-		CFBB969422B5481B00585BE6 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
 		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSessionViewController.swift; sourceTree = "<group>"; };
 		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
@@ -429,9 +429,9 @@
 		CFBB969222B5481B00585BE6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB969322B5481B00585BE6 /* NSArray+Additions.h */,
-				CFBB969422B5481B00585BE6 /* NSArray+Additions.m */,
 				4E9FB97126172079005AFCC8 /* Color+Additions.swift */,
+				4E3441D227E96EA60022C957 /* String+Additions.swift */,
+				4E3441D427E96ED30022C957 /* Array+Additions.swift */,
 				4E98081926184A2500E41883 /* String+Localization.swift */,
 				4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */,
 			);
@@ -548,7 +548,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */,
-				CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */,
 				CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */,
 				CFD553912345E315005805D1 /* ncurses.h in Headers */,
 				CFD553902345E315005805D1 /* ncurses_dll.h in Headers */,
@@ -722,12 +721,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E980826261873CE00E41883 /* AppFont.swift in Sources */,
-				CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */,
 				4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */,
 				4E980833261ACA0400E41883 /* AppTheme.swift in Sources */,
 				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,
 				CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */,
 				CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
+				4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */,
 				4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */,
 				CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */,
 				4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */,
@@ -735,6 +734,7 @@
 				CF71BC9722BB6E0300AFB1E1 /* Preferences.swift in Sources */,
 				CF71BC9822BB6E0300AFB1E1 /* SubProcess.swift in Sources */,
 				4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */,
+				4E3441D327E96EA60022C957 /* String+Additions.swift in Sources */,
 				CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */,
 				4E9FB97D26174A78005AFCC8 /* TerminalConstants.swift in Sources */,
 				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
