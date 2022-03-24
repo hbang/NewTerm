@@ -266,7 +266,7 @@ public class TerminalController {
 		}
 		if let hostname = hostname {
 			let user = self.user == NSUserName() ? nil : self.user
-			let cleanedHostname = hostname.replacingOccurrences(of: "\\.local$", with: "", options: .regularExpression, range: hostname.startIndex..<hostname.endIndex)
+			let cleanedHostname = hostname.replacingOccurrences(of: #"\.local$"#, with: "", options: .regularExpression, range: hostname.startIndex..<hostname.endIndex)
 			let hostString: String
 			if isLocalhost {
 				hostString = user ?? ""

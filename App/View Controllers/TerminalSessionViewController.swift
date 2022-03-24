@@ -23,6 +23,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		fatalError("Couldn’t initialise bell sound")
 	}()
 
+	var initialCommand: String?
+
 	var isSplitViewResizing = false {
 		didSet { updateIsSplitViewResizing() }
 	}
@@ -107,24 +109,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 															 modifierFlags: [ .command, .alternate ]))
 		#endif
 
-		if #available(iOS 13.4, *) {
-			// Handled by TerminalKeyInput
-		} else {
-			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputUpArrow,    modifierFlags: [], action: #selector(TerminalKeyInput.upKeyPressed)))
-			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputDownArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.downKeyPressed)))
-			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputLeftArrow,  modifierFlags: [], action: #selector(TerminalKeyInput.leftKeyPressed)))
-			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputRightArrow, modifierFlags: [], action: #selector(TerminalKeyInput.rightKeyPressed)))
-			addKeyCommand(UIKeyCommand(input: UIKeyCommand.inputEscape,     modifierFlags: [], action: #selector(TerminalKeyInput.metaKeyPressed)))
-
-			let letters = [
-				"a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r",
-				"s", "t", "u", "v", "w", "x", "y", "z"
-			]
-			for key in letters {
-				addKeyCommand(UIKeyCommand(input: key, modifierFlags: [ .control ], action: #selector(TerminalKeyInput.ctrlKeyCommandPressed(_:))))
-			}
-		}
-
 		if UIApplication.shared.supportsMultipleScenes {
 			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneDidEnterBackground), name: UIWindowScene.didEnterBackgroundNotification, object: nil)
 			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneWillEnterForeground), name: UIWindowScene.willEnterForegroundNotification, object: nil)
@@ -145,7 +129,13 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		if let error = failureError {
 			didReceiveError(error: error)
+		} else {
+			if let initialCommand = initialCommand?.data(using: .utf8) {
+				terminalController.write(initialCommand + EscapeSequences.return)
+			}
 		}
+
+		initialCommand = nil
 	}
 
 	override func viewWillDisappear(_ animated: Bool) {

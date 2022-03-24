@@ -19,18 +19,22 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSce
 
 	var window: UIWindow?
 
+	private var rootViewController: RootViewController! {
+		(window?.rootViewController as? UINavigationController)?.viewControllers.first as? RootViewController
+	}
+
 	override init() {
 		super.init()
 
-		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
+		NotificationCenter.default.addObserver(self, selector: #selector(preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 	}
 
 	func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-		guard let windowScene = scene as? UIWindowScene else {
+		guard let scene = scene as? UIWindowScene else {
 			return
 		}
 
-		window = UIWindow(windowScene: windowScene)
+		window = UIWindow(windowScene: scene)
 		window!.tintColor = .tint
 		window!.rootViewController = UINavigationController(rootViewController: RootViewController())
 		window!.makeKeyAndVisible()
@@ -38,25 +42,64 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSce
 		scene.title = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
 		#if targetEnvironment(macCatalyst)
-		windowScene.titlebar?.separatorStyle = .none
+		scene.titlebar?.separatorStyle = .none
 		#endif
 
 		preferencesUpdated()
 	}
 
+	func scene(_ scene: UIScene, openURLContexts URLContexts: Set<UIOpenURLContext>) {
+		for context in URLContexts {
+			let url = context.url
+			switch url.scheme {
+			case "ssh":
+				createWindow(asTab: true, openingURL: url)
+
+			default: break
+			}
+		}
+	}
+
 	// MARK: - Window management
 
-	func createWindow(asTab: Bool) {
-		let options = UIScene.ActivationRequestOptions()
-		#if targetEnvironment(macCatalyst)
-		if asTab {
-			options.requestingScene = window!.windowScene
+	func createWindow(asTab: Bool, openingURL url: URL? = nil) {
+		// Handle SSH URL
+		var sshPayload: String?
+		if let url = url,
+			 let host = url.host,
+			 url.scheme == "ssh" {
+			sshPayload = host
+			if let user = url.user {
+				sshPayload = "\(user)@\(host)"
+			}
+			let port = url.port ?? 22
+			if port != 22 {
+				sshPayload = "\(sshPayload!) -p \(port)"
+			}
 		}
-		options.collectionJoinBehavior = asTab ? .preferred : .disallowed
-		#else
-		options.requestingScene = window!.windowScene
-		#endif
-		UIApplication.shared.requestSceneSessionActivation(nil, userActivity: nil, options: options, errorHandler: nil)
+
+		if UIApplication.shared.supportsMultipleScenes {
+			let options = UIScene.ActivationRequestOptions()
+			#if targetEnvironment(macCatalyst)
+			if asTab {
+				options.requestingScene = window!.windowScene
+			}
+			options.collectionJoinBehavior = asTab ? .preferred : .disallowed
+			#else
+			options.requestingScene = window!.windowScene
+			#endif
+
+			let activity = NSUserActivity(activityType: Self.activityType)
+			activity.userInfo = [:]
+			activity.userInfo!["sshPayload"] = sshPayload
+
+			UIApplication.shared.requestSceneSessionActivation(nil, userActivity: activity, options: options, errorHandler: nil)
+		} else {
+			if let sshPayload = sshPayload {
+				rootViewController.initialCommand = "ssh \(sshPayload)"
+			}
+			rootViewController.addTerminal()
+		}
 	}
 
 	@objc func removeWindow() {
