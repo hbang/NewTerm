@@ -8,7 +8,11 @@
 import Foundation
 
 extension String {
-	var cString: UnsafeMutablePointer<CChar>? {
+	public var cString: UnsafeMutablePointer<CChar>? {
 		strdup(self)
+	}
+
+	public var utf8Array: [UTF8Char] {
+		Array(utf8)
 	}
 }

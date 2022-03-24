@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import NewTermCommon
 
 class TerminalKeyInput: TextInputBase {
 
@@ -45,7 +46,7 @@ class TerminalKeyInput: TextInputBase {
 	// Should be [UIKey], but I can’t use @available(iOS 13.4, *) on a property
 	private var pressedKeys = [Any]()
 
-	private lazy var keyValues: [KeyboardButton: [UInt8]] = [
+	private lazy var keyValues: [KeyboardButton: [UTF8Char]] = [
 		metaKey:  EscapeSequences.meta,
 		tabKey:   EscapeSequences.tab,
 		upKey:    EscapeSequences.up,
@@ -59,7 +60,7 @@ class TerminalKeyInput: TextInputBase {
 		moreToolbar.deleteKey:   EscapeSequences.delete,
 	]
 
-	private lazy var keyAppValues: [KeyboardButton: [UInt8]] = [
+	private lazy var keyAppValues: [KeyboardButton: [UTF8Char]] = [
 		upKey:    EscapeSequences.upApp,
 		downKey:  EscapeSequences.downApp,
 		leftKey:  EscapeSequences.leftApp,
@@ -136,15 +137,15 @@ class TerminalKeyInput: TextInputBase {
 		} else {
 			toolbar = KeyboardToolbar()
 			toolbar!.translatesAutoresizingMaskIntoConstraints = false
-			toolbar!.ctrlKey = ctrlKey
-			toolbar!.metaKey = metaKey
-			toolbar!.tabKey = tabKey
-			toolbar!.moreKey = moreKey
-			toolbar!.upKey = upKey
-			toolbar!.downKey = downKey
-			toolbar!.leftKey = leftKey
-			toolbar!.rightKey = rightKey
-			toolbar!.setUp()
+//			toolbar!.ctrlKey = ctrlKey
+//			toolbar!.metaKey = metaKey
+//			toolbar!.tabKey = tabKey
+//			toolbar!.moreKey = moreKey
+//			toolbar!.upKey = upKey
+//			toolbar!.downKey = downKey
+//			toolbar!.leftKey = leftKey
+//			toolbar!.rightKey = rightKey
+//			toolbar!.setUp()
 		}
 
 		ctrlKey.addTarget(self,  action: #selector(self.ctrlKeyPressed), for: .touchUpInside)
@@ -175,16 +176,16 @@ class TerminalKeyInput: TextInputBase {
 			moreToolbar.trailingAnchor.constraint(equalTo: self.trailingAnchor),
 			moreToolbarBottomConstraint,
 
-			ctrlKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
-			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: ctrlKey.widthAnchor),
-			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor),
-			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
-			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: moreKey.widthAnchor),
-			moreKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor)
+//			ctrlKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
+//			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: ctrlKey.widthAnchor),
+//			metaKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor),
+//			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: metaKey.widthAnchor),
+//			tabKey.widthAnchor.constraint(greaterThanOrEqualTo: moreKey.widthAnchor),
+//			moreKey.widthAnchor.constraint(greaterThanOrEqualTo: tabKey.widthAnchor)
 		])
 
-		NSLayoutConstraint.activate([ upKey, downKey, leftKey, rightKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) })
-		squareButtonConstraints = [ ctrlKey, metaKey, tabKey, moreKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) }
+//		NSLayoutConstraint.activate([ upKey, downKey, leftKey, rightKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) })
+//		squareButtonConstraints = [ ctrlKey, metaKey, tabKey, moreKey ].map { view in view.widthAnchor.constraint(equalTo: view.heightAnchor) }
 
 		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 		preferencesUpdated()
@@ -194,23 +195,21 @@ class TerminalKeyInput: TextInputBase {
 		fatalError("init(coder:) has not been implemented")
 	}
 
-	override var inputAccessoryView: UIView? {
-		return toolbar
-	}
+	override var inputAccessoryView: UIView? { toolbar }
 
 	@objc func preferencesUpdated() {
-		let preferences = Preferences.shared
-		let style = preferences.keyboardAccessoryStyle
-
-		for button in buttons {
-			button.style = style
-		}
-
-		// Enable 1:1 width:height aspect ratio if using icons style
-		switch style {
-		case .text:  NSLayoutConstraint.deactivate(squareButtonConstraints)
-		case .icons: NSLayoutConstraint.activate(squareButtonConstraints)
-		}
+//		let preferences = Preferences.shared
+//		let style = preferences.keyboardAccessoryStyle
+//
+//		for button in buttons {
+//			button.style = style
+//		}
+//
+//		// Enable 1:1 width:height aspect ratio if using icons style
+//		switch style {
+//		case .text:  NSLayoutConstraint.deactivate(squareButtonConstraints)
+//		case .icons: NSLayoutConstraint.activate(squareButtonConstraints)
+//		}
 	}
 
 	// MARK: - Callbacks
@@ -334,10 +333,10 @@ class TerminalKeyInput: TextInputBase {
 
 	override func insertText(_ text: String) {
 		// Used by the software keyboard only. See pressesBegan(_:with:) below for hardware keyboard.
-		let data = text.utf8.map { character -> UInt8 in
+		let data = text.utf8.map { character -> UTF8Char in
 			// Convert newline to carriage return
 			if character == 0x0A {
-				return 0x0D
+				return EscapeSequences.return.first!
 			}
 			if ctrlDown {
 				return EscapeSequences.asciiToControl(character)
@@ -430,8 +429,7 @@ class TerminalKeyInput: TextInputBase {
 
 	override func paste(_ sender: Any?) {
 		if let string = UIPasteboard.general.string {
-			let data = [UInt8](string.utf8)
-			terminalInputDelegate!.receiveKeyboardInput(data: data)
+			terminalInputDelegate!.receiveKeyboardInput(data: string.utf8Array)
 		}
 	}
 
@@ -445,7 +443,7 @@ class TerminalKeyInput: TextInputBase {
 			return false
 		}
 
-		var keyData: [UInt8]
+		var keyData: [UTF8Char]
 		switch key.keyCode {
 		case .keyboardReturnOrEnter: keyData = EscapeSequences.return
 		case .keyboardEscape:        keyData = EscapeSequences.meta
@@ -489,7 +487,7 @@ class TerminalKeyInput: TextInputBase {
 				.keyboardF8, .keyboardF9, .keyboardF10, .keyboardF11, .keyboardF12:
 			keyData = EscapeSequences.fn[key.keyCode.rawValue - UIKeyboardHIDUsage.keyboardF1.rawValue]
 
-		default:           keyData = [UInt8](key.characters.utf8)
+		default: keyData = key.characters.utf8Array
 		}
 
 		// If we didn’t get anything to type, nothing else to do here.
@@ -613,7 +611,7 @@ extension TerminalKeyInput: TerminalPasswordInputViewDelegate {
 			// password autofill. Send a return if it seems like a password was actually received,
 			// otherwise just pretend it was typed like normal.
 			if password.count > 2 {
-				terminalInputDelegate!.receiveKeyboardInput(data: [UInt8](password.utf8))
+				terminalInputDelegate!.receiveKeyboardInput(data: password.utf8Array)
 				terminalInputDelegate!.receiveKeyboardInput(data: EscapeSequences.return)
 			} else {
 				insertText(password)

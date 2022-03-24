@@ -22,7 +22,7 @@ enum SubProcessIOError: Error {
 
 protocol SubProcessDelegate: AnyObject {
 	func subProcessDidConnect()
-	func subProcess(didReceiveData data: [UInt8])
+	func subProcess(didReceiveData data: [UTF8Char])
 	func subProcess(didDisconnectWithError error: Error?)
 	func subProcess(didReceiveError error: Error)
 }
@@ -179,14 +179,14 @@ class SubProcess {
 
 		default:
 			// Read from output and notify delegate.
-			let bytes = buffer.bindMemory(to: UInt8.self, capacity: bytesRead)
+			let bytes = buffer.bindMemory(to: UTF8Char.self, capacity: bytesRead)
 			let data = Array(UnsafeBufferPointer(start: bytes, count: bytesRead))
 			delegate?.subProcess(didReceiveData: data)
 		}
 		buffer.deallocate()
 	}
 
-	func write(data: [UInt8]) {
+	func write(data: [UTF8Char]) {
 		queue.async {
 			guard let fileDescriptor = self.fileDescriptor else {
 				return

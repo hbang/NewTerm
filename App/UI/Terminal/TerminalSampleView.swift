@@ -36,8 +36,7 @@ class TerminalSampleView: UIView {
 		addSubview(textView)
 
 		if let colorTest = try? Data(contentsOf: Bundle.main.url(forResource: "colortest", withExtension: "txt")!) {
-			let bytes = Array<UInt8>(colorTest)
-			terminal?.feed(byteArray: bytes)
+			terminal?.feed(byteArray: [UTF8Char](colorTest))
 		}
 	}
 

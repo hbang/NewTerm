@@ -50,7 +50,7 @@ public class TerminalController {
 	private var updateTimer: CADisplayLink?
 	private var refreshRate: TimeInterval = 60
 	private var isVisible = true
-	private var readBuffer = [UInt8]()
+	private var readBuffer = [UTF8Char]()
 
 	internal var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
@@ -197,22 +197,22 @@ public class TerminalController {
 
 	// MARK: - Terminal
 
-	public func readInputStream(_ data: [UInt8]) {
+	public func readInputStream(_ data: [UTF8Char]) {
 		terminalQueue.async {
 			self.readBuffer += data
 		}
 	}
 
 	private func readInputStream(_ data: Data) {
-		readInputStream([UInt8](data))
+		readInputStream([UTF8Char](data))
 	}
 
-	public func write(_ data: [UInt8]) {
+	public func write(_ data: [UTF8Char]) {
 		subProcess?.write(data: data)
 	}
 
 	public func write(_ data: Data) {
-		write([UInt8](data))
+		write([UTF8Char](data))
 	}
 
 	@objc private func updateTimerFired() {
@@ -294,7 +294,7 @@ extension TerminalController: TerminalDelegate {
 
 	public func send(source: Terminal, data: ArraySlice<UInt8>) {
 		terminalQueue.async {
-			self.write([UInt8](data))
+			self.write([UTF8Char](data))
 		}
 	}
 
@@ -355,7 +355,7 @@ extension TerminalController: TerminalInputProtocol {
 
 	public var applicationCursor: Bool { terminal?.applicationCursor ?? false }
 
-	public func receiveKeyboardInput(data: [UInt8]) {
+	public func receiveKeyboardInput(data: [UTF8Char]) {
 		// Forward the data from the keyboard directly to the subprocess
 		subProcess!.write(data: data)
 	}
@@ -368,7 +368,7 @@ extension TerminalController: SubProcessDelegate {
 		// Yay
 	}
 
-	func subProcess(didReceiveData data: [UInt8]) {
+	func subProcess(didReceiveData data: [UTF8Char]) {
 		// Simply forward the input stream down the VT100 processor. When it notices changes to the
 		// screen, it should invoke our refresh delegate below.
 		readInputStream(data)

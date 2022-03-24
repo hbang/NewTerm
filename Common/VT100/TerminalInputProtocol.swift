@@ -9,7 +9,7 @@ import Foundation
 
 public protocol TerminalInputProtocol: AnyObject {
 
-	func receiveKeyboardInput(data: [UInt8])
+	func receiveKeyboardInput(data: [UTF8Char])
 
 	var applicationCursor: Bool { get }
 

@@ -23,46 +23,35 @@ public struct EscapeSequences {
 
 	// https://invisible-island.net/xterm/ctlseqs/ctlseqs.html#h2-PC-Style-Function-Keys
 
-	public static let backspace: [UInt8] = [0x7F] // \x7F
-	public static let meta: [UInt8]      = [0x1B] // \e
-	public static let tab: [UInt8]       = [0x09] // \t
-	public static let `return`: [UInt8]  = [0x0D] // \r
+	public static let backspace = "\u{7f}".utf8Array
+	public static let meta      = "\u{1b}".utf8Array
+	public static let tab       = "\t".utf8Array
+	public static let `return`  = "\r".utf8Array
 
-	public static let up: [UInt8]        = [0x1B, 0x5B, 0x41] // \e[A
-	public static let upApp: [UInt8]     = [0x1B, 0x4F, 0x41] // \eOA
-	public static let down: [UInt8]      = [0x1B, 0x5B, 0x42] // \e[B
-	public static let downApp: [UInt8]   = [0x1B, 0x4F, 0x42] // \eOB
-	public static let left: [UInt8]      = [0x1B, 0x5B, 0x44] // \e[D
-	public static let leftApp: [UInt8]   = [0x1B, 0x4F, 0x44] // \eOD
-	public static let leftMeta: [UInt8]  = [0x62] // \eb (removed \e)
-	public static let right: [UInt8]     = [0x1B, 0x5B, 0x43] // \e[C
-	public static let rightApp: [UInt8]  = [0x1B, 0x4F, 0x43] // \eOC
-	public static let rightMeta: [UInt8] = [0x66] // \ef (removed \e)
+	public static let up        = "\u{1b}[A".utf8Array
+	public static let upApp     = "\u{1b}OA".utf8Array
+	public static let down      = "\u{1b}[B".utf8Array
+	public static let downApp   = "\u{1b}OB".utf8Array
+	public static let left      = "\u{1b}[D".utf8Array
+	public static let leftApp   = "\u{1b}OD".utf8Array
+	public static let leftMeta  = "b".utf8Array // (removed \e)
+	public static let right     = "\u{1b}[C".utf8Array
+	public static let rightApp  = "\u{1b}OC".utf8Array
+	public static let rightMeta = "f".utf8Array // (removed \e)
 
-	public static let home: [UInt8]      = [0x1B, 0x5B, 0x48] // \e[H
-	public static let homeApp: [UInt8]   = [0x1B, 0x4F, 0x48] // \eOH
-	public static let end: [UInt8]       = [0x1B, 0x5B, 0x46] // \e[F
-	public static let endApp: [UInt8]    = [0x1B, 0x4F, 0x46] // \eOF
-	public static let pageUp: [UInt8]    = [0x1B, 0x5B, 0x35, 0x7E] // \e[5~
-	public static let pageDown: [UInt8]  = [0x1B, 0x5B, 0x36, 0x7E] // \e[6~
-	public static let delete: [UInt8]    = [0x1B, 0x5B, 0x33, 0x7E] // \e[3~
+	public static let home      = "\u{1b}[H".utf8Array
+	public static let homeApp   = "\u{1b}OH".utf8Array
+	public static let end       = "\u{1b}[F".utf8Array
+	public static let endApp    = "\u{1b}OF".utf8Array
+	public static let pageUp    = "\u{1b}[5~".utf8Array
+	public static let pageDown  = "\u{1b}[6~".utf8Array
+	public static let delete    = "\u{1b}[3~".utf8Array
 
-	public static let fn: [[UInt8]] = [
-		[0x1B, 0x4F, 0x50], // \eOP
-		[0x1B, 0x4F, 0x51], // \eOQ
-		[0x1B, 0x4F, 0x52], // \eOR
-		[0x1B, 0x4F, 0x53], // \eOS
-		[0x1B, 0x5B, 0x31, 0x35, 0x7E], // \e[15~
-		[0x1B, 0x5B, 0x31, 0x37, 0x7E], // \e[17~
-		[0x1B, 0x5B, 0x31, 0x38, 0x7E], // \e[18~
-		[0x1B, 0x5B, 0x31, 0x39, 0x7E], // \e[19~
-		[0x1B, 0x5B, 0x32, 0x30, 0x7E], // \e[20~
-		[0x1B, 0x5B, 0x32, 0x31, 0x7E], // \e[21~
-		[0x1B, 0x5B, 0x32, 0x33, 0x7E], // \e[23~
-		[0x1B, 0x5B, 0x32, 0x34, 0x7E], // \e[24~
-	]
+	public static let fn        = [
+		"OP", "OQ", "OR", "OS", "[15~", "[17~", "[18~", "[19~", "[20~", "[21~", "[23~", "[24~"
+	].map { "\u{1b}\($0)".utf8Array }
 
-	public static func asciiToControl(_ character: UInt8) -> UInt8 {
+	public static func asciiToControl(_ character: UTF8Char) -> UTF8Char {
 		var newCharacter = character
 		// Translate capital to lowercase
 		if character >= 0x41 && character <= 0x5A { // >= 'A' <= 'Z'
