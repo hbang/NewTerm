@@ -7,90 +7,42 @@
 //
 
 import UIKit
+import SwiftUIX
 
-class KeyboardToolbar: UIView {
+class KeyboardToolbar: UIInputView {
 
-	var ctrlKey: KeyboardButton!
-	var metaKey: KeyboardButton!
-	var tabKey: KeyboardButton!
-	var moreKey: KeyboardButton!
+	private var hostingView: UIHostingView<KeyboardToolbarView>!
 
-	var upKey: KeyboardButton!
-	var downKey: KeyboardButton!
-	var leftKey: KeyboardButton!
-	var rightKey: KeyboardButton!
+	init() {
+		super.init(frame: .zero, inputViewStyle: .keyboard)
 
-	func setUp() {
-		let backdropView = UIVisualEffectView(effect: UIBlurEffect(style: .systemChromeMaterial))
-		backdropView.frame = bounds
-		backdropView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-		addSubview(backdropView)
+		translatesAutoresizingMaskIntoConstraints = false
+		allowsSelfSizing = true
 
-		let backdropColorView = UIView()
-		backdropColorView.frame = backdropView.contentView.bounds
-		backdropColorView.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
-		backdropColorView.backgroundColor = .keyboardToolbarBackground
-		backdropView.contentView.addSubview(backdropColorView)
+		hostingView = UIHostingView(rootView: KeyboardToolbarView())
+		hostingView.translatesAutoresizingMaskIntoConstraints = false
+		hostingView.shouldResizeToFitContent = true
+		hostingView.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
+		addSubview(hostingView)
 
-		let height = isSmallDevice ? 35 : 43
-		let outerXSpacing = CGFloat(3)
-		let xSpacing = CGFloat(6)
-		let topSpacing = CGFloat(isSmallDevice ? 2 : 4)
-		let bottomSpacing = CGFloat(1)
-
-		let spacerView = UIView()
-
-		let sortedViews: [UIView] = [
-			ctrlKey, metaKey, tabKey, moreKey, spacerView,
-			upKey, downKey, leftKey, rightKey
-		]
-
-		let stackView = UIStackView(arrangedSubviews: sortedViews)
-		stackView.translatesAutoresizingMaskIntoConstraints = false
-		stackView.axis = .horizontal
-		stackView.spacing = xSpacing
-		addSubview(stackView)
-
-		addCompactConstraints([
-			"self.height = height",
-			"stackView.top = toolbar.top + topSpacing",
-			"stackView.bottom = toolbar.bottom - bottomSpacing",
-			"stackView.left = safe.left + outerXSpacing",
-			"stackView.right = safe.right - outerXSpacing"
-		], metrics: [
-			"height": height,
-			"outerXSpacing": outerXSpacing,
-			"topSpacing": topSpacing,
-			"bottomSpacing": bottomSpacing
-		], views: [
-			"toolbar": self,
-			"stackView": stackView
+		NSLayoutConstraint.activate([
+			hostingView.leadingAnchor.constraint(equalTo: safeAreaLayoutGuide.leadingAnchor),
+			hostingView.trailingAnchor.constraint(equalTo: safeAreaLayoutGuide.trailingAnchor),
+			hostingView.topAnchor.constraint(equalTo: self.topAnchor),
+			hostingView.bottomAnchor.constraint(equalTo: self.bottomAnchor)
 		])
 	}
 
-	override var intrinsicContentSize: CGSize {
-		var size = super.intrinsicContentSize
-		size.height = isSmallDevice ? 36 : 44
-		return size
-	}
-
-}
-
-extension KeyboardToolbar: UIToolbarDelegate {
-
-	func position(for bar: UIBarPositioning) -> UIBarPosition {
-		// Helps UIToolbar figure out where to place the shadow line
-		return .bottom
+	required init?(coder: NSCoder) {
+		fatalError("init(coder:) has not been implemented")
 	}
 
 }
 
 extension KeyboardToolbar: UIInputViewAudioFeedback {
-
 	var enableInputClicksWhenVisible: Bool {
 		// Conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound
 		// when tapped
-		return true
+		true
 	}
-
 }

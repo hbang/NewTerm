@@ -25,11 +25,11 @@ struct SettingsFontView: View {
 
 			PreferencesList {
 				PreferencesGroup(header: Text("Font")) {
-					Picker(selection: preferences.$fontName, label: EmptyView()) {
+					PreferencesPicker(selection: preferences.$fontName, label: EmptyView()) {
 						ForEach(sortedFonts, id: \.key) { key, value in
 							HStack(alignment: .center) {
 								if value.previewFont == nil {
-									Image(systemName: "arrow.down.circle")
+									Image(systemName: .arrowDownCircle)
 										.font(.body.weight(.medium))
 										.foregroundColor(.accentColor)
 										.accessibility(label: Text("Not installed. Tap to download."))

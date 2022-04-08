@@ -26,7 +26,7 @@ struct PreferencesList<Content: View>: View {
 		}
 			.navigationBarTitleDisplayMode(.inline)
 #else
-		List {
+		Form {
 			content
 		}
 			.listStyle(InsetGroupedListStyle())

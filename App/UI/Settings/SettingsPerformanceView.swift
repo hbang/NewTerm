@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIX
 
 struct SettingsPerformanceView: View {
 
@@ -27,7 +28,7 @@ struct SettingsPerformanceView: View {
 
 	@ObservedObject var preferences = Preferences.shared
 
-	private var batteryImageName: String {
+	private var batteryImageName: SFSymbolName {
 		let device = UIDevice.current
 		device.isBatteryMonitoringEnabled = true
 		let percent = device.batteryLevel
@@ -35,16 +36,18 @@ struct SettingsPerformanceView: View {
 		device.isBatteryMonitoringEnabled = false
 		if state != .unknown {
 			if percent < 0.2 {
-				return "battery.0"
+				return .battery0
 			} else if percent < 0.4 {
-				return "battery.25"
-			} else if percent < 0.6 {
-				return "battery.50"
-			} else if percent < 0.8 {
-				return "battery.75"
+				return .battery25
+			} else if #available(iOS 15, *) {
+				if percent < 0.6 {
+					return .battery50
+				} else if percent < 0.8 {
+					return .battery75
+				}
 			}
 		}
-		return "battery.100"
+		return .battery100
 	}
 
 	var body: some View {
@@ -59,7 +62,7 @@ struct SettingsPerformanceView: View {
 					title: { Text(UIDevice.current.isPortable ? "On AC Power" : "Refresh Rate") },
 					icon: {
 						UIDevice.current.isPortable
-							? Image(systemName: "bolt.fill")
+							? Image(systemName: .boltFill)
 								.imageScale(.medium)
 							: nil
 					}
@@ -68,7 +71,7 @@ struct SettingsPerformanceView: View {
 					? AnyView(EmptyView())
 					: AnyView(Text("The Performance setting is recommended."))
 			) {
-				Picker(
+				PreferencesPicker(
 					selection: preferences.$refreshRateOnAC,
 					label: EmptyView()
 				) {
@@ -88,7 +91,7 @@ struct SettingsPerformanceView: View {
 					footer: Text("A lower refresh rate improves \(UIDevice.current.deviceModel) battery life, but may cause the terminal display to feel sluggish.\nThe Performance setting is recommended.")
 						.fixedSize(horizontal: false, vertical: true)
 				) {
-					Picker(
+					PreferencesPicker(
 						selection: preferences.$refreshRateOnBattery,
 						label: EmptyView()
 					) {

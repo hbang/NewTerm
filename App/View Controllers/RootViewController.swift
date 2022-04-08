@@ -13,8 +13,10 @@ class RootViewController: UIViewController {
 
 	static let settingsViewDoneNotification = Notification.Name(rawValue: "RootViewControllerSettingsViewDoneNotification")
 
+	var initialCommand: String?
+
 	private var terminals: [UIViewController] = []
-	private var selectedTabIndex = Int(0)
+	private var selectedTabIndex = 0
 
 	private var tabToolbar: TabToolbarViewController?
 
@@ -62,7 +64,7 @@ class RootViewController: UIViewController {
 															 modifierFlags: .command))
 		#endif
 
-		let digits = ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0"]
+		let digits = [Array(1...9) + [0]].map { "\($0)" }
 		for digit in digits {
 			addKeyCommand(UIKeyCommand(action: #selector(self.selectTabFromKeyCommand),
 																 input: digit,
@@ -133,16 +135,18 @@ class RootViewController: UIViewController {
 
 	func addTerminal() {
 		let index = min(selectedTabIndex + 1, terminals.count)
-		addTerminal(at: index)
+		addTerminal(at: index, initialCommand: initialCommand)
 		selectTerminal(at: index)
+		initialCommand = nil
 	}
 
-	private func addTerminal(at index: Int, axis: NSLayoutConstraint.Axis? = nil) {
+	private func addTerminal(at index: Int, axis: NSLayoutConstraint.Axis? = nil, initialCommand: String? = nil) {
 		let splitViewController = TerminalSplitViewController()
 		splitViewController.view.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		splitViewController.view.frame = view.bounds
 
 		let newTerminal = TerminalSessionViewController()
+		newTerminal.initialCommand = initialCommand
 
 		addChild(splitViewController)
 		splitViewController.willMove(toParent: self)

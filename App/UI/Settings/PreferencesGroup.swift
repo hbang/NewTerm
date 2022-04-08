@@ -43,7 +43,6 @@ struct PreferencesGroup<Header: View, Footer: View, Content: View>: View {
 		) {
 			content
 		}
-			.pickerStyle(InlinePickerStyle())
 		#endif
 	}
 

@@ -159,6 +159,11 @@ public class Preferences: NSObject, ObservableObject {
 		willSet { objectWillChange.send() }
 	}
 
+	@AppStorage("preferredLocale")
+	public var preferredLocale: String = "" {
+		willSet { objectWillChange.send() }
+	}
+
 	@AppStorage("lastVersion")
 	public var lastVersion: Int = 0 {
 		willSet { objectWillChange.send() }

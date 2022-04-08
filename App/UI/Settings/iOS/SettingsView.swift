@@ -42,8 +42,8 @@ struct SettingsView: View {
 			#if !targetEnvironment(macCatalyst)
 			Section {
 				NavigationLink(
-					destination: SettingsPerformanceView(),
-					label: { Text("Performance") }
+					destination: SettingsAdvancedView(),
+					label: { Text("Advanced") }
 				)
 			}
 

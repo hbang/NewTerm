@@ -3,23 +3,30 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 53;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */; };
+		1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */; };
 		1EEB4F66262CF591005E5B79 /* SafariView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1EEB4F65262CF591005E5B79 /* SafariView.swift */; };
 		4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */; };
 		4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */; };
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
+		4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */; };
+		4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D2275CD933001A34AB /* PreferencesPicker.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E32378F26FB2D4400AEDA06 /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */; };
 		4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* String+Localization.swift */; };
 		4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */; };
 		4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237FA26FC5FC300AEDA06 /* ColorBars.swift */; };
 		4E3237FE26FEB0D800AEDA06 /* UIDevice+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3237FC26FEB0D600AEDA06 /* UIDevice+Additions.swift */; };
+		4E3441D327E96EA60022C957 /* String+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3441D227E96EA60022C957 /* String+Additions.swift */; };
+		4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3441D427E96ED30022C957 /* Array+Additions.swift */; };
 		4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */; };
 		4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */; };
 		4E479710262D44D8003CF48C /* Localizable.stringsdict in Resources */ = {isa = PBXBuildFile; fileRef = 4E479713262D44D8003CF48C /* Localizable.stringsdict */; };
+		4E4CB12027E9B33C001F07B6 /* SwiftUIX in Frameworks */ = {isa = PBXBuildFile; productRef = 4E4CB11F27E9B33C001F07B6 /* SwiftUIX */; };
 		4E57499826FEE90700D94DF5 /* PreferencesGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */; };
 		4E57499A26FEED9800D94DF5 /* PreferencesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499926FEED9800D94DF5 /* PreferencesList.swift */; };
 		4E5E817526F2EBE000C4DB6D /* SettingsPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */; };
@@ -56,11 +63,9 @@
 		CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C522B5481B00585BE6 /* TerminalController.swift */; };
 		CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */; };
 		CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */; };
-		CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969422B5481B00585BE6 /* NSArray+Additions.m */; };
 		CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */; };
 		CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */; };
 		CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */; };
-		CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB969322B5481B00585BE6 /* NSArray+Additions.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -119,15 +124,21 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarView.swift; sourceTree = "<group>"; };
+		1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardKeyButtonStyle.swift; sourceTree = "<group>"; };
 		1EEB4F65262CF591005E5B79 /* SafariView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SafariView.swift; sourceTree = "<group>"; };
 		4E006D8B26F4AB70008D0BD2 /* SettingsGeneralView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsGeneralView.swift; sourceTree = "<group>"; };
 		4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsView.swift; sourceTree = "<group>"; };
 		4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsTextView.swift; sourceTree = "<group>"; };
+		4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdvancedView.swift; sourceTree = "<group>"; };
+		4E1028D2275CD933001A34AB /* PreferencesPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPicker.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
 		4E3237FA26FC5FC300AEDA06 /* ColorBars.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorBars.swift; sourceTree = "<group>"; };
 		4E3237FC26FEB0D600AEDA06 /* UIDevice+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIDevice+Additions.swift"; sourceTree = "<group>"; };
+		4E3441D227E96EA60022C957 /* String+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Additions.swift"; sourceTree = "<group>"; };
+		4E3441D427E96ED30022C957 /* Array+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Array+Additions.swift"; sourceTree = "<group>"; };
 		4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpdateCheckManager.swift; sourceTree = "<group>"; };
 		4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsSceneDelegate.swift; sourceTree = "<group>"; };
 		4E479712262D44D8003CF48C /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.stringsdict; name = en; path = en.lproj/Localizable.stringsdict; sourceTree = "<group>"; };
@@ -182,8 +193,6 @@
 		CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		CFBB968D22B5481B00585BE6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
-		CFBB969322B5481B00585BE6 /* NSArray+Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSArray+Additions.h"; sourceTree = "<group>"; };
-		CFBB969422B5481B00585BE6 /* NSArray+Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSArray+Additions.m"; sourceTree = "<group>"; };
 		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSessionViewController.swift; sourceTree = "<group>"; };
 		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
@@ -229,6 +238,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF71BC9322BB6DEA00AFB1E1 /* NewTermCommon.framework in Frameworks */,
+				4E4CB12027E9B33C001F07B6 /* SwiftUIX in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -375,6 +385,7 @@
 				4EDC998F26F440650030C1F9 /* iOS */,
 				4EDC998C26F440090030C1F9 /* Mac */,
 				4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */,
+				4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */,
 				4E980827261879D200E41883 /* SettingsAboutView.swift */,
 				4E0A979F2685CDE30022F569 /* SettingsAcknowledgementsView.swift */,
 				4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */,
@@ -384,6 +395,7 @@
 				4EA7D40A26F35A1D0031F078 /* GroupedButtonStyle.swift */,
 				4E57499926FEED9800D94DF5 /* PreferencesList.swift */,
 				4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */,
+				4E1028D2275CD933001A34AB /* PreferencesPicker.swift */,
 			);
 			path = Settings;
 			sourceTree = "<group>";
@@ -416,6 +428,8 @@
 				CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */,
 				4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */,
 				4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */,
+				1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */,
+				1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -423,9 +437,9 @@
 		CFBB969222B5481B00585BE6 /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB969322B5481B00585BE6 /* NSArray+Additions.h */,
-				CFBB969422B5481B00585BE6 /* NSArray+Additions.m */,
 				4E9FB97126172079005AFCC8 /* Color+Additions.swift */,
+				4E3441D227E96EA60022C957 /* String+Additions.swift */,
+				4E3441D427E96ED30022C957 /* Array+Additions.swift */,
 				4E98081926184A2500E41883 /* String+Localization.swift */,
 				4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */,
 			);
@@ -542,7 +556,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */,
-				CF71BCC622BB737200AFB1E1 /* NSArray+Additions.h in Headers */,
 				CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */,
 				CFD553912345E315005805D1 /* ncurses.h in Headers */,
 				CFD553902345E315005805D1 /* ncurses_dll.h in Headers */,
@@ -568,6 +581,9 @@
 			dependencies = (
 			);
 			name = "NewTerm (Theos)";
+			packageProductDependencies = (
+				4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */,
+			);
 			passBuildSettingsInEnvironment = 0;
 			productName = NewTerm;
 		};
@@ -611,6 +627,9 @@
 				CF71BC9622BB6DEA00AFB1E1 /* PBXTargetDependency */,
 			);
 			name = "NewTerm (iOS)";
+			packageProductDependencies = (
+				4E4CB11F27E9B33C001F07B6 /* SwiftUIX */,
+			);
 			productName = "NewTerm (macOS)";
 			productReference = CFBB966122B546DA00585BE6 /* NewTerm.app */;
 			productType = "com.apple.product-type.application";
@@ -621,8 +640,9 @@
 		CF22F9A91FFB97F7003175DE /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
+				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1300;
+				LastUpgradeCheck = 1320;
 				TargetAttributes = {
 					CF22F9C01FFB98A5003175DE = {
 						CreatedOnToolsVersion = 9.1;
@@ -648,13 +668,14 @@
 			mainGroup = CF22F9A81FFB97F7003175DE;
 			packageReferences = (
 				4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */,
+				4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */,
 			);
 			productRefGroup = CF22F9A81FFB97F7003175DE;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CFBB966022B546DA00585BE6 /* NewTerm (iOS) */,
+				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */,
 			);
 		};
@@ -715,12 +736,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				4E980826261873CE00E41883 /* AppFont.swift in Sources */,
-				CF71BC9C22BB6E1100AFB1E1 /* NSArray+Additions.m in Sources */,
 				4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */,
 				4E980833261ACA0400E41883 /* AppTheme.swift in Sources */,
 				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,
 				CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */,
 				CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
+				4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */,
 				4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */,
 				CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */,
 				4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */,
@@ -728,6 +749,7 @@
 				CF71BC9722BB6E0300AFB1E1 /* Preferences.swift in Sources */,
 				CF71BC9822BB6E0300AFB1E1 /* SubProcess.swift in Sources */,
 				4E9FB97526172293005AFCC8 /* StringSupplier.swift in Sources */,
+				4E3441D327E96EA60022C957 /* String+Additions.swift in Sources */,
 				CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */,
 				4E9FB97D26174A78005AFCC8 /* TerminalConstants.swift in Sources */,
 				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
@@ -747,6 +769,7 @@
 				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
 				4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */,
+				4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */,
 				4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */,
 				4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */,
 				4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */,
@@ -775,6 +798,8 @@
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
+				1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */,
+				1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */,
 				4EDC998E26F4401B0030C1F9 /* SettingsInterfaceView.swift in Sources */,
 				4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */,
 				4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */,
@@ -782,6 +807,7 @@
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				4EA7D40B26F35A1D0031F078 /* GroupedButtonStyle.swift in Sources */,
 				4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */,
+				4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1084,17 +1110,14 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 11;
-				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
-				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PREPROCESSOR_DEFINITIONS = (
@@ -1133,7 +1156,7 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OBJC_BRIDGING_HEADER = "App/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1180,7 +1203,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 11;
-				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = N2LN9ZT493;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -1191,6 +1213,7 @@
 				);
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = fast;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNDECLARED_SELECTOR = YES;
@@ -1223,7 +1246,7 @@
 				PRODUCT_NAME = NewTerm;
 				SDKROOT = iphoneos;
 				SUPPORTS_MACCATALYST = YES;
-				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = YES;
 				SWIFT_COMPILATION_MODE = wholemodule;
 				SWIFT_OBJC_BRIDGING_HEADER = "App/Supporting Files/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
@@ -1275,6 +1298,14 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
+		4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SwiftUIX/SwiftUIX";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.1.2;
+			};
+		};
 		4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/migueldeicaza/SwiftTerm.git";
@@ -1286,6 +1317,16 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
+		4E4CB11F27E9B33C001F07B6 /* SwiftUIX */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
+			productName = SwiftUIX;
+		};
 		4E9FB96B26171A01005AFCC8 /* SwiftTerm */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4E9FB96A26171A01005AFCC8 /* XCRemoteSwiftPackageReference "SwiftTerm" */;

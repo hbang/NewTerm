@@ -1,16 +1,23 @@
 {
-  "object": {
-    "pins": [
-      {
-        "package": "SwiftTerm",
-        "repositoryURL": "https://github.com/migueldeicaza/SwiftTerm.git",
-        "state": {
-          "branch": "main",
-          "revision": "8094937a8b9509d5ccfe43082dbc52b0d6b45e96",
-          "version": null
-        }
+  "pins" : [
+    {
+      "identity" : "swiftterm",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/migueldeicaza/SwiftTerm.git",
+      "state" : {
+        "branch" : "main",
+        "revision" : "d661230c695e343fec580b531ac71e8db300594f"
       }
-    ]
-  },
-  "version": 1
+    },
+    {
+      "identity" : "swiftuix",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/SwiftUIX/SwiftUIX",
+      "state" : {
+        "revision" : "889c781539cdd1e6a1111472c711082522aa35c6",
+        "version" : "0.1.2"
+      }
+    }
+  ],
+  "version" : 2
 }

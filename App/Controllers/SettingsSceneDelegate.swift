@@ -70,12 +70,13 @@ private extension NSToolbarItem.Identifier {
 	static let general     = NSToolbarItem.Identifier("general")
 	static let interface   = NSToolbarItem.Identifier("interface")
 	static let performance = NSToolbarItem.Identifier("performance")
+	static let advanced    = NSToolbarItem.Identifier("advanced")
 }
 
 extension SettingsSceneDelegate: NSToolbarDelegate {
 
 	func toolbarDefaultItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
-		[ .general, .interface, .performance ]
+		[ .general, .interface, .performance, .advanced ]
 	}
 
 	func toolbarAllowedItemIdentifiers(_ toolbar: NSToolbar) -> [NSToolbarItem.Identifier] {
@@ -106,6 +107,12 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 														 label: "Performance",
 														 icon: "hare",
 														 action: #selector(selectPerformanceTab))
+
+		case .advanced:
+			return makeToolbarItem(itemIdentifier: itemIdentifier,
+														 label: "Advanced",
+														 icon: "sparkles",
+														 action: #selector(selectAdvancedTab))
 
 		default:
 			return nil
@@ -150,6 +157,10 @@ extension SettingsSceneDelegate: NSToolbarDelegate {
 
 	@objc private func selectPerformanceTab() {
 		switchTab(rootView: SettingsPerformanceView(), size: CGSize(width: 600, height: 500))
+	}
+
+	@objc private func selectAdvancedTab() {
+		switchTab(rootView: SettingsAdvancedView(), size: CGSize(width: 600, height: 500))
 	}
 
 }

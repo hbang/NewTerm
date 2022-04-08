@@ -30,7 +30,7 @@ class ActivityWrapperViewController: UIViewController {
 	}
 
 	func update() {
-		if isPresented && activityViewController?.isBeingPresented != true {
+		if isPresented && activityViewController == nil {
 			// We have to create a new instance every time, otherwise the completion never gets called for
 			// subsequent presentations on macOS…
 			activityViewController = UIActivityViewController(activityItems: activityItems, applicationActivities: nil)
@@ -43,8 +43,9 @@ class ActivityWrapperViewController: UIViewController {
 				self.completion()
 			}
 			present(activityViewController!, animated: true, completion: nil)
-		} else if !isPresented && activityViewController?.isBeingPresented == true {
+		} else if !isPresented && activityViewController != nil {
 			activityViewController?.dismiss(animated: true, completion: nil)
+			activityViewController = nil
 		}
 	}
 

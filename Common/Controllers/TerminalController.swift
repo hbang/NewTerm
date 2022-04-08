@@ -50,7 +50,7 @@ public class TerminalController {
 	private var updateTimer: CADisplayLink?
 	private var refreshRate: TimeInterval = 60
 	private var isVisible = true
-	private var readBuffer = Data()
+	private var readBuffer = [UTF8Char]()
 
 	internal var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
 
@@ -195,37 +195,48 @@ public class TerminalController {
 		try subProcess!.stop()
 	}
 
-	internal func write(_ data: Data) {
+	// MARK: - Terminal
+
+	public func readInputStream(_ data: [UTF8Char]) {
+		terminalQueue.async {
+			self.readBuffer += data
+		}
+	}
+
+	private func readInputStream(_ data: Data) {
+		readInputStream([UTF8Char](data))
+	}
+
+	public func write(_ data: [UTF8Char]) {
 		subProcess?.write(data: data)
 	}
 
-	// MARK: - Terminal
-
-	public func readInputStream(_ data: Data) {
-		readBuffer.append(data)
+	public func write(_ data: Data) {
+		write([UTF8Char](data))
 	}
 
 	@objc private func updateTimerFired() {
-		if !readBuffer.isEmpty {
-			let bytes = Array<UInt8>(readBuffer)
-			terminalQueue.async {
-				self.terminal?.feed(byteArray: bytes)
+		terminalQueue.async {
+			if !self.readBuffer.isEmpty {
+				self.terminal?.feed(byteArray: self.readBuffer)
+				self.readBuffer.removeAll()
 			}
-			readBuffer.removeAll()
-		}
 
-		guard let cursorLocation = terminal?.getCursorLocation() else {
-			return
-		}
-		if terminal?.getUpdateRange() == nil && cursorLocation == lastCursorLocation {
-			return
-		}
-		terminal?.clearUpdateRange()
-		lastCursorLocation = cursorLocation
+			guard let cursorLocation = self.terminal?.getCursorLocation() else {
+				return
+			}
+			if self.terminal?.getUpdateRange() == nil && cursorLocation == self.lastCursorLocation {
+				return
+			}
+			self.terminal?.clearUpdateRange()
+			self.lastCursorLocation = cursorLocation
 
-		// TODO: We should handle the scrollback separately so it only appears if the user scrolls
-		delegate?.refresh(attributedString: stringSupplier.attributedString(),
-											backgroundColor: stringSupplier.colorMap!.background)
+			DispatchQueue.main.async {
+				// TODO: We should handle the scrollback separately so it only appears if the user scrolls
+				self.delegate?.refresh(attributedString: self.stringSupplier.attributedString(),
+															 backgroundColor: self.stringSupplier.colorMap!.background)
+			}
+		}
 	}
 
 	public func clearTerminal() {
@@ -255,7 +266,7 @@ public class TerminalController {
 		}
 		if let hostname = hostname {
 			let user = self.user == NSUserName() ? nil : self.user
-			let cleanedHostname = hostname.replacingOccurrences(of: "\\.local$", with: "", options: .regularExpression, range: hostname.startIndex..<hostname.endIndex)
+			let cleanedHostname = hostname.replacingOccurrences(of: #"\.local$"#, with: "", options: .regularExpression, range: hostname.startIndex..<hostname.endIndex)
 			let hostString: String
 			if isLocalhost {
 				hostString = user ?? ""
@@ -282,9 +293,8 @@ extension TerminalController: TerminalDelegate {
 	public func isProcessTrusted(source: Terminal) -> Bool { isLocalhost }
 
 	public func send(source: Terminal, data: ArraySlice<UInt8>) {
-		let actualData = Data(data)
-		DispatchQueue.main.async {
-			self.write(actualData)
+		terminalQueue.async {
+			self.write([UTF8Char](data))
 		}
 	}
 
@@ -345,7 +355,7 @@ extension TerminalController: TerminalInputProtocol {
 
 	public var applicationCursor: Bool { terminal?.applicationCursor ?? false }
 
-	public func receiveKeyboardInput(data: Data) {
+	public func receiveKeyboardInput(data: [UTF8Char]) {
 		// Forward the data from the keyboard directly to the subprocess
 		subProcess!.write(data: data)
 	}
@@ -358,35 +368,23 @@ extension TerminalController: SubProcessDelegate {
 		// Yay
 	}
 
-	func subProcess(didReceiveData data: Data) {
+	func subProcess(didReceiveData data: [UTF8Char]) {
 		// Simply forward the input stream down the VT100 processor. When it notices changes to the
 		// screen, it should invoke our refresh delegate below.
 		readInputStream(data)
 	}
 
 	func subProcess(didDisconnectWithError error: Error?) {
-		if error == nil {
-			// Graceful termination
-			return
-		}
-
-		if let ioError = error as? SubProcessIOError {
-			switch ioError {
-			case .readFailed:
-				// This can be the user just typing an EOF (^D) to end the terminal session. However, it
-				// can also happen because the process crashed for some reason. If it seems like the shell
-				// exited gracefully, just close the tab.
-				if (processLaunchDate ?? Date()) < Date(timeIntervalSinceNow: -3) {
-					delegate?.close()
-				}
-				break
-
-			case .writeFailed:
-				break
+		if let error = error {
+			delegate?.didReceiveError(error: error)
+		} else {
+			// This can be the user just typing an EOF (^D) to end the terminal session. However, it
+			// can also happen because the process crashed for some reason. If it seems like the shell
+			// exited gracefully, just close the tab.
+			if (processLaunchDate ?? Date()) < Date(timeIntervalSinceNow: -3) {
+				delegate?.close()
 			}
 		}
-
-		delegate?.didReceiveError(error: error!)
 
 		// Write the termination message to the terminal.
 		let processCompleted = String.localize("PROCESS_COMPLETED_TITLE", comment: "Title displayed when the terminal’s process has ended.")

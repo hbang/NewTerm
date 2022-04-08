@@ -67,19 +67,14 @@ struct SettingsInterfaceView: View {
 			)
 			.padding([.top, .bottom, .leading], 20)
 
-		let themes = Picker("Theme", selection: preferences.$themeName) {
-			ForEach(sortedThemes, id: \.key) { key, value in
-				Button(
-					action: {
-						preferences.themeName = key
-					},
-					label: { Text(key) }
-				)
+		let themes = PreferencesPicker(selection: preferences.$themeName, label: "Theme") {
+			ForEach(sortedThemes, id: \.key) { key, _ in
+				Text(key)
 			}
 		}
 			.pickerStyle(MenuPickerStyle())
 
-		let fonts = Picker("Font", selection: preferences.$fontName) {
+		let fonts = PreferencesPicker(selection: preferences.$fontName, label: "Font") {
 			Text("Default (SF Mono)")
 				.id("SF Mono")
 			HStack {

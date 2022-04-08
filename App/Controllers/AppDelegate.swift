@@ -42,17 +42,30 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 		}
 	}
 
+	@objc func addWindow() {
+		// No windows exist. Make the first one.
+		if app.supportsMultipleScenes {
+			app.activateScene(userActivity: .terminalScene, asSingleton: false)
+		}
+	}
+
+	@objc func newTab() {
+		// No windows exist. Pass through to addWindow().
+		addWindow()
+	}
+
 	// MARK: - UISceneSession Lifecycle
 
 	func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {
-		if let userActivity = options.userActivities.first {
-			if userActivity.activityType == SettingsSceneDelegate.activityType {
-				return UISceneConfiguration(name: "Settings", sessionRole: .windowApplication)
-			} else if userActivity.activityType == AboutSceneDelegate.activityType {
-				return UISceneConfiguration(name: "About", sessionRole: .windowApplication)
-			}
+		let userActivity = options.userActivities.first
+		switch userActivity?.activityType {
+		case SettingsSceneDelegate.activityType:
+			return UISceneConfiguration(name: "Settings", sessionRole: .windowApplication)
+		case AboutSceneDelegate.activityType:
+			return UISceneConfiguration(name: "About", sessionRole: .windowApplication)
+		default:
+			return UISceneConfiguration(name: "Terminal", sessionRole: .windowApplication)
 		}
-		return UISceneConfiguration(name: "Terminal", sessionRole: .windowApplication)
 	}
 
 	// MARK: - Catalyst
@@ -60,85 +73,104 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 	override func buildMenu(with builder: UIMenuBuilder) {
 		super.buildMenu(with: builder)
 
-		// Remove Edit menu text editing items
-		builder.remove(menu: .spelling)
-		builder.remove(menu: .substitutions)
-		builder.remove(menu: .transformations)
-		builder.remove(menu: .speech)
+		switch builder.system {
+		case .main:
+			// Remove Edit menu text editing items
+			builder.remove(menu: .spelling)
+			builder.remove(menu: .substitutions)
+			builder.remove(menu: .transformations)
+			builder.remove(menu: .speech)
 
-		// Remove Format menu
-		builder.remove(menu: .format)
+			// Remove Format menu
+			builder.remove(menu: .format)
 
-		// Remove View menu toolbar items
-		builder.remove(menu: .toolbar)
+			// Remove View menu toolbar items
+			builder.remove(menu: .toolbar)
 
-		// Application menu
-		builder.insertSibling(UIMenu(options: .displayInline,
+			// Application menu
+			builder.insertSibling(UIMenu(options: .displayInline,
+																	 children: [
+																		UIKeyCommand(title: .localize("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
+																								 action: #selector(RootViewController.openSettings),
+																								 input: ",",
+																								 modifierFlags: .command)
+																	 ]),
+														afterMenu: .about)
+			builder.replace(menu: .about,
+											with: UIMenu(options: .displayInline,
+																	 children: [
+																		UICommand(title: .localize("ABOUT", comment: "Title of About page."),
+																							action: #selector(self.openAbout))
+																	 ]))
+
+			// File menu
+			builder.replace(menu: .newScene,
+											with: UIMenu(options: .displayInline,
+																	 children: [
+																		UIKeyCommand(title: .localize("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
+																								 action: #selector(RootViewController.addWindow),
+																								 input: "n",
+																								 modifierFlags: .command),
+																		UIKeyCommand(title: .localize("NEW_TAB", comment: "VoiceOver label for the new tab button."),
+																								 action: #selector(RootViewController.newTab),
+																								 input: "t",
+																								 modifierFlags: .command)
+																	 ]))
+
+			builder.replace(menu: .close,
+											with: UIMenu(options: .displayInline,
+																	 children: [
+																		// TODO: Disabling for now, needs research.
+																		// Probably need to directly access the NSWindow to do this.
+//																		UIKeyCommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
+//																								 action: #selector(RootViewController.closeCurrentWindow),
+//																								 input: "w",
+//																								 modifierFlags: [ .command, .shift ]),
+																		UIKeyCommand(title: .localize("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
+																								 action: #selector(RootViewController.removeCurrentTerminal),
+																								 input: "w",
+																								 modifierFlags: .command)
+																	 ]))
+
+			builder.insertChild(UIMenu(options: .displayInline,
 																 children: [
-																	UIKeyCommand(title: .localize("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
-																							 action: #selector(RootViewController.openSettings),
-																							 input: ",",
+																	UIKeyCommand(title: .localize("SPLIT_HORIZONTALLY"),
+																							 action: #selector(RootViewController.splitHorizontally),
+																							 input: "d",
+																							 modifierFlags: [.command, .shift]),
+																	UIKeyCommand(title: .localize("SPLIT_VERTICALLY"),
+																							 action: #selector(RootViewController.splitVertically),
+																							 input: "d",
 																							 modifierFlags: .command)
 																 ]),
-													afterMenu: .about)
-		builder.replace(menu: .about,
-										with: UIMenu(options: .displayInline,
-																 children: [
-																	UICommand(title: .localize("ABOUT", comment: "Title of About page."),
-																						action: #selector(self.openAbout))
-																 ]))
+													atEndOfMenu: .file)
 
-		// File menu
-		builder.replace(menu: .newScene,
-										with: UIMenu(options: .displayInline,
-																 children: [
-																	UIKeyCommand(title: .localize("NEW_WINDOW", comment: "VoiceOver label for the new window button."),
-																							 action: #selector(RootViewController.addWindow),
-																							 input: "n",
-																							 modifierFlags: .command),
-																	UIKeyCommand(title: .localize("NEW_TAB", comment: "VoiceOver label for the new tab button."),
-																							 action: #selector(RootViewController.newTab),
-																							 input: "t",
-																							 modifierFlags: .command)
-																 ]))
+			// Edit menu
+			builder.insertSibling(UIMenu(options: .displayInline,
+																	 children: [
+																		UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+																								 action: #selector(TerminalSessionViewController.clearTerminal),
+																								 input: "k",
+																								 modifierFlags: .command)
+																	 ]),
+														afterMenu: .standardEdit)
 
-		builder.replace(menu: .close,
-										with: UIMenu(options: .displayInline,
-																 children: [
-																	// TODO: Disabling for now, needs research.
-																	// Probably need to directly access the NSWindow to do this.
-//																	UIKeyCommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
-//																							 action: #selector(RootViewController.closeCurrentWindow),
-//																							 input: "w",
-//																							 modifierFlags: [ .command, .shift ]),
-																	UIKeyCommand(title: .localize("CLOSE_TAB", comment: "VoiceOver label for the close tab button."),
-																							 action: #selector(RootViewController.removeCurrentTerminal),
-																							 input: "w",
-																							 modifierFlags: .command)
-																 ]))
+		case .context:
+			// Remove Speech menu
+			builder.remove(menu: .speech)
 
-		builder.insertChild(UIMenu(options: .displayInline,
-															 children: [
-																UIKeyCommand(title: .localize("SPLIT_HORIZONTALLY"),
-																						 action: #selector(RootViewController.splitHorizontally),
-																						 input: "d",
-																						 modifierFlags: [.command, .shift]),
-																UIKeyCommand(title: .localize("SPLIT_VERTICALLY"),
-																						 action: #selector(RootViewController.splitVertically),
-																						 input: "d",
-																						 modifierFlags: .command)
-															 ]),
-												atEndOfMenu: .file)
+			// Add Clear Terminal
+			builder.insertSibling(UIMenu(options: .displayInline,
+																	 children: [
+																		UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
+																								 action: #selector(TerminalSessionViewController.clearTerminal),
+																								 input: "k",
+																								 modifierFlags: .command)
+																	 ]),
+														afterMenu: .standardEdit)
 
-		// Edit menu
-		builder.insertSibling(UIMenu(options: .displayInline,
-																 children: [
-																	UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
-																							 action: #selector(TerminalSessionViewController.clearTerminal),
-																							 input: "k",
-																							 modifierFlags: .command)
-																 ]),
-													afterMenu: .standardEdit)
+		default: break
+		}
 	}
 
 }

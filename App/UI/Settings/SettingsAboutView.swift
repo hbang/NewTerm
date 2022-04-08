@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import SwiftUIX
 
 struct SettingsAboutView: View {
 	
@@ -55,7 +56,7 @@ struct SettingsAboutView: View {
 								title: { Text("Email Support") },
 								icon: {
 									IconView(
-										icon: Image(systemName: "envelope")
+										icon: Image(systemName: .envelope)
 											.resizable(),
 										backgroundColor: .blue
 									)
@@ -81,7 +82,7 @@ struct SettingsAboutView: View {
 								title: { Text("Tip Jar") },
 								icon: {
 									IconView(
-										icon: Image(systemName: "heart")
+										icon: Image(systemName: .heart)
 											.resizable(),
 										backgroundColor: .red
 									)
@@ -112,7 +113,7 @@ struct SettingsAboutView: View {
 								title: { Text("Share NewTerm") },
 								icon: {
 									IconView(
-										icon: Image(systemName: "square.and.arrow.up")
+										icon: Image(systemName: .squareAndArrowUp)
 											.resizable(),
 										backgroundColor: Color(UIColor.systemIndigo)
 									)
