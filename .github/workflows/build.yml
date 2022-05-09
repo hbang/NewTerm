@@ -1,0 +1,33 @@
+name: CI
+
+on:
+  workflow_dispatch:
+  push:
+  pull_request:
+
+jobs:
+  build:
+    runs-on: macos-12
+    steps:
+    - uses: actions/checkout@v2
+    - uses: beerpiss/procursus-action@v1
+      with:
+        packages: ldid xz-utils cmark make
+        cache: true
+        cache-path: ~/__cache
+        mirror: 'https://repo.quiprr.dev/procursus/'
+
+    - name: Init Theos
+      run: git clone --recursive --depth=1 https://github.com/theos/theos.git ~/Theos
+
+    - name: Compile
+      id: package_build
+      run: |
+        gmake -j$(sysctl -n hw.ncpu) package PACKAGE_VERSION=3.0 THEOS=~/Theos
+        echo "::set-output name=package::$(basename $(cat .theos/last_package))"
+
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: NewTerm 3
+        path: './packages/${{ steps.package_build.outputs.package }}'
