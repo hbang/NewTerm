@@ -9,7 +9,7 @@ import Foundation
 
 extension Array where Element == String {
 	var cStringArray: [UnsafeMutablePointer<CChar>?] {
-		map { item in item.cString } + [nil]
+		map(\.cString) + [nil]
 	}
 }
 

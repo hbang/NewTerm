@@ -43,7 +43,7 @@ public class TerminalController {
 
 	internal var terminal: Terminal?
 	private var subProcess: SubProcess?
-	private var subProcessFailureErrno: Int32?
+	private var subProcessFailureError: Error?
 	private let stringSupplier = StringSupplier()
 
 	private var processLaunchDate: Date?
@@ -182,11 +182,7 @@ public class TerminalController {
 		do {
 			try subProcess!.start()
 		} catch {
-			if case SubProcessIllegalStateError.forkFailed(let forkError) = error {
-				subProcessFailureErrno = forkError
-			} else {
-				subProcessFailureErrno = -1
-			}
+			subProcessFailureError = error
 			throw error
 		}
 	}
@@ -251,8 +247,8 @@ public class TerminalController {
 			terminal.resize(cols: Int(screenSize.cols),
 											rows: Int(screenSize.rows))
 
-			if let error = subProcessFailureErrno {
-				let message = String(utf8String: strerror(error)) ?? "Error"
+			if let error = subProcessFailureError {
+				let message = (error as? LocalizedError)?.localizedDescription ?? error.localizedDescription
 				readInputStream(ColorBars.render(screenSize: screenSize, message: message))
 			}
 		}

@@ -9,10 +9,39 @@
 import Foundation
 import os.log
 
-enum SubProcessIllegalStateError: Error {
+protocol LocalizedError {
+	var localizedDescription: String { get }
+}
+
+enum SubProcessIllegalStateError: Error, LocalizedError {
 	case alreadyStarted, notStarted
-	case openPtyFailed, forkFailed(errno: Int32)
+	case openPtyFailed(errno: errno_t)
+	case loginTtyFailed(errno: errno_t)
+	case forkFailed(errno: errno_t)
 	case deallocatedWhileRunning
+
+	private func errorString(errno: errno_t) -> String {
+		if let string = strerror(errno) {
+			return String(cString: string)
+		}
+		return "Unknown (\(errno))"
+	}
+
+	var localizedDescription: String {
+		switch self {
+		case .alreadyStarted, .notStarted, .deallocatedWhileRunning:
+			return "Internal state error"
+
+		case .openPtyFailed(let errno):
+			return "Couldn’t initialize a terminal. \(errorString(errno: errno))"
+
+		case .loginTtyFailed(let errno):
+			return "Couldn’t prepare terminal for logging in. \(errorString(errno: errno))"
+
+		case .forkFailed(let errno):
+			return "Couldn’t start a terminal process. \(errorString(errno: errno))"
+		}
+	}
 }
 
 enum SubProcessIOError: Error {
@@ -48,81 +77,82 @@ class SubProcess {
 		}
 
 		// Initialise the pty
-		var windowSize = winsize()
-		windowSize.ws_col = UInt16(screenSize.cols)
-		windowSize.ws_row = UInt16(screenSize.rows)
+		var windowSize = winsize(ws_row: UInt16(screenSize.rows),
+														 ws_col: UInt16(screenSize.cols),
+														 ws_xpixel: 0,
+														 ws_ypixel: 0)
 
-		fileDescriptor = Int32()
+		var fds = (primary: Int32(), replica: Int32())
+		if openpty(&fds.primary, &fds.replica, nil, nil, &windowSize) != 0 {
+			// Opening pty failed.
+			let error = errno
+			os_log("openpty() failed: %{public errno}d", type: .error, error)
+			throw SubProcessIllegalStateError.openPtyFailed(errno: error)
+		}
 
-		// This must be retrieved before we fork.
-		let localeCode = self.localeCode
+		fileDescriptor = fds.primary
 
 		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
 		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
 		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent(".hushlogin")
 		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
 
-		let pid = forkpty(&fileDescriptor!, nil, nil, &windowSize)
-		switch pid {
-		case -1:
-			// Fork failed.
-			let error = errno
-			os_log("Fork failed: %{public errno}d", type: .error, error)
-			throw SubProcessIllegalStateError.forkFailed(errno: error)
+		#if targetEnvironment(simulator)
+		let path = "/bin/bash"
+		let args = ["bash", "--login", "-i"].cStringArray
+		#else
+		let path = "/usr/bin/login"
+		let args = ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()].cStringArray
+		#endif
 
-		case 0:
-			// We’re in the fork. Execute the login shell.
-			// TODO: At some point, come up with some way to keep track of working directory changes.
-			// When opening a new tab, we can switch straight to the previous tab’s working directory.
-			chdir(NSHomeDirectory())
+		let env = [
+			"TERM=xterm-256color",
+			"COLORTERM=truecolor",
+			"LANG=\(localeCode)",
+			"TERM_PROGRAM=NewTerm",
+			"LC_TERMINAL=NewTerm"
+		].cStringArray
 
-			#if targetEnvironment(simulator)
-			let path = "/bin/bash"
-			let args = ["bash", "--login", "-i"].cStringArray
-			#else
-			let path = "/usr/bin/login"
-			let args = ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()].cStringArray
-			#endif
-
-			let env = [
-				"TERM=xterm-256color",
-				"COLORTERM=truecolor",
-				"LANG=\(localeCode)",
-				"TERM_PROGRAM=NewTerm",
-				"LC_TERMINAL=NewTerm"
-			].cStringArray
-
-			defer {
-				args.deallocate()
-				env.deallocate()
-			}
-
-			if execve(path, args, env) == -1 {
-				let error = errno
-				os_log("%{public}@: exec failed: %{public errno}d", type: .error, path, error)
-				throw SubProcessIllegalStateError.forkFailed(errno: error)
-			}
-			break
-
-		default:
-			// We’re in the parent process. We can go ahead and plug a file handle into the child tty.
-			os_log("Process forked: %d", type: .debug, pid)
-			childPID = pid
-
-			readSource = DispatchSource.makeReadSource(fileDescriptor: fileDescriptor!, queue: queue)
-			readSource?.setEventHandler { [weak self] in
-				self?.handleRead()
-			}
-			signalSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .signal, queue: queue)
-			signalSource?.setEventHandler {
-				os_log("received signal")
-			}
-
-			readSource?.activate()
-			signalSource?.activate()
-			delegate!.subProcessDidConnect()
-			break
+		defer {
+			args.deallocate()
+			env.deallocate()
 		}
+
+		var actions: posix_spawn_file_actions_t!
+		posix_spawn_file_actions_init(&actions)
+		posix_spawn_file_actions_adddup2(&actions, fds.replica, STDIN_FILENO)
+		posix_spawn_file_actions_adddup2(&actions, fds.replica, STDOUT_FILENO)
+		posix_spawn_file_actions_adddup2(&actions, fds.replica, STDERR_FILENO)
+		defer { posix_spawn_file_actions_destroy(&actions) }
+
+		// TODO: At some point, come up with some way to keep track of working directory changes.
+		// When opening a new tab, we can switch straight to the previous tab’s working directory.
+		chdir(NSHomeDirectory())
+
+		var pid = pid_t()
+		let result = posix_spawn(&pid, path, &actions, nil, args, env)
+		if result != 0 {
+			// Fork failed.
+			close(fds.primary)
+			throw SubProcessIllegalStateError.forkFailed(errno: result)
+		}
+
+		childPID = pid
+
+		// Go ahead and plug a file handle into the child tty.
+		readSource = DispatchSource.makeReadSource(fileDescriptor: fileDescriptor!, queue: queue)
+		readSource?.setEventHandler { [weak self] in
+			self?.handleRead()
+		}
+		signalSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .signal, queue: queue)
+		signalSource?.setEventHandler {
+			// TODO: Handle signals?
+			os_log("received signal")
+		}
+
+		readSource?.activate()
+		signalSource?.activate()
+		delegate!.subProcessDidConnect()
 	}
 
 	func stop(fromError: Bool = false) throws {
