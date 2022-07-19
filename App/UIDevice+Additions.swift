@@ -10,7 +10,7 @@ import Darwin
 import UniformTypeIdentifiers
 
 #if targetEnvironment(macCatalyst)
-import IOKit
+import IOKit.ps
 #endif
 
 extension UTTagClass {
@@ -27,12 +27,16 @@ extension UIDevice {
 			return false
 		case .mac:
 			#if targetEnvironment(macCatalyst)
-			let powerSourcesInfo = IOPSCopyPowerSourcesInfo()!.takeUnretainedValue()
-			let powerSourcesList = IOPSCopyPowerSourcesList(powerSourcesInfo)!.takeUnretainedValue() as [CFTypeRef]
-			return !powerSourcesList.isEmpty
-			#else
-			return true
+			// Consider a Mac “portable” if it has an internal battery.
+			if let powerSourcesInfo = IOPSCopyPowerSourcesInfo()?.takeUnretainedValue(),
+				 let powerSourcesList = IOPSCopyPowerSourcesList(powerSourcesInfo)?.takeUnretainedValue() as? [CFTypeRef] {
+				return powerSourcesList.contains {
+					let description = IOPSGetPowerSourceDescription(powerSourcesInfo, $0)?.takeUnretainedValue() as? [String: Any] ?? [:]
+					return description["Type"] as? String == "InternalBattery"
+				}
+			}
 			#endif
+			return false
 		@unknown default:
 			return true
 		}

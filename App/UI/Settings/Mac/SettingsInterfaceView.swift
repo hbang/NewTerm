@@ -100,7 +100,7 @@ struct SettingsInterfaceView: View {
 					return numberFormatter.string(for: preferences.fontSizeMac) ?? "12"
 				},
 				set: { value in
-					if let value = Double(value) {
+					if let value = Double(value ?? "") {
 						preferences.fontSizeMac = value
 					}
 				}

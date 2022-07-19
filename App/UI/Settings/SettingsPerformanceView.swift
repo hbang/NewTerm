@@ -122,12 +122,13 @@ struct SettingsPerformanceView_Previews: PreviewProvider {
 			SettingsPerformanceView()
 		}
 		.previewDevice("iPhone 12 Pro")
+		.previewDisplayName("60 Hz device")
 
 		NavigationView {
 			SettingsPerformanceView()
 		}
-		.navigationViewStyle(StackNavigationViewStyle())
-		.previewDevice("iPad Pro (11-inch) (3rd generation)")
+		.previewDevice("iPhone 13 Pro")
+		.previewDisplayName("120 Hz device")
 	}
 }
 

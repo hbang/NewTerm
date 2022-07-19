@@ -63,13 +63,7 @@
 		CF71BC9922BB6E0300AFB1E1 /* TerminalController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C522B5481B00585BE6 /* TerminalController.swift */; };
 		CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */; };
 		CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */; };
-		CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */; };
-		CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */; };
 		CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */; };
-		CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */ = {isa = PBXBuildFile; fileRef = CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6622BB6AD500AFB1E1 /* NewTermCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
 		CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */; };
@@ -93,10 +87,6 @@
 		CFBB973222B548D700585BE6 /* Fonts.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB96FF22B548D700585BE6 /* Fonts.plist */; };
 		CFBB975622B548D700585BE6 /* Themes.plist in Resources */ = {isa = PBXBuildFile; fileRef = CFBB972322B548D700585BE6 /* Themes.plist */; };
 		CFBB975A22B5499600585BE6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CFBB975922B5499600585BE6 /* Assets.xcassets */; };
-		CFD5538E2345E315005805D1 /* curses.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538A2345E315005805D1 /* curses.h */; };
-		CFD5538F2345E315005805D1 /* term.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538B2345E315005805D1 /* term.h */; };
-		CFD553902345E315005805D1 /* ncurses_dll.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538C2345E315005805D1 /* ncurses_dll.h */; };
-		CFD553912345E315005805D1 /* ncurses.h in Headers */ = {isa = PBXBuildFile; fileRef = CFD5538D2345E315005805D1 /* ncurses.h */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -175,7 +165,6 @@
 		CF71BC5F22BB657500AFB1E1 /* PrefixHeader.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PrefixHeader.pch; sourceTree = "<group>"; };
 		CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CrossPlatformUI.swift; path = Common/UI/CrossPlatformUI.swift; sourceTree = SOURCE_ROOT; };
 		CF71BC6222BB69EF00AFB1E1 /* TerminalInputProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalInputProtocol.swift; sourceTree = "<group>"; };
-		CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CrossPlatformUI.h; sourceTree = "<group>"; };
 		CF71BC6622BB6AD500AFB1E1 /* NewTermCommon.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NewTermCommon.h; sourceTree = "<group>"; };
 		CF71BC8422BB6DBA00AFB1E1 /* NewTermCommon.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NewTermCommon.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF71BC8722BB6DBB00AFB1E1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -195,12 +184,6 @@
 		CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
 		CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSessionViewController.swift; sourceTree = "<group>"; };
-		CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIView+CompactConstraint.m"; sourceTree = "<group>"; };
-		CFBB96B822B5481B00585BE6 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
-		CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSLayoutConstraint+CompactConstraint.m"; sourceTree = "<group>"; };
-		CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIView+CompactConstraint.h"; sourceTree = "<group>"; };
-		CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSLayoutConstraint+CompactConstraint.h"; sourceTree = "<group>"; };
-		CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompactConstraint.h; sourceTree = "<group>"; };
 		CFBB96BE22B5481B00585BE6 /* BridgingHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
 		CFBB96C022B5481B00585BE6 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		CFBB96C222B5481B00585BE6 /* SubProcess.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SubProcess.swift; sourceTree = "<group>"; };
@@ -217,10 +200,6 @@
 		CFBB975922B5499600585BE6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		CFBB975C22B54AA600585BE6 /* libncurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libncurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libncurses.tbd; sourceTree = DEVELOPER_DIR; };
 		CFBB975E22B54AAA00585BE6 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS13.0.sdk/usr/lib/libcurses.tbd; sourceTree = DEVELOPER_DIR; };
-		CFD5538A2345E315005805D1 /* curses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = curses.h; sourceTree = "<group>"; };
-		CFD5538B2345E315005805D1 /* term.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = term.h; sourceTree = "<group>"; };
-		CFD5538C2345E315005805D1 /* ncurses_dll.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses_dll.h; sourceTree = "<group>"; };
-		CFD5538D2345E315005805D1 /* ncurses.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ncurses.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -311,7 +290,6 @@
 				4E980823261860A900E41883 /* Models */,
 				CF71BC6522BB6A5800AFB1E1 /* UI */,
 				CFBB969822B5481B00585BE6 /* VT100 */,
-				CFBB96B122B5481B00585BE6 /* External */,
 				CFBB968D22B5481B00585BE6 /* Global.swift */,
 				CF71BC5E22BB643600AFB1E1 /* Supporting Files */,
 			);
@@ -343,7 +321,6 @@
 		CF71BC6522BB6A5800AFB1E1 /* UI */ = {
 			isa = PBXGroup;
 			children = (
-				CF71BC6422BB6A2B00AFB1E1 /* CrossPlatformUI.h */,
 				CF71BC6022BB691700AFB1E1 /* CrossPlatformUI.swift */,
 			);
 			path = UI;
@@ -468,39 +445,6 @@
 			path = VT100;
 			sourceTree = "<group>";
 		};
-		CFBB96B122B5481B00585BE6 /* External */ = {
-			isa = PBXGroup;
-			children = (
-				CFBB96B622B5481B00585BE6 /* CompactConstraint */,
-				CFBB96B222B5481B00585BE6 /* ncurses */,
-			);
-			path = External;
-			sourceTree = "<group>";
-		};
-		CFBB96B222B5481B00585BE6 /* ncurses */ = {
-			isa = PBXGroup;
-			children = (
-				CFD5538A2345E315005805D1 /* curses.h */,
-				CFD5538C2345E315005805D1 /* ncurses_dll.h */,
-				CFD5538D2345E315005805D1 /* ncurses.h */,
-				CFD5538B2345E315005805D1 /* term.h */,
-			);
-			path = ncurses;
-			sourceTree = "<group>";
-		};
-		CFBB96B622B5481B00585BE6 /* CompactConstraint */ = {
-			isa = PBXGroup;
-			children = (
-				CFBB96BC22B5481B00585BE6 /* CompactConstraint.h */,
-				CFBB96BB22B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.h */,
-				CFBB96B922B5481B00585BE6 /* NSLayoutConstraint+CompactConstraint.m */,
-				CFBB96BA22B5481B00585BE6 /* UIView+CompactConstraint.h */,
-				CFBB96B722B5481B00585BE6 /* UIView+CompactConstraint.m */,
-				CFBB96B822B5481B00585BE6 /* LICENSE */,
-			);
-			path = CompactConstraint;
-			sourceTree = "<group>";
-		};
 		CFBB96BD22B5481B00585BE6 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
@@ -556,14 +500,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */,
-				CF71BCC822BB737200AFB1E1 /* CrossPlatformUI.h in Headers */,
-				CFD553912345E315005805D1 /* ncurses.h in Headers */,
-				CFD553902345E315005805D1 /* ncurses_dll.h in Headers */,
-				CFD5538E2345E315005805D1 /* curses.h in Headers */,
-				CFD5538F2345E315005805D1 /* term.h in Headers */,
-				CF71BCD622BB737200AFB1E1 /* CompactConstraint.h in Headers */,
-				CF71BCD722BB737200AFB1E1 /* NSLayoutConstraint+CompactConstraint.h in Headers */,
-				CF71BCD822BB737200AFB1E1 /* UIView+CompactConstraint.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -642,7 +578,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastSwiftUpdateCheck = 1100;
-				LastUpgradeCheck = 1320;
+				LastUpgradeCheck = 1400;
 				TargetAttributes = {
 					CF22F9C01FFB98A5003175DE = {
 						CreatedOnToolsVersion = 9.1;
@@ -740,10 +676,8 @@
 				4E980833261ACA0400E41883 /* AppTheme.swift in Sources */,
 				4E9FB97226172079005AFCC8 /* Color+Additions.swift in Sources */,
 				CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */,
-				CF71BCA822BB6E1100AFB1E1 /* NSLayoutConstraint+CompactConstraint.m in Sources */,
 				4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */,
 				4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */,
-				CF71BCA922BB6E1100AFB1E1 /* UIView+CompactConstraint.m in Sources */,
 				4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */,
 				CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */,
 				CF71BC9722BB6E0300AFB1E1 /* Preferences.swift in Sources */,
@@ -874,6 +808,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = Common/External;
@@ -917,6 +852,7 @@
 				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				DEAD_CODE_STRIPPING = YES;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				FRAMEWORK_SEARCH_PATHS = Common/External;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -976,6 +912,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N2LN9ZT493;
@@ -1037,6 +974,7 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				CURRENT_PROJECT_VERSION = 1;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEFINES_MODULE = YES;
 				DEVELOPMENT_TEAM = N2LN9ZT493;

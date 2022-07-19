@@ -11,7 +11,6 @@ import SwiftUI
 import SwiftTerm
 import NewTermCommon
 
-@objc(TerminalSampleView)
 class TerminalSampleView: UIView {
 
 	private let textView = TerminalTextView(frame: .zero)

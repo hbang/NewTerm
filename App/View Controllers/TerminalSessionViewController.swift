@@ -88,13 +88,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	override func viewDidLoad() {
 		super.viewDidLoad()
 
-		let passwordImage: UIImage?
-		if #available(iOS 14, *) {
-			passwordImage = UIImage(systemName: "key.fill")
-		} else {
-			passwordImage = UIImage(named: "key.fill", in: nil, with: nil)
-		}
-
 		addKeyCommand(UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
 															 image: UIImage(systemName: "text.badge.xmark"),
 															 action: #selector(self.clearTerminal),
@@ -103,7 +96,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		#if !targetEnvironment(macCatalyst)
 		addKeyCommand(UIKeyCommand(title: .localize("PASSWORD_MANAGER", comment: "VoiceOver label for the password manager button."),
-															 image: passwordImage,
+															 image: UIImage(systemName: "key.fill"),
 															 action: #selector(self.activatePasswordManager),
 															 input: "f",
 															 modifierFlags: [ .command, .alternate ]))

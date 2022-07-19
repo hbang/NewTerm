@@ -6,7 +6,7 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
-import Foundation
+import UIKit
 import NewTermCommon
 
 class TabCollectionViewCell: UICollectionViewCell {
