@@ -75,9 +75,6 @@
 		CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */; };
 		CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */; };
 		CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */; };
-		CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */; };
-		CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */; };
-		CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */; };
 		CFBB96D522B5481B00585BE6 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */; };
 		CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969722B5481B00585BE6 /* TerminalSessionViewController.swift */; };
 		CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB96C422B5481B00585BE6 /* AppDelegate.swift */; };
@@ -181,9 +178,6 @@
 		CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbarViewController.swift; sourceTree = "<group>"; };
 		CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalKeyInput.swift; sourceTree = "<group>"; };
 		CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarInputView.swift; sourceTree = "<group>"; };
-		CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardPopupToolbar.swift; sourceTree = "<group>"; };
-		CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalTextView.swift; sourceTree = "<group>"; };
-		CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
 		CFBB968D22B5481B00585BE6 /* Global.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Global.swift; sourceTree = "<group>"; };
 		CFBB968E22B5481B00585BE6 /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = LaunchScreen.storyboard; sourceTree = "<group>"; };
 		CFBB969622B5481B00585BE6 /* RootViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RootViewController.swift; sourceTree = "<group>"; };
@@ -393,16 +387,13 @@
 		CFBB968422B5481B00585BE6 /* Keyboard */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */,
-				CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */,
+				CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */,
+				1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */,
 				CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */,
 				4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */,
-				CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */,
-				CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */,
+				1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */,
 				4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */,
 				4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */,
-				1E4A7331274A0CED00211604 /* KeyboardToolbarView.swift */,
-				1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -712,9 +703,7 @@
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
 				CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */,
-				CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */,
 				4E980828261879D200E41883 /* SettingsAboutView.swift in Sources */,
-				CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */,
 				4E57499A26FEED9800D94DF5 /* PreferencesList.swift in Sources */,
 				4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */,
 				4ED1273125F9E8F60049F59B /* UIColor+AppColors.swift in Sources */,
@@ -728,7 +717,6 @@
 				4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */,
 				4E3237FE26FEB0D800AEDA06 /* UIDevice+Additions.swift in Sources */,
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
-				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */,
 				1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */,

@@ -259,7 +259,7 @@ struct KeyboardToolbarView: View {
 
 	var body: some View {
 		ZStack(alignment: .bottom) {
-			Color.systemIndigo
+			Color.black
 				.frame(height: 0)
 				.captureSize(in: $outerSize)
 

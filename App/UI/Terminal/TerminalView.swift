@@ -11,7 +11,7 @@ import SwiftTerm
 import NewTermCommon
 
 class TerminalState: ObservableObject {
-	@Published var lines = [NSAttributedString]()
+	@Published var lines = [AnyView]()
 	@Published var fontMetrics = FontMetrics(font: AppFont(), fontSize: 12)
 	@Published var colorMap = ColorMap(theme: AppTheme())
 }
@@ -27,23 +27,13 @@ struct TerminalView: View {
 			ScrollView(.vertical, showsIndicators: true) {
 				LazyVStack(alignment: .leading, spacing: 0) {
 					ForEach(Array(zip(state.lines, state.lines.indices)), id: \.1) { line, i in
-						if #available(iOS 15, *) {
-							Text(AttributedString(line))
-								.background(Color(state.colorMap.background))
-								.lineLimit(1)
-								.fixedSize(horizontal: false, vertical: true)
-								.frame(height: state.fontMetrics.boundingBox.height)
-								.drawingGroup(opaque: true)
-								.id(i)
-						} else {
-							Text("Pls upgrade?")
-								.background(Color(state.colorMap.background))
-								.lineLimit(1)
-								.fixedSize(horizontal: false, vertical: true)
-								.frame(height: state.fontMetrics.boundingBox.height)
-								.drawingGroup(opaque: true)
-								.id(i)
-						}
+						line
+							.background(Color(state.colorMap.background))
+							.lineLimit(1)
+							.fixedSize(horizontal: false, vertical: true)
+							.frame(height: state.fontMetrics.height)
+							.drawingGroup(opaque: true)
+							.id(i)
 					}
 
 					Spacer(minLength: 0)

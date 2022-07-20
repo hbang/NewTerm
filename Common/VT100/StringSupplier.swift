@@ -7,7 +7,13 @@
 
 import Foundation
 import SwiftTerm
-import UIKit
+import SwiftUI
+
+extension View {
+	static func + (lhs: Self, rhs: some View) -> AnyView {
+		AnyView(ViewBuilder.buildBlock(lhs, AnyView(rhs)))
+	}
+}
 
 open class StringSupplier {
 
@@ -17,23 +23,21 @@ open class StringSupplier {
 
 	public init() {}
 
-	public func attributedString() -> [NSAttributedString] {
+	public func attributedString() -> [AnyView] {
 		guard let terminal = terminal else {
 			fatalError()
 		}
 
 		let cursorPosition = terminal.getCursorLocation()
+		let scrollbackRows = terminal.getTopVisibleRow()
 
 		var lastAttribute = Attribute.empty
-
-		let scrollbackRows = terminal.getTopVisibleRow()
-		let totalRows = terminal.rows + scrollbackRows
-		return Array(0..<totalRows).compactMap { i in
+		return Array(0..<terminal.rows + scrollbackRows).map { i in
 			guard let line = terminal.getScrollInvariantLine(row: i) else {
-				return nil
+				return AnyView(EmptyView())
 			}
 
-			let attributedString = NSMutableAttributedString()
+			var views = [any View]()
 			var buffer = ""
 			for j in 0..<terminal.cols {
 				let data = line[j]
@@ -42,55 +46,35 @@ open class StringSupplier {
 				if isCursor || lastAttribute != data.attribute {
 					// Finish up the last run by appending it to the attributed string, then reset for the
 					// next run.
-					let runAttributeString = NSAttributedString(string: buffer,
-																											attributes: stringAttributes(for: lastAttribute))
-					attributedString.append(runAttributeString)
-
+					views.append(text(buffer, attribute: lastAttribute))
 					lastAttribute = data.attribute
 					buffer.removeAll()
 				}
 
 				let character = data.getCharacter()
-				if j == terminal.cols - 1 {
-					// UITextView won’t render a massive line of spaces (e.g. an empty nano screen), so add a
-					// newline if the line ends with a space.
-					if buffer.last == " " {
-						// TODO: This is crazy. There has to be a better way to stop spaces from being collapsed
-						buffer.removeLast()
-						buffer.append("\u{A0}") // Non-breaking space
-					} else if character != "\0" {
-						buffer.append(character)
-					}
-				} else if character == "\0" {
-					buffer.append(" ")
-				} else {
-					buffer.append(character)
-				}
+				buffer.append(character == "\0" ? " " : character)
 
 				if isCursor {
 					// We may need to insert a space for the cursor to show up.
 					if buffer.isEmpty {
-						buffer.append("\u{A0}") // Non-breaking space
+						buffer.append(" ") // Non-breaking space
 					}
 
-					let runAttributeString = NSAttributedString(string: buffer,
-																											attributes: stringAttributes(for: lastAttribute, isCursor: true))
-					attributedString.append(runAttributeString)
-
+					views.append(text(buffer, attribute: lastAttribute, isCursor: true))
 					buffer.removeAll()
 				}
 			}
 
 			// Append the final run
-			let runAttributeString = NSAttributedString(string: buffer,
-																									attributes: stringAttributes(for: lastAttribute))
-			attributedString.append(runAttributeString)
-			return attributedString
+			views.append(text(buffer, attribute: lastAttribute))
+
+			return AnyView(HStack(alignment: .firstTextBaseline, spacing: 0) {
+				views.reduce(AnyView(EmptyView()), { $0 + AnyView($1) })
+			})
 		}
 	}
 
-	private func stringAttributes(for attribute: Attribute, isCursor: Bool = false) -> [NSAttributedString.Key: Any] {
-		var stringAttributes = [NSAttributedString.Key: Any]()
+	private func text(_ run: String, attribute: Attribute, isCursor: Bool = false) -> any View {
 		var fgColor = attribute.fg
 		var bgColor = attribute.bg
 
@@ -104,20 +88,13 @@ open class StringSupplier {
 			}
 		}
 
-		stringAttributes[.foregroundColor] = colorMap?.color(for: fgColor,
-																												 isForeground: true,
-																												 isBold: attribute.style.contains(.bold),
-																												 isCursor: isCursor)
-		stringAttributes[.backgroundColor] = colorMap?.color(for: bgColor,
-																												 isForeground: false,
-																												 isCursor: isCursor)
-
-		if attribute.style.contains(.underline) {
-			stringAttributes[.underlineStyle] = NSUnderlineStyle.single.rawValue
-		}
-		if attribute.style.contains(.crossedOut) {
-			stringAttributes[.strikethroughStyle] = NSUnderlineStyle.single.rawValue
-		}
+		let foreground = colorMap?.color(for: fgColor,
+																		 isForeground: true,
+																		 isBold: attribute.style.contains(.bold),
+																		 isCursor: isCursor)
+		let background = colorMap?.color(for: bgColor,
+																		 isForeground: false,
+																		 isCursor: isCursor)
 
 		let font: UIFont?
 		if attribute.style.contains(.bold) {
@@ -133,9 +110,15 @@ open class StringSupplier {
 				font = fontMetrics?.regularFont
 			}
 		}
-		stringAttributes[.font] = font
 
-		return stringAttributes
+		return Text(run)
+			.foregroundColor(Color(foreground ?? .white))
+			.font(Font(font ?? UIFont.monospacedSystemFont(ofSize: 12, weight: .regular)))
+			.underline(attribute.style.contains(.underline))
+			.strikethrough(attribute.style.contains(.crossedOut))
+			.kerning(0)
+			.tracking(0)
+			.background(Color(background ?? .black))
 	}
 
 }

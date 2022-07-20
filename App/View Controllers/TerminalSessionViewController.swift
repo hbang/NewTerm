@@ -192,9 +192,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		var layoutSize = textView.safeAreaLayoutGuide.layoutFrame.size
 		layoutSize.width -= TerminalView.horizontalSpacing * 2
 		layoutSize.height -= TerminalView.verticalSpacing * 2
-		#if targetEnvironment(macCatalyst)
-		layoutSize.height -= 26
-		#endif
 
 		if layoutSize.width < 0 || layoutSize.height < 0 {
 			// Huh? Let’s just ignore it.
@@ -279,7 +276,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 extension TerminalSessionViewController: TerminalControllerDelegate {
 
-	func refresh(attributedString: [NSAttributedString], backgroundColor: UIColor) {
+	func refresh(attributedString: [AnyView], backgroundColor: UIColor) {
 		state.fontMetrics = terminalController.fontMetrics
 		state.colorMap = terminalController.colorMap
 		state.lines = attributedString
@@ -378,33 +375,6 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 																						preferredStyle: .alert)
 		alertController.addAction(UIAlertAction(title: .ok, style: .cancel, handler: nil))
 		present(alertController, animated: true, completion: nil)
-	}
-
-}
-
-extension TerminalSessionViewController: UITextViewDelegate {
-
-	func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-		// Hide toolbar popups if visible
-		keyInput.setMoreRowVisible(false, animated: true)
-	}
-
-	func scrollViewShouldScrollToTop(_ scrollView: UIScrollView) -> Bool {
-		// If we’re at the top of the scroll view, guess that the user wants to go back to the bottom
-		if scrollView.contentOffset.y <= (scrollView.frame.size.height - scrollView.safeAreaInsets.top - scrollView.safeAreaInsets.bottom) / 2 {
-			// Wrapping in an animate block as a hack to avoid strange content inset issues, unfortunately
-			UIView.animate(withDuration: 0.5) {
-				self.scrollToBottom(animated: true)
-			}
-			return false
-		}
-		return true
-	}
-
-	func scrollViewDidScrollToTop(_ scrollView: UIScrollView) {
-		// Since the scroll view is at {0, 0}, it won’t respond to scroll to top events till the next
-		// scroll. Trick it by scrolling 1 physical pixel up.
-		scrollView.contentOffset.y -= CGFloat(1) / UIScreen.main.scale
 	}
 
 }

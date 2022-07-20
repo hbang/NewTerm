@@ -18,11 +18,8 @@ public struct FontMetrics: Hashable {
 	public let boldItalicFont: UIFont
 
 	public let width: CGFloat
-	public let ascent: CGFloat
-	public let descent: CGFloat
-	public let leading: CGFloat
+	public let height: CGFloat
 
-	public var height: CGFloat { ascent + descent + leading }
 	public var boundingBox: CGSize { CGSize(width: width, height: height) }
 
 	public static func loadFonts() {
@@ -107,9 +104,7 @@ public struct FontMetrics: Hashable {
 		var descent: CGFloat = 0
 		var leading: CGFloat = 0
 		self.width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
-		self.ascent = ascent
-		self.descent = descent
-		self.leading = leading
+		self.height = ascent + descent + leading
 	}
 
 }

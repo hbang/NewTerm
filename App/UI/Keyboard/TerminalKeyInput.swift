@@ -124,11 +124,11 @@ class TerminalKeyInput: TextInputBase {
 
 	// MARK: - Callbacks
 
-	@objc func ctrlKeyPressed() {
-		ctrlDown.toggle()
-	}
-
-	@objc private func inputKeyPressed(_ sender: KeyboardButton) {
+//	@objc func ctrlKeyPressed() {
+//		ctrlDown.toggle()
+//	}
+//
+//	@objc private func inputKeyPressed(_ sender: KeyboardButton) {
 //		if let index = moreToolbar.fnKeys.firstIndex(of: sender) {
 //			terminalInputDelegate!.receiveKeyboardInput(data: EscapeSequences.fn[index])
 //			return
@@ -137,43 +137,43 @@ class TerminalKeyInput: TextInputBase {
 //		if let data = keyValues[sender] {
 //			terminalInputDelegate!.receiveKeyboardInput(data: data)
 //		}
-	}
-
-	@objc private func arrowKeyPressed(_ sender: KeyboardButton) {
+//	}
+//
+//	@objc private func arrowKeyPressed(_ sender: KeyboardButton) {
 //		let values = terminalInputDelegate!.applicationCursor ? keyAppValues : keyValues
 //		if let data = values[sender] {
 //			terminalInputDelegate!.receiveKeyboardInput(data: data)
 //		}
-	}
-
-	@objc private func arrowRepeatTimerFired(_ timer: Timer) {
+//	}
+//
+//	@objc private func arrowRepeatTimerFired(_ timer: Timer) {
 //		arrowKeyPressed(timer.userInfo as! KeyboardButton)
-	}
-
-	@objc func moreKeyPressed() {
+//	}
+//
+//	@objc func moreKeyPressed() {
 //		setMoreRowVisible(moreToolbar.isHidden, animated: true)
-	}
-	
-	@objc func arrowKeyLongPressed(_ sender: UILongPressGestureRecognizer) {
-		switch sender.state {
-		case .began:
-			longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.arrowRepeatTimerFired), userInfo: sender.view, repeats: true)
-			break
-
-		case .ended, .cancelled:
-			longPressTimer?.invalidate()
-			longPressTimer = nil
-			break
-
-		default:
-			break
-		}
-	}
+//	}
+//
+//	@objc func arrowKeyLongPressed(_ sender: UILongPressGestureRecognizer) {
+//		switch sender.state {
+//		case .began:
+//			longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.arrowRepeatTimerFired), userInfo: sender.view, repeats: true)
+//			break
+//
+//		case .ended, .cancelled:
+//			longPressTimer?.invalidate()
+//			longPressTimer = nil
+//			break
+//
+//		default:
+//			break
+//		}
+//	}
 
 	// MARK: - More row
 
-	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
-		// if we’re already in the specified state, return
+//	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
+//		// if we’re already in the specified state, return
 //		if visible == !moreToolbar.isHidden {
 //			return
 //		}
@@ -192,7 +192,7 @@ class TerminalKeyInput: TextInputBase {
 //			moreToolbar.isHidden = !visible
 //			moreToolbarBottomConstraint.constant = -(textView?.safeAreaInsets.bottom ?? 0)
 //		}
-	}
+//	}
 
 	// MARK: - Password manager
 

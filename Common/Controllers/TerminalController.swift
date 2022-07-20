@@ -7,11 +7,12 @@
 //
 
 import UIKit
+import SwiftUI
 import SwiftTerm
 import os.log
 
 public protocol TerminalControllerDelegate: AnyObject {
-	func refresh(attributedString: [NSAttributedString], backgroundColor: UIColor)
+	func refresh(attributedString: [AnyView], backgroundColor: UIColor)
 	func activateBell()
 	func titleDidChange(_ title: String?)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
