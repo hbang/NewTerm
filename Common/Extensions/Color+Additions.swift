@@ -6,13 +6,9 @@
 //
 
 import SwiftTerm
-
-#if os(iOS)
 import UIKit
-#endif
 
 extension SwiftTerm.Color {
-
 	convenience init(_ uiColor: UIColor) {
 		var r: CGFloat = 0
 		var g: CGFloat = 0
@@ -22,5 +18,4 @@ extension SwiftTerm.Color {
 							green: UInt16(g * 255),
 							blue: UInt16(b * 255))
 	}
-
 }

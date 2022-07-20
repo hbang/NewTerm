@@ -5,17 +5,17 @@
 //  Created by Adam Demasi on 20/6/19.
 //
 
-import Foundation
+import UIKit
 import CoreGraphics
 import CoreText
 import os.log
 
 public struct FontMetrics: Hashable {
 
-	public let regularFont: Font
-	public let boldFont: Font
-	public let italicFont: Font
-	public let boldItalicFont: Font
+	public let regularFont: UIFont
+	public let boldFont: UIFont
+	public let italicFont: UIFont
+	public let boldItalicFont: UIFont
 
 	public let width: CGFloat
 	public let ascent: CGFloat
@@ -46,23 +46,23 @@ public struct FontMetrics: Hashable {
 	}
 
 	public init(font: AppFont, fontSize: CGFloat) {
-		var regularFont: Font?
-		var boldFont: Font?
-		var italicFont: Font?
-		var boldItalicFont: Font?
+		var regularFont: UIFont?
+		var boldFont: UIFont?
+		var italicFont: UIFont?
+		var boldItalicFont: UIFont?
 
 		if font.systemMonospaceFont != true {
 			if let name = font.regular {
-				regularFont = Font(name: name, size: fontSize)
+				regularFont = UIFont(name: name, size: fontSize)
 			}
 			if let name = font.bold {
-				boldFont = Font(name: name, size: fontSize)
+				boldFont = UIFont(name: name, size: fontSize)
 			}
 			if let name = font.italic {
-				italicFont = Font(name: name, size: fontSize)
+				italicFont = UIFont(name: name, size: fontSize)
 			}
 			if let name = font.boldItalic {
-				boldItalicFont = Font(name: name, size: fontSize)
+				boldItalicFont = UIFont(name: name, size: fontSize)
 			}
 		}
 
@@ -71,14 +71,14 @@ public struct FontMetrics: Hashable {
 				Logger().error("Font \(font.regular ?? "?") size \(fontSize, format: .fixed(precision: 1)) could not be initialised")
 			}
 
-			regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
-			boldFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .bold)
+			regularFont = .monospacedSystemFont(ofSize: fontSize, weight: .regular)
+			boldFont = .monospacedSystemFont(ofSize: fontSize, weight: .bold)
 
 			if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
-				italicFont = Font(descriptor: fontDescriptor, size: fontSize)
+				italicFont = UIFont(descriptor: fontDescriptor, size: fontSize)
 			}
 			if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
-				boldItalicFont = Font(descriptor: fontDescriptor, size: fontSize)
+				boldItalicFont = UIFont(descriptor: fontDescriptor, size: fontSize)
 			}
 		}
 
@@ -88,7 +88,7 @@ public struct FontMetrics: Hashable {
 							boldItalicFont: boldItalicFont ?? boldFont!)
 	}
 
-	public init(regularFont: Font, boldFont: Font, italicFont: Font, boldItalicFont: Font) {
+	public init(regularFont: UIFont, boldFont: UIFont, italicFont: UIFont, boldItalicFont: UIFont) {
 		self.regularFont = regularFont
 		self.boldFont = boldFont
 		self.italicFont = italicFont

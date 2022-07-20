@@ -6,12 +6,7 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
-#if os(macOS)
-import AppKit
-#else
 import UIKit
-#endif
-
 import SwiftUI
 import Combine
 import os.log
@@ -82,14 +77,14 @@ public class Preferences: NSObject, ObservableObject {
 	// TODO: Make this act like a DynamicProperty
 	public var fontSize: Double {
 		get {
-			#if os(macOS)
+			#if targetEnvironment(macCatalyst)
 			return fontSizeMac
 			#else
 			return isBigDevice ? fontSizePad : fontSizePhone
 			#endif
 		}
 		set {
-			#if os(macOS)
+			#if targetEnvironment(macCatalyst)
 			fontSizeMac = newValue
 			#else
 			if isBigDevice {
@@ -107,7 +102,6 @@ public class Preferences: NSObject, ObservableObject {
 		didSet { colorMapChanged() }
 	}
 
-	#if os(iOS)
 	@AppStorage("keyboardAccessoryStyle")
 	public var keyboardAccessoryStyle: KeyboardButtonStyle = .text {
 		willSet { objectWillChange.send() }
@@ -117,7 +111,6 @@ public class Preferences: NSObject, ObservableObject {
 	public var keyboardTrackpadSensitivity: KeyboardTrackpadSensitivity = .medium {
 		willSet { objectWillChange.send() }
 	}
-	#endif
 
 	@AppStorage("bellHUD")
 	public var bellHUD: Bool = true {
@@ -169,11 +162,7 @@ public class Preferences: NSObject, ObservableObject {
 		willSet { objectWillChange.send() }
 	}
 
-	#if os(macOS)
-	public var appearanceStyle: NSAppearance.Name { colorMap.appearanceStyle }
-	#else
 	public var userInterfaceStyle: UIUserInterfaceStyle { colorMap.userInterfaceStyle }
-	#endif
 
 	// MARK: - Handlers
 
@@ -187,10 +176,6 @@ public class Preferences: NSObject, ObservableObject {
 		let theme = AppTheme.predefined[themeName] ?? AppTheme()
 		objectWillChange.send()
 		colorMap = ColorMap(theme: theme)
-
-		#if os(macOS)
-		NSApp.appearance = NSAppearance(named: colorMap.appearanceStyle)
-		#endif
 	}
 
 }

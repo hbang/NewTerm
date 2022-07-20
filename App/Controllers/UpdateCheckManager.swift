@@ -17,13 +17,15 @@ struct UpdateCheckResponse: Codable {
 
 class UpdateCheckManager {
 
+	private static let logger = Logger(subsystem: "ws.hbang.Terminal", category: "UpdateCheckManager")
+
 	static let updateAvailableNotification = Notification.Name(rawValue: "UpdateCheckManagerUpdateAvailableNotification")
 
 	static func check(updateAvailableCompletion: @escaping (_ repsonse: UpdateCheckResponse) -> ()) {
 		#if targetEnvironment(macCatalyst) && !DEBUG
 		URLSession.shared.dataTask(with: URL(string: "https://cdn.hbang.ws/updates/newterm-mac-beta.json")!) { data, _, error in
 			if let error = error {
-				os_log("Update checker error: %@", String(describing: error))
+				logger.error("Update checker error: \(String(describing: error))")
 				return
 			}
 
@@ -41,7 +43,7 @@ class UpdateCheckManager {
 					}
 				}
 			} catch {
-				os_log("Update checker error: %@", String(describing: error))
+				logger.error("Update checker error: \(String(describing: error))")
 			}
 		}.resume()
 		#endif

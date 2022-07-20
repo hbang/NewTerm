@@ -6,7 +6,7 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
-#if os(macOS)
+#if targetEnvironment(macCatalyst)
 public let isBigDevice = true
 public let isSmallDevice = false
 #else

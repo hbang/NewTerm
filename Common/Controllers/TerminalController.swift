@@ -6,12 +6,9 @@
 //  Copyright © 2018 HASHBANG Productions. All rights reserved.
 //
 
-#if os(macOS)
-import AppKit
-#else
 import UIKit
-#endif
 import SwiftTerm
+import os.log
 
 public protocol TerminalControllerDelegate: AnyObject {
 	func refresh(attributedString: [NSAttributedString], backgroundColor: UIColor)
@@ -71,6 +68,8 @@ public class TerminalController {
 	internal var iTermIntegrationVersion: String?
 	internal var shell: String?
 
+	internal var logger = Logger(subsystem: "ws.hbang.Terminal", category: "TerminalController")
+
 	public init() {
 		// TODO: Scrollback overflows and throws an error on dirtyLines.insert() Terminal.swift:4117
 		let options = TerminalOptions(termName: "xterm-256color",
@@ -84,10 +83,8 @@ public class TerminalController {
 
 		startUpdateTimer(fps: refreshRate)
 
-		#if os(iOS)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appWillResignActive), name: UIApplication.willResignActiveNotification, object: nil)
 		NotificationCenter.default.addObserver(self, selector: #selector(self.appDidBecomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
-		#endif
 
 		UIDevice.current.isBatteryMonitoringEnabled = true
 		NotificationCenter.default.addObserver(self, selector: #selector(self.powerStateChanged), name: UIDevice.batteryStateDidChangeNotification, object: nil)

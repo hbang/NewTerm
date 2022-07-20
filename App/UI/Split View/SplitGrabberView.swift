@@ -38,11 +38,12 @@ class SplitGrabberView: UIView {
 		pillView.layer.cornerRadius = 2
 		pillContainerView.addSubview(pillView)
 
-		let selfWidth: CGFloat = 10
-		let pillWidth: CGFloat = 4
-		let pillHeight: CGFloat = 44
-		let pillSpacingX: CGFloat = 3
-		let pillSpacingY: CGFloat = 12
+		let scaleFactor = UIDevice.current.userInterfaceIdiom == .mac ? 0.7 : 1
+		let selfWidth: CGFloat = floor(10 * scaleFactor)
+		let pillWidth: CGFloat = floor(4 * scaleFactor)
+		let pillHeight: CGFloat = floor(44 * scaleFactor)
+		let pillSpacingX: CGFloat = floor(3 * scaleFactor)
+		let pillSpacingY: CGFloat = floor(12 * scaleFactor)
 		NSLayoutConstraint.activate([
 				.vertical: [
 					self.heightAnchor.constraint(equalToConstant: selfWidth),
@@ -83,9 +84,7 @@ class SplitGrabberView: UIView {
 		addGestureRecognizer(UIHoverGestureRecognizer(target: self, action: #selector(self.hoverGestureRecognizerFired)))
 		#endif
 
-		if #available(iOS 13.4, *) {
-			pillContainerView.addInteraction(UIPointerInteraction(delegate: self))
-		}
+		pillContainerView.addInteraction(UIPointerInteraction(delegate: self))
 	}
 
 	required init?(coder: NSCoder) {

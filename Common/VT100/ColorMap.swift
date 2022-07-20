@@ -5,12 +5,7 @@
 //  Created by Adam Demasi on 2/4/21.
 //
 
-#if os(iOS)
 import UIKit
-#else
-import AppKit
-#endif
-
 import SwiftTerm
 import os.log
 
@@ -32,11 +27,7 @@ public struct ColorMap: Hashable {
 
 	public let isDark: Bool
 
-	#if os(iOS)
 	public var userInterfaceStyle: UIUserInterfaceStyle { isDark ? .dark : .light }
-	#else
-	public var appearanceStyle: NSAppearanceName { isDark ? .darkAqua : .aqua }
-	#endif
 
 	public init(theme: AppTheme) {
 		background = UIColor(propertyListValue: theme.background) ?? .systemGroupedBackground
@@ -48,11 +39,9 @@ public struct ColorMap: Hashable {
 
 		// TODO: For some reason .systemCyan doesn’t exist on macOS 12? Revisit this soon.
 		var cyan: UIColor!
-		#if !targetEnvironment(macCatalyst)
 		if #available(iOS 15, *) {
 			cyan = .systemCyan
 		}
-		#endif
 		if cyan == nil {
 			cyan = UIColor(dynamicProvider: { _ in
 				var h: CGFloat = 0, s: CGFloat = 0, b: CGFloat = 0, a: CGFloat = 0

@@ -8,6 +8,7 @@
 import Foundation
 import SwiftTerm
 import QuickLook
+import os.log
 
 extension TerminalController {
 
@@ -29,6 +30,7 @@ extension TerminalController {
 				}
 				_ = scanner.scanString(";")
 			}
+			logger.debug("Shell reports iTerm integration ver \(self.iTermIntegrationVersion ?? "?") under \(self.shell ?? "?")")
 
 		case "RemoteHost":
 			_ = scanner.scanString("=")
@@ -41,6 +43,7 @@ extension TerminalController {
 				user = nil
 				hostname = nil
 			}
+			logger.debug("Shell reports host \(self.user ?? "?")@\(self.hostname ?? "?")")
 
 		case "CurrentDir":
 			if isProcessTrusted(source: source) {
@@ -54,6 +57,7 @@ extension TerminalController {
 					}
 				}
 			}
+			logger.debug("Shell reports current file \(self.currentFile?.path ?? "?"), cwd \(self.currentWorkingDirectory?.path ?? "?")")
 
 		case "File":
 			// TODO: We could support displaying file download progress, but SwiftTerm just gives us the
@@ -72,11 +76,9 @@ extension TerminalController {
 				 file.count == fileSize {
 				// TODO: Support inline images!
 				let basename = URL(fileURLWithPath: filename).lastPathComponent
-				let tempURL = FileManager.default.temporaryDirectory
-					.appendingPathComponent("downloads")
-					.appendingPathComponent(UUID().uuidString)
+				let tempURL = FileManager.default.temporaryDirectory/"downloads"/UUID().uuidString
 				try? FileManager.default.createDirectory(at: tempURL, withIntermediateDirectories: true, attributes: [:])
-				let url = tempURL.appendingPathComponent(basename)
+				let url = tempURL/basename
 				try? file.write(to: url, options: .completeFileProtection)
 
 				DispatchQueue.main.async {
@@ -94,39 +96,44 @@ extension TerminalController {
 			}
 
 		default:
-			print("XXX Unrecognised iTerm2 command \(content)")
+			logger.warning("Unrecognised iTerm2 command \(content)")
 		}
 	}
 
 	// MARK: - File download/upload
 
+	private static let preFileUploadMarker   = "ok\r".data(using: .utf8)!
+	private static let postFileUploadMarker  = "\r\r".data(using: .utf8)!
+	private static let abortFileUploadMarker = "abort\r".data(using: .utf8)!
+
 	public func deleteDownloadCache() {
-		let tempURL = FileManager.default.temporaryDirectory
-			.appendingPathComponent("downloads")
+		let tempURL = FileManager.default.temporaryDirectory/"downloads"
 		try? FileManager.default.removeItem(at: tempURL)
 	}
 
 	public func uploadFile(url: URL) {
 		// TODO: Tar + gzip up the file(s)!
 		terminalQueue.async {
-			// First, respond with ok to confirm we’re about to send a payload.
-			self.write("ok\r".data(using: .utf8)!)
-
-			// Now, we need to base64 the contents of this file.
 			guard let data = try? Data(contentsOf: url) else {
+				self.cancelUploadRequest()
 				return
 			}
-			let encodedData = data.base64EncodedData(options: [ .lineLength76Characters, .endLineWithCarriageReturn ])
+
+			// First, respond with ok to confirm we’re about to send a payload.
+			self.write(Self.preFileUploadMarker)
+
+			// Now, we need to base64 the contents of this file.
+			let encodedData = data.base64EncodedData(options: [.lineLength76Characters, .endLineWithCarriageReturn])
 			self.write(encodedData)
 
 			// Finally, send two ending returns to indicate end of file.
-			self.write("\r\r".data(using: .utf8)!)
+			self.write(Self.postFileUploadMarker)
 		}
 	}
 
 	public func cancelUploadRequest() {
 		terminalQueue.async {
-			self.write("abort\r".data(using: .utf8)!)
+			self.write(Self.abortFileUploadMarker)
 		}
 	}
 
