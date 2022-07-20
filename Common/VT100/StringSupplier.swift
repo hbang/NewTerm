@@ -20,23 +20,23 @@ open class StringSupplier {
 
 	public init() {}
 
-	public func attributedString() -> NSAttributedString {
+	public func attributedString() -> [NSAttributedString] {
 		guard let terminal = terminal else {
 			fatalError()
 		}
 
 		let cursorPosition = terminal.getCursorLocation()
 
-		let attributedString = NSMutableAttributedString()
 		var lastAttribute = Attribute.empty
 
 		let scrollbackRows = terminal.getTopVisibleRow()
 		let totalRows = terminal.rows + scrollbackRows
-		for i in 0..<totalRows {
+		return Array(0..<totalRows).compactMap { i in
 			guard let line = terminal.getScrollInvariantLine(row: i) else {
-				continue
+				return nil
 			}
 
+			let attributedString = NSMutableAttributedString()
 			var buffer = ""
 			for j in 0..<terminal.cols {
 				let data = line[j]
@@ -64,9 +64,6 @@ open class StringSupplier {
 					} else if character != "\0" {
 						buffer.append(character)
 					}
-					if i != totalRows - 1 {
-						buffer.append("\n")
-					}
 				} else if character == "\0" {
 					buffer.append(" ")
 				} else {
@@ -91,9 +88,8 @@ open class StringSupplier {
 			let runAttributeString = NSAttributedString(string: buffer,
 																									attributes: stringAttributes(for: lastAttribute))
 			attributedString.append(runAttributeString)
+			return attributedString
 		}
-
-		return attributedString
 	}
 
 	private func stringAttributes(for attribute: Attribute, isCursor: Bool = false) -> [NSAttributedString.Key: Any] {

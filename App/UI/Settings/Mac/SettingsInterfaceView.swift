@@ -53,7 +53,7 @@ struct SettingsInterfaceView: View {
 				.padding([.top, .leading, .trailing], 1 / UIScreen.main.scale)
 			Divider()
 				.padding([.leading, .trailing], 1 / UIScreen.main.scale)
-			TerminalSampleViewRepresentable(
+			TerminalSampleView(
 				fontMetrics: preferences.fontMetrics,
 				colorMap: preferences.colorMap
 			)

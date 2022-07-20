@@ -10,6 +10,8 @@ import UIKit
 import AudioToolbox
 import os.log
 import CoreServices
+import SwiftUIX
+import NewTermCommon
 
 fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
 
@@ -34,8 +36,10 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)
-	private var textView = TerminalTextView(frame: .zero, textContainer: nil)
+	private var textView: TerminalHostingView!
 	private var textViewTapGestureRecognizer: UITapGestureRecognizer!
+
+	private var state = TerminalState()
 
 	private var bellHUDView: HUDView?
 
@@ -70,7 +74,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		title = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
-		textView.delegate = self
+		textView = TerminalHostingView(state: state)
 
 		#if !targetEnvironment(macCatalyst)
 		textViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
@@ -79,7 +83,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		#endif
 
 		keyInput.frame = view.bounds
-		keyInput.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
+		keyInput.autoresizingMask = [.flexibleWidth, .flexibleHeight]
 		keyInput.textView = textView
 		keyInput.terminalInputDelegate = terminalController
 		view.addSubview(keyInput)
@@ -111,7 +115,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	override func viewWillAppear(_ animated: Bool) {
 		super.viewWillAppear(animated)
 
-		becomeFirstResponder()
+		keyInput.becomeFirstResponder()
 		terminalController.terminalWillAppear()
 	}
 
@@ -134,7 +138,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	override func viewWillDisappear(_ animated: Bool) {
 		super.viewWillDisappear(animated)
 
-		resignFirstResponder()
+		keyInput.resignFirstResponder()
 		terminalController.terminalWillDisappear()
 	}
 
@@ -164,7 +168,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 			do {
 				try terminalController.stopSubProcess()
 			} catch {
-				os_log("Failed to stop subprocess: %@", type: .error, error as NSError)
+				Logger().error("Failed to stop subprocess: \(String(describing: error))")
 			}
 		}
 
@@ -185,32 +189,31 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		}
 
 		// Determine the screen size based on the font size
-		let width = textView.frame.size.width - textView.safeAreaInsets.left - textView.safeAreaInsets.right
+		var layoutSize = textView.safeAreaLayoutGuide.layoutFrame.size
+		layoutSize.width -= TerminalView.horizontalSpacing * 2
+		layoutSize.height -= TerminalView.verticalSpacing * 2
 		#if targetEnvironment(macCatalyst)
-		let extraHeight: CGFloat = 26
-		#else
-		let extraHeight: CGFloat = 0
+		layoutSize.height -= 26
 		#endif
-		let height = textView.frame.size.height - textView.safeAreaInsets.top - textView.safeAreaInsets.bottom - extraHeight
 
-		if width < 0 || height < 0 {
+		if layoutSize.width < 0 || layoutSize.height < 0 {
 			// Huh? Let’s just ignore it.
 			return
 		}
 
-		let size = ScreenSize(cols: UInt(width / glyphSize.width),
-													rows: UInt(height / glyphSize.height))
+		let size = ScreenSize(cols: UInt(layoutSize.width / glyphSize.width),
+													rows: UInt(layoutSize.height / glyphSize.height))
 		if terminalController.screenSize != size {
 			terminalController.screenSize = size
 		}
 
-		let widthRemainder = abs(width.remainder(dividingBy: glyphSize.width))
-		let heightRemainder = abs(height.remainder(dividingBy: glyphSize.height))
-		textView.contentInset = UIEdgeInsets(top: 0,
-																				 left: view.safeAreaInsets.left,
-																				 bottom: heightRemainder,
-																				 right: view.safeAreaInsets.right + widthRemainder)
-		textView.scrollIndicatorInsets = .zero
+//		let widthRemainder = abs(width.remainder(dividingBy: glyphSize.width))
+//		let heightRemainder = abs(height.remainder(dividingBy: glyphSize.height))
+//		textView.contentInset = UIEdgeInsets(top: 0,
+//																				 left: view.safeAreaInsets.left,
+//																				 bottom: heightRemainder,
+//																				 right: view.safeAreaInsets.right + widthRemainder)
+//		textView.scrollIndicatorInsets = .zero
 	}
 
 	@objc func clearTerminal() {
@@ -227,20 +230,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		updateScreenSize()
 	}
 
-	// MARK: - UIResponder
-
-	@discardableResult override func becomeFirstResponder() -> Bool {
-		return keyInput.becomeFirstResponder()
-	}
-
-	@discardableResult override func resignFirstResponder() -> Bool {
-		return keyInput.resignFirstResponder()
-	}
-
-	override var isFirstResponder: Bool {
-		return keyInput.isFirstResponder
-	}
-
 	// MARK: - Keyboard
 
 	func scrollToBottom(animated: Bool = false) {
@@ -252,23 +241,23 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		// }
 
 		// If there is no scrollback, use the top of the scroll view. If there is, calculate the bottom
-		var offset = textView.contentOffset
-		let bottom = textView.safeAreaInsets.bottom
-
-		offset.y = terminalController.scrollbackLines == 0 ? -textView.safeAreaInsets.top : bottom + textView.contentSize.height - textView.frame.size.height
-
-		// If the offset has changed, update it and our lastAutomaticScrollOffset
-		if textView.contentOffset.y != offset.y {
-			textView.setContentOffset(offset, animated: animated)
-			lastAutomaticScrollOffset = offset
-		}
+//		var offset = textView.contentOffset
+//		let bottom = textView.safeAreaInsets.bottom
+//
+//		offset.y = terminalController.scrollbackLines == 0 ? -textView.safeAreaInsets.top : bottom + textView.contentSize.height - textView.frame.size.height
+//
+//		// If the offset has changed, update it and our lastAutomaticScrollOffset
+//		if textView.contentOffset.y != offset.y {
+//			textView.setContentOffset(offset, animated: animated)
+//			lastAutomaticScrollOffset = offset
+//		}
 	}
 
 	// MARK: - Gestures
 
 	@objc func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
-		if gestureRecognizer.state == .ended && !isFirstResponder {
-			becomeFirstResponder()
+		if gestureRecognizer.state == .ended && !keyInput.isFirstResponder {
+			keyInput.becomeFirstResponder()
 		}
 	}
 
@@ -290,17 +279,10 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 extension TerminalSessionViewController: TerminalControllerDelegate {
 
-	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor) {
-		textView.attributedText = attributedString
-
-		if backgroundColor != textView.backgroundColor {
-			textView.backgroundColor = backgroundColor
-		}
-
-		// TODO: Not sure why this is needed all of a sudden? What did I break?
-		DispatchQueue.main.asyncAfter(deadline: .now() + 0.01) {
-			self.scrollToBottom()
-		}
+	func refresh(attributedString: [NSAttributedString], backgroundColor: UIColor) {
+		state.fontMetrics = terminalController.fontMetrics
+		state.colorMap = terminalController.colorMap
+		state.lines = attributedString
 	}
 
 	func activateBell() {
@@ -361,12 +343,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	func saveFile(url: URL) {
-		let viewController: UIDocumentPickerViewController
-		if #available(iOS 14, *) {
-			viewController = UIDocumentPickerViewController(forExporting: [ url ], asCopy: false)
-		} else {
-			viewController = UIDocumentPickerViewController(url: url, in: .moveToService)
-		}
+		let viewController = UIDocumentPickerViewController(forExporting: [url], asCopy: false)
 		viewController.delegate = self
 		present(viewController, animated: true, completion: nil)
 	}
@@ -374,12 +351,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	func fileUploadRequested() {
 		isPickingFileForUpload = true
 
-		let viewController: UIDocumentPickerViewController
-		if #available(iOS 14, *) {
-			viewController = UIDocumentPickerViewController(forOpeningContentTypes: [ .data, .directory ])
-		} else {
-			viewController = UIDocumentPickerViewController(documentTypes: [ kUTTypeData as String, kUTTypeDirectory as String ], in: .import)
-		}
+		let viewController = UIDocumentPickerViewController(forOpeningContentTypes: [.data, .directory])
 		viewController.delegate = self
 		present(viewController, animated: true, completion: nil)
 	}
@@ -443,9 +415,8 @@ extension TerminalSessionViewController: UIGestureRecognizerDelegate {
 		// This allows the tap-to-activate-keyboard gesture to work without conflicting with UIKit’s
 		// internal text view/scroll view gestures… as much as we can avoid conflicting, at least.
 		return gestureRecognizer == textViewTapGestureRecognizer
-			&& (!(otherGestureRecognizer is UITapGestureRecognizer) || isFirstResponder)
+			&& (!(otherGestureRecognizer is UITapGestureRecognizer) || keyInput.isFirstResponder)
 	}
-
 }
 
 extension TerminalSessionViewController: UIDocumentPickerDelegate {

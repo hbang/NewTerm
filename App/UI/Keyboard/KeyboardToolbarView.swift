@@ -9,7 +9,7 @@ import SwiftUI
 import NewTermCommon
 import SwiftUIX
 
-struct Key {
+fileprivate struct Key {
 	var label: String
 	var glyph: String?
 	var imageName: SFSymbolName?
@@ -20,7 +20,8 @@ struct Key {
 }
 
 enum Toolbar: CaseIterable {
-	case primary, secondary, fnKeys
+	case primary, padPrimaryLeading, padPrimaryTrailing
+	case secondary, fnKeys
 
 	var keys: [ToolbarKey] {
 		switch self {
@@ -30,6 +31,12 @@ enum Toolbar: CaseIterable {
 				.variableSpace,
 				.arrows
 			]
+
+		case .padPrimaryLeading:
+			return [.control, .escape, .tab, .more]
+
+		case .padPrimaryTrailing:
+			return [.arrows]
 
 		case .secondary:
 			return [
@@ -43,13 +50,12 @@ enum Toolbar: CaseIterable {
 			]
 
 		case .fnKeys:
-			// TODO:
-			return Array(1...12).map { i in .fnKey }
+			return Array(1...12).map { .fnKey(index: $0) }
 		}
 	}
 }
 
-enum ToolbarKey: Int, CaseIterable {
+enum ToolbarKey: Hashable {
 	// Special
 	case fixedSpace, variableSpace, arrows
 	// Primary - leading
@@ -61,9 +67,9 @@ enum ToolbarKey: Int, CaseIterable {
 	// Secondary - extras
 	case delete, fnKeys
 	// Fn keys
-	case fnKey
+	case fnKey(index: Int)
 
-	var key: Key {
+	fileprivate var key: Key {
 		switch self {
 		// Special
 		case .fixedSpace, .variableSpace, .arrows:
@@ -128,78 +134,48 @@ enum ToolbarKey: Int, CaseIterable {
 															 widthRatio: 1)
 
 		// Fn keys
-		case .fnKey: //(index: let index):
-			let index = 1
+		case .fnKey(let index):
 			return Key(label: "F\(index + 1)", preferredStyle: .text, widthRatio: 1.25)
 		}
 	}
 }
 
-struct KeyboardToolbarView: View {
+protocol KeyboardToolbarViewDelegate: AnyObject {
+	func keyboardToolbarDidPressKey(_ key: ToolbarKey)
+}
 
-	let toolbars: [Toolbar] = [.fnKeys, .secondary, .primary]
-	
-	@State var toggledKeys = Set<ToolbarKey>()
+struct KeyboardToolbarKeyStack: View {
+	weak var delegate: KeyboardToolbarViewDelegate?
 
-	@State var outerSize = CGSize.zero
-	
-	@ObservedObject var preferences = Preferences.shared
+	let toolbar: Toolbar
 
-	private func isToolbarVisible(_ toolbar: Toolbar) -> Bool {
-		switch toolbar {
-		case .primary:   return true
-		case .secondary: return toggledKeys.contains(.more)
-		case .fnKeys:    return toggledKeys.contains(.fnKeys)
-		}
-	}
+	@Binding var toggledKeys: Set<ToolbarKey>
 
-	private func toolbarView(for toolbar: Toolbar) -> some View {
-		let view = HStack(alignment: .center, spacing: 5) {
+	var body: some View {
+		HStack(alignment: .center, spacing: 5) {
 			ForEach(toolbar.keys, id: \.self) { key in
 				switch key {
-				case .fixedSpace:
-					EmptyView()
-
-				case .variableSpace:
-					Spacer(minLength: 0)
-
-				case .arrows:
-					arrowsView
-
-				default:
-					button(for: key)
+				case .fixedSpace:    EmptyView()
+				case .variableSpace: Spacer(minLength: 0)
+				case .arrows:        arrowsView
+				default:             button(for: key)
 				}
 			}
-		}
-			.padding(.horizontal, 4)
-			.padding(.top, 5)
-
-		switch toolbar {
-		case .primary, .secondary:
-			return AnyView(
-				view
-					.frame(width: outerSize.width)
-			)
-
-		case .fnKeys:
-			return AnyView(
-				CocoaScrollView(.horizontal, showsIndicators: false) {
-					view
-				}
-					.frame(width: outerSize.width)
-			)
 		}
 	}
 
 	func button(for key: ToolbarKey, halfHeight: Bool = false) -> some View {
 		Button {
 			UIDevice.current.playInputClick()
+
 			if key.key.isToggle {
 				if toggledKeys.contains(key) {
 					toggledKeys.remove(key)
 				} else {
 					toggledKeys.insert(key)
 				}
+			} else {
+				delegate?.keyboardToolbarDidPressKey(key)
 			}
 		} label: {
 			switch key {
@@ -211,20 +187,22 @@ struct KeyboardToolbarView: View {
 			default:
 //				HStack(alignment: .center, spacing: 0) {
 //					Spacer(minLength: 0)
-					VStack(alignment: .trailing, spacing: 3) {
-						HStack(spacing: 0) {
-							if let imageName = key.key.imageName,
-								 key.key.preferredStyle != .text {
-								Image(systemName: imageName)
-									.frame(width: 14, height: 14, alignment: .center)
-									.padding(.trailing, 1.5)
-									.accessibilityLabel(key.key.label)
-							}
+				VStack(alignment: .trailing, spacing: 2) {
+					HStack(spacing: 0) {
+						if let imageName = key.key.imageName,
+							 key.key.preferredStyle != .text {
+							Image(systemName: imageName)
+								.imageScale(.small)
+								.opacity(0.5)
+								.frame(width: 14, height: 14, alignment: .center)
+								.padding(.trailing, 1)
+								.accessibilityLabel(key.key.label)
 						}
-						.frame(height: 16)
-
-						Text((key.key.glyph ?? key.key.label).localizedLowercase)
 					}
+					.frame(height: 14)
+
+					Text((key.key.glyph ?? key.key.label).localizedLowercase)
+				}
 //				}
 			}
 		}
@@ -255,6 +233,29 @@ struct KeyboardToolbarView: View {
 			button(for: .right)
 		}
 	}
+}
+
+struct KeyboardToolbarView: View {
+	weak var delegate: KeyboardToolbarViewDelegate?
+
+	let toolbars: [Toolbar]
+
+	@Binding var toggledKeys: Set<ToolbarKey>
+
+	@State private var outerSize = CGSize.zero
+	
+	@ObservedObject private var preferences = Preferences.shared
+
+	private func isToolbarVisible(_ toolbar: Toolbar) -> Bool {
+		switch toolbar {
+		case .primary, .padPrimaryLeading, .padPrimaryTrailing:
+			return true
+		case .secondary:
+			return toggledKeys.contains(.more)
+		case .fnKeys:
+			return toggledKeys.contains(.fnKeys)
+		}
+	}
 
 	var body: some View {
 		ZStack(alignment: .bottom) {
@@ -265,7 +266,25 @@ struct KeyboardToolbarView: View {
 			VStack(spacing: 0) {
 				ForEach(toolbars, id: \.self) { toolbar in
 					if isToolbarVisible(toolbar) {
-						toolbarView(for: toolbar)
+						let view = KeyboardToolbarKeyStack(delegate: delegate,
+																							 toolbar: toolbar,
+																							 toggledKeys: $toggledKeys)
+							.padding(.horizontal, 4)
+							.padding(.top, 5)
+
+						switch toolbar {
+						case .primary, .padPrimaryLeading, .padPrimaryTrailing, .secondary:
+							AnyView(view)
+								.frame(width: outerSize.width)
+
+						case .fnKeys:
+							AnyView(
+								CocoaScrollView(.horizontal, showsIndicators: false) {
+									view
+								}
+									.frame(width: outerSize.width)
+							)
+						}
 					}
 				}
 			}
@@ -275,13 +294,32 @@ struct KeyboardToolbarView: View {
 
 struct KeyboardToolbarView_Previews: PreviewProvider {
 	static var previews: some View {
+		let toggledKeysBinding = Binding<Set<ToolbarKey>>(get: { [] },
+																		 set: { _ in })
+
 		ForEach(ColorScheme.allCases, id: \.self) { scheme in
-			VStack{
+			VStack {
 				Spacer()
-				KeyboardToolbarView()
+				KeyboardToolbarView(toolbars: [.fnKeys, .secondary, .primary], toggledKeys: toggledKeysBinding)
+					.padding(.bottom, 4)
+					.background(BlurEffectView(style: .systemChromeMaterial))
 					.preferredColorScheme(scheme)
 					.previewLayout(.sizeThatFits)
 			}
+				.previewDisplayName("\(scheme)")
+				.previewLayout(.fixed(width: 414, height: 100))
 		}
+
+		VStack() {
+			Spacer()
+			HStack {
+				KeyboardToolbarKeyStack(toolbar: .padPrimaryLeading, toggledKeys: toggledKeysBinding)
+				Spacer()
+				KeyboardToolbarKeyStack(toolbar: .padPrimaryTrailing, toggledKeys: toggledKeysBinding)
+			}
+				.previewLayout(.sizeThatFits)
+		}
+			.previewDisplayName("iPad Toolbar")
+			.previewLayout(.fixed(width: 600, height: 100))
 	}
 }

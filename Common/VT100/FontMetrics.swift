@@ -10,23 +10,27 @@ import CoreGraphics
 import CoreText
 import os.log
 
-public struct FontMetrics {
+public struct FontMetrics: Hashable {
 
 	public let regularFont: Font
 	public let boldFont: Font
 	public let italicFont: Font
 	public let boldItalicFont: Font
 
+	public let width: CGFloat
 	public let ascent: CGFloat
 	public let descent: CGFloat
 	public let leading: CGFloat
 
-	public let boundingBox: CGSize
+	public var height: CGFloat { ascent + descent + leading }
+	public var boundingBox: CGSize { CGSize(width: width, height: height) }
 
 	public static func loadFonts() {
 		// Runtime load all fonts we’re interested in.
 		// TODO: This should only load the fonts the user wants.
-		guard let listing = try? FileManager.default.contentsOfDirectory(at: Bundle.main.resourceURL!, includingPropertiesForKeys: nil, options: [ .skipsSubdirectoryDescendants, .skipsHiddenFiles ]) else {
+		guard let listing = try? FileManager.default.contentsOfDirectory(at: Bundle.main.resourceURL!,
+																																		 includingPropertiesForKeys: nil,
+																																		 options: [.skipsSubdirectoryDescendants, .skipsHiddenFiles]) else {
 			return
 		}
 		let fonts = listing.filter { item in item.pathExtension == "ttf" || item.pathExtension == "otf" }
@@ -35,7 +39,7 @@ public struct FontMetrics {
 				var cfErrorWrapper: Unmanaged<CFError>? = nil
 				CTFontManagerRegisterFontsForURL(font as CFURL, .process, &cfErrorWrapper)
 				if let cfError = cfErrorWrapper?.takeUnretainedValue() {
-					os_log("error loading font %{public}@: %{public}@", type: .error, font.lastPathComponent, String(describing: cfError))
+					Logger().error("Error loading font \(font.lastPathComponent): \(String(describing: cfError))")
 				}
 			}
 		}
@@ -64,7 +68,7 @@ public struct FontMetrics {
 
 		if regularFont == nil || boldFont == nil {
 			if font.systemMonospaceFont != true {
-				os_log("Font %{public}@ size %{public}.1f could not be initialised", type: .error, font.regular ?? "?", fontSize)
+				Logger().error("Font \(font.regular ?? "?") size \(fontSize, format: .fixed(precision: 1)) could not be initialised")
 			}
 
 			regularFont = Font.monospacedSystemFont(ofSize: fontSize, weight: .regular)
@@ -102,13 +106,10 @@ public struct FontMetrics {
 		var ascent: CGFloat = 0
 		var descent: CGFloat = 0
 		var leading: CGFloat = 0
-		let width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
+		self.width = CGFloat(CTLineGetTypographicBounds(line, &ascent, &descent, &leading))
 		self.ascent = ascent
 		self.descent = descent
 		self.leading = leading
-
-		boundingBox = CGSize(width: width,
-												 height: ascent + descent + leading)
 	}
 
 }

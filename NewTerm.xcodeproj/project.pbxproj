@@ -30,6 +30,7 @@
 		4E57499826FEE90700D94DF5 /* PreferencesGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */; };
 		4E57499A26FEED9800D94DF5 /* PreferencesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499926FEED9800D94DF5 /* PreferencesList.swift */; };
 		4E5E817526F2EBE000C4DB6D /* SettingsPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */; };
+		4E85FA0127FC32D000092492 /* TerminalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E85FA0027FC32D000092492 /* TerminalView.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
 		4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081D2618551D00E41883 /* SettingsFontView.swift */; };
 		4E9808222618601F00E41883 /* SettingsThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E9808212618601F00E41883 /* SettingsThemeView.swift */; };
@@ -50,6 +51,9 @@
 		4EA7D40F26F37D480031F078 /* AboutSceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EA7D40E26F37D480031F078 /* AboutSceneDelegate.swift */; };
 		4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB057662621A91400766B8A /* TerminalSplitViewController.swift */; };
 		4EB0576B2622A16400766B8A /* SplitGrabberView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EB0576A2622A16300766B8A /* SplitGrabberView.swift */; };
+		4EBBCB0A28868961002EAE00 /* KeyboardToolbarPadItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */; };
+		4EBBCB0D2886C1BE002EAE00 /* Darwin+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0B2886C13B002EAE00 /* Darwin+Additions.swift */; };
+		4EBBCB10288700A9002EAE00 /* URL+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0E28870015002EAE00 /* URL+Additions.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -68,11 +72,10 @@
 		CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
 		CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */; };
 		CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967C22B5481B00585BE6 /* HUDView.swift */; };
-		CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */; };
 		CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */; };
 		CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */; };
 		CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */; };
-		CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */; };
+		CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */; };
 		CFBB96D122B5481B00585BE6 /* KeyboardPopupToolbar.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */; };
 		CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */; };
 		CFBB96D322B5481B00585BE6 /* KeyboardButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */; };
@@ -135,6 +138,7 @@
 		4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesGroup.swift; sourceTree = "<group>"; };
 		4E57499926FEED9800D94DF5 /* PreferencesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesList.swift; sourceTree = "<group>"; };
 		4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPerformanceView.swift; sourceTree = "<group>"; };
+		4E85FA0027FC32D000092492 /* TerminalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalView.swift; sourceTree = "<group>"; };
 		4E98081926184A2500E41883 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
 		4E98081D2618551D00E41883 /* SettingsFontView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsFontView.swift; sourceTree = "<group>"; };
@@ -155,6 +159,9 @@
 		4EA7D40E26F37D480031F078 /* AboutSceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AboutSceneDelegate.swift; sourceTree = "<group>"; };
 		4EB057662621A91400766B8A /* TerminalSplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalSplitViewController.swift; sourceTree = "<group>"; };
 		4EB0576A2622A16300766B8A /* SplitGrabberView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitGrabberView.swift; sourceTree = "<group>"; };
+		4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarPadItemView.swift; sourceTree = "<group>"; };
+		4EBBCB0B2886C13B002EAE00 /* Darwin+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Darwin+Additions.swift"; sourceTree = "<group>"; };
+		4EBBCB0E28870015002EAE00 /* URL+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Additions.swift"; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -172,11 +179,10 @@
 		CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontMetrics.swift; sourceTree = "<group>"; };
 		CFBB966122B546DA00585BE6 /* NewTerm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTerm.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		CFBB967C22B5481B00585BE6 /* HUDView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
-		CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalSampleView.swift; sourceTree = "<group>"; };
 		CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCollectionViewCell.swift; sourceTree = "<group>"; };
 		CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbarViewController.swift; sourceTree = "<group>"; };
 		CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalKeyInput.swift; sourceTree = "<group>"; };
-		CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbar.swift; sourceTree = "<group>"; };
+		CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarInputView.swift; sourceTree = "<group>"; };
 		CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardPopupToolbar.swift; sourceTree = "<group>"; };
 		CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalTextView.swift; sourceTree = "<group>"; };
 		CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardButton.swift; sourceTree = "<group>"; };
@@ -380,8 +386,8 @@
 		CFBB967B22B5481B00585BE6 /* Terminal */ = {
 			isa = PBXGroup;
 			children = (
+				4E85FA0027FC32D000092492 /* TerminalView.swift */,
 				CFBB967C22B5481B00585BE6 /* HUDView.swift */,
-				CFBB967D22B5481B00585BE6 /* TerminalSampleView.swift */,
 			);
 			path = Terminal;
 			sourceTree = "<group>";
@@ -400,7 +406,8 @@
 			children = (
 				CFBB968B22B5481B00585BE6 /* KeyboardButton.swift */,
 				CFBB968922B5481B00585BE6 /* KeyboardPopupToolbar.swift */,
-				CFBB968722B5481B00585BE6 /* KeyboardToolbar.swift */,
+				CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */,
+				4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */,
 				CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */,
 				CFBB968A22B5481B00585BE6 /* TerminalTextView.swift */,
 				4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */,
@@ -419,6 +426,8 @@
 				4E3441D427E96ED30022C957 /* Array+Additions.swift */,
 				4E98081926184A2500E41883 /* String+Localization.swift */,
 				4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */,
+				4EBBCB0B2886C13B002EAE00 /* Darwin+Additions.swift */,
+				4EBBCB0E28870015002EAE00 /* URL+Additions.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -679,6 +688,7 @@
 				4E3441D527E96ED30022C957 /* Array+Additions.swift in Sources */,
 				4E3237FB26FC5FC300AEDA06 /* ColorBars.swift in Sources */,
 				4E3237A426FB530C00AEDA06 /* UIColorAdditions.swift in Sources */,
+				4EBBCB0D2886C1BE002EAE00 /* Darwin+Additions.swift in Sources */,
 				CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */,
 				CF71BC9722BB6E0300AFB1E1 /* Preferences.swift in Sources */,
 				CF71BC9822BB6E0300AFB1E1 /* SubProcess.swift in Sources */,
@@ -689,6 +699,7 @@
 				4E9FB978261724FA005AFCC8 /* ColorMap.swift in Sources */,
 				CF71BC9A22BB6E0300AFB1E1 /* CrossPlatformUI.swift in Sources */,
 				CF71BC9B22BB6E0300AFB1E1 /* TerminalInputProtocol.swift in Sources */,
+				4EBBCB10288700A9002EAE00 /* URL+Additions.swift in Sources */,
 				4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -700,7 +711,6 @@
 				4EA7D40F26F37D480031F078 /* AboutSceneDelegate.swift in Sources */,
 				4EA7D40D26F366820031F078 /* ActivityView.swift in Sources */,
 				4E57499826FEE90700D94DF5 /* PreferencesGroup.swift in Sources */,
-				CFBB96C922B5481B00585BE6 /* TerminalSampleView.swift in Sources */,
 				CFBB96DA22B5481B00585BE6 /* TerminalSessionViewController.swift in Sources */,
 				4EB057672621A91400766B8A /* TerminalSplitViewController.swift in Sources */,
 				4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */,
@@ -710,6 +720,7 @@
 				4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */,
 				4E98081C261850E600E41883 /* KeyValueView.swift in Sources */,
 				4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */,
+				4E85FA0127FC32D000092492 /* TerminalView.swift in Sources */,
 				CFBB96EE22B5481B00585BE6 /* TerminalSceneDelegate.swift in Sources */,
 				CFBB96EC22B5481B00585BE6 /* AppDelegate.swift in Sources */,
 				CF6B3BAA244C4538000A608B /* LogoHeaderView.swift in Sources */,
@@ -731,7 +742,7 @@
 				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
 				CFBB96D222B5481B00585BE6 /* TerminalTextView.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
-				CFBB96CF22B5481B00585BE6 /* KeyboardToolbar.swift in Sources */,
+				CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */,
 				1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */,
 				1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */,
 				4EDC998E26F4401B0030C1F9 /* SettingsInterfaceView.swift in Sources */,
@@ -740,6 +751,7 @@
 				4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */,
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,
 				4EA7D40B26F35A1D0031F078 /* GroupedButtonStyle.swift in Sources */,
+				4EBBCB0A28868961002EAE00 /* KeyboardToolbarPadItemView.swift in Sources */,
 				4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */,
 				4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,

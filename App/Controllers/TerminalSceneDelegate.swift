@@ -43,6 +43,7 @@ class TerminalSceneDelegate: UIResponder, UIWindowSceneDelegate, IdentifiableSce
 
 		#if targetEnvironment(macCatalyst)
 		scene.titlebar?.separatorStyle = .none
+		scene.titlebar?.toolbarStyle = .unifiedCompact
 		#endif
 
 		preferencesUpdated()

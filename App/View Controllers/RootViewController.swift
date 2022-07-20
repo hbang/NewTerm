@@ -8,6 +8,7 @@
 
 import UIKit
 import SwiftUI
+import NewTermCommon
 
 class RootViewController: UIViewController {
 
@@ -79,7 +80,7 @@ class RootViewController: UIViewController {
 			addKeyCommand(UIKeyCommand(title: .localize("CLOSE_WINDOW", comment: "VoiceOver label for the close window button."),
 																 action: #selector(self.closeCurrentWindow),
 																 input: "w",
-																 modifierFlags: [ .command, .shift ]))
+																 modifierFlags: [.command, .shift]))
 		}
 
 		addKeyCommand(UIKeyCommand(title: .localize("SPLIT_HORIZONTALLY"),
@@ -252,6 +253,12 @@ class RootViewController: UIViewController {
 	private func handleTitleChange(at index: Int) {
 		if selectedTabIndex == index {
 			view.window?.windowScene?.title = terminalName(at: index)
+
+			if #available(iOS 15, *) {
+				// TODO: Get the screen size from the selected terminal
+				let size = ScreenSize(cols: 80, rows: 25)
+				view.window?.windowScene?.subtitle = "\(size.cols)×\(size.rows)"
+			}
 		}
 	}
 

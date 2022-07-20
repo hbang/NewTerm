@@ -14,8 +14,7 @@ import UIKit
 import SwiftTerm
 
 public protocol TerminalControllerDelegate: AnyObject {
-
-	func refresh(attributedString: NSAttributedString, backgroundColor: UIColor)
+	func refresh(attributedString: [NSAttributedString], backgroundColor: UIColor)
 	func activateBell()
 	func titleDidChange(_ title: String?)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
@@ -25,7 +24,6 @@ public protocol TerminalControllerDelegate: AnyObject {
 
 	func close()
 	func didReceiveError(error: Error)
-
 }
 
 public class TerminalController {

@@ -17,7 +17,7 @@ struct SettingsThemeView: View {
 
 	var body: some View {
 		VStack(spacing: 0) {
-			TerminalSampleViewRepresentable(
+			TerminalSampleView(
 				fontMetrics: preferences.fontMetrics,
 				colorMap: preferences.colorMap
 			)

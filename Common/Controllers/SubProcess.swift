@@ -58,6 +58,36 @@ protocol SubProcessDelegate: AnyObject {
 
 class SubProcess {
 
+	private static let login: String = {
+		#if targetEnvironment(simulator)
+		return "/bin/bash"
+		#elseif targetEnvironment(macCatalyst)
+		return "/usr/bin/login"
+		#else
+		return ["/var/jb/usr/bin/login", "/usr/bin/login"]
+			.first { (try? URL(fileURLWithPath: $0).checkResourceIsReachable()) == true } ?? "/usr/bin/login"
+		#endif
+	}()
+
+	private static var loginArgv: [String] {
+		#if targetEnvironment(simulator)
+		return ["bash", "--login", "-i"]
+		#else
+		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
+		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
+		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory())/".hushlogin"
+		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
+		return ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()]
+		#endif
+	}
+
+	private static let baseEnvp: [String] = [
+		"TERM=xterm-256color",
+		"COLORTERM=truecolor",
+		"TERM_PROGRAM=NewTerm",
+		"LC_TERMINAL=NewTerm"
+	]
+
 	weak var delegate: SubProcessDelegate?
 
 	private var childPID: pid_t?
@@ -66,6 +96,8 @@ class SubProcess {
 	private let queue = DispatchQueue(label: "ws.hbang.Terminal.io-queue")
 	private var readSource: DispatchSourceRead?
 	private var signalSource: DispatchSourceProcess?
+
+	private let logger = Logger(subsystem: "ws.hbang.Terminal", category: "SubProcess")
 
 	var screenSize = ScreenSize.default {
 		didSet { updateWindowSize() }
@@ -86,37 +118,11 @@ class SubProcess {
 		if openpty(&fds.primary, &fds.replica, nil, nil, &windowSize) != 0 {
 			// Opening pty failed.
 			let error = errno
-			os_log("openpty() failed: %{public errno}d", type: .error, error)
+			logger.error("openpty() failed: \(error, format: .darwinErrno)")
 			throw SubProcessIllegalStateError.openPtyFailed(errno: error)
 		}
 
 		fileDescriptor = fds.primary
-
-		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
-		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
-		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory()).appendingPathComponent(".hushlogin")
-		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
-
-		#if targetEnvironment(simulator)
-		let path = "/bin/bash"
-		let args = ["bash", "--login", "-i"].cStringArray
-		#else
-		let path = "/usr/bin/login"
-		let args = ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()].cStringArray
-		#endif
-
-		let env = [
-			"TERM=xterm-256color",
-			"COLORTERM=truecolor",
-			"LANG=\(localeCode)",
-			"TERM_PROGRAM=NewTerm",
-			"LC_TERMINAL=NewTerm"
-		].cStringArray
-
-		defer {
-			args.deallocate()
-			env.deallocate()
-		}
 
 		var actions: posix_spawn_file_actions_t!
 		posix_spawn_file_actions_init(&actions)
@@ -129,14 +135,26 @@ class SubProcess {
 		// When opening a new tab, we can switch straight to the previous tab’s working directory.
 		chdir(NSHomeDirectory())
 
+		let argv = Self.loginArgv.cStringArray
+		let envp = (Self.baseEnvp + [
+			"LANG=\(localeCode)"
+		]).cStringArray
+
+		defer {
+			argv.deallocate()
+			envp.deallocate()
+		}
+
 		var pid = pid_t()
-		let result = posix_spawn(&pid, path, &actions, nil, args, env)
+		let result = posix_spawn(&pid, Self.login, &actions, nil, argv, envp)
 		if result != 0 {
 			// Fork failed.
 			close(fds.primary)
+			logger.error("posix_spawn() failed: \(result, format: .darwinErrno)")
 			throw SubProcessIllegalStateError.forkFailed(errno: result)
 		}
 
+		logger.debug("Process forked: \(pid)")
 		childPID = pid
 
 		// Go ahead and plug a file handle into the child tty.
@@ -144,10 +162,9 @@ class SubProcess {
 		readSource?.setEventHandler { [weak self] in
 			self?.handleRead()
 		}
-		signalSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .signal, queue: queue)
-		signalSource?.setEventHandler {
-			// TODO: Handle signals?
-			os_log("received signal")
+		signalSource = DispatchSource.makeProcessSource(identifier: pid, eventMask: .exit, queue: queue)
+		signalSource?.setEventHandler { [weak self] in
+			try? self?.stop()
 		}
 
 		readSource?.activate()
@@ -160,10 +177,19 @@ class SubProcess {
 			throw SubProcessIllegalStateError.notStarted
 		}
 
-		kill(childPID, SIGKILL)
+		// If process is still running, send it SIGKILL and wait for termination
+		if kill(childPID, 0) == 0 {
+			kill(childPID, SIGKILL)
 
-		var stat = Int32() // unused
-		waitpid(childPID, &stat, WUNTRACED)
+			var status = Int32()
+			waitpid(childPID, &status, WUNTRACED)
+
+			logger.debug("Process stopped with exit code: \(WEXITSTATUS(status))")
+		}
+
+		if let fileDescriptor = fileDescriptor {
+			close(fileDescriptor)
+		}
 
 		self.childPID = nil
 		fileDescriptor = nil
@@ -245,7 +271,7 @@ class SubProcess {
 			if let languageCode = locale.languageCode,
 				 let regionCode = locale.regionCode {
 				let identifier = "\(languageCode)_\(regionCode).UTF-8"
-				let url = URL(fileURLWithPath: "/usr/share/locale").appendingPathComponent(identifier)
+				let url = URL(fileURLWithPath: "/usr/share/locale")/identifier
 				if (try? url.checkResourceIsReachable()) == true {
 					return identifier
 				}
@@ -264,13 +290,14 @@ class SubProcess {
 		windowSize.ws_row = UInt16(screenSize.rows)
 
 		if ioctl(fileDescriptor, TIOCSWINSZ, &windowSize) == -1 {
-			os_log("Setting screen size failed: %{public errno}d", type: .error, errno)
+			let error = errno
+			logger.error("Setting screen size failed: \(error, format: .darwinErrno)")
 		}
 	}
 
 	deinit {
 		if childPID != nil {
-			os_log("Illegal state - SubProcess deallocated while still running", type: .error)
+			logger.error("Illegal state - SubProcess deallocated while still running")
 		}
 
 		try? stop(fromError: true)

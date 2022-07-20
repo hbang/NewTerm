@@ -1,5 +1,5 @@
 //
-//  KeyboardToolbar.swift
+//  KeyboardToolbarInputView.swift
 //  NewTerm
 //
 //  Created by Adam Demasi on 10/1/18.
@@ -9,17 +9,17 @@
 import UIKit
 import SwiftUIX
 
-class KeyboardToolbar: UIInputView {
+class KeyboardToolbarInputView: UIInputView {
 
 	private var hostingView: UIHostingView<KeyboardToolbarView>!
 
-	init() {
+	init(delegate: KeyboardToolbarViewDelegate?, toolbars: [Toolbar], toggledKeys: Binding<Set<ToolbarKey>>) {
 		super.init(frame: .zero, inputViewStyle: .keyboard)
 
 		translatesAutoresizingMaskIntoConstraints = false
 		allowsSelfSizing = true
 
-		hostingView = UIHostingView(rootView: KeyboardToolbarView())
+		hostingView = UIHostingView(rootView: KeyboardToolbarView(delegate: delegate, toolbars: toolbars, toggledKeys: toggledKeys))
 		hostingView.translatesAutoresizingMaskIntoConstraints = false
 		hostingView.shouldResizeToFitContent = true
 		hostingView.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
@@ -39,7 +39,7 @@ class KeyboardToolbar: UIInputView {
 
 }
 
-extension KeyboardToolbar: UIInputViewAudioFeedback {
+extension KeyboardToolbarInputView: UIInputViewAudioFeedback {
 	var enableInputClicksWhenVisible: Bool {
 		// Conforming to <UIInputViewAudioFeedback> allows the buttons to make the click sound
 		// when tapped

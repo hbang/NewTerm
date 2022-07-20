@@ -20,7 +20,7 @@ public enum AnsiColorCode: Int, CaseIterable {
 	case brightBlue, brightPurple, brightCyan, brightWhite
 }
 
-public struct ColorMap {
+public struct ColorMap: Hashable {
 
 	public let background: UIColor
 	public let foreground: UIColor
@@ -130,7 +130,7 @@ public struct ColorMap {
 				return UIColor(white: ((CGFloat(index) - 232) * 10 + 8) / 255,
 											 alpha: 1)
 			} else {
-				os_log("Unexpected color index: %{public}i", index)
+				Logger().warning("Unexpected color index: \(index)")
 				return foreground
 			}
 
