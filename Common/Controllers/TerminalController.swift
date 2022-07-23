@@ -267,14 +267,12 @@ public class TerminalController {
 
 		// To trigger a redraw, update the screen size, then update it back.
 		if let screenSize = screenSize {
-			DispatchQueue.main.async {
-				var newScreenSize = screenSize
-				newScreenSize.cols += 1
-				self.subProcess?.screenSize = newScreenSize
+			var newScreenSize = screenSize
+			newScreenSize.cols -= 1
+			self.subProcess?.screenSize = newScreenSize
 
-				DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
-					self.subProcess?.screenSize = screenSize
-				}
+			DispatchQueue.main.async {
+				self.subProcess?.screenSize = screenSize
 			}
 		}
 	}
