@@ -58,6 +58,8 @@ protocol SubProcessDelegate: AnyObject {
 
 class SubProcess {
 
+	private static let loginHelper: String = Bundle.main.path(forAuxiliaryExecutable: "NewTermLoginHelper")!
+
 	private static let login: String = {
 		#if targetEnvironment(simulator)
 		return "/bin/bash"
@@ -77,7 +79,7 @@ class SubProcess {
 		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
 		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory())/".hushlogin"
 		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
-		return ["login", "-fpl\(hushLogin ? "q" : "")", NSUserName()]
+		return ["login", "-fp\(hushLogin ? "q" : "")", NSUserName(), loginHelper]
 		#endif
 	}
 
@@ -103,7 +105,7 @@ class SubProcess {
 		didSet { updateWindowSize() }
 	}
 
-	func start() throws {
+	func start(initialDirectory: String? = nil) throws {
 		if childPID != nil {
 			throw SubProcessIllegalStateError.alreadyStarted
 		}
@@ -133,9 +135,7 @@ class SubProcess {
 
 		// TODO: At some point, come up with some way to keep track of working directory changes.
 		// When opening a new tab, we can switch straight to the previous tab’s working directory.
-		chdir(NSHomeDirectory())
-
-		let argv = Self.loginArgv.cStringArray
+		let argv = (Self.loginArgv + [initialDirectory ?? homeDirectory, shell]).cStringArray
 		let envp = (Self.baseEnvp + [
 			"LANG=\(localeCode)"
 		]).cStringArray
@@ -147,6 +147,7 @@ class SubProcess {
 
 		var pid = pid_t()
 		let result = posix_spawn(&pid, Self.login, &actions, nil, argv, envp)
+		close(fds.replica)
 		if result != 0 {
 			// Fork failed.
 			close(fds.primary)
@@ -251,6 +252,33 @@ class SubProcess {
 				Darwin.write(fileDescriptor, buffer.baseAddress!, buffer.count)
 			}
 		}
+	}
+
+	private var userPasswd: passwd? {
+		let length = sysconf(_SC_GETPW_R_SIZE_MAX)
+		let buffer = malloc(length)
+		defer { buffer?.deallocate() }
+
+		var pwd = passwd()
+		var result: UnsafeMutablePointer<passwd>? = UnsafeMutablePointer<passwd>.allocate(capacity: 1)
+		guard getpwuid_r(getuid(), &pwd, buffer, length, &result) == 0 else {
+			return nil
+		}
+		return pwd
+	}
+
+	private var shell: String {
+		if let userPasswd = userPasswd {
+			return String(cString: userPasswd.pw_shell)
+		}
+		return "/bin/bash"
+	}
+
+	private var homeDirectory: String {
+		if let userPasswd = userPasswd {
+			return String(cString: userPasswd.pw_dir)
+		}
+		return NSHomeDirectory()
 	}
 
 	private var localeCode: String {

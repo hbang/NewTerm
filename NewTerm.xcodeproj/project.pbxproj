@@ -54,6 +54,8 @@
 		4EBBCB0A28868961002EAE00 /* KeyboardToolbarPadItemView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */; };
 		4EBBCB0D2886C1BE002EAE00 /* Darwin+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0B2886C13B002EAE00 /* Darwin+Additions.swift */; };
 		4EBBCB10288700A9002EAE00 /* URL+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0E28870015002EAE00 /* URL+Additions.swift */; };
+		4EBBCB182889051B002EAE00 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB172889051B002EAE00 /* main.c */; };
+		4EBBCB1F28890B42002EAE00 /* NewTermLoginHelper in Copy Executables */ = {isa = PBXBuildFile; fileRef = 4EBBCB152889051B002EAE00 /* NewTermLoginHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -96,9 +98,36 @@
 			remoteGlobalIDString = CF71BC8322BB6DBA00AFB1E1;
 			remoteInfo = "NewTerm Common";
 		};
+		4EBBCB1C28890B29002EAE00 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = CF22F9A91FFB97F7003175DE /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 4EBBCB142889051B002EAE00;
+			remoteInfo = NewTermLoginHelper;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
+		4EBBCB132889051B002EAE00 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		4EBBCB1E28890B34002EAE00 /* Copy Executables */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 6;
+			files = (
+				4EBBCB1F28890B42002EAE00 /* NewTermLoginHelper in Copy Executables */,
+			);
+			name = "Copy Executables";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CF71BC0422BB511700AFB1E1 /* Embed Frameworks */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
@@ -158,6 +187,8 @@
 		4EBBCB0928868961002EAE00 /* KeyboardToolbarPadItemView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarPadItemView.swift; sourceTree = "<group>"; };
 		4EBBCB0B2886C13B002EAE00 /* Darwin+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Darwin+Additions.swift"; sourceTree = "<group>"; };
 		4EBBCB0E28870015002EAE00 /* URL+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Additions.swift"; sourceTree = "<group>"; };
+		4EBBCB152889051B002EAE00 /* NewTermLoginHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NewTermLoginHelper; sourceTree = BUILT_PRODUCTS_DIR; };
+		4EBBCB172889051B002EAE00 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -201,6 +232,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		4EBBCB122889051B002EAE00 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CF71BC8122BB6DBA00AFB1E1 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -248,6 +286,14 @@
 			path = "Split View";
 			sourceTree = "<group>";
 		};
+		4EBBCB162889051B002EAE00 /* NewTermLoginHelper */ = {
+			isa = PBXGroup;
+			children = (
+				4EBBCB172889051B002EAE00 /* main.c */,
+			);
+			path = NewTermLoginHelper;
+			sourceTree = "<group>";
+		};
 		4EDC998C26F440090030C1F9 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
@@ -274,9 +320,11 @@
 				CFBB967622B5481A00585BE6 /* App */,
 				CF71BC3622BB626700AFB1E1 /* Common */,
 				CFBB96EF22B548D700585BE6 /* Resources */,
+				4EBBCB162889051B002EAE00 /* NewTermLoginHelper */,
 				CFBB975B22B54AA600585BE6 /* Frameworks */,
 				CFBB966122B546DA00585BE6 /* NewTerm.app */,
 				CF71BC8422BB6DBA00AFB1E1 /* NewTermCommon.framework */,
+				4EBBCB152889051B002EAE00 /* NewTermLoginHelper */,
 			);
 			sourceTree = "<group>";
 		};
@@ -515,6 +563,23 @@
 /* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
+		4EBBCB142889051B002EAE00 /* NewTermLoginHelper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 4EBBCB1B2889051B002EAE00 /* Build configuration list for PBXNativeTarget "NewTermLoginHelper" */;
+			buildPhases = (
+				4EBBCB112889051B002EAE00 /* Sources */,
+				4EBBCB122889051B002EAE00 /* Frameworks */,
+				4EBBCB132889051B002EAE00 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = NewTermLoginHelper;
+			productName = NewTermLoginHelper;
+			productReference = 4EBBCB152889051B002EAE00 /* NewTermLoginHelper */;
+			productType = "com.apple.product-type.tool";
+		};
 		CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = CF71BC8D22BB6DBB00AFB1E1 /* Build configuration list for PBXNativeTarget "NewTerm Common" */;
@@ -545,10 +610,12 @@
 				4E0A97A22685CF840022F569 /* Compile Markdown */,
 				CFBB965F22B546DA00585BE6 /* Resources */,
 				CF71BC0422BB511700AFB1E1 /* Embed Frameworks */,
+				4EBBCB1E28890B34002EAE00 /* Copy Executables */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				4EBBCB1D28890B29002EAE00 /* PBXTargetDependency */,
 				CF71BC9622BB6DEA00AFB1E1 /* PBXTargetDependency */,
 			);
 			name = "NewTerm (iOS)";
@@ -569,6 +636,9 @@
 				LastSwiftUpdateCheck = 1100;
 				LastUpgradeCheck = 1400;
 				TargetAttributes = {
+					4EBBCB142889051B002EAE00 = {
+						CreatedOnToolsVersion = 14.0;
+					};
 					CF22F9C01FFB98A5003175DE = {
 						CreatedOnToolsVersion = 9.1;
 					};
@@ -602,6 +672,7 @@
 				CFBB966022B546DA00585BE6 /* NewTerm (iOS) */,
 				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */,
+				4EBBCB142889051B002EAE00 /* NewTermLoginHelper */,
 			);
 		};
 /* End PBXProject section */
@@ -656,6 +727,14 @@
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		4EBBCB112889051B002EAE00 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4EBBCB182889051B002EAE00 /* main.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		CF71BC8022BB6DBA00AFB1E1 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -737,6 +816,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		4EBBCB1D28890B29002EAE00 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 4EBBCB142889051B002EAE00 /* NewTermLoginHelper */;
+			targetProxy = 4EBBCB1C28890B29002EAE00 /* PBXContainerItemProxy */;
+		};
 		CF71BC9622BB6DEA00AFB1E1 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */;
@@ -775,6 +859,71 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		4EBBCB192889051B002EAE00 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = N2LN9ZT493;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Debug;
+		};
+		4EBBCB1A2889051B002EAE00 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = N2LN9ZT493;
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				MACOSX_DEPLOYMENT_TARGET = 13.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+			};
+			name = Release;
+		};
 		CF22F9AA1FFB97F7003175DE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1185,6 +1334,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		4EBBCB1B2889051B002EAE00 /* Build configuration list for PBXNativeTarget "NewTermLoginHelper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				4EBBCB192889051B002EAE00 /* Debug */,
+				4EBBCB1A2889051B002EAE00 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		CF22F9AC1FFB97F7003175DE /* Build configuration list for PBXProject "NewTerm" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

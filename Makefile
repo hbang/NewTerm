@@ -24,3 +24,6 @@ all stage package install::
 ifeq ($(or $(INSTALL_FONTS),$(FINALPACKAGE)),1)
 	+$(MAKE) -C Fonts $@ THEOS_PROJECT_DIR=$(THEOS_PROJECT_DIR)/Fonts
 endif
+
+after-stage::
+	@$(TARGET_CODESIGN) $(NewTerm_CODESIGN_FLAGS) $(THEOS_STAGING_DIR)/Applications/NewTerm.app/NewTermLoginHelper
