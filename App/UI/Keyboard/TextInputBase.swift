@@ -9,7 +9,25 @@
 import UIKit
 
 class TextPosition: UITextPosition {
-	var position: CGFloat = 0
+	var position = 0
+
+	init(position: Int) {
+		super.init()
+		self.position = position
+	}
+}
+
+class TextRange: UITextRange {
+	private var _start: TextPosition
+	private var _end: TextPosition?
+	override var start: TextPosition { _start }
+	override var end: TextPosition { _end ?? _start }
+
+	init(start: TextPosition, end: TextPosition? = nil) {
+		self._start = start
+		self._end = end
+		super.init()
+	}
 }
 
 class TextInputBase: UIView, UIKeyInput, UITextInput, UITextInputTraits {
@@ -40,12 +58,30 @@ class TextInputBase: UIView, UIKeyInput, UITextInput, UITextInputTraits {
 	func setMarkedText(_ markedText: String?, selectedRange: NSRange) {}
 	func unmarkText() {}
 
-	var beginningOfDocument: UITextPosition = UITextPosition()
-	var endOfDocument: UITextPosition = UITextPosition()
+	var beginningOfDocument: UITextPosition { TextPosition(position: 0) }
+	var endOfDocument: UITextPosition { TextPosition(position: 0) }
 
-	func textRange(from fromPosition: UITextPosition, to toPosition: UITextPosition) -> UITextRange? { nil }
-	func position(from position: UITextPosition, offset: Int) -> UITextPosition? { nil }
-	func position(from position: UITextPosition, in direction: UITextLayoutDirection, offset: Int) -> UITextPosition? { nil }
+	func textRange(from: UITextPosition, to: UITextPosition) -> UITextRange? {
+		if let from = from as? TextPosition,
+			 let to = to as? TextPosition {
+			return TextRange(start: from, end: to)
+		}
+		return nil
+	}
+
+	func position(from position: UITextPosition, offset: Int) -> UITextPosition? {
+		if let position = position as? TextPosition {
+			return TextPosition(position: position.position + offset)
+		}
+		return nil
+	}
+
+	func position(from position: UITextPosition, in direction: UITextLayoutDirection, offset: Int) -> UITextPosition? {
+		if let position = position as? TextPosition {
+			return TextPosition(position: position.position + offset)
+		}
+		return nil
+	}
 
 	func compare(_ position: UITextPosition, to other: UITextPosition) -> ComparisonResult {
 		guard let a = position as? TextPosition,
@@ -64,13 +100,26 @@ class TextInputBase: UIView, UIKeyInput, UITextInput, UITextInputTraits {
 		}
 	}
 
-	func offset(from: UITextPosition, to toPosition: UITextPosition) -> Int { 0 }
+	func offset(from: UITextPosition, to: UITextPosition) -> Int {
+		if let from = from as? TextPosition,
+			 let to = to as? TextPosition {
+			return to.position - from.position
+		}
+		return 0
+	}
 
 	var inputDelegate: UITextInputDelegate?
 	var tokenizer: UITextInputTokenizer
 
-	func position(within range: UITextRange, farthestIn direction: UITextLayoutDirection) -> UITextPosition? { nil }
-	func characterRange(byExtending position: UITextPosition, in direction: UITextLayoutDirection) -> UITextRange? { nil }
+	func position(within range: UITextRange, farthestIn direction: UITextLayoutDirection) -> UITextPosition? { range.start as? TextPosition }
+
+	func characterRange(byExtending position: UITextPosition, in direction: UITextLayoutDirection) -> UITextRange? {
+		if let position = position as? TextPosition {
+			return TextRange(start: position)
+		}
+		return nil
+	}
+
 	func baseWritingDirection(for position: UITextPosition, in direction: UITextStorageDirection) -> NSWritingDirection { .natural }
 	func setBaseWritingDirection(_ writingDirection: NSWritingDirection, for range: UITextRange) {}
 
@@ -78,16 +127,13 @@ class TextInputBase: UIView, UIKeyInput, UITextInput, UITextInputTraits {
 	func caretRect(for position: UITextPosition) -> CGRect { .zero }
 	func selectionRects(for range: UITextRange) -> [UITextSelectionRect] { [] }
 
-	func closestPosition(to point: CGPoint) -> UITextPosition? {
-		let position = TextPosition()
-		position.position = point.x
-		return position
-	}
+	func closestPosition(to point: CGPoint) -> UITextPosition? { TextPosition(position: 0) }
 
 	func closestPosition(to point: CGPoint, within range: UITextRange) -> UITextPosition? {
-		let position = TextPosition()
-		position.position = point.x
-		return position
+		if let range = range as? TextRange {
+			return range.start
+		}
+		return nil
 	}
 
 	func characterRange(at point: CGPoint) -> UITextRange? { nil }

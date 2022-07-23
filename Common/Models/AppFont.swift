@@ -18,6 +18,8 @@ public struct AppFont: Codable {
 	public let bold: String?
 	public let italic: String?
 	public let boldItalic: String?
+	public let light: String?
+	public let lightItalic: String?
 	public let systemMonospaceFont: Bool?
 
 	public var previewFont: UIFont? {
@@ -28,7 +30,8 @@ public struct AppFont: Codable {
 		}
 		if let regular = regular,
 			 let font = UIFont(name: regular, size: 13) {
-			return UIFontMetrics(forTextStyle: .body).scaledFont(for: font)
+			return UIFontMetrics(forTextStyle: .body)
+				.scaledFont(for: font)
 		}
 		return nil
 	}
@@ -39,6 +42,8 @@ public struct AppFont: Codable {
 		bold = nil
 		italic = nil
 		boldItalic = nil
+		light = nil
+		lightItalic = nil
 		systemMonospaceFont = true
 	}
 

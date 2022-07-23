@@ -56,6 +56,7 @@
 		4EBBCB10288700A9002EAE00 /* URL+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB0E28870015002EAE00 /* URL+Additions.swift */; };
 		4EBBCB182889051B002EAE00 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB172889051B002EAE00 /* main.c */; };
 		4EBBCB1F28890B42002EAE00 /* NewTermLoginHelper in Copy Executables */ = {isa = PBXBuildFile; fileRef = 4EBBCB152889051B002EAE00 /* NewTermLoginHelper */; settings = {ATTRIBUTES = (CodeSignOnCopy, ); }; };
+		4EBBCB21288AB710002EAE00 /* UnicodeUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4EBBCB20288AB710002EAE00 /* UnicodeUtil.swift */; };
 		4ECEE6ED25F9B87E00FAD26B /* TerminalPasswordInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */; };
 		4ECFC23825FA3D2C007B0F51 /* LayoutGuide.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */; };
 		4ECFC24625FCA67D007B0F51 /* RootViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB969622B5481B00585BE6 /* RootViewController.swift */; };
@@ -189,6 +190,7 @@
 		4EBBCB0E28870015002EAE00 /* URL+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "URL+Additions.swift"; sourceTree = "<group>"; };
 		4EBBCB152889051B002EAE00 /* NewTermLoginHelper */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = NewTermLoginHelper; sourceTree = BUILT_PRODUCTS_DIR; };
 		4EBBCB172889051B002EAE00 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		4EBBCB20288AB710002EAE00 /* UnicodeUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnicodeUtil.swift; sourceTree = "<group>"; };
 		4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalPasswordInputView.swift; sourceTree = "<group>"; };
 		4ECFC23725FA3D2C007B0F51 /* LayoutGuide.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LayoutGuide.swift; sourceTree = "<group>"; };
 		4ECFC23B25FCA592007B0F51 /* NewTerm.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = NewTerm.entitlements; sourceTree = "<group>"; };
@@ -478,6 +480,7 @@
 				4E9FB97426172293005AFCC8 /* StringSupplier.swift */,
 				4E9FB977261724FA005AFCC8 /* ColorMap.swift */,
 				4E9FB97C26174A78005AFCC8 /* TerminalConstants.swift */,
+				4EBBCB20288AB710002EAE00 /* UnicodeUtil.swift */,
 			);
 			path = VT100;
 			sourceTree = "<group>";
@@ -739,6 +742,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4EBBCB21288AB710002EAE00 /* UnicodeUtil.swift in Sources */,
 				4E980826261873CE00E41883 /* AppFont.swift in Sources */,
 				4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */,
 				4E980833261ACA0400E41883 /* AppTheme.swift in Sources */,
@@ -1080,8 +1084,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos appletvsimulator appletvos";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1137,8 +1142,9 @@
 				MTL_FAST_MATH = YES;
 				PRODUCT_BUNDLE_IDENTIFIER = "ws.hbang.NewTerm-Common";
 				PRODUCT_NAME = NewTermCommon;
+				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "watchsimulator watchos macosx iphonesimulator iphoneos appletvsimulator appletvos";
+				SUPPORTED_PLATFORMS = "iphonesimulator iphoneos";
 				SUPPORTS_MACCATALYST = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 5.0;

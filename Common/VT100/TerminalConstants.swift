@@ -7,16 +7,27 @@
 
 import Foundation
 
-public struct ScreenSize: Equatable {
-	public var cols: UInt
-	public var rows: UInt
-
-	public init(cols: UInt, rows: UInt) {
-		self.cols = cols
-		self.rows = rows
-	}
+public struct ScreenSize: Hashable {
+	public var cols: UInt16
+	public var rows: UInt16
+	public var pixelWidth: UInt16
+	public var pixelHeight: UInt16
 
 	public static let `default` = ScreenSize(cols: 80, rows: 25)
+
+	public init(cols: UInt16, rows: UInt16, cellSize: CGSize = .zero) {
+		self.cols = cols
+		self.rows = rows
+		self.pixelWidth = UInt16(cellSize.width)
+		self.pixelHeight = UInt16(cellSize.height)
+	}
+
+	var windowSize: winsize {
+		winsize(ws_row: rows,
+						ws_col: cols,
+						ws_xpixel: cols * pixelWidth,
+						ws_ypixel: rows * pixelHeight)
+	}
 }
 
 public struct EscapeSequences {
@@ -50,18 +61,19 @@ public struct EscapeSequences {
 	public static let fn        = [
 		"OP", "OQ", "OR", "OS", "[15~", "[17~", "[18~", "[19~", "[20~", "[21~", "[23~", "[24~"
 	].map { "\u{1b}\($0)".utf8Array }
+}
 
-	public static func asciiToControl(_ character: UTF8Char) -> UTF8Char {
-		var newCharacter = character
+public extension UTF8Char {
+	var controlCharacter: UTF8Char {
+		var newCharacter = self
 		// Translate capital to lowercase
-		if character >= 0x41 && character <= 0x5A { // >= 'A' <= 'Z'
+		if self >= 0x41 && self <= 0x5A { // >= 'A' <= 'Z'
 			newCharacter += 0x61 - 0x41 // 'a' - 'A'
 		}
 		// Convert to the matching control character
-		if character >= 0x61 && character <= 0x7A { // >= 'a' <= 'z'
+		if self >= 0x61 && self <= 0x7A { // >= 'a' <= 'z'
 			newCharacter -= 0x61 - 1 // 'a' - 1
 		}
 		return newCharacter
 	}
-
 }

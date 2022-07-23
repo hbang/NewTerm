@@ -28,19 +28,13 @@ struct TerminalView: View {
 				LazyVStack(alignment: .leading, spacing: 0) {
 					ForEach(Array(zip(state.lines, state.lines.indices)), id: \.1) { line, i in
 						line
-							.background(Color(state.colorMap.background))
-							.lineLimit(1)
-							.fixedSize(horizontal: false, vertical: true)
-							.frame(height: state.fontMetrics.height)
 							.drawingGroup(opaque: true)
 							.id(i)
 					}
-
-					Spacer(minLength: 0)
-						.fill()
 				}
 					.padding(.vertical, Self.verticalSpacing)
 					.padding(.horizontal, Self.horizontalSpacing)
+					.background(Color(state.colorMap.background))
 			}
 				.background(Color(state.colorMap.background))
 				.onChange(of: state.lines.indices.last, perform: { _ in

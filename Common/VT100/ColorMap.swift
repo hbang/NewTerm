@@ -29,6 +29,8 @@ public struct ColorMap: Hashable {
 
 	public var userInterfaceStyle: UIUserInterfaceStyle { isDark ? .dark : .light }
 
+	private var colorCache = [Attribute.Color: UIColor]()
+
 	public init(theme: AppTheme) {
 		background = UIColor(propertyListValue: theme.background) ?? .systemGroupedBackground
 		foreground = UIColor(propertyListValue: theme.text) ?? .systemGray6
@@ -80,7 +82,7 @@ public struct ColorMap: Hashable {
 		self.ansiColors = ansiColors
 	}
 
-	public func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool = false, isCursor: Bool = false) -> UIColor {
+	public mutating func color(for termColor: Attribute.Color, isForeground: Bool, isBold: Bool = false, isCursor: Bool = false) -> UIColor {
 		if isCursor {
 			if isForeground {
 				switch termColor {
@@ -104,30 +106,45 @@ public struct ColorMap: Hashable {
 			if index < 16 {
 				// ANSI color (0-15)
 				return ansiColors[.allCases[index]]!
-			} else if index < 232 {
+			}
+
+			if let cachedColor = colorCache[termColor] {
+				return cachedColor
+			}
+
+			let color: UIColor
+			if index < 232 {
 				// 256-color table (16-231)
 				let tableIndex = index - 16
 				let r = tableIndex / 36 == 0 ? 0 : ((tableIndex / 36) * 40 + 55)
 				let g = tableIndex % 36 / 6 == 0 ? 0 : ((tableIndex % 36 / 6) * 40 + 55)
 				let b = tableIndex % 6 == 0 ? 0 : (tableIndex % 6 * 40 + 55)
-				return UIColor(red: CGFloat(r) / 255,
-											 green: CGFloat(g) / 255,
-											 blue: CGFloat(b) / 255,
-											 alpha: 1)
+				color = UIColor(red: CGFloat(r) / 255,
+												green: CGFloat(g) / 255,
+												blue: CGFloat(b) / 255,
+												alpha: 1)
 			} else if index < 256 {
 				// Greys (232-255)
-				return UIColor(white: ((CGFloat(index) - 232) * 10 + 8) / 255,
-											 alpha: 1)
+				color = UIColor(white: ((CGFloat(index) - 232) * 10 + 8) / 255,
+												alpha: 1)
 			} else {
 				Logger().warning("Unexpected color index: \(index)")
-				return foreground
+				color = foreground
 			}
+			colorCache[termColor] = color
+			return color
 
 		case .trueColor(let r, let g, let b):
-			return UIColor(red: CGFloat(r) / 255,
-										 green: CGFloat(g) / 255,
-										 blue: CGFloat(b) / 255,
-										 alpha: 1)
+			if let cachedColor = colorCache[termColor] {
+				return cachedColor
+			}
+
+			let color = UIColor(red: CGFloat(r) / 255,
+													green: CGFloat(g) / 255,
+													blue: CGFloat(b) / 255,
+													alpha: 1)
+			colorCache[termColor] = color
+			return color
 		}
 	}
 

@@ -12,7 +12,7 @@ import SwiftTerm
 import os.log
 
 public protocol TerminalControllerDelegate: AnyObject {
-	func refresh(attributedString: [AnyView], backgroundColor: UIColor)
+	func refresh(lines: inout [AnyView])
 	func activateBell()
 	func titleDidChange(_ title: String?)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
@@ -29,11 +29,11 @@ public class TerminalController {
 	public weak var delegate: TerminalControllerDelegate?
 
 	public var colorMap: ColorMap {
-		get { return stringSupplier.colorMap! }
+		get { stringSupplier.colorMap! }
 		set { stringSupplier.colorMap = newValue }
 	}
 	public var fontMetrics: FontMetrics {
-		get { return stringSupplier.fontMetrics! }
+		get { stringSupplier.fontMetrics! }
 		set { stringSupplier.fontMetrics = newValue }
 	}
 
@@ -41,6 +41,7 @@ public class TerminalController {
 	private var subProcess: SubProcess?
 	private var subProcessFailureError: Error?
 	private let stringSupplier = StringSupplier()
+	private var lines = [AnyView]()
 
 	private var processLaunchDate: Date?
 	private var updateTimer: CADisplayLink?
@@ -214,25 +215,68 @@ public class TerminalController {
 				self.readBuffer.removeAll()
 			}
 
-			guard let cursorLocation = self.terminal?.getCursorLocation() else {
+			guard let terminal = self.terminal else {
 				return
 			}
-			if self.terminal?.getUpdateRange() == nil && cursorLocation == self.lastCursorLocation {
+
+			let cursorLocation = terminal.getCursorLocation()
+			let updateRange = terminal.getScrollInvariantUpdateRange()
+			if updateRange == nil && cursorLocation == self.lastCursorLocation {
 				return
 			}
-			self.terminal?.clearUpdateRange()
+			terminal.clearUpdateRange()
+
+			if let updateRange = updateRange {
+				let scrollbackRows = terminal.getTopVisibleRow()
+				let scrollInvariantRows = scrollbackRows + terminal.rows
+
+				// Remove lines that no longer exist
+				if self.lines.count > scrollInvariantRows {
+					self.lines.removeSubrange((scrollInvariantRows - 1)...)
+				}
+
+				// Add new lines that have been introduced
+				while self.lines.count <= updateRange.endY {
+					self.lines.append(AnyView(EmptyView()))
+				}
+
+				// Update lines that changed
+				var linesToUpdate = Set(updateRange.startY...updateRange.endY)
+				if cursorLocation != self.lastCursorLocation {
+					linesToUpdate.insert(cursorLocation.y)
+					if self.lastCursorLocation.y != -1 && self.lastCursorLocation.y < scrollInvariantRows {
+						linesToUpdate.insert(self.lastCursorLocation.y)
+					}
+				}
+
+				for i in linesToUpdate {
+					self.lines[i] = self.stringSupplier.attributedString(forScrollInvariantRow: i)
+				}
+			}
+
 			self.lastCursorLocation = cursorLocation
 
 			DispatchQueue.main.async {
-				// TODO: We should handle the scrollback separately so it only appears if the user scrolls
-				self.delegate?.refresh(attributedString: self.stringSupplier.attributedString(),
-															 backgroundColor: self.stringSupplier.colorMap!.background)
+				self.delegate?.refresh(lines: &self.lines)
 			}
 		}
 	}
 
 	public func clearTerminal() {
 		terminal?.resetToInitialState()
+
+		// To trigger a redraw, update the screen size, then update it back.
+		if let screenSize = screenSize {
+			DispatchQueue.main.async {
+				var newScreenSize = screenSize
+				newScreenSize.cols += 1
+				self.subProcess?.screenSize = newScreenSize
+
+				DispatchQueue.main.asyncAfter(deadline: .now() + .milliseconds(50)) {
+					self.subProcess?.screenSize = screenSize
+				}
+			}
+		}
 	}
 
 	private func updateScreenSize() {
@@ -298,6 +342,14 @@ extension TerminalController: TerminalDelegate {
 				self.delegate?.activateBell()
 			}
 		}
+	}
+
+	public func showCursor(source: Terminal) {
+		stringSupplier.cursorVisible = true
+	}
+
+	public func hideCursor(source: Terminal) {
+		stringSupplier.cursorVisible = false
 	}
 
 	public func setTerminalTitle(source: Terminal, title: String) {

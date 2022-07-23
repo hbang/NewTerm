@@ -34,11 +34,11 @@ struct ColorBars {
 		}
 
 		// Draw color bars
-		let firstSectionSize = ScreenSize(cols: UInt(Double(screenSize.cols) / 7),
-																			rows: UInt(Double(screenSize.rows) * 0.66))
-		let thirdSectionSize = ScreenSize(cols: UInt(Double(screenSize.cols) / 6),
-																			rows: UInt(Double(screenSize.rows) * 0.25))
-		let secondSectionSize = ScreenSize(cols: UInt(Double(screenSize.cols) / 7),
+		let firstSectionSize = ScreenSize(cols: UInt16(Double(screenSize.cols) / 7),
+																			rows: UInt16(Double(screenSize.rows) * 0.66))
+		let thirdSectionSize = ScreenSize(cols: UInt16(Double(screenSize.cols) / 6),
+																			rows: UInt16(Double(screenSize.rows) * 0.25))
+		let secondSectionSize = ScreenSize(cols: UInt16(Double(screenSize.cols) / 7),
 																			 rows: screenSize.rows - firstSectionSize.rows - thirdSectionSize.rows - 1)
 		var data = "\u{1b}c".data(using: .utf8)!
 		let space = String(repeating: " ", count: Int(firstSectionSize.cols))
@@ -67,8 +67,8 @@ struct ColorBars {
 		}
 
 		// Draw error text
-		let textPosition = ScreenSize(cols: UInt(max(0, Double((Int(firstSectionSize.cols * 7) - message.count + 2) / 2).rounded(.toNearestOrEven))),
-																	rows: UInt(Double(screenSize.rows / 2).rounded(.down)))
+		let textPosition = ScreenSize(cols: UInt16(max(0, Double((Int(firstSectionSize.cols * 7) - message.count + 2) / 2).rounded(.toNearestOrEven))),
+																	rows: UInt16(Double(screenSize.rows / 2).rounded(.down)))
 		data.append("\u{1b}[\(textPosition.rows);\(textPosition.cols)H\u{1b}[1;7m \(message) \u{1b}[m\u{1b}[\(screenSize.cols);0H".data(using: .utf8)!)
 
 		return data

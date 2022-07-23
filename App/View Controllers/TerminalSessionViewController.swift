@@ -33,6 +33,10 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	var showsTitleView = false {
 		didSet { updateShowsTitleView() }
 	}
+	private(set) var screenSize: ScreenSize? {
+		get { terminalController.screenSize }
+		set { terminalController.screenSize = newValue }
+	}
 
 	private var terminalController = TerminalController()
 	private var keyInput = TerminalKeyInput(frame: .zero)
@@ -74,6 +78,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 		title = .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
 
+		preferencesUpdated()
 		textView = TerminalHostingView(state: state)
 
 		#if !targetEnvironment(macCatalyst)
@@ -110,6 +115,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneDidEnterBackground), name: UIWindowScene.didEnterBackgroundNotification, object: nil)
 			NotificationCenter.default.addObserver(self, selector: #selector(self.sceneWillEnterForeground), name: UIWindowScene.willEnterForegroundNotification, object: nil)
 		}
+
+		NotificationCenter.default.addObserver(self, selector: #selector(self.preferencesUpdated), name: Preferences.didChangeNotification, object: nil)
 	}
 
 	override func viewWillAppear(_ animated: Bool) {
@@ -178,14 +185,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	// MARK: - Screen
 
 	func updateScreenSize() {
-		if view.frame.size == .zero || isSplitViewResizing {
-			// Not laid out yet. Wait till we are.
+		if isSplitViewResizing {
 			return
-		}
-
-		let glyphSize = terminalController.fontMetrics.boundingBox
-		if glyphSize.width == 0 || glyphSize.height == 0 {
-			fatalError("Failed to get glyph size")
 		}
 
 		// Determine the screen size based on the font size
@@ -194,23 +195,21 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		layoutSize.height -= TerminalView.verticalSpacing * 2
 
 		if layoutSize.width < 0 || layoutSize.height < 0 {
-			// Huh? Let’s just ignore it.
+			// Not laid out yet. We’ll be called again when we are.
 			return
 		}
 
-		let size = ScreenSize(cols: UInt(layoutSize.width / glyphSize.width),
-													rows: UInt(layoutSize.height / glyphSize.height))
-		if terminalController.screenSize != size {
-			terminalController.screenSize = size
+		let glyphSize = terminalController.fontMetrics.boundingBox
+		if glyphSize.width == 0 || glyphSize.height == 0 {
+			fatalError("Failed to get glyph size")
 		}
 
-//		let widthRemainder = abs(width.remainder(dividingBy: glyphSize.width))
-//		let heightRemainder = abs(height.remainder(dividingBy: glyphSize.height))
-//		textView.contentInset = UIEdgeInsets(top: 0,
-//																				 left: view.safeAreaInsets.left,
-//																				 bottom: heightRemainder,
-//																				 right: view.safeAreaInsets.right + widthRemainder)
-//		textView.scrollIndicatorInsets = .zero
+		let newSize = ScreenSize(cols: UInt16(layoutSize.width / glyphSize.width),
+														 rows: UInt16(layoutSize.height / glyphSize.height.rounded(.up)),
+														 cellSize: glyphSize)
+		if screenSize != newSize {
+			screenSize = newSize
+		}
 	}
 
 	@objc func clearTerminal() {
@@ -225,29 +224,6 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 	private func updateShowsTitleView() {
 		updateScreenSize()
-	}
-
-	// MARK: - Keyboard
-
-	func scrollToBottom(animated: Bool = false) {
-		// If the user has scrolled up far enough on their own, don’t rudely scroll them back to the
-		// bottom. When they scroll back, the automatic scrolling will continue
-		// TODO: Buggy
-		// if textView.contentOffset.y < lastAutomaticScrollOffset.y - 20 {
-		// 	return
-		// }
-
-		// If there is no scrollback, use the top of the scroll view. If there is, calculate the bottom
-//		var offset = textView.contentOffset
-//		let bottom = textView.safeAreaInsets.bottom
-//
-//		offset.y = terminalController.scrollbackLines == 0 ? -textView.safeAreaInsets.top : bottom + textView.contentSize.height - textView.frame.size.height
-//
-//		// If the offset has changed, update it and our lastAutomaticScrollOffset
-//		if textView.contentOffset.y != offset.y {
-//			textView.setContentOffset(offset, animated: animated)
-//			lastAutomaticScrollOffset = offset
-//		}
 	}
 
 	// MARK: - Gestures
@@ -272,14 +248,17 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		}
 	}
 
+	@objc private func preferencesUpdated() {
+		state.fontMetrics = terminalController.fontMetrics
+		state.colorMap = terminalController.colorMap
+	}
+
 }
 
 extension TerminalSessionViewController: TerminalControllerDelegate {
 
-	func refresh(attributedString: [AnyView], backgroundColor: UIColor) {
-		state.fontMetrics = terminalController.fontMetrics
-		state.colorMap = terminalController.colorMap
-		state.lines = attributedString
+	func refresh(lines: inout [AnyView]) {
+		state.lines = lines
 	}
 
 	func activateBell() {
@@ -295,13 +274,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 				NSLayoutConstraint.activate([
 					bellHUDView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-					NSLayoutConstraint(item: bellHUDView!,
-														 attribute: .centerYWithinMargins,
-														 relatedBy: .equal,
-														 toItem: view,
-														 attribute: .centerYWithinMargins,
-														 multiplier: 1 / 3,
-														 constant: 0)
+					bellHUDView!.centerYAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.centerYAnchor, multiplier: 1 / 3)
 				])
 			}
 

@@ -5,7 +5,7 @@
 //  Created by Adam Demasi on 8/4/21.
 //
 
-import Foundation
+import UIKit
 import os.log
 
 struct UpdateCheckResponse: Codable {

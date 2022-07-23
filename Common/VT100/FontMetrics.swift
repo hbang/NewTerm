@@ -16,6 +16,8 @@ public struct FontMetrics: Hashable {
 	public let boldFont: UIFont
 	public let italicFont: UIFont
 	public let boldItalicFont: UIFont
+	public let lightFont: UIFont
+	public let lightItalicFont: UIFont
 
 	public let width: CGFloat
 	public let height: CGFloat
@@ -31,13 +33,11 @@ public struct FontMetrics: Hashable {
 			return
 		}
 		let fonts = listing.filter { item in item.pathExtension == "ttf" || item.pathExtension == "otf" }
-		if fonts.count > 0 {
-			for font in fonts {
-				var cfErrorWrapper: Unmanaged<CFError>? = nil
-				CTFontManagerRegisterFontsForURL(font as CFURL, .process, &cfErrorWrapper)
-				if let cfError = cfErrorWrapper?.takeUnretainedValue() {
-					Logger().error("Error loading font \(font.lastPathComponent): \(String(describing: cfError))")
-				}
+		for font in fonts {
+			var cfErrorWrapper: Unmanaged<CFError>? = nil
+			CTFontManagerRegisterFontsForURL(font as CFURL, .process, &cfErrorWrapper)
+			if let cfError = cfErrorWrapper?.takeUnretainedValue() {
+				Logger().error("Error loading font \(font.lastPathComponent): \(String(describing: cfError))")
 			}
 		}
 	}
@@ -47,8 +47,10 @@ public struct FontMetrics: Hashable {
 		var boldFont: UIFont?
 		var italicFont: UIFont?
 		var boldItalicFont: UIFont?
+		var lightFont: UIFont?
+		var lightItalicFont: UIFont?
 
-		if font.systemMonospaceFont != true {
+		if font.systemMonospaceFont ?? false {
 			if let name = font.regular {
 				regularFont = UIFont(name: name, size: fontSize)
 			}
@@ -61,6 +63,12 @@ public struct FontMetrics: Hashable {
 			if let name = font.boldItalic {
 				boldItalicFont = UIFont(name: name, size: fontSize)
 			}
+			if let name = font.light {
+				lightFont = UIFont(name: name, size: fontSize)
+			}
+			if let name = font.lightItalic {
+				lightItalicFont = UIFont(name: name, size: fontSize)
+			}
 		}
 
 		if regularFont == nil || boldFont == nil {
@@ -70,6 +78,7 @@ public struct FontMetrics: Hashable {
 
 			regularFont = .monospacedSystemFont(ofSize: fontSize, weight: .regular)
 			boldFont = .monospacedSystemFont(ofSize: fontSize, weight: .bold)
+			lightFont = .monospacedSystemFont(ofSize: fontSize, weight: .light)
 
 			if let fontDescriptor = regularFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
 				italicFont = UIFont(descriptor: fontDescriptor, size: fontSize)
@@ -77,27 +86,32 @@ public struct FontMetrics: Hashable {
 			if let fontDescriptor = boldFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
 				boldItalicFont = UIFont(descriptor: fontDescriptor, size: fontSize)
 			}
+			if let fontDescriptor = lightFont?.fontDescriptor.withSymbolicTraits(.traitItalic) {
+				lightItalicFont = UIFont(descriptor: fontDescriptor, size: fontSize)
+			}
 		}
 
 		self.init(regularFont: regularFont!,
-							boldFont: boldFont!,
-							italicFont: italicFont ?? regularFont!,
-							boldItalicFont: boldItalicFont ?? boldFont!)
+							boldFont: boldFont,
+							italicFont: italicFont,
+							boldItalicFont: boldItalicFont,
+							lightFont: lightFont,
+							lightItalicFont: lightItalicFont)
 	}
 
-	public init(regularFont: UIFont, boldFont: UIFont, italicFont: UIFont, boldItalicFont: UIFont) {
+	public init(regularFont: UIFont, boldFont: UIFont?, italicFont: UIFont?, boldItalicFont: UIFont?, lightFont: UIFont?, lightItalicFont: UIFont?) {
 		self.regularFont = regularFont
-		self.boldFont = boldFont
-		self.italicFont = italicFont
-		self.boldItalicFont = boldItalicFont
+		self.boldFont = boldFont ?? regularFont
+		self.italicFont = italicFont ?? regularFont
+		self.boldItalicFont = boldItalicFont ?? boldFont ?? regularFont
+		self.lightFont = lightFont ?? regularFont
+		self.lightItalicFont = lightFont ?? italicFont ?? regularFont
 
 		// Determine the bounding box of a single letter in this font. This, of course, assumes all
 		// characters in this font (and its variants) are the same width, but that’s an assumption most
 		// terminals/text editors make anyway.
 		let attributedString = NSAttributedString(string: "A",
-																							attributes: [
-																								.font: regularFont
-																							])
+																							attributes: [.font: regularFont])
 		let line = CTLineCreateWithAttributedString(attributedString)
 
 		var ascent: CGFloat = 0

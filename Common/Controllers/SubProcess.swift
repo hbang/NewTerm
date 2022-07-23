@@ -111,11 +111,7 @@ class SubProcess {
 		}
 
 		// Initialise the pty
-		var windowSize = winsize(ws_row: UInt16(screenSize.rows),
-														 ws_col: UInt16(screenSize.cols),
-														 ws_xpixel: 0,
-														 ws_ypixel: 0)
-
+		var windowSize = screenSize.windowSize
 		var fds = (primary: Int32(), replica: Int32())
 		if openpty(&fds.primary, &fds.replica, nil, nil, &windowSize) != 0 {
 			// Opening pty failed.
@@ -313,10 +309,7 @@ class SubProcess {
 			return
 		}
 
-		var windowSize = winsize()
-		windowSize.ws_col = UInt16(screenSize.cols)
-		windowSize.ws_row = UInt16(screenSize.rows)
-
+		var windowSize = screenSize.windowSize
 		if ioctl(fileDescriptor, TIOCSWINSZ, &windowSize) == -1 {
 			let error = errno
 			logger.error("Setting screen size failed: \(error, format: .darwinErrno)")

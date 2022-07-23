@@ -221,7 +221,7 @@ class TerminalKeyInput: TextInputBase {
 				return EscapeSequences.return.first!
 			}
 			if ctrlDown {
-				return EscapeSequences.asciiToControl(character)
+				return character.controlCharacter
 			}
 			return character
 		}
@@ -378,7 +378,7 @@ class TerminalKeyInput: TextInputBase {
 
 		// Translate ctrl key sequences to the approriate escape.
 		if key.modifierFlags.contains(.control) {
-			keyData = keyData.map(EscapeSequences.asciiToControl(_:))
+			keyData = keyData.map(\.controlCharacter)
 		}
 
 		// Prepend esc before each byte if meta key is down.

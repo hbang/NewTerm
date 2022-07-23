@@ -9,7 +9,7 @@ import Foundation
 import SwiftTerm
 import SwiftUI
 
-extension View {
+fileprivate extension View {
 	static func + (lhs: Self, rhs: some View) -> AnyView {
 		AnyView(ViewBuilder.buildBlock(lhs, AnyView(rhs)))
 	}
@@ -17,61 +17,69 @@ extension View {
 
 open class StringSupplier {
 
-	open var terminal: Terminal?
-	open var colorMap: ColorMap?
-	open var fontMetrics: FontMetrics?
+	open var terminal: Terminal!
+	open var colorMap: ColorMap!
+	open var fontMetrics: FontMetrics!
+	open var cursorVisible = true
 
 	public init() {}
 
-	public func attributedString() -> [AnyView] {
+	public func fullAttributedString() -> [AnyView] {
 		guard let terminal = terminal else {
 			fatalError()
+		}
+
+		return Array(0..<terminal.rows + terminal.getTopVisibleRow())
+			.map { attributedString(forScrollInvariantRow: $0) }
+	}
+
+	public func attributedString(forScrollInvariantRow row: Int) -> AnyView {
+		guard let terminal = terminal else {
+			fatalError()
+		}
+
+		guard let line = terminal.getScrollInvariantLine(row: row) else {
+			return AnyView(EmptyView())
 		}
 
 		let cursorPosition = terminal.getCursorLocation()
 		let scrollbackRows = terminal.getTopVisibleRow()
 
 		var lastAttribute = Attribute.empty
-		return Array(0..<terminal.rows + scrollbackRows).map { i in
-			guard let line = terminal.getScrollInvariantLine(row: i) else {
-				return AnyView(EmptyView())
+		var views = [any View]()
+		var buffer = ""
+		for j in 0..<terminal.cols {
+			let data = line[j]
+			let isCursor = cursorVisible && row - scrollbackRows == cursorPosition.y && j == cursorPosition.x
+
+			if isCursor || lastAttribute != data.attribute {
+				// Finish up the last run by appending it to the attributed string, then reset for the
+				// next run.
+				views.append(text(buffer, attribute: lastAttribute))
+				lastAttribute = data.attribute
+				buffer.removeAll()
 			}
 
-			var views = [any View]()
-			var buffer = ""
-			for j in 0..<terminal.cols {
-				let data = line[j]
-				let isCursor = i - scrollbackRows == cursorPosition.y && j == cursorPosition.x
+			let character = data.getCharacter()
+			buffer.append(character == "\0" ? " " : character)
 
-				if isCursor || lastAttribute != data.attribute {
-					// Finish up the last run by appending it to the attributed string, then reset for the
-					// next run.
-					views.append(text(buffer, attribute: lastAttribute))
-					lastAttribute = data.attribute
-					buffer.removeAll()
+			if isCursor {
+				// We may need to insert a space for the cursor to show up.
+				if buffer.isEmpty {
+					buffer.append(" ")
 				}
 
-				let character = data.getCharacter()
-				buffer.append(character == "\0" ? " " : character)
-
-				if isCursor {
-					// We may need to insert a space for the cursor to show up.
-					if buffer.isEmpty {
-						buffer.append(" ") // Non-breaking space
-					}
-
-					views.append(text(buffer, attribute: lastAttribute, isCursor: true))
-					buffer.removeAll()
-				}
+				views.append(text(buffer, attribute: lastAttribute, isCursor: true))
+				buffer.removeAll()
 			}
-
-			// Append the final run
-			views.append(text(buffer, attribute: lastAttribute))
-
-			return AnyView(HStack(alignment: .firstTextBaseline, spacing: 0) {
-				views.reduce(AnyView(EmptyView()), { $0 + AnyView($1) })
-			})
 		}
+
+		// Append the final run
+		views.append(text(buffer, attribute: lastAttribute))
+
+		return AnyView(HStack(alignment: .firstTextBaseline, spacing: 0) {
+			views.reduce(AnyView(EmptyView()), { $0 + AnyView($1) })
+		})
 	}
 
 	private func text(_ run: String, attribute: Attribute, isCursor: Bool = false) -> any View {
@@ -97,28 +105,29 @@ open class StringSupplier {
 																		 isCursor: isCursor)
 
 		let font: UIFont?
-		if attribute.style.contains(.bold) {
-			if attribute.style.contains(.italic) {
-				font = fontMetrics?.boldItalicFont
-			} else {
-				font = fontMetrics?.boldFont
-			}
+		if attribute.style.contains(.bold) || attribute.style.contains(.blink) {
+			font = attribute.style.contains(.italic) ? fontMetrics?.boldItalicFont : fontMetrics?.boldFont
+		} else if attribute.style.contains(.dim) {
+			font = attribute.style.contains(.italic) ? fontMetrics?.lightItalicFont : fontMetrics?.lightFont
 		} else {
-			if attribute.style.contains(.italic) {
-				font = fontMetrics?.italicFont
-			} else {
-				font = fontMetrics?.regularFont
-			}
+			font = attribute.style.contains(.italic) ? fontMetrics?.italicFont : fontMetrics?.regularFont
 		}
 
+		let width = CGFloat(run.unicodeScalars.reduce(0, { $0 + UnicodeUtil.columnWidth(rune: $1) })) * fontMetrics!.width
+
 		return Text(run)
+			// Text attributes
 			.foregroundColor(Color(foreground ?? .white))
-			.font(Font(font ?? UIFont.monospacedSystemFont(ofSize: 12, weight: .regular)))
+			.font(Font(font ?? .monospacedSystemFont(ofSize: 12, weight: .regular)))
 			.underline(attribute.style.contains(.underline))
 			.strikethrough(attribute.style.contains(.crossedOut))
-			.kerning(0)
 			.tracking(0)
+			// View attributes
+			.allowsTightening(false)
+			.lineLimit(1)
 			.background(Color(background ?? .black))
+			.frame(width: width)
+			.fixedSize(horizontal: false, vertical: true)
 	}
 
 }
