@@ -40,38 +40,55 @@ struct ColorBars {
 																			rows: UInt16(Double(screenSize.rows) * 0.25))
 		let secondSectionSize = ScreenSize(cols: UInt16(Double(screenSize.cols) / 7),
 																			 rows: screenSize.rows - firstSectionSize.rows - thirdSectionSize.rows - 1)
-		var data = "\u{1b}c".data(using: .utf8)!
+		let firstSectionWidth = firstSectionSize.cols * 7
+		let thirdSectionWidth = thirdSectionSize.cols * 5 + (UInt16(Double(thirdSectionSize.cols) / 3) * 3)
+		let widestWidth = max(firstSectionWidth, thirdSectionWidth)
+
+		var data = "\u{1b}c"
 		let space = String(repeating: " ", count: Int(firstSectionSize.cols))
+		let differenceSpace = String(repeating: " ", count: Int(widestWidth - firstSectionWidth))
 		for _ in 0..<firstSectionSize.rows {
 			for color in bars[0] {
-				data.append("\u{1b}[48;2;\(color)m\(space)".data(using: .utf8)!)
+				data += "\u{1b}[48;2;\(color)m\(space)"
 			}
-			data.append("\u{1b}[0m\r\n".data(using: .utf8)!)
+			if firstSectionWidth < widestWidth {
+				data += "\u{1b}[48;2;\(bars[0].last!)m\(differenceSpace)"
+			}
+			data += "\u{1b}[0m\r\n"
 		}
+
 		for _ in 0..<secondSectionSize.rows {
 			for color in bars[1] {
-				data.append("\u{1b}[48;2;\(color)m\(space)".data(using: .utf8)!)
+				data += "\u{1b}[48;2;\(color)m\(space)"
 			}
-			data.append("\u{1b}[0m\r\n".data(using: .utf8)!)
+			if firstSectionWidth < widestWidth {
+				data += "\u{1b}[48;2;\(bars[1].last!)m\(differenceSpace)"
+			}
+			data += "\u{1b}[0m\r\n"
 		}
+
 		let finalSpace = String(repeating: " ", count: Int(thirdSectionSize.cols))
 		let finalInnerWidth = Int(Double(thirdSectionSize.cols) / 3)
 		let finalInnerSpace = String(repeating: " ", count: finalInnerWidth)
+		let finalDifferenceSpace = String(repeating: " ", count: Int(widestWidth - thirdSectionWidth))
 		for _ in 0..<thirdSectionSize.rows {
 			for i in 0..<bars[2].count {
 				// Special case: There is a gradient of 3 colors in the second-last rectangle.
 				let space = i >= 4 && i <= 6 ? finalInnerSpace : finalSpace
-				data.append("\u{1b}[48;2;\(bars[2][i])m\(space)".data(using: .utf8)!)
+				data += "\u{1b}[48;2;\(bars[2][i])m\(space)"
 			}
-			data.append("\u{1b}[0m\r\n".data(using: .utf8)!)
+			if thirdSectionWidth < widestWidth {
+				data += "\u{1b}[48;2;\(bars[2].last!)m\(finalDifferenceSpace)"
+			}
+			data += "\u{1b}[0m\r\n"
 		}
 
 		// Draw error text
-		let textPosition = ScreenSize(cols: UInt16(max(0, Double((Int(firstSectionSize.cols * 7) - message.count + 2) / 2).rounded(.toNearestOrEven))),
+		let textPosition = ScreenSize(cols: UInt16(max(0, Double((Int(widestWidth) - message.count + 2) / 2).rounded(.toNearestOrEven))),
 																	rows: UInt16(Double(screenSize.rows / 2).rounded(.down)))
-		data.append("\u{1b}[\(textPosition.rows);\(textPosition.cols)H\u{1b}[1;7m \(message) \u{1b}[m\u{1b}[\(screenSize.cols);0H".data(using: .utf8)!)
+		data += "\u{1b}[\(textPosition.rows);\(textPosition.cols)H\u{1b}[1;7m \(message) \u{1b}[m\u{1b}[\(screenSize.cols);0H"
 
-		return data
+		return data.data(using: .utf8)!
 	}
 
 }
