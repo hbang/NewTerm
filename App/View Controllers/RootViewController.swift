@@ -16,12 +16,10 @@ class RootViewController: UIViewController {
 
 	var initialCommand: String?
 
-	private var terminals: [UIViewController] = []
+	private var terminals: [BaseTerminalSplitViewControllerChild] = []
 	private var selectedTabIndex = 0
 
 	private var tabToolbar: TabToolbarViewController?
-
-	private var titleObservers = [NSKeyValueObservation]()
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
@@ -30,7 +28,7 @@ class RootViewController: UIViewController {
 
 		#if !targetEnvironment(macCatalyst)
 		tabToolbar = TabToolbarViewController()
-		tabToolbar!.view.autoresizingMask = [ .flexibleWidth ]
+		tabToolbar!.view.autoresizingMask = [.flexibleWidth]
 		tabToolbar!.delegate = self
 		tabToolbar!.dataSource = self
 		addChild(tabToolbar!)
@@ -65,7 +63,7 @@ class RootViewController: UIViewController {
 															 modifierFlags: .command))
 		#endif
 
-		let digits = [Array(1...9) + [0]].map { "\($0)" }
+		let digits = (Array(1...9) + [0]).map { "\($0)" }
 		for digit in digits {
 			addKeyCommand(UIKeyCommand(action: #selector(self.selectTabFromKeyCommand),
 																 input: digit,
@@ -145,6 +143,7 @@ class RootViewController: UIViewController {
 		let splitViewController = TerminalSplitViewController()
 		splitViewController.view.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 		splitViewController.view.frame = view.bounds
+		splitViewController.delegate = self
 
 		let newTerminal = TerminalSessionViewController()
 		newTerminal.initialCommand = initialCommand
@@ -158,33 +157,26 @@ class RootViewController: UIViewController {
 		}
 		splitViewController.didMove(toParent: self)
 
-		let observer = splitViewController.observe(\.title, changeHandler: { viewController, _ in
-			self.handleTitleChange(at: index)
-			self.tabToolbar?.tabDidUpdate(at: index)
-		})
-
 		if index == terminals.count {
-			splitViewController.viewControllers = [ newTerminal ]
+			splitViewController.viewControllers = [newTerminal]
 			terminals.append(splitViewController)
 			tabToolbar?.didAddTab(at: index)
-			titleObservers.append(observer)
 		} else {
 			if let axis = axis {
-				let firstViewController = terminals[index] as! (UIViewController & TerminalSplitViewControllerChild)
+				let firstViewController = terminals[index]
 				let secondViewController = newTerminal
 				splitViewController.axis = axis
-				splitViewController.viewControllers = [ firstViewController, secondViewController ]
+				splitViewController.viewControllers = [firstViewController, secondViewController]
 			} else {
-				splitViewController.viewControllers = [ newTerminal ]
+				splitViewController.viewControllers = [newTerminal]
 			}
 
 			terminals[index] = splitViewController
 			tabToolbar?.tabDidUpdate(at: index)
-			titleObservers[index] = observer
 		}
 	}
 
-	func removeTerminal(viewController: UIViewController) {
+	func removeTerminal(viewController: BaseTerminalSplitViewControllerChild) {
 		guard let index = terminals.firstIndex(of: viewController) else {
 			NSLog("asked to remove terminal that doesn’t exist? %@", viewController)
 			return
@@ -194,7 +186,6 @@ class RootViewController: UIViewController {
 		viewController.view.removeFromSuperview()
 
 		terminals.remove(at: index)
-		titleObservers.remove(at: index)
 		tabToolbar?.didRemoveTab(at: index)
 
 		// If this was the last tab, close the window (or make a new tab if not supported). Otherwise
@@ -254,9 +245,8 @@ class RootViewController: UIViewController {
 		if selectedTabIndex == index {
 			view.window?.windowScene?.title = terminalName(at: index)
 
-			if #available(iOS 15, *) {
-				// TODO: Get the screen size from the selected terminal
-				let size = ScreenSize(cols: 80, rows: 25)
+			if #available(iOS 15, *),
+				 let size = terminals[index].screenSize {
 				view.window?.windowScene?.subtitle = "\(size.cols)×\(size.rows)"
 			}
 		}
@@ -344,6 +334,37 @@ class RootViewController: UIViewController {
 
 	@objc func splitVertically() {
 		addTerminal(at: selectedTabIndex, axis: .horizontal)
+	}
+
+}
+
+extension RootViewController: TerminalSplitViewControllerDelegate {
+
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String) {
+		guard let index = terminals.firstIndex(of: viewController) else {
+			return
+		}
+
+		handleTitleChange(at: index)
+		tabToolbar?.tabDidUpdate(at: index)
+	}
+
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, screenSizeDidChange screenSize: ScreenSize) {
+		guard let index = terminals.firstIndex(of: viewController) else {
+			return
+		}
+
+		handleTitleChange(at: index)
+		tabToolbar?.tabDidUpdate(at: index)
+	}
+
+	func terminalDidBecomeActive(viewController: BaseTerminalSplitViewControllerChild) {
+		guard let index = terminals.firstIndex(of: viewController) else {
+			return
+		}
+
+		handleTitleChange(at: index)
+		tabToolbar?.tabDidUpdate(at: index)
 	}
 
 }

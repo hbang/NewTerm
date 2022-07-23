@@ -15,7 +15,7 @@ import NewTermCommon
 
 fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
 
-class TerminalSessionViewController: UIViewController, TerminalSplitViewControllerChild {
+class TerminalSessionViewController: BaseTerminalSplitViewControllerChild {
 
 	static let bellSoundID: SystemSoundID = {
 		var soundID: SystemSoundID = 0
@@ -27,13 +27,13 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 	var initialCommand: String?
 
-	var isSplitViewResizing = false {
+	override var isSplitViewResizing: Bool {
 		didSet { updateIsSplitViewResizing() }
 	}
-	var showsTitleView = false {
+	override var showsTitleView: Bool {
 		didSet { updateShowsTitleView() }
 	}
-	private(set) var screenSize: ScreenSize? {
+	override var screenSize: ScreenSize? {
 		get { terminalController.screenSize }
 		set { terminalController.screenSize = newValue }
 	}
@@ -81,11 +81,9 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 		preferencesUpdated()
 		textView = TerminalHostingView(state: state)
 
-		#if !targetEnvironment(macCatalyst)
 		textViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(self.handleTextViewTap(_:)))
 		textViewTapGestureRecognizer.delegate = self
 		textView.addGestureRecognizer(textViewTapGestureRecognizer)
-		#endif
 
 		keyInput.frame = view.bounds
 		keyInput.autoresizingMask = [.flexibleWidth, .flexibleHeight]
@@ -209,6 +207,7 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 														 cellSize: glyphSize)
 		if screenSize != newSize {
 			screenSize = newSize
+			delegate?.terminal(viewController: self, screenSizeDidChange: newSize)
 		}
 	}
 
@@ -217,6 +216,8 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 	}
 
 	private func updateIsSplitViewResizing() {
+		state.isSplitViewResizing = isSplitViewResizing
+
 		if !isSplitViewResizing {
 			updateScreenSize()
 		}
@@ -228,9 +229,10 @@ class TerminalSessionViewController: UIViewController, TerminalSplitViewControll
 
 	// MARK: - Gestures
 
-	@objc func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
+	@objc private func handleTextViewTap(_ gestureRecognizer: UITapGestureRecognizer) {
 		if gestureRecognizer.state == .ended && !keyInput.isFirstResponder {
 			keyInput.becomeFirstResponder()
+			delegate?.terminalDidBecomeActive(viewController: self)
 		}
 	}
 
@@ -274,7 +276,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 
 				NSLayoutConstraint.activate([
 					bellHUDView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-					bellHUDView!.centerYAnchor.constraint(equalToSystemSpacingBelow: view.safeAreaLayoutGuide.centerYAnchor, multiplier: 1 / 3)
+					bellHUDView!.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
 				])
 			}
 
@@ -301,7 +303,9 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	func titleDidChange(_ title: String?) {
-		self.title = title
+		let newTitle = title ?? .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
+		self.title = newTitle
+		delegate?.terminal(viewController: self, titleDidChange: newTitle)
 	}
 
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?) {

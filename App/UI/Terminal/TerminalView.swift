@@ -14,6 +14,7 @@ class TerminalState: ObservableObject {
 	@Published var lines = [AnyView]()
 	@Published var fontMetrics = FontMetrics(font: AppFont(), fontSize: 12)
 	@Published var colorMap = ColorMap(theme: AppTheme())
+	@Published var isSplitViewResizing = false
 }
 
 struct TerminalView: View {
@@ -41,6 +42,8 @@ struct TerminalView: View {
 					scrollView.scrollTo(state.lines.indices.last, anchor: .bottom)
 				})
 		}
+			.opacity(state.isSplitViewResizing ? 0.6 : 1)
+			.animation(.linear(duration: 0.1), value: state.isSplitViewResizing)
 	}
 }
 

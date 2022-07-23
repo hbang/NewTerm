@@ -7,26 +7,41 @@
 
 import UIKit
 
-protocol TerminalSplitViewControllerChild: AnyObject {
-	var isSplitViewResizing: Bool { get set }
-	var showsTitleView: Bool { get set }
+protocol TerminalSplitViewControllerDelegate: AnyObject {
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String)
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, screenSizeDidChange screenSize: ScreenSize)
+	func terminalDidBecomeActive(viewController: BaseTerminalSplitViewControllerChild)
 }
 
-class TerminalSplitViewController: UIViewController, TerminalSplitViewControllerChild {
+class BaseTerminalSplitViewControllerChild: UIViewController {
+	weak var delegate: TerminalSplitViewControllerDelegate?
 
-	typealias ChildViewController = TerminalSplitViewControllerChild & UIViewController
+	var screenSize: ScreenSize?
+	var isSplitViewResizing = false
+	var showsTitleView = false
+}
 
-	var viewControllers: [ChildViewController]! {
+class TerminalSplitViewController: BaseTerminalSplitViewControllerChild {
+
+	private static let splitSnapPoints: [Double] = [
+		1 / 2, // 50%
+		1 / 4, // 25%
+		1 / 3, // 33%
+		2 / 3, // 66%
+		3 / 4  // 75%
+	]
+
+	var viewControllers: [BaseTerminalSplitViewControllerChild]! {
 		didSet { updateViewControllers() }
 	}
 	var axis: NSLayoutConstraint.Axis = .horizontal {
 		didSet { stackView.axis = axis }
 	}
 
-	var isSplitViewResizing = false {
+	override var isSplitViewResizing: Bool {
 		didSet { updateIsSplitViewResizing() }
 	}
-	var showsTitleView = false {
+	override var showsTitleView: Bool {
 		didSet { updateShowsTitleView() }
 	}
 
@@ -35,10 +50,10 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 	private var oldSplitPercentages = [Double]()
 	private var constraints = [NSLayoutConstraint]()
 
+	private var selectedIndex = 0
+
 	private var keyboardVisible = false
 	private var keyboardHeight: CGFloat = 0
-
-	private var titleObservers = [NSKeyValueObservation]()
 
 	override func loadView() {
 		super.loadView()
@@ -107,11 +122,12 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 			view.removeFromSuperview()
 		}
 
-		for (i, viewController) in viewControllers.enumerated() {
+		for (viewController, i) in zip(viewControllers, viewControllers.indices) {
 			let containerView = UIView()
 			containerView.translatesAutoresizingMaskIntoConstraints = false
 
 			addChild(viewController)
+			viewController.delegate = self
 			viewController.view.frame = containerView.bounds
 			viewController.view.autoresizingMask = [ .flexibleWidth, .flexibleHeight ]
 			containerView.addSubview(viewController.view)
@@ -129,15 +145,6 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 		if splitPercentages.count != viewControllers.count {
 			let split = Double(1) / Double(viewControllers.count)
 			splitPercentages = Array(repeating: split, count: viewControllers.count)
-		}
-
-		if titleObservers.count != viewControllers.count {
-			titleObservers = viewControllers.map { viewController in
-				(viewController as UIViewController).observe(\.title, changeHandler: { viewController, _ in
-					// TODO
-					self.title = viewController.title
-				})
-			}
 		}
 
 		let attribute: NSLayoutConstraint.Attribute
@@ -172,14 +179,10 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 												 multiplier: 1,
 												 constant: 0)
 		})
-
-//		UIView.animate(withDuration: 0.5) {
-//			self.view.layoutIfNeeded()
-//		}
 	}
 
 	func remove(viewController: UIViewController) {
-		guard let viewController = viewController as? ChildViewController,
+		guard let viewController = viewController as? BaseTerminalSplitViewControllerChild,
 					let index = viewControllers.firstIndex(where: { item in viewController == item }) else {
 			return
 		}
@@ -227,6 +230,13 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 	// MARK: - Keyboard
 
 	@objc func keyboardVisibilityChanged(_ notification: Notification) {
+		guard let userInfo = notification.userInfo,
+					let keyboardFrame = userInfo[UIResponder.keyboardFrameEndUserInfoKey] as? CGRect,
+					let animationDuration = userInfo[UIResponder.keyboardAnimationDurationUserInfoKey] as? TimeInterval,
+					let curve = userInfo[UIResponder.keyboardAnimationCurveUserInfoKey] as? UInt else {
+			return
+		}
+
 		// We do this to avoid the scroll indicator from appearing as soon as the terminal appears.
 		// We only want to see it after the keyboard has appeared.
 //		if !hasAppeared {
@@ -240,10 +250,10 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 //			}
 //		}
 
-		if notification.name == UIResponder.keyboardWillShowNotification {
-			keyboardVisible = true
-		} else if notification.name == UIResponder.keyboardDidHideNotification {
-			keyboardVisible = false
+		switch notification.name {
+		case UIResponder.keyboardWillShowNotification: keyboardVisible = true
+		case UIResponder.keyboardDidHideNotification:  keyboardVisible = false
+		default: break
 		}
 
 		// Hide toolbar popups if visible
@@ -251,19 +261,66 @@ class TerminalSplitViewController: UIViewController, TerminalSplitViewController
 
 		// Determine the final keyboard height. We still get a height if hiding, so force it to 0 if
 		// this isn’t a show notification.
-		let keyboardFrame = notification.userInfo![UIResponder.keyboardFrameEndUserInfoKey] as! CGRect
-		if keyboardVisible && notification.name != UIResponder.keyboardWillHideNotification && notification.name != UIResponder.keyboardDidHideNotification {
-			keyboardHeight = keyboardFrame.size.height
-		} else {
-			keyboardHeight = 0
-		}
+		keyboardHeight = keyboardVisible && notification.name != UIResponder.keyboardWillHideNotification ? keyboardFrame.size.height : 0
 
 		// We update the safe areas in an animation block to force it to be animated with the exact
 		// parameters given to us in the notification.
-		let animationDuration = notification.userInfo![UIResponder.keyboardAnimationDurationUserInfoKey] as! TimeInterval
-		UIView.animate(withDuration: animationDuration) {
+		var options: UIView.AnimationOptions = .beginFromCurrentState
+		options.insert(.init(rawValue: curve << 16))
+
+		UIView.animate(withDuration: animationDuration,
+									 delay: 0,
+									 options: options) {
 			let bottomInset = self.parent?.view.safeAreaInsets.bottom ?? 0
 			self.additionalSafeAreaInsets.bottom = max(bottomInset, self.keyboardHeight - bottomInset)
+		}
+	}
+
+}
+
+extension TerminalSplitViewController: TerminalSplitViewControllerDelegate {
+
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String) {
+		guard let index = viewControllers.firstIndex(of: viewController),
+					selectedIndex == index else {
+			return
+		}
+
+		self.title = title
+
+		if let parent = parent as? TerminalSplitViewControllerDelegate {
+			parent.terminal(viewController: self, titleDidChange: title)
+		} else if let parent = parent as? BaseTerminalSplitViewControllerChild {
+			parent.delegate?.terminal(viewController: self, titleDidChange: title)
+		}
+	}
+
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, screenSizeDidChange screenSize: ScreenSize) {
+		guard let index = viewControllers.firstIndex(of: viewController),
+					selectedIndex == index else {
+			return
+		}
+
+		self.screenSize = screenSize
+
+		if let parent = parent as? TerminalSplitViewControllerDelegate {
+			parent.terminal(viewController: self, screenSizeDidChange: screenSize)
+		} else if let parent = parent as? BaseTerminalSplitViewControllerChild {
+			parent.delegate?.terminal(viewController: self, screenSizeDidChange: screenSize)
+		}
+	}
+
+	func terminalDidBecomeActive(viewController: BaseTerminalSplitViewControllerChild) {
+		guard let index = viewControllers.firstIndex(of: viewController) else {
+			return
+		}
+
+		selectedIndex = index
+
+		if let parent = parent as? TerminalSplitViewControllerDelegate {
+			parent.terminalDidBecomeActive(viewController: self)
+		} else if let parent = parent as? BaseTerminalSplitViewControllerChild {
+			parent.delegate?.terminalDidBecomeActive(viewController: self)
 		}
 	}
 
@@ -290,23 +347,21 @@ extension TerminalSplitViewController: SplitGrabberViewDelegate {
 		let percentage = Double(delta / totalSpace)
 		let firstSplit = max(0.15, min(0.85, oldSplitPercentages[0] + percentage))
 		let secondSplit = 1 - firstSplit
-		if firstSplit > (1 / 2) - 0.02 && firstSplit < (1 / 2) + 0.02 {
-			// Snap to 50%
-			splitPercentages[0] = 1 / 2
-			splitPercentages[1] = 1 / 2
-		} else if firstSplit > (1 / 3) - 0.02 && firstSplit < (1 / 3) + 0.02 {
-			// Snap to 33%
-			splitPercentages[0] = 1 / 3
-			splitPercentages[1] = 2 / 3
-		} else if firstSplit > (2 / 3) - 0.02 && firstSplit < (2 / 3) + 0.02 {
-			// Snap to 66%
-			splitPercentages[0] = 2 / 3
-			splitPercentages[1] = 1 / 3
-		} else {
+
+		var didSnap = false
+		for point in Self.splitSnapPoints {
+			if firstSplit > point - 0.02 && firstSplit < point + 0.02 {
+				splitPercentages[0] = point
+				splitPercentages[1] = 1 - point
+				didSnap = true
+				break
+			}
+		}
+
+		if !didSnap {
 			splitPercentages[0] = firstSplit
 			splitPercentages[1] = secondSplit
 		}
-
 
 		UIView.animate(withDuration: 0.2) {
 			self.updateConstraints()
