@@ -44,7 +44,7 @@ struct ColorBars {
 		let thirdSectionWidth = thirdSectionSize.cols * 5 + (UInt16(Double(thirdSectionSize.cols) / 3) * 3)
 		let widestWidth = max(firstSectionWidth, thirdSectionWidth)
 
-		var data = "\u{1b}c"
+		var data = "\u{1b}[?25l\u{1b}c"
 		let space = String(repeating: " ", count: Int(firstSectionSize.cols))
 		let differenceSpace = String(repeating: " ", count: Int(widestWidth - firstSectionWidth))
 		for _ in 0..<firstSectionSize.rows {
