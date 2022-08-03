@@ -1,33 +1,41 @@
 name: CI
 
 on:
-  workflow_dispatch:
   push:
+    paths-ignore:
+      - '.gitignore'
+      - '**/.md'
+      - 'assets/**'
   pull_request:
+    paths-ignore:
+      - '.gitignore'
+      - '**/*.md'
+      - 'assets/**'
+  workflow_dispatch:
 
 jobs:
   build:
+    name: Build
     runs-on: macos-12
     steps:
-    - uses: actions/checkout@v2
-    - uses: beerpiss/procursus-action@v1
+    - name: Checkout
+      uses: actions/checkout@v2
+    - name: Set up Procursus
+      uses: beerpiss/procursus-action@v1
       with:
         packages: ldid xz-utils cmark make
         cache: true
         cache-path: ~/__cache
         mirror: 'https://repo.quiprr.dev/procursus/'
-
     - name: Init Theos
       run: git clone --recursive --depth=1 https://github.com/theos/theos.git ~/theos
-
     - name: Compile
       id: package_build
       run: |
         gmake package PACKAGE_VERSION=3.0 THEOS=~/theos
         echo "::set-output name=package::$(cat .theos/last_package)"
-
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2
       with:
-        name: NewTerm 3
+        name: NewTerm3
         path: '${{ steps.package_build.outputs.package }}'
