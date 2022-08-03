@@ -93,12 +93,14 @@ class TerminalKeyInput: TextInputBase {
 			inputAssistantItem.allowsHidingShortcuts = false
 
 			if #available(iOS 16, *) {
+				#if swift(>=5.7)
 				inputAssistantItem.leadingBarButtonGroups += [
 					.fixedGroup(items: [UIBarButtonItem(customView: leadingView)])
 				]
 				inputAssistantItem.trailingBarButtonGroups += [
 					.fixedGroup(items: [UIBarButtonItem(customView: trailingView)])
 				]
+				#endif
 			} else {
 				inputAssistantItem.leadingBarButtonGroups += [
 					UIBarButtonItemGroup(barButtonItems: [UIBarButtonItem(customView: leadingView)], representativeItem: nil)

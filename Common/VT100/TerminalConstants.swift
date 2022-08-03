@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import CoreGraphics
 
 public struct ScreenSize: Hashable {
 	public var cols: UInt16

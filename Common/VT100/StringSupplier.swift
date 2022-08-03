@@ -10,9 +10,15 @@ import SwiftTerm
 import SwiftUI
 
 fileprivate extension View {
+	#if swift(>=5.7)
 	static func + (lhs: Self, rhs: some View) -> AnyView {
 		AnyView(ViewBuilder.buildBlock(lhs, AnyView(rhs)))
 	}
+	#else
+	static func + (lhs: Self, rhs: AnyView) -> AnyView {
+		AnyView(ViewBuilder.buildBlock(lhs, rhs))
+	}
+	#endif
 }
 
 open class StringSupplier {
@@ -46,7 +52,7 @@ open class StringSupplier {
 		let scrollbackRows = terminal.getTopVisibleRow()
 
 		var lastAttribute = Attribute.empty
-		var views = [any View]()
+		var views = [AnyView]()
 		var buffer = ""
 		for j in 0..<terminal.cols {
 			let data = line[j]
@@ -78,11 +84,11 @@ open class StringSupplier {
 		views.append(text(buffer, attribute: lastAttribute))
 
 		return AnyView(HStack(alignment: .firstTextBaseline, spacing: 0) {
-			views.reduce(AnyView(EmptyView()), { $0 + AnyView($1) })
+			views.reduce(AnyView(EmptyView()), { $0 + $1 })
 		})
 	}
 
-	private func text(_ run: String, attribute: Attribute, isCursor: Bool = false) -> any View {
+	private func text(_ run: String, attribute: Attribute, isCursor: Bool = false) -> AnyView {
 		var fgColor = attribute.fg
 		var bgColor = attribute.bg
 
@@ -115,19 +121,21 @@ open class StringSupplier {
 
 		let width = CGFloat(run.unicodeScalars.reduce(0, { $0 + UnicodeUtil.columnWidth(rune: $1) })) * fontMetrics!.width
 
-		return Text(run)
-			// Text attributes
-			.foregroundColor(Color(foreground ?? .white))
-			.font(Font(font ?? .monospacedSystemFont(ofSize: 12, weight: .regular)))
-			.underline(attribute.style.contains(.underline))
-			.strikethrough(attribute.style.contains(.crossedOut))
-			.tracking(0)
-			// View attributes
-			.allowsTightening(false)
-			.lineLimit(1)
-			.background(Color(background ?? .black))
-			.frame(width: width)
-			.fixedSize(horizontal: false, vertical: true)
+		return AnyView(
+			Text(run)
+				// Text attributes
+				.foregroundColor(Color(foreground ?? .white))
+				.font(Font(font ?? .monospacedSystemFont(ofSize: 12, weight: .regular)))
+				.underline(attribute.style.contains(.underline))
+				.strikethrough(attribute.style.contains(.crossedOut))
+				.tracking(0)
+				// View attributes
+				.allowsTightening(false)
+				.lineLimit(1)
+				.background(Color(background ?? .black))
+				.frame(width: width)
+				.fixedSize(horizontal: false, vertical: true)
+		)
 	}
 
 }
