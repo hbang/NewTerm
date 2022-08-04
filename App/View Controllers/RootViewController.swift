@@ -105,7 +105,6 @@ class RootViewController: UIViewController {
 		let isWide = isBigDevice || view.frame.size.width > 450
 		let topBarHeight: CGFloat = isWide ? 33 : 66
 		tabToolbar?.view.frame = CGRect(x: 0, y: 0, width: view.frame.size.width, height: view.safeAreaInsets.top + topBarHeight)
-		tabToolbar?.topMargin = view.safeAreaInsets.top
 
 		for viewController in terminals {
 			viewController.additionalSafeAreaInsets.top = topBarHeight
