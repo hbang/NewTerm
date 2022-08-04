@@ -264,15 +264,15 @@ class SubProcess {
 	}
 
 	private var shell: String {
-		if let userPasswd = userPasswd {
-			return String(cString: userPasswd.pw_shell)
+		if let result = userPasswd?.pw_shell {
+			return String(cString: result)
 		}
 		return "/bin/bash"
 	}
 
 	private var homeDirectory: String {
-		if let userPasswd = userPasswd {
-			return String(cString: userPasswd.pw_dir)
+		if let result = userPasswd?.pw_dir {
+			return String(cString: result)
 		}
 		return NSHomeDirectory()
 	}
