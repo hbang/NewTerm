@@ -73,9 +73,8 @@ public class TerminalController {
 	internal var logger = Logger(subsystem: "ws.hbang.Terminal", category: "TerminalController")
 
 	public init() {
-		// TODO: Scrollback overflows and throws an error on dirtyLines.insert() Terminal.swift:4117
 		let options = TerminalOptions(termName: "xterm-256color",
-																	scrollback: 1000)
+																	scrollback: 10_000)
 		terminal = Terminal(delegate: self, options: options)
 
 		stringSupplier.terminal = terminal
