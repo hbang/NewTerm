@@ -62,7 +62,7 @@ class SubProcess {
 
 	private static let login: String = {
 		#if targetEnvironment(simulator)
-		return "/bin/bash"
+		return "/bin/zsh"
 		#elseif targetEnvironment(macCatalyst)
 		return "/usr/bin/login"
 		#else
@@ -73,11 +73,11 @@ class SubProcess {
 
 	private static var loginArgv: [String] {
 		#if targetEnvironment(simulator)
-		return ["bash", "--login", "-i"]
+		return ["zsh", "--login", "-i"]
 		#else
 		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
 		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
-		let hushLoginURL = URL(fileURLWithPath: NSHomeDirectory())/".hushlogin"
+		let hushLoginURL = homeDirectory/".hushlogin"
 		let hushLogin = (try? hushLoginURL.checkResourceIsReachable()) == true
 		return ["login", "-fp\(hushLogin ? "q" : "")", NSUserName(), loginHelper]
 		#endif
@@ -89,6 +89,33 @@ class SubProcess {
 		"TERM_PROGRAM=NewTerm",
 		"LC_TERMINAL=NewTerm"
 	]
+
+	private static var userPasswd: passwd? {
+		let length = sysconf(_SC_GETPW_R_SIZE_MAX)
+		let buffer = malloc(length)
+		defer { buffer?.deallocate() }
+
+		var pwd = passwd()
+		var result: UnsafeMutablePointer<passwd>? = UnsafeMutablePointer<passwd>.allocate(capacity: 1)
+		guard ie_getpwuid_r(getuid(), &pwd, buffer, length, &result) == 0 else {
+			return nil
+		}
+		return pwd
+	}
+
+	private static var shell: String {
+		if let result = userPasswd?.pw_shell {
+			return String(cString: result)
+		}
+		return "/bin/bash"
+	}
+
+	private static var homeDirectory: String {
+		if let result = userPasswd?.pw_dir {
+			return String(cString: result)
+		}
+		return NSHomeDirectory()
+	}
 
 	weak var delegate: SubProcessDelegate?
 
@@ -131,7 +158,11 @@ class SubProcess {
 
 		// TODO: At some point, come up with some way to keep track of working directory changes.
 		// When opening a new tab, we can switch straight to the previous tab’s working directory.
-		let argv = (Self.loginArgv + [initialDirectory ?? homeDirectory, shell]).cStringArray
+		#if targetEnvironment(simulator)
+		let argv = Self.loginArgv.cStringArray
+		#else
+		let argv = (Self.loginArgv + [initialDirectory ?? Self.homeDirectory, Self.shell]).cStringArray
+		#endif
 		let envp = (Self.baseEnvp + [
 			"LANG=\(localeCode)"
 		]).cStringArray
@@ -248,33 +279,6 @@ class SubProcess {
 				Darwin.write(fileDescriptor, buffer.baseAddress!, buffer.count)
 			}
 		}
-	}
-
-	private var userPasswd: passwd? {
-		let length = sysconf(_SC_GETPW_R_SIZE_MAX)
-		let buffer = malloc(length)
-		defer { buffer?.deallocate() }
-
-		var pwd = passwd()
-		var result: UnsafeMutablePointer<passwd>? = UnsafeMutablePointer<passwd>.allocate(capacity: 1)
-		guard ie_getpwuid_r(getuid(), &pwd, buffer, length, &result) == 0 else {
-			return nil
-		}
-		return pwd
-	}
-
-	private var shell: String {
-		if let result = userPasswd?.pw_shell {
-			return String(cString: result)
-		}
-		return "/bin/bash"
-	}
-
-	private var homeDirectory: String {
-		if let result = userPasswd?.pw_dir {
-			return String(cString: result)
-		}
-		return NSHomeDirectory()
 	}
 
 	private var localeCode: String {
