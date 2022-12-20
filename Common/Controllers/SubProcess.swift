@@ -142,7 +142,7 @@ class SubProcess {
 		}
 
 		var pid = pid_t()
-		let result = posix_spawn(&pid, Self.login, &actions, nil, argv, envp)
+		let result = ie_posix_spawn(&pid, Self.login, &actions, nil, argv, envp)
 		close(fds.replica)
 		if result != 0 {
 			// Fork failed.
@@ -257,7 +257,7 @@ class SubProcess {
 
 		var pwd = passwd()
 		var result: UnsafeMutablePointer<passwd>? = UnsafeMutablePointer<passwd>.allocate(capacity: 1)
-		guard getpwuid_r(getuid(), &pwd, buffer, length, &result) == 0 else {
+		guard ie_getpwuid_r(getuid(), &pwd, buffer, length, &result) == 0 else {
 			return nil
 		}
 		return pwd

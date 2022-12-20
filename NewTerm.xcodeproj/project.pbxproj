@@ -30,6 +30,7 @@
 		4E57499826FEE90700D94DF5 /* PreferencesGroup.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */; };
 		4E57499A26FEED9800D94DF5 /* PreferencesList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E57499926FEED9800D94DF5 /* PreferencesList.swift */; };
 		4E5E817526F2EBE000C4DB6D /* SettingsPerformanceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */; };
+		4E69E3932951E39A00B5BD25 /* libiosexec.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4E69E3922951E39A00B5BD25 /* libiosexec.xcframework */; platformFilter = ios; };
 		4E85FA0127FC32D000092492 /* TerminalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E85FA0027FC32D000092492 /* TerminalView.swift */; };
 		4E98081C261850E600E41883 /* KeyValueView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081B261850E600E41883 /* KeyValueView.swift */; };
 		4E98081E2618551D00E41883 /* SettingsFontView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081D2618551D00E41883 /* SettingsFontView.swift */; };
@@ -165,6 +166,9 @@
 		4E57499726FEE90700D94DF5 /* PreferencesGroup.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesGroup.swift; sourceTree = "<group>"; };
 		4E57499926FEED9800D94DF5 /* PreferencesList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesList.swift; sourceTree = "<group>"; };
 		4E5E817426F2EBE000C4DB6D /* SettingsPerformanceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsPerformanceView.swift; sourceTree = "<group>"; };
+		4E69E3862951E00F00B5BD25 /* libiosexec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiosexec.a; path = Vendor/libiosexec.a; sourceTree = "<group>"; };
+		4E69E3892951E10C00B5BD25 /* libiosexec.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libiosexec.a; path = Vendor/libiosexec/libiosexec.a; sourceTree = "<group>"; };
+		4E69E3922951E39A00B5BD25 /* libiosexec.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = libiosexec.xcframework; path = Vendor/libiosexec/libiosexec.xcframework; sourceTree = "<group>"; };
 		4E85FA0027FC32D000092492 /* TerminalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TerminalView.swift; sourceTree = "<group>"; };
 		4E98081926184A2500E41883 /* String+Localization.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "String+Localization.swift"; sourceTree = "<group>"; };
 		4E98081B261850E600E41883 /* KeyValueView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueView.swift; sourceTree = "<group>"; };
@@ -247,6 +251,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4E69E3932951E39A00B5BD25 /* libiosexec.xcframework in Frameworks */,
 				4E9FB96C26171A01005AFCC8 /* SwiftTerm in Frameworks */,
 				CF71BCC322BB727B00AFB1E1 /* libcurses.tbd in Frameworks */,
 			);
@@ -528,6 +533,9 @@
 		CFBB975B22B54AA600585BE6 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4E69E3922951E39A00B5BD25 /* libiosexec.xcframework */,
+				4E69E3862951E00F00B5BD25 /* libiosexec.a */,
+				4E69E3892951E10C00B5BD25 /* libiosexec.a */,
 				CFBB975E22B54AAA00585BE6 /* libcurses.tbd */,
 				CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */,
 				CFBB975C22B54AA600585BE6 /* libncurses.tbd */,
@@ -547,26 +555,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXHeadersBuildPhase section */
-
-/* Begin PBXLegacyTarget section */
-		CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "do THEOS_DEVICE_IP=local XCODE=1 THEOS=/Users/kirb/theos";
-			buildConfigurationList = CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm (Theos)" */;
-			buildPhases = (
-			);
-			buildToolPath = /usr/local/bin/make;
-			buildWorkingDirectory = "";
-			dependencies = (
-			);
-			name = "NewTerm (Theos)";
-			packageProductDependencies = (
-				4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */,
-			);
-			passBuildSettingsInEnvironment = 0;
-			productName = NewTerm;
-		};
-/* End PBXLegacyTarget section */
 
 /* Begin PBXNativeTarget section */
 		4EBBCB142889051B002EAE00 /* NewTermLoginHelper */ = {
@@ -645,9 +633,6 @@
 					4EBBCB142889051B002EAE00 = {
 						CreatedOnToolsVersion = 14.0;
 					};
-					CF22F9C01FFB98A5003175DE = {
-						CreatedOnToolsVersion = 9.1;
-					};
 					CF71BC8322BB6DBA00AFB1E1 = {
 						CreatedOnToolsVersion = 11.0;
 						ProvisioningStyle = Automatic;
@@ -676,7 +661,6 @@
 			projectRoot = "";
 			targets = (
 				CFBB966022B546DA00585BE6 /* NewTerm (iOS) */,
-				CF22F9C01FFB98A5003175DE /* NewTerm (Theos) */,
 				CF71BC8322BB6DBA00AFB1E1 /* NewTerm Common */,
 				4EBBCB142889051B002EAE00 /* NewTermLoginHelper */,
 			);
@@ -894,7 +878,6 @@
 				);
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -925,7 +908,6 @@
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
-				MACOSX_DEPLOYMENT_TARGET = 13.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -971,6 +953,7 @@
 					Common/External/ncurses,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1014,28 +997,11 @@
 					Common/External/ncurses,
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
+				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
 				LIBRARY_SEARCH_PATHS = Common/External;
 				MACOSX_DEPLOYMENT_TARGET = 11.0;
 				OTHER_SWIFT_FLAGS = "";
 				SWIFT_COMPILATION_MODE = wholemodule;
-			};
-			name = Release;
-		};
-		CF22F9C21FFB98A5003175DE /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 1.0;
-				SDKROOT = iphoneos;
-			};
-			name = Debug;
-		};
-		CF22F9C31FFB98A5003175DE /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ENABLE_OBJC_WEAK = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 1.0;
-				SDKROOT = iphoneos;
 			};
 			name = Release;
 		};
@@ -1085,6 +1051,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libiosexec",
 				);
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -1143,6 +1113,10 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 					"@loader_path/Frameworks",
+				);
+				LIBRARY_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Vendor/libiosexec",
 				);
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -1224,8 +1198,7 @@
 					App,
 				);
 				INFOPLIST_FILE = "App/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				INSTALL_PATH = "$(INSTALL_PREFIX)$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1235,6 +1208,8 @@
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
+					"$(PROJECT_DIR)/Vendor",
+					"$(PROJECT_DIR)/Vendor/libiosexec",
 				);
 				MARKETING_VERSION = 3.0b1;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
@@ -1314,8 +1289,7 @@
 					App,
 				);
 				INFOPLIST_FILE = "App/Supporting Files/Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
-				"IPHONEOS_DEPLOYMENT_TARGET[sdk=macosx*]" = 14.2;
+				INSTALL_PATH = "$(INSTALL_PREFIX)$(LOCAL_APPS_DIR)";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1325,6 +1299,8 @@
 					"$(inherited)",
 					"$(THEOS_VENDOR_LIBRARY_PATH)",
 					"$(THEOS_LIBRARY_PATH)",
+					"$(PROJECT_DIR)/Vendor",
+					"$(PROJECT_DIR)/Vendor/libiosexec",
 				);
 				MARKETING_VERSION = 3.0b1;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1360,15 +1336,6 @@
 			buildConfigurations = (
 				CF22F9AA1FFB97F7003175DE /* Debug */,
 				CF22F9AB1FFB97F7003175DE /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		CF22F9C11FFB98A5003175DE /* Build configuration list for PBXLegacyTarget "NewTerm (Theos)" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				CF22F9C21FFB98A5003175DE /* Debug */,
-				CF22F9C31FFB98A5003175DE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
@@ -1413,11 +1380,6 @@
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		4E4CB11E27E9B2DB001F07B6 /* SwiftUIX */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
-			productName = SwiftUIX;
-		};
 		4E4CB11F27E9B33C001F07B6 /* SwiftUIX */ = {
 			isa = XCSwiftPackageProductDependency;
 			package = 4E4CB11D27E9B2DB001F07B6 /* XCRemoteSwiftPackageReference "SwiftUIX" */;
