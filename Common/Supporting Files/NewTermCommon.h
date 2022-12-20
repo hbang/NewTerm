@@ -9,7 +9,7 @@
 #import <spawn.h>
 #import <pwd.h>
 
-#if TARGET_OS_MACCATALYST
+#if TARGET_OS_MACCATALYST || TARGET_OS_SIMULATOR
 static inline int ie_getpwuid_r(uid_t uid, struct passwd *pw, char *buf, size_t buflen, struct passwd **pwretp) {
 	return getpwuid_r(uid, pw, buf, buflen, pwretp);
 }
