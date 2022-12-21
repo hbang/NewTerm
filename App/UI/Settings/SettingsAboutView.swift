@@ -9,49 +9,41 @@ import SwiftUI
 import SwiftUIX
 
 struct SettingsAboutView: View {
-	
+
 	var windowScene: UIWindowScene?
-	
+
 	private let version: String = {
 		let info = Bundle.main.infoDictionary!
 		return "\(info["CFBundleShortVersionString"] as! String) (\(info["CFBundleVersion"] as! String))"
 	}()
-	
+
 	@State private var showingAcknowledgements = false
-	@State private var showingTipJar = false
 	@State private var showingShare = false
-	@State private var showingHashbangProductions = false
-	
+
 	var body: some View {
-		let safariConfig = SafariView.Configuration(entersReaderIfAvailable: false,
-																								barCollapsingEnabled: false)
-		
+		var supportURL = URLComponents(string: "mailto:support@hbang.ws")!
+		supportURL.queryItems = [
+			URLQueryItem(name: "subject", value: "NewTerm \(version) – Support")
+		]
+
 		let guts = ScrollView {
 			VStack(spacing: 15) {
 				LogoHeaderViewRepresentable()
 					.frame(height: 200)
 					.ignoresSafeArea()
-				
+
 				Text("NewTerm \(version)")
 					.padding(EdgeInsets(top: 15, leading: 15, bottom: 15, trailing: 15))
 					.font(.system(size: 16, weight: .semibold))
-				
+
 				VStack(alignment: .leading, spacing: 15) {
 					Text("This is a beta — thanks for trying it out! If you find any issues, please let us know.")
 						.fixedSize(horizontal: false, vertical: true)
 						.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
 						.font(.system(size: 14))
-					
-					Button(
-						action: {
-							var url = URLComponents(string: "mailto:support@hbang.ws")!
-							url.queryItems = [
-								URLQueryItem(name: "subject", value: "NewTerm \(version) – Support")
-							]
-							UIApplication.shared.open(url.url!,
-																				options: [:],
-																				completionHandler: nil)
-						},
+
+					Link(
+						destination: supportURL.url!,
 						label: {
 							Label(
 								title: { Text("Email Support") },
@@ -67,20 +59,18 @@ struct SettingsAboutView: View {
 					)
 						.buttonStyle(GroupedButtonStyle())
 				}
-				
+
 				VStack(alignment: .leading, spacing: 15) {
-					Text("If you like our work, please consider showing your appreciation with a small donation to the tip jar.")
+					SponsorsView()
 						.fixedSize(horizontal: false, vertical: true)
 						.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
 						.font(.system(size: 14))
-					
-					Button(
-						action: {
-							showingTipJar.toggle()
-						},
+
+					Link(
+						destination: URL(string: "https://hashbang.productions/donate/")!,
 						label: {
 							Label(
-								title: { Text("Tip Jar") },
+								title: { Text("Support NewTerm Development") },
 								icon: {
 									IconView(
 										icon: Image(systemName: .heart)
@@ -91,20 +81,8 @@ struct SettingsAboutView: View {
 							)
 						}
 					)
-						.buttonStyle(GroupedButtonStyle())
-						.safariView(isPresented: $showingTipJar,
-												url: URL(string: "https://hashbang.productions/donate/")!,
-												configuration: safariConfig)
-				}
-				
-				VStack(alignment: .leading, spacing: 15) {
-					Text("…or just let your friends know about NewTerm. We really appreciate it!")
-						.fixedSize(horizontal: false, vertical: true)
-						.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
-						.font(.system(size: 14, weight: .regular, design: .rounded))
-						.foregroundColor(.primary)
-						.textCase(nil)
-					
+					.buttonStyle(GroupedButtonStyle())
+
 					Button(
 						action: {
 							showingShare.toggle()
@@ -125,11 +103,11 @@ struct SettingsAboutView: View {
 						.buttonStyle(GroupedButtonStyle())
 						.activityView(isPresented: $showingShare,
 													activityItems: [
-														"Check out NewTerm! 🧑‍💻",
+														String.localize("Check out NewTerm, a modern, super fast terminal app for iOS and macOS! 🧑‍💻"),
 														URL(string: "https://newterm.app/")!
 													])
 				}
-				
+
 				NavigationLink(
 					destination: SettingsAcknowledgementsView(),
 					label: {
@@ -137,20 +115,19 @@ struct SettingsAboutView: View {
 							Spacer()
 							Text("License & Acknowlegements")
 								.font(.system(size: 12))
+								.buttonStyle(PlainButtonStyle())
 							Spacer()
 						}
 					}
 				)
 					.padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
-				
+
 				Divider()
 					.padding(15)
 					.fixedSize(horizontal: false, vertical: true)
-				
-				Button(
-					action: {
-						showingHashbangProductions.toggle()
-					},
+
+				Link(
+					destination: URL(string: "https://hashbang.productions/")!,
 					label: {
 						VStack {
 							Image("hashbang")
@@ -164,10 +141,7 @@ struct SettingsAboutView: View {
 				)
 					.buttonStyle(PlainButtonStyle())
 					.padding()
-					.safariView(isPresented: $showingHashbangProductions,
-											url: URL(string: "https://hashbang.productions")!,
-											configuration: safariConfig)
-				
+
 				Text("Dedicated to Dennis Bednarz (2000 – 2019), a friend and visionary of the iOS community taken from us too soon.")
 					.fixedSize(horizontal: false, vertical: true)
 					.frame(width: 260)
@@ -177,7 +151,7 @@ struct SettingsAboutView: View {
 					.font(.system(size: 12, weight: .regular))
 			}
 		}
-		
+
 		if windowScene == nil {
 			return AnyView(
 				guts
