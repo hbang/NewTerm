@@ -218,39 +218,40 @@ public class TerminalController {
 				return
 			}
 
-			let cursorLocation = terminal.getCursorLocation()
-			let updateRange = terminal.getScrollInvariantUpdateRange()
-			if updateRange == nil && cursorLocation == self.lastCursorLocation {
+			let scrollbackRows = terminal.getTopVisibleRow()
+			var cursorLocation = terminal.getCursorLocation()
+			cursorLocation.y += scrollbackRows
+
+			let updateRange = terminal.getScrollInvariantUpdateRange() ?? (0, 0)
+			if updateRange == (0, 0) && cursorLocation == self.lastCursorLocation {
+				// Nothing changed, nothing to do.
 				return
 			}
 			terminal.clearUpdateRange()
 
-			if let updateRange = updateRange {
-				let scrollbackRows = terminal.getTopVisibleRow()
-				let scrollInvariantRows = scrollbackRows + terminal.rows
+			let scrollInvariantRows = scrollbackRows + terminal.rows
 
-				// Remove lines that no longer exist
-				if self.lines.count > scrollInvariantRows {
-					self.lines.removeSubrange((scrollInvariantRows - 1)...)
-				}
+			// Remove lines that no longer exist
+			if self.lines.count > scrollInvariantRows {
+				self.lines.removeSubrange((scrollInvariantRows - 1)...)
+			}
 
-				// Add new lines that have been introduced
-				while self.lines.count <= updateRange.endY {
-					self.lines.append(AnyView(EmptyView()))
-				}
+			// Add new lines that have been introduced
+			while self.lines.count <= updateRange.endY {
+				self.lines.append(AnyView(EmptyView()))
+			}
 
-				// Update lines that changed
-				var linesToUpdate = Set(updateRange.startY...updateRange.endY)
-				if cursorLocation != self.lastCursorLocation {
-					linesToUpdate.insert(cursorLocation.y)
-					if self.lastCursorLocation.y != -1 && self.lastCursorLocation.y < scrollInvariantRows {
-						linesToUpdate.insert(self.lastCursorLocation.y)
-					}
+			// Update lines that changed
+			var linesToUpdate = updateRange == (0, 0) ? Set() : Set(updateRange.startY...updateRange.endY)
+			if cursorLocation != self.lastCursorLocation {
+				linesToUpdate.insert(cursorLocation.y)
+				if self.lastCursorLocation.y != -1 && self.lastCursorLocation.y < scrollInvariantRows {
+					linesToUpdate.insert(self.lastCursorLocation.y)
 				}
+			}
 
-				for i in linesToUpdate {
-					self.lines[i] = self.stringSupplier.attributedString(forScrollInvariantRow: i)
-				}
+			for i in linesToUpdate {
+				self.lines[i] = self.stringSupplier.attributedString(forScrollInvariantRow: i)
 			}
 
 			self.lastCursorLocation = cursorLocation
