@@ -51,6 +51,9 @@ struct SettingsAdvancedView: View {
 		let list = ForEach(locales) { item in
 			Text(item.name)
 		}
+		let localeName = preferences.preferredLocale == systemLocale.id
+			? Text("System Language")
+			: Text(locales.first(where: { $0.id == preferences.preferredLocale })?.name ?? "")
 
 		return PreferencesList {
 			#if !targetEnvironment(macCatalyst)
@@ -68,17 +71,19 @@ struct SettingsAdvancedView: View {
 			) {
 				PreferencesPicker(
 					selection: preferences.$preferredLocale,
-					label: Text("Language")
+					label: Text("Language"),
+					valueLabel: localeName,
+					asLink: true
 				) {
 					Text(systemLocale.name)
 						.tag(systemLocale.id)
+					#if targetEnvironment(macCatalyst)
 					Divider()
+					#endif
 					list
 				}
 				#if targetEnvironment(macCatalyst)
 				.pickerStyle(MenuPickerStyle())
-				#else
-//				.pickerStyle(RadioGroupPickerStyle())
 				#endif
 			}
 		}

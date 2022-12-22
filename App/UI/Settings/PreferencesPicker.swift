@@ -7,16 +7,18 @@
 
 import SwiftUI
 
-struct PreferencesPicker<Label: View, SelectionValue: Hashable, Content: View>: View {
+struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable, Content: View>: View {
 
-	var label: Label
-	var selectionBinding: Binding<SelectionValue>
-	var content: Content
+	let selectionBinding: Binding<SelectionValue>
+	let label: Label
+	let keyValueLabel: KeyValueView<Label, ValueLabel>?
+	let asLink: Bool
+	let content: Content
 
-	init(selection: Binding<SelectionValue>, label: Label, @ViewBuilder content: () -> Content) {
-		self.label = label
-		self.selectionBinding = selection
-		self.content = content()
+	@State private var isLinkActive = false
+
+	private init() {
+		fatalError()
 	}
 
 	var body: some View {
@@ -27,25 +29,108 @@ struct PreferencesPicker<Label: View, SelectionValue: Hashable, Content: View>: 
 			label: { label }
 		)
 #else
-		Section(
-			header: label
-		) {
-			Picker(
-				selection: selectionBinding,
-				content: { content },
-				label: { label }
-			)
+		if asLink,
+			 let label = label as? Text {
+			NavigationLink(isActive: $isLinkActive,
+										 destination: { PreferencesPickerPage(selection: selectionBinding,
+																													isLinkActive: $isLinkActive,
+																													label: label,
+																													content: { content }) },
+										 label: { keyValueLabel })
+		} else {
+			Section(
+				header: label
+			) {
+				Picker(
+					selection: selectionBinding,
+					content: { content },
+					label: { label }
+				)
+			}
+				.pickerStyle(InlinePickerStyle())
 		}
-			.pickerStyle(InlinePickerStyle())
 #endif
 	}
 
 }
 
-extension PreferencesPicker where Label == Text {
-	init(selection: Binding<SelectionValue>, label: String, @ViewBuilder content: () -> Content) {
-		self.label = Text(label)
+extension PreferencesPicker where ValueLabel == EmptyView {
+	init(selection: Binding<SelectionValue>,
+			 label: Label,
+			 @ViewBuilder content: () -> Content) {
 		self.selectionBinding = selection
+		self.label = label
+		self.keyValueLabel = KeyValueView(title: label, value: EmptyView())
+		self.asLink = false
+		self.content = content()
+	}
+}
+
+extension PreferencesPicker where Label == Text, ValueLabel == Text {
+	init(selection: Binding<SelectionValue>,
+			 label: Label,
+			 valueLabel: ValueLabel,
+			 asLink: Bool = false,
+			 @ViewBuilder content: () -> Content) {
+		self.selectionBinding = selection
+		self.label = label
+		self.keyValueLabel = KeyValueView(title: label, value: valueLabel)
+		self.asLink = asLink
+		self.content = content()
+	}
+
+	init(selection: Binding<SelectionValue>,
+			 label: String,
+			 valueLabel: String,
+			 asLink: Bool = false,
+			 @ViewBuilder content: () -> Content) {
+		self.selectionBinding = selection
+		self.label = Text(label)
+		self.keyValueLabel = KeyValueView(title: Text(label), value: Text(valueLabel))
+		self.asLink = asLink
+		self.content = content()
+	}
+}
+
+struct PreferencesPickerPage<Label: View, SelectionValue: Hashable, Content: View>: View {
+
+	private let selectionBinding: Binding<SelectionValue>
+	private var isLinkActive: Binding<Bool>
+	private let label: Text
+	private let asLink: Bool
+	private let content: Content
+
+	private init() {
+		fatalError()
+	}
+
+	var body: some View {
+		PreferencesList {
+			Picker(
+				selection: selectionBinding,
+				content: { content },
+				label: { EmptyView() }
+			)
+		}
+			.pickerStyle(InlinePickerStyle())
+			.navigationBarTitle(label)
+			.onChange(of: selectionBinding.wrappedValue) { _ in
+				self.isLinkActive.wrappedValue = false
+			}
+	}
+
+}
+
+extension PreferencesPickerPage where Label == Text {
+	init(selection: Binding<SelectionValue>,
+			 isLinkActive: Binding<Bool>,
+			 label: Label,
+			 asLink: Bool = false,
+			 @ViewBuilder content: () -> Content) {
+		self.selectionBinding = selection
+		self.isLinkActive = isLinkActive
+		self.label = label
+		self.asLink = asLink
 		self.content = content()
 	}
 }

@@ -30,8 +30,10 @@ struct KeyValueView<Title: View, Value: View>: View {
 			icon
 				.frame(width: 29, height: 29, alignment: .center)
 			title
+				.lineLimit(1)
 			Spacer()
 			value
+				.lineLimit(1)
 				.foregroundColor(.secondary)
 		}
 	}
