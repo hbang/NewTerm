@@ -135,7 +135,9 @@ enum ToolbarKey: Hashable {
 
 		// Fn keys
 		case .fnKey(let index):
-			return Key(label: "F\(index + 1)", preferredStyle: .text, widthRatio: 1.25)
+			return Key(label: "F\(index + 1)",
+								 preferredStyle: .text,
+								 widthRatio: 1.25)
 		}
 	}
 }
@@ -148,8 +150,11 @@ struct KeyboardToolbarKeyStack: View {
 	weak var delegate: KeyboardToolbarViewDelegate?
 
 	let toolbar: Toolbar
+	var arrowsStyle: KeyboardArrowsStyle?
 
 	@Binding var toggledKeys: Set<ToolbarKey>
+
+	@ObservedObject private var preferences = Preferences.shared
 
 	var body: some View {
 		HStack(alignment: .center, spacing: 5) {
@@ -157,7 +162,7 @@ struct KeyboardToolbarKeyStack: View {
 				switch key {
 				case .fixedSpace:    EmptyView()
 				case .variableSpace: Spacer(minLength: 0)
-				case .arrows:        arrowsView
+				case .arrows:        AnyView(arrowsView)
 				default:             button(for: key)
 				}
 			}
@@ -212,25 +217,51 @@ struct KeyboardToolbarKeyStack: View {
 															widthRatio: key.key.widthRatio))
 	}
 
-	var arrowsView: some View {
-		// “Scissor”
-//		VStack(alignment: .center, spacing: 1.5) {
-//			button(for: .up, halfHeight: true)
-//			HStack(spacing: 1.5) {
-//				button(for: .left, halfHeight: true)
-//				button(for: .down, halfHeight: true)
-//				button(for: .right, halfHeight: true)
-//			}
-//		}
-
-		// “Butterfly”
-		HStack(spacing: 2) {
-			button(for: .left)
-			VStack(spacing: 2) {
-				button(for: .up, halfHeight: true)
-				button(for: .down, halfHeight: true)
+	var arrowsView: any View {
+		switch arrowsStyle ?? preferences.keyboardArrowsStyle {
+		case .butterfly:
+			return HStack(spacing: 2) {
+				button(for: .left)
+				VStack(spacing: 2) {
+					button(for: .up, halfHeight: true)
+					button(for: .down, halfHeight: true)
+				}
+				button(for: .right)
 			}
-			button(for: .right)
+
+		case .scissor:
+			return VStack(alignment: .center, spacing: 1.5) {
+				button(for: .up, halfHeight: true)
+				HStack(spacing: 1.5) {
+					button(for: .left, halfHeight: true)
+					button(for: .down, halfHeight: true)
+					button(for: .right, halfHeight: true)
+				}
+			}
+
+		case .classic:
+			return HStack(spacing: 5) {
+				button(for: .up)
+				button(for: .down)
+				button(for: .left)
+				button(for: .right)
+			}
+
+		case .vim:
+			return HStack(spacing: 5) {
+				button(for: .left)
+				button(for: .down)
+				button(for: .up)
+				button(for: .right)
+			}
+
+		case .vimInverted:
+			return HStack(spacing: 5) {
+				button(for: .left)
+				button(for: .up)
+				button(for: .down)
+				button(for: .right)
+			}
 		}
 	}
 }
@@ -243,7 +274,7 @@ struct KeyboardToolbarView: View {
 	@Binding var toggledKeys: Set<ToolbarKey>
 
 	@State private var outerSize = CGSize.zero
-	
+
 	@ObservedObject private var preferences = Preferences.shared
 
 	private func isToolbarVisible(_ toolbar: Toolbar) -> Bool {

@@ -7,6 +7,18 @@
 
 import SwiftUI
 
+fileprivate extension KeyboardArrowsStyle {
+	var name: String {
+		switch self {
+		case .butterfly:   return "Butterfly"
+		case .scissor:     return "Scissor"
+		case .classic:     return "Classic"
+		case .vim:         return "Vim"
+		case .vimInverted: return "Vim Inverted"
+		}
+	}
+}
+
 struct SettingsView: View {
 
 	@Environment(\.presentationMode)
@@ -16,9 +28,11 @@ struct SettingsView: View {
 
 	var windowScene: UIWindowScene?
 
+	@State private var toggledKeys = Set<ToolbarKey>()
+
 	var body: some View {
 		let list = List() {
-			Section(header: Text("Interface")) {
+			Section(header: Text("Terminal")) {
 				NavigationLink(
 					destination: SettingsFontView(),
 					label: {
@@ -39,7 +53,25 @@ struct SettingsView: View {
 				)
 			}
 
-			#if !targetEnvironment(macCatalyst)
+			Section(header: Text("Keyboard")) {
+				PreferencesPicker(selection: $preferences.keyboardArrowsStyle,
+													label: Text("Arrow Keys"),
+													valueLabel: Text(preferences.keyboardArrowsStyle.name),
+													asLink: true) {
+					ForEach(KeyboardArrowsStyle.allCases, id: \.self) { key in
+						HStack(alignment: .center) {
+							Text(key.name)
+							Spacer()
+							KeyboardToolbarKeyStack(toolbar: .padPrimaryTrailing,
+																			arrowsStyle: key,
+																			toggledKeys: $toggledKeys)
+								.disabled(true)
+						}
+						.height(44)
+					}
+				}
+			}
+
 			Section {
 				NavigationLink(
 					destination: SettingsAdvancedView(),
@@ -53,38 +85,29 @@ struct SettingsView: View {
 					label: { Text("About") }
 				)
 			}
-			#endif
 		}
 			.listStyle(InsetGroupedListStyle())
 
-#if targetEnvironment(macCatalyst)
-		let finalList = list
-			.navigationBarTitle("SETTINGS", displayMode: .inline)
-			.navigationBarHidden(true)
-#else
-		let finalList = list
-			.navigationBarTitle("SETTINGS", displayMode: .large)
-			.navigationBarItems(trailing:
-														Button(
-															action: {
-																if let windowScene = windowScene {
-																	UIApplication.shared.requestSceneSessionDestruction(windowScene.session, options: nil, errorHandler: nil)
-																} else {
-																	// TODO: presentationMode seems useless when UIKit is presenting
-																	// the view controller rather than SwiftUI? Ugh
-//																	presentationMode.wrappedValue.dismiss()
-																	NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
-																}
-															},
-															label: { Text(verbatim: .done).bold() }
-														)
-			)
-#endif
-
 		return NavigationView {
-			finalList
+			list
+				.navigationBarTitle("SETTINGS", displayMode: .large)
+				.navigationBarItems(trailing:
+															Button(
+																action: {
+																	if let windowScene = windowScene {
+																		UIApplication.shared.requestSceneSessionDestruction(windowScene.session, options: nil, errorHandler: nil)
+																	} else {
+																		// TODO: presentationMode seems useless when UIKit is presenting
+																		// the view controller rather than SwiftUI? Ugh
+//																		presentationMode.wrappedValue.dismiss()
+																		NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
+																	}
+																},
+																label: { Text(verbatim: .done).bold() }
+															)
+				)
 		}
-		.navigationViewStyle(StackNavigationViewStyle())
+			.navigationViewStyle(StackNavigationViewStyle())
 	}
 }
 

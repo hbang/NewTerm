@@ -19,6 +19,10 @@ public enum KeyboardTrackpadSensitivity: Int {
 	case off, low, medium, high
 }
 
+public enum KeyboardArrowsStyle: Int, CaseIterable {
+	case butterfly, scissor, classic, vim, vimInverted
+}
+
 public enum PreferencesSyncService: Int, Identifiable {
 	case none, icloud, folder
 
@@ -109,6 +113,11 @@ public class Preferences: NSObject, ObservableObject {
 
 	@AppStorage("keyboardTrackpadSensitivity")
 	public var keyboardTrackpadSensitivity: KeyboardTrackpadSensitivity = .medium {
+		willSet { objectWillChange.send() }
+	}
+
+	@AppStorage("keyboardArrowsStyle")
+	public var keyboardArrowsStyle: KeyboardArrowsStyle = .butterfly {
 		willSet { objectWillChange.send() }
 	}
 
