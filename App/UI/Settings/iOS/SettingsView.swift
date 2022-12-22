@@ -59,7 +59,7 @@ struct SettingsView: View {
 
 #if targetEnvironment(macCatalyst)
 		let finalList = list
-			.navigationBarTitle("SETTINGS_MAC", displayMode: .inline)
+			.navigationBarTitle("SETTINGS", displayMode: .inline)
 			.navigationBarHidden(true)
 #else
 		let finalList = list
@@ -72,7 +72,7 @@ struct SettingsView: View {
 																} else {
 																	// TODO: presentationMode seems useless when UIKit is presenting
 																	// the view controller rather than SwiftUI? Ugh
-																	//																	presentationMode.wrappedValue.dismiss()
+//																	presentationMode.wrappedValue.dismiss()
 																	NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
 																}
 															},

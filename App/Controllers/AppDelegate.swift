@@ -90,7 +90,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 			// Application menu
 			builder.insertSibling(UIMenu(options: .displayInline,
 																	 children: [
-																		UIKeyCommand(title: .localize("SETTINGS_MAC", comment: "Title of Settings page on macOS (where Settings is usually named Preferences)."),
+																		UIKeyCommand(title: .localize("SETTINGS", comment: "Title of Settings page."),
 																								 action: #selector(RootViewController.openSettings),
 																								 input: ",",
 																								 modifierFlags: .command)

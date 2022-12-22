@@ -10,10 +10,6 @@
 	<key>SETTINGS</key>
 	<string>Settings</string>
 
-	<!-- Title of Settings page on macOS (where Settings is usually named Preferences). -->
-	<key>SETTINGS_MAC</key>
-	<string>Preferences</string>
-
 	<!-- Title of About page. -->
 	<key>ABOUT</key>
 	<string>About NewTerm</string>
