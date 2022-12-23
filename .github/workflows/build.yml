@@ -19,23 +19,23 @@ jobs:
     runs-on: macos-12
     steps:
     - name: Checkout
-      uses: actions/checkout@v2
+      uses: actions/checkout@v3
     - name: Set up Procursus
-      uses: beerpiss/procursus-action@v1
+      uses: beerpiss/procursus-action@v2
       with:
         packages: ldid xz-utils cmark make
         cache: true
         cache-path: ~/__cache
         mirror: 'https://repo.quiprr.dev/procursus/'
-    - name: Init Theos
-      run: git clone --recursive --depth=1 https://github.com/theos/theos.git ~/theos
+    - name: Set up Theos
+      run: git clone --recursive --depth=1 'https://github.com/theos/theos.git' ~/theos
     - name: Compile
       id: package_build
       run: |
         gmake package PACKAGE_VERSION=3.0 THEOS=~/theos
         echo "package=$(cat .theos/last_package)" >> $GITHUB_OUTPUT
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2
+      uses: actions/upload-artifact@v3
       with:
         name: NewTerm3
         path: '${{ steps.package_build.outputs.package }}'
