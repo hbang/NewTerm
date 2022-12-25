@@ -9,10 +9,6 @@
 import Foundation
 import os.log
 
-protocol LocalizedError {
-	var localizedDescription: String { get }
-}
-
 enum SubProcessIllegalStateError: Error, LocalizedError {
 	case alreadyStarted, notStarted
 	case openPtyFailed(errno: errno_t)

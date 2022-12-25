@@ -39,55 +39,36 @@ struct IconView_Previews: PreviewProvider {
 	static var previews: some View {
 		NavigationView {
 			List {
-				NavigationLink(
-					destination: List() {},
-					label: {
+				NavigationLink(destination: List() {},
+											 label: {
 						HStack {
-							IconView(
-								icon: Image(systemName: .envelope)
-									.resizable(),
-								backgroundColor: .blue
-							)
+							IconView(icon: Image(systemName: .envelope).resizable(),
+											 backgroundColor: .blue)
 							Text("Email Support")
 						}
-					}
-				)
-				NavigationLink(
-					destination: List() {},
-					label: {
+				})
+				NavigationLink(destination: List() {},
+											 label: {
 						HStack {
-							IconView(
-								icon: Image(systemName: .heart)
-									.resizable(),
-								backgroundColor: .red
-							)
+							IconView(icon: Image(systemName: .heart).resizable(),
+											 backgroundColor: .red)
 							Text("Tip Jar")
 						}
-					}
-				)
-				NavigationLink(
-					destination: List() {},
-					label: {
+				})
+				NavigationLink(destination: List() {},
+											 label: {
 						HStack {
-							IconView(
-								icon: Image(systemName: .doc)
-									.resizable(),
-								backgroundColor: .gray
-							)
+							IconView(icon: Image(systemName: .doc).resizable(),
+											 backgroundColor: .gray)
 							Text("Acknowledgements")
 						}
-					}
-				)
-				NavigationLink(
-					destination: List() {},
-					label: {
+				})
+				NavigationLink(destination: List() {},
+											 label: {
 						HStack {
-							IconView(
-								size: .medium,
-								icon: Image(systemName: .star)
-									.resizable(),
-								backgroundColor: .yellow
-							)
+							IconView(size: .medium,
+											 icon: Image(systemName: .star).resizable(),
+											 backgroundColor: .yellow)
 							VStack(alignment: .leading) {
 								Text("Big button!")
 								Text("With a subtitle")
@@ -95,18 +76,13 @@ struct IconView_Previews: PreviewProvider {
 									.font(Font(UIFont.preferredFont(forTextStyle: .footnote)))
 							}
 						}
-					}
-				)
-				NavigationLink(
-					destination: List() {},
-					label: {
+				})
+				NavigationLink(destination: List() {},
+											 label: {
 						HStack {
-							IconView(
-								size: .large,
-								icon: Image(systemName: .sparkles)
-									.resizable(),
-								backgroundColor: Color(UIColor.systemIndigo)
-							)
+							IconView(size: .large,
+											 icon: Image(systemName: .sparkles).resizable(),
+											 backgroundColor: .systemIndigo)
 							VStack(alignment: .leading) {
 								Text("Huge icon!")
 								Text("Maybe a little too big")
@@ -114,8 +90,7 @@ struct IconView_Previews: PreviewProvider {
 									.font(Font(UIFont.preferredFont(forTextStyle: .footnote)))
 							}
 						}
-					}
-				)
+				})
 			}
 			.listStyle(GroupedListStyle())
 		}

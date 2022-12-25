@@ -30,31 +30,31 @@ struct SettingsView: View {
 
 	@State private var toggledKeys = Set<ToolbarKey>()
 
+	private func dismiss() {
+		if let windowScene = windowScene {
+			UIApplication.shared.requestSceneSessionDestruction(windowScene.session, options: nil, errorHandler: nil)
+		} else {
+			// TODO: presentationMode seems useless when UIKit is presenting
+			// the view controller rather than SwiftUI? Ugh
+//			presentationMode.wrappedValue.dismiss()
+			NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
+		}
+	}
+
 	var body: some View {
 		let list = List() {
-			Section(header: Text("Terminal")) {
-				NavigationLink(
-					destination: SettingsFontView(),
-					label: {
-						KeyValueView(
-							title: Text("Font"),
-							value: Text("\(preferences.fontName), \(Int(preferences.fontSize))")
-						)
-					}
-				)
-				NavigationLink(
-					destination: SettingsThemeView(),
-					label: {
-						KeyValueView(
-							title: Text("Theme"),
-							value: Text(preferences.themeName)
-						)
-					}
-				)
+			PreferencesGroup(header: Text("Terminal")) {
+				NavigationLink(destination: SettingsFontView(),
+											 label: { KeyValueView(title: Text("Font"),
+																						 value: Text("\(preferences.fontName), \(Int(preferences.fontSize))")) })
+
+				NavigationLink(destination: SettingsThemeView(),
+											 label: { KeyValueView(title: Text("Theme"),
+																						 value: Text(preferences.themeName)) })
 			}
 
-			Section(header: Text("Keyboard")) {
-				PreferencesPicker(selection: $preferences.keyboardArrowsStyle,
+			PreferencesGroup(header: Text("Keyboard")) {
+				PreferencesPicker(selection: preferences.$keyboardArrowsStyle,
 													label: Text("Arrow Keys"),
 													valueLabel: Text(preferences.keyboardArrowsStyle.name),
 													asLink: true) {
@@ -67,23 +67,20 @@ struct SettingsView: View {
 																			toggledKeys: $toggledKeys)
 								.disabled(true)
 						}
-						.height(44)
+							.height(44)
 					}
 				}
 			}
 
-			Section {
-				NavigationLink(
-					destination: SettingsAdvancedView(),
-					label: { Text("Advanced") }
-				)
+
+			PreferencesGroup {
+				NavigationLink(destination: SettingsAdvancedView(),
+											 label: { Text("Advanced") })
 			}
 
-			Section {
-				NavigationLink(
-					destination: SettingsAboutView(),
-					label: { Text("About") }
-				)
+			PreferencesGroup {
+				NavigationLink(destination: SettingsAboutView(),
+											 label: { Text("About") })
 			}
 		}
 			.listStyle(InsetGroupedListStyle())
@@ -91,21 +88,8 @@ struct SettingsView: View {
 		return NavigationView {
 			list
 				.navigationBarTitle("SETTINGS", displayMode: .large)
-				.navigationBarItems(trailing:
-															Button(
-																action: {
-																	if let windowScene = windowScene {
-																		UIApplication.shared.requestSceneSessionDestruction(windowScene.session, options: nil, errorHandler: nil)
-																	} else {
-																		// TODO: presentationMode seems useless when UIKit is presenting
-																		// the view controller rather than SwiftUI? Ugh
-//																		presentationMode.wrappedValue.dismiss()
-																		NotificationCenter.default.post(name: RootViewController.settingsViewDoneNotification, object: nil)
-																	}
-																},
-																label: { Text(verbatim: .done).bold() }
-															)
-				)
+				.navigationBarItems(trailing: Button(action: { self.dismiss() },
+																						 label: { Text(verbatim: .done).bold() }))
 		}
 			.navigationViewStyle(StackNavigationViewStyle())
 	}

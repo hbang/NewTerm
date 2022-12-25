@@ -120,10 +120,7 @@ extension SafariView {
 		// MARK: - UIViewControllerRepresentable
 
 		func makeUIViewController(context: Context) -> SFSafariViewController {
-			let safariViewController = SFSafariViewController(
-				url: parent.url,
-				configuration: parent.configuration
-			)
+			let safariViewController = SFSafariViewController(url: parent.url, configuration: parent.configuration)
 			// Disable interactive pop gesture recognizer
 			safariViewController.modalPresentationStyle = .none
 			parent.applyModification(to: safariViewController)
@@ -144,10 +141,8 @@ struct SafariViewPresentationModifier: ViewModifier {
 	var representationBuilder: () -> SafariView
 
 	private var item: Binding<Bool?> {
-		.init(
-			get: { self.isPresented ? true : nil },
-			set: { self.isPresented = ($0 != nil) }
-		)
+		Binding(get: { self.isPresented ? true : nil },
+						set: { self.isPresented = ($0 != nil) })
 	}
 
 	private func itemRepresentationBuilder(bool: Bool) -> SafariView {
@@ -156,9 +151,7 @@ struct SafariViewPresentationModifier: ViewModifier {
 
 	func body(content: Content) -> some View {
 		content.background(
-			SafariViewPresenter(
-				onDismiss: onDismiss
-			)
+			SafariViewPresenter(onDismiss: onDismiss)
 		)
 	}
 
@@ -171,10 +164,8 @@ struct ItemSafariViewPresentationModifier: ViewModifier {
 
 	func body(content: Content) -> some View {
 		content.background(
-			SafariViewPresenter(
-				onDismiss: onDismiss
-//				representationBuilder: representationBuilder
-			)
+			SafariViewPresenter(onDismiss: onDismiss)
+//													representationBuilder: representationBuilder)
 		)
 	}
 

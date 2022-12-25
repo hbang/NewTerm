@@ -27,7 +27,7 @@ struct SettingsInterfaceView: View {
 		let sampleView = VStack(spacing: 0) {
 			Rectangle()
 				.frame(height: 26)
-				.foregroundColor(Color(UIColor.secondarySystemBackground))
+				.foregroundColor(.secondarySystemBackground)
 				.overlay(
 					HStack(spacing: 8) {
 						Circle()
@@ -42,7 +42,7 @@ struct SettingsInterfaceView: View {
 						Spacer()
 						Text("Preview")
 							.fontWeight(.semibold)
-							.foregroundColor(Color(UIColor.label))
+							.foregroundColor(.label)
 						Spacer()
 						Rectangle()
 							.foregroundColor(.clear)
@@ -53,59 +53,50 @@ struct SettingsInterfaceView: View {
 				.padding([.top, .leading, .trailing], 1 / UIScreen.main.scale)
 			Divider()
 				.padding([.leading, .trailing], 1 / UIScreen.main.scale)
-			TerminalSampleView(
-				fontMetrics: preferences.fontMetrics,
-				colorMap: preferences.colorMap
-			)
+			TerminalSampleView(fontMetrics: preferences.fontMetrics,
+												 colorMap: preferences.colorMap)
 		}
 			.frame(width: 320)
 			.clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
 			.overlay(
 				RoundedRectangle(cornerRadius: 8, style: .continuous)
-					.strokeBorder(Color(UIColor.tertiarySystemBackground), lineWidth: 1 / UIScreen.main.scale)
+					.strokeBorder(.tertiarySystemBackground, lineWidth: 1 / UIScreen.main.scale)
 					.foregroundColor(.clear)
 			)
 			.padding([.top, .bottom, .leading], 20)
 
-		let themes = PreferencesPicker(selection: preferences.$themeName, label: "Theme") {
+		let themes = PreferencesPicker(selection: preferences.$themeName,
+																	 label: Text("Theme")) {
 			ForEach(sortedThemes, id: \.key) { key, _ in
 				Text(key)
 			}
 		}
 			.pickerStyle(MenuPickerStyle())
 
-		let fonts = PreferencesPicker(selection: preferences.$fontName, label: "Font") {
+		let fonts = PreferencesPicker(selection: preferences.$fontName,
+																	label: Text("Font")) {
 			Text("Default (SF Mono)")
 				.id("SF Mono")
 			HStack {
 				Text("Custom: \(preferences.fontName)")
-				Button(
-					action: {},
-					label: {
-						Label("Choose Font…", systemImage: "textformat")
-							.labelStyle(TitleOnlyLabelStyle())
-					}
-				)
+				Button(action: {},
+							 label: { Label("Choose Font…", systemImage: "textformat").labelStyle(TitleOnlyLabelStyle()) })
 			}
 		}
 
-		let fontSize = TextField(
-			"Font Size",
-			text: Binding(
-				get: {
-					let numberFormatter = NumberFormatter()
-					numberFormatter.numberStyle = .decimal
-					numberFormatter.minimumFractionDigits = 0
-					numberFormatter.maximumFractionDigits = 2
-					return numberFormatter.string(for: preferences.fontSizeMac) ?? "12"
-				},
-				set: { value in
-					if let value = Double(value ?? "") {
-						preferences.fontSizeMac = value
-					}
-				}
-			)
-		)
+		let fontSize = TextField("Font Size",
+														 text: Binding(get: {
+			let numberFormatter = NumberFormatter()
+			numberFormatter.numberStyle = .decimal
+			numberFormatter.minimumFractionDigits = 0
+			numberFormatter.maximumFractionDigits = 2
+			return numberFormatter.string(for: preferences.fontSizeMac) ?? "12"
+		},
+																					 set: { value in
+			if let value = Double(value ?? "") {
+				preferences.fontSizeMac = value
+			}
+		}))
 			.keyboardType(.decimalPad)
 
 		return HStack(spacing: 0) {

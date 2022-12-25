@@ -42,21 +42,10 @@ struct SettingsAboutView: View {
 						.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
 						.font(.system(size: 14))
 
-					Link(
-						destination: supportURL.url!,
-						label: {
-							Label(
-								title: { Text("Email Support") },
-								icon: {
-									IconView(
-										icon: Image(systemName: .envelope)
-											.resizable(),
-										backgroundColor: .blue
-									)
-								}
-							)
-						}
-					)
+					Link(destination: supportURL.url!,
+							 label: { Label(title: { Text("Email Support") },
+															icon: { IconView(icon: Image(systemName: .envelope).resizable(),
+																							 backgroundColor: .blue) }) })
 						.buttonStyle(GroupedButtonStyle())
 				}
 
@@ -66,40 +55,16 @@ struct SettingsAboutView: View {
 						.padding(EdgeInsets(top: 5, leading: 15, bottom: 5, trailing: 15))
 						.font(.system(size: 14))
 
-					Link(
-						destination: URL(string: "https://hashbang.productions/donate/")!,
-						label: {
-							Label(
-								title: { Text("Support NewTerm Development") },
-								icon: {
-									IconView(
-										icon: Image(systemName: .heart)
-											.resizable(),
-										backgroundColor: .red
-									)
-								}
-							)
-						}
-					)
-					.buttonStyle(GroupedButtonStyle())
+					Link(destination: URL(string: "https://hashbang.productions/donate/")!,
+							 label: { Label(title: { Text("Support NewTerm Development") },
+															icon: { IconView(icon: Image(systemName: .heart).resizable(),
+																							 backgroundColor: .red) }) })
+						.buttonStyle(GroupedButtonStyle())
 
-					Button(
-						action: {
-							showingShare.toggle()
-						},
-						label: {
-							Label(
-								title: { Text("Share NewTerm") },
-								icon: {
-									IconView(
-										icon: Image(systemName: .squareAndArrowUp)
-											.resizable(),
-										backgroundColor: Color(UIColor.systemIndigo)
-									)
-								}
-							)
-						}
-					)
+					Button(action: { showingShare.toggle() },
+								 label: { Label(title: { Text("Share NewTerm") },
+																icon: { IconView(icon: Image(systemName: .squareAndArrowUp).resizable(),
+																								 backgroundColor: .systemIndigo) }) })
 						.buttonStyle(GroupedButtonStyle())
 						.activityView(isPresented: $showingShare,
 													activityItems: [
@@ -108,37 +73,33 @@ struct SettingsAboutView: View {
 													])
 				}
 
-				NavigationLink(
-					destination: SettingsAcknowledgementsView(),
-					label: {
-						HStack {
-							Spacer()
-							Text("License & Acknowlegements")
-								.font(.system(size: 12))
-								.buttonStyle(PlainButtonStyle())
-							Spacer()
-						}
+				NavigationLink(destination: SettingsAcknowledgementsView(),
+											 label: {
+					HStack {
+						Spacer()
+						Text("License & Acknowlegements")
+							.font(.system(size: 12))
+							.buttonStyle(PlainButtonStyle())
+						Spacer()
 					}
-				)
+				})
 					.padding(EdgeInsets(top: 15, leading: 15, bottom: 0, trailing: 15))
 
 				Divider()
 					.padding(15)
 					.fixedSize(horizontal: false, vertical: true)
 
-				Link(
-					destination: URL(string: "https://hashbang.productions/")!,
-					label: {
-						VStack {
-							Image("hashbang")
-							Text("© HASHBANG Productions")
-								.foregroundColor(.secondary)
-								.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
-								.multilineTextAlignment(.center)
-								.font(.system(size: 12, weight: .regular))
-						}
+				Link(destination: URL(string: "https://hashbang.productions/")!,
+						 label: {
+					VStack {
+						Image("hashbang")
+						Text("© HASHBANG Productions")
+							.foregroundColor(.secondary)
+							.padding(EdgeInsets(top: 8, leading: 0, bottom: 0, trailing: 0))
+							.multilineTextAlignment(.center)
+							.font(.system(size: 12, weight: .regular))
 					}
-				)
+				})
 					.buttonStyle(PlainButtonStyle())
 					.padding()
 
@@ -156,7 +117,7 @@ struct SettingsAboutView: View {
 			return AnyView(
 				guts
 					.navigationBarTitle("", displayMode: .inline)
-					.background(Color(UIColor.systemGroupedBackground))
+					.background(.systemGroupedBackground)
 			)
 		} else {
 			return AnyView(
@@ -179,6 +140,6 @@ struct SettingsAboutView_Previews: PreviewProvider {
 		NavigationView {
 			SettingsAboutView()
 		}
-		.previewDevice("iPod touch (7th generation)")
+			.previewDevice("iPod touch (7th generation)")
 	}
 }

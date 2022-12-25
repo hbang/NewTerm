@@ -37,10 +37,8 @@ struct PreferencesGroup<Header: View, Footer: View, Content: View>: View {
 		}
 			.pickerStyle(InlinePickerStyle())
 		#else
-		Section(
-			header: header,
-			footer: footer
-		) {
+		Section(header: header,
+						footer: footer) {
 			content
 		}
 		#endif

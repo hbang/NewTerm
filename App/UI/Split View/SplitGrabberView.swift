@@ -95,7 +95,7 @@ class SplitGrabberView: UIView {
 		switch gestureRecognizer.state {
 		case .began:
 			delegate?.splitGrabberViewDidBeginDragging(self)
-			
+
 		case .changed:
 			let translation = gestureRecognizer.translation(in: gestureRecognizer.view)
 			let value: CGFloat

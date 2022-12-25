@@ -30,19 +30,16 @@ struct SettingsGeneralView: View {
 
 	var body: some View {
 		PreferencesList {
-			PreferencesGroup(
-				header: Text("Bell"),
-				footer: Text("When a terminal application needs to notify you of something, it rings the bell.")
-			) {
+			PreferencesGroup(header: Text("Bell"),
+											 footer: Text("When a terminal application needs to notify you of something, it rings the bell.")) {
 				Toggle("Make beep sound", isOn: preferences.$bellSound)
 				Toggle("Show heads-up display", isOn: preferences.$bellHUD)
 			}
 
-			PreferencesGroup(
-				header: Text("Settings Sync"),
-				footer: Text("Keep your NewTerm settings in sync between your Mac, iPhone, and iPad by selecting iCloud sync. If you just want to keep a backup with a service such as Dropbox, select custom folder sync.")
-			) {
-				PreferencesPicker(selection: preferences.$preferencesSyncService, label: "Sync app settings:") {
+			PreferencesGroup(header: Text("Settings Sync"),
+											 footer: Text("Keep your NewTerm settings in sync between your Mac, iPhone, and iPad by selecting iCloud sync. If you just want to keep a backup with a service such as Dropbox, select custom folder sync.")) {
+				PreferencesPicker(selection: preferences.$preferencesSyncService,
+													label: Text("Sync app settings:")) {
 					Text("Don’t sync")
 						.tag(PreferencesSyncService.none)
 					Text("via iCloud")

@@ -13,7 +13,7 @@ struct KeyboardKeyButtonStyle: ButtonStyle {
 	var shadow = false
 	var halfHeight = false
 	var widthRatio: CGFloat?
-	
+
 	func makeBody(configuration: Configuration) -> some View {
 		var height: CGFloat = 45
 		let width = widthRatio == nil ? nil : height * widthRatio!
@@ -53,7 +53,7 @@ struct KeyboardKeyButtonStyle: ButtonStyle {
 			)
 			.animation(nil)
 	}
-	
+
 	init(selected: Bool = false, hasShadow shadow: Bool = false, halfHeight: Bool = false, widthRatio: CGFloat? = nil) {
 		self.selected = selected
 		self.shadow = shadow

@@ -18,10 +18,8 @@ struct SettingsFontView: View {
 
 	var body: some View {
 		VStack(spacing: 0) {
-			TerminalSampleView(
-				fontMetrics: preferences.fontMetrics,
-				colorMap: preferences.colorMap
-			)
+			TerminalSampleView(fontMetrics: preferences.fontMetrics,
+												 colorMap: preferences.colorMap)
 
 			PreferencesList {
 				PreferencesGroup(header: Text("Font")) {

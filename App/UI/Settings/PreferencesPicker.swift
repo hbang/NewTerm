@@ -23,11 +23,9 @@ struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable
 
 	var body: some View {
 #if targetEnvironment(macCatalyst)
-		Picker(
-			selection: selectionBinding,
-			content: { content },
-			label: { label }
-		)
+		Picker(selection: selectionBinding,
+					 content: { content },
+					 label: { label })
 #else
 		if asLink,
 			 let label = label as? Text {
@@ -38,14 +36,10 @@ struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable
 																													content: { content }) },
 										 label: { keyValueLabel })
 		} else {
-			Section(
-				header: label
-			) {
-				Picker(
-					selection: selectionBinding,
-					content: { content },
-					label: { label }
-				)
+			Section(header: label) {
+				Picker(selection: selectionBinding,
+							 content: { content },
+							 label: { label })
 			}
 				.pickerStyle(InlinePickerStyle())
 		}
@@ -106,11 +100,9 @@ struct PreferencesPickerPage<Label: View, SelectionValue: Hashable, Content: Vie
 
 	var body: some View {
 		PreferencesList {
-			Picker(
-				selection: selectionBinding,
-				content: { content },
-				label: { EmptyView() }
-			)
+			Picker(selection: selectionBinding,
+						 content: { content },
+						 label: { EmptyView() })
 		}
 			.pickerStyle(InlinePickerStyle())
 			.navigationBarTitle(label)

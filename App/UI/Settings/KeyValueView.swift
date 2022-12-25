@@ -30,7 +30,6 @@ struct KeyValueView<Title: View, Value: View>: View {
 			icon
 				.frame(width: 29, height: 29, alignment: .center)
 			title
-				.lineLimit(1)
 			Spacer()
 			value
 				.lineLimit(1)
@@ -43,15 +42,9 @@ struct KeyValueView<Title: View, Value: View>: View {
 struct KeyValueView_Previews: PreviewProvider {
 	static var previews: some View {
 		List {
-			NavigationLink(
-				destination: List() {},
-				label: {
-					KeyValueView(
-						title: Text("Font"),
-						value: Text("SF Mono")
-					)
-				}
-			)
+			NavigationLink(destination: List() {},
+										 label: { KeyValueView(title: Text("Font"),
+																					 value: Text("SF Mono")) })
 		}
 		.listStyle(GroupedListStyle())
 	}
