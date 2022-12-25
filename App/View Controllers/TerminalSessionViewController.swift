@@ -34,7 +34,8 @@ class TerminalSessionViewController: BaseTerminalSplitViewControllerChild {
 
 	private var state = TerminalState()
 
-	private var bellHUDView: HUDView?
+	private var hudState = HUDViewState()
+	private var hudView: UIHostingView<AnyView>!
 
 	private var hasAppeared = false
 	private var hasStarted = false
@@ -83,6 +84,21 @@ class TerminalSessionViewController: BaseTerminalSplitViewControllerChild {
 
 	override func viewDidLoad() {
 		super.viewDidLoad()
+
+		hudView = UIHostingView(rootView: AnyView(
+			HUDView()
+				.environmentObject(self.hudState)
+		))
+		hudView.translatesAutoresizingMaskIntoConstraints = false
+		hudView.shouldResizeToFitContent = true
+		hudView.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
+		hudView.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
+		view.addSubview(hudView)
+
+		NSLayoutConstraint.activate([
+			hudView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+			hudView.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
+		])
 
 		addKeyCommand(UIKeyCommand(title: .localize("CLEAR_TERMINAL", comment: "VoiceOver label for a button that clears the terminal."),
 															 image: UIImage(systemName: "text.badge.xmark"),
@@ -253,23 +269,8 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 	}
 
 	func activateBell() {
-		let preferences = Preferences.shared
-		if preferences.bellHUD {
-			// Display the bell HUD, lazily initialising if it hasn’t been yet.
-			if bellHUDView == nil {
-				let configuration = UIImage.SymbolConfiguration(pointSize: 25, weight: .medium, scale: .large)
-				let image = UIImage(systemName: "bell", withConfiguration: configuration)!
-				bellHUDView = HUDView(image: image)
-				bellHUDView!.translatesAutoresizingMaskIntoConstraints = false
-				view.addSubview(bellHUDView!)
-
-				NSLayoutConstraint.activate([
-					bellHUDView!.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-					bellHUDView!.centerYAnchor.constraint(equalTo: view.safeAreaLayoutGuide.centerYAnchor)
-				])
-			}
-
-			bellHUDView!.animate()
+		if Preferences.shared.bellHUD {
+			hudState.isVisible = true
 		}
 
 		HapticController.playBell()
