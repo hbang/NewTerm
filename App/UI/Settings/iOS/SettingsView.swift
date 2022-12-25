@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import CoreHaptics
 import NewTermCommon
 
 fileprivate extension KeyboardArrowsStyle {
@@ -90,6 +91,14 @@ struct SettingsView: View {
 													asStepper: true)
 			}
 
+			PreferencesGroup(header: Text("Bell"),
+											 footer: Text("When a terminal application needs to notify you of something, it rings the bell.")) {
+				Toggle("Make beep sound", isOn: preferences.$bellSound)
+				if CHHapticEngine.capabilitiesForHardware().supportsHaptics {
+					Toggle("Make haptic vibration", isOn: preferences.$bellVibrate)
+				}
+				Toggle("Show heads-up display", isOn: preferences.$bellHUD)
+			}
 
 			PreferencesGroup {
 				NavigationLink(destination: SettingsAdvancedView(),
@@ -102,6 +111,9 @@ struct SettingsView: View {
 			}
 		}
 			.listStyle(InsetGroupedListStyle())
+			.onChange(of: [preferences.bellVibrate, preferences.bellSound]) { _ in
+				HapticController.playBell()
+			}
 
 		return NavigationView {
 			list

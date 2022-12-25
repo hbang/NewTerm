@@ -15,6 +15,7 @@
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
 		4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */; };
 		4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D2275CD933001A34AB /* PreferencesPicker.swift */; };
+		4E21B0BC295545BE00494475 /* HapticController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E21B0BB295545BE00494475 /* HapticController.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
 		4E32378F26FB2D4400AEDA06 /* UIApplication+Additions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */; };
 		4E32379026FB4B3300AEDA06 /* String+Localization.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E98081926184A2500E41883 /* String+Localization.swift */; };
@@ -154,6 +155,7 @@
 		4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsTextView.swift; sourceTree = "<group>"; };
 		4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdvancedView.swift; sourceTree = "<group>"; };
 		4E1028D2275CD933001A34AB /* PreferencesPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPicker.swift; sourceTree = "<group>"; };
+		4E21B0BB295545BE00494475 /* HapticController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticController.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
 		4E32378E26FB2D4400AEDA06 /* UIApplication+Additions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIApplication+Additions.swift"; sourceTree = "<group>"; };
 		4E3237A326FB530C00AEDA06 /* UIColorAdditions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIColorAdditions.swift; sourceTree = "<group>"; };
@@ -514,6 +516,7 @@
 				4E460128261FF23F004DBCC2 /* SettingsSceneDelegate.swift */,
 				4EA7D40E26F37D480031F078 /* AboutSceneDelegate.swift */,
 				4E460120261EC8C0004DBCC2 /* UpdateCheckManager.swift */,
+				4E21B0BB295545BE00494475 /* HapticController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";
@@ -805,6 +808,7 @@
 				4EBBCB0A28868961002EAE00 /* KeyboardToolbarPadItemView.swift in Sources */,
 				4E006D8C26F4AB71008D0BD2 /* SettingsGeneralView.swift in Sources */,
 				4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */,
+				4E21B0BC295545BE00494475 /* HapticController.swift in Sources */,
 				CFBB96C822B5481B00585BE6 /* HUDView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -7,23 +7,12 @@
 //
 
 import UIKit
-import AudioToolbox
 import os.log
 import CoreServices
 import SwiftUIX
 import NewTermCommon
 
-fileprivate let kSystemSoundID_UserPreferredAlert: SystemSoundID = 0x00001000
-
 class TerminalSessionViewController: BaseTerminalSplitViewControllerChild {
-
-	static let bellSoundID: SystemSoundID = {
-		var soundID: SystemSoundID = 0
-		if AudioServicesCreateSystemSoundID(Bundle.main.url(forResource: "bell", withExtension: "m4a")! as CFURL, &soundID) == kAudioServicesNoError {
-			return soundID
-		}
-		fatalError("Couldn’t initialise bell sound")
-	}()
 
 	var initialCommand: String?
 
@@ -283,23 +272,7 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 			bellHUDView!.animate()
 		}
 
-		if preferences.bellVibrate {
-			// According to the docs, we should let the feedback generator get deallocated so the
-			// Taptic Engine goes back to sleep afterwards. Also according to the docs, we should use the
-			// most semantic impact generator, which would be UINotificationFeedbackGenerator, but I think
-			// a single tap feels better than two or three. Shrug
-			// TODO: Use CoreHaptics for this + the bell sound
-			let feedbackGenerator = UIImpactFeedbackGenerator(style: .light)
-			feedbackGenerator.impactOccurred()
-		}
-
-		if preferences.bellSound {
-			#if targetEnvironment(macCatalyst)
-			AudioServicesPlayAlertSound(kSystemSoundID_UserPreferredAlert)
-			#else
-			AudioServicesPlaySystemSound(Self.bellSoundID)
-			#endif
-		}
+		HapticController.playBell()
 	}
 
 	func titleDidChange(_ title: String?) {
