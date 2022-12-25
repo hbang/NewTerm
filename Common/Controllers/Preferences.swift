@@ -15,7 +15,7 @@ public enum KeyboardButtonStyle: Int {
 	case text, icons
 }
 
-public enum KeyboardTrackpadSensitivity: Int {
+public enum KeyboardTrackpadSensitivity: Int, CaseIterable {
 	case off, low, medium, high
 }
 

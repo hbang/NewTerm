@@ -7,13 +7,14 @@
 
 import SwiftUI
 
-struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable, Content: View>: View {
+struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable, Content: View, InnerContent: View>: View {
 
 	let selectionBinding: Binding<SelectionValue>
 	let label: Label
 	let keyValueLabel: KeyValueView<Label, ValueLabel>?
 	let asLink: Bool
-	let content: Content
+	let asStepper: Bool
+	let content: InnerContent
 
 	@State private var isLinkActive = false
 
@@ -27,8 +28,10 @@ struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable
 					 content: { content },
 					 label: { label })
 #else
-		if asLink,
-			 let label = label as? Text {
+		if asStepper {
+			content
+		} else if asLink,
+							let label = label as? Text {
 			NavigationLink(isActive: $isLinkActive,
 										 destination: { PreferencesPickerPage(selection: selectionBinding,
 																													isLinkActive: $isLinkActive,
@@ -48,7 +51,7 @@ struct PreferencesPicker<Label: View, ValueLabel: View, SelectionValue: Hashable
 
 }
 
-extension PreferencesPicker where ValueLabel == EmptyView {
+extension PreferencesPicker where ValueLabel == EmptyView, InnerContent == Content {
 	init(selection: Binding<SelectionValue>,
 			 label: Label,
 			 @ViewBuilder content: () -> Content) {
@@ -56,11 +59,12 @@ extension PreferencesPicker where ValueLabel == EmptyView {
 		self.label = label
 		self.keyValueLabel = KeyValueView(title: label, value: EmptyView())
 		self.asLink = false
+		self.asStepper = false
 		self.content = content()
 	}
 }
 
-extension PreferencesPicker where Label == Text, ValueLabel == Text {
+extension PreferencesPicker where Label == Text, ValueLabel == Text, InnerContent == Content {
 	init(selection: Binding<SelectionValue>,
 			 label: Label,
 			 valueLabel: ValueLabel,
@@ -70,6 +74,7 @@ extension PreferencesPicker where Label == Text, ValueLabel == Text {
 		self.label = label
 		self.keyValueLabel = KeyValueView(title: label, value: valueLabel)
 		self.asLink = asLink
+		self.asStepper = false
 		self.content = content()
 	}
 
@@ -82,7 +87,40 @@ extension PreferencesPicker where Label == Text, ValueLabel == Text {
 		self.label = Text(label)
 		self.keyValueLabel = KeyValueView(title: Text(label), value: Text(valueLabel))
 		self.asLink = asLink
+		self.asStepper = false
 		self.content = content()
+	}
+}
+
+extension PreferencesPicker where Label == Text, ValueLabel == Text,
+																	InnerContent == Content, InnerContent == Stepper<KeyValueView<Label, ValueLabel>>,
+																	SelectionValue: RawRepresentable & CaseIterable, SelectionValue.RawValue: FixedWidthInteger {
+	init(selection: Binding<SelectionValue>,
+			 label: Label,
+			 valueLabel: ValueLabel,
+			 asStepper: Bool = false) {
+		self.selectionBinding = selection
+		self.label = label
+		let keyValueLabel = KeyValueView(title: label, value: valueLabel)
+		self.keyValueLabel = keyValueLabel
+		self.asLink = false
+		self.asStepper = asStepper
+		self.content = Stepper(label: { keyValueLabel },
+													 onIncrement: {
+			let allCases = SelectionValue.allCases
+			if let oldIndex = allCases.firstIndex(of: selection.wrappedValue),
+				 allCases.index(oldIndex, offsetBy: 1) < allCases.endIndex {
+				selection.wrappedValue = allCases[allCases.index(oldIndex, offsetBy: 1)]
+			}
+		},
+													 onDecrement: {
+			let allCases = SelectionValue.allCases
+			if let oldIndex = allCases.firstIndex(of: selection.wrappedValue),
+				 allCases.index(oldIndex, offsetBy: -1) >= allCases.startIndex {
+				selection.wrappedValue = allCases[allCases.index(oldIndex, offsetBy: -1)]
+			}
+		},
+													 onEditingChanged: { _ in })
 	}
 }
 

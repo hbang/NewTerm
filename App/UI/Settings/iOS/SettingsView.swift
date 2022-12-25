@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import NewTermCommon
 
 fileprivate extension KeyboardArrowsStyle {
 	var name: String {
@@ -15,6 +16,17 @@ fileprivate extension KeyboardArrowsStyle {
 		case .classic:     return "Classic"
 		case .vim:         return "Vim"
 		case .vimInverted: return "Vim Inverted"
+		}
+	}
+}
+
+fileprivate extension KeyboardTrackpadSensitivity {
+	var name: String {
+		switch self {
+		case .off:    return "Off"
+		case .low:    return "Low"
+		case .medium: return "Medium"
+		case .high:   return "High"
 		}
 	}
 }
@@ -53,7 +65,8 @@ struct SettingsView: View {
 																						 value: Text(preferences.themeName)) })
 			}
 
-			PreferencesGroup(header: Text("Keyboard")) {
+			PreferencesGroup(header: Text("Keyboard"),
+											 footer: Text("Touch and hold the Space bar, then drag around the keyboard to move the cursor.")) {
 				PreferencesPicker(selection: preferences.$keyboardArrowsStyle,
 													label: Text("Arrow Keys"),
 													valueLabel: Text(preferences.keyboardArrowsStyle.name),
@@ -70,6 +83,11 @@ struct SettingsView: View {
 							.height(44)
 					}
 				}
+
+				PreferencesPicker(selection: preferences.$keyboardTrackpadSensitivity,
+													label: Text("Trackpad Sensitivity"),
+													valueLabel: Text(preferences.keyboardTrackpadSensitivity.name),
+													asStepper: true)
 			}
 
 
