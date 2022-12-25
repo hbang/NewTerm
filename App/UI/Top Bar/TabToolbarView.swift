@@ -84,7 +84,7 @@ struct TabToolbarView: View {
 	private var titleLabel: some View {
 		HStack {
 			Spacer()
-			Text("Terminal")
+			Text(state.terminals[state.selectedIndex].title)
 				.font(.system(size: 17, weight: .semibold))
 			Spacer()
 		}
