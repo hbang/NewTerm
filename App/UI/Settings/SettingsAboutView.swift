@@ -23,8 +23,7 @@ struct SettingsAboutView: View {
 	@State private var showingHashbangProductions = false
 	
 	var body: some View {
-		let safariConfig = SafariView.Configuration(entersReaderIfAvailable: false,
-																								barCollapsingEnabled: false)
+		let safariConfig = SafariView.Configuration(entersReaderIfAvailable: false, barCollapsingEnabled: true)
 		
 		let guts = ScrollView {
 			VStack(spacing: 15) {
