@@ -10,18 +10,19 @@ import SwiftUIX
 
 class KeyboardToolbarPadItemView: UIView {
 
-	private var hostingView: UIHostingView<KeyboardToolbarKeyStack>!
+	private var hostingView: UIHostingView<AnyView>!
 
-	init(delegate: KeyboardToolbarViewDelegate?, toolbar: Toolbar, toggledKeys: Binding<Set<ToolbarKey>>) {
+	init(delegate: KeyboardToolbarViewDelegate?, toolbar: Toolbar, state: KeyboardToolbarViewState) {
 		super.init(frame: .zero)
 
 		translatesAutoresizingMaskIntoConstraints = false
 		setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)
 		setContentHuggingPriority(.fittingSizeLevel, for: .vertical)
 
-		hostingView = UIHostingView(rootView: KeyboardToolbarKeyStack(delegate: delegate,
-																																	toolbar: toolbar,
-																																	toggledKeys: toggledKeys))
+		hostingView = UIHostingView(rootView: AnyView(
+			KeyboardToolbarKeyStack(delegate: delegate, toolbar: toolbar)
+				.environmentObject(state)
+		))
 		hostingView.translatesAutoresizingMaskIntoConstraints = false
 		hostingView.shouldResizeToFitContent = true
 		hostingView.setContentHuggingPriority(.fittingSizeLevel, for: .horizontal)

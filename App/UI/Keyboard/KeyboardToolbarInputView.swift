@@ -11,15 +11,18 @@ import SwiftUIX
 
 class KeyboardToolbarInputView: UIInputView {
 
-	private var hostingView: UIHostingView<KeyboardToolbarView>!
+	private var hostingView: UIHostingView<AnyView>!
 
-	init(delegate: KeyboardToolbarViewDelegate?, toolbars: [Toolbar], toggledKeys: Binding<Set<ToolbarKey>>) {
+	init(delegate: KeyboardToolbarViewDelegate?, toolbars: [Toolbar], state: KeyboardToolbarViewState) {
 		super.init(frame: .zero, inputViewStyle: .keyboard)
 
 		translatesAutoresizingMaskIntoConstraints = false
 		allowsSelfSizing = true
 
-		hostingView = UIHostingView(rootView: KeyboardToolbarView(delegate: delegate, toolbars: toolbars, toggledKeys: toggledKeys))
+		hostingView = UIHostingView(rootView: AnyView(
+			KeyboardToolbarView(delegate: delegate, toolbars: toolbars)
+				.environmentObject(state)
+		))
 		hostingView.translatesAutoresizingMaskIntoConstraints = false
 		hostingView.shouldResizeToFitContent = true
 		hostingView.setContentHuggingPriority(.fittingSizeLevel, for: .vertical)

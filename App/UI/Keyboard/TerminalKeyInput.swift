@@ -27,7 +27,7 @@ extension ToolbarKey {
 		case .fnKey(let index): return EscapeSequences.fn[index]
 		case .fixedSpace, .variableSpace, .arrows,
 				 .control, .more, .fnKeys:
-			fatalError()
+			return []
 		}
 	}
 
@@ -60,12 +60,11 @@ class TerminalKeyInput: TextInputBase {
 	private var toolbar: KeyboardToolbarInputView!
 	private var passwordInputView: TerminalPasswordInputView?
 
-	private var ctrlDown = false
 	private var previousFloatingCursorPoint: CGPoint? = nil
 	private var longPressTimer: Timer?
 	private var hardwareRepeatTimer: Timer?
 
-	private var toggledKeys = Set<ToolbarKey>()
+	private var state = KeyboardToolbarViewState()
 	private var pressedKeys = [UIKey]()
 
 	override init(frame: CGRect) {
@@ -78,17 +77,14 @@ class TerminalKeyInput: TextInputBase {
 		smartDashesType = .no
 		smartInsertDeleteType = .no
 
-		let toggledKeysBinding = Binding<Set<ToolbarKey>>(get: { self.toggledKeys },
-																											set: { self.toggledKeys = $0 })
-
 		var toolbars: [Toolbar] = [.fnKeys, .secondary]
 		if UIDevice.current.userInterfaceIdiom == .pad {
 			let leadingView = KeyboardToolbarPadItemView(delegate: self,
 																									 toolbar: .padPrimaryLeading,
-																									 toggledKeys: toggledKeysBinding)
+																									 state: state)
 			let trailingView = KeyboardToolbarPadItemView(delegate: self,
 																										toolbar: .padPrimaryTrailing,
-																										toggledKeys: toggledKeysBinding)
+																										state: state)
 
 			inputAssistantItem.allowsHidingShortcuts = false
 
@@ -115,7 +111,7 @@ class TerminalKeyInput: TextInputBase {
 
 		toolbar = KeyboardToolbarInputView(delegate: self,
 																			 toolbars: toolbars,
-																			 toggledKeys: toggledKeysBinding)
+																			 state: state)
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -217,12 +213,13 @@ class TerminalKeyInput: TextInputBase {
 
 	override func insertText(_ text: String) {
 		// Used by the software keyboard only. See pressesBegan(_:with:) below for hardware keyboard.
+		let isCtrlDown = state.toggledKeys.contains(.control)
 		let data = text.utf8.map { character -> UTF8Char in
 			// Convert newline to carriage return
 			if character == 0x0A {
 				return EscapeSequences.return.first!
 			}
-			if ctrlDown {
+			if isCtrlDown {
 				return character.controlCharacter
 			}
 			return character
@@ -230,9 +227,8 @@ class TerminalKeyInput: TextInputBase {
 
 		terminalInputDelegate!.receiveKeyboardInput(data: data)
 
-		if ctrlDown {
-			ctrlDown = false
-//			ctrlKey.isSelected = false
+		if isCtrlDown {
+			state.toggledKeys.remove(.control)
 		}
 
 //		if !moreToolbar.isHidden {
@@ -481,6 +477,7 @@ extension TerminalKeyInput: KeyboardToolbarViewDelegate {
 		guard let terminalInputDelegate = terminalInputDelegate else {
 			return
 		}
+
 		terminalInputDelegate.receiveKeyboardInput(data: key.keySequence(applicationCursor: terminalInputDelegate.applicationCursor))
 	}
 }

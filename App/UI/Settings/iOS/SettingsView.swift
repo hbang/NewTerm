@@ -41,7 +41,7 @@ struct SettingsView: View {
 
 	var windowScene: UIWindowScene?
 
-	@State private var toggledKeys = Set<ToolbarKey>()
+	@State private var keyboardToolbarState = KeyboardToolbarViewState()
 
 	private func dismiss() {
 		if let windowScene = windowScene {
@@ -77,8 +77,8 @@ struct SettingsView: View {
 							Text(key.name)
 							Spacer()
 							KeyboardToolbarKeyStack(toolbar: .padPrimaryTrailing,
-																			arrowsStyle: key,
-																			toggledKeys: $toggledKeys)
+																			arrowsStyle: key)
+								.environmentObject(keyboardToolbarState)
 								.disabled(true)
 						}
 							.height(44)

@@ -146,13 +146,17 @@ protocol KeyboardToolbarViewDelegate: AnyObject {
 	func keyboardToolbarDidPressKey(_ key: ToolbarKey)
 }
 
+class KeyboardToolbarViewState: ObservableObject {
+	@Published var toggledKeys = Set<ToolbarKey>()
+}
+
 struct KeyboardToolbarKeyStack: View {
 	weak var delegate: KeyboardToolbarViewDelegate?
 
 	let toolbar: Toolbar
 	var arrowsStyle: KeyboardArrowsStyle?
 
-	@Binding var toggledKeys: Set<ToolbarKey>
+	@EnvironmentObject var state: KeyboardToolbarViewState
 
 	@ObservedObject private var preferences = Preferences.shared
 
@@ -174,14 +178,14 @@ struct KeyboardToolbarKeyStack: View {
 			UIDevice.current.playInputClick()
 
 			if key.key.isToggle {
-				if toggledKeys.contains(key) {
-					toggledKeys.remove(key)
+				if state.toggledKeys.contains(key) {
+					state.toggledKeys.remove(key)
 				} else {
-					toggledKeys.insert(key)
+					state.toggledKeys.insert(key)
 				}
-			} else {
-				delegate?.keyboardToolbarDidPressKey(key)
 			}
+
+			delegate?.keyboardToolbarDidPressKey(key)
 		} label: {
 			switch key {
 			case .up, .down, .left, .right:
@@ -190,8 +194,6 @@ struct KeyboardToolbarKeyStack: View {
 					.accessibilityLabel(key.key.label)
 
 			default:
-//				HStack(alignment: .center, spacing: 0) {
-//					Spacer(minLength: 0)
 				VStack(alignment: .trailing, spacing: 2) {
 					HStack(spacing: 0) {
 						if let imageName = key.key.imageName,
@@ -208,10 +210,9 @@ struct KeyboardToolbarKeyStack: View {
 
 					Text((key.key.glyph ?? key.key.label).localizedLowercase)
 				}
-//				}
 			}
 		}
-		.buttonStyle(.keyboardKey(selected: toggledKeys.contains(key),
+		.buttonStyle(.keyboardKey(selected: state.toggledKeys.contains(key),
 															hasShadow: true,
 															halfHeight: halfHeight,
 															widthRatio: key.key.widthRatio))
@@ -271,9 +272,9 @@ struct KeyboardToolbarView: View {
 
 	let toolbars: [Toolbar]
 
-	@Binding var toggledKeys: Set<ToolbarKey>
-
 	@State private var outerSize = CGSize.zero
+
+	@EnvironmentObject var state: KeyboardToolbarViewState
 
 	@ObservedObject private var preferences = Preferences.shared
 
@@ -282,9 +283,9 @@ struct KeyboardToolbarView: View {
 		case .primary, .padPrimaryLeading, .padPrimaryTrailing:
 			return true
 		case .secondary:
-			return toggledKeys.contains(.more)
+			return state.toggledKeys.contains(.more)
 		case .fnKeys:
-			return toggledKeys.contains(.fnKeys)
+			return state.toggledKeys.contains(.fnKeys)
 		}
 	}
 
@@ -298,8 +299,7 @@ struct KeyboardToolbarView: View {
 				ForEach(toolbars, id: \.self) { toolbar in
 					if isToolbarVisible(toolbar) {
 						let view = KeyboardToolbarKeyStack(delegate: delegate,
-																							 toolbar: toolbar,
-																							 toggledKeys: $toggledKeys)
+																							 toolbar: toolbar)
 							.padding(.horizontal, 4)
 							.padding(.top, 5)
 
@@ -324,14 +324,14 @@ struct KeyboardToolbarView: View {
 }
 
 struct KeyboardToolbarView_Previews: PreviewProvider {
-	static var previews: some View {
-		let toggledKeysBinding = Binding<Set<ToolbarKey>>(get: { [] },
-																		 set: { _ in })
+	@State private static var state = KeyboardToolbarViewState()
 
+	static var previews: some View {
 		ForEach(ColorScheme.allCases, id: \.self) { scheme in
 			VStack {
 				Spacer()
-				KeyboardToolbarView(toolbars: [.fnKeys, .secondary, .primary], toggledKeys: toggledKeysBinding)
+				KeyboardToolbarView(toolbars: [.fnKeys, .secondary, .primary])
+					.environmentObject(state)
 					.padding(.bottom, 4)
 					.background(BlurEffectView(style: .systemChromeMaterial))
 					.preferredColorScheme(scheme)
@@ -344,9 +344,11 @@ struct KeyboardToolbarView_Previews: PreviewProvider {
 		VStack() {
 			Spacer()
 			HStack {
-				KeyboardToolbarKeyStack(toolbar: .padPrimaryLeading, toggledKeys: toggledKeysBinding)
+				KeyboardToolbarKeyStack(toolbar: .padPrimaryLeading)
+					.environmentObject(state)
 				Spacer()
-				KeyboardToolbarKeyStack(toolbar: .padPrimaryTrailing, toggledKeys: toggledKeysBinding)
+				KeyboardToolbarKeyStack(toolbar: .padPrimaryTrailing)
+					.environmentObject(state)
 			}
 				.previewLayout(.sizeThatFits)
 		}
