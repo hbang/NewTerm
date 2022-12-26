@@ -19,7 +19,7 @@ struct HUDView: View {
 		VisualEffectBlurView(blurStyle: .systemMaterial,
 												 vibrancyStyle: .label) {
 			Image(systemName: .bell)
-				.font(Font.system(size: 25, weight: .medium))
+				.font(.system(size: 25, weight: .medium))
 				.imageScale(.large)
 				.foregroundColor(.label)
 		}

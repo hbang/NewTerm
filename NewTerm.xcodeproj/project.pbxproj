@@ -78,7 +78,6 @@
 		CF71BCDC22BB737700AFB1E1 /* NewTermCommon.h in Headers */ = {isa = PBXBuildFile; fileRef = CF71BC6622BB6AD500AFB1E1 /* NewTermCommon.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		CF71BCDE22BB73C200AFB1E1 /* Global.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968D22B5481B00585BE6 /* Global.swift */; };
 		CF71BCF122BB8AAB00AFB1E1 /* FontMetrics.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */; };
-		CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */; };
 		CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */; };
 		CFBB96CD22B5481B00585BE6 /* TerminalKeyInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */; };
 		CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */; };
@@ -217,7 +216,6 @@
 		CF71BCC222BB727B00AFB1E1 /* libcurses.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libcurses.tbd; path = usr/lib/libcurses.tbd; sourceTree = SDKROOT; };
 		CF71BCEF22BB8AA800AFB1E1 /* FontMetrics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontMetrics.swift; sourceTree = "<group>"; };
 		CFBB966122B546DA00585BE6 /* NewTerm.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NewTerm.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabCollectionViewCell.swift; sourceTree = "<group>"; };
 		CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TabToolbarViewController.swift; sourceTree = "<group>"; };
 		CFBB968522B5481B00585BE6 /* TerminalKeyInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TerminalKeyInput.swift; sourceTree = "<group>"; };
 		CFBB968722B5481B00585BE6 /* KeyboardToolbarInputView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeyboardToolbarInputView.swift; sourceTree = "<group>"; };
@@ -440,7 +438,6 @@
 		CFBB968122B5481B00585BE6 /* Top Bar */ = {
 			isa = PBXGroup;
 			children = (
-				CFBB968222B5481B00585BE6 /* TabCollectionViewCell.swift */,
 				CFBB968322B5481B00585BE6 /* TabToolbarViewController.swift */,
 				4EECEADE289A90D300AA919B /* TabToolbarView.swift */,
 			);
@@ -795,7 +792,6 @@
 				4E460129261FF23F004DBCC2 /* SettingsSceneDelegate.swift in Sources */,
 				4E3237FE26FEB0D800AEDA06 /* UIDevice+Additions.swift in Sources */,
 				4E69E3992953231300B5BD25 /* SponsorsView.swift in Sources */,
-				CFBB96CB22B5481B00585BE6 /* TabCollectionViewCell.swift in Sources */,
 				4E9B32EB261DCFC4006A1FBC /* TextInputBase.swift in Sources */,
 				CFBB96CF22B5481B00585BE6 /* KeyboardToolbarInputView.swift in Sources */,
 				1E4A7334274A0D5F00211604 /* KeyboardKeyButtonStyle.swift in Sources */,
