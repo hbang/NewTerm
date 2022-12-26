@@ -14,7 +14,7 @@ import os.log
 public protocol TerminalControllerDelegate: AnyObject {
 	func refresh(lines: inout [AnyView])
 	func activateBell()
-	func titleDidChange(_ title: String?)
+	func titleDidChange(_ title: String?, isDirty: Bool)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
 
 	func saveFile(url: URL)
@@ -46,7 +46,12 @@ public class TerminalController {
 	private var processLaunchDate: Date?
 	private var updateTimer: CADisplayLink?
 	private var refreshRate: TimeInterval = 60
-	private var isVisible = true
+	private var isTabVisible = true
+	private var isWindowVisible = true
+	private var isVisible: Bool { isTabVisible && isWindowVisible }
+	private var isDirty = false {
+		didSet { updateTitle() }
+	}
 	private var readBuffer = [UTF8Char]()
 
 	internal var terminalQueue = DispatchQueue(label: "ws.hbang.Terminal.terminal-queue")
@@ -120,41 +125,39 @@ public class TerminalController {
 
 	public func windowDidEnterBackground() {
 		// Throttle the update timer to save battery. On iPhone, we shouldn’t be visible at all in this
-		// case, so stop updating entirely.
-		if UIApplication.shared.supportsMultipleScenes {
-			startUpdateTimer(fps: 10)
-		} else {
-			stopUpdatingTimer()
-		}
-		isVisible = false
+		// case, so throttle right down to once per second so we can maintain the dirty bit.
+		startUpdateTimer(fps: UIApplication.shared.supportsMultipleScenes ? 10 : 1)
+		isWindowVisible = false
 	}
 
 	public func windowWillEnterForeground() {
 		// Go back to full speed.
-		startUpdateTimer(fps: refreshRate)
-		isVisible = true
+		isWindowVisible = true
+		if isVisible {
+			startUpdateTimer(fps: refreshRate)
+		}
 	}
 
 	@objc private func appWillResignActive() {
 		stopUpdatingTimer()
-		isVisible = false
+		isWindowVisible = false
 	}
 
 	@objc private func appDidBecomeActive() {
 		startUpdateTimer(fps: refreshRate)
-		isVisible = true
+		isWindowVisible = true
 	}
 
 	public func terminalWillAppear() {
 		// Start updating again.
 		startUpdateTimer(fps: refreshRate)
-		isVisible = true
+		isTabVisible = true
 	}
 
 	public func terminalWillDisappear() {
-		// Stop updating entirely. We don’t need to if we’re not visible.
-		stopUpdatingTimer()
-		isVisible = false
+		// Not visible, so throttle right down to once per second so we can maintain the dirty bit.
+		startUpdateTimer(fps: 1)
+		isTabVisible = false
 	}
 
 	private func startUpdateTimer(fps: TimeInterval) {
@@ -185,6 +188,7 @@ public class TerminalController {
 
 	public func stopSubProcess() throws {
 		try subProcess!.stop()
+		stopUpdatingTimer()
 	}
 
 	// MARK: - Terminal
@@ -237,7 +241,7 @@ public class TerminalController {
 			}
 
 			// Add new lines that have been introduced
-			while self.lines.count <= updateRange.endY {
+			while self.lines.count <= max(updateRange.endY, scrollInvariantRows) {
 				self.lines.append(AnyView(EmptyView()))
 			}
 
@@ -258,6 +262,10 @@ public class TerminalController {
 
 			DispatchQueue.main.async {
 				self.delegate?.refresh(lines: &self.lines)
+
+				if !self.isVisible && !self.isDirty {
+					self.isDirty = true
+				}
 			}
 		}
 	}
@@ -311,7 +319,7 @@ public class TerminalController {
 				newTitle = "[\(hostString)] \(newTitle ?? "")"
 			}
 		}
-		self.delegate?.titleDidChange(newTitle)
+		self.delegate?.titleDidChange(newTitle, isDirty: isDirty)
 	}
 
 	// MARK: - Object lifecycle

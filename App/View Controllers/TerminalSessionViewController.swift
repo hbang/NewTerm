@@ -276,9 +276,9 @@ extension TerminalSessionViewController: TerminalControllerDelegate {
 		HapticController.playBell()
 	}
 
-	func titleDidChange(_ title: String?) {
+	func titleDidChange(_ title: String?, isDirty: Bool) {
 		let newTitle = title ?? .localize("TERMINAL", comment: "Generic title displayed before the terminal sets a proper title.")
-		self.title = newTitle
+		self.title = "\(isDirty ? "• " : "")\(newTitle)"
 		delegate?.terminal(viewController: self, titleDidChange: newTitle)
 	}
 
