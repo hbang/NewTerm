@@ -231,13 +231,13 @@ class RootViewController: UIViewController {
 		handleTitleChange(at: index)
 
 		// Call the appropriate view controller lifecycle methods on the previous and new view controllers
-		previousViewController?.viewWillDisappear(false)
+		previousViewController?.beginAppearanceTransition(false, animated: false)
 		previousViewController?.view.isHidden = true
-		previousViewController?.viewDidDisappear(false)
+		previousViewController?.endAppearanceTransition()
 
-		newViewController.viewWillAppear(false)
+		newViewController.beginAppearanceTransition(true, animated: false)
 		newViewController.view.isHidden = false
-		newViewController.viewDidAppear(false)
+		newViewController.endAppearanceTransition()
 	}
 
 	private func handleTitleChange(at index: Int) {
