@@ -16,8 +16,7 @@ struct KeyboardKeyButtonStyle: ButtonStyle {
 
 	func makeBody(configuration: Configuration) -> some View {
 		var height: CGFloat = 45
-		let widthRatio = (widthRatio ?? 1) * (isBigDevice ? 1.3 : 1)
-		let width = widthRatio == nil ? nil : height * widthRatio
+		let width = widthRatio == nil ? nil : height * widthRatio! * (isBigDevice ? 1.3 : 1)
 		var fontSize: CGFloat = isBigDevice ? 18 : 15
 		var cornerRadius: CGFloat = isBigDevice ? 6 : 4
 		if halfHeight {

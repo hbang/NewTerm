@@ -29,7 +29,7 @@ enum Toolbar: CaseIterable {
 		case .primary:
 			return [
 				.control, .escape, .tab, .more,
-				.variableSpace,
+				.variableSpace(id: 0),
 				.arrows
 			]
 
@@ -42,11 +42,11 @@ enum Toolbar: CaseIterable {
 		case .secondary:
 			return [
 				.home, .end,
-				.variableSpace,
+				.variableSpace(id: 0),
 				.pageUp, .pageDown,
-				.variableSpace,
+				.variableSpace(id: 1),
 				.delete,
-				.variableSpace,
+				.variableSpace(id: 2),
 				.fnKeys
 			]
 
@@ -58,7 +58,9 @@ enum Toolbar: CaseIterable {
 
 enum ToolbarKey: Hashable {
 	// Special
-	case fixedSpace, variableSpace, arrows
+	case fixedSpace(id: Int)
+	case variableSpace(id: Int)
+	case arrows
 	// Primary - leading
 	case control, escape, tab, more
 	// Primary - trailing
@@ -169,15 +171,16 @@ struct KeyboardToolbarKeyStack: View {
 				switch key {
 				case .fixedSpace:    EmptyView()
 				case .variableSpace: Spacer(minLength: 0)
-				case .arrows:        AnyView(arrowsView)
+				case .arrows:        arrowsView
 				default:             button(for: key)
 				}
 			}
 		}
 	}
 
+	@ViewBuilder
 	func button(for key: ToolbarKey, halfHeight: Bool = false) -> some View {
-		Button {
+		let button = Button {
 			UIDevice.current.playInputClick()
 
 			if key.key.isToggle {
@@ -219,19 +222,28 @@ struct KeyboardToolbarKeyStack: View {
 																hasShadow: true,
 																halfHeight: halfHeight,
 																widthRatio: key.key.widthRatio))
-			.onLongPressGesture(minimumDuration: 0.1, perform: {}, onPressingChanged: { pressing in
-				if pressing {
-					delegate?.keyboardToolbarDidBeginPressingKey(key)
-				} else {
-					delegate?.keyboardToolbarDidEndPressingKey(key)
-				}
-			})
+
+		if KeyboardPreferences.isKeyRepeatEnabled {
+			button
+				.onLongPressGesture(minimumDuration: KeyboardPreferences.keyRepeatDelay,
+														perform: {},
+														onPressingChanged: { pressing in
+					if pressing {
+						delegate?.keyboardToolbarDidBeginPressingKey(key)
+					} else {
+						delegate?.keyboardToolbarDidEndPressingKey(key)
+					}
+				})
+		} else {
+			button
+		}
 	}
 
-	var arrowsView: any View {
+	@ViewBuilder
+	var arrowsView: some View {
 		switch arrowsStyle ?? preferences.keyboardArrowsStyle {
 		case .butterfly:
-			return HStack(spacing: isBigDevice ? 5 : 2) {
+			HStack(spacing: isBigDevice ? 5 : 2) {
 				button(for: .left)
 				VStack(spacing: 2) {
 					button(for: .up, halfHeight: true)
@@ -241,17 +253,23 @@ struct KeyboardToolbarKeyStack: View {
 			}
 
 		case .scissor:
-			return VStack(alignment: .center, spacing: 2) {
-				button(for: .up, halfHeight: true)
-				HStack(spacing: isBigDevice ? 5 : 2) {
+			HStack(spacing: isBigDevice ? 5 : 2) {
+				VStack(alignment: .trailing, spacing: 2) {
+					Spacer()
 					button(for: .left, halfHeight: true)
+				}
+				VStack(alignment: .trailing, spacing: 2) {
+					button(for: .up, halfHeight: true)
 					button(for: .down, halfHeight: true)
+				}
+				VStack(alignment: .trailing, spacing: 2) {
+					Spacer()
 					button(for: .right, halfHeight: true)
 				}
 			}
 
 		case .classic:
-			return HStack(spacing: 5) {
+			HStack(spacing: 5) {
 				button(for: .up)
 				button(for: .down)
 				button(for: .left)
@@ -259,7 +277,7 @@ struct KeyboardToolbarKeyStack: View {
 			}
 
 		case .vim:
-			return HStack(spacing: 5) {
+			HStack(spacing: 5) {
 				button(for: .left)
 				button(for: .down)
 				button(for: .up)
@@ -267,7 +285,7 @@ struct KeyboardToolbarKeyStack: View {
 			}
 
 		case .vimInverted:
-			return HStack(spacing: 5) {
+			HStack(spacing: 5) {
 				button(for: .left)
 				button(for: .up)
 				button(for: .down)
@@ -299,6 +317,7 @@ struct KeyboardToolbarView: View {
 		}
 	}
 
+	@ViewBuilder
 	var body: some View {
 		ZStack(alignment: .bottom) {
 			Color.black
@@ -315,16 +334,14 @@ struct KeyboardToolbarView: View {
 
 						switch toolbar {
 						case .primary, .padPrimaryLeading, .padPrimaryTrailing, .secondary:
-							AnyView(view)
+							view
 								.frame(width: outerSize.width)
 
 						case .fnKeys:
-							AnyView(
-								CocoaScrollView(.horizontal, showsIndicators: false) {
-									view
-								}
-									.frame(width: outerSize.width)
-							)
+							CocoaScrollView(.horizontal, showsIndicators: false) {
+								view
+							}
+								.frame(width: outerSize.width)
 						}
 					}
 				}
