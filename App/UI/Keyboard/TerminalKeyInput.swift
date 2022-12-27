@@ -24,7 +24,7 @@ extension ToolbarKey {
 		case .pageUp:   return EscapeSequences.pageUp
 		case .pageDown: return EscapeSequences.pageDown
 		case .delete:   return EscapeSequences.delete
-		case .fnKey(let index): return EscapeSequences.fn[index]
+		case .fnKey(let index): return EscapeSequences.fn[index - 1]
 		case .fixedSpace, .variableSpace, .arrows,
 				 .control, .more, .fnKeys:
 			return []
@@ -61,11 +61,11 @@ class TerminalKeyInput: TextInputBase {
 	private var passwordInputView: TerminalPasswordInputView?
 
 	private var previousFloatingCursorPoint: CGPoint? = nil
-	private var longPressTimer: Timer?
-	private var hardwareRepeatTimer: Timer?
+	private var repeatTimer: Timer?
 
 	private var state = KeyboardToolbarViewState()
-	private var pressedKeys = [UIKey]()
+	private var pressedHardwareKeys = Set<UIKey>()
+	private var pressedToolbarKeys = Set<ToolbarKey>()
 
 	override init(frame: CGRect) {
 		super.init(frame: frame)
@@ -119,78 +119,6 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	override var inputAccessoryView: UIView? { toolbar }
-
-	// MARK: - Callbacks
-
-//	@objc func ctrlKeyPressed() {
-//		ctrlDown.toggle()
-//	}
-//
-//	@objc private func inputKeyPressed(_ sender: KeyboardButton) {
-//		if let index = moreToolbar.fnKeys.firstIndex(of: sender) {
-//			terminalInputDelegate!.receiveKeyboardInput(data: EscapeSequences.fn[index])
-//			return
-//		}
-//
-//		if let data = keyValues[sender] {
-//			terminalInputDelegate!.receiveKeyboardInput(data: data)
-//		}
-//	}
-//
-//	@objc private func arrowKeyPressed(_ sender: KeyboardButton) {
-//		let values = terminalInputDelegate!.applicationCursor ? keyAppValues : keyValues
-//		if let data = values[sender] {
-//			terminalInputDelegate!.receiveKeyboardInput(data: data)
-//		}
-//	}
-//
-//	@objc private func arrowRepeatTimerFired(_ timer: Timer) {
-//		arrowKeyPressed(timer.userInfo as! KeyboardButton)
-//	}
-//
-//	@objc func moreKeyPressed() {
-//		setMoreRowVisible(moreToolbar.isHidden, animated: true)
-//	}
-//
-//	@objc func arrowKeyLongPressed(_ sender: UILongPressGestureRecognizer) {
-//		switch sender.state {
-//		case .began:
-//			longPressTimer = Timer.scheduledTimer(timeInterval: 0.1, target: self, selector: #selector(self.arrowRepeatTimerFired), userInfo: sender.view, repeats: true)
-//			break
-//
-//		case .ended, .cancelled:
-//			longPressTimer?.invalidate()
-//			longPressTimer = nil
-//			break
-//
-//		default:
-//			break
-//		}
-//	}
-
-	// MARK: - More row
-
-//	func setMoreRowVisible(_ visible: Bool, animated: Bool = true) {
-//		// if we’re already in the specified state, return
-//		if visible == !moreToolbar.isHidden {
-//			return
-//		}
-//
-//		moreKey.isSelected = visible
-//
-//		// only hiding is animated
-//		if !visible && animated {
-//			UIView.animate(withDuration: 0.2, animations: {
-//				self.moreToolbar.alpha = 0
-//			}, completion: { _ in
-//				self.moreToolbar.isHidden = true
-//			})
-//		} else {
-//			moreToolbar.alpha = visible ? 1 : 0
-//			moreToolbar.isHidden = !visible
-//			moreToolbarBottomConstraint.constant = -(textView?.safeAreaInsets.bottom ?? 0)
-//		}
-//	}
 
 	// MARK: - Password manager
 
@@ -394,36 +322,12 @@ class TerminalKeyInput: TextInputBase {
 			if let key = press.key,
 				 handleKey(key) {
 				isHandled = true
-				pressedKeys.append(key)
+				pressedHardwareKeys.insert(key)
 			}
 		}
 
-		if !pressedKeys.isEmpty && hardwareRepeatTimer == nil {
-			#if targetEnvironment(macCatalyst)
-			// If key repeat is disabled by the user, the initial repeat value will be set to a crazy
-			// high sentinel number.
-			let defaults = UserDefaults.standard
-			let keyRepeatEnabled = defaults.object(forKey: "InitialKeyRepeat") as? TimeInterval != 300000
-			#else
-			let defaults = UserDefaults(suiteName: "com.apple.Accessibility")
-			let keyRepeatEnabled = defaults?.object(forKey: "KeyRepeatEnabled") as? Bool ?? true
-			#endif
-
-			if keyRepeatEnabled {
-				#if targetEnvironment(macCatalyst)
-				// No idea what these key repeat preference values are meant to calculate out to, but
-				// this seems about right. Tested by counting frames in a screen recording.
-				let initialKeyRepeat = (UserDefaults.standard.object(forKey: "InitialKeyRepeat") as? TimeInterval ?? 84) * 0.012
-				#else
-				let initialKeyRepeat = defaults?.object(forKey: "KeyRepeatDelay") as? TimeInterval ?? 0.4
-				#endif
-
-				hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: initialKeyRepeat,
-																									 target: self,
-																									 selector: #selector(self.handleHardwareKeyRepeat),
-																									 userInfo: true,
-																									 repeats: false)
-			}
+		if !pressedHardwareKeys.isEmpty {
+			beginKeyRepeat()
 		}
 
 		if !isHandled {
@@ -432,11 +336,10 @@ class TerminalKeyInput: TextInputBase {
 	}
 
 	private func handlePressesEnded(_ presses: Set<UIPress>) {
-		let keys = presses.compactMap(\.key)
-		pressedKeys.removeAll(where: { keys.contains($0) })
-		if pressedKeys.isEmpty {
-			hardwareRepeatTimer?.invalidate()
-			hardwareRepeatTimer = nil
+		for press in presses {
+			if let key = press.key {
+				pressedHardwareKeys.remove(key)
+			}
 		}
 	}
 
@@ -450,23 +353,41 @@ class TerminalKeyInput: TextInputBase {
 		super.pressesCancelled(presses, with: event)
 	}
 
-	@objc private func handleHardwareKeyRepeat(_ timer: Timer) {
-		for key in pressedKeys {
+	private func beginKeyRepeat() {
+		if repeatTimer != nil {
+			return
+		}
+
+		if KeyboardPreferences.isKeyRepeatEnabled {
+			repeatTimer = Timer.scheduledTimer(timeInterval: KeyboardPreferences.keyRepeatDelay,
+																				 target: self,
+																				 selector: #selector(self.handleKeyRepeat),
+																				 userInfo: true,
+																				 repeats: false)
+		}
+	}
+
+	@objc private func handleKeyRepeat(_ timer: Timer) {
+		for key in pressedHardwareKeys {
 			handleKey(key)
 		}
 
+		for key in pressedToolbarKeys {
+			keyboardToolbarDidPressKey(key)
+		}
+
+		if pressedHardwareKeys.isEmpty && pressedToolbarKeys.isEmpty {
+			repeatTimer?.invalidate()
+			repeatTimer = nil
+			return
+		}
+
 		if timer.userInfo as? Bool ?? false {
-			#if targetEnvironment(macCatalyst)
-			let keyRepeat = (UserDefaults.standard.object(forKey: "KeyRepeat") as? TimeInterval ?? 8) * 0.012
-			#else
-			let keyRepeat = UserDefaults(suiteName: "com.apple.Accessibility")?
-				.object(forKey: "KeyRepeatInterval") as? TimeInterval ?? 0.1
-			#endif
-			hardwareRepeatTimer = Timer.scheduledTimer(timeInterval: keyRepeat,
-																								 target: self,
-																								 selector: #selector(self.handleHardwareKeyRepeat),
-																								 userInfo: nil,
-																								 repeats: true)
+			repeatTimer = Timer.scheduledTimer(timeInterval: KeyboardPreferences.keyRepeat,
+																				 target: self,
+																				 selector: #selector(self.handleKeyRepeat),
+																				 userInfo: nil,
+																				 repeats: true)
 		}
 	}
 
@@ -479,6 +400,32 @@ extension TerminalKeyInput: KeyboardToolbarViewDelegate {
 		}
 
 		terminalInputDelegate.receiveKeyboardInput(data: key.keySequence(applicationCursor: terminalInputDelegate.applicationCursor))
+
+		switch key {
+		case .more:
+			// Also hide fn row if currently toggled
+			if state.toggledKeys.contains(.fnKeys) {
+				state.toggledKeys.remove(.fnKeys)
+			}
+
+		default: break
+		}
+	}
+
+	func keyboardToolbarDidBeginPressingKey(_ key: ToolbarKey) {
+		switch key {
+		case .up, .down, .left, .right,
+				 .home, .end, .pageUp, .pageDown,
+				 .delete:
+			pressedToolbarKeys.insert(key)
+			beginKeyRepeat()
+
+		default: break
+		}
+	}
+
+	func keyboardToolbarDidEndPressingKey(_ key: ToolbarKey) {
+		pressedToolbarKeys.remove(key)
 	}
 }
 

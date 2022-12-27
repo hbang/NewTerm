@@ -15,6 +15,7 @@
 		4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */; };
 		4E1028D1275C4BD9001A34AB /* SettingsAdvancedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */; };
 		4E1028D3275CD933001A34AB /* PreferencesPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E1028D2275CD933001A34AB /* PreferencesPicker.swift */; };
+		4E18B76A295AE91F00029511 /* KeyboardPreferences.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E18B769295AE91F00029511 /* KeyboardPreferences.swift */; };
 		4E21B0BC295545BE00494475 /* HapticController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E21B0BB295545BE00494475 /* HapticController.swift */; };
 		4E21B0BE2958722000494475 /* HUDView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E21B0BD2958722000494475 /* HUDView.swift */; };
 		4E2492D026230E59002C47CB /* TerminalController+ITermExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */; };
@@ -152,6 +153,7 @@
 		4E0A97A32685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAcknowledgementsTextView.swift; sourceTree = "<group>"; };
 		4E1028D0275C4BD9001A34AB /* SettingsAdvancedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsAdvancedView.swift; sourceTree = "<group>"; };
 		4E1028D2275CD933001A34AB /* PreferencesPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreferencesPicker.swift; sourceTree = "<group>"; };
+		4E18B769295AE91F00029511 /* KeyboardPreferences.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyboardPreferences.swift; sourceTree = "<group>"; };
 		4E21B0BB295545BE00494475 /* HapticController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticController.swift; sourceTree = "<group>"; };
 		4E21B0BD2958722000494475 /* HUDView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HUDView.swift; sourceTree = "<group>"; };
 		4E2492CF26230E59002C47CB /* TerminalController+ITermExtensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "TerminalController+ITermExtensions.swift"; sourceTree = "<group>"; };
@@ -452,6 +454,7 @@
 				1E4A7333274A0D5F00211604 /* KeyboardKeyButtonStyle.swift */,
 				4E9B32EA261DCFC4006A1FBC /* TextInputBase.swift */,
 				4ECEE6EC25F9B87E00FAD26B /* TerminalPasswordInputView.swift */,
+				4E18B769295AE91F00029511 /* KeyboardPreferences.swift */,
 			);
 			path = Keyboard;
 			sourceTree = "<group>";
@@ -796,6 +799,7 @@
 				1E4A7332274A0CED00211604 /* KeyboardToolbarView.swift in Sources */,
 				4EDC998E26F4401B0030C1F9 /* SettingsInterfaceView.swift in Sources */,
 				4E460121261EC8C0004DBCC2 /* UpdateCheckManager.swift in Sources */,
+				4E18B76A295AE91F00029511 /* KeyboardPreferences.swift in Sources */,
 				4E0A97A02685CDE30022F569 /* SettingsAcknowledgementsView.swift in Sources */,
 				4E0A97A42685D1CD0022F569 /* SettingsAcknowledgementsTextView.swift in Sources */,
 				CFBB96CC22B5481B00585BE6 /* TabToolbarViewController.swift in Sources */,

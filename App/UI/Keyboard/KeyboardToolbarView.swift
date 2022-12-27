@@ -17,6 +17,7 @@ fileprivate struct Key {
 	var isToggle = false
 	var halfHeight = false
 	var widthRatio: CGFloat?
+	var keyRepeat: Bool?
 }
 
 enum Toolbar: CaseIterable {
@@ -135,15 +136,17 @@ enum ToolbarKey: Hashable {
 
 		// Fn keys
 		case .fnKey(let index):
-			return Key(label: "F\(index + 1)",
+			return Key(label: "F\(index)",
 								 preferredStyle: .text,
-								 widthRatio: 1.25)
+								 widthRatio: 1)
 		}
 	}
 }
 
 protocol KeyboardToolbarViewDelegate: AnyObject {
 	func keyboardToolbarDidPressKey(_ key: ToolbarKey)
+	func keyboardToolbarDidBeginPressingKey(_ key: ToolbarKey)
+	func keyboardToolbarDidEndPressingKey(_ key: ToolbarKey)
 }
 
 class KeyboardToolbarViewState: ObservableObject {
@@ -212,16 +215,23 @@ struct KeyboardToolbarKeyStack: View {
 				}
 			}
 		}
-		.buttonStyle(.keyboardKey(selected: state.toggledKeys.contains(key),
-															hasShadow: true,
-															halfHeight: halfHeight,
-															widthRatio: key.key.widthRatio))
+			.buttonStyle(.keyboardKey(selected: state.toggledKeys.contains(key),
+																hasShadow: true,
+																halfHeight: halfHeight,
+																widthRatio: key.key.widthRatio))
+			.onLongPressGesture(minimumDuration: 0.1, perform: {}, onPressingChanged: { pressing in
+				if pressing {
+					delegate?.keyboardToolbarDidBeginPressingKey(key)
+				} else {
+					delegate?.keyboardToolbarDidEndPressingKey(key)
+				}
+			})
 	}
 
 	var arrowsView: any View {
 		switch arrowsStyle ?? preferences.keyboardArrowsStyle {
 		case .butterfly:
-			return HStack(spacing: 2) {
+			return HStack(spacing: isBigDevice ? 5 : 2) {
 				button(for: .left)
 				VStack(spacing: 2) {
 					button(for: .up, halfHeight: true)
@@ -231,9 +241,9 @@ struct KeyboardToolbarKeyStack: View {
 			}
 
 		case .scissor:
-			return VStack(alignment: .center, spacing: 1.5) {
+			return VStack(alignment: .center, spacing: 2) {
 				button(for: .up, halfHeight: true)
-				HStack(spacing: 1.5) {
+				HStack(spacing: isBigDevice ? 5 : 2) {
 					button(for: .left, halfHeight: true)
 					button(for: .down, halfHeight: true)
 					button(for: .right, halfHeight: true)
