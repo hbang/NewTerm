@@ -24,7 +24,7 @@ struct TerminalView: View {
 	@EnvironmentObject private var state: TerminalState
 
 	var body: some View {
-		ScrollViewReader { scrollView in
+		let view = ScrollViewReader { scrollView in
 			ScrollView(.vertical, showsIndicators: true) {
 				LazyVStack(alignment: .leading, spacing: 0) {
 					ForEach(Array(zip(state.lines, state.lines.indices)), id: \.1) { line, i in
@@ -44,6 +44,13 @@ struct TerminalView: View {
 		}
 			.opacity(state.isSplitViewResizing ? 0.6 : 1)
 			.animation(.linear(duration: 0.1), value: state.isSplitViewResizing)
+
+		if #available(iOS 15, *) {
+			return view
+				.accessibilityTextContentType(.console)
+		} else {
+			return view
+		}
 	}
 }
 
