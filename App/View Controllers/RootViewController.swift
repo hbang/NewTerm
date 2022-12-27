@@ -408,9 +408,7 @@ extension RootViewController: TabToolbarDelegate {
 	}
 
 	func openPasswordManager() {
-		// TODO
-//		let terminal = terminals[selectedTabIndex]
-//		terminal.activatePasswordManager()
+		UIApplication.shared.sendAction(#selector(TerminalSessionViewController.activatePasswordManager), to: nil, from: self, for: nil)
 	}
 
 }
