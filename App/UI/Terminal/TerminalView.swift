@@ -71,7 +71,7 @@ class TerminalHostingView: UIHostingView<AnyView> {
 }
 
 struct TerminalSampleView: View {
-	fileprivate class TerminalSampleViewDelegate: NSObject, TerminalDelegate {
+	private class TerminalSampleViewDelegate: NSObject, TerminalDelegate {
 		func send(source: Terminal, data: ArraySlice<UInt8>) {}
 	}
 
@@ -82,6 +82,9 @@ struct TerminalSampleView: View {
 	private let stringSupplier = StringSupplier()
 	private let delegate = TerminalSampleViewDelegate()
 	private let state = TerminalState()
+
+	private let timer = Timer.publish(every: 1, on: .main, in: .common)
+		.autoconnect()
 
 	init(fontMetrics: FontMetrics = FontMetrics(font: AppFont(), fontSize: 12),
 			 colorMap: ColorMap = ColorMap(theme: AppTheme())) {
@@ -103,6 +106,10 @@ struct TerminalSampleView: View {
 	var body: some View {
 		TerminalView()
 			.environmentObject(state)
+			.onAppear {
+				stringSupplier.colorMap = colorMap
+				stringSupplier.fontMetrics = fontMetrics
+			}
 			.onChange(of: colorMap, perform: { stringSupplier.colorMap = $0 })
 			.onChange(of: fontMetrics, perform: { stringSupplier.fontMetrics = $0 })
 			.onChangeOfFrame(perform: { size in
@@ -112,9 +119,9 @@ struct TerminalSampleView: View {
 				terminal.resize(cols: Int(size.width / glyphSize.width),
 												rows: 32)
 			})
-			.onAppear {
-				stringSupplier.colorMap = colorMap
-				stringSupplier.fontMetrics = fontMetrics
+			.onReceive(timer) { _ in
+				state.lines = Array(0...(terminal.rows + terminal.getTopVisibleRow()))
+					.map { stringSupplier.attributedString(forScrollInvariantRow: $0) }
 			}
 	}
 }
@@ -123,6 +130,5 @@ struct TerminalView_Previews: PreviewProvider {
 	static var previews: some View {
 		TerminalSampleView()
 			.preferredColorScheme(.dark)
-			.previewLayout(.fixed(width: 640, height: 480))
 	}
 }
