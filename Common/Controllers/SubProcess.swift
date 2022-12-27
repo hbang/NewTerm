@@ -56,12 +56,25 @@ class SubProcess {
 
 	private static let loginHelper: String = Bundle.main.path(forAuxiliaryExecutable: "NewTermLoginHelper")!
 
+	private static let loginIsShell: Bool = {
+		#if targetEnvironment(simulator)
+		true
+		#else
+		// TODO: Temporary workaround for XinaA15
+		(try? URL(fileURLWithPath: "/var/Liy/xina").checkResourceIsReachable()) == true
+		#endif
+	}()
+
 	private static let login: String = {
 		#if targetEnvironment(simulator)
 		return "/bin/zsh"
 		#elseif targetEnvironment(macCatalyst)
 		return "/usr/bin/login"
 		#else
+		// TODO: Temporary workaround for XinaA15
+		if loginIsShell {
+			return "/var/jb/bin/zsh"
+		}
 		return ["/var/jb/usr/bin/login", "/usr/bin/login"]
 			.first { (try? URL(fileURLWithPath: $0).checkResourceIsReachable()) == true } ?? "/usr/bin/login"
 		#endif
@@ -71,6 +84,11 @@ class SubProcess {
 		#if targetEnvironment(simulator)
 		return ["zsh", "--login", "-i"]
 		#else
+		// TODO: Temporary workaround for XinaA15
+		if loginIsShell {
+			return ["zsh", "--login", "-i"]
+		}
+
 		// Interestingly, despite what login(1) seems to imply, it still seems we need to manually
 		// handle passing the -q (force hush login) flag. iTerm2 does this, so I guess it’s fine?
 		let hushLoginURL = URL(fileURLWithPath: homeDirectory)/".hushlogin"
@@ -154,12 +172,14 @@ class SubProcess {
 
 		// TODO: At some point, come up with some way to keep track of working directory changes.
 		// When opening a new tab, we can switch straight to the previous tab’s working directory.
-		#if targetEnvironment(simulator)
-		let argv = Self.loginArgv.cStringArray
-		#else
-		let argv = (Self.loginArgv + [initialDirectory ?? Self.homeDirectory, Self.shell]).cStringArray
-		#endif
-		let envp = (Self.baseEnvp + [
+		let argv: [UnsafeMutablePointer<CChar>?]
+		if Self.loginIsShell {
+			argv = Self.loginArgv.cStringArray
+			chdir(initialDirectory ?? Self.homeDirectory)
+		} else {
+			argv = (Self.loginArgv + [initialDirectory ?? Self.homeDirectory, Self.shell]).cStringArray
+		}
+		let envp = (ProcessInfo.processInfo.environment.map { "\($0)=\($1)" } + Self.baseEnvp + [
 			"LANG=\(localeCode)"
 		]).cStringArray
 
