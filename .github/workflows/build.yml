@@ -26,13 +26,12 @@ jobs:
         packages: ldid xz-utils cmark make
         cache: true
         cache-path: ~/__cache
-        mirror: 'https://repo.quiprr.dev/procursus/'
     - name: Set up Theos
       run: git clone --recursive --depth=1 'https://github.com/theos/theos.git' ~/theos
     - name: Compile
       id: package_build
       run: |
-        gmake package PACKAGE_VERSION=3.0 THEOS=~/theos
+        gmake package THEOS=~/theos
         echo "package=$(cat .theos/last_package)" >> $GITHUB_OUTPUT
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3
