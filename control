@@ -1,16 +1,16 @@
 Package: ws.hbang.newterm3
-Name: NewTerm 3 (Beta)
+Name: NewTerm 3 Beta
 Depends: firmware (>= 14.0), zsh | bash | fish, coreutils, ncurses, system-cmds
 Recommends: gettext-localizations, iterm2-shell-integration, zsh-autosuggestions, zsh-syntax-highlighting
-Conflicts: ws.hbang.newterm, ws.hbang.newterm2, com.lint.ntarrows
-Replaces: ws.hbang.newterm, ws.hbang.newterm2, com.lint.ntarrows
+Conflicts: ws.hbang.newterm, ws.hbang.newterm2
+Replaces: ws.hbang.newterm, ws.hbang.newterm2
 Version: 3.0~beta1
 Architecture: iphoneos-arm
 Description: Powerful terminal app for iOS
 Maintainer: HASHBANG Productions <support@hbang.ws>
 Author: HASHBANG Productions <support@hbang.ws>
 Section: Terminal Support
-Icon: https://chariz.com/cdn/icon/newterm-beta/icon@3x.png
+Icon: https://img.chariz.cloud/icon/newterm-beta/icon@3x.png
 Depiction: https://chariz.com/get/newterm-beta
 Support: https://hashbang.productions/support/
 Tag: compatible_min::ios14.0
