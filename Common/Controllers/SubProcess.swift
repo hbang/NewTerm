@@ -20,22 +20,22 @@ enum SubProcessIllegalStateError: Error, LocalizedError {
 		if let string = strerror(errno) {
 			return String(cString: string)
 		}
-		return "Unknown (\(errno))"
+		return String(format: .localize("Unknown (%i)"), errno)
 	}
 
-	var localizedDescription: String {
+	var errorDescription: String? {
 		switch self {
 		case .alreadyStarted, .notStarted, .deallocatedWhileRunning:
-			return "Internal state error"
+			return .localize("Internal state error")
 
 		case .openPtyFailed(let errno):
-			return "Couldn’t initialize a terminal. \(errorString(errno: errno))"
+			return String(format: .localize("Couldn’t initialize a terminal. %@"), errorString(errno: errno))
 
 		case .loginTtyFailed(let errno):
-			return "Couldn’t prepare terminal for logging in. \(errorString(errno: errno))"
+			return String(format: .localize("Couldn’t prepare terminal for logging in. %@"), errorString(errno: errno))
 
 		case .forkFailed(let errno):
-			return "Couldn’t start a terminal process. \(errorString(errno: errno))"
+			return String(format: .localize("Couldn’t start a terminal process. %@"), errorString(errno: errno))
 		}
 	}
 }

@@ -294,7 +294,7 @@ public class TerminalController {
 											rows: Int(screenSize.rows))
 
 			if let error = subProcessFailureError {
-				let message = (error as? LocalizedError)?.localizedDescription ?? error.localizedDescription
+				let message = (error as? LocalizedError)?.errorDescription ?? error.localizedDescription
 				readInputStream(ColorBars.render(screenSize: screenSize, message: message))
 			}
 		}
