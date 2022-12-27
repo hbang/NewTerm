@@ -30,15 +30,6 @@ open class StringSupplier {
 
 	public init() {}
 
-	public func fullAttributedString() -> [AnyView] {
-		guard let terminal = terminal else {
-			fatalError()
-		}
-
-		return Array(0..<terminal.rows + terminal.getTopVisibleRow())
-			.map { attributedString(forScrollInvariantRow: $0) }
-	}
-
 	public func attributedString(forScrollInvariantRow row: Int) -> AnyView {
 		guard let terminal = terminal else {
 			fatalError()
