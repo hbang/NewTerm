@@ -10,15 +10,9 @@ import SwiftTerm
 import SwiftUI
 
 fileprivate extension View {
-	#if swift(>=5.7)
 	static func + (lhs: Self, rhs: some View) -> AnyView {
 		AnyView(ViewBuilder.buildBlock(lhs, AnyView(rhs)))
 	}
-	#else
-	static func + (lhs: Self, rhs: AnyView) -> AnyView {
-		AnyView(ViewBuilder.buildBlock(lhs, rhs))
-	}
-	#endif
 }
 
 open class StringSupplier {
@@ -110,7 +104,7 @@ open class StringSupplier {
 			font = attribute.style.contains(.italic) ? fontMetrics?.italicFont : fontMetrics?.regularFont
 		}
 
-		let width = CGFloat(run.unicodeScalars.reduce(0, { $0 + UnicodeUtil.columnWidth(rune: $1) })) * fontMetrics!.width
+		let width = CGFloat(run.unicodeScalars.reduce(0, { $0 + UnicodeUtil.columnWidth(rune: $1) })) * (fontMetrics?.width ?? 0)
 
 		return AnyView(
 			Text(run)

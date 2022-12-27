@@ -13,10 +13,6 @@ struct SettingsPerformanceView: View {
 	private struct RefreshRate: Hashable {
 		var rate: Int
 		var name: String
-
-		func hash(into hasher: inout Hasher) {
-			hasher.combine(rate)
-		}
 	}
 
 	private let refreshRates = [
