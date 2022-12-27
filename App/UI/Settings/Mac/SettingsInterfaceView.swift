@@ -60,7 +60,7 @@ struct SettingsInterfaceView: View {
 			.clipShape(RoundedRectangle(cornerRadius: 9, style: .continuous))
 			.overlay(
 				RoundedRectangle(cornerRadius: 8, style: .continuous)
-					.strokeBorder(.tertiarySystemBackground, lineWidth: 1 / UIScreen.main.scale)
+					.strokeBorder(Color.tertiarySystemBackground, lineWidth: 1 / UIScreen.main.scale)
 					.foregroundColor(.clear)
 			)
 			.padding([.top, .bottom, .leading], 20)
