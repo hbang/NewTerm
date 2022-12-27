@@ -339,7 +339,7 @@ class RootViewController: UIViewController {
 
 extension RootViewController: TerminalSplitViewControllerDelegate {
 
-	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String) {
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String, isDirty: Bool, hasBell: Bool) {
 		guard let index = terminals.firstIndex(of: viewController) else {
 			return
 		}

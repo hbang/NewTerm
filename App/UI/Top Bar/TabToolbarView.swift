@@ -12,6 +12,8 @@ import NewTermCommon
 struct TerminalTab: Hashable {
 	var title: String
 	var screenSize: ScreenSize
+	var isDirty: Bool
+	var hasBell: Bool
 }
 
 class TabToolbarState: ObservableObject {
@@ -55,27 +57,11 @@ struct TabToolbarView: View {
 		ScrollView(.horizontal, showsIndicators: false) {
 			LazyHStack(spacing: 0) {
 				ForEach(Array(zip(state.terminals, state.terminals.indices)), id: \.1) { terminal, index in
-					HStack(spacing: -2) {
-						Button {
-							state.delegate?.removeTerminal(at: index)
-						} label: {
-							Image(systemName: .xmarkSquareFill)
-								.font(.system(size: 12 * 1.15))
-								.foregroundColor(.label.opacity(0.5))
-						}
-							.frame(width: Self.height, height: Self.height)
-							.accessibilityLabel("Close Tab")
-
-						Text(terminal.title)
-							.font(.system(size: 12, weight: .semibold))
-							.foregroundColor(.label)
-					}
-						.frame(height: Self.height)
-						.padding(.trailing, 10)
-						.background(state.selectedIndex == index ? Color(.tabSelected) : nil)
-						.onTapGesture {
-							state.delegate?.selectTerminal(at: index)
-						}
+					TabToolbarItemView(terminal: terminal,
+														 isSelected: state.selectedIndex == index,
+														 height: Self.height,
+														 selectTerminal: { state.delegate?.selectTerminal(at: index) },
+														 removeTerminal: { state.delegate?.removeTerminal(at: index) })
 				}
 			}
 		}
@@ -92,30 +78,21 @@ struct TabToolbarView: View {
 
 	private var buttons: some View {
 		HStack(spacing: 0) {
-			Button {
-				state.delegate?.openPasswordManager()
-			} label: {
-				Image(systemName: "key.fill")
-			}
-				.frame(width: Self.height, height: Self.height)
+			Button(action: { state.delegate?.openPasswordManager() },
+						 label: { Image(systemName: "key.fill") })
+				.squareFrame(sideLength: Self.height)
 				.padding(.horizontal, 3)
 				.accessibilityLabel("Password Manager")
 
-			Button {
-				state.delegate?.openSettings()
-			} label: {
-				Image(systemName: .gear)
-			}
-				.frame(width: Self.height, height: Self.height)
+			Button(action: { state.delegate?.openSettings() },
+						 label: { Image(systemName: .gear) })
+				.squareFrame(sideLength: Self.height)
 				.padding(.horizontal, 3)
 				.accessibilityLabel("Settings")
 
-			Button {
-				state.delegate?.addTerminal()
-			} label: {
-				Image(systemName: .plus)
-			}
-				.frame(width: Self.height, height: Self.height)
+			Button(action: { state.delegate?.addTerminal() },
+						 label: { Image(systemName: .plus) })
+				.squareFrame(sideLength: Self.height)
 				.padding(.horizontal, 3)
 				.padding(.trailing, 3)
 				.accessibilityLabel("New Tab")
@@ -127,27 +104,83 @@ struct TabToolbarView: View {
 
 }
 
+struct TabToolbarItemView: View {
+	var terminal: TerminalTab
+	var isSelected: Bool
+	var height: CGFloat
+	var selectTerminal: () -> Void
+	var removeTerminal: () -> Void
+
+	var body: some View {
+		let accessibilityLabel: String
+		switch true {
+		case terminal.hasBell: accessibilityLabel = "\(terminal.title), \(String.localize("has bell"))"
+		case terminal.isDirty: accessibilityLabel = "\(terminal.title), \(String.localize("has activity"))"
+		default:               accessibilityLabel = terminal.title
+		}
+
+		return HStack(spacing: -2) {
+			Button(action: removeTerminal,
+						 label: {
+				switch true {
+				case terminal.hasBell:
+					Image(systemName: .bellFill)
+						.font(.system(size: 12 * 1.05))
+						.foregroundColor(.label)
+
+				case terminal.isDirty:
+					Image(systemName: .circleFill)
+						.font(.system(size: 12 * 0.9))
+						.foregroundColor(.label.opacity(0.5))
+
+				default:
+					Image(systemName: .xmarkSquareFill)
+						.font(.system(size: 12 * 1.15))
+						.foregroundColor(.label.opacity(0.5))
+				}
+			})
+				.squareFrame(sideLength: height)
+				.accessibilityLabel("Close Tab")
+
+			Text(terminal.title)
+				.font(.system(size: 12, weight: .semibold))
+				.foregroundColor(.label)
+				.accessibilityHidden(true)
+		}
+			.height(height)
+			.padding(.trailing, 10)
+			.background(isSelected ? Color(.tabSelected) : nil)
+			.accessibilityLabel(accessibilityLabel)
+			.accessibilityAddTraits(.isButton)
+			.accessibilityAddTraits(isSelected ? .isSelected : [])
+			.onTapGesture(perform: selectTerminal)
+	}
+}
+
 struct TabToolbarView_Previews: PreviewProvider {
 	static var previews: some View {
 		let state = TabToolbarState()
 		state.selectedIndex = 0
 		state.terminals = [
 			TerminalTab(title: "nano",
-									screenSize: ScreenSize(cols: 80, rows: 25)),
+									screenSize: ScreenSize(cols: 80, rows: 25),
+								  isDirty: false,
+								  hasBell: false),
 			TerminalTab(title: "mobile@iphone: ~",
-									screenSize: ScreenSize(cols: 80, rows: 25)),
+									screenSize: ScreenSize(cols: 80, rows: 25),
+									isDirty: true,
+									hasBell: true),
+			TerminalTab(title: "ssh",
+									screenSize: ScreenSize(cols: 80, rows: 25),
+									isDirty: true,
+									hasBell: false),
 		]
 
-		return ForEach(ColorScheme.allCases, id: \.self) { scheme in
-			VStack {
-				TabToolbarView()
-					.environmentObject(state)
-					.background(BlurEffectView(style: .systemChromeMaterial))
-					.preferredColorScheme(scheme)
-				Spacer()
-			}
-			.previewDisplayName("\(scheme)")
-			.previewLayout(.fixed(width: 414, height: 100))
+		return VStack {
+			TabToolbarView()
+				.environmentObject(state)
+				.background(BlurEffectView(style: .systemChromeMaterial))
+			Spacer()
 		}
 	}
 }

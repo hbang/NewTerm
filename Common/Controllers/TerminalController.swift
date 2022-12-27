@@ -14,7 +14,7 @@ import os.log
 public protocol TerminalControllerDelegate: AnyObject {
 	func refresh(lines: inout [AnyView])
 	func activateBell()
-	func titleDidChange(_ title: String?, isDirty: Bool)
+	func titleDidChange(_ title: String?, isDirty: Bool, hasBell: Bool)
 	func currentFileDidChange(_ url: URL?, inWorkingDirectory workingDirectoryURL: URL?)
 
 	func saveFile(url: URL)
@@ -50,6 +50,9 @@ public class TerminalController {
 	private var isWindowVisible = true
 	private var isVisible: Bool { isTabVisible && isWindowVisible }
 	private var isDirty = false {
+		didSet { updateTitle() }
+	}
+	private var hasBell = false {
 		didSet { updateTitle() }
 	}
 	private var readBuffer = [UTF8Char]()
@@ -319,7 +322,9 @@ public class TerminalController {
 				newTitle = "[\(hostString)] \(newTitle ?? "")"
 			}
 		}
-		self.delegate?.titleDidChange(newTitle, isDirty: isDirty)
+		self.delegate?.titleDidChange(newTitle,
+																	isDirty: isDirty,
+																	hasBell: hasBell)
 	}
 
 	// MARK: - Object lifecycle
@@ -346,6 +351,10 @@ extension TerminalController: TerminalDelegate {
 			if self.lastBellDate == nil || self.lastBellDate! < Date(timeIntervalSinceNow: -1) {
 				self.lastBellDate = Date()
 				self.delegate?.activateBell()
+			}
+
+			if !self.isVisible && !self.hasBell {
+				self.hasBell = true
 			}
 		}
 	}

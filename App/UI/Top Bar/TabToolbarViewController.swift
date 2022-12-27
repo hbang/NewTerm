@@ -85,7 +85,10 @@ class TabToolbarViewController: UIViewController {
 	}
 
 	func didAddTab(at index: Int) {
-		let terminal = TerminalTab(title: "", screenSize: .default)
+		let terminal = TerminalTab(title: "",
+															 screenSize: .default,
+															 isDirty: false,
+															 hasBell: false)
 		if index == state.terminals.count {
 			state.terminals.append(terminal)
 		} else {

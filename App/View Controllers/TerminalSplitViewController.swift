@@ -6,9 +6,10 @@
 //
 
 import UIKit
+import NewTermCommon
 
 protocol TerminalSplitViewControllerDelegate: AnyObject {
-	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String)
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String, isDirty: Bool, hasBell: Bool)
 	func terminal(viewController: BaseTerminalSplitViewControllerChild, screenSizeDidChange screenSize: ScreenSize)
 	func terminalDidBecomeActive(viewController: BaseTerminalSplitViewControllerChild)
 }
@@ -280,18 +281,28 @@ class TerminalSplitViewController: BaseTerminalSplitViewControllerChild {
 
 extension TerminalSplitViewController: TerminalSplitViewControllerDelegate {
 
-	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String) {
+	func terminal(viewController: BaseTerminalSplitViewControllerChild, titleDidChange title: String, isDirty: Bool, hasBell: Bool) {
 		guard let index = viewControllers.firstIndex(of: viewController),
 					selectedIndex == index else {
 			return
 		}
 
+		#if targetEnvironment(macCatalyst)
+		let newTitle: String
+		switch true {
+		case hasBell: newTitle = "🔔 \(title)"
+		case isDirty: newTitle = "• \(title)"
+		default:      newTitle = title
+		}
+		self.title = newTitle
+		#else
 		self.title = title
+		#endif
 
 		if let parent = parent as? TerminalSplitViewControllerDelegate {
-			parent.terminal(viewController: self, titleDidChange: title)
+			parent.terminal(viewController: self, titleDidChange: title, isDirty: isDirty, hasBell: hasBell)
 		} else if let parent = parent as? BaseTerminalSplitViewControllerChild {
-			parent.delegate?.terminal(viewController: self, titleDidChange: title)
+			parent.delegate?.terminal(viewController: self, titleDidChange: title, isDirty: isDirty, hasBell: hasBell)
 		}
 	}
 
