@@ -319,6 +319,10 @@ class SubProcess {
 				if (try? url.checkResourceIsReachable()) == true {
 					return identifier
 				}
+				let url_rootless = URL(fileURLWithPath: "/var/jb/usr/share/locale")/identifier
+				if (try? url_rootless.checkResourceIsReachable()) == true {
+					return identifier
+				}
 			}
 		}
 		return "en_US.UTF-8"
