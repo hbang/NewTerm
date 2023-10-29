@@ -174,10 +174,13 @@ class SubProcess {
 		posix_spawnattr_init(&attr)
 		defer { posix_spawnattr_destroy(&attr) }
 		#if !(targetEnvironment(simulator) || targetEnvironment(macCatalyst))
-		// Spawn as the super user even in a jailed state, where the rootfs has the nosuid option set.
-		posix_spawnattr_set_persona_np(&attr, 99, POSIX_SPAWN_PERSONA_FLAGS_OVERRIDE)
-		posix_spawnattr_set_persona_uid_np(&attr, 0)
-		posix_spawnattr_set_persona_gid_np(&attr, 0)
+		if !Self.loginIsShell {
+			// Spawn `login` as the super user even in a jailed state, where the rootfs has the
+			// nosuid option set.
+			posix_spawnattr_set_persona_np(&attr, 99, POSIX_SPAWN_PERSONA_FLAGS_OVERRIDE)
+			posix_spawnattr_set_persona_uid_np(&attr, 0)
+			posix_spawnattr_set_persona_gid_np(&attr, 0)
+		}
 		#endif
 
 		// TODO: At some point, come up with some way to keep track of working directory changes.
