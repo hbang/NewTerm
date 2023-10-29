@@ -170,6 +170,19 @@ class SubProcess {
 		posix_spawn_file_actions_adddup2(&actions, fds.replica, STDERR_FILENO)
 		defer { posix_spawn_file_actions_destroy(&actions) }
 
+		var attr: posix_spawnattr_t!
+		posix_spawnattr_init(&attr)
+		defer { posix_spawnattr_destroy(&attr) }
+		#if !(targetEnvironment(simulator) || targetEnvironment(macCatalyst))
+		if !Self.loginIsShell {
+			// Spawn `login` as the super user even in a jailed state, where the rootfs has the
+			// nosuid option set.
+			posix_spawnattr_set_persona_np(&attr, 99, POSIX_SPAWN_PERSONA_FLAGS_OVERRIDE)
+			posix_spawnattr_set_persona_uid_np(&attr, 0)
+			posix_spawnattr_set_persona_gid_np(&attr, 0)
+		}
+		#endif
+
 		// TODO: At some point, come up with some way to keep track of working directory changes.
 		// When opening a new tab, we can switch straight to the previous tab’s working directory.
 		let argv: [UnsafeMutablePointer<CChar>?]
@@ -189,7 +202,7 @@ class SubProcess {
 		}
 
 		var pid = pid_t()
-		let result = ie_posix_spawn(&pid, Self.login, &actions, nil, argv, envp)
+		let result = ie_posix_spawn(&pid, Self.login, &actions, &attr, argv, envp)
 		close(fds.replica)
 		if result != 0 {
 			// Fork failed.
