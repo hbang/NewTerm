@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Confirmation message displayed when closing a window with open tabs on iPad/Mac. -->
+	<key>CLOSE_WINDOW_TITLE</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>li</string>
+			<key>one</key>
+			<string>關閉 %li 分頁?</string>
+			<key>other</key>
+			<string>關閉 %li 分頁?</string>
+		</dict>
+	</dict>
+
+	<!-- Confirmation action displayed when closing a window with open tabs on iPhone. -->
+	<key>CLOSE_WINDOW_ACTION</key>
+	<dict>
+		<key>NSStringLocalizedFormatKey</key>
+		<string>%#@VARIABLE@</string>
+		<key>VARIABLE</key>
+		<dict>
+			<key>NSStringFormatSpecTypeKey</key>
+			<string>NSStringPluralRuleType</string>
+			<key>NSStringFormatValueTypeKey</key>
+			<string>li</string>
+			<key>one</key>
+			<string>關閉 %li 分頁?</string>
+			<key>other</key>
+			<string>關閉 %li 分頁?</string>
+		</dict>
+	</dict>
+</dict>
+</plist>
