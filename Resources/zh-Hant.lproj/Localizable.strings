@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<!-- Generic title displayed before the terminal sets a proper title. -->
+	<key>TERMINAL</key>
+	<string>終端機</string>
+
+	<!-- Title of Settings page. -->
+	<key>SETTINGS</key>
+	<string>設定</string>
+
+	<!-- Title of About page. -->
+	<key>ABOUT</key>
+	<string>關於 NewTerm</string>
+
+	<!-- VoiceOver label for the password manager button. -->
+	<key>PASSWORD_MANAGER</key>
+	<string>密碼管理員</string>
+
+	<!-- Message displayed in the terminal when it fails to start. -->
+	<key>TERMINAL_LAUNCH_FAILED</key>
+	<string>Shell 處理程序未預期關閉。</string>
+
+	<!-- Alert title displayed when a terminal could not be launched. -->
+	<key>TERMINAL_LAUNCH_FAILED_TITLE</key>
+	<string>無法啟動終端機因為 Shell 處理程序未預期關閉。</</string>
+
+	<!-- Alert body displayed when a terminal could not be launched. -->
+	<key>TERMINAL_LAUNCH_FAILED_BODY</key>
+	<string>有關更多詳細資訊，請參考終端機視窗中的錯誤訊息。
+您可能需要檢查啟動腳本或重新安裝核心套件來解決此問題。</string>
+
+	<!-- Title displayed when the terminal’s process has ended. -->
+	<key>PROCESS_COMPLETED_TITLE</key>
+	<string>會議中止</string>
+
+	<!-- VoiceOver label for the new tab button. -->
+	<key>NEW_TAB</key>
+	<string>新分頁</string>
+
+	<!-- VoiceOver label for the close tab button. -->
+	<key>CLOSE_TAB</key>
+	<string>關閉分頁</string>
+
+	<!-- VoiceOver label for the new window button. -->
+	<key>NEW_WINDOW</key>
+	<string>新視窗</string>
+
+	<!-- VoiceOver label for the close window button. -->
+	<key>CLOSE_WINDOW</key>
+	<string>關閉視窗</string>
+
+	<!-- VoiceOver label for a button that clears the terminal. -->
+	<key>CLEAR_TERMINAL</key>
+	<string>清除終端機文字</string>
+
+	<!-- VoiceOver label for the button that reveals the password manager. -->
+	<key>PASSWORD_MANAGER</key>
+	<string>密碼管理員</string>
+
+	<!-- Label for a keyboard shortcut that selects the previous tab. -->
+	<key>SHOW_PREVIOUS_TAB</key>
+	<string>顯示上一個分頁</string>
+
+	<!-- Label for a keyboard shortcut that selects the next tab. -->
+	<key>SHOW_NEXT_TAB</key>
+	<string>顯示下一個分頁</string>
+
+	<!-- VoiceOver label for a button that splits the tab horizontally and adds a new terminal below. -->
+	<key>SPLIT_HORIZONTALLY</key>
+	<string>水平分割</string>
+
+	<!-- VoiceOver label for a button that splits the tab vertically and adds a new terminal to the right. -->
+	<key>SPLIT_VERTICALLY</key>
+	<string>垂直分割</string>
+
+	<!-- Settings option to use the operating system’s locale. %@ is the user’s operating system language. -->
+	<key>LOCALE_SYSTEM</key>
+	<string>系統語言： %@</string>
+</dict>
+</plist>
